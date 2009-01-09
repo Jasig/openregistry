@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.jasig.openregistry</groupId>
+    <artifactId>openregistry</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <modules>
+        <module>openregistry-api</module>
+        <module>openregistry-repository-jpa-impl</module>
+    </modules>
+    <name>JASIG OpenRegistry</name>
+    <description>Registry System</description>
+    <inceptionYear>2009</inceptionYear>
+    <url>http://www.ja-sig.org/wiki/display/OR/Home</url>
+    <packaging>pom</packaging>
+    <mailingLists>
+        <mailingList>
+            <name>Developer's List</name>
+            <archive>https://lists.wisc.edu/read/?forum=openregistry-dev</archive>
+            <post>mailto:openregistry-dev@lists.ja-sig.org</post>
+            <subscribe>https://lists.wisc.edu/read/all_forums/subscribe?name=openregistry-dev</subscribe>
+            <unsubscribe>leave-openregistry-dev@lists.wisc.edu</unsubscribe>
+        </mailingList>
+        <mailingList>
+            <name>Users List</name>
+            <archive>https://lists.wisc.edu/read/?forum=openregistry-user</archive>
+            <post>mailto:openregistry-user@lists.ja-sig.org</post>
+            <subscribe>https://lists.wisc.edu/read/all_forums/subscribe?name=openregistry-user</subscribe>
+            <unsubscribe>mailto:leave-openregistry-user@lists.wisc.edu</unsubscribe>
+        </mailingList>
+        <mailingList>
+            <name>Announcement List</name>
+            <archive>https://lists.wisc.edu/read/?forum=openregistry-announce</archive>
+            <subscribe>https://lists.wisc.edu/read/all_forums/subscribe?name=openregistry-announce</subscribe>
+            <unsubscribe>mailto:leave-openregistry-announce@lists.wisc.edu</unsubscribe>
+        </mailingList>
+    </mailingLists>
+    <scm>
+        <connection>scm:svn:https://www.ja-sig.org/svn/openregistry</connection>
+        <developerConnection>scm:svn:https://www.ja-sig.org/svn/openregistry</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://www.ja-sig.org/svn/openregistry</url>
+    </scm>
+
+    <issueManagement>
+        <system>JIRA</system>
+        <url>http://www.ja-sig.org/issues/browse/OR</url>
+    </issueManagement>
+    <organization>
+        <name>JA-SIG, Inc.</name>
+        <url>http://www.ja-sig.org</url>
+    </organization>
+    <developers>
+        <developer>
+            <name>David Steiner</name>
+            <email>steiner@rutgers.edu</email>
+            <organization>Rutgers University - Identity Management</organization>
+            <organizationUrl>http://idms.rutgers.edu</organizationUrl>
+            <timezone>Eastern Standard Time</timezone>
+        </developer>
+        <developer>
+            <name>Dmitriy Kopylenko</name>
+            <email>dkopylen@rutgers.edu</email>
+            <organization>Rutgers University - Architecture &amp; Engineering</organization>
+            <organizationUrl>http://eas.rutgers.edu</organizationUrl>
+            <timezone>Eastern Standard Time</timezone>
+        </developer>
+        <developer>
+            <name>Nancy Mond</name>
+            <email>nmond@rutgers.edu</email>
+            <organization>Rutgers University - Identity Management</organization>
+            <organizationUrl>http://idms.rutgers.edu</organizationUrl>
+            <timezone>Eastern Standard Time</timezone>
+        </developer>
+        <developer>
+            <name>Benn Oshrin</name>
+            <email>boshrin@rutgers.edu</email>
+            <organization>Rutgers University - Identity Management</organization>
+            <organizationUrl>http://idms.rutgers.edu</organizationUrl>
+            <timezone>Eastern Standard Time</timezone>
+        </developer>
+        <developer>
+            <name>Scott Battaglia</name>
+            <email>battags@rutgers.edu</email>
+            <organization>Rutgers University - Identity Management</organization>
+            <organizationUrl>http://idms.rutgers.edu</organizationUrl>
+            <timezone>Eastern Standard Time</timezone>
+        </developer>
+    </developers>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <inherited>false</inherited>
+                <groupId>com.google.code.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <basedir>${basedir}</basedir>
+                    <header>${basedir}/src/etc/header.txt</header>
+                    <aggregate>true</aggregate>
+                    <excludes>
+                        <exclude>LICENSE</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
