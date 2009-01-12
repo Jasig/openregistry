@@ -1,0 +1,33 @@
+package org.openregistry.core.service;
+
+import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.Role;
+
+/**
+ * Component identifing the main public API for interacting with Open Registry regarding Persons and
+ * their related entities. It acts as the main orginazing application service layer component
+ * for the Persons subsystem of the Open Registry.
+ *
+ * @since 1.0
+ */
+public interface PersonService {
+
+    /**
+     * Find canonical <code>Person</code> entity in the Open Registry.
+     *
+     * @param id a primary key internal identifier for a person in Open Registry person repository
+     * @return person found in the Open Registry's person repository or null if no persons
+     *         exist in this repository for a given internal id.
+     */
+    Person findPersonById(Long id);
+
+    /**
+     * Validate, add and persist in the Open Registry a given Role for a given Person
+     *
+     * @param person a person to add a role to.
+     * @param role   to validate and add to a given person.
+     * @return an instance of a <code>ServiceExecutionResult</code> containing details
+     *         of whether this operation succeeded or failed.
+     */
+    ServiceExecutionResult validateAndSaveRoleForPerson(Person person, Role role);
+}
