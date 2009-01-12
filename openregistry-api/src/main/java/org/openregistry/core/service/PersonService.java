@@ -15,9 +15,9 @@ public interface PersonService {
     /**
      * Find canonical <code>Person</code> entity in the Open Registry.
      *
-     * @param id a primary key internal identifier for a person in Open Registry person repository
-     * @return person found in the Open Registry's person repository or null if no persons
-     *         exist in this repository for a given internal id.
+     * @param id a primary key internal identifier for a person in Open Registry.
+     * @return person found in the Open Registry's person repository or null if no person
+     *         exist in Open Registry for a given internal id.
      */
     Person findPersonById(Long id);
 
