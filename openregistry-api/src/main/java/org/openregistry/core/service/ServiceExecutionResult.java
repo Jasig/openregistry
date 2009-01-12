@@ -1,7 +1,7 @@
 package org.openregistry.core.service;
 
 /**
- * A container encapsulating results of any number of different Open Registry public service invocation.
+ * A container encapsulating results of any number of different Open Registry public service API invocations.
  * Such results are validation errors if any, etc.
  *
  * @since 1.0
