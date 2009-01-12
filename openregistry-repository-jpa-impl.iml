@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/openregistry-repository-jpa-impl/target/classes" />
+    <output-test url="file://$MODULE_DIR$/openregistry-repository-jpa-impl/target/test-classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/openregistry-repository-jpa-impl">
+      <sourceFolder url="file://$MODULE_DIR$/openregistry-repository-jpa-impl/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/openregistry-repository-jpa-impl/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/openregistry-repository-jpa-impl/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+
