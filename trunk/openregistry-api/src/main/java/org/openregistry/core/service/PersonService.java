@@ -4,7 +4,7 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 
 /**
- * Component identifing the main public API for interacting with Open Registry regarding Persons and
+ * Component defining the main public API for interacting with Open Registry regarding Persons and
  * their related entities. It acts as the main orginazing application service layer component
  * for the Persons subsystem of the Open Registry.
  *
