@@ -3,7 +3,7 @@ package org.openregistry.core.domain;
 import java.util.Set;
 
 /**
- * Entity representing canonical persons and their identity in the Open Registry system
+ * Entity representing canonical persons and their identity in the Open Registry system.
  *
  * @since 1.0
  *        TODO: define all the public APIs pertaining to Person's exposed properties and relationships with other entities
