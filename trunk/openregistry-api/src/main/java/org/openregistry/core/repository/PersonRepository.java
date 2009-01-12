@@ -14,7 +14,7 @@ public interface PersonRepository {
      * Find canonical <code>Person</code> entity in the Open Registry.
      *
      * @param id a primary key internal identifier for a person in Open Registry person repository
-     * @return person found in the Open Registry's person repository or null if no persons
+     * @return person found in the Open Registry's person repository or null if no person
      *         exist in this repository for a given internal id.
      * @throws RepositoryAccessException if the operation does not succeed for any number of
      *                                   technical reasons.
