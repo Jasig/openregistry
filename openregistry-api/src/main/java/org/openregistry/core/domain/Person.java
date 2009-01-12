@@ -1,6 +1,7 @@
 package org.openregistry.core.domain;
 
 import java.util.Set;
+import java.util.Collection;
 
 /**
  * Entity representing canonical persons and their identity in the Open Registry system.
@@ -13,10 +14,10 @@ public interface Person {
     /**
      * Get a collection of roles associated with this person
      *
-     * @return a set of rolles the person currently has or an empty set.
+     * @return a collection of rolles the person currently has or an empty collection.
      *         Note to implementers: this method should never return null.
      */
-    Set<Role> getRoles();
+    Collection<Role> getRoles();
 
     /**
      * Add a new role to a collection of role this person holds.
