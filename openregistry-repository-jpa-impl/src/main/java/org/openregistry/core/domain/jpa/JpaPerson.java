@@ -15,23 +15,14 @@ import java.util.Collection;
  */
 public class JpaPerson extends Entity implements Person {
 
-    /**
-     * @see org.openregistry.core.domain.Person#getRoles()
-     */
     public Collection<Role> getRoles() {
         return null;
     }
 
-    /**
-     * @see org.openregistry.core.domain.Person#addRole(org.openregistry.core.domain.Role)
-     */
-    public void addRole(Role role) {
+     public void addRole(Role role) {
 
     }
 
-    /**
-     * @see org.openregistry.core.domain.Person#getIdentifiers()
-     */
     public PersonIdentifiers getIdentifiers() {
         return null;
     }
