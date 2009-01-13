@@ -3,6 +3,10 @@
   <component name="AntConfiguration">
     <defaultAnt bundledAnt="true" />
   </component>
+  <component name="Archetypes.Configuration">
+    <option name="archetypesFileLocation" value="archetypes.xml" />
+    <option name="workingDirectory" value="" />
+  </component>
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
   </component>
@@ -41,6 +45,15 @@
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="FacetAutodetectingManager">
+    <autodetection-disabled>
+      <facet-type id="web">
+        <modules>
+          <module name="openregistry-webapp" />
+        </modules>
+      </facet-type>
+    </autodetection-disabled>
+  </component>
   <component name="IdProvider" IDEtalkID="D346C8E1C61AA40372AACBF2D7ABA17D" />
   <component name="InspectionProjectProfileManager">
     <option name="PROJECT_PROFILE" value="Project Default" />
@@ -86,12 +99,81 @@
     <option name="IS_EMACS_ERRORS_MODE" value="true" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
+  <component name="Maven Reloaded">
+    <option name="config">
+      <value>
+        <option name="pluginEnabled" value="false" />
+        <option name="updateClasspathsEnabled" value="true" />
+        <option name="sortDependenciesEnabled" value="false" />
+        <option name="removeDuplicateDependenciesEnabled" value="false" />
+        <option name="respondToPomChangesEnabled" value="true" />
+        <option name="manageSourceRootsEnabled" value="true" />
+        <option name="manageModuleInterdependenciesEnabled" value="true" />
+        <option name="downloadSourcesEnabled" value="false" />
+        <option name="downloadJavadocEnabled" value="false" />
+        <option name="generateSourcesEnabled" value="false" />
+        <option name="settingsPath" value="$PROJECT_DIR$/../../../.m2/settings.xml" />
+        <option name="searchFilter" value="" />
+        <option name="disabledPoms">
+          <value>
+            <collection type="java.util.TreeSet" />
+          </value>
+        </option>
+        <option name="moduleInterDependencies">
+          <value>
+            <map type="java.util.TreeMap" />
+          </value>
+        </option>
+        <option name="logLevel" value="1" />
+      </value>
+    </option>
+  </component>
+  <component name="MavenBuildProjectComponent">
+    <option name="mavenExecutable" value="" />
+    <option name="Settings File" value="$PROJECT_DIR$/../../../.m2/settings.xml" />
+    <option name="mavenCommandLineParams" value="" />
+    <option name="vmOptions" value="" />
+    <option name="useMavenEmbedder" value="false" />
+    <option name="useFilter" value="false" />
+    <option name="Batch Mode" value="false" />
+    <option name="Check Plugin Updates" value="false" />
+    <option name="Debug" value="false" />
+    <option name="Errors" value="false" />
+    <option name="Fail At End" value="false" />
+    <option name="Fail Fast" value="false" />
+    <option name="Fail Never" value="false" />
+    <option name="Lax Checksums" value="false" />
+    <option name="No Plugin Registry" value="false" />
+    <option name="No Plugin Updates" value="false" />
+    <option name="Non Recursive" value="false" />
+    <option name="Offline" value="false" />
+    <option name="Reactor" value="false" />
+    <option name="Strict Checksums" value="false" />
+    <option name="Update Plugins" value="false" />
+    <option name="Update Snapshots" value="false" />
+    <option name="Skip Tests" value="false" />
+    <pom-list>
+      <pom>
+        <option name="path" value="$PROJECT_DIR$/openregistry-api/pom.xml" />
+        <plugin-list />
+      </pom>
+      <pom>
+        <option name="path" value="$PROJECT_DIR$/openregistry-repository-jpa-impl/pom.xml" />
+        <plugin-list />
+      </pom>
+      <pom>
+        <option name="path" value="$PROJECT_DIR$/pom.xml" />
+        <plugin-list />
+      </pom>
+    </pom-list>
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/openregistry-api/pom.xml" />
         <option value="$PROJECT_DIR$/openregistry-repository-jpa-impl/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/openregistry-webapp/pom.xml" />
       </list>
     </option>
   </component>
@@ -104,10 +186,18 @@
       <module fileurl="file://$PROJECT_DIR$/openregistry.iml" filepath="$PROJECT_DIR$/openregistry.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-api.iml" filepath="$PROJECT_DIR$/openregistry-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-repository-jpa-impl.iml" filepath="$PROJECT_DIR$/openregistry-repository-jpa-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" filepath="$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="ResourceManagerContainer">
+    <option name="myResourceBundles">
+      <value>
+        <list size="0" />
+      </value>
+    </option>
   </component>
   <component name="RmicSettings">
     <option name="IS_EANABLED" value="false" />

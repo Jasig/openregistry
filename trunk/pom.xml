@@ -8,6 +8,7 @@
     <modules>
         <module>openregistry-api</module>
         <module>openregistry-repository-jpa-impl</module>
+        <module>openregistry-webapp</module>
     </modules>
     <name>JASIG OpenRegistry</name>
     <description>Registry System</description>

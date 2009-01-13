@@ -3,7 +3,6 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/openregistry-repository-jpa-impl/target/classes" />
     <output-test url="file://$MODULE_DIR$/openregistry-repository-jpa-impl/target/test-classes" />
-    <exclude-output />
     <content url="file://$MODULE_DIR$/openregistry-repository-jpa-impl">
       <sourceFolder url="file://$MODULE_DIR$/openregistry-repository-jpa-impl/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/openregistry-repository-jpa-impl/src/test/java" isTestSource="true" />
@@ -11,6 +10,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="openregistry-api" exported="" />
   </component>
+  <component name="POM File Configuration" pomFile="" />
 </module>
 
