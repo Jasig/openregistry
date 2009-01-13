@@ -122,20 +122,6 @@
         <entry key="$PROJECT_DIR$">
           <value>
             <SvnBranchConfiguration>
-              <option name="branchMap">
-                <map>
-                  <entry key="https://www.ja-sig.org/svn/openregistry/branches">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                  <entry key="https://www.ja-sig.org/svn/openregistry/tags">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                </map>
-              </option>
               <option name="branchUrls">
                 <list>
                   <option value="https://www.ja-sig.org/svn/openregistry/branches" />
@@ -148,7 +134,7 @@
         </entry>
       </map>
     </option>
-    <option name="myVersion" value="123" />
+    <option name="myVersion" value="124" />
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="" />
