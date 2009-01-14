@@ -5,20 +5,18 @@ import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Open Registry's default implementation of the <code>PersonService</code>.
  *
  * @since 1.0
- *        TODO: implementation, Spring autowire annotations, etc.
+ *        TODO: implementation
  */
 public class DefaultPersonService implements PersonService {
 
+    @Autowired
     private PersonRepository personRepository;
-
-    public void setPersonRepository(PersonRepository personRepository) {
-        this.personRepository = personRepository;
-    }
 
     /**
      * @see org.openregistry.core.service.PersonService#findPersonById(Long)
