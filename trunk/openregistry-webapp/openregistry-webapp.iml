@@ -14,6 +14,54 @@
           <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
         </building>
         <packaging>
+          <containerElement type="library" name="Maven: org.springframework:spring:2.5.6" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: commons-logging:commons-logging:1.1.1" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: org.springframework:spring-webmvc:2.5.6" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: org.springframework:spring-beans:2.5.6" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: org.springframework:spring-core:2.5.6" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: org.springframework:spring-context:2.5.6" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: aopalliance:aopalliance:1.0" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: org.springframework:spring-context-support:2.5.6" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: org.springframework:spring-web:2.5.6" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: org.springframework:spring-aspects:2.5.6" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: org.aspectj:aspectjrt:1.6.1" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: org.aspectj:aspectjweaver:1.6.1" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
           <containerElement type="module" name="openregistry-webapp">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/classes" />
@@ -33,6 +81,18 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring:2.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-webmvc:2.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-beans:2.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-core:2.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-context:2.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-context-support:2.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-web:2.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-aspects:2.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.6.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.6.1" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>
