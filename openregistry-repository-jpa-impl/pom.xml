@@ -13,11 +13,21 @@
     <packaging>jar</packaging>
 
     <dependencies>
+
         <dependency>
             <groupId>org.jasig.openregistry</groupId>
             <artifactId>openregistry-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+
     </dependencies>
 </project>
