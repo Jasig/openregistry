@@ -1,0 +1,74 @@
+/**************** SUMMARY ***************
+ This file is visible by IE6 & 7 and contains fixes for these browsers misinterpretations of the CSS standards
+
+ Hacks used:
+ * html - to display styles for IE6 only
+ display:inline - double margin on float
+ zoom:1 - hasLayout trigger for IE 6 & 7
+ height is treated as min-height in IE 6
+ ****************************************/
+
+/* MISCELLANEOUS --------------------------------- */
+* html a.top {display:inline;} /* IE double margin on float bug */
+* html .box, * html #login #sidebar {display:inline;}
+
+/* CLEAR FIX --------------------------------- needs to be seen by IE7 to trigger hasLayout toggle */
+#header, #content, #footer, #ecn1, #ecn2, #e_cell, .clearfix, #fm-search div.row, #fm-search div.col {zoom:1;}
+
+/* FIELDSET FIX - http://www.mattheerema.com/archive/getting-fieldset-backgrounds-and-legends-to-behave-in-ie */
+fieldset legend {position:relative; left:-7px;}
+fieldset fieldset {position:relative; padding-top:1.55em;}  /* left:0; padding-top:1em; border:1px solid red; background:#ffc; z-index:5; margin:2em 0;} */
+fieldset fieldset legend {position:relative; margin:-2em 0 0 -1em; padding:0 3px; top:-.2em;} /* top:0; left:-.5em; margin:-1.6em 0 0; padding:0; z-index:5;} */
+
+input {border-width:1px; border-style:solid; border-color:#999 #eee #eee #999; font-family:Verdana,sans-serif; font-size:1.1em; color:#000;}
+* html .openregistry#update fieldset {margin:0 0 1.4em; zoom:1;}
+* html #content a:hover, * html #footer a:hover {color:#36c; text-decoration:none;} /* fixes a bug in IE6 where margin is collapsed when hovering over a link that changes its background */
+* html input.btn-submit {width:0; overflow:visible; padding:3px .35em; border-style:outset; border-width:1px;}
+* html input, * html textarea {border-style:solid; border-color:#999 #eee #eee #999;}
+
+/* HEADER --------------------------------- */
+h1#app-name {line-height:1.0; padding:18px 0 9px 185px;}
+* html h1#app-name {height:25px;}
+
+
+/* SYSTEM NAV --------------------------------- */
+#nav-system {margin-top:5px;}
+#nav-system li {border-left:1px solid #f33;}
+#nav-system li#help {border:0;}
+
+/* MAIN MENU --------------------------------- */
+* html #nav-main {height:2.4em;} /* gets rid of 1px gap in IE6 */
+#nav-main a span {float:none;} /* TODO: check this in IE7 ??? */
+
+
+#content ul, #content ul ul {margin-left:1.5em;}
+
+
+/* TABBED SECTION --------------------------------- */
+#nav-tab a span {float:none;}
+
+/* tab panel */
+* html #tab-panel {zoom:1;}
+* html #tab-content {height:200px;} /* min-height workaround */
+
+/* APP/PAGE SPECIFIC --------------------------------- */
+* html .fm-v div.row input.radio {width:1.3em; height:1.3em; top:.3em;}
+* html .fm-v div.row input.check {width:1.3em; height:1.3em; top:.3em;}
+* html .fm-h div.row input.btn-submit {margin:0 xmargin:0 0 0 8.1em;}
+* html .fm-h div.row.check input {position:relative; top:.3em; border:0; width:1.3em; height:1.3em;}
+
+/* openregistry Specific --------------------------------- */
+* html .openregistry#update div.row label {top:2.3em;}
+* html .openregistry#update input {padding:2px;} /* IE6 */
+.openregistry#update input[type="text"] {padding:2px 2px 0;} /* IE7 */
+
+div.select {border:0;}
+* html select {border:1px solid red; border-color:#999 #eee #eee #999; background-color:#fff;}
+
+.openregistry#update input.radio {top:.9em; border:0; height:13px; width:13px;}
+.openregistry#update div.row label.carrier {margin-left:9px;}
+.openregistry#update div.row label.relationship {margin-left:9px;}
+.openregistry#update div.row label.state {margin-left:9px;}
+.openregistry#update div.row label.zip {margin-left:18px;}
+.openregistry#update div.row label.work {margin-left:9px;}
+.openregistry#update div.row label.cell {margin-left:18px;} 
