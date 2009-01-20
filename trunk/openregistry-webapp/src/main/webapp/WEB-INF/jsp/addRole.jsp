@@ -1,0 +1,160 @@
+<%@ page language="java" %>
+<%@ page session="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<jsp:directive.include file="/WEB-INF/jsp/includes/head.jsp" />
+<%-- $Id: $ --%>
+
+<body class="openregistry" id="update">
+
+	<h1 id="app-name">Open Registry</h1>
+	<ul id="nav-system"
+		><li id="logout"><a href="logout.htm" title="log out of current session">Log out</a></li
+	></ul>
+		
+	<div id="content">
+   		<c:set var="command" value="person" />
+   		<jsp:directive.include file="/WEB-INF/jsp/includes/errors.jsp" />
+   		<jsp:directive.include file="/WEB-INF/jsp/includes/info.jsp" />
+		
+		<form:form modelAttribute="person" id="fm-search" method="post" action="addRole.htm">
+			<fieldset id="addrole">
+				<legend><span>Add Role</span></legend>				
+				<p style="margin-bottom:0;">
+					Required fields are marked with <span style="color:#b00;">*</span>.
+				</p>
+
+				<fieldset class="fm-h" id="ecn1">
+					<label class="desc" for="c1_startdate"><c:out value="${addRoleHeading}"/></label>
+			
+					<br/>
+					<label class="desc" for="c1_startdate">Please Specify Role Information: <em>*</em></label>
+
+					<div class="row">
+						<label for="c1_startdate" class="startdate">Start Date <em>*</em></label>
+                       	<form:input path="startDate" id="c1_startdate" size="10" maxlength="10" tabindex="1" />
+
+						<label for="c1_enddate" class="enddate">End Date <em>*</em></label>
+						<form:input path="endDate" id="c1_enddate" size="10" maxlength="10" tabindex="2" />
+
+						<label for="c1_sponsor" class="sponsor">Sponsor <em>*</em></label>
+						<form:input path="sponsor" id="c1_sponsor" size="20" maxlength="30" tabindex="4" />
+						
+						<label for="c1_sponsortype" class="sponsortype">Sponsor Type <em>*</em></label>
+                       	<div class="select sponsortype">
+							<form:select path="sponsorType" id="c1_sponsortype" size="1" tabindex="3">
+							<form:option value="Faculty" label="Faculty"/>
+							</form:select>
+						</div>
+
+                    </div>
+                                       
+                    <div class="row">
+						
+						<label for="c1_division" class="division">Division <em>*</em></label>
+						<div class="select division">
+							<form:select path="division" id="c1_division" size="1" tabindex="5">
+							<form:option value="ComputingServices" label="Computing Services"/>
+							</form:select>
+						</div>
+						
+						<label for="c1_department" class="department">Department <em>*</em></label>
+						<div class="select department">
+							<form:select path="department" id="c1_department" size="1" tabindex="6">
+							<form:option value="AdminComputingSvcs" label="Admin Computing Services"/>
+							</form:select>
+						</div>
+						
+						<label for="c1_campus" class="campus">Campus</label>
+						<div class="select campus">
+							<form:select path="campus" id="c1_campus" size="1" tabindex="7">
+							<form:option value="Busch" label="Busch"/>
+							</form:select>
+						</div>
+                    </div>
+                    
+                    <div class="row">
+                    	<label for="c1_title" class="title">Title</label>
+						<form:input path="title" id="c1_title" size="10" maxlength="20" tabindex="8" />
+						
+						<label for="c1_pt" class="pt">PT%</label>
+						<form:input path="pt" id="c1_pt" size="4" maxlength="4" tabindex="9" />
+					</div>	
+                    
+                    <div class="row">
+						<label for="c1_email">Email <em>*</em></label>
+                       	<form:input path="email" id="c1_email" size="20" maxlength="30" tabindex="10" />
+                       	
+						<form:checkbox id="c1_hideDir" path="hideDirectoryListing" value="Hide" tabindex="11" />												
+				    	<p>Hide Directory Listing</p>
+				    </div>
+			</fieldset>	    
+			<fieldset id="e_cell">
+				<legend style="margin-top:.4em;"><span>Please Provide Local Address Information: <br /></span></legend>
+				
+				<fieldset class="fm-h" style="margin-bottom:0;">
+
+					<div class="row">
+						<label for="c1_city">Room</label>
+						<form:input path="addressRoom" id="c1_city" size="30" maxlength="30" tabindex="12" />
+
+						<label for="c1_state" class="state">Building</label>
+						<form:input path="addressBuilding" id="c1_state" size="10" maxlength="10" tabindex="13" />
+
+						<label for="c1_zip" class="zip">Mail Code</label>
+						<form:input path="addressMailCode" id="c1_zip" size="10" maxlength="10" tabindex="14" />
+					</div>
+					
+					<div class="row">
+						<label for="c1_address1" class="address1">Address Line 1</label>
+						<form:input path="addressLine1" id="c1_address1" size="30" maxlength="30" tabindex="15" />
+
+						<label for="c1_address2" class="address2">Address Line 2</label>
+						<form:input path="addressLine2" id="c1_address2" size="30" maxlength="30" tabindex="16" />
+					</div>
+					
+					<div class="row">
+						<label for="c1_city">City</label>
+						<form:input path="addressCity" id="c1_city" size="30" maxlength="30" tabindex="17" />
+
+						<label for="c1_state" class="state">State / Region</label>
+						<form:input path="addressStateProvRegion" id="c1_state" size="10" maxlength="10" tabindex="18" />
+
+						<label for="c1_zip" class="zip">Postal / Zip Code</label>
+						<form:input path="addressZipPostalCode" id="c1_zip" size="10" maxlength="10" tabindex="19" />
+					</div>
+
+					<div class="row">
+						<label for="c1_country">Country</label>
+						<div class="select country">
+							<form:select path="addressCountry" id="c1_country" size="1" tabindex="20">
+							<form:option value="US" label="United States"/>
+							</form:select>
+						</div>
+					</div>
+
+					<div class="row">
+
+						<label for="c1_phone" class="phone">Phone</label>
+						<form:input path="addressPhone" id="c1_phone" size="25" maxlength="25" tabindex="21" />
+
+						<label for="c1_ext" class="ext">Ext</label>
+						<form:input path="addressExt" id="c1_ext" size="10" maxlength="10" tabindex="22" />
+
+					</div>
+				</fieldset>
+			</fieldset>
+			</fieldset>
+
+			<div class="row fm-v" style="clear:both;">
+				<input style="float:left;" type="submit" id="fm-search-submit1" name="fm-search-submit" class="btn-submit" value="Add Role" tabindex="23"/> 
+			</div>
+
+		</form:form>
+	</div>
+
+	<jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
+</body>
+</html> 
