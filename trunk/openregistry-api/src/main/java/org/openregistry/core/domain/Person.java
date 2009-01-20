@@ -2,6 +2,7 @@ package org.openregistry.core.domain;
 
 import java.util.Set;
 import java.util.Collection;
+import java.io.Serializable;
 
 /**
  * Entity representing canonical persons and their identity in the Open Registry system.
@@ -9,7 +10,7 @@ import java.util.Collection;
  * @since 1.0
  *        TODO: define all the public APIs pertaining to Person's exposed properties and relationships with other entities
  */
-public interface Person {
+public interface Person extends Serializable {
 
     /**
      * Get a collection of roles associated with this person
