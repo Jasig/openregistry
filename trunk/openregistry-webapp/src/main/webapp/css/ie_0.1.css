@@ -66,6 +66,11 @@ div.select {border:0;}
 * html select {border:1px solid red; border-color:#999 #eee #eee #999; background-color:#fff;}
 
 .openregistry#update input.radio {top:.9em; border:0; height:13px; width:13px;}
+.openregistry#update div.row label.sponsor {margin-left:16px;}
+.openregistry#update div.row label.sponsortype {margin-left:26px;}
+.openregistry#update div.row label.department {margin-left:1px;}
+.openregistry#update div.row label.campus {margin-left:3px;}
+.openregistry#update div.row label.pt {margin-left:9px;}
 .openregistry#update div.row label.carrier {margin-left:9px;}
 .openregistry#update div.row label.relationship {margin-left:9px;}
 .openregistry#update div.row label.state {margin-left:9px;}

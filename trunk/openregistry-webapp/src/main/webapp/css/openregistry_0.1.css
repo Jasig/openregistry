@@ -31,23 +31,24 @@ legend span span {color:#777; font-weight:400; font-size:1em; display:inline;}
 
 /****** Role Info */
 #c1_startdate {width:10%;}
-.openregistry#update div.row label.enddate {left:11%; margin-left:5px;}
+.openregistry#update div.row label.enddate {left:10%; margin-left:4px;}
 #c1_enddate {width:10%; margin-left:3px;}
 
-.openregistry#update div.row label.sponsor {left:21%; margin-left:11px;}
+.openregistry#update div.row label.sponsor {left:20%; margin-left:10px;}
 #c1_sponsor {width:25%; margin-left:3px;}
-.openregistry#update div.row label.sponsortype {left:47%; margin-left:16px;}
-#c1_sponsortype {margin-left:3px;}
+.openregistry#update div.row label.sponsortype {left:45%; margin-left:14px;}
+.openregistry#update div.sponsortype {float:left; margin-left:3px;}
 
 
 
-.openregistry#update div.row label.department {left:18%; margin-left:5px;}
-#c1_department {margin-left:3px;}
-.openregistry#update div.row label.campus {left:41%; margin-left:8px;}
-#c1_campus {margin-left:3px;}
+
+.openregistry#update div.row label.department {left:16%;margin-left:3px;}
+.openregistry#update div.department {float:left; margin-left:3px;}
+.openregistry#update div.row label.campus {left:36%;margin-left:8px;}
+.openregistry#update div.campus {float:left; margin-left:4px;}
 
 #c1_title {width:40%;}
-.openregistry#update div.row label.pt {left:41%; margin-left:5px;}
+.openregistry#update div.row label.pt {left:40%; margin-left:4px;}
 #c1_pt {width:10%; margin-left:3px;}
 
 #c1_address1 {width:30%;}
