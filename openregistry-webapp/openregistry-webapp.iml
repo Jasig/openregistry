@@ -69,6 +69,14 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
+          <containerElement type="library" name="Maven: javax.servlet:jstl:1.1.2" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: taglibs:standard:1.1.2" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
           <containerElement type="module" name="openregistry-webapp">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/classes" />
@@ -100,6 +108,8 @@
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-webmvc:2.5.6" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-context-support:2.5.6" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-web:2.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: javax.servlet:jstl:1.1.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: taglibs:standard:1.1.2" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>

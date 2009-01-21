@@ -2,6 +2,7 @@ package org.openregistry.core.domain;
 
 import java.util.Set;
 import java.util.Collection;
+import java.util.List;
 import java.io.Serializable;
 
 /**
@@ -24,16 +25,16 @@ public interface Person extends Serializable {
 
     /**
      * Add a new role to a collection of role this person holds.
-     * @param role new role to add to this person instance.
+     * @return role new role to add to this person instance.
      */
-    void addRole(Role role);
+    Role addRole();
 
     /**
      * Get identifiers associated with this person.
      *
      * @return PersonIdentifiers. Please note that this method should never return null.
      */
-    PersonIdentifiers getIdentifiers();
+    List<Identifier> getIdentifiers();
 
     String getFirstName();
 

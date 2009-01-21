@@ -1,6 +1,7 @@
 package org.openregistry.core.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Entity representing canonical roles associated with resources and persons in the Open Registry system
@@ -10,5 +11,20 @@ import java.io.Serializable;
 public interface Role extends Serializable {
 
     String getTitle();
-    
+
+    List<Address> getAddresses();
+
+    List<Phone> getPhones();
+
+    List<? extends EmailAddress> getEmailAddresses();
+
+    List<? extends Url> getUrls();
+
+    Address addAddress();
+
+    Url addUrl();
+
+    EmailAddress addEmailAddress();
+
+    Phone addPhone();
 }
