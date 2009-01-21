@@ -7,6 +7,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>openregistry-api</module>
+        <module>openregistry-service-impl</module>
         <module>openregistry-repository-jpa-impl</module>
         <module>openregistry-webapp</module>
     </modules>
@@ -90,30 +91,6 @@
         </developer>
     </developers>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring</artifactId>
-            <version>2.5.6</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>2.5.6</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.5</version>
-            <scope>test</scope>
-        </dependency>
-
-
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -150,7 +127,13 @@
                     </excludes>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
+
+    <properties>
+        <spring.version>2.5.6</spring.version>
+        <junit.version>4.5</junit.version>
+        <servlet.version>2.5</servlet.version>
+        <persistence.version>1.0</persistence.version>
+    </properties>
 </project>

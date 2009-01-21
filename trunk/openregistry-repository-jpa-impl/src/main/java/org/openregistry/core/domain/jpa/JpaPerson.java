@@ -15,6 +15,22 @@ import java.util.Collection;
  */
 public class JpaPerson extends Entity implements Person {
 
+    public String getFirstName() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public String getLastName() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public String getMiddleName() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public String getFullName() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public Collection<Role> getRoles() {
         return null;
     }

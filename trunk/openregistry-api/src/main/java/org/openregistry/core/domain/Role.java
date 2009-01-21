@@ -8,4 +8,7 @@ import java.io.Serializable;
  * @TODO: define all the public APIs pertaining to Role's exposed properties and relationships with other entities
  */
 public interface Role extends Serializable {
+
+    String getTitle();
+    
 }

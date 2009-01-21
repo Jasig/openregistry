@@ -11,4 +11,7 @@ import org.openregistry.core.domain.Role;
  */
 public class JpaRole extends Entity implements Role {
 
+    public String getTitle() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
