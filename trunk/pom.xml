@@ -135,5 +135,7 @@
         <junit.version>4.5</junit.version>
         <servlet.version>2.5</servlet.version>
         <persistence.version>1.0</persistence.version>
+        <jstl.version>1.1.2</jstl.version>
+        <standard.version>1.1.2</standard.version>
     </properties>
 </project>
