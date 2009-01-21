@@ -15,7 +15,7 @@ public abstract class Entity implements Serializable {
     private Long id;
 
     /**
-     * Default ctor.
+     * Default actor.
      */
     public Entity() {
     }

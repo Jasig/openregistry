@@ -12,6 +12,8 @@ import java.io.Serializable;
  */
 public interface Person extends Serializable {
 
+    Long getId();
+
     /**
      * Get a collection of roles associated with this person
      *
@@ -33,4 +35,11 @@ public interface Person extends Serializable {
      */
     PersonIdentifiers getIdentifiers();
 
+    String getFirstName();
+
+    String getLastName();
+
+    String getMiddleName();
+
+    String getFullName();
 }
