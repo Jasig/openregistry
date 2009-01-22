@@ -9,7 +9,7 @@ import org.openregistry.core.domain.Type;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public class JpaEmailAddress extends Entity implements EmailAddress {
+public class JpaEmailAddressImpl extends Entity implements EmailAddress {
 
     private Type type;
 

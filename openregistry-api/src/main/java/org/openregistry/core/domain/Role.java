@@ -5,16 +5,30 @@ import java.util.List;
 
 /**
  * Entity representing canonical roles associated with resources and persons in the Open Registry system
+ *
+ * @author Scott Battaglia
+ * @version $Revision$ $Date$
  * @since 1.0
- * @TODO: define all the public APIs pertaining to Role's exposed properties and relationships with other entities
  */
 public interface Role extends Serializable {
 
-    String getTitle();
+    Type getAffiliationType();
 
-    List<Address> getAddresses();
+    List<? extends Address> getAddresses();
 
-    List<Phone> getPhones();
+    void setSponsor(Person sponsor);
+    
+    Person getSponsor();
+
+    int getPercentage();
+
+    void setPercentage(int percentage);
+
+    Type getPersonStatus();
+
+    void setPersonStatus(Type personStatus);
+
+    List<? extends Phone> getPhones();
 
     List<? extends EmailAddress> getEmailAddresses();
 
@@ -27,4 +41,16 @@ public interface Role extends Serializable {
     EmailAddress addEmailAddress();
 
     Phone addPhone();
+
+    Leave getLeave();
+
+    Active getActive();
+
+    String getTitle();
+
+    Department getDepartment();
+
+    Campus getCampus();
+
+    String getLocalCode();
 }

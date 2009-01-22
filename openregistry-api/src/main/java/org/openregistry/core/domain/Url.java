@@ -10,8 +10,6 @@ import java.net.URL;
  */
 public interface Url {
 
-    Long getId();
-
     Type getType();
 
     URL getUrl();

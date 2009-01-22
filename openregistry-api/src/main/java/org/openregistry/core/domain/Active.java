@@ -5,11 +5,9 @@ package org.openregistry.core.domain;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface Region {
+public interface Active extends DateRange {
 
-    String getName();
+    Type getTerminationReason();
 
-    String getCode();
-
-    Country getCountry();
+    void setTerminationReason(Type reason);
 }

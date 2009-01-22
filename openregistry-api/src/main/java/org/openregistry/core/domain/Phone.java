@@ -1,15 +1,11 @@
 package org.openregistry.core.domain;
 
 /**
- * Created by IntelliJ IDEA.
- * User: battags
- * Date: Jan 21, 2009
- * Time: 1:14:12 PM
- * To change this template use File | Settings | File Templates.
+ * @author Scott Battaglia
+ * @version $Revision$ $Date$
+ * @since 1.0.0
  */
 public interface Phone {
-
-    Long getId();
 
     Type getAddressType();
 
@@ -22,4 +18,16 @@ public interface Phone {
     String getNumber();
 
     String getExtension();
+
+    void setAddressType(Type addressType);
+
+    void setPhoneType(Type phoneType);
+
+    void setCountryCode(String countryCode);
+
+    void setAreaCode(String areaCode);
+
+    void setNumber(String number);
+
+    void setExtension(String extension);
 }

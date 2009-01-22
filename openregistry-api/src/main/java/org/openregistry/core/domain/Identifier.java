@@ -8,4 +8,8 @@ package org.openregistry.core.domain;
  * @since 1.0.0
  */
 public interface Identifier {
+
+    IdentifierType getType();
+
+    String getValue();
 }
