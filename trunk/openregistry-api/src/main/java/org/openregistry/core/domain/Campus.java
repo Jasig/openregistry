@@ -5,11 +5,9 @@ package org.openregistry.core.domain;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface Region {
-
-    String getName();
+public interface Campus {
 
     String getCode();
 
-    Country getCountry();
+    String getName();
 }

@@ -22,4 +22,20 @@ public interface Address {
     String getCity();
 
     String getPostalCode();
+
+    void setType(Type type);
+
+    void setLine1(String line1);
+
+    void setLine2(String line2);
+
+    void setLine3(String line3);
+
+    void setRegion(Region region);
+
+    void setCountry(Country country);
+
+    void setCity(String city);
+
+    void setPostalCode(String postalCode);
 }

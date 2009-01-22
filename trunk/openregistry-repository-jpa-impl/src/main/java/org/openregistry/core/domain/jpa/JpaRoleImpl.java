@@ -15,14 +15,38 @@ public class JpaRoleImpl extends Entity implements Role {
 
     private List<JpaUrlImpl> urls;
 
-    private List<JpaEmailAddress> emailAddresses;
+    private List<JpaEmailAddressImpl> emailAddresses;
 
-    public List<Address> getAddresses() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    private List<JpaPhoneImpl> phones;
+
+    private List<JpaAddressImpl> addresses;
+
+    private String title;
+
+    private Person sponsor;
+
+    private int percentage;
+
+    private String localCode;
+
+    private JpaCampusImpl campus;
+
+    private JpaDepartmentImpl department;
+
+    private Type affiliationType;
+
+    private Type personStatus;
+
+    private JpaLeaveImpl leave = new JpaLeaveImpl();
+
+    private JpaActiveImpl active = new JpaActiveImpl();
+
+    public List<? extends Address> getAddresses() {
+        return this.addresses;
     }
 
-    public List<Phone> getPhones() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<? extends Phone> getPhones() {
+        return this.phones;
     }
 
     public List<? extends EmailAddress> getEmailAddresses() {
@@ -34,7 +58,9 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public Address addAddress() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        final JpaAddressImpl jpaAddress = new JpaAddressImpl();
+        this.addresses.add(jpaAddress);
+        return jpaAddress;
     }
 
     public Url addUrl() {
@@ -44,16 +70,66 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public EmailAddress addEmailAddress() {
-        final JpaEmailAddress jpaEmailAddress = new JpaEmailAddress();
+        final JpaEmailAddressImpl jpaEmailAddress = new JpaEmailAddressImpl();
         this.emailAddresses.add(jpaEmailAddress);
         return jpaEmailAddress;
     }
 
     public Phone addPhone() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        final JpaPhoneImpl jpaPhone = new JpaPhoneImpl();
+        this.phones.add(jpaPhone);
+        return jpaPhone;
     }
 
     public String getTitle() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.title;
+    }
+
+    public Type getAffiliationType() {
+        return this.affiliationType;
+    }
+
+    public void setSponsor(final Person sponsor) {
+        this.sponsor = sponsor;
+    }
+
+    public Person getSponsor() {
+        return this.sponsor;
+    }
+
+    public int getPercentage() {
+        return this.percentage;
+    }
+
+    public void setPercentage(final int percentage) {
+        this.percentage = percentage;
+    }
+
+    public Type getPersonStatus() {
+        return this.personStatus;
+    }
+
+    public void setPersonStatus(final Type personStatus) {
+        this.personStatus = personStatus;
+    }
+
+    public Leave getLeave() {
+        return this.leave;
+    }
+
+    public Active getActive() {
+        return this.active;
+    }
+
+    public Department getDepartment() {
+        return this.department;
+    }
+
+    public Campus getCampus() {
+        return this.campus;
+    }
+
+    public String getLocalCode() {
+        return this.localCode;
     }
 }

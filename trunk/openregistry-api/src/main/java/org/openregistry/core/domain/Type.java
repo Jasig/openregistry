@@ -8,4 +8,6 @@ package org.openregistry.core.domain;
  * To change this template use File | Settings | File Templates.
  */
 public interface Type {
+
+    
 }

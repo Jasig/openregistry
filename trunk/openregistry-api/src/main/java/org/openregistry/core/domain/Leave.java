@@ -1,15 +1,15 @@
 package org.openregistry.core.domain;
 
+import java.util.Date;
+
 /**
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface Region {
+public interface Leave extends DateRange {
 
-    String getName();
+    Type getReason();
 
-    String getCode();
-
-    Country getCountry();
+    void setReason(Type type);
 }
