@@ -3,11 +3,15 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.internal.Entity;
 
+import javax.persistence.Table;
+
 /**
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
+@javax.persistence.Entity
+@Table(name="prs_names")
 public class JpaNameImpl extends Entity implements Name {
 
     private String prefix;
