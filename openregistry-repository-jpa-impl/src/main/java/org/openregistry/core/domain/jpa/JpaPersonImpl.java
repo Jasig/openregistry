@@ -6,6 +6,8 @@ import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.Name;
 
+import javax.persistence.Table;
+import javax.persistence.Column;
 import java.util.Collection;
 import java.util.List;
 import java.util.Date;
@@ -17,16 +19,20 @@ import java.util.Date;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
+@javax.persistence.Entity(name="person")
+@Table(name="prc_persons")
 public class JpaPersonImpl extends Entity implements Person {
 
-    private Collection<Role> roles;
+    private Collection<JpaRoleImpl> roles;
 
     private List<JpaIdentifierImpl> identifiers;
 
     private JpaNameImpl name;
 
+    @Column(name="date_of_birth",nullable=false,table="prs_biodem")
     private Date dateOfBirth;
 
+    @Column(name="gender",length=1,nullable=false,table="prs_biodem")
     private String gender;
 
     public Name getName() {
@@ -48,7 +54,7 @@ public class JpaPersonImpl extends Entity implements Person {
         return jpaRole;
     }
 
-    public Collection<Role> getRoles() {
+    public Collection<? extends Role> getRoles() {
         return this.roles;
     }
 
