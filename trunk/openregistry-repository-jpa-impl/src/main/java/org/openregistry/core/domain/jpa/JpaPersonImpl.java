@@ -34,6 +34,7 @@ public class JpaPersonImpl extends Entity implements Person {
     private JpaNameImpl name;
 
     @Column(name="date_of_birth",nullable=false,table="prs_biodem")
+    @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
     @Column(name="gender",length=1,nullable=false,table="prs_biodem")
