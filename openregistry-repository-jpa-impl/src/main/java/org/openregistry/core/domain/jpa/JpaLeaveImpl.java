@@ -2,11 +2,9 @@ package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.Leave;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.internal.Entity;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -14,19 +12,29 @@ import java.util.Date;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Embeddable
-public class JpaLeaveImpl implements Leave {
+@javax.persistence.Entity(name="loa")
+@Table(name="prs_loa")
+public class JpaLeaveImpl extends Entity implements Leave {
 
-    @Column(name="affiliation_date",table="prs_sor_role_records")
+    @Id
+    @Column(name="loa_id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_loa_seq")
+    private Long id;
+
+    @Column(name="start_date")
     @Temporal(TemporalType.DATE)
     private Date start;
 
-    @Column(name="termination_date",table="prs_sor_role_records")
+    @Column(name="end_date")
     @Temporal(TemporalType.DATE)
     private Date end;
 
     // TODO map reason
-    private Type reason;
+    private JpaTypeImpl reason;
+
+    protected Long getId() {
+        return this.id;
+    }
 
     public Date getStart() {
         return this.start;
@@ -49,6 +57,10 @@ public class JpaLeaveImpl implements Leave {
     }
 
     public void setReason(final Type type) {
-        this.reason = type;
+        if (!(type instanceof JpaTypeImpl)) {
+            throw new IllegalArgumentException("Requires type JpaTypeImpl");
+        }
+
+        this.reason = (JpaTypeImpl) type;
     }
 }

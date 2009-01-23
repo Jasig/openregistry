@@ -9,24 +9,30 @@ import java.util.List;
 /**
  * Role entity mapped to a persistence store with JPA annotations.
  *
- * @since 1.0
- *        TODO: add all the properties, dependencies and map to OR DB with JPA annotations
+ * @author Scott Battaglia
+ * @version $Revision$ $Date$
+ * @since 1.0.0
  */
-@javax.persistence.Entity
+@javax.persistence.Entity(name="role")
 @Table(name="prc_sor_persons")
 @SecondaryTables({@SecondaryTable(name = "prs_sor_role_records",pkJoinColumns = @PrimaryKeyJoinColumn(name="sor_person_id")), @SecondaryTable(name = "prs_roles", pkJoinColumns = @PrimaryKeyJoinColumn(name="role_id"))})
 public class JpaRoleImpl extends Entity implements Role {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="person")
+    @Id
+    @Column(name="sor_role_record_id",table="prs_sor_role_records")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_sor_role_record_seq")
+    private Long id;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
     private List<JpaUrlImpl> urls;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="person")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
     private List<JpaEmailAddressImpl> emailAddresses;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="person")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
     private List<JpaPhoneImpl> phones;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="person")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
     private List<JpaAddressImpl> addresses;
 
     @Column(name="title",table="prs_roles",nullable = false, updatable = false, insertable = false)
@@ -51,13 +57,13 @@ public class JpaRoleImpl extends Entity implements Role {
     private JpaDepartmentImpl department;
 
     // TODO map type
-    private Type affiliationType;
+    private JpaTypeImpl affiliationType;
 
     // TODO map type
-    private Type personStatus;
+    private JpaTypeImpl personStatus;
 
-    @Embedded
-    private JpaLeaveImpl leave = new JpaLeaveImpl();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
+    private List<? extends JpaLeaveImpl> leaves;
 
     @Embedded
     private JpaActiveImpl active = new JpaActiveImpl();
@@ -65,6 +71,10 @@ public class JpaRoleImpl extends Entity implements Role {
     @ManyToOne
     @JoinColumn(name="person_id", nullable=false, table="prc_sor_persons")
     private Person person;
+
+    protected Long getId() {
+        return this.id;
+    }
 
     public List<? extends Address> getAddresses() {
         return this.addresses;
@@ -135,11 +145,15 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public void setPersonStatus(final Type personStatus) {
-        this.personStatus = personStatus;
+        if (!(personStatus instanceof JpaTypeImpl)) {
+            throw new IllegalArgumentException("Requires type JpaTypeImpl");
+        }
+
+        this.personStatus = (JpaTypeImpl) personStatus;
     }
 
-    public Leave getLeave() {
-        return this.leave;
+    public List<? extends Leave> getLeaves() {
+        return this.leaves;
     }
 
     public Active getActive() {
@@ -156,5 +170,9 @@ public class JpaRoleImpl extends Entity implements Role {
 
     public String getLocalCode() {
         return this.localCode;
+    }
+
+    public Type getAfilliationType() {
+        return this.affiliationType;
     }
 }

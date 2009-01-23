@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.Active;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.internal.Entity;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Column;
@@ -26,14 +27,17 @@ public class JpaActiveImpl implements Active {
     private Date end;
 
     // TODO map this
-    private Type reason;
+    private JpaTypeImpl reason;
 
     public Type getTerminationReason() {
         return this.reason;
     }
 
     public void setTerminationReason(final Type reason) {
-        this.reason = reason;
+        if (!(reason instanceof JpaTypeImpl)) {
+            throw new IllegalArgumentException("Requires type JpaTypeImpl");
+        }
+        this.reason = (JpaTypeImpl) reason;
     }
 
     public Date getStart() {

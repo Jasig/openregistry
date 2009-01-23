@@ -3,25 +3,31 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.Department;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Campus;
+import org.openregistry.core.domain.internal.Entity;
 
 import javax.persistence.*;
+
 
 /**
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Entity(name="department")
+@javax.persistence.Entity(name="department")
 @Table(name="prs_departments")
-// TODO id
-public class JpaDepartmentImpl implements Department {
+// TODO
+public class JpaDepartmentImpl extends Entity implements Department {
+
+    @Id
+    @Column(name="department_id")
+    private Long id;
 
     @ManyToOne(optional=false)
     @JoinColumn(name="campus_id")
     private JpaCampusImpl campus;
 
     // TODO map
-    private Type departmentType;
+    private JpaTypeImpl departmentType;
 
     @Column(name="code",length = 100, nullable = true)
     private String localCode;
@@ -32,6 +38,10 @@ public class JpaDepartmentImpl implements Department {
     @ManyToOne(optional=true)
     @JoinColumn(name="parent_department_id")
     private JpaDepartmentImpl department;
+
+    protected Long getId() {
+        return this.id;
+    }
 
     public Type getDepartmentType() {
         return this.departmentType;

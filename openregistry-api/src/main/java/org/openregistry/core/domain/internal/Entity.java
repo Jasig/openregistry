@@ -12,30 +12,18 @@ import java.io.Serializable;
  */
 public abstract class Entity implements Serializable {
 
-    private Long id;
-
     /**
      * Default actor.
      */
     public Entity() {
     }
 
-    public Entity(Long id) {
-        super();
-        this.id = id;
-    }
+    protected abstract Long getId();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public String toString() {
-        return getClass() + ": id=" + this.id;
+        return getClass() + ": id=" + getId();
     }
 
     /**
@@ -56,10 +44,10 @@ public abstract class Entity implements Serializable {
             return false;
         }
         Entity entity = (Entity) other;
-        if (id == null || entity.getId() == null) {
+        if (getId() == null || entity.getId() == null) {
             return false;
         }
-        return id.equals(entity.getId());
+        return getId().equals(entity.getId());
     }
 
     /**
@@ -75,9 +63,9 @@ public abstract class Entity implements Serializable {
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        if (id == null) {
+        if (getId() == null) {
             return super.hashCode();
         }
-        return 39 + 87 * id.hashCode();
+        return 39 + 87 * getId().hashCode();
 	}
 }
