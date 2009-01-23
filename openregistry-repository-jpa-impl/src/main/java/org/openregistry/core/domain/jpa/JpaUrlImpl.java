@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.Url;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.internal.Entity;
 
 import java.net.URL;
@@ -16,6 +17,9 @@ public class JpaUrlImpl extends Entity implements Url {
     private Type type;
 
     private URL url;
+
+    
+    private Person person;
 
     public Type getType() {
         return this.type;
