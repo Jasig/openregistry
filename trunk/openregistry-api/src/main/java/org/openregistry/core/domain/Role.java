@@ -42,7 +42,7 @@ public interface Role extends Serializable {
 
     Phone addPhone();
 
-    Leave getLeave();
+    List<? extends Leave> getLeaves();
 
     Active getActive();
 
@@ -53,4 +53,6 @@ public interface Role extends Serializable {
     Campus getCampus();
 
     String getLocalCode();
+
+    Type getAfilliationType();
 }

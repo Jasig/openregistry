@@ -10,10 +10,14 @@ import org.openregistry.core.domain.internal.Entity;
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
+ *
+ * TODO implement
  */
 public class JpaAddressImpl extends Entity implements Address {
 
-    private Type type;
+    private Long id;
+
+    private JpaTypeImpl type;
 
     private String line1;
 
@@ -28,6 +32,10 @@ public class JpaAddressImpl extends Entity implements Address {
     private String city;
 
     private String postalCode;
+
+    protected Long getId() {
+        return this.id;
+    }
 
     public Type getType() {
         return this.type;
@@ -62,7 +70,11 @@ public class JpaAddressImpl extends Entity implements Address {
     }
 
     public void setType(final Type type) {
-        this.type = type;
+        if (!(type instanceof JpaTypeImpl)) {
+            throw new IllegalArgumentException("Requires type JpaTypeImpl");
+        }
+
+        this.type = (JpaTypeImpl) type;
     }
 
     public void setLine1(final String line1) {

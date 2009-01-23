@@ -23,6 +23,11 @@ import java.util.Date;
 @SecondaryTable(name="prs_biodem", pkJoinColumns=@PrimaryKeyJoinColumn(name="biodem_id"))
 public class JpaPersonImpl extends Entity implements Person {
 
+    @Id
+    @Column(name="person_id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_person_seq")
+    private Long id;
+
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person")    
     private Collection<JpaRoleImpl> roles;
 
@@ -39,6 +44,10 @@ public class JpaPersonImpl extends Entity implements Person {
 
     @Column(name="gender",length=1,nullable=false,table="prs_biodem")
     private String gender;
+
+    public Long getId() {
+        return this.id;
+    }
 
     public Name getName() {
         return this.name;

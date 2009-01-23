@@ -4,16 +4,32 @@ import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
 
+import javax.persistence.*;
+
 /**
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
+
+@javax.persistence.Entity(name="emailAddress")
+@Table(name="prs_emails")
 public class JpaEmailAddressImpl extends Entity implements EmailAddress {
 
-    private Type type;
+    @Id
+    @Column(name="email_id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_email_seq")
+    private Long id;
 
+    // TODO map
+    private JpaTypeImpl type;
+
+    @Column(name="address",nullable=false,length=100)
     private String address;
+
+    protected Long getId() {
+        return this.id;
+    }
 
     public Type getAddressType() {
         return this.type;
@@ -28,6 +44,10 @@ public class JpaEmailAddressImpl extends Entity implements EmailAddress {
     }
 
     public void setAddressType(final Type type) {
-        this.type = type;
+        if (!(type instanceof JpaTypeImpl)) {
+            throw new IllegalArgumentException("Requires type JpaTypeImpl");
+        }
+
+        this.type = (JpaTypeImpl) type;
     }
 }

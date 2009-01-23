@@ -4,18 +4,21 @@ import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.internal.Entity;
 
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 /**
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@javax.persistence.Entity
+@javax.persistence.Entity(name="name")
 @Table(name="prs_names")
 public class JpaNameImpl extends Entity implements Name {
+
+    @Id
+    @Column(name="name_id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_name_seq")
+    private Long id;
 
     @Column(name="prefix", nullable=true, length=5)
     private String prefix;
@@ -32,8 +35,12 @@ public class JpaNameImpl extends Entity implements Name {
     @Column(name="suffix",nullable=true,length=5)
     private String suffix;
 
-    @OneToOne(optional=false, mappedBy="name")
+    // TODO map this
     private JpaPersonImpl person;
+
+    protected Long getId() {
+        return this.id;
+    }
 
     public String getPrefix() {
         return this.prefix;

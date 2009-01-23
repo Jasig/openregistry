@@ -3,6 +3,7 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.internal.Entity;
 
 import javax.persistence.*;
 
@@ -11,10 +12,17 @@ import javax.persistence.*;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Entity
+@javax.persistence.Entity(name="identifier")
 @Table(name="prc_identifiers")
-public class JpaIdentifierImpl implements Identifier {
+public class JpaIdentifierImpl extends Entity implements Identifier {
 
+    @Id
+    @Column(name="identifier_id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_identifier_seq")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name="person_id", nullable=false)
     private Person person;
 
     // TODO map this
@@ -22,6 +30,10 @@ public class JpaIdentifierImpl implements Identifier {
 
     @Column(name="identifier", length=100,nullable=false)
     private String value;
+
+    protected Long getId() {
+        return this.id;
+    }
 
     public IdentifierType getType() {
         return this.type;
