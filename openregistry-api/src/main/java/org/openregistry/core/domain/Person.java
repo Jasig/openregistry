@@ -16,6 +16,11 @@ import java.io.Serializable;
  */
 public interface Person extends Serializable {
 
+    /**
+     * Unique identifier for this person.
+     *
+     * @return the unique identifier for this person.
+     */
     Long getId();
 
     /**
@@ -28,7 +33,8 @@ public interface Person extends Serializable {
 
     /**
      * Add a new role to a collection of role this person holds.
-     * @return role new role to add to this person instance.
+     *
+     * @return role new role to add to this person instance.  NEVER returns null.
      */
     Role addRole();
 
@@ -39,9 +45,22 @@ public interface Person extends Serializable {
      */
     List<? extends Identifier> getIdentifiers();
 
+    /**
+     * Get the name of the person.
+     *
+     * @return the name of the person, never null.
+     */
     Name getName();
 
+    /**
+     * The gender of the person.  Current restrictions include only M or F.
+     * @return the gender, never null.
+     */
     String getGender();
 
+    /**
+     * The date of birth, never null.
+     * @return the date of birth.
+     */
     Date getDateOfBirth();
 }

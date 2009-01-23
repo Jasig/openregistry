@@ -6,8 +6,7 @@ import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.Name;
 
-import javax.persistence.Table;
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Date;
@@ -21,12 +20,17 @@ import java.util.Date;
  */
 @javax.persistence.Entity(name="person")
 @Table(name="prc_persons")
+@SecondaryTable(name="prs_biodem", pkJoinColumns=@PrimaryKeyJoinColumn(name="biodem_id"))
 public class JpaPersonImpl extends Entity implements Person {
 
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person")    
     private Collection<JpaRoleImpl> roles;
 
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person")
     private List<JpaIdentifierImpl> identifiers;
 
+    @OneToOne(optional=false)
+    @JoinColumn(name="name_id")
     private JpaNameImpl name;
 
     @Column(name="date_of_birth",nullable=false,table="prs_biodem")
