@@ -35,7 +35,7 @@ public class JpaNameImpl extends Entity implements Name {
     @Column(name="suffix",nullable=true,length=5)
     private String suffix;
 
-    // TODO map this
+    @OneToOne(mappedBy = "name")
     private JpaPersonImpl person;
 
     protected Long getId() {
