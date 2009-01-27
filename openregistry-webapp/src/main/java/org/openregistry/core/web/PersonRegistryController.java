@@ -1,7 +1,9 @@
 package org.openregistry.core.web;
 
 import org.openregistry.core.domain.Person;
-import org.openregistry.core.service.PersonService;
+import org.openregistry.core.domain.Role;
+import org.openregistry.core.domain.jpa.*;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,10 +24,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.javalid.core.AnnotationValidator;
+import org.javalid.core.AnnotationValidatorImpl;
+import org.javalid.core.ValidationMessage;
 
 import java.io.IOException;
 import java.util.Date;
-
+import java.util.List;
 
 @Controller
 @RequestMapping("/addRole.htm")
@@ -33,24 +38,43 @@ import java.util.Date;
 public class PersonRegistryController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
+    private Role role;
 
-    @Autowired(required=true)
-    private PersonService personService;
-	
+    @Autowired
+    public PersonRegistryController(Role role) {
+        this.role = role;
+    }
+    	
 	@RequestMapping(method = RequestMethod.GET)
-    public String setUpForm(final ModelMap model) {
+    public String setUpForm(ModelMap model) {
     	logger.info("Populating: setUpForm: ");
-        final Person person = this.personService.findPersonById(Long.parseLong("1"));
-    	// TODO commented out so it compiles String infoValue = "Add Role: "+ person.getRoleName()+ " To: " + person.getFullName() + " ID: " + person.getId();
-    	// model.addAttribute("addRoleHeading",infoValue);
-    	model.addAttribute("person",person);
+
+        //fudge for now...
+    	String infoValue = "Add Role: "+ "SAKAI User"+ " To: " + "Alexander, Alex A." + " ID: " + "111002002";
+    	model.addAttribute("addRoleHeading",infoValue);
+
+        this.role.addAddress();
+        this.role.addPhone();
+        this.role.addEmailAddress();
+        model.addAttribute("role",role);
     	return "addRole";
     }
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(final ModelMap model, @ModelAttribute("person") final Person person, final BindingResult result, final SessionStatus status) {				
-		// logger.info("processSubmit: add role: email: " + person.getEmail());
-		model.addAttribute("infoModel", "Role has been added.");
+	public String processSubmit(ModelMap model, @ModelAttribute("role") Role role, BindingResult result, SessionStatus status) {
+		logger.info("processSubmit: add role: title: " + role.getTitle());
+
+        AnnotationValidator validator    = null;
+        List messages = null;
+
+        validator = new AnnotationValidatorImpl();
+        
+        //messages = validator.validateObject(person,"group01");
+        //System.out.println("Person errors=" + messages.size()); // Should print 0
+        //System.out.println("Messages=" + messages);
+
+        System.out.println("help");
+        model.addAttribute("infoModel", "Role has been added.");
 		return "addRole";
 	}
 
