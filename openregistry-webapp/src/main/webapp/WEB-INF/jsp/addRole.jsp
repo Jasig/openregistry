@@ -15,11 +15,11 @@
 	></ul>
 		
 	<div id="content">
-   		<c:set var="command" value="person" />
+   		<c:set var="command" value="role" />
    		<jsp:directive.include file="/WEB-INF/jsp/includes/errors.jsp" />
    		<jsp:directive.include file="/WEB-INF/jsp/includes/info.jsp" />
 		
-		<form:form modelAttribute="person" id="fm-search" method="post" action="addRole.htm">
+		<form:form modelAttribute="role" id="fm-search" method="post" action="addRole.htm">
 			<fieldset id="addrole">
 				<legend><span>Add Role</span></legend>				
 				<p style="margin-bottom:0;">
@@ -34,31 +34,17 @@
 
 					<div class="row">
 						<label for="c1_startdate" class="startdate">Start Date <em>*</em></label>
-                       	<form:input path="startDate" id="c1_startdate" size="10" maxlength="10" tabindex="1" />
+                       	<form:input path="active.start" id="c1_startdate" size="10" maxlength="10" tabindex="1" />
 
 						<label for="c1_enddate" class="enddate">End Date <em>*</em></label>
-						<form:input path="endDate" id="c1_enddate" size="10" maxlength="10" tabindex="2" />
+						<form:input path="active.end" id="c1_enddate" size="10" maxlength="10" tabindex="2" />
 
 						<label for="c1_sponsor" class="sponsor">Sponsor <em>*</em></label>
 						<form:input path="sponsor" id="c1_sponsor" size="20" maxlength="30" tabindex="4" />
-						
-						<label for="c1_sponsortype" class="sponsortype">Sponsor Type <em>*</em></label>
-                       	<div class="select sponsortype">
-							<form:select path="sponsorType" id="c1_sponsortype" size="1" tabindex="3">
-							<form:option value="Faculty" label="Faculty"/>
-							</form:select>
-						</div>
 
                     </div>
                                        
                     <div class="row">
-						
-						<label for="c1_division" class="division">Division <em>*</em></label>
-						<div class="select division">
-							<form:select path="division" id="c1_division" size="1" tabindex="5">
-							<form:option value="ComputingServices" label="Computing Services"/>
-							</form:select>
-						</div>
 						
 						<label for="c1_department" class="department">Department <em>*</em></label>
 						<div class="select department">
@@ -80,56 +66,47 @@
 						<form:input path="title" id="c1_title" size="10" maxlength="20" tabindex="8" />
 						
 						<label for="c1_pt" class="pt">PT%</label>
-						<form:input path="pt" id="c1_pt" size="4" maxlength="4" tabindex="9" />
+						<form:input path="percentage" id="c1_pt" size="4" maxlength="4" tabindex="9" />
 					</div>	
                     
                     <div class="row">
 						<label for="c1_email">Email <em>*</em></label>
-                       	<form:input path="email" id="c1_email" size="20" maxlength="30" tabindex="10" />
-                       	
-						<form:checkbox id="c1_hideDir" path="hideDirectoryListing" value="Hide" tabindex="11" />												
-				    	<p>Hide Directory Listing</p>
+                       	<form:input path="emailAddresses[0].address" id="c1_email" size="20" maxlength="30" tabindex="10" />
 				    </div>
 			</fieldset>	    
 			<fieldset id="e_cell">
 				<legend style="margin-top:.4em;"><span>Please Provide Local Address Information: <br /></span></legend>
 				
 				<fieldset class="fm-h" style="margin-bottom:0;">
-
-					<div class="row">
-						<label for="c1_city">Room</label>
-						<form:input path="addressRoom" id="c1_city" size="30" maxlength="30" tabindex="12" />
-
-						<label for="c1_state" class="state">Building</label>
-						<form:input path="addressBuilding" id="c1_state" size="10" maxlength="10" tabindex="13" />
-
-						<label for="c1_zip" class="zip">Mail Code</label>
-						<form:input path="addressMailCode" id="c1_zip" size="10" maxlength="10" tabindex="14" />
-					</div>
 					
 					<div class="row">
 						<label for="c1_address1" class="address1">Address Line 1</label>
-						<form:input path="addressLine1" id="c1_address1" size="30" maxlength="30" tabindex="15" />
-
-						<label for="c1_address2" class="address2">Address Line 2</label>
-						<form:input path="addressLine2" id="c1_address2" size="30" maxlength="30" tabindex="16" />
+						<form:input path="addresses[0].line1" id="c1_address1" size="30" maxlength="30" tabindex="15" />
+					</div>
+                    <div class="row">
+						<label for="c1_address1" class="address1">Address Line 2</label>
+						<form:input path="addresses[0].line2" id="c1_address1" size="30" maxlength="30" tabindex="16" />
+					</div>
+                    <div class="row">
+						<label for="c1_address1" class="address1">Address Line 2</label>
+						<form:input path="addresses[0].line3" id="c1_address1" size="30" maxlength="30" tabindex="16" />
 					</div>
 					
 					<div class="row">
 						<label for="c1_city">City</label>
-						<form:input path="addressCity" id="c1_city" size="30" maxlength="30" tabindex="17" />
+						<form:input path="addresses[0].city" id="c1_city" size="30" maxlength="30" tabindex="17" />
 
 						<label for="c1_state" class="state">State / Region</label>
-						<form:input path="addressStateProvRegion" id="c1_state" size="10" maxlength="10" tabindex="18" />
+						<form:input path="addresses[0].region" id="c1_state" size="10" maxlength="10" tabindex="18" />
 
 						<label for="c1_zip" class="zip">Postal / Zip Code</label>
-						<form:input path="addressZipPostalCode" id="c1_zip" size="10" maxlength="10" tabindex="19" />
+						<form:input path="addresses[0].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="19" />
 					</div>
 
 					<div class="row">
 						<label for="c1_country">Country</label>
 						<div class="select country">
-							<form:select path="addressCountry" id="c1_country" size="1" tabindex="20">
+							<form:select path="addresses[0].country" id="c1_country" size="1" tabindex="20">
 							<form:option value="US" label="United States"/>
 							</form:select>
 						</div>
@@ -138,10 +115,10 @@
 					<div class="row">
 
 						<label for="c1_phone" class="phone">Phone</label>
-						<form:input path="addressPhone" id="c1_phone" size="25" maxlength="25" tabindex="21" />
+						<form:input path="phones[0].number" id="c1_phone" size="25" maxlength="25" tabindex="21" />
 
 						<label for="c1_ext" class="ext">Ext</label>
-						<form:input path="addressExt" id="c1_ext" size="10" maxlength="10" tabindex="22" />
+						<form:input path="phones[0].extension" id="c1_ext" size="10" maxlength="10" tabindex="22" />
 
 					</div>
 				</fieldset>
