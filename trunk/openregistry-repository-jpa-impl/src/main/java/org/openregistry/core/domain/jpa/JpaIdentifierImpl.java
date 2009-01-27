@@ -23,7 +23,7 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
 
     @ManyToOne
     @JoinColumn(name="person_id", nullable=false)
-    private Person person;
+    private JpaPersonImpl person;
 
     // TODO map this
     private JpaIdentifierTypeImpl type;

@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * Person entity mapped to a persistence store with JPA annotations.
@@ -29,10 +30,10 @@ public class JpaPersonImpl extends Entity implements Person {
     private Long id;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person")    
-    private Collection<JpaRoleImpl> roles;
+    private Collection<JpaRoleImpl> roles = new ArrayList<JpaRoleImpl>();
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person")
-    private List<JpaIdentifierImpl> identifiers;
+    private List<JpaIdentifierImpl> identifiers = new ArrayList<JpaIdentifierImpl>();
 
     @OneToOne(optional=false)
     @JoinColumn(name="name_id")

@@ -4,21 +4,31 @@ import org.openregistry.core.domain.Region;
 import org.openregistry.core.domain.Country;
 import org.openregistry.core.domain.internal.Entity;
 
+import javax.persistence.*;
+
 /**
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  *
- * TODO implement
  */
+@javax.persistence.Entity(name="region")
+@Table(name="ctd_regions")
 public class JpaRegionImpl extends Entity implements Region {
 
+    @Id
+    @Column(name="region_id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctd_reqion_seq")
     private Long id;
 
+    @Column(name="name",nullable = false,length=100)
     private String name;
 
+    @Column(name="code",nullable=false,length=3)
     private String code;
 
+    @ManyToOne
+    @JoinColumn(name="country_id", nullable=false)
     private JpaCountryImpl country;
 
     protected Long getId() {

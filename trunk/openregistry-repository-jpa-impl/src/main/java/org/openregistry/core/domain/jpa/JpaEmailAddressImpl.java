@@ -26,6 +26,10 @@ public class JpaEmailAddressImpl extends Entity implements EmailAddress {
 
     @Column(name="address",nullable=false,length=100)
     private String address;
+    
+    @ManyToOne(optional=false)
+    @JoinColumn(name="prs_sor_role_record_id")
+    private JpaRoleImpl role;
 
     protected Long getId() {
         return this.id;

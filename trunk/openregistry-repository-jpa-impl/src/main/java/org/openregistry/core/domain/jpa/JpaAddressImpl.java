@@ -6,32 +6,47 @@ import org.openregistry.core.domain.Region;
 import org.openregistry.core.domain.Country;
 import org.openregistry.core.domain.internal.Entity;
 
+import javax.persistence.*;
+
 /**
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  *
- * TODO implement
  */
+@javax.persistence.Entity(name="address")
+@Table(name="prs_addresses")
 public class JpaAddressImpl extends Entity implements Address {
 
+    @Id
+    @Column(name="address_id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prd_address_seq")
     private Long id;
 
     private JpaTypeImpl type;
 
+    @Column(name="line1", nullable = true,length=100)
     private String line1;
 
+    @Column(name="line2", nullable = true,length=100)
     private String line2;
 
+    @Column(name="line3", nullable = true,length=100)
     private String line3;
 
     private JpaRegionImpl jpaRegion;
 
     private JpaCountryImpl jpaCountry;
 
+    @Column(name="city",length=100,nullable = false)
     private String city;
 
+    @Column(name="postal_code",length=9, nullable = false)
     private String postalCode;
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name="prs_sor_role_record_id")
+    private JpaRoleImpl role;
 
     protected Long getId() {
         return this.id;
