@@ -5,6 +5,7 @@ import org.openregistry.core.domain.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Role entity mapped to a persistence store with JPA annotations.
@@ -24,23 +25,23 @@ public class JpaRoleImpl extends Entity implements Role {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
-    private List<JpaUrlImpl> urls;
+    private List<JpaUrlImpl> urls = new ArrayList<JpaUrlImpl>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
-    private List<JpaEmailAddressImpl> emailAddresses;
+    private List<JpaEmailAddressImpl> emailAddresses = new ArrayList<JpaEmailAddressImpl>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
-    private List<JpaPhoneImpl> phones;
+    private List<JpaPhoneImpl> phones = new ArrayList<JpaPhoneImpl>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
-    private List<JpaAddressImpl> addresses;
+    private List<JpaAddressImpl> addresses = new ArrayList<JpaAddressImpl>();
 
     @Column(name="title",table="prs_roles",nullable = false, updatable = false, insertable = false)
     private String title;
 
     @ManyToOne(optional = false)
     @JoinColumn(name="sponsor_id",table="prs_sor_role_records")
-    private Person sponsor;
+    private JpaPersonImpl sponsor;
 
     @Column(name="percent_time", table="prs_sor_role_records",nullable=false)
     private int percentage;
@@ -63,14 +64,14 @@ public class JpaRoleImpl extends Entity implements Role {
     private JpaTypeImpl personStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
-    private List<? extends JpaLeaveImpl> leaves;
+    private List<JpaLeaveImpl> leaves = new ArrayList<JpaLeaveImpl>();
 
     @Embedded
     private JpaActiveImpl active = new JpaActiveImpl();
 
     @ManyToOne
     @JoinColumn(name="person_id", nullable=false, table="prc_sor_persons")
-    private Person person;
+    private JpaPersonImpl person;
 
     protected Long getId() {
         return this.id;
@@ -125,7 +126,10 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public void setSponsor(final Person sponsor) {
-        this.sponsor = sponsor;
+        if (!(sponsor instanceof JpaPersonImpl)) {
+            throw new IllegalArgumentException("sponsor must be of type JpaPersonImpl.");
+        }
+        this.sponsor = (JpaPersonImpl) sponsor;
     }
 
     public Person getSponsor() {

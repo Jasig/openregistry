@@ -4,10 +4,7 @@ import org.openregistry.core.domain.Active;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Date;
 
 /**

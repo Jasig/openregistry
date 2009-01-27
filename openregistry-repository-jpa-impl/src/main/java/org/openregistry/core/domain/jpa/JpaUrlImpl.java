@@ -27,8 +27,8 @@ public class JpaUrlImpl extends Entity implements Url {
     @Column(name="url",length=500,nullable = false)
     private URL url;
 
-    @ManyToOne
-    @JoinColumn(name="sor_role_record_id", nullable=false, table="prs_sor_role_records")
+    @ManyToOne(optional=false)
+    @JoinColumn(name="prs_sor_role_record_id")
     private JpaRoleImpl role;
 
     public Type getType() {

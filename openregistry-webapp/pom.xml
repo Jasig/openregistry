@@ -61,6 +61,36 @@
             <artifactId>standard</artifactId>
             <version>${standard.version}</version>
         </dependency>
+
+        <!-- BEGIN Hibernate Dependencies -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.4.0.GA</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-commons-annotations</artifactId>
+            <version>3.3.0.ga</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.4.0.GA</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate</artifactId>
+            <version>3.2.6.ga</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- END Hibernate Dependencies -->
     </dependencies>
 
       <build>

@@ -9,7 +9,9 @@ public interface Type {
 
     Long getId();
 
-    String getValue();
+    String getDataType();
+
+    String getDescription();
 
     
 }
