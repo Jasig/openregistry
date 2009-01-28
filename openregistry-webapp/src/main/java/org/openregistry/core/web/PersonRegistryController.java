@@ -32,6 +32,11 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Nancy Mond
+ * @version $Revision$ $Date$
+ * @since 1.0.0
+ */
 @Controller
 @RequestMapping("/addRole.htm")
 
