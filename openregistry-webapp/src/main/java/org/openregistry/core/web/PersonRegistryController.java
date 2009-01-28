@@ -40,9 +40,14 @@ public class PersonRegistryController {
 	protected final Log logger = LogFactory.getLog(getClass());
     private Role role;
 
-    @Autowired
+   @Autowired
     public PersonRegistryController(Role role) {
         this.role = role;
+    }
+
+    @ModelAttribute
+    public Role setupModelAttribute() {
+        return this.role;
     }
     	
 	@RequestMapping(method = RequestMethod.GET)
@@ -53,16 +58,20 @@ public class PersonRegistryController {
     	String infoValue = "Add Role: "+ "SAKAI User"+ " To: " + "Alexander, Alex A." + " ID: " + "111002002";
     	model.addAttribute("addRoleHeading",infoValue);
 
+        this.role.getActive().setStart(new Date());
+        this.role.getActive().setEnd(new Date());
         this.role.addAddress();
         this.role.addPhone();
         this.role.addEmailAddress();
         model.addAttribute("role",role);
     	return "addRole";
     }
-	
+
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(ModelMap model, @ModelAttribute("role") Role role, BindingResult result, SessionStatus status) {
-		logger.info("processSubmit: add role: title: " + role.getTitle());
+        logger.info("processSubmit in add role");
+        logger.info("processSubmit: add role: percentage: " + role.getPercentage());
+        
 
         AnnotationValidator validator    = null;
         List messages = null;
@@ -73,7 +82,6 @@ public class PersonRegistryController {
         //System.out.println("Person errors=" + messages.size()); // Should print 0
         //System.out.println("Messages=" + messages);
 
-        System.out.println("help");
         model.addAttribute("infoModel", "Role has been added.");
 		return "addRole";
 	}
