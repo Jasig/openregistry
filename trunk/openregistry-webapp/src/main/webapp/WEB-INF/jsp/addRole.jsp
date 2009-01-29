@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:directive.include file="/WEB-INF/jsp/includes/head.jsp" />
 <%-- $Id: $ --%>
@@ -25,12 +26,16 @@
 				<p style="margin-bottom:0;">
 					Required fields are marked with <span style="color:#b00;">*</span>.
 				</p>
+                <br/>
 
-				<fieldset class="fm-h" id="ecn1">
-					<label class="desc" for="c1_startdate"><c:out value="${addRoleHeading}"/></label>
-			
-					<br/>
-					<label class="desc" for="c1_startdate">Please Specify Role Information: <em>*</em></label>
+                <fieldset class="fm-h" id="ecn1">
+
+
+                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">Add Role:</span><em2><c:out value="${rolename}"/></em2></label>
+                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">Title: </span><em2><c:out value="${title}"/></em2></label>
+                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">To: </span><em2><c:out value="${personid}"/></em2></label>
+                    <br/>
+					<label class="desc" for="c1_startdate">Please Specify Role Information:</label>
 
 					<div class="row">
 						<label for="c1_startdate" class="startdate">Start Date <em>*</em></label>
@@ -62,21 +67,24 @@
                     </div>
                     
                     <div class="row">
-                    	<label for="c1_title" class="title">Title</label>
-						<form:input path="title" id="c1_title" size="10" maxlength="20" tabindex="8" />
-						
+                        <label for="c1_email">Email <em>*</em></label>
+                        <form:input path="emailAddresses[0].address" id="c1_email" size="20" maxlength="30" tabindex="8" />
+
 						<label for="c1_pt" class="pt">PT%</label>
-						<form:input path="percentage" id="c1_pt" size="4" maxlength="4" tabindex="9" />
+                        <div class="select pt">
+							<form:select path="percentage" id="c1_pt" size="1" tabindex="9">
+							<form:option value="quarter" label="25"/>
+                            <form:option value="fifty" label="50"/>
+                            <form:option value="threequarter" label="75"/>
+                            <form:option value="full" label="100"/>
+							</form:select>
+						</div>
 					</div>	
-                    
-                    <div class="row">
-						<label for="c1_email">Email <em>*</em></label>
-                       	<form:input path="emailAddresses[0].address" id="c1_email" size="20" maxlength="30" tabindex="10" />
-				    </div>
+
 			</fieldset>	    
 			<fieldset id="e_cell">
-				<legend style="margin-top:.4em;"><span>Please Provide Local Address Information: <br /></span></legend>
-				
+                <label class="desc" for="c1_startdate"><span style="color:#000;">Please Provide Local Address Information: </span><br /></label>
+
 				<fieldset class="fm-h" style="margin-bottom:0;">
 					
 					<div class="row">
