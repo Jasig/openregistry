@@ -15,14 +15,15 @@ import javax.persistence.*;
  *
  */
 @javax.persistence.Entity(name="address")
-@Table(name="prs_addresses")
+@Table(name="prc_addresses")
 public class JpaAddressImpl extends Entity implements Address {
 
     @Id
-    @Column(name="address_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prd_address_seq")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name="address_t")
     private JpaTypeImpl type;
 
     @Column(name="line1", nullable = true,length=100)
@@ -34,9 +35,13 @@ public class JpaAddressImpl extends Entity implements Address {
     @Column(name="line3", nullable = true,length=100)
     private String line3;
 
-    private JpaRegionImpl jpaRegion;
+    @ManyToOne
+    @JoinColumn(name="region_id")
+    private JpaRegionImpl region;
 
-    private JpaCountryImpl jpaCountry;
+    @ManyToOne
+    @JoinColumn(name="country_id")
+    private JpaCountryImpl country;
 
     @Column(name="city",length=100,nullable = false)
     private String city;
@@ -45,7 +50,7 @@ public class JpaAddressImpl extends Entity implements Address {
     private String postalCode;
 
     @ManyToOne(optional=false)
-    @JoinColumn(name="prs_sor_role_record_id")
+    @JoinColumn(name="prc_role_record_id")
     private JpaRoleImpl role;
 
     protected Long getId() {
@@ -69,11 +74,11 @@ public class JpaAddressImpl extends Entity implements Address {
     }
 
     public Region getRegion() {
-        return this.jpaRegion;
+        return this.region;
     }
 
     public Country getCountry() {
-        return this.jpaCountry;
+        return this.country;
     }
 
     public String getCity() {
@@ -108,14 +113,14 @@ public class JpaAddressImpl extends Entity implements Address {
         if (!(region instanceof JpaRegionImpl)) {
             throw new IllegalStateException("Region implementation must be of type JpaRegionImpl");
         }
-        this.jpaRegion = (JpaRegionImpl) region;
+        this.region = (JpaRegionImpl) region;
     }
 
     public void setCountry(final Country country) {
         if (!(country instanceof JpaCountryImpl)) {
             throw new IllegalStateException("Country implementation must be of type JpaCountryImpl");
         }
-        this.jpaCountry = (JpaCountryImpl) country;
+        this.country = (JpaCountryImpl) country;
     }
 
     public void setCity(final String city) {

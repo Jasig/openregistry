@@ -12,17 +12,18 @@ import javax.persistence.*;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="phone")
-@Table(name="prs_phones")
+@Table(name="prc_phones")
 public class JpaPhoneImpl extends Entity implements Phone {
 
-    // TODO map
+    @ManyToOne(optional = false)
+    @JoinColumn(name="address_t")
     private JpaTypeImpl addressType;
 
-    // TODO map
+    @ManyToOne(optional = false)
+    @JoinColumn(name="phone_t")
     private JpaTypeImpl phoneType;
 
     @Id
-    @Column(name="phone_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_phone_seq")
     private Long id;
 
@@ -38,8 +39,8 @@ public class JpaPhoneImpl extends Entity implements Phone {
     @Column(name="extension", nullable=true,length=5)
     private String extension;
 
-    @ManyToOne
-    @JoinColumn(name="sor_role_record_id", nullable=false, table="prs_sor_role_records")
+    @ManyToOne(optional=false)
+    @JoinColumn(name="prc_role_record_id")
     private JpaRoleImpl role;
 
     protected Long getId() {

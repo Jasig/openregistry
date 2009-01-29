@@ -13,22 +13,22 @@ import java.net.URL;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="url")
-@Table(name="prs_urls")
+@Table(name="prc_urls")
 public class JpaUrlImpl extends Entity implements Url {
 
     @Id
-    @Column(name="url_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_urls_seq")
     private Long id;
 
-    // TODO map this
+    @ManyToOne(optional = false)
+    @JoinColumn(name="address_t")
     private JpaTypeImpl type;
 
     @Column(name="url",length=500,nullable = false)
     private URL url;
 
     @ManyToOne(optional=false)
-    @JoinColumn(name="prs_sor_role_record_id")
+    @JoinColumn(name="prc_role_record_id")
     private JpaRoleImpl role;
 
     public Type getType() {

@@ -3,9 +3,8 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.Campus;
 import org.openregistry.core.domain.internal.Entity;
 
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Scott Battaglia
@@ -25,6 +24,12 @@ public class JpaCampusImpl extends Entity implements Campus {
 
     @Column(name="name", length=100, nullable = false)
     private String name;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="campus")
+    private List<JpaRoleInfoImpl> roleInfos;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "campus")
+    private List<JpaDepartmentImpl> departments;
 
     protected Long getId() {
         return this.id;

@@ -12,7 +12,7 @@ import javax.persistence.*;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="name")
-@Table(name="prs_names")
+@Table(name="prc_names")
 public class JpaNameImpl extends Entity implements Name {
 
     @Id
@@ -35,8 +35,11 @@ public class JpaNameImpl extends Entity implements Name {
     @Column(name="suffix",nullable=true,length=5)
     private String suffix;
 
-    @OneToOne(mappedBy = "name")
-    private JpaPersonImpl person;
+    @OneToOne(mappedBy = "preferredName")
+    private JpaPersonImpl person1;
+
+    @OneToOne(mappedBy = "officialName")
+    private JpaPersonImpl person2;
 
     protected Long getId() {
         return this.id;
@@ -80,9 +83,5 @@ public class JpaNameImpl extends Entity implements Name {
             builder.append(string);
             builder.append(delimiter);
         }
-    }
-
-    public Person getPerson() {
-        return this.person;
     }
 }
