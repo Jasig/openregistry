@@ -1,6 +1,7 @@
 package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.Country;
+import org.openregistry.core.domain.Region;
 import org.openregistry.core.domain.internal.Entity;
 
 import javax.persistence.*;
@@ -29,7 +30,10 @@ public class JpaCountryImpl extends Entity implements Country {
     private String name;
 
     @OneToMany(cascade= CascadeType.ALL, mappedBy="country")
-    private List<JpaRegionImpl> regions = new ArrayList<JpaRegionImpl>();
+    private List<JpaRegionImpl> regions;
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="country")
+    private List<JpaAddressImpl> addresses;
 
     protected Long getId() {
         return this.id;
@@ -41,5 +45,9 @@ public class JpaCountryImpl extends Entity implements Country {
 
     public String getName() {
         return this.name;
+    }
+
+    public List<? extends Region> getRegions() {
+        return this.regions;
     }
 }

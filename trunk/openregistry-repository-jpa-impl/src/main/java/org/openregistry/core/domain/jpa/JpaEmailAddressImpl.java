@@ -13,22 +13,22 @@ import javax.persistence.*;
  */
 
 @javax.persistence.Entity(name="emailAddress")
-@Table(name="prs_emails")
+@Table(name="prc_emails")
 public class JpaEmailAddressImpl extends Entity implements EmailAddress {
 
     @Id
-    @Column(name="email_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_email_seq")
     private Long id;
 
-    // TODO map
+    @ManyToOne(optional = false)
+    @JoinColumn(name="address_t")
     private JpaTypeImpl type;
 
     @Column(name="address",nullable=false,length=100)
     private String address;
     
     @ManyToOne(optional=false)
-    @JoinColumn(name="prs_sor_role_record_id")
+    @JoinColumn(name="prc_role_record_id")
     private JpaRoleImpl role;
 
     protected Long getId() {

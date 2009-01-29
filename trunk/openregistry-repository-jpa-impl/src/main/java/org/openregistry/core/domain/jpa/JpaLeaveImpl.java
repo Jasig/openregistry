@@ -29,8 +29,13 @@ public class JpaLeaveImpl extends Entity implements Leave {
     @Temporal(TemporalType.DATE)
     private Date end;
 
-    // TODO map reason
+    @ManyToOne(optional = false)
+    @JoinColumn(name="leave_t")
     private JpaTypeImpl reason;
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name="prc_role_record_id")
+    private JpaRoleImpl role;    
 
     protected Long getId() {
         return this.id;

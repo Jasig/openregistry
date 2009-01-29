@@ -5,6 +5,7 @@ import org.openregistry.core.domain.Country;
 import org.openregistry.core.domain.internal.Entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Scott Battaglia
@@ -17,7 +18,6 @@ import javax.persistence.*;
 public class JpaRegionImpl extends Entity implements Region {
 
     @Id
-    @Column(name="region_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctd_reqion_seq")
     private Long id;
 
@@ -30,6 +30,9 @@ public class JpaRegionImpl extends Entity implements Region {
     @ManyToOne
     @JoinColumn(name="country_id", nullable=false)
     private JpaCountryImpl country;
+
+    @OneToMany(mappedBy = "region", fetch = FetchType.LAZY)
+    private List<JpaAddressImpl> addresses;
 
     protected Long getId() {
         return this.id;

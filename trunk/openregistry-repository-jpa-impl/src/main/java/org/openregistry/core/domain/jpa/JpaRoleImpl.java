@@ -6,6 +6,7 @@ import org.openregistry.core.domain.*;
 import javax.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Role entity mapped to a persistence store with JPA annotations.
@@ -15,12 +16,10 @@ import java.util.ArrayList;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="role")
-@Table(name="prc_sor_persons")
-@SecondaryTables({@SecondaryTable(name = "prs_sor_role_records",pkJoinColumns = @PrimaryKeyJoinColumn(name="sor_person_id")), @SecondaryTable(name = "prs_roles", pkJoinColumns = @PrimaryKeyJoinColumn(name="role_id"))})
+@Table(name="prc_role_records")
 public class JpaRoleImpl extends Entity implements Role {
 
     @Id
-    @Column(name="sor_role_record_id",table="prs_sor_role_records")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_sor_role_record_seq")
     private Long id;
 
@@ -36,42 +35,50 @@ public class JpaRoleImpl extends Entity implements Role {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
     private List<JpaAddressImpl> addresses = new ArrayList<JpaAddressImpl>();
 
-    @Column(name="title",table="prs_roles",nullable = false, updatable = false, insertable = false)
-    private String title;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name="sponsor_id",table="prs_sor_role_records")
+    @ManyToOne(optional = true)
+    @JoinColumn(name="sponsor_id")
     private JpaPersonImpl sponsor;
 
-    @Column(name="percent_time", table="prs_sor_role_records",nullable=false)
+    @Column(name="percent_time",nullable=false)
     private int percentage;
 
     @Column(name="code", table="prs_roles",nullable = true, updatable = false, insertable = false)
     private String localCode;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name="campus_id", table="prs_roles")
-    private JpaCampusImpl campus;
-
-    @ManyToOne(optional=false)
-    @JoinColumn(name="department_id",table="prs_roles")
-    private JpaDepartmentImpl department;
-
-    // TODO map type
-    private JpaTypeImpl affiliationType;
-
-    // TODO map type
+    @ManyToOne(optional = false)
+    @JoinColumn(name="status_t")
     private JpaTypeImpl personStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
     private List<JpaLeaveImpl> leaves = new ArrayList<JpaLeaveImpl>();
 
-    @Embedded
-    private JpaActiveImpl active = new JpaActiveImpl();
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "role_info_id")
+    private JpaRoleInfoImpl roleInfo;
 
     @ManyToOne
-    @JoinColumn(name="person_id", nullable=false, table="prc_sor_persons")
+    @JoinColumn(name="person_id", nullable=false)
     private JpaPersonImpl person;
+
+    @Column(name="leave_start_date")
+    @Temporal(TemporalType.DATE)
+    private Date start;
+
+    @Column(name="leave_stop_date")
+    @Temporal(TemporalType.DATE)
+    private Date end;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name="termination_t")
+    private JpaTypeImpl terminationReason;
+
+    public JpaRoleImpl() {
+
+    }
+
+    public JpaRoleImpl(JpaRoleInfoImpl roleInfo) {
+        this.roleInfo = roleInfo;
+    }
 
     protected Long getId() {
         return this.id;
@@ -118,11 +125,11 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public String getTitle() {
-        return this.title;
+        return this.roleInfo.getTitle();
     }
 
     public Type getAffiliationType() {
-        return this.affiliationType;
+        return this.roleInfo.getAffiliationType();
     }
 
     public void setSponsor(final Person sponsor) {
@@ -160,23 +167,42 @@ public class JpaRoleImpl extends Entity implements Role {
         return this.leaves;
     }
 
-    public Active getActive() {
-        return this.active;
-    }
-
     public Department getDepartment() {
-        return this.department;
+        return this.roleInfo.getDepartment();
     }
 
     public Campus getCampus() {
-        return this.campus;
+        return this.roleInfo.getCampus();
     }
 
     public String getLocalCode() {
         return this.localCode;
     }
 
-    public Type getAfilliationType() {
-        return this.affiliationType;
+    public Type getTerminationReason() {
+        return this.terminationReason;
+    }
+
+    public void setTerminationReason(final Type reason) {
+        if (!(reason instanceof JpaTypeImpl)) {
+            throw new IllegalArgumentException("Requires type JpaTypeImpl");
+        }
+        this.terminationReason = (JpaTypeImpl) reason;
+    }
+
+    public Date getStart() {
+        return this.start;
+    }
+
+    public Date getEnd() {
+        return this.end;
+    }
+
+    public void setStart(final Date date) {
+        this.start = date;
+    }
+
+    public void setEnd(final Date date) {
+        this.end = date;
     }
 }

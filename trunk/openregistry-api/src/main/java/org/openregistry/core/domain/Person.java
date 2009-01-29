@@ -34,9 +34,10 @@ public interface Person extends Serializable {
     /**
      * Add a new role to a collection of role this person holds.
      *
+     * @param roleInfo the basic role information about this role (not customizable)
      * @return role new role to add to this person instance.  NEVER returns null.
      */
-    Role addRole();
+    Role addRole(RoleInfo roleInfo);
 
     /**
      * Get identifiers associated with this person.
@@ -50,7 +51,9 @@ public interface Person extends Serializable {
      *
      * @return the name of the person, never null.
      */
-    Name getName();
+    Name getPreferredName();
+
+    Name getOfficialName();
 
     /**
      * The gender of the person.  Current restrictions include only M or F.

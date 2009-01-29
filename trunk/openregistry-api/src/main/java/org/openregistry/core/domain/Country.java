@@ -1,5 +1,7 @@
 package org.openregistry.core.domain;
 
+import java.util.List;
+
 /**
  * @author Scott Battaglia
  * @version $Revision$ $Date$
@@ -10,4 +12,6 @@ public interface Country {
     String getCode();
 
     String getName();
+
+    List<? extends Region> getRegions();
 }

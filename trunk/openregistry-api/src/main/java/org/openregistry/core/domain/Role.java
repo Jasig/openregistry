@@ -10,7 +10,7 @@ import java.util.List;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public interface Role extends Serializable {
+public interface Role extends Serializable, DateRange {
 
     Type getAffiliationType();
 
@@ -44,8 +44,6 @@ public interface Role extends Serializable {
 
     List<? extends Leave> getLeaves();
 
-    Active getActive();
-
     String getTitle();
 
     Department getDepartment();
@@ -54,5 +52,7 @@ public interface Role extends Serializable {
 
     String getLocalCode();
 
-    Type getAfilliationType();
+    Type getTerminationReason();
+
+    void setTerminationReason(Type reason);
 }

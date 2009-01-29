@@ -1,10 +1,7 @@
 package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.internal.Entity;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.domain.Name;
+import org.openregistry.core.domain.*;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -21,7 +18,6 @@ import java.util.ArrayList;
  */
 @javax.persistence.Entity(name="person")
 @Table(name="prc_persons")
-@SecondaryTable(name="prs_biodem", pkJoinColumns=@PrimaryKeyJoinColumn(name="biodem_id"))
 public class JpaPersonImpl extends Entity implements Person {
 
     @Id
@@ -36,8 +32,12 @@ public class JpaPersonImpl extends Entity implements Person {
     private List<JpaIdentifierImpl> identifiers = new ArrayList<JpaIdentifierImpl>();
 
     @OneToOne(optional=false)
-    @JoinColumn(name="name_id")
-    private JpaNameImpl name;
+    @JoinColumn(name="preferred_name_id", unique=true)
+    private JpaNameImpl preferredName;
+
+    @OneToOne(optional=false)
+    @JoinColumn(name="official_name_id",unique = true)
+    private JpaNameImpl officialName;
 
     @Column(name="date_of_birth",nullable=false,table="prs_biodem")
     @Temporal(TemporalType.DATE)
@@ -46,12 +46,19 @@ public class JpaPersonImpl extends Entity implements Person {
     @Column(name="gender",length=1,nullable=false,table="prs_biodem")
     private String gender;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sponsor")
+    private List<JpaRoleImpl> sponsoredRoles;
+
     public Long getId() {
         return this.id;
     }
 
-    public Name getName() {
-        return this.name;
+    public Name getOfficialName() {
+        return this.officialName;
+    }
+
+    public Name getPreferredName() {
+        return this.preferredName;
     }
 
     public String getGender() {
@@ -62,8 +69,11 @@ public class JpaPersonImpl extends Entity implements Person {
         return this.dateOfBirth;
     }
 
-    public Role addRole() {
-        final JpaRoleImpl jpaRole = new JpaRoleImpl();
+    public Role addRole(final RoleInfo roleInfo) {
+        if (!(roleInfo instanceof JpaRoleInfoImpl)) {
+            throw new IllegalArgumentException("roleInfo of type JpaRoleInfoImpl required.");
+        }
+        final JpaRoleImpl jpaRole = new JpaRoleImpl((JpaRoleInfoImpl) roleInfo);
         this.roles.add(jpaRole);
 
         return jpaRole;
