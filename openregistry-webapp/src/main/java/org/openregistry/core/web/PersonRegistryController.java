@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,8 @@ import org.javalid.core.ValidationMessage;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 /**
  * @author Nancy Mond
@@ -57,11 +61,15 @@ public class PersonRegistryController {
     	
 	@RequestMapping(method = RequestMethod.GET)
     public String setUpForm(ModelMap model) {
-    	logger.info("Populating: setUpForm: ");
+    	System.out.println("Populating: setUpForm: ");
 
-        //fudge for now...
-    	String infoValue = "Add Role: "+ "SAKAI User"+ " To: " + "Alexander, Alex A." + " ID: " + "111002002";
-    	model.addAttribute("addRoleHeading",infoValue);
+        //fudge for now...  necessary until data is in db
+        String roleName = "SAKAI Access";
+        String personId = "Alexander, Alex A." + " (ID: 111002002)";
+        String title = "SAKAI User";
+    	model.addAttribute("rolename",roleName);
+        model.addAttribute("personid",personId);
+        model.addAttribute("title",title);
 
         this.role.getActive().setStart(new Date());
         this.role.getActive().setEnd(new Date());
@@ -73,22 +81,27 @@ public class PersonRegistryController {
     }
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(ModelMap model, @ModelAttribute("role") Role role, BindingResult result, SessionStatus status) {
+	public String processSubmit(ModelMap model, @ModelAttribute("role") Role role, @ModelAttribute("addRoleHeading") String heading, BindingResult result, SessionStatus status) {
         logger.info("processSubmit in add role");
-        logger.info("processSubmit: add role: percentage: " + role.getPercentage());
+        System.out.println("processSubmit: add role: percentage: " + role.getPercentage());
         
-
         AnnotationValidator validator    = null;
         List messages = null;
 
         validator = new AnnotationValidatorImpl();
         
-        //messages = validator.validateObject(person,"group01");
-        //System.out.println("Person errors=" + messages.size()); // Should print 0
-        //System.out.println("Messages=" + messages);
+        messages = validator.validateObject(role,"group01");
+        System.out.println("Person errors=" + messages.size()); // Should print 0
+        System.out.println("Messages=" + messages);
 
         model.addAttribute("infoModel", "Role has been added.");
+        model.addAttribute("addRoleHeading",heading);
 		return "addRole";
 	}
+    
+    @InitBinder
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+        binder.registerCustomEditor(Date.class, null, new CustomDateEditor(DateFormat.getDateInstance(), true));
+   }
 
 }
