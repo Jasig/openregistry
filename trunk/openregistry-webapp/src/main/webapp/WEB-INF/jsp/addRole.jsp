@@ -73,10 +73,10 @@
 						<label for="c1_pt" class="pt">PT%</label>
                         <div class="select pt">
 							<form:select path="percentage" id="c1_pt" size="1" tabindex="9">
-							<form:option value="quarter" label="25"/>
-                            <form:option value="fifty" label="50"/>
-                            <form:option value="threequarter" label="75"/>
                             <form:option value="full" label="100"/>
+							<form:option value="quarter" label="75"/>
+                            <form:option value="fifty" label="50"/>
+                            <form:option value="threequarter" label="25"/>
 							</form:select>
 						</div>
 					</div>	
