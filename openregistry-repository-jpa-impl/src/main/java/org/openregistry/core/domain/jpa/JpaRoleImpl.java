@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.javalid.annotations.core.JvGroup;
+import org.javalid.annotations.core.ValidateDefinition;
+import org.javalid.annotations.validation.MinLength;
+import org.javalid.annotations.validation.NotEmpty;
+import org.javalid.annotations.validation.NotNull;
+
 /**
  * Role entity mapped to a persistence store with JPA annotations.
  *
@@ -17,6 +23,7 @@ import java.util.Date;
  */
 @javax.persistence.Entity(name="role")
 @Table(name="prc_role_records")
+@ValidateDefinition
 public class JpaRoleImpl extends Entity implements Role {
 
     @Id
@@ -141,6 +148,8 @@ public class JpaRoleImpl extends Entity implements Role {
         this.sponsor = (JpaPersonImpl) sponsor;
     }
 
+    @JvGroup
+    @NotEmpty
     public Person getSponsor() {
         return this.sponsor;
     }
@@ -192,10 +201,14 @@ public class JpaRoleImpl extends Entity implements Role {
         this.terminationReason = (JpaTypeImpl) reason;
     }
 
+    @JvGroup
+    @NotEmpty
     public Date getStart() {
         return this.start;
     }
 
+    @JvGroup
+    @NotEmpty
     public Date getEnd() {
         return this.end;
     }
