@@ -39,12 +39,12 @@
 
 					<div class="row">
 						<label for="c1_startdate" class="startdate">Start Date <em>*</em></label>
-                       	<form:input path="active.start" id="c1_startdate" size="10" maxlength="10" tabindex="1" />
+                       	<form:input path="start" id="c1_startdate" size="10" maxlength="10" tabindex="1" />
 
 						<label for="c1_enddate" class="enddate">End Date <em>*</em></label>
-						<form:input path="active.end" id="c1_enddate" size="10" maxlength="10" tabindex="2" />
+						<form:input path="end" id="c1_enddate" size="10" maxlength="10" tabindex="2" />
 
-						<label for="c1_sponsor" class="sponsor">Sponsor <em>*</em></label>
+						<label for="c1_sponsor" class="sponsor">Sponsor ID<em>*</em></label>
 						<form:input path="sponsor" id="c1_sponsor" size="20" maxlength="30" tabindex="4" />
 
                     </div>
@@ -53,15 +53,15 @@
 						
 						<label for="c1_department" class="department">Department <em>*</em></label>
 						<div class="select department">
-							<form:select path="department" id="c1_department" size="1" tabindex="6">
-							<form:option value="AdminComputingSvcs" label="Admin Computing Services"/>
+							<form:select path="department.name" id="c1_department" size="1" tabindex="6">
+							<form:option value="0" label="Admin Computing Services"/>
 							</form:select>
 						</div>
 						
 						<label for="c1_campus" class="campus">Campus</label>
 						<div class="select campus">
-							<form:select path="campus" id="c1_campus" size="1" tabindex="7">
-							<form:option value="Busch" label="Busch"/>
+							<form:select path="campus.name" id="c1_campus" size="1" tabindex="7">
+							<form:option value="0" label="Busch"/>
 							</form:select>
 						</div>
                     </div>
@@ -73,10 +73,10 @@
 						<label for="c1_pt" class="pt">PT%</label>
                         <div class="select pt">
 							<form:select path="percentage" id="c1_pt" size="1" tabindex="9">
-                            <form:option value="full" label="100"/>
-							<form:option value="quarter" label="75"/>
-                            <form:option value="fifty" label="50"/>
-                            <form:option value="threequarter" label="25"/>
+                            <form:option value="100" label="100"/>
+							<form:option value="75" label="75"/>
+                            <form:option value="50" label="50"/>
+                            <form:option value="25" label="25"/>
 							</form:select>
 						</div>
 					</div>	
@@ -105,7 +105,7 @@
 						<form:input path="addresses[0].city" id="c1_city" size="30" maxlength="30" tabindex="17" />
 
 						<label for="c1_state" class="state">State / Region</label>
-						<form:input path="addresses[0].region" id="c1_state" size="10" maxlength="10" tabindex="18" />
+						<form:input path="addresses[0].region.name" id="c1_state" size="10" maxlength="10" tabindex="18" />
 
 						<label for="c1_zip" class="zip">Postal / Zip Code</label>
 						<form:input path="addresses[0].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="19" />
@@ -114,8 +114,8 @@
 					<div class="row">
 						<label for="c1_country">Country</label>
 						<div class="select country">
-							<form:select path="addresses[0].country" id="c1_country" size="1" tabindex="20">
-							<form:option value="US" label="United States"/>
+							<form:select path="addresses[0].country.name" id="c1_country" size="1" tabindex="20">
+							<form:option value="0" label="United States"/>
 							</form:select>
 						</div>
 					</div>
