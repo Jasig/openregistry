@@ -77,8 +77,9 @@ public class JpaRoleImpl extends Entity implements Role {
 
     }
 
-    public JpaRoleImpl(JpaRoleInfoImpl roleInfo) {
+    public JpaRoleImpl(JpaRoleInfoImpl roleInfo, JpaPersonImpl person) {
         this.roleInfo = roleInfo;
+        this.person = person;
     }
 
     protected Long getId() {
