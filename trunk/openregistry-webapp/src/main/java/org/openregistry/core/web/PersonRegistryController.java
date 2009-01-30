@@ -24,6 +24,9 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.List;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import org.openregistry.core.web.propertyeditors.PhoneEditor;
 
 /**
  * @author Nancy Mond
@@ -85,12 +88,15 @@ public class PersonRegistryController {
 
         model.addAttribute("infoModel", "Role has been added.");
         model.addAttribute("addRoleHeading",heading);
+        
 		return "addRole";
 	}
     
     @InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-        binder.registerCustomEditor(Date.class, null, new CustomDateEditor(DateFormat.getDateInstance(), true));
-   }
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        binder.registerCustomEditor(Date.class, null, new CustomDateEditor(df, true));
+        binder.registerCustomEditor(String.class,"phone.number", new PhoneEditor());
+    }
 
 }
