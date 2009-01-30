@@ -20,6 +20,7 @@ public class JpaAddressImpl extends Entity implements Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prd_address_seq")
+    @SequenceGenerator(name="prd_address_seq",sequenceName="prd_address_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @ManyToOne

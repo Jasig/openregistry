@@ -25,6 +25,7 @@ public class JpaPhoneImpl extends Entity implements Phone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_phone_seq")
+    @SequenceGenerator(name="prs_phone_seq",sequenceName="prs_phone_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="country_code",nullable=false,length=5)

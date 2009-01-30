@@ -17,6 +17,7 @@ public class JpaTypeImpl extends Entity implements Type {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_type_seq")
+    @SequenceGenerator(name="prs_type_seq",sequenceName="prs_type_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="data_type", nullable = false, length =100)
@@ -24,9 +25,6 @@ public class JpaTypeImpl extends Entity implements Type {
 
     @Column(name="description",nullable = false, length=100)
     private String description;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="terminationReason")
-    private List<JpaActiveImpl> actives;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="type")
     private List<JpaAddressImpl> addresses;

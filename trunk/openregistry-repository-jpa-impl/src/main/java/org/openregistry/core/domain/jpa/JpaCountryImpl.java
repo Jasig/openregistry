@@ -21,6 +21,7 @@ public class JpaCountryImpl extends Entity implements Country {
     @Id
     @Column(name="country_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctd_country_seq")
+    @SequenceGenerator(name="ctd_country_seq",sequenceName="ctd_country_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="code",nullable=false,length = 3)

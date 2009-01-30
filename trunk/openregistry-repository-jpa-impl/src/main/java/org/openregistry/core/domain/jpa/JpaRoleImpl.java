@@ -21,6 +21,7 @@ public class JpaRoleImpl extends Entity implements Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_sor_role_record_seq")
+    @SequenceGenerator(name="prs_sor_role_record_seq",sequenceName="prs_sor_role_record_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
@@ -42,7 +43,7 @@ public class JpaRoleImpl extends Entity implements Role {
     @Column(name="percent_time",nullable=false)
     private int percentage;
 
-    @Column(name="code", table="prs_roles",nullable = true, updatable = false, insertable = false)
+    @Column(name="code", nullable = true, updatable = false, insertable = false)
     private String localCode;
 
     @ManyToOne(optional = false)

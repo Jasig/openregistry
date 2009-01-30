@@ -71,8 +71,8 @@ public class PersonRegistryController {
         model.addAttribute("personid",personId);
         model.addAttribute("title",title);
 
-        this.role.getActive().setStart(new Date());
-        this.role.getActive().setEnd(new Date());
+        this.role.setStart(new Date());
+        this.role.setEnd(new Date());
         this.role.addAddress();
         this.role.addPhone();
         this.role.addEmailAddress();

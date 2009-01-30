@@ -8,14 +8,21 @@ import static org.junit.Assert.*;
  */
 public class EntityTests {
 
+    private Long id = 1L;
+
     @Test
     public void equalsOK() {
 
-        // TODO re-enable
-//        Entity e1 = new Entity() {};
-//        Entity e2 = new Entity() {};
-//        e1.setId(1L);
-//        e2.setId(1L);
-//        assertTrue(e1.equals(e2));
+        Entity e1 = new Entity() {
+            protected Long getId() {
+                return id;
+            }
+        };
+        Entity e2 = new Entity() {
+            protected Long getId() {
+                return id;
+            }
+        };
+        assertTrue(e1.equals(e2));
     }
 }

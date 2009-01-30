@@ -19,13 +19,15 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @Id
     @Column(name="identifier_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_identifier_seq")
+    @SequenceGenerator(name="prs_identifier_seq",sequenceName="prs_identifier_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name="person_id", nullable=false)
     private JpaPersonImpl person;
 
-    // TODO map this
+    @ManyToOne(optional = false)
+    @JoinColumn(name="identifier_t")
     private JpaIdentifierTypeImpl type;
 
     @Column(name="identifier", length=100,nullable=false)
