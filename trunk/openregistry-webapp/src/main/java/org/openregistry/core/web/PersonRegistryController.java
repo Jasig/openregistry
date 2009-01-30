@@ -1,39 +1,28 @@
 package org.openregistry.core.web;
 
-import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.jpa.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import org.javalid.core.AnnotationValidator;
 import org.javalid.core.AnnotationValidatorImpl;
-import org.javalid.core.ValidationMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 
 /**
@@ -46,7 +35,7 @@ import java.text.DateFormat;
 
 public class PersonRegistryController {
 
-	protected final Log logger = LogFactory.getLog(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
     private Role role;
 
    @Autowired
