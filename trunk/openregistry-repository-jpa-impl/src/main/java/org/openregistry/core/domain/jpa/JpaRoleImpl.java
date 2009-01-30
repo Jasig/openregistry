@@ -36,8 +36,8 @@ public class JpaRoleImpl extends Entity implements Role {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
     private List<JpaAddressImpl> addresses = new ArrayList<JpaAddressImpl>();
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name="sponsor_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name="sponsor_id", unique = true)
     private JpaPersonImpl sponsor;
 
     @Column(name="percent_time",nullable=false)
@@ -57,7 +57,7 @@ public class JpaRoleImpl extends Entity implements Role {
     @JoinColumn(name = "role_info_id")
     private JpaRoleInfoImpl roleInfo;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name="person_id", nullable=false)
     private JpaPersonImpl person;
 
