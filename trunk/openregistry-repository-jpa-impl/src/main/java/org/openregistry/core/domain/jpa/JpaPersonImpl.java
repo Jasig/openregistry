@@ -74,7 +74,7 @@ public class JpaPersonImpl extends Entity implements Person {
         if (!(roleInfo instanceof JpaRoleInfoImpl)) {
             throw new IllegalArgumentException("roleInfo of type JpaRoleInfoImpl required.");
         }
-        final JpaRoleImpl jpaRole = new JpaRoleImpl((JpaRoleInfoImpl) roleInfo);
+        final JpaRoleImpl jpaRole = new JpaRoleImpl((JpaRoleInfoImpl) roleInfo, this);
         this.roles.add(jpaRole);
 
         return jpaRole;
