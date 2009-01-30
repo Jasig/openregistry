@@ -82,7 +82,7 @@ public class PersonRegistryController {
 
         validator = new AnnotationValidatorImpl();
         
-        messages = validator.validateObject(role,"group01");
+        messages = validator.validateObject(role);
         System.out.println("Person errors=" + messages.size()); // Should print 0
         System.out.println("Messages=" + messages);
 
