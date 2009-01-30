@@ -18,6 +18,7 @@ public class JpaNameImpl extends Entity implements Name {
     @Id
     @Column(name="name_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_name_seq")
+    @SequenceGenerator(name="prs_name_seq",sequenceName="prs_name_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="prefix", nullable=true, length=5)

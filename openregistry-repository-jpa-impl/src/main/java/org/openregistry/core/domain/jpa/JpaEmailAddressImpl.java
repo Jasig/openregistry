@@ -18,6 +18,7 @@ public class JpaEmailAddressImpl extends Entity implements EmailAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_email_seq")
+    @SequenceGenerator(name="prs_email_seq",sequenceName="prs_email_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @ManyToOne(optional = false)

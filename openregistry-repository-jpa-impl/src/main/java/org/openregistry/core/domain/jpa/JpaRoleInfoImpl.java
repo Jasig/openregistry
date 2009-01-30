@@ -18,6 +18,8 @@ import java.util.List;
 public class JpaRoleInfoImpl extends Entity implements RoleInfo {
 
     @Id
+    @GeneratedValue(generator="prd_roleinfo_seq",strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="prd_roleinfo_seq",sequenceName="prd_roleinfo_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="title",nullable = false, length = 100)

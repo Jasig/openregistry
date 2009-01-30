@@ -15,8 +15,10 @@ import java.util.List;
 @Table(name="prs_campuses")
 public class JpaCampusImpl extends Entity implements Campus {
 
-    @Id
+    @Id()
     @Column(name="campus_id")
+    @GeneratedValue(generator="prd_campus_seq",strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="prd_campus_seq",sequenceName="prd_campus_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="code", length=2, nullable = false)

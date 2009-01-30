@@ -21,6 +21,8 @@ public class JpaDepartmentImpl extends Entity implements Department {
 
     @Id
     @Column(name="department_id")
+    @GeneratedValue(generator="prd_department_seq",strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="prd_department_seq",sequenceName="prd_department_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @ManyToOne(optional=false)

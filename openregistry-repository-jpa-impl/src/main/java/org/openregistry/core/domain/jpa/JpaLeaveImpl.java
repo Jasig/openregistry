@@ -19,6 +19,7 @@ public class JpaLeaveImpl extends Entity implements Leave {
     @Id
     @Column(name="loa_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_loa_seq")
+    @SequenceGenerator(name="prs_loa_seq",sequenceName="prs_loa_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="start_date")

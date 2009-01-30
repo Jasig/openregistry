@@ -18,6 +18,7 @@ public class JpaUrlImpl extends Entity implements Url {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_urls_seq")
+    @SequenceGenerator(name="prs_urls_seq",sequenceName="prs_urls_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @ManyToOne(optional = false)
