@@ -46,7 +46,7 @@ public class JpaDepartmentImpl extends Entity implements Department {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
     private List<JpaRoleInfoImpl> roleInfos = new ArrayList<JpaRoleInfoImpl>();
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 

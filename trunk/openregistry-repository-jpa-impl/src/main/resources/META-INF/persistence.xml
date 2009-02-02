@@ -3,5 +3,21 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
         version="1.0">
         <persistence-unit name="OpenRegistryPersistence" transaction-type="RESOURCE_LOCAL">
+            <class>org.openregistry.core.domain.jpa.JpaAddressImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaCampusImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaCountryImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaDepartmentImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaEmailAddressImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaIdentifierImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaIdentifierTypeImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaLeaveImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaNameImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaPersonImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaPhoneImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaRegionImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaRoleImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaRoleInfoImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaTypeImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaUrlImpl</class>
         </persistence-unit>
 </persistence>

@@ -7,6 +7,8 @@ package org.openregistry.core.domain;
  */
 public interface Campus {
 
+    Long getId();
+
     String getCode();
 
     String getName();

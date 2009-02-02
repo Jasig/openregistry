@@ -33,7 +33,7 @@ public class JpaCampusImpl extends Entity implements Campus {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "campus")
     private List<JpaDepartmentImpl> departments;
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 

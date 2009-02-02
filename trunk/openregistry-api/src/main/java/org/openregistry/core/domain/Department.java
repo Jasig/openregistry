@@ -7,6 +7,8 @@ package org.openregistry.core.domain;
  */
 public interface Department {
 
+    Long getId();
+
     Type getDepartmentType();
 
     String getLocalCode();

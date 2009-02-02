@@ -3,6 +3,7 @@ package org.openregistry.core.repository.jpa;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.jpa.JpaPersonImpl;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -25,7 +26,7 @@ public class JpaPersonRepository implements PersonRepository {
      * @see org.openregistry.core.repository.PersonRepository#findByInternalId(Long)
      */
     public Person findByInternalId(Long id) throws RepositoryAccessException {
-        return this.entityManager.find(Person.class, id);
+        return this.entityManager.find(JpaPersonImpl.class, id);
     }
 
     /**
