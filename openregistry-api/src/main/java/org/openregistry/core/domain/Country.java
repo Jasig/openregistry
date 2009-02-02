@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface Country {
 
+    Long getId();
+
     String getCode();
 
     String getName();

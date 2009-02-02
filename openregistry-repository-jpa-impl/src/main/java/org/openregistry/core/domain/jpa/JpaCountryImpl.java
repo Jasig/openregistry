@@ -36,7 +36,7 @@ public class JpaCountryImpl extends Entity implements Country {
     @OneToMany(fetch=FetchType.LAZY, mappedBy="country")
     private List<JpaAddressImpl> addresses;
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 
