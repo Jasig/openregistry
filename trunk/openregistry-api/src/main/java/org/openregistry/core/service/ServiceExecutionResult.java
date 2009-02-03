@@ -12,5 +12,7 @@ import java.util.List;
 public interface ServiceExecutionResult {
 
     List getErrorList();
+
+    void setErrorList(List list);
         
 }
