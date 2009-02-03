@@ -44,35 +44,46 @@
 						<label for="c1_enddate" class="enddate">End Date <em>*</em></label>
 						<form:input path="end" id="c1_enddate" size="10" maxlength="10" tabindex="2" />
 
-						<label for="c1_sponsor" class="sponsor">Sponsor ID<em>*</em></label>
-						<form:input path="sponsor" id="c1_sponsor" size="20" maxlength="30" tabindex="4" />
-
+						<label for="c1_sponsor" class="sponsor">Sponsor <em>*</em></label>
+						<form:input path="sponsor" id="c1_sponsor" size="20" maxlength="30" tabindex="3" />
+                        <div class="select sponsor">
+							<form:select path="sponsor.officialName.family" id="c1_sponsor" size="1" tabindex="4">
+							    <c:forEach items="${sponsorLookup}"  var="referenceLookup">
+                                    <option value="${referenceLookup.name}" ${sponsor.officialName.family == referenceLookup.name ? 'selected="selected"' : ''}>${referenceLookup.name} </option>
+                                </c:forEach>
+						</form:select>
                     </div>
                                        
                     <div class="row">
 						
 						<label for="c1_department" class="department">Department <em>*</em></label>
 						<div class="select department">
-							<form:select path="department.name" id="c1_department" size="1" tabindex="6">
-							<form:option value="0" label="Admin Computing Services"/>
+							<!-- <form:select path="department.name" id="c1_department" size="1" tabindex="5">
+                             <form:option value="0" label="Admin Computing Services"/>
 							</form:select>
+							-->
+                            <select  id="c1_department" size="1" tabindex="5">
+                             <option value="0" label="Admin Computing Services"/>
+							</select>
 						</div>
 						
 						<label for="c1_campus" class="campus">Campus</label>
 						<div class="select campus">
-							<form:select path="campus.name" id="c1_campus" size="1" tabindex="7">
-							<form:option value="0" label="Busch"/>
+							<form:select path="campus.code" id="c1_campus" size="1" tabindex="6">
+							    <c:forEach items="${campusLookup}"  var="referenceLookup">
+                                    <option value="${referenceLookup.code}" ${campus.code == referenceLookup.code ? 'selected="selected"' : ''}>${referenceLookup.name} </option>
+                                </c:forEach>
 							</form:select>
 						</div>
                     </div>
                     
                     <div class="row">
                         <label for="c1_email">Email <em>*</em></label>
-                        <form:input path="emailAddresses[0].address" id="c1_email" size="20" maxlength="30" tabindex="8" />
+                        <form:input path="emailAddresses[0].address" id="c1_email" size="20" maxlength="30" tabindex="7" />
 
 						<label for="c1_pt" class="pt">PT%</label>
                         <div class="select pt">
-							<form:select path="percentage" id="c1_pt" size="1" tabindex="9">
+							<form:select path="percentage" id="c1_pt" size="1" tabindex="8">
                             <form:option value="100" label="100"/>
 							<form:option value="75" label="75"/>
                             <form:option value="50" label="50"/>
@@ -89,33 +100,36 @@
 					
 					<div class="row">
 						<label for="c1_address1" class="address1">Address Line 1</label>
-						<form:input path="addresses[0].line1" id="c1_address1" size="30" maxlength="30" tabindex="15" />
+						<form:input path="addresses[0].line1" id="c1_address1" size="30" maxlength="30" tabindex="9" />
 					</div>
                     <div class="row">
 						<label for="c1_address1" class="address1">Address Line 2</label>
-						<form:input path="addresses[0].line2" id="c1_address1" size="30" maxlength="30" tabindex="16" />
+						<form:input path="addresses[0].line2" id="c1_address1" size="30" maxlength="30" tabindex="10" />
 					</div>
                     <div class="row">
 						<label for="c1_address1" class="address1">Address Line 2</label>
-						<form:input path="addresses[0].line3" id="c1_address1" size="30" maxlength="30" tabindex="16" />
+						<form:input path="addresses[0].line3" id="c1_address1" size="30" maxlength="30" tabindex="11" />
 					</div>
 					
 					<div class="row">
 						<label for="c1_city">City</label>
-						<form:input path="addresses[0].city" id="c1_city" size="30" maxlength="30" tabindex="17" />
+						<form:input path="addresses[0].city" id="c1_city" size="30" maxlength="30" tabindex="12" />
 
 						<label for="c1_state" class="state">State / Region</label>
-						<form:input path="addresses[0].region.name" id="c1_state" size="10" maxlength="10" tabindex="18" />
+						<form:input path="addresses[0].region.name" id="c1_state" size="10" maxlength="10" tabindex="13" />
 
 						<label for="c1_zip" class="zip">Postal / Zip Code</label>
-						<form:input path="addresses[0].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="19" />
+						<form:input path="addresses[0].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="14" />
 					</div>
 
 					<div class="row">
 						<label for="c1_country">Country</label>
 						<div class="select country">
-							<form:select path="addresses[0].country.name" id="c1_country" size="1" tabindex="20">
+							<form:select path="addresses[0].country.code" id="c1_country" size="1" tabindex="15">
 							<form:option value="0" label="United States"/>
+                                <c:forEach items="${countryLookup}"  var="referenceLookup">
+                                    <option value="${referenceLookup.code}" ${addresses[0].country.code == referenceLookup.code ? 'selected="selected"' : ''}>${referenceLookup.name} </option>
+                                </c:forEach>
 							</form:select>
 						</div>
 					</div>
@@ -123,10 +137,10 @@
 					<div class="row">
 
 						<label for="c1_phone" class="phone">Phone</label>
-						<form:input path="phones[0].number" id="c1_phone" size="25" maxlength="25" tabindex="21" />
+						<form:input path="phones[0].number" id="c1_phone" size="25" maxlength="25" tabindex="16" />
 
 						<label for="c1_ext" class="ext">Ext</label>
-						<form:input path="phones[0].extension" id="c1_ext" size="10" maxlength="10" tabindex="22" />
+						<form:input path="phones[0].extension" id="c1_ext" size="10" maxlength="10" tabindex="17" />
 
 					</div>
 				</fieldset>
@@ -134,7 +148,7 @@
 			</fieldset>
 
 			<div class="row fm-v" style="clear:both;">
-				<input style="float:left;" type="submit" id="fm-search-submit1" name="fm-search-submit" class="btn-submit" value="Add Role" tabindex="23"/> 
+				<input style="float:left;" type="submit" id="fm-search-submit1" name="fm-search-submit" class="btn-submit" value="Add Role" tabindex="18"/> 
 			</div>
 
 		</form:form>
