@@ -34,4 +34,8 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
+
+    <bean id="role" class="org.openregistry.core.domain.jpa.JpaRoleImpl"/>
+    <bean id="person" class="org.openregistry.core.domain.jpa.JpaPersonImpl"/>
+
 </beans>
