@@ -31,9 +31,10 @@
                 <fieldset class="fm-h" id="ecn1">
 
 
-                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">Add Role:</span><em2><c:out value="${rolename}"/></em2></label>
+                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">Add Role:</span><em2><c:out value="${affiliationType.description}"/></em2></label>
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">Title: </span><em2><c:out value="${title}"/></em2></label>
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">To: </span><em2><c:out value="${personid}"/></em2></label>
+                    <br/>
                     <br/>
 					<label class="desc" for="c1_startdate">Please Specify Role Information:</label>
 
@@ -45,11 +46,10 @@
 						<form:input path="end" id="c1_enddate" size="10" maxlength="10" tabindex="2" />
 
 						<label for="c1_sponsor" class="sponsor">Sponsor <em>*</em></label>
-						<form:input path="sponsor" id="c1_sponsor" size="20" maxlength="30" tabindex="3" />
                         <div class="select sponsor">
-							<form:select path="sponsor.officialName.family" id="c1_sponsor" size="1" tabindex="4">
+							<form:select path="sponsor.id" id="c1_sponsor" size="1" tabindex="4">
 							    <c:forEach items="${sponsorLookup}"  var="referenceLookup">
-                                    <option value="${referenceLookup.name}" ${sponsor.officialName.family == referenceLookup.name ? 'selected="selected"' : ''}>${referenceLookup.name} </option>
+                                    <option value="${referenceLookup.id}" ${sponsor.id == referenceLookup.id ? 'selected="selected"' : ''}>${referenceLookup.name} </option>
                                 </c:forEach>
 						</form:select>
                     </div>
@@ -58,13 +58,11 @@
 						
 						<label for="c1_department" class="department">Department <em>*</em></label>
 						<div class="select department">
-							<!-- <form:select path="department.name" id="c1_department" size="1" tabindex="5">
-                             <form:option value="0" label="Admin Computing Services"/>
+                            <form:select path="department.code" id="c1_department" size="1" tabindex="5">
+							    <c:forEach items="${departmentLookup}"  var="referenceLookup">
+                                    <option value="${referenceLookup.code}" ${department.code == referenceLookup.code ? 'selected="selected"' : ''}>${referenceLookup.name} </option>
+                                </c:forEach>
 							</form:select>
-							-->
-                            <select  id="c1_department" size="1" tabindex="5">
-                             <option value="0" label="Admin Computing Services"/>
-							</select>
 						</div>
 						
 						<label for="c1_campus" class="campus">Campus</label>
