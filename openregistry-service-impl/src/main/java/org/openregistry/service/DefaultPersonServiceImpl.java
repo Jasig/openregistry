@@ -7,6 +7,10 @@ import org.openregistry.core.domain.Role;
 import org.openregistry.core.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.javalid.core.AnnotationValidator;
+import org.javalid.core.AnnotationValidatorImpl;
+
+import java.util.List;
 
 /**
  * Default implementation of the {@link PersonService}.
@@ -26,6 +30,12 @@ public class DefaultPersonServiceImpl implements PersonService {
     }
 
     public ServiceExecutionResult validateAndSaveRoleForPerson(final Person person, final Role role) {
-        return null;  // TODO implement
+        AnnotationValidator validator = new AnnotationValidatorImpl();
+        List messages = validator.validateObject(role);
+        DefaultServiceExecutionResultImpl res = new DefaultServiceExecutionResultImpl();
+        res.setErrorList(messages);
+
+
+        return res;  // TODO implement
     }
 }
