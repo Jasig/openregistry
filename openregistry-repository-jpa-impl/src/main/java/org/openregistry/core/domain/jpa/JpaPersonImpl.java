@@ -33,11 +33,11 @@ public class JpaPersonImpl extends Entity implements Person {
     private List<JpaIdentifierImpl> identifiers = new ArrayList<JpaIdentifierImpl>();
 
     @OneToOne(optional=false)
-    @JoinColumn(name="preferred_name_id", unique=true)
+    @JoinColumn(name="preferred_name_id")
     private JpaNameImpl preferredName;
 
     @OneToOne(optional=false)
-    @JoinColumn(name="official_name_id",unique = true)
+    @JoinColumn(name="official_name_id")
     private JpaNameImpl officialName;
 
     @Column(name="date_of_birth",nullable=false)
