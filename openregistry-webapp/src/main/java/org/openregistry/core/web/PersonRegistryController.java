@@ -2,6 +2,7 @@ package org.openregistry.core.web;
 
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.RoleInfo;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Collection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -48,8 +50,6 @@ import com.sun.xml.internal.bind.v2.TODO;
 public class PersonRegistryController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
-    private Role role;
-    private Person person;
 
     @Autowired
     private PersonService personService;
@@ -57,36 +57,21 @@ public class PersonRegistryController {
     @Autowired(required=true)
     private ReferenceRepository referenceRepository;
 
-   @Autowired
-    public PersonRegistryController(Role role, Person person) {
-        this.role = role;
-        this.person = person;
-    }
-
-    @ModelAttribute
-    public Role setupModelAttribute() {
-        return this.role;
-    }
-
-    
 	@RequestMapping(method = RequestMethod.GET)
-    public String setUpForm(ModelMap model) {
-    	System.out.println("Populating: setUpForm: ");
+    public String setUpForm(ModelMap model, @ModelAttribute("personKey") Long personKey, @ModelAttribute("roleInfoKey") Long roleInfoKey) {
+    	logger.info("Populating: setUpForm: ");
 
-        //fudge for now...  necessary until data is in db
-        String roleName = "SAKAI Access";
-        String personId = "Alexander, Alex A." + " (ID: 111002002)";
-        String title = "SAKAI User";
-    	model.addAttribute("rolename",roleName);
+        //fudge personKey
+        personKey = new Long(1);
+        Person person = personService.findPersonById(personKey);
+
+        //fudge roleInfoKey
+        roleInfoKey = new Long(1);
+        RoleInfo roleInfo = referenceRepository.getRoleInfo(roleInfoKey);
+        Role role = person.addRole(roleInfo);
+
+        String personId = getPersonFullName(person) + " (ID: " + person.getId() + ")";
         model.addAttribute("personid",personId);
-        model.addAttribute("title",title);
-        model.addAttribute("personKey", 123);
-
-        this.role.setStart(new Date());
-        this.role.setEnd(new Date());
-        this.role.addAddress();
-        this.role.addPhone();
-        this.role.addEmailAddress();
 
         //add reference data
         readReferenceData(model);
@@ -98,23 +83,15 @@ public class PersonRegistryController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(ModelMap model, @ModelAttribute("role") Role role, @ModelAttribute("personKey") Long personKey, BindingResult result, SessionStatus status) {
         logger.info("processSubmit in add role");
-        System.out.println("processSubmit: add role: percentage: " + role.getPercentage());
-        
-        AnnotationValidator validator    = null;
-        List messages = null;
 
-        validator = new AnnotationValidatorImpl();
-        
-        messages = validator.validateObject(role);
-        System.out.println("Person errors=" + messages.size()); // Should print 0
-        System.out.println("Messages=" + messages);
-
-        if (messages.size()<1){
-            Person person = personService.findPersonById(personKey);
-            ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person,role);
+        Person person = personService.findPersonById(personKey);
+        ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person,role);
+        if (res.getErrorList().size() == 0){
+            model.addAttribute("infoModel", "Role has been added.");
+        } else {
+            //show errors
         }
 
-        model.addAttribute("infoModel", "Role has been added.");
         model.addAttribute("personKey",personKey);
         
 		return "addRole";
@@ -132,6 +109,11 @@ public class PersonRegistryController {
         model.put("campusLookup", referenceRepository.getCampuses());
         model.put("departmentLookup", referenceRepository.getDepartments());
         model.put("sponsorLookup", referenceRepository.getPeople());
+    }
+
+    protected String getPersonFullName(Person person){
+        String name = person.getOfficialName().toString();
+        return name;
     }
 
 }
