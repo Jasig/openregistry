@@ -14,12 +14,16 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 @Service
-public class DefaultServiceExecutionResult implements ServiceExecutionResult {
+public class DefaultServiceExecutionResultImpl implements ServiceExecutionResult {
 
     private List errorList = new ArrayList();
 
     public List getErrorList(){
         return errorList;
+    }
+
+    public void setErrorList(List list){
+        errorList = list;    
     }
 
 }
