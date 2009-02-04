@@ -33,6 +33,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import org.openregistry.core.web.propertyeditors.PhoneEditor;
+import org.openregistry.core.web.propertyeditors.CountryEditor;
+import org.openregistry.core.web.propertyeditors.RegionEditor;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.repository.PersonRepository;
@@ -70,9 +72,12 @@ public class PersonRegistryController {
         Long roleInfoKey = new Long(2);
         RoleInfo roleInfo = referenceRepository.getRoleInfo(roleInfoKey);
         Role role = person.addRole(roleInfo);
+        role.setSponsor(personService.findPersonById(new Long(6)));
+        role.addEmailAddress();
+        role.addPhone();
+        role.addAddress();
 
-        String personId = getPersonFullName(person) + " (ID: " + person.getId() + ")";
-        model.addAttribute("personid",personId);
+        model.addAttribute("personid", getPersonDisplayName(person));
 
         //add reference data
         readReferenceData(model);
@@ -102,6 +107,8 @@ public class PersonRegistryController {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         binder.registerCustomEditor(Date.class, null, new CustomDateEditor(df, true));
         binder.registerCustomEditor(String.class,"phone.number", new PhoneEditor());
+        binder.registerCustomEditor(String.class,"country", new CountryEditor());
+        binder.registerCustomEditor(String.class,"region", new RegionEditor());
     }
 
     protected void readReferenceData(ModelMap model){
@@ -111,8 +118,8 @@ public class PersonRegistryController {
         model.put("sponsorLookup", referenceRepository.getPeople());
     }
 
-    protected String getPersonFullName(Person person){
-        String name = person.getOfficialName().toString();
+    protected String getPersonDisplayName(Person person){
+        String name = person.getOfficialName().toString()  + " (ID: " + person.getId() + ")";
         return name;
     }
 
