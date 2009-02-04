@@ -49,7 +49,7 @@
                         <div class="select sponsor">
 							<form:select path="sponsor.id" id="c1_sponsor" size="1" tabindex="4">
 							    <c:forEach items="${sponsorLookup}"  var="referenceLookup">
-                                    <option value="${referenceLookup.id}" ${sponsor.id == referenceLookup.id ? 'selected="selected"' : ''}>${referenceLookup.name} </option>
+                                    <option value="${referenceLookup.id}" ${sponsor.id == referenceLookup.id ? 'selected="selected"' : ''}>${referenceLookup.officialName.family} </option>
                                 </c:forEach>
 						</form:select>
                     </div>
@@ -58,9 +58,9 @@
 						
 						<label for="c1_department" class="department">Department <em>*</em></label>
 						<div class="select department">
-                            <form:select path="department.code" id="c1_department" size="1" tabindex="5">
+                            <form:select path="department.localCode" id="c1_department" size="1" tabindex="5">
 							    <c:forEach items="${departmentLookup}"  var="referenceLookup">
-                                    <option value="${referenceLookup.code}" ${department.code == referenceLookup.code ? 'selected="selected"' : ''}>${referenceLookup.name} </option>
+                                    <option value="${referenceLookup.localCode}" ${department.code == referenceLookup.localCode ? 'selected="selected"' : ''}>${referenceLookup.name} </option>
                                 </c:forEach>
 							</form:select>
 						</div>
@@ -113,8 +113,8 @@
 						<label for="c1_city">City</label>
 						<form:input path="addresses[0].city" id="c1_city" size="30" maxlength="30" tabindex="12" />
 
-						<label for="c1_state" class="state">State / Region</label>
-						<form:input path="addresses[0].region.name" id="c1_state" size="10" maxlength="10" tabindex="13" />
+                        <label for="c1_state" class="state">State / Region</label>
+					    <form:input path="addresses[0].region" id="c1_state" size="10" maxlength="10" tabindex="13" />
 
 						<label for="c1_zip" class="zip">Postal / Zip Code</label>
 						<form:input path="addresses[0].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="14" />
@@ -123,8 +123,7 @@
 					<div class="row">
 						<label for="c1_country">Country</label>
 						<div class="select country">
-							<form:select path="addresses[0].country.code" id="c1_country" size="1" tabindex="15">
-							<form:option value="0" label="United States"/>
+							<form:select path="addresses[0].country" id="c1_country" size="1" tabindex="15">
                                 <c:forEach items="${countryLookup}"  var="referenceLookup">
                                     <option value="${referenceLookup.code}" ${addresses[0].country.code == referenceLookup.code ? 'selected="selected"' : ''}>${referenceLookup.name} </option>
                                 </c:forEach>
