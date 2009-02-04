@@ -25,11 +25,11 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
     @Column(name="title",nullable = false, length = 100)
     private String title;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name="department_id")
     private JpaDepartmentImpl department;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name="campus_id")
     private JpaCampusImpl campus;
 
