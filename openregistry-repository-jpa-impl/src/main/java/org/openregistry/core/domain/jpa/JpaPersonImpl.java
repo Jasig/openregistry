@@ -26,7 +26,7 @@ public class JpaPersonImpl extends Entity implements Person {
     @SequenceGenerator(name="prs_person_seq",sequenceName="prs_person_seq",initialValue=1,allocationSize=50)
     private Long id;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person")    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER)    
     private Collection<JpaRoleImpl> roles = new ArrayList<JpaRoleImpl>();
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person")
@@ -47,7 +47,7 @@ public class JpaPersonImpl extends Entity implements Person {
     @Column(name="gender",length=1,nullable=false)
     private String gender;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sponsor")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sponsor")
     private List<JpaRoleImpl> sponsoredRoles;
 
     public Long getId() {
