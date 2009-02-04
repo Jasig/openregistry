@@ -58,15 +58,16 @@ public class PersonRegistryController {
     private ReferenceRepository referenceRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
-    public String setUpForm(ModelMap model, @ModelAttribute("personKey") Long personKey, @ModelAttribute("roleInfoKey") Long roleInfoKey) {
+    public String setUpForm(ModelMap model) {
     	logger.info("Populating: setUpForm: ");
 
         //fudge personKey
-        personKey = new Long(1);
+        Long personKey = new Long(5);
         Person person = personService.findPersonById(personKey);
+        model.addAttribute("person",person);
 
         //fudge roleInfoKey
-        roleInfoKey = new Long(1);
+        Long roleInfoKey = new Long(2);
         RoleInfo roleInfo = referenceRepository.getRoleInfo(roleInfoKey);
         Role role = person.addRole(roleInfo);
 
@@ -81,10 +82,9 @@ public class PersonRegistryController {
     }
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(ModelMap model, @ModelAttribute("role") Role role, @ModelAttribute("personKey") Long personKey, BindingResult result, SessionStatus status) {
+	public String processSubmit(ModelMap model, @ModelAttribute("role") Role role, @ModelAttribute("person") Person person, BindingResult result, SessionStatus status) {
         logger.info("processSubmit in add role");
 
-        Person person = personService.findPersonById(personKey);
         ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person,role);
         if (res.getErrorList().size() == 0){
             model.addAttribute("infoModel", "Role has been added.");
@@ -92,7 +92,7 @@ public class PersonRegistryController {
             //show errors
         }
 
-        model.addAttribute("personKey",personKey);
+        model.addAttribute("person",person);
         
 		return "addRole";
 	}
