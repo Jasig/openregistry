@@ -2,6 +2,7 @@ package org.openregistry.core.domain;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Entity representing canonical roles associated with resources and persons in the Open Registry system
@@ -14,7 +15,7 @@ public interface Role extends Serializable, DateRange {
 
     Type getAffiliationType();
 
-    List<? extends Address> getAddresses();
+    Set<? extends Address> getAddresses();
 
     void setSponsor(Person sponsor);
     
@@ -28,11 +29,11 @@ public interface Role extends Serializable, DateRange {
 
     void setPersonStatus(Type personStatus);
 
-    List<? extends Phone> getPhones();
+    Set<? extends Phone> getPhones();
 
-    List<? extends EmailAddress> getEmailAddresses();
+    Set<? extends EmailAddress> getEmailAddresses();
 
-    List<? extends Url> getUrls();
+    Set<? extends Url> getUrls();
 
     Address addAddress();
 
@@ -42,7 +43,7 @@ public interface Role extends Serializable, DateRange {
 
     Phone addPhone();
 
-    List<? extends Leave> getLeaves();
+    Set<? extends Leave> getLeaves();
 
     String getTitle();
 

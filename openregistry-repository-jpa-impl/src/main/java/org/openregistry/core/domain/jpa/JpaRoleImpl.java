@@ -4,15 +4,11 @@ import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.*;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.validation.MinLength;
 import org.javalid.annotations.validation.NotEmpty;
-import org.javalid.annotations.validation.NotNull;
 
 /**
  * Role entity mapped to a persistence store with JPA annotations.
@@ -32,19 +28,19 @@ public class JpaRoleImpl extends Entity implements Role {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
-    private List<JpaUrlImpl> urls = new ArrayList<JpaUrlImpl>();
+    private Set<JpaUrlImpl> urls = new HashSet<JpaUrlImpl>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
-    private List<JpaEmailAddressImpl> emailAddresses = new ArrayList<JpaEmailAddressImpl>();
+    private Set<JpaEmailAddressImpl> emailAddresses = new HashSet<JpaEmailAddressImpl>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
-    private List<JpaPhoneImpl> phones = new ArrayList<JpaPhoneImpl>();
+    private Set<JpaPhoneImpl> phones = new HashSet<JpaPhoneImpl>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
-    private List<JpaAddressImpl> addresses = new ArrayList<JpaAddressImpl>();
+    private Set<JpaAddressImpl> addresses = new HashSet<JpaAddressImpl>();
 
     @ManyToOne(optional = false)
-    @JoinColumn(name="sponsor_id", unique = true)
+    @JoinColumn(name="sponsor_id")
     private JpaPersonImpl sponsor;
 
     @Column(name="percent_time",nullable=false)
@@ -58,7 +54,7 @@ public class JpaRoleImpl extends Entity implements Role {
     private JpaTypeImpl personStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch=FetchType.EAGER)
-    private List<JpaLeaveImpl> leaves = new ArrayList<JpaLeaveImpl>();
+    private Set<JpaLeaveImpl> leaves = new HashSet<JpaLeaveImpl>();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_info_id")
@@ -93,19 +89,19 @@ public class JpaRoleImpl extends Entity implements Role {
         return this.id;
     }
 
-    public List<? extends Address> getAddresses() {
+    public Set<? extends Address> getAddresses() {
         return this.addresses;
     }
 
-    public List<? extends Phone> getPhones() {
+    public Set<? extends Phone> getPhones() {
         return this.phones;
     }
 
-    public List<? extends EmailAddress> getEmailAddresses() {
+    public Set<? extends EmailAddress> getEmailAddresses() {
         return this.emailAddresses;
     }
 
-    public List<? extends Url> getUrls() {
+    public Set<? extends Url> getUrls() {
         return this.urls;
     }
 
@@ -174,7 +170,7 @@ public class JpaRoleImpl extends Entity implements Role {
         this.personStatus = (JpaTypeImpl) personStatus;
     }
 
-    public List<? extends Leave> getLeaves() {
+    public Set<? extends Leave> getLeaves() {
         return this.leaves;
     }
 
