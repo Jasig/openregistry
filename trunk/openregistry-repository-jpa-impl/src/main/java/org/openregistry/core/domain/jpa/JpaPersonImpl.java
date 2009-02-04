@@ -47,7 +47,7 @@ public class JpaPersonImpl extends Entity implements Person {
     @Column(name="gender",length=1,nullable=false)
     private String gender;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sponsor")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sponsor")
     private List<JpaRoleImpl> sponsoredRoles;
 
     public Long getId() {
