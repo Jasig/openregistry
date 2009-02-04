@@ -31,16 +31,16 @@ public class JpaRoleImpl extends Entity implements Role {
     @SequenceGenerator(name="prs_sor_role_record_seq",sequenceName="prs_sor_role_record_seq",initialValue=1,allocationSize=50)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
     private List<JpaUrlImpl> urls = new ArrayList<JpaUrlImpl>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
     private List<JpaEmailAddressImpl> emailAddresses = new ArrayList<JpaEmailAddressImpl>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
     private List<JpaPhoneImpl> phones = new ArrayList<JpaPhoneImpl>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
     private List<JpaAddressImpl> addresses = new ArrayList<JpaAddressImpl>();
 
     @ManyToOne(optional = false)
@@ -57,7 +57,7 @@ public class JpaRoleImpl extends Entity implements Role {
     @JoinColumn(name="status_t")
     private JpaTypeImpl personStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch=FetchType.EAGER)
     private List<JpaLeaveImpl> leaves = new ArrayList<JpaLeaveImpl>();
 
     @ManyToOne(optional = false)
