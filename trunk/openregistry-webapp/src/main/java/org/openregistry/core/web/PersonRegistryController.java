@@ -60,7 +60,7 @@ public class PersonRegistryController {
     private ReferenceRepository referenceRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
-    public String setUpForm(ModelMap model) {
+    public String addRoleSetUpForm(ModelMap model) {
     	logger.info("Populating: setUpForm: ");
 
         //fudge personKey
@@ -77,17 +77,18 @@ public class PersonRegistryController {
         role.addPhone();
         role.addAddress();
 
-        model.addAttribute("personid", getPersonDisplayName(person));
-
         //add reference data
         readReferenceData(model);
 
+        model.addAttribute("personid", getPersonDisplayName(person));
+        model.addAttribute("affiliationTypeDescription", role.getAffiliationType().getDescription());
+        model.addAttribute("title", role.getTitle());
         model.addAttribute("role",role);
     	return "addRole";
     }
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(ModelMap model, @ModelAttribute("role") Role role, @ModelAttribute("person") Person person, BindingResult result, SessionStatus status) {
+	public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("role") Role role, @ModelAttribute("person") Person person, BindingResult result, SessionStatus status) {
         logger.info("processSubmit in add role");
 
         ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person,role);
