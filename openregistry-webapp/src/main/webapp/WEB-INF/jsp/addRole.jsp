@@ -31,7 +31,7 @@
                 <fieldset class="fm-h" id="ecn1">
 
 
-                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">Add Role:</span><em2><c:out value="${affiliationType.description}"/></em2></label>
+                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">Add Role:</span><em2><c:out value="${affiliationTypeDescription}"/></em2></label>
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">Title: </span><em2><c:out value="${title}"/></em2></label>
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">To: </span><em2><c:out value="${personid}"/></em2></label>
                     <br/>
@@ -49,7 +49,7 @@
                         <div class="select sponsor">
 							<form:select path="sponsor.id" id="c1_sponsor" size="1" tabindex="4">
 							    <c:forEach items="${sponsorLookup}"  var="referenceLookup">
-                                    <option value="${referenceLookup.id}" ${sponsor.id == referenceLookup.id ? 'selected="selected"' : ''}>${referenceLookup.officialName.family} </option>
+                                    <option value="${referenceLookup.id}">${referenceLookup.officialName.family}, ${referenceLookup.officialName.given} (ID:${referenceLookup.id})</option>
                                 </c:forEach>
 						    </form:select>
                        </div>
