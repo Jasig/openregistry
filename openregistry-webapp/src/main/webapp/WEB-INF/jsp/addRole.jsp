@@ -35,7 +35,7 @@
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">Title: </span><em2><c:out value="${title}"/></em2></label>
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">To: </span><em2><c:out value="${personid}"/></em2></label>
                     <br/>
-                    <br/>
+
 					<label class="desc" for="c1_startdate">Please Specify Role Information:</label>
 
 					<div class="row">
@@ -51,7 +51,8 @@
 							    <c:forEach items="${sponsorLookup}"  var="referenceLookup">
                                     <option value="${referenceLookup.id}" ${sponsor.id == referenceLookup.id ? 'selected="selected"' : ''}>${referenceLookup.officialName.family} </option>
                                 </c:forEach>
-						</form:select>
+						    </form:select>
+                       </div>
                     </div>
                                        
                     <div class="row">
@@ -105,7 +106,7 @@
 						<form:input path="addresses[0].line2" id="c1_address1" size="30" maxlength="30" tabindex="10" />
 					</div>
                     <div class="row">
-						<label for="c1_address1" class="address1">Address Line 2</label>
+						<label for="c1_address1" class="address1">Address Line 3</label>
 						<form:input path="addresses[0].line3" id="c1_address1" size="30" maxlength="30" tabindex="11" />
 					</div>
 					
