@@ -2,8 +2,13 @@ package org.openregistry.core.web.propertyeditors;
 
 import org.openregistry.core.domain.jpa.JpaCountryImpl;
 import org.openregistry.core.domain.Country;
+import org.openregistry.core.domain.Department;
+import org.openregistry.core.domain.Region;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyEditorSupport;
 import java.util.List;
@@ -20,14 +25,41 @@ public class RegionEditor extends PropertyEditorSupport {
 
     private String format;
 
-    @Autowired(required=true)
-    private ReferenceRepository referenceRepository;
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+    ReferenceRepository referenceRepository;
+
+    public RegionEditor(ReferenceRepository referenceRepository){
+        this.referenceRepository = referenceRepository;     
+    }
 
     public void setFormat(String format) {
         this.format = format;
     }
 
+    public String getAsText(){
+        Region region = (Region) getValue();
+        String name = " ";
+        if (region != null)
+            name = region.getName();
+        return (name);
+    }
+
     public void setAsText(String text) {
-        if (text == null) setValue(" ");        
+        logger.info("******called Region setastext: text: "+ text);
+        setValue(null);
+        if (text != null && StringUtils.hasText(text)){
+            List regionList =  referenceRepository.getRegions();
+            Iterator<Region> iterator = regionList.iterator();
+
+	        while ( iterator.hasNext() ){
+	            Region region = iterator.next();
+                text = text.trim();
+                if (region.getCode().trim().equals(text) || region.getName().trim().equals(text)){
+                    setValue(region);
+                    break;
+                }
+	        }
+        }
     }
 }
