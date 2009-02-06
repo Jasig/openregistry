@@ -41,6 +41,19 @@
             <version>${javalid.version}</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>juel</groupId>
+            <artifactId>juel-impl</artifactId>
+            <version>2.1.1-rc2</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>el-api</artifactId>
+            <version>1.0</version>
+            <scope>runtime</scope>
+        </dependency>
         
     </dependencies>
 </project>
