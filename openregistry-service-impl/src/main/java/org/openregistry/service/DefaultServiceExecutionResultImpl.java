@@ -2,21 +2,20 @@ package org.openregistry.service;
 
 import org.springframework.stereotype.Service;
 import org.openregistry.core.service.ServiceExecutionResult;
+import org.javalid.core.ValidationMessage;
 
 import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Nancy Mond
- * Date: Feb 2, 2009
- * Time: 11:46:48 AM
- * To change this template use File | Settings | File Templates.
+ * @author Nancy Mond
+ * @since 1.0
+ * TODO: Document me
  */
 @Service
 public class DefaultServiceExecutionResultImpl implements ServiceExecutionResult {
 
-    private List errorList = new ArrayList();
+    private List<ValidationMessage> errorList = new ArrayList();
 
     public List getErrorList(){
         return errorList;

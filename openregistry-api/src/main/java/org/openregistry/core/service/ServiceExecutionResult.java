@@ -1,5 +1,7 @@
 package org.openregistry.core.service;
 
+import org.javalid.core.ValidationMessage;
+
 import java.util.List;
 
 /**
@@ -11,8 +13,9 @@ import java.util.List;
  */
 public interface ServiceExecutionResult {
 
-    List getErrorList();
-
-    void setErrorList(List list);
-        
+    /**
+     * TODO: DOCUMENT ME!
+     * @return
+     */
+    List<ValidationMessage> getErrorList();
 }
