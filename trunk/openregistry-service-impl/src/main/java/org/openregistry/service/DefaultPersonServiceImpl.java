@@ -7,8 +7,10 @@ import org.openregistry.core.domain.Role;
 import org.openregistry.core.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.javalid.core.AnnotationValidator;
 import org.javalid.core.AnnotationValidatorImpl;
+import org.javalid.core.ValidationMessage;
 
 import java.util.List;
 
@@ -29,13 +31,16 @@ public class DefaultPersonServiceImpl implements PersonService {
         return this.personRepository.findByInternalId(id);
     }
 
+    @Transactional
     public ServiceExecutionResult validateAndSaveRoleForPerson(final Person person, final Role role) {
         AnnotationValidator validator = new AnnotationValidatorImpl();
-        List messages = validator.validateObject(role);
+        List<ValidationMessage> messages = validator.validateObject(role);
         DefaultServiceExecutionResultImpl res = new DefaultServiceExecutionResultImpl();
         res.setErrorList(messages);
-
-
-        return res;  // TODO implement
+        if(messages.size() > 0) {
+            return res;
+        }
+        this.personRepository.savePerson(person);
+        return res;
     }
 }

@@ -8,9 +8,10 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-    <context:component-scan base-package="org.openregistry.service" />
-
-    <context:component-scan base-package="org.openregistry.core.repository" />
+    <context:component-scan base-package="org.openregistry.service"/>
+    <context:component-scan base-package="org.openregistry.core.repository"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
@@ -30,9 +31,5 @@
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
           p:entityManagerFactory-ref="entityManagerFactory"/>
-
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-
-    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
 
 </beans>
