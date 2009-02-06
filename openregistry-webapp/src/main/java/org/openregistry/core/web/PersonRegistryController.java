@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.MessageSource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.annotation.Resource;
@@ -48,6 +49,13 @@ public class PersonRegistryController {
     @Autowired
     private PersonService personService;
 
+    private MessageSource messageSource;
+    
+    @Autowired
+    public PersonRegistryController(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+    
     @Autowired(required=true)
     private ReferenceRepository referenceRepository;
 
@@ -74,8 +82,7 @@ public class PersonRegistryController {
 
         //add reference data
         readReferenceData(model);
-
-        
+       
         model.addAttribute("personDescription", getPersonDisplayName(person));
         model.addAttribute("affiliationTypeDescription", role.getAffiliationType().getDescription());
         model.addAttribute("title", role.getTitle());
@@ -100,8 +107,8 @@ public class PersonRegistryController {
         } else {
             //show errors
             for (int i=0; i < errorList.size(); i++){
-                ValidationMessage message = (ValidationMessage)errorList.get(i);
-                result.reject(message.getMessage());
+                ValidationMessage validationMsg = (ValidationMessage)errorList.get(i);
+                result.reject( validationMsg.getMessage(),validationMsg.getPath());
             }
         }
 
