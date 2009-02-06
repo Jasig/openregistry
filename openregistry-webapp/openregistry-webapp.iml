@@ -29,11 +29,15 @@
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/openregistry-service-impl-1.0.0-SNAPSHOT.jar" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:spring-beans:2.5.6" level="project">
+          <containerElement type="library" name="Maven: org.springframework:spring:2.5.6" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:spring-core:2.5.6" level="project">
+          <containerElement type="module" name="openregistry-repository-jpa-impl">
+            <attribute name="method" value="5" />
+            <attribute name="URI" value="/WEB-INF/lib/openregistry-repository-jpa-impl-1.0.0-SNAPSHOT.jar" />
+          </containerElement>
+          <containerElement type="library" name="Maven: javax.persistence:persistence-api:1.0" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
@@ -45,11 +49,11 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="openregistry-repository-jpa-impl">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/openregistry-repository-jpa-impl-1.0.0-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.springframework:spring-beans:2.5.6" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: javax.persistence:persistence-api:1.0" level="project">
+          <containerElement type="library" name="Maven: org.springframework:spring-core:2.5.6" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
@@ -177,12 +181,13 @@
     <orderEntry type="module" module-name="openregistry-api" exported="" />
     <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.1" level="project" />
     <orderEntry type="module" module-name="openregistry-service-impl" exported="" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-beans:2.5.6" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-core:2.5.6" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-context:2.5.6" level="project" />
-    <orderEntry type="library" exported="" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring:2.5.6" level="project" />
     <orderEntry type="module" module-name="openregistry-repository-jpa-impl" exported="" />
     <orderEntry type="library" exported="" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-context:2.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-beans:2.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-core:2.5.6" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-orm:2.5.6" level="project" />
     <orderEntry type="library" exported="" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-tx:2.5.6" level="project" />
