@@ -63,4 +63,10 @@ public final class JpaReferenceRepositoryImpl implements ReferenceRepository {
     public RoleInfo getRoleInfo(final Long id) {
         return this.entityManager.find(JpaRoleInfoImpl.class, id);
     }
+
+    @Transactional
+    public List<Region> getRegions() {
+        return (List<Region>) this.entityManager.createQuery("select r from region r").getResultList();
+    }
+
 }
