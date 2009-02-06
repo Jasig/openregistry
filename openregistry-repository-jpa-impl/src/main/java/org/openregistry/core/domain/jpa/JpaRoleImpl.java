@@ -9,6 +9,7 @@ import java.util.*;
 import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.validation.NotEmpty;
+import org.javalid.annotations.validation.NotNull;
 
 /**
  * Role entity mapped to a persistence store with JPA annotations.
@@ -145,7 +146,7 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     @JvGroup
-    @NotEmpty
+    @NotNull
     public Person getSponsor() {
         return this.sponsor;
     }
@@ -198,13 +199,13 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     @JvGroup
-    @NotEmpty
+    @NotNull
     public Date getStart() {
         return this.start;
     }
 
     @JvGroup
-    @NotEmpty
+    @NotNull
     public Date getEnd() {
         return this.end;
     }
