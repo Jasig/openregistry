@@ -33,8 +33,8 @@
 
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">Add Role:</span><em2><c:out value="${affiliationTypeDescription}"/></em2></label>
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">Title: </span><em2><c:out value="${title}"/></em2></label>
-                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">To: </span><em2><c:out value="${personid}"/></em2></label>
-                    <br/>
+                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;">To: </span><em2><c:out value="${personDescription}"/></em2></label>
+                    <br/><br/>
 
 					<label class="desc" for="c1_startdate">Please Specify Role Information:</label>
 
@@ -47,7 +47,7 @@
 
 						<label for="c1_sponsor" class="sponsor">Sponsor <em>*</em></label>
                         <div class="select sponsor">
-							<form:select path="sponsor.id" id="c1_sponsor" size="1" tabindex="4">
+							<form:select path="sponsor" id="c1_sponsor" size="1" tabindex="4">
 							    <c:forEach items="${sponsorLookup}"  var="referenceLookup">
                                     <option value="${referenceLookup.id}">${referenceLookup.officialName.family}, ${referenceLookup.officialName.given} (ID:${referenceLookup.id})</option>
                                 </c:forEach>
@@ -59,7 +59,7 @@
 						
 						<label for="c1_department" class="department">Department <em>*</em></label>
 						<div class="select department">
-                            <form:select path="department.localCode" id="c1_department" size="1" tabindex="5">
+                            <form:select path="department" id="c1_department" size="1" tabindex="5">
 							    <c:forEach items="${departmentLookup}"  var="referenceLookup">
                                     <option value="${referenceLookup.localCode}" ${department.code == referenceLookup.localCode ? 'selected="selected"' : ''}>${referenceLookup.name} </option>
                                 </c:forEach>
@@ -144,7 +144,6 @@
 				</fieldset>
 			</fieldset>
 			</fieldset>
-
 			<div class="row fm-v" style="clear:both;">
 				<input style="float:left;" type="submit" id="fm-search-submit1" name="fm-search-submit" class="btn-submit" value="Add Role" tabindex="18"/> 
 			</div>
