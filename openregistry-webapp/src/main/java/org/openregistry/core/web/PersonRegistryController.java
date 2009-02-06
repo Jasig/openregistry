@@ -1,15 +1,10 @@
 package org.openregistry.core.web;
 
-import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.RoleInfo;
+import org.openregistry.core.domain.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.ui.ModelMap;
@@ -23,18 +18,15 @@ import javax.annotation.Resource;
 
 import org.javalid.core.AnnotationValidator;
 import org.javalid.core.AnnotationValidatorImpl;
+import org.javalid.core.ValidationMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Collection;
+import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import org.openregistry.core.web.propertyeditors.PhoneEditor;
-import org.openregistry.core.web.propertyeditors.CountryEditor;
-import org.openregistry.core.web.propertyeditors.RegionEditor;
+import org.openregistry.core.web.propertyeditors.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.repository.PersonRepository;
@@ -48,7 +40,7 @@ import com.sun.xml.internal.bind.v2.TODO;
  */
 @Controller
 @RequestMapping("/addRole.htm")
-
+@SessionAttributes("role")
 public class PersonRegistryController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -72,34 +64,48 @@ public class PersonRegistryController {
         Long roleInfoKey = new Long(2);
         RoleInfo roleInfo = referenceRepository.getRoleInfo(roleInfoKey);
         Role role = person.addRole(roleInfo);
-        role.setSponsor(personService.findPersonById(new Long(6)));
         role.addEmailAddress();
         role.addPhone();
         role.addAddress();
+        Calendar cal = Calendar.getInstance();
+        role.setStart(cal.getTime());
+        cal.add(Calendar.MONTH, 6);
+        role.setEnd(cal.getTime());
 
         //add reference data
         readReferenceData(model);
 
-        model.addAttribute("personid", getPersonDisplayName(person));
+        
+        model.addAttribute("personDescription", getPersonDisplayName(person));
         model.addAttribute("affiliationTypeDescription", role.getAffiliationType().getDescription());
         model.addAttribute("title", role.getTitle());
         model.addAttribute("role",role);
+        model.addAttribute("personKey", personKey.toString());
     	return "addRole";
     }
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("role") Role role, @ModelAttribute("person") Person person, BindingResult result, SessionStatus status) {
+	public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("role") Role role, BindingResult result, SessionStatus status ) {
         logger.info("processSubmit in add role");
 
+        //fudge personKey
+        Long pKey = new Long(5);
+        Person person = personService.findPersonById(pKey);
+
         ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person,role);
-        if (res.getErrorList().size() == 0){
+        List errorList = res.getErrorList();
+        if (errorList.size() == 0 && !result.hasErrors()){
             model.addAttribute("infoModel", "Role has been added.");
+            //status.setComplete();
         } else {
             //show errors
+            for (int i=0; i < errorList.size(); i++){
+                ValidationMessage message = (ValidationMessage)errorList.get(i);
+                result.reject(message.getMessage());
+            }
         }
 
-        model.addAttribute("person",person);
-        
+        model.addAttribute("role",role);
 		return "addRole";
 	}
 
@@ -108,8 +114,10 @@ public class PersonRegistryController {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         binder.registerCustomEditor(Date.class, null, new CustomDateEditor(df, true));
         binder.registerCustomEditor(String.class,"phone.number", new PhoneEditor());
-        binder.registerCustomEditor(String.class,"country", new CountryEditor());
-        binder.registerCustomEditor(String.class,"region", new RegionEditor());
+        binder.registerCustomEditor(Country.class,"addresses.country", new CountryEditor(referenceRepository));
+        binder.registerCustomEditor(Region.class,"addresses.region", new RegionEditor(referenceRepository));
+        binder.registerCustomEditor(Person.class,"sponsor", new SponsorEditor(referenceRepository));
+        binder.registerCustomEditor(Department.class,"department", new DepartmentEditor(referenceRepository));
     }
 
     protected void readReferenceData(ModelMap model){
