@@ -81,15 +81,11 @@ public class PersonRegistryController {
 
 
 	@RequestMapping(method = RequestMethod.GET)
-    public String addRoleSetUpForm(ModelMap model) {
+    public String addRoleSetUpForm(ModelMap model, @RequestParam("personKey")String personKey, @RequestParam("roleInfoKey")String roleInfoKey) {
     	logger.info("Populating: setUpForm: ");
 
-        //fudge keys personKey and roleInfoKey
-        String personKey = "5";
-        Long roleInfoKey = new Long(2);
-
         Person person = personService.findPersonById(new Long(personKey));
-        RoleInfo roleInfo = referenceRepository.getRoleInfo(roleInfoKey);
+        RoleInfo roleInfo = referenceRepository.getRoleInfo(new Long(roleInfoKey));
         Role role = person.addRole(roleInfo);
         role.addEmailAddress();
         role.addPhone();
