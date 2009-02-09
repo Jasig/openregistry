@@ -41,7 +41,7 @@ import com.sun.xml.internal.bind.v2.TODO;
  */
 @Controller
 @RequestMapping("/addRole.htm")
-@SessionAttributes("role")
+@SessionAttributes({"role","personKey"})
 public class PersonRegistryController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -59,17 +59,36 @@ public class PersonRegistryController {
     @Autowired(required=true)
     private ReferenceRepository referenceRepository;
 
+    @ModelAttribute("countryLookup")
+    public List<Country> populateCountryLookup() {
+        return this.referenceRepository.getCountries();
+    }
+
+    @ModelAttribute("campusLookup")
+    public List<Campus> populateCampusLookup() {
+        return this.referenceRepository.getCampuses();
+    }
+
+    @ModelAttribute("departmentLookup")
+    public List<Department> populateDepartmentLookup() {
+        return this.referenceRepository.getDepartments();
+    }
+
+    @ModelAttribute("sponsorLookup")
+    public List<Person> populateSponsorLookup() {
+        return this.referenceRepository.getPeople();
+    }
+
+
 	@RequestMapping(method = RequestMethod.GET)
     public String addRoleSetUpForm(ModelMap model) {
     	logger.info("Populating: setUpForm: ");
 
-        //fudge personKey
-        Long personKey = new Long(5);
-        Person person = personService.findPersonById(personKey);
-        model.addAttribute("person",person);
-
-        //fudge roleInfoKey
+        //fudge keys personKey and roleInfoKey
+        String personKey = "5";
         Long roleInfoKey = new Long(2);
+
+        Person person = personService.findPersonById(new Long(personKey));
         RoleInfo roleInfo = referenceRepository.getRoleInfo(roleInfoKey);
         Role role = person.addRole(roleInfo);
         role.addEmailAddress();
@@ -80,30 +99,26 @@ public class PersonRegistryController {
         cal.add(Calendar.MONTH, 6);
         role.setEnd(cal.getTime());
 
-        //add reference data
-        readReferenceData(model);
-       
+        model.addAttribute("person",person);
         model.addAttribute("personDescription", getPersonDisplayName(person));
         model.addAttribute("affiliationTypeDescription", role.getAffiliationType().getDescription());
         model.addAttribute("title", role.getTitle());
         model.addAttribute("role",role);
-        model.addAttribute("personKey", personKey.toString());
+        model.addAttribute("personKey", personKey);
     	return "addRole";
     }
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("role") Role role, BindingResult result, SessionStatus status ) {
+	public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("personKey") String personKey, @ModelAttribute("role") Role role, BindingResult result, SessionStatus status ) {
         logger.info("processSubmit in add role");
 
-        //fudge personKey
-        Long pKey = new Long(5);
-        Person person = personService.findPersonById(pKey);
+        Person person = personService.findPersonById(new Long(personKey));
 
         ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person,role);
         List errorList = res.getErrorList();
         if (errorList.size() == 0 && !result.hasErrors()){
             model.addAttribute("infoModel", "Role has been added.");
-            //status.setComplete();
+            status.setComplete();
         } else {
             //show errors
             for (int i=0; i < errorList.size(); i++){
@@ -113,6 +128,7 @@ public class PersonRegistryController {
         }
 
         model.addAttribute("role",role);
+        model.addAttribute("personKey", personKey);
 		return "addRole";
 	}
 
@@ -125,13 +141,6 @@ public class PersonRegistryController {
         binder.registerCustomEditor(Region.class,"addresses.region", new RegionEditor(referenceRepository));
         binder.registerCustomEditor(Person.class,"sponsor", new SponsorEditor(referenceRepository));
         binder.registerCustomEditor(Department.class,"department", new DepartmentEditor(referenceRepository));
-    }
-
-    protected void readReferenceData(ModelMap model){
-        model.put("countryLookup", referenceRepository.getCountries());
-        model.put("campusLookup", referenceRepository.getCampuses());
-        model.put("departmentLookup", referenceRepository.getDepartments());
-        model.put("sponsorLookup", referenceRepository.getPeople());
     }
 
     protected String getPersonDisplayName(Person person){
