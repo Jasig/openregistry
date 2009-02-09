@@ -111,14 +111,14 @@ public class JpaAddressImpl extends Entity implements Address {
     }
 
     public void setRegion(final Region region) {
-        if (!(region instanceof JpaRegionImpl)) {
+        if (region != null && !(region instanceof JpaRegionImpl)) {
             throw new IllegalStateException("Region implementation must be of type JpaRegionImpl");
         }
         this.region = (JpaRegionImpl) region;
     }
 
     public void setCountry(final Country country) {
-        if (!(country instanceof JpaCountryImpl)) {
+        if (country != null && !(country instanceof JpaCountryImpl)) {
             throw new IllegalStateException("Country implementation must be of type JpaCountryImpl");
         }
         this.country = (JpaCountryImpl) country;
