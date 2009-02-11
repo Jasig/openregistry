@@ -45,10 +45,11 @@ import com.sun.xml.internal.bind.v2.TODO;
  */
 @Controller
 @RequestMapping("/addRole.htm")
-@SessionAttributes({"role","personKey"})
+@SessionAttributes({"role","person"})
 public class PersonRegistryController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected final String ACTIVE_STATUS = "Active";
 
     @Autowired
     private PersonService personService;
@@ -83,6 +84,12 @@ public class PersonRegistryController {
         return this.referenceRepository.getPeople();
     }
 
+    /*
+    @ModelAttribute("personStatusLookup")
+    public List<Type> populatePersonStatusLookup() {
+        return this.referenceRepository.getPersonStatus();
+    }*/
+
 	@RequestMapping(method = RequestMethod.GET)
     public String addRoleSetUpForm(ModelMap model, @RequestParam("personKey")String personKey, @RequestParam("roleInfoKey")String roleInfoKey) {
     	logger.info("Populating: setUpForm: ");
@@ -93,15 +100,14 @@ public class PersonRegistryController {
 
         model.addAttribute("personDescription", getPersonDisplayName(person));
         model.addAttribute("role",role);
-        model.addAttribute("personKey", personKey);
+        model.addAttribute("person",person);
     	return "addRole";
     }
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("personKey") String personKey, @ModelAttribute("role") Role role, BindingResult result, SessionStatus status ) {
+	public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("person") Person person, @ModelAttribute("role") Role role, BindingResult result, SessionStatus status ) {
         logger.info("processSubmit in add role");
 
-        Person person = personService.findPersonById(new Long(personKey));
         if (!result.hasErrors()){
             ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person, role);
 
@@ -116,7 +122,7 @@ public class PersonRegistryController {
 
         model.addAttribute("personDescription", getPersonDisplayName(person));
         model.addAttribute("role",role);
-        model.addAttribute("personKey", personKey);
+        model.addAttribute("person",person);
 		return "addRole";
 	}
 
@@ -152,6 +158,7 @@ public class PersonRegistryController {
         role.addEmailAddress();
         role.addPhone();
         role.addAddress();
+        setPersonStatus(role,ACTIVE_STATUS);
 
         //provide default values for start and end date of role
         Calendar cal = Calendar.getInstance();
@@ -159,6 +166,23 @@ public class PersonRegistryController {
         cal.add(Calendar.MONTH, 6);
         role.setEnd(cal.getTime());
         return role;
+    }
+
+    /**
+     * This needs to be redone to use a helper.
+     * @param role
+     * @param status
+     */
+    protected void setPersonStatus(Role role, String status) {
+        List statusList = referenceRepository.getPersonStatus();
+        Iterator<Type> iterator = statusList.iterator();
+	    while ( iterator.hasNext() ){
+	        Type type = iterator.next();
+            if (type.getDescription().equals(status)){
+                role.setPersonStatus(type);
+                break;
+            }
+	   }
     }
     
 
