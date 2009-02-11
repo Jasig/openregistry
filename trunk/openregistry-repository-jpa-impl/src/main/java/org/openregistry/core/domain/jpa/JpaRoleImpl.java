@@ -73,7 +73,6 @@ public class JpaRoleImpl extends Entity implements Role {
     @Temporal(TemporalType.DATE)
     private Date end;
 
-    @ManyToOne(optional = false)
     @JoinColumn(name="termination_t")
     private JpaTypeImpl terminationReason;
 
