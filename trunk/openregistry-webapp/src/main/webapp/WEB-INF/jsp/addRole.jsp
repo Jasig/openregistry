@@ -33,8 +33,8 @@
                 <fieldset class="fm-h" id="ecn1">
 
 
-                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="addRole.label"/></span><em2><c:out value="${affiliationTypeDescription}"/></em2></label>
-                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="title.label" /></span><em2><c:out value="${title}"/></em2></label>
+                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="addRole.label"/></span><em2><c:out value="${role.affiliationType.description}"/></em2></label>
+                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="title.label" /></span><em2><c:out value="${role.title}"/></em2></label>
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="to.label" /></span><em2><c:out value="${personDescription}"/></em2></label>
                     <br/><br/>
 
@@ -80,7 +80,7 @@
                     </div>
                     
                     <div class="row">
-                        <label for="c1_email"><spring:message code="email.label"/> <em>*</em></label>
+                        <label for="c1_email"><spring:message code="email.label"/></label>
                         <form:input path="emailAddresses[0].address" id="c1_email" size="20" maxlength="30" tabindex="7" />
 
 						<label for="c1_pt" class="pt"><spring:message code="pt.label" /></label>
