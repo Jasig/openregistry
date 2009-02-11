@@ -9,6 +9,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -20,6 +21,8 @@ import javax.annotation.Resource;
 import org.javalid.core.AnnotationValidator;
 import org.javalid.core.AnnotationValidatorImpl;
 import org.javalid.core.ValidationMessage;
+import org.javalid.external.spring.SpringMessageConverter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +35,7 @@ import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
+import org.openregistry.service.DefaultServiceExecutionResultImpl;
 import com.sun.xml.internal.bind.v2.TODO;
 
 /**
@@ -51,7 +55,7 @@ public class PersonRegistryController {
 
     private MessageSource messageSource;
     
-    @Autowired
+    @Autowired(required=true)
     public PersonRegistryController(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
@@ -79,26 +83,15 @@ public class PersonRegistryController {
         return this.referenceRepository.getPeople();
     }
 
-
 	@RequestMapping(method = RequestMethod.GET)
     public String addRoleSetUpForm(ModelMap model, @RequestParam("personKey")String personKey, @RequestParam("roleInfoKey")String roleInfoKey) {
     	logger.info("Populating: setUpForm: ");
 
         Person person = personService.findPersonById(new Long(personKey));
         RoleInfo roleInfo = referenceRepository.getRoleInfo(new Long(roleInfoKey));
-        Role role = person.addRole(roleInfo);
-        role.addEmailAddress();
-        role.addPhone();
-        role.addAddress();
-        Calendar cal = Calendar.getInstance();
-        role.setStart(cal.getTime());
-        cal.add(Calendar.MONTH, 6);
-        role.setEnd(cal.getTime());
+        Role role = addRole(person, roleInfo);
 
-        model.addAttribute("person",person);
         model.addAttribute("personDescription", getPersonDisplayName(person));
-        model.addAttribute("affiliationTypeDescription", role.getAffiliationType().getDescription());
-        model.addAttribute("title", role.getTitle());
         model.addAttribute("role",role);
         model.addAttribute("personKey", personKey);
     	return "addRole";
@@ -109,20 +102,19 @@ public class PersonRegistryController {
         logger.info("processSubmit in add role");
 
         Person person = personService.findPersonById(new Long(personKey));
+        if (!result.hasErrors()){
+            ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person, role);
 
-        ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person,role);
-        List errorList = res.getErrorList();
-        if (errorList.size() == 0 && !result.hasErrors()){
-            model.addAttribute("infoModel", "Role has been added.");
-            status.setComplete();
-        } else {
-            //show errors
-            for (int i=0; i < errorList.size(); i++){
-                ValidationMessage validationMsg = (ValidationMessage)errorList.get(i);
-                result.reject( validationMsg.getMessage(),validationMsg.getPath());
+            Errors errors = ((DefaultServiceExecutionResultImpl)res).getErrors();
+            if (!errors.hasErrors()){
+                model.addAttribute("infoModel", "Role has been added.");
+                status.setComplete();
+            } else {
+                result.addAllErrors(errors);
             }
         }
 
+        model.addAttribute("personDescription", getPersonDisplayName(person));
         model.addAttribute("role",role);
         model.addAttribute("personKey", personKey);
 		return "addRole";
@@ -139,9 +131,35 @@ public class PersonRegistryController {
         binder.registerCustomEditor(Department.class,"department", new DepartmentEditor(referenceRepository));
     }
 
+    /**
+     * Construct person information to display in heading.
+     * @param person
+     * @return
+     */
     protected String getPersonDisplayName(Person person){
         String name = person.getOfficialName().toString()  + " (ID: " + person.getId() + ")";
         return name;
     }
+
+    /**
+     * Add and initialize new role.
+     * @param person
+     * @param roleInfo
+     * @return role
+     */
+    protected Role addRole(Person person, RoleInfo roleInfo){
+        Role role = person.addRole(roleInfo);
+        role.addEmailAddress();
+        role.addPhone();
+        role.addAddress();
+
+        //provide default values for start and end date of role
+        Calendar cal = Calendar.getInstance();
+        role.setStart(cal.getTime());
+        cal.add(Calendar.MONTH, 6);
+        role.setEnd(cal.getTime());
+        return role;
+    }
+    
 
 }
