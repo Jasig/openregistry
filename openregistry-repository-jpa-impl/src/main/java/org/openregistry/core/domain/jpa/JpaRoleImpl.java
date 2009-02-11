@@ -146,7 +146,7 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     @JvGroup
-    @NotNull
+    @NotNull (customCode="sponsorRequiredMsg")
     public Person getSponsor() {
         return this.sponsor;
     }
@@ -199,13 +199,13 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     @JvGroup
-    @NotNull
+    @NotNull (customCode="startDateRequiredMsg")
     public Date getStart() {
         return this.start;
     }
 
     @JvGroup
-    @NotNull
+    @NotNull (customCode="endDateRequiredMsg")
     public Date getEnd() {
         return this.end;
     }
