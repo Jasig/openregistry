@@ -54,6 +54,14 @@ public class JpaAddressImpl extends Entity implements Address {
     @JoinColumn(name="prc_role_record_id")
     private JpaRoleImpl role;
 
+    public JpaAddressImpl() {
+        // nothing to do
+    }
+
+    public JpaAddressImpl(final JpaRoleImpl jpaRole) {
+        this.role = jpaRole;
+    }
+
     protected Long getId() {
         return this.id;
     }

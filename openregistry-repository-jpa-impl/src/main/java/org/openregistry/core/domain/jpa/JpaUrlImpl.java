@@ -32,6 +32,14 @@ public class JpaUrlImpl extends Entity implements Url {
     @JoinColumn(name="prc_role_record_id")
     private JpaRoleImpl role;
 
+    public JpaUrlImpl() {
+        // nothing to do
+    }
+
+    public JpaUrlImpl(final JpaRoleImpl role) {
+        this.role = role;
+    }
+
     public Type getType() {
         return this.type;
     }
