@@ -33,6 +33,11 @@
           p:entityManagerFactory-ref="entityManagerFactory"/>
 
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename"><value>messages</value></property>
+        <property name="basenames">
+            <list>
+                <value>messages</value>
+                <value>uilabels</value>
+            </list>
+        </property>
     </bean>
 </beans>
