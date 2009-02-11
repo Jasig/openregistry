@@ -30,4 +30,6 @@ public interface ReferenceRepository {
     RoleInfo getRoleInfo(Long id);
 
     List<Region> getRegions();
+
+    List<Type> getPersonStatus();
 }
