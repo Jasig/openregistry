@@ -34,12 +34,14 @@ public class DefaultPersonServiceImpl implements PersonService {
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
     }
+    @Autowired(required=true)
+    private AnnotationValidator validator;
 
     @Transactional
     public ServiceExecutionResult validateAndSaveRoleForPerson(final Person person, final Role role) {
 
         DefaultServiceExecutionResultImpl res = new DefaultServiceExecutionResultImpl();
-        AnnotationValidator validator = new AnnotationValidatorImpl();
+
         List<ValidationMessage> messages = validator.validateObject(role);
 
         DataBinder db = new DataBinder(role, "role");
