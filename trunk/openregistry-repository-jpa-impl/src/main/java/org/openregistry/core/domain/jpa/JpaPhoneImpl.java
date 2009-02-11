@@ -44,6 +44,14 @@ public class JpaPhoneImpl extends Entity implements Phone {
     @JoinColumn(name="prc_role_record_id")
     private JpaRoleImpl role;
 
+    public JpaPhoneImpl() {
+        // nothing to do
+    }
+
+    public JpaPhoneImpl(JpaRoleImpl role) {
+        this.role = role;
+    }
+
     protected Long getId() {
         return this.id;
     }

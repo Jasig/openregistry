@@ -107,25 +107,25 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public Address addAddress() {
-        final JpaAddressImpl jpaAddress = new JpaAddressImpl();
+        final JpaAddressImpl jpaAddress = new JpaAddressImpl(this);
         this.addresses.add(jpaAddress);
         return jpaAddress;
     }
 
     public Url addUrl() {
-        final JpaUrlImpl url = new JpaUrlImpl();
+        final JpaUrlImpl url = new JpaUrlImpl(this);
         this.urls.add(url);
         return url;
     }
 
     public EmailAddress addEmailAddress() {
-        final JpaEmailAddressImpl jpaEmailAddress = new JpaEmailAddressImpl();
+        final JpaEmailAddressImpl jpaEmailAddress = new JpaEmailAddressImpl(this);
         this.emailAddresses.add(jpaEmailAddress);
         return jpaEmailAddress;
     }
 
     public Phone addPhone() {
-        final JpaPhoneImpl jpaPhone = new JpaPhoneImpl();
+        final JpaPhoneImpl jpaPhone = new JpaPhoneImpl(this);
         this.phones.add(jpaPhone);
         return jpaPhone;
     }

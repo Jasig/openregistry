@@ -32,6 +32,14 @@ public class JpaEmailAddressImpl extends Entity implements EmailAddress {
     @JoinColumn(name="prc_role_record_id")
     private JpaRoleImpl role;
 
+    public JpaEmailAddressImpl() {
+        // nothing to do
+    }
+
+    public JpaEmailAddressImpl(final JpaRoleImpl role) {
+        this.role = role;
+    }
+
     protected Long getId() {
         return this.id;
     }
