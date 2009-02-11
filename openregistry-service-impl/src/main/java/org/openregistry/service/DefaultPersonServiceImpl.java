@@ -5,13 +5,17 @@ import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.repository.PersonRepository;
+import org.openregistry.service.validators.RoleValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
+import org.springframework.validation.BindException;
+import org.springframework.validation.DataBinder;
 import org.springframework.transaction.annotation.Transactional;
 import org.javalid.core.AnnotationValidator;
 import org.javalid.core.AnnotationValidatorImpl;
 import org.javalid.core.ValidationMessage;
-
+import org.javalid.external.spring.SpringMessageConverter;
 import java.util.List;
 
 /**
@@ -33,14 +37,28 @@ public class DefaultPersonServiceImpl implements PersonService {
 
     @Transactional
     public ServiceExecutionResult validateAndSaveRoleForPerson(final Person person, final Role role) {
+
+        DefaultServiceExecutionResultImpl res = new DefaultServiceExecutionResultImpl();
         AnnotationValidator validator = new AnnotationValidatorImpl();
         List<ValidationMessage> messages = validator.validateObject(role);
-        DefaultServiceExecutionResultImpl res = new DefaultServiceExecutionResultImpl();
-        res.setErrorList(messages);
-        if(messages.size() > 0) {
+
+        DataBinder db = new DataBinder(role, "role");
+        Errors errors = db.getBindingResult();
+
+        if (messages.size() > 0){
+            new SpringMessageConverter().convertMessages((List<ValidationMessage>) messages, errors);
+            res.setErrors(errors);
             return res;
         }
-        this.personRepository.savePerson(person);
+
+        new RoleValidator().validate(role, errors);
+
+        if (!errors.hasErrors()){
+            this.personRepository.savePerson(person);
+        }
+
+        res.setErrors(errors);
         return res;
     }
+
 }
