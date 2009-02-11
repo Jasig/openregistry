@@ -109,6 +109,12 @@
         </dependency>
         <dependency>
             <groupId>org.javalid</groupId>
+            <artifactId>javalid-spring</artifactId>
+            <version>${javalid.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.javalid</groupId>
             <artifactId>javalid-core</artifactId>
             <version>${javalid.version}</version>
             <scope>compile</scope>
