@@ -1,6 +1,7 @@
 package org.openregistry.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
 import org.openregistry.core.service.ServiceExecutionResult;
 
 import java.util.List;
@@ -23,7 +24,16 @@ public class DefaultServiceExecutionResultImpl implements ServiceExecutionResult
     }
 
     public void setErrorList(List list){
-        errorList = list;    
+        errorList = list;
+    }
+
+    private Errors errors;
+    public Errors getErrors(){
+        return errors;
+    }
+
+    public void setErrors(Errors errors){
+        this.errors = errors;   
     }
 
 }
