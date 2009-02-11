@@ -69,4 +69,10 @@ public final class JpaReferenceRepositoryImpl implements ReferenceRepository {
         return (List<Region>) this.entityManager.createQuery("select r from region r").getResultList();
     }
 
+    @Transactional
+    public List<Type> getPersonStatus() {
+        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='Status'").getResultList();
+    }
+
+
 }
