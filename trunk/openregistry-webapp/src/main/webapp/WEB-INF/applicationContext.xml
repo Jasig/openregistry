@@ -40,4 +40,6 @@
             </list>
         </property>
     </bean>
+
+    <bean id="javalidValidator" class="org.javalid.core.AnnotationValidatorImpl"/>
 </beans>
