@@ -65,7 +65,7 @@ public class JpaRoleImpl extends Entity implements Role {
     @JoinColumn(name="person_id", nullable=false)
     private JpaPersonImpl person;
 
-    @Column(name="affiliation_date")
+    @Column(name="affiliation_date",nullable=false)
     @Temporal(TemporalType.DATE)
     private Date start;
 
