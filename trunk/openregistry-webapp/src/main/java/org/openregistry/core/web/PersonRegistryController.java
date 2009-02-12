@@ -50,6 +50,11 @@ public class PersonRegistryController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected final String ACTIVE_STATUS = "Active";
+    protected final String TYPE_STATUS = "Status";
+    protected final String TYPE_ADDRESS = "Address";
+    protected final String TYPE_PHONE = "Phone";
+    protected final String TYPE_EMAIL_ADDRESS = "EmailAddress";
+    protected final String CAMPUS = "Campus";
 
     @Autowired
     private PersonService personService;
@@ -83,12 +88,6 @@ public class PersonRegistryController {
     public List<Person> populateSponsorLookup() {
         return this.referenceRepository.getPeople();
     }
-
-    /*
-    @ModelAttribute("personStatusLookup")
-    public List<Type> populatePersonStatusLookup() {
-        return this.referenceRepository.getPersonStatus();
-    }*/
 
 	@RequestMapping(method = RequestMethod.GET)
     public String addRoleSetUpForm(ModelMap model, @RequestParam("personKey")String personKey, @RequestParam("roleInfoKey")String roleInfoKey) {
@@ -155,11 +154,15 @@ public class PersonRegistryController {
      */
     protected Role addRole(Person person, RoleInfo roleInfo){
         Role role = person.addRole(roleInfo);
-        role.addEmailAddress();
-        role.addPhone();
-        role.addAddress();
-        setPersonStatus(role,ACTIVE_STATUS);
-
+        role.setPersonStatus(referenceRepository.findType(TYPE_STATUS, ACTIVE_STATUS));
+        EmailAddress emailAddress = role.addEmailAddress();
+        emailAddress.setAddressType(referenceRepository.findType(TYPE_EMAIL_ADDRESS, CAMPUS));
+        Phone phone = role.addPhone();
+        phone.setPhoneType(referenceRepository.findType(TYPE_PHONE, CAMPUS));
+        phone.setAddressType(referenceRepository.findType(TYPE_PHONE, CAMPUS));
+        Address address = role.addAddress();
+        address.setType(referenceRepository.findType(TYPE_ADDRESS, CAMPUS));
+        
         //provide default values for start and end date of role
         Calendar cal = Calendar.getInstance();
         role.setStart(cal.getTime());
@@ -167,23 +170,5 @@ public class PersonRegistryController {
         role.setEnd(cal.getTime());
         return role;
     }
-
-    /**
-     * This needs to be redone to use a helper.
-     * @param role
-     * @param status
-     */
-    protected void setPersonStatus(Role role, String status) {
-        List statusList = referenceRepository.getPersonStatus();
-        Iterator<Type> iterator = statusList.iterator();
-	    while ( iterator.hasNext() ){
-	        Type type = iterator.next();
-            if (type.getDescription().equals(status)){
-                role.setPersonStatus(type);
-                break;
-            }
-	   }
-    }
-    
 
 }
