@@ -3,7 +3,6 @@ package org.openregistry.core.web;
 import org.openregistry.core.domain.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -11,17 +10,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.annotation.Resource;
-
-import org.javalid.core.AnnotationValidator;
-import org.javalid.core.AnnotationValidatorImpl;
-import org.javalid.core.ValidationMessage;
-import org.javalid.external.spring.SpringMessageConverter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +25,8 @@ import java.text.SimpleDateFormat;
 import org.openregistry.core.web.propertyeditors.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.service.DefaultServiceExecutionResultImpl;
-import com.sun.xml.internal.bind.v2.TODO;
 
 /**
  * @author Nancy Mond
