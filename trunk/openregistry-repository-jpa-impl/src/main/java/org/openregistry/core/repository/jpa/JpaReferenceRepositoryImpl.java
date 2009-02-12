@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -74,5 +75,29 @@ public final class JpaReferenceRepositoryImpl implements ReferenceRepository {
         return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='Status'").getResultList();
     }
 
+    @Transactional
+    public List<Type> getEmailTypes() {
+        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='EmailAddress'").getResultList();
+    }
+
+    @Transactional
+    public List<Type> getAddressTypes() {
+        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='Address'").getResultList();
+    }
+
+    @Transactional
+    public List<Type> getPhoneTypes() {
+        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='Phone'").getResultList();
+    }
+
+    @Transactional
+    public Type findType(String data_type, String description) {
+        Query q = this.entityManager.createQuery("select distinct r from type r where dataType=:data_type and description=:description");
+        q.setParameter("data_type", data_type);
+        q.setParameter("description", description);
+        List<Type> res = q.getResultList();
+        if (res != null && res.size() > 0) return(res.get(0));
+        return null;
+    }
 
 }
