@@ -76,4 +76,6 @@ div.select {border:0;}
 .openregistry#update div.row label.state {margin-left:9px;}
 .openregistry#update div.row label.zip {margin-left:18px;}
 .openregistry#update div.row label.work {margin-left:9px;}
-.openregistry#update div.row label.cell {margin-left:18px;} 
+.openregistry#update div.row label.cell {margin-left:18px;}
+.openregistry#update div.row label.number {margin-left:15px;}
+.openregistry#update div.row label.ext {margin-left:17px;}

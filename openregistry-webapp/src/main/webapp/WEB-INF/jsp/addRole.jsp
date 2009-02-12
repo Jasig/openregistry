@@ -137,8 +137,14 @@
 
 					<div class="row">
 
-						<label for="c1_phone" class="phone"><spring:message code="phone.label"/></label>
-						<form:input path="phones[0].number" id="c1_phone" size="25" maxlength="25" tabindex="16" />
+						<label for="c1_cccode" class="cccode"><spring:message code="ccCode.label"/></label>
+						<form:input path="phones[0].countryCode" id="c1_cccode" size="5" maxlength="5" tabindex="16" />
+
+                        <label for="c1_areacode" class="areacode"><spring:message code="areaCode.label"/></label>
+						<form:input path="phones[0].areaCode" id="c1_areacode" size="5" maxlength="5" tabindex="16" />
+
+                        <label for="c1_number" class="number"><spring:message code="number.label"/></label>
+						<form:input path="phones[0].number" id="c1_number" size="7" maxlength="7" tabindex="16" />
 
 						<label for="c1_ext" class="ext"><spring:message code="ext.label"/></label>
 						<form:input path="phones[0].extension" id="c1_ext" size="10" maxlength="10" tabindex="17" />
