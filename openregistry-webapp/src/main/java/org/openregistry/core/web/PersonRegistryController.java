@@ -102,7 +102,7 @@ public class PersonRegistryController {
 
             Errors errors = ((DefaultServiceExecutionResultImpl)res).getErrors();
             if (!errors.hasErrors()){
-                model.addAttribute("infoModel", "Role has been added.");
+                model.addAttribute("infoModel", messageSource.getMessage("roleAdded",null,null));
                 status.setComplete();
             } else {
                 result.addAllErrors(errors);
@@ -119,7 +119,9 @@ public class PersonRegistryController {
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         binder.registerCustomEditor(Date.class, null, new CustomDateEditor(df, true));
-        binder.registerCustomEditor(String.class,"phone.number", new PhoneEditor());
+        binder.registerCustomEditor(String.class,"phones.number", new PhoneEditor());
+        binder.registerCustomEditor(String.class,"phones.areaCode", new PhoneEditor());
+        binder.registerCustomEditor(String.class,"phones.countryCode", new PhoneEditor());
         binder.registerCustomEditor(Country.class,"addresses.country", new CountryEditor(referenceRepository));
         binder.registerCustomEditor(Region.class,"addresses.region", new RegionEditor(referenceRepository));
         binder.registerCustomEditor(Person.class,"sponsor", new SponsorEditor(referenceRepository));
