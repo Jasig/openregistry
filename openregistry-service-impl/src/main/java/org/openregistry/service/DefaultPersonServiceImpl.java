@@ -31,18 +31,22 @@ public class DefaultPersonServiceImpl implements PersonService {
     @Autowired(required=true)
     private PersonRepository personRepository;
 
+    @Autowired(required=true)
+    private AnnotationValidator annotationValidator;
+
+    @Autowired(required=true)
+    private RoleValidator roleValidator;
+
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
     }
-    @Autowired(required=true)
-    private AnnotationValidator validator;
 
     @Transactional
     public ServiceExecutionResult validateAndSaveRoleForPerson(final Person person, final Role role) {
 
         DefaultServiceExecutionResultImpl res = new DefaultServiceExecutionResultImpl();
 
-        List<ValidationMessage> messages = validator.validateObject(role);
+        List<ValidationMessage> messages = annotationValidator.validateObject(role);
 
         DataBinder db = new DataBinder(role, "role");
         Errors errors = db.getBindingResult();
@@ -53,7 +57,7 @@ public class DefaultPersonServiceImpl implements PersonService {
             return res;
         }
 
-        new RoleValidator().validate(role, errors);
+        roleValidator.validate(role, errors);
 
         if (!errors.hasErrors()){
             this.personRepository.savePerson(person);
