@@ -25,11 +25,19 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
+          <containerElement type="library" name="Maven: org.springframework:spring:2.5.6" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
           <containerElement type="module" name="openregistry-service-impl">
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/openregistry-service-impl-1.0.0-SNAPSHOT.jar" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:spring:2.5.6" level="project">
+          <containerElement type="library" name="Maven: org.javalid:javalid-spring:1.1" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: juel:juel-impl:2.1.1-rc2" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
@@ -180,8 +188,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="openregistry-api" exported="" />
     <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.1" level="project" />
-    <orderEntry type="module" module-name="openregistry-service-impl" exported="" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring:2.5.6" level="project" />
+    <orderEntry type="module" module-name="openregistry-service-impl" exported="" />
+    <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-spring:1.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: juel:juel-impl:2.1.1-rc2" level="project" />
     <orderEntry type="module" module-name="openregistry-repository-jpa-impl" exported="" />
     <orderEntry type="library" exported="" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-context:2.5.6" level="project" />
