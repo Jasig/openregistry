@@ -43,6 +43,4 @@
 
     <bean id="javalidValidator" class="org.javalid.core.AnnotationValidatorImpl"/>
 
-    <bean id="roleValidator" class="org.openregistry.service.validators.RoleValidator"/>
-
 </beans>

@@ -26,7 +26,7 @@ import org.openregistry.core.web.propertyeditors.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.repository.ReferenceRepository;
-import org.openregistry.service.DefaultServiceExecutionResultImpl;
+import org.openregistry.service.DefaultServiceExecutionResult;
 
 /**
  * @author Nancy Mond
@@ -35,10 +35,10 @@ import org.openregistry.service.DefaultServiceExecutionResultImpl;
  */
 @Controller
 @RequestMapping("/addRole.htm")
-@SessionAttributes({"role","person"})
+@SessionAttributes({"role", "person"})
 public class PersonRegistryController {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected final String ACTIVE_STATUS = "Active";
     protected final String TYPE_STATUS = "Status";
     protected final String TYPE_ADDRESS = "Address";
@@ -50,13 +50,13 @@ public class PersonRegistryController {
     private PersonService personService;
 
     private MessageSource messageSource;
-    
-    @Autowired(required=true)
+
+    @Autowired(required = true)
     public PersonRegistryController(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
-    
-    @Autowired(required=true)
+
+    @Autowired(required = true)
     private ReferenceRepository referenceRepository;
 
     @ModelAttribute("countryLookup")
@@ -79,30 +79,29 @@ public class PersonRegistryController {
         return this.referenceRepository.getPeople();
     }
 
-	@RequestMapping(method = RequestMethod.GET)
-    public String addRoleSetUpForm(ModelMap model, @RequestParam("personKey")String personKey, @RequestParam("roleInfoKey")String roleInfoKey) {
-    	logger.info("Populating: setUpForm: ");
+    @RequestMapping(method = RequestMethod.GET)
+    public String addRoleSetUpForm(ModelMap model, @RequestParam("personKey") String personKey, @RequestParam("roleInfoKey") String roleInfoKey) {
+        logger.info("Populating: setUpForm: ");
 
         Person person = personService.findPersonById(new Long(personKey));
         RoleInfo roleInfo = referenceRepository.getRoleInfo(new Long(roleInfoKey));
         Role role = addRole(person, roleInfo);
 
         model.addAttribute("personDescription", getPersonDisplayName(person));
-        model.addAttribute("role",role);
-        model.addAttribute("person",person);
-    	return "addRole";
+        model.addAttribute("role", role);
+        model.addAttribute("person", person);
+        return "addRole";
     }
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("person") Person person, @ModelAttribute("role") Role role, BindingResult result, SessionStatus status ) {
+    @RequestMapping(method = RequestMethod.POST)
+    public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("person") Person person,
+                                       @ModelAttribute("role") Role role, BindingResult result, SessionStatus status) {
         logger.info("processSubmit in add role");
-
-        if (!result.hasErrors()){
+        if (!result.hasErrors()) {
             ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person, role);
-
-            Errors errors = ((DefaultServiceExecutionResultImpl)res).getErrors();
-            if (!errors.hasErrors()){
-                model.addAttribute("infoModel", messageSource.getMessage("roleAdded",null,null));
+            Errors errors = res.getErrors();
+            if (errors == null) {
+                model.addAttribute("infoModel", messageSource.getMessage("roleAdded", null, null));
                 status.setComplete();
             } else {
                 result.addAllErrors(errors);
@@ -110,41 +109,43 @@ public class PersonRegistryController {
         }
 
         model.addAttribute("personDescription", getPersonDisplayName(person));
-        model.addAttribute("role",role);
-        model.addAttribute("person",person);
-		return "addRole";
-	}
+        model.addAttribute("role", role);
+        model.addAttribute("person", person);
+        return "addRole";
+    }
 
     @InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         binder.registerCustomEditor(Date.class, null, new CustomDateEditor(df, true));
-        binder.registerCustomEditor(String.class,"phones.number", new PhoneEditor());
-        binder.registerCustomEditor(String.class,"phones.areaCode", new PhoneEditor());
-        binder.registerCustomEditor(String.class,"phones.countryCode", new PhoneEditor());
-        binder.registerCustomEditor(Country.class,"addresses.country", new CountryEditor(referenceRepository));
-        binder.registerCustomEditor(Region.class,"addresses.region", new RegionEditor(referenceRepository));
-        binder.registerCustomEditor(Person.class,"sponsor", new SponsorEditor(referenceRepository));
-        binder.registerCustomEditor(Department.class,"department", new DepartmentEditor(referenceRepository));
+        binder.registerCustomEditor(String.class, "phones.number", new PhoneEditor());
+        binder.registerCustomEditor(String.class, "phones.areaCode", new PhoneEditor());
+        binder.registerCustomEditor(String.class, "phones.countryCode", new PhoneEditor());
+        binder.registerCustomEditor(Country.class, "addresses.country", new CountryEditor(referenceRepository));
+        binder.registerCustomEditor(Region.class, "addresses.region", new RegionEditor(referenceRepository));
+        binder.registerCustomEditor(Person.class, "sponsor", new SponsorEditor(referenceRepository));
+        binder.registerCustomEditor(Department.class, "department", new DepartmentEditor(referenceRepository));
     }
 
     /**
      * Construct person information to display in heading.
+     *
      * @param person
      * @return
      */
-    protected String getPersonDisplayName(Person person){
-        String name = person.getOfficialName().toString()  + " (ID: " + person.getId() + ")";
+    protected String getPersonDisplayName(Person person) {
+        String name = person.getOfficialName().toString() + " (ID: " + person.getId() + ")";
         return name;
     }
 
     /**
      * Add and initialize new role.
+     *
      * @param person
      * @param roleInfo
      * @return role
      */
-    protected Role addRole(Person person, RoleInfo roleInfo){
+    protected Role addRole(Person person, RoleInfo roleInfo) {
         Role role = person.addRole(roleInfo);
         role.setPersonStatus(referenceRepository.findType(TYPE_STATUS, ACTIVE_STATUS));
         EmailAddress emailAddress = role.addEmailAddress();
@@ -154,7 +155,7 @@ public class PersonRegistryController {
         phone.setAddressType(referenceRepository.findType(TYPE_PHONE, CAMPUS));
         Address address = role.addAddress();
         address.setType(referenceRepository.findType(TYPE_ADDRESS, CAMPUS));
-        
+
         //provide default values for start and end date of role
         Calendar cal = Calendar.getInstance();
         role.setStart(cal.getTime());
