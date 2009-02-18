@@ -8,14 +8,12 @@
 <jsp:directive.include file="/WEB-INF/jsp/includes/head.jsp" />
 <%-- $Id: $ --%>
 <head>
-    <title>Open Registry Add Role - Rutgers University</title>
+    <title><spring:message code="addRole.title"/></title>
 </head>
 <body class="openregistry" id="update">
 
 	<h1 id="app-name">Open Registry</h1>
-	<ul id="nav-system"
-		><li id="logout"><a href="logout.htm" title="log out of current session"><spring:message code="logout.label" /></a></li
-	></ul>
+	<ul id="nav-system"><li id="logout"><a href="logout.htm" title="log out of current session"><spring:message code="logout.label" /></a></li></ul>
 		
 	<div id="content">
    		<c:set var="command" value="role" />
@@ -35,7 +33,7 @@
 
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="addRole.label"/></span><em2><c:out value="${role.affiliationType.description}"/></em2></label>
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="title.label" /></span><em2><c:out value="${role.title}"/></em2></label>
-                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="to.label" /></span><em2><c:out value="${personDescription}"/></em2></label>
+                    <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="to.label" /></span><em2><c:out value="${person.officialName} (ID:${person.id})"/></em2></label>
                     <br/><br/>
 
 					<label class="desc" for="c1_startdate"><spring:message code="specifyRoleInfo.heading"/></label>

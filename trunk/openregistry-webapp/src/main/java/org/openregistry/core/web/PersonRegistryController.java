@@ -51,7 +51,7 @@ public class PersonRegistryController {
 
     private MessageSource messageSource;
 
-    @Autowired(required = true)
+    @Autowired(required=true)
     public PersonRegistryController(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
@@ -79,25 +79,24 @@ public class PersonRegistryController {
         return this.referenceRepository.getPeople();
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String addRoleSetUpForm(ModelMap model, @RequestParam("personKey") String personKey, @RequestParam("roleInfoKey") String roleInfoKey) {
-        logger.info("Populating: setUpForm: ");
+	@RequestMapping(method = RequestMethod.GET)
+    public String addRoleSetUpForm(ModelMap model, @RequestParam("personKey")String personKey, @RequestParam("roleInfoKey")String roleInfoKey) {
+    	logger.info("Populating: setUpForm: ");
 
         Person person = personService.findPersonById(new Long(personKey));
         RoleInfo roleInfo = referenceRepository.getRoleInfo(new Long(roleInfoKey));
         Role role = addRole(person, roleInfo);
 
-        model.addAttribute("personDescription", getPersonDisplayName(person));
         model.addAttribute("role", role);
         model.addAttribute("person", person);
-        return "addRole";
+    	return "addRole";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("person") Person person,
-                                       @ModelAttribute("role") Role role, BindingResult result, SessionStatus status) {
+	@RequestMapping(method = RequestMethod.POST)
+	public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("person") Person person, @ModelAttribute("role") Role role, BindingResult result, SessionStatus status ) {
         logger.info("processSubmit in add role");
-        if (!result.hasErrors()) {
+
+        if (!result.hasErrors()){
             ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person, role);
             Errors errors = res.getErrors();
             if (errors == null) {
@@ -108,11 +107,10 @@ public class PersonRegistryController {
             }
         }
 
-        model.addAttribute("personDescription", getPersonDisplayName(person));
         model.addAttribute("role", role);
         model.addAttribute("person", person);
-        return "addRole";
-    }
+		return "addRole";
+	}
 
     @InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
@@ -128,24 +126,12 @@ public class PersonRegistryController {
     }
 
     /**
-     * Construct person information to display in heading.
-     *
-     * @param person
-     * @return
-     */
-    protected String getPersonDisplayName(Person person) {
-        String name = person.getOfficialName().toString() + " (ID: " + person.getId() + ")";
-        return name;
-    }
-
-    /**
      * Add and initialize new role.
-     *
      * @param person
      * @param roleInfo
      * @return role
      */
-    protected Role addRole(Person person, RoleInfo roleInfo) {
+    protected Role addRole(Person person, RoleInfo roleInfo){
         Role role = person.addRole(roleInfo);
         role.setPersonStatus(referenceRepository.findType(TYPE_STATUS, ACTIVE_STATUS));
         EmailAddress emailAddress = role.addEmailAddress();
