@@ -20,12 +20,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.javalid</groupId>
-            <artifactId>javalid-core</artifactId>
-            <version>${javalid.version}</version>
-            <scope>compile</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -39,6 +33,5 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
 </project>
