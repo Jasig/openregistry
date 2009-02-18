@@ -31,7 +31,7 @@ public class JpaPhoneImpl extends Entity implements Phone {
     @Column(name="country_code",nullable=false,length=5)
     private String countryCode;
 
-    @Column(name="area_code",nullable=false,length=3)
+    @Column(name="area_code",nullable=false,length=5)
     private String areaCode;
 
     @Column(name="p_number",nullable=false,length=10)

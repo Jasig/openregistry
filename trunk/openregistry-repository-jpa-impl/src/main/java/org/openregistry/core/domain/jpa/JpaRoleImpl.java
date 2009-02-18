@@ -204,8 +204,6 @@ public class JpaRoleImpl extends Entity implements Role {
         return this.start;
     }
 
-    @JvGroup
-    @NotNull (customCode="endDateRequiredMsg")
     public Date getEnd() {
         return this.end;
     }
