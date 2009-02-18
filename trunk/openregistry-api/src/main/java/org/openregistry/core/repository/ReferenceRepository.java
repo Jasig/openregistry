@@ -31,8 +31,6 @@ public interface ReferenceRepository {
 
     List<Region> getRegions();
 
-    List<Type> getPersonStatus();
-
     Type findType(String type, String value);
 
     List<Type> getEmailTypes();
