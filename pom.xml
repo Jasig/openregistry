@@ -142,4 +142,13 @@
         <commons.logging.version>1.1.1</commons.logging.version>
         <sl4j.version>1.5.6</sl4j.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>jasig</id>
+            <name>JASIG Maven2 Repository</name>
+            <layout>default</layout>
+            <url>http://developer.ja-sig.org/maven2</url>
+        </repository>
+    </repositories>
 </project>
