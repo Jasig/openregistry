@@ -37,6 +37,7 @@
             <list>
                 <value>messages</value>
                 <value>uilabels</value>
+                <value>org/javalid/core/validator/jv_messages</value>
             </list>
         </property>
     </bean>
