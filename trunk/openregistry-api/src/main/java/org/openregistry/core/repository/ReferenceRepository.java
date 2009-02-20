@@ -13,6 +13,8 @@ public interface ReferenceRepository {
 
     List<Person> getPeople();
 
+    Person getPersonById(Long id);
+
     List<Department> getDepartments();
 
     Department getDepartmentById(Long id);
@@ -30,6 +32,8 @@ public interface ReferenceRepository {
     RoleInfo getRoleInfo(Long id);
 
     List<Region> getRegions();
+
+    Region getRegionById(Long id);
 
     Type findType(String type, String value);
 
