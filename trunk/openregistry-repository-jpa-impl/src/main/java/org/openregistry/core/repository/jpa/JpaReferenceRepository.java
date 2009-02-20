@@ -26,6 +26,11 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
+    public Person getPersonById(final Long id) {
+        return (Person) this.entityManager.find(JpaPersonImpl.class, id);
+    }
+
+    @Transactional
     public List<Department> getDepartments() {
         return (List<Department>) this.entityManager.createQuery("select d from department d order by d.name").getResultList(); 
     }
@@ -71,8 +76,8 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
-    public List<Type> getPersonStatus() {
-        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='Status'").getResultList();
+    public Region getRegionById(final Long id) {
+        return this.entityManager.find(JpaRegionImpl.class, id);
     }
 
     @Transactional
@@ -95,9 +100,8 @@ public final class JpaReferenceRepository implements ReferenceRepository {
         Query q = this.entityManager.createQuery("select distinct r from type r where dataType=:data_type and description=:description");
         q.setParameter("data_type", data_type);
         q.setParameter("description", description);
-        List<Type> res = q.getResultList();
-        if (res != null && res.size() > 0) return(res.get(0));
-        return null;
+        Type result = (Type)q.getSingleResult();
+        return result;
     }
 
 }
