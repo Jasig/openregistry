@@ -1,0 +1,448 @@
+/*
+ * Version: $Revision: 1.3 $
+ * Date: $Date: 2008/10/21 03:00:21 $
+ */
+
+digraph ORDATAMODEL {
+  graph [label="Draft OpenRegistry Data Model (2/09)", labelloc="t", labeljust="l", rankdir="LR"]
+  node [shape=plaintext, labeljust="l"]
+
+  /*
+   * Common Tables cluster
+   */
+
+  subgraph cluster_CT {
+    label = "(CT) Common Tables";
+    color = "green";
+
+    /*
+     * Change Log
+     */
+
+    ctx_change_log [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">ctx_change_log</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Record of all transactions performed.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Change</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">timestamp</font></td>
+ <td align="left"><font face="Courier" point-size="10">datetime</font></td>
+ <td align="left">Time of this Change</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">performed_by_id_type</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Type of entity that performed this Change, matches foo_id</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">performed_by_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">ID of entity that performed this Change</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">comment</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Free form comment for this Change</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of comment</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this Change (ctx_data_types:data_type=change)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Country Dictionary
+     */
+
+    ctd_countries [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">ctd_countries</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">List of (pre)defined countries.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Country</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Name of this Country</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">code</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(3)</font></td>
+ <td align="left">ISO 3166-1 alpha-3 code for this Country</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">deleted</font></td>
+ <td align="left"><font face="Courier" point-size="10">bool</font></td>
+ <td align="left">If true, this entry is no longer available for new records</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+	 * Data Types
+	 */
+
+    ctx_data_types [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">ctx_data_types</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Instantiations of data types.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Data Type</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">module</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Module that owns this Data Type (eg: PR, BR, CR, GR, KR)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">data_type</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Name of this Data Type (eg: "address", "identifier", "name"), matches foo_t</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">description</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Description of this Data Type (eg: "home", "NetID", "maiden")</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of description</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">deleted</font></td>
+ <td align="left"><font face="Courier" point-size="10">bool</font></td>
+ <td align="left">If true, this entry is no longer available for new records</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id), blank where data_type=change to avoid recursion</td>
+</tr>
+   </table>>];
+   
+    defined_types [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="2"><font point-size="14">Defined Types</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">address</font></td>
+ <td align="left">Home, Campus, Office, Dorm, Mail, Parent, Summer, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">affiliation</font></td>
+ <td align="left">As per EduPerson: Student, Instructor, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change</font></td>
+ <td align="left">Add, Update, Remove, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">cluster</font></td>
+ <td align="left">Calendar, Email, Fileserver, Timeshare, Web, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">credential</font></td>
+ <td align="left">Kerberos, X509, SecurID, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">credential_state</font></td>
+ <td align="left">Valid, Invalid, Expired, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">department</font></td>
+ <td align="left">School, Program, Division, Department, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">leave</font></td>
+ <td align="left">Sabbatical, Academic, Personal, Family Medical, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">name</font></td>
+ <td align="left">Official, Nickname, Preferred, Maiden, FKA, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">node</font></td>
+ <td align="left">Solaris, Linux, NetApp, Windows, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">person_status</font></td>
+ <td align="left">Admitted, Registered, Active, Leave of Absence, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">phone</font></td>
+ <td align="left">Landline, Fax, Pager, Mobile/ATT, Mobile/Sprint, Mobile/TMobile, Mobile/Verizon, Mobile, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">region</font></td>
+ <td align="left">State, Province, City-State, etc ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sor</font></td>
+ <td align="left">HR, SIS, etc ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">termination</font></td>
+ <td align="left">Resigned, Fired, Retired, etc ...</td>
+</tr>
+   </table>>];
+
+    /*
+     * Region Dictionary
+     */
+
+    ctd_regions [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">ctd_regions</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">List of (pre)defined regions (eg: states, provinces).</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Region</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">region_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this Region (ctx_data_types:data_type=region)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Name of this Region</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">code</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(3)</font></td>
+ <td align="left">Abbreviation for this Region (eg: NY, ON)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">country_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Region's country (ctd_countries:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">deleted</font></td>
+ <td align="left"><font face="Courier" point-size="10">bool</font></td>
+ <td align="left">If true, this entry is no longer available for new records</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+   
+    /*
+     * Registry Permissions
+     */
+
+    ctx_registry_permissions [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">ctx_registry_permissions</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Instantiated permissions within the Registry.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Permission</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">registry_permission_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this Permission (ctx_registry_permission_types:registry_permission_t)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">applies_to_id_type</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Type of entity that has this Permission, matches foo_id</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">applies_to_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">ID of entity that has this Permission</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Registry Permission Types
+     */
+
+    ctx_registry_permission_types [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">ctx_registry_permission_types</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Permissions (pre)defined within the Registry.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">registry_permission_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Permission Type</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">description</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Description of this Permission Type</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of description</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">permission</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Permission (r/w)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">target</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Target Permission Applies To (eg: Table/% or Action/run_batch)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">deleted</font></td>
+ <td align="left"><font face="Courier" point-size="10">bool</font></td>
+ <td align="left">If true, this entry is no longer available for new records</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Validities
+     */
+
+    ctc_validities [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">ctc_validities</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized and calculated validities within the Registry.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Validity Period</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">from</font></td>
+ <td align="left"><font face="Courier" point-size="10">datetime</font></td>
+ <td align="left">First included second of this Validity</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">until</font></td>
+ <td align="left"><font face="Courier" point-size="10">datetime</font></td>
+ <td align="left">Last included second of this Validity</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">manual_override</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Validity is always true if 'Y' or always false if 'N'</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+  } /* cluster_CT */
+
+  /*
+   * relations
+   *
+   * 0/1: odottee
+   * 1: teetee
+   * 0+: crowodot
+   * 1+: crowotee
+   *
+   * x->y each x has arrowtail y's, each y has arrowhead x's
+   *
+   */
+   
+  aro_clusters -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  aro_nodes -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  bro_calculated_attribute_overrides -> ctc_validities [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_overrides -> ctc_validities [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_overrides -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_rules -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  crs_course_affiliations -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  ctx_data_types -> ctx_change_log [arrowhead="crowodot", arrowtail="teetee"];
+  ctx_data_types -> defined_types [arrowhead="none"];
+  ctd_regions -> ctx_change_log [arrowhead="crowodot", arrowtail="teetee"];
+  ctd_regions -> ctd_countries [arrowhead="crowotee", arrowtail="teetee"];
+  ctd_regions -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  ctx_registry_permission_types -> ctx_registry_permissions [arrowhead="crowodot", arrowtail="teetee"];
+  ctx_registry_permissions -> ctx_change_log [arrowhead="teetee", arrowtail="odottee"];
+  ctx_registry_permissions -> prc_persons [arrowhead="crowodot", arrowtail="teetee", style="dashed"];
+  ctc_validities -> ctx_change_log [arrowhead="teetee", arrowtail="odottee"];
+  kro_credentials -> ctc_validities [arrowhead="crowodot", arrowtail="teetee"];
+  prc_addresses -> ctd_countries [arrowhead="crowodot", arrowtail="teetee"];
+  prc_addresses -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_addresses -> ctd_regions [arrowhead="crowodot", arrowtail="teetee"];
+  prs_addresses -> ctd_countries [arrowhead="crowodot", arrowtail="teetee"];
+  prs_addresses -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_addresses -> ctd_regions [arrowhead="crowodot", arrowtail="teetee"];
+  prs_departments -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emails -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_emails -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_leaves_of_absence -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_names -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_names -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_phones -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_phones -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_role_records -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_role_records -> ctc_validities [arrowhead="crowodot", arrowtail="teetee"];
+  prs_sor_role_records -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_sor_role_records -> ctc_validities [arrowhead="crowodot", arrowtail="teetee"];
+}
