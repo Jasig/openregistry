@@ -113,7 +113,7 @@ public class PersonRegistryController {
 	}
 
     @InitBinder
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+    protected void initDataBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         binder.registerCustomEditor(Date.class, null, new CustomDateEditor(df, true));
         binder.registerCustomEditor(String.class, "phones.number", new PhoneEditor());
@@ -123,6 +123,7 @@ public class PersonRegistryController {
         binder.registerCustomEditor(Region.class, "addresses.region", new RegionEditor(referenceRepository));
         binder.registerCustomEditor(Person.class, "sponsor", new SponsorEditor(referenceRepository));
         binder.registerCustomEditor(Department.class, "department", new DepartmentEditor(referenceRepository));
+        binder.registerCustomEditor(Campus.class, "campus", new CampusEditor(referenceRepository));
     }
 
     /**
