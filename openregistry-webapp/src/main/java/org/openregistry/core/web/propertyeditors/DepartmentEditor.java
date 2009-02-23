@@ -36,23 +36,15 @@ public class DepartmentEditor extends PropertyEditorSupport {
 
     public String getAsText(){
         Department department = (Department) getValue();
-        String name = " ";
-        if (department != null)
-            name = department.getName();
-        return (name);
+        return department != null ? department.getName() : " ";
     }
 
+    @Override
     public void setAsText(String text) {
-        setValue(null);
-        if (text != null && StringUtils.hasText(text)){
-            List departmentList =  referenceRepository.getDepartments();
-            Iterator<Department> iterator = departmentList.iterator();
-	        while ( iterator.hasNext() ){
-	            Department department = iterator.next();
-                if (department.getLocalCode().equals(text)){
-                    setValue(department);
-                }
-	        }
+        if (StringUtils.hasText(text)){
+            setValue(referenceRepository.getDepartmentById(new Long(text)));
+        } else {
+            setValue(null);
         }
     }
 }
