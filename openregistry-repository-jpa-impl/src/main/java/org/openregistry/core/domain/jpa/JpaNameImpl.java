@@ -66,6 +66,15 @@ public class JpaNameImpl extends Entity implements Name {
         return this.suffix;
     }
 
+    public String getFormattedName(){
+        final StringBuilder builder = new StringBuilder();
+
+        construct(builder, "", this.family, ",");
+        construct(builder, "", this.given, "");
+
+        return builder.toString();
+    }
+
     public String toString() {
         final StringBuilder builder = new StringBuilder();
 

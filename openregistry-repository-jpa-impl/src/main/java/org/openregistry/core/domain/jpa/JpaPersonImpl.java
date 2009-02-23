@@ -58,6 +58,14 @@ public class JpaPersonImpl extends Entity implements Person {
         return this.officialName;
     }
 
+    public String getFormattedNameAndID(){
+        final StringBuilder builder = new StringBuilder();
+        builder.append(this.officialName.getFormattedName());
+        builder.append(" ID:");
+        builder.append(this.id);
+        return builder.toString();
+    }
+
     public Name getPreferredName() {
         return this.preferredName;
     }
