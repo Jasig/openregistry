@@ -39,16 +39,13 @@ public class RegionEditor extends PropertyEditorSupport {
 
     public String getAsText(){
         Region region = (Region) getValue();
-        String name = " ";
-        if (region != null)
-            name = region.getName();
-        return (name);
+        return region != null ? region.getName() : " ";
     }
 
+    @Override
     public void setAsText(String text) {
-        logger.info("******called Region setastext: text: "+ text);
         setValue(null);
-        if (text != null && StringUtils.hasText(text)){
+        if (StringUtils.hasText(text)){
             List regionList =  referenceRepository.getRegions();
             Iterator<Region> iterator = regionList.iterator();
 

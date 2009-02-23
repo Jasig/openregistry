@@ -36,25 +36,15 @@ public class CountryEditor extends PropertyEditorSupport {
 
     public String getAsText(){
         Country country = (Country) getValue();
-        String name = " ";
-        if (country != null)
-            name = country.getName();
-        return (name);
+        return country != null ? country.getName() : " ";
     }
 
-    
+    @Override 
     public void setAsText(String text) {
-        setValue(null);
-        if (text != null && StringUtils.hasText(text)){
-            List countryList =  referenceRepository.getCountries();
-            Iterator<Country> iterator = countryList.iterator();
-	        while ( iterator.hasNext() ){
-	            Country country = iterator.next();
-                if (country.getCode().equals(text)){
-                    setValue(country);
-                    break;
-                }
-	        }
+        if (StringUtils.hasText(text)){
+            setValue(referenceRepository.getCountryById(new Long(text)));
+        } else{
+            setValue(null);
         }
     }
 }
