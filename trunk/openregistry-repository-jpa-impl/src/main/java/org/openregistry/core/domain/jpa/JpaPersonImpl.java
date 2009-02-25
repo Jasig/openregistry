@@ -58,6 +58,12 @@ public class JpaPersonImpl extends Entity implements Person {
         return this.officialName;
     }
 
+    public Name addOfficialName(){
+        JpaNameImpl name = new JpaNameImpl();
+        this.officialName = name;
+        return name;
+    }
+
     public String getFormattedNameAndID(){
         final StringBuilder builder = new StringBuilder();
         builder.append(this.officialName.getFormattedName());
@@ -70,12 +76,26 @@ public class JpaPersonImpl extends Entity implements Person {
         return this.preferredName;
     }
 
+    public Name addPreferredName(){
+        JpaNameImpl name = new JpaNameImpl();
+        this.preferredName = name;
+        return name;
+    }
+
     public String getGender() {
         return this.gender;
     }
 
     public Date getDateOfBirth() {
         return this.dateOfBirth;
+    }
+
+    public void setGender(String gender){
+        this.gender = gender;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth){
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Role addRole(final RoleInfo roleInfo) {
@@ -95,4 +115,11 @@ public class JpaPersonImpl extends Entity implements Person {
     public List<? extends Identifier> getIdentifiers() {
         return this.identifiers;
     }
+
+    public Identifier addIdentifier(){
+        final JpaIdentifierImpl jpaIdentifier = new JpaIdentifierImpl(this);
+        this.identifiers.add(jpaIdentifier);
+        return jpaIdentifier;
+    }
+
 }

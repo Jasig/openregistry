@@ -66,4 +66,18 @@ public interface Person extends Serializable {
      * @return the date of birth.
      */
     Date getDateOfBirth();
+
+    /**
+     * The date of birth, never null.
+     */
+    void setDateOfBirth(Date dateOfBirth);
+
+    void setGender(String gender);
+
+    Identifier addIdentifier();
+
+    Name addOfficialName();
+
+    Name addPreferredName();
+
 }
