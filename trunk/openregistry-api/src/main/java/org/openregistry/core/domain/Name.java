@@ -16,6 +16,16 @@ public interface Name {
     String getFamily();
 
     String getSuffix();
+
+    void setPrefix(String prefix);
+
+    void setGiven(String given);
+
+    void setMiddle(String middle);
+
+    void setFamily(String family);
+
+    void setSuffix(String suffix);
     
     String toString();
 }
