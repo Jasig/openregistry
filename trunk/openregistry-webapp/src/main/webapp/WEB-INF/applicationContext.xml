@@ -46,4 +46,6 @@
 
     <bean id="roleValidator" class="org.openregistry.service.validator.RoleValidator"/>
 
+    <bean id="personValidator" class="org.openregistry.service.validator.PersonValidator"/>
+    
 </beans>
