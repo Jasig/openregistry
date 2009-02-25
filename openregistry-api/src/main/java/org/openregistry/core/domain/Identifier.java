@@ -12,4 +12,8 @@ public interface Identifier {
     IdentifierType getType();
 
     String getValue();
+
+    void setType(Type type);
+
+    void setValue(String value);
 }
