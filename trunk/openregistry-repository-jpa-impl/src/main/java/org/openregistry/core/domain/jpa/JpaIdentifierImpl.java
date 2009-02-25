@@ -3,6 +3,7 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 
 import javax.persistence.*;
@@ -33,6 +34,14 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @Column(name="identifier", length=100,nullable=false)
     private String value;
 
+    public JpaIdentifierImpl() {
+        // nothing to do
+    }
+
+    public JpaIdentifierImpl(final JpaPersonImpl person) {
+        this.person = person;
+    }
+
     protected Long getId() {
         return this.id;
     }
@@ -47,5 +56,17 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
 
     public Person getPerson() {
         return this.person;
+    }
+
+    public void setType(final Type type) {
+        if (!(type instanceof JpaIdentifierTypeImpl)) {
+            throw new IllegalArgumentException("Requires type JpaIdentifierTypeImpl");
+        }
+
+        this.type = (JpaIdentifierTypeImpl) type;
+    }
+
+    public void setValue(String value){
+        this.value = value;
     }
 }
