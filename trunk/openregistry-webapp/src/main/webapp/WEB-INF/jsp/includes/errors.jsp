@@ -1,5 +1,10 @@
-<!-- $Id: $ -->
-
+<%--
+  Created by IntelliJ IDEA.
+  User: Nancy Mond
+  Date: Feb 23, 2009
+  Time: 4:56:10 PM
+  To change this template use File | Settings | File Templates.
+--%>
 <c:if test="${not empty command}">
 	<spring:hasBindErrors name="${command}"/>
 	<spring:bind path="${command}.*">
