@@ -30,4 +30,13 @@ public interface PersonService {
      *         of whether this operation succeeded or failed.
      */
     ServiceExecutionResult validateAndSaveRoleForPerson(Person person, Role role);
+
+    /**
+     * Validate, add and persist a Person in the Open Registry
+     *
+     * @param person a person to valiate and add.
+     * @return an instance of a <code>ServiceExecutionResult</code> containing details
+     *         of whether this operation succeeded or failed.
+     */
+    ServiceExecutionResult validateAndSavePerson(Person person);
 }

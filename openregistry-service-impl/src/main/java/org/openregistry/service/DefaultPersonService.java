@@ -6,6 +6,7 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.service.validator.RoleValidator;
+import org.openregistry.service.validator.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
@@ -37,6 +38,9 @@ public class DefaultPersonService implements PersonService {
     @Autowired(required=true)
     private RoleValidator roleValidator;
 
+    @Autowired(required=true)
+    private PersonValidator personValidator;
+
     //The converter is thread safe
     private SpringMessageConverter springMessageConverter = new SpringMessageConverter();
 
@@ -63,5 +67,28 @@ public class DefaultPersonService implements PersonService {
         }
         return executionResult == null ? new DefaultServiceExecutionResult(serviceName, executionDate, errors) : executionResult;
     }
+
+    @Transactional
+    public ServiceExecutionResult validateAndSavePerson(final Person person) {
+        String serviceName = "PersonService.validateAndSaveRoleForPerson";
+        Date executionDate = new Date();
+        DefaultServiceExecutionResult executionResult = null;
+
+        DataBinder db = new DataBinder(person, "person");
+        Errors errors = db.getBindingResult();
+
+        //Do the actual validation (both using annotations and plain code)
+        //and accumulate any validation errors in the created Errors instance
+        this.springMessageConverter.convertMessages(annotationValidator.validateObject(person), errors);
+        personValidator.validate(person, errors);
+        if (!errors.hasErrors()) {
+            this.personRepository.savePerson(person);
+            executionResult = new DefaultServiceExecutionResult(serviceName, executionDate);
+        }
+        // TODO Need to add code here.
+
+        return executionResult == null ? new DefaultServiceExecutionResult(serviceName, executionDate, errors) : executionResult;
+    }
+
 
 }
