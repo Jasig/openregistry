@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.Campus;
 import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  */
 @javax.persistence.Entity(name="campus")
 @Table(name="prs_campuses")
+@Audited
 public class JpaCampusImpl extends Entity implements Campus {
 
     @Id()

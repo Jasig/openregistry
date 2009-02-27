@@ -3,6 +3,7 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.Phone;
 import org.openregistry.core.domain.Type;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
  */
 @javax.persistence.Entity(name="phone")
 @Table(name="prc_phones")
+@Audited
 public class JpaPhoneImpl extends Entity implements Phone {
 
     @ManyToOne(optional = false)

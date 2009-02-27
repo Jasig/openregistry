@@ -3,6 +3,7 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.Leave;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Date;
  */
 @javax.persistence.Entity(name="loa")
 @Table(name="prs_loa")
+@Audited
 public class JpaLeaveImpl extends Entity implements Leave {
 
     @Id

@@ -4,6 +4,7 @@ import org.openregistry.core.domain.Department;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Campus;
 import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
  */
 @javax.persistence.Entity(name="department")
 @Table(name="prs_departments")
+@Audited
 public class JpaDepartmentImpl extends Entity implements Department {
 
     @Id

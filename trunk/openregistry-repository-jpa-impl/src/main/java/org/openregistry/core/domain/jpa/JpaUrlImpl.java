@@ -3,6 +3,7 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.Url;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.net.URL;
@@ -14,6 +15,7 @@ import java.net.URL;
  */
 @javax.persistence.Entity(name="url")
 @Table(name="prc_urls")
+@Audited
 public class JpaUrlImpl extends Entity implements Url {
 
     @Id

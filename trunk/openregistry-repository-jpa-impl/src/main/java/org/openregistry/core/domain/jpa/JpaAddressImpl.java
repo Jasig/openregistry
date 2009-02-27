@@ -5,6 +5,7 @@ import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Region;
 import org.openregistry.core.domain.Country;
 import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
@@ -16,6 +17,7 @@ import javax.persistence.*;
  */
 @javax.persistence.Entity(name="address")
 @Table(name="prc_addresses")
+@Audited
 public class JpaAddressImpl extends Entity implements Address {
 
     @Id

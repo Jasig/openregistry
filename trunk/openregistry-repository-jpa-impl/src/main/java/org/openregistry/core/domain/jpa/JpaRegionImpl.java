@@ -3,6 +3,7 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.Region;
 import org.openregistry.core.domain.Country;
 import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @javax.persistence.Entity(name="region")
 @Table(name="ctd_regions")
+@Audited
 public class JpaRegionImpl extends Entity implements Region {
 
     @Id

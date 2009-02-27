@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.*;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
  */
 @javax.persistence.Entity(name="person")
 @Table(name="prc_persons")
+@Audited
 public class JpaPersonImpl extends Entity implements Person {
 
     @Id

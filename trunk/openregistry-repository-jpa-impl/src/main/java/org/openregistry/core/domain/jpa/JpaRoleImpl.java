@@ -10,6 +10,7 @@ import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
+import org.hibernate.envers.Audited;
 
 /**
  * Role entity mapped to a persistence store with JPA annotations.
@@ -21,6 +22,7 @@ import org.javalid.annotations.validation.NotNull;
 @javax.persistence.Entity(name="role")
 @Table(name="prc_role_records")
 @ValidateDefinition
+@Audited
 public class JpaRoleImpl extends Entity implements Role {
 
     @Id
