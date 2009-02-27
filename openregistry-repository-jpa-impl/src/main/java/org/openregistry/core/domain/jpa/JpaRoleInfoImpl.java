@@ -5,6 +5,7 @@ import org.openregistry.core.domain.Department;
 import org.openregistry.core.domain.Campus;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @javax.persistence.Entity(name="roleInfo")
 @Table(name="prs_roles")
+@Audited
 public class JpaRoleInfoImpl extends Entity implements RoleInfo {
 
     @Id

@@ -5,6 +5,7 @@ import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ import javax.persistence.*;
  */
 @javax.persistence.Entity(name="identifier")
 @Table(name="prc_identifiers")
+@Audited
 public class JpaIdentifierImpl extends Entity implements Identifier {
 
     @Id

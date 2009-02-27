@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @javax.persistence.Entity(name="identifier_type")
 @Table(name="prd_identifier_types")
+@Audited
 public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 
     @Id

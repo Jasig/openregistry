@@ -3,6 +3,7 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ import javax.persistence.*;
 
 @javax.persistence.Entity(name="emailAddress")
 @Table(name="prc_emails")
+@Audited
 public class JpaEmailAddressImpl extends Entity implements EmailAddress {
 
     @Id

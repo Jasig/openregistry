@@ -3,6 +3,7 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.Country;
 import org.openregistry.core.domain.Region;
 import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  */
 @javax.persistence.Entity(name="country")
 @Table(name="ctd_countries")
+@Audited
 public class JpaCountryImpl extends Entity implements Country {
 
     @Id

@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  */
 @javax.persistence.Entity(name="type")
 @Table(name="ctx_data_types")
+@Audited
 public class JpaTypeImpl extends Entity implements Type {
 
     @Id
