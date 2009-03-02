@@ -13,10 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.DataBinder;
 import org.springframework.transaction.annotation.Transactional;
 import org.javalid.core.AnnotationValidator;
-import org.javalid.core.ValidationMessage;
 import org.javalid.external.spring.SpringMessageConverter;
-
-import java.util.List;
 import java.util.Date;
 
 /**
@@ -78,14 +75,14 @@ public class DefaultPersonService implements PersonService {
         Errors errors = db.getBindingResult();
 
         //Do the actual validation (both using annotations and plain code)
-        //and accumulate any validation errors in the created Errors instance
+        //and accumulate any validation errors in the created Errors instance        
         this.springMessageConverter.convertMessages(annotationValidator.validateObject(person), errors);
+        
         personValidator.validate(person, errors);
         if (!errors.hasErrors()) {
-            this.personRepository.savePerson(person);
+            // TODO Call to reconciliation code and save code.
             executionResult = new DefaultServiceExecutionResult(serviceName, executionDate);
         }
-        // TODO Need to add code here.
 
         return executionResult == null ? new DefaultServiceExecutionResult(serviceName, executionDate, errors) : executionResult;
     }
