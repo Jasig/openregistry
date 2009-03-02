@@ -36,7 +36,7 @@ import org.openregistry.service.DefaultServiceExecutionResult;
 @Controller
 @RequestMapping("/addRole.htm")
 @SessionAttributes({"role", "person"})
-public class PersonRegistryController {
+public class RoleController {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected final String ACTIVE_STATUS = "Active";
@@ -52,7 +52,7 @@ public class PersonRegistryController {
     private MessageSource messageSource;
 
     @Autowired(required=true)
-    public PersonRegistryController(MessageSource messageSource) {
+    public RoleController(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 
@@ -62,16 +62,6 @@ public class PersonRegistryController {
     @ModelAttribute("countryLookup")
     public List<Country> populateCountryLookup() {
         return this.referenceRepository.getCountries();
-    }
-
-    @ModelAttribute("campusLookup")
-    public List<Campus> populateCampusLookup() {
-        return this.referenceRepository.getCampuses();
-    }
-
-    @ModelAttribute("departmentLookup")
-    public List<Department> populateDepartmentLookup() {
-        return this.referenceRepository.getDepartments();
     }
 
     @ModelAttribute("sponsorLookup")
@@ -122,8 +112,6 @@ public class PersonRegistryController {
         binder.registerCustomEditor(Country.class, "addresses.country", new CountryEditor(referenceRepository));
         binder.registerCustomEditor(Region.class, "addresses.region", new RegionEditor(referenceRepository));
         binder.registerCustomEditor(Person.class, "sponsor", new SponsorEditor(referenceRepository));
-        binder.registerCustomEditor(Department.class, "department", new DepartmentEditor(referenceRepository));
-        binder.registerCustomEditor(Campus.class, "campus", new CampusEditor(referenceRepository));
     }
 
     /**
