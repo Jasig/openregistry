@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Nancy Mond
+  Date: Feb 23, 2009
+  Time: 4:56:10 PM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page language="java" %>
 <%@ page session="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -51,19 +58,7 @@
 							<form:select path="sponsor" id="c1_sponsor" items="${sponsorLookup}" itemValue="id" itemLabel= "formattedNameAndID" size="1" tabindex="3" />
                        </div>
                     </div>
-                                       
-                    <div class="row">
-						
-						<label for="c1_department" class="department"><spring:message code="department.label" /> <em>*</em></label>
-						<div class="select department">
-                            <form:select path="department" id="c1_department" items="${departmentLookup}" itemValue="id" itemLabel="name" size="1" tabindex="4" />
-						</div>
-						
-						<label for="c1_campus" class="campus"><spring:message code="campus.label"/></label>
-						<div class="select campus">
-							<form:select path="campus" id="c1_campus" items="${campusLookup}" itemValue="id" itemLabel="name" size="1" tabindex="5" />
-						</div>
-                    </div>
+
                     <div class="row">
                         <label for="c1_email"><spring:message code="email.label"/></label>
                         <form:input path="emailAddresses[0].address" id="c1_email" size="20" maxlength="30" tabindex="6" />
