@@ -56,6 +56,8 @@ public class JpaPersonImpl extends Entity implements Person {
         return this.id;
     }
 
+    @JvGroup
+    @NotNull(customCode="lastNameRequiredMsg")
     public Name getOfficialName() {
         return this.officialName;
     }
@@ -84,10 +86,14 @@ public class JpaPersonImpl extends Entity implements Person {
         return name;
     }
 
+    @JvGroup
+    @NotEmpty(customCode="genderRequiredMsg")
     public String getGender() {
         return this.gender;
     }
 
+    @JvGroup
+    @NotNull (customCode="dateOfBirthRequiredMsg")
     public Date getDateOfBirth() {
         return this.dateOfBirth;
     }
