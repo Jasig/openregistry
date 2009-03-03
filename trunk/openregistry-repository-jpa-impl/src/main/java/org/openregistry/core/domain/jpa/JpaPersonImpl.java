@@ -3,6 +3,10 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.*;
 import org.hibernate.envers.Audited;
+import org.javalid.annotations.core.JvGroup;
+import org.javalid.annotations.core.ValidateDefinition;
+import org.javalid.annotations.validation.NotEmpty;
+import org.javalid.annotations.validation.NotNull;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 @javax.persistence.Entity(name="person")
 @Table(name="prc_persons")
 @Audited
+@ValidateDefinition
 public class JpaPersonImpl extends Entity implements Person {
 
     @Id
