@@ -47,5 +47,7 @@
     <bean id="roleValidator" class="org.openregistry.service.validator.RoleValidator"/>
 
     <bean id="personValidator" class="org.openregistry.service.validator.PersonValidator"/>
+
+    <bean id="personFactory" class="org.openregistry.core.factory.jpa.JpaPersonFactory"/>
     
 </beans>
