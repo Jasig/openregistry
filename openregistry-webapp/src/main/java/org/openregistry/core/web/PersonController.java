@@ -41,6 +41,8 @@ public class PersonController {
 
     private MessageSource messageSource;
 
+    private Class<? extends Person> personClass;
+
     @Autowired(required=true)
     public PersonController(MessageSource messageSource) {
         this.messageSource = messageSource;
@@ -55,6 +57,10 @@ public class PersonController {
         Person person = addPerson();
         model.addAttribute("person", person);
     	return "addPerson";
+    }
+
+    public void setPersonClass(final Class<? extends Person> personClass) {
+        this.personClass = personClass;
     }
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -90,11 +96,15 @@ public class PersonController {
      * @return person
      */
     protected Person addPerson(){
-         Person person = new JpaPersonImpl();  //replace this with service call
-         person.addOfficialName();
-         person.addPreferredName();
-         person.addIdentifier();
-         person.addIdentifier();
-         return person;
+         try {
+             final Person person = personClass.newInstance();
+             person.addOfficialName();
+             person.addPreferredName();
+             person.addIdentifier();
+             person.addIdentifier();
+             return person;
+         } catch (final Exception e) {
+             throw new RuntimeException(e);
+         }
     }
 }
