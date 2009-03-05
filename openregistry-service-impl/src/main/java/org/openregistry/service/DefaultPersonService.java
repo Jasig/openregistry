@@ -74,6 +74,7 @@ public class DefaultPersonService implements PersonService {
         }
 
         // TODO Call to reconciliation code and save code.
+        this.personRepository.savePerson(person);
         return new DefaultServiceExecutionResult(serviceName);
     }
 }
