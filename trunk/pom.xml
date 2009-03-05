@@ -131,7 +131,7 @@
     </build>
 
     <properties>
-        <spring.version>2.5.6</spring.version>
+        <spring.version>3.0.0.M2</spring.version>
         <junit.version>4.5</junit.version>
         <servlet.version>2.5</servlet.version>
         <persistence.version>1.0</persistence.version>

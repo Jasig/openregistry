@@ -88,7 +88,9 @@ public class RoleController {
 
         if (!result.hasErrors()){
             ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person, role);
-            Errors errors = res.getErrors();
+            // TODO disabled right now because we need to get this off the interface
+            Errors errors = null;
+                    // = res.getErrors();
             if (errors == null) {
                 model.addAttribute("infoModel", messageSource.getMessage("roleAdded", null, null));
                 status.setComplete();

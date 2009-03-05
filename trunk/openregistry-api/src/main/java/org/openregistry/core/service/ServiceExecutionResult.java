@@ -1,8 +1,5 @@
 package org.openregistry.core.service;
 
-import org.springframework.validation.Errors;
-
-import java.util.List;
 import java.util.Date;
 
 /**
@@ -13,11 +10,7 @@ import java.util.Date;
  */
 public interface ServiceExecutionResult {
 
-    /**
-     * Get a list of validation errors, or null
-     * @return list of validation errors (if any)
-     */
-    Errors getErrors();
+    // TODO we need to put in Dmitriy's refactoring and not depend on Spring --sb
 
     /**
      * Get an instant in time when a particular service, represented by this result, has been executed
