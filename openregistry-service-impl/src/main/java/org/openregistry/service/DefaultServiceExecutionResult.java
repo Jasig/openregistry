@@ -13,22 +13,24 @@ import java.util.Collections;
  *
  * @since 1.0
  * @see org.openregistry.core.service.ServiceExecutionResult
+ *
+ * // TODO This is not immutable, despite what the Javadoc says -sb
+ * // TODO This does not include the changes Dmitriy suggested for removing the dependency on Spring. -sb
  */
 public class DefaultServiceExecutionResult implements ServiceExecutionResult {
 
     private final String serviceName;
 
-    private final Date serviceExecutionDate;
+    private final Date serviceExecutionDate = new Date();
 
     private final Errors errors;
 
-    public DefaultServiceExecutionResult(String serviceName, Date serviceExecutionDate) {
-        this(serviceName, serviceExecutionDate, null);
+    public DefaultServiceExecutionResult(final String serviceName) {
+        this(serviceName, null);
     }
 
-    public DefaultServiceExecutionResult(String serviceName, Date serviceExecutionDate, Errors errors) {
+    public DefaultServiceExecutionResult(final String serviceName, final Errors errors) {
         this.serviceName = serviceName;
-        this.serviceExecutionDate = serviceExecutionDate;
         this.errors = errors;
     }
 

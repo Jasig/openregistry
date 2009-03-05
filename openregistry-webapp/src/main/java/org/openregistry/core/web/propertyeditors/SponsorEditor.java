@@ -19,30 +19,21 @@ import java.beans.PropertyEditorSupport;
  * Time: 9:39:54 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SponsorEditor extends PropertyEditorSupport {
-    private String format;
+public final class SponsorEditor extends AbstractReferenceRepositoryPropertyEditor {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    ReferenceRepository referenceRepository;
-
-    public SponsorEditor(ReferenceRepository referenceRepository){
-        this.referenceRepository = referenceRepository;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
+    public SponsorEditor(final ReferenceRepository referenceRepository){
+        super(referenceRepository);
     }
 
     public String getAsText(){
-        Person person = (Person) getValue();
+        final Person person = (Person) getValue();
         return person != null ? String.valueOf(person.getId()) : " ";
     }
 
     @Override 
-    public void setAsText(String text) {
+    public void setAsText(final String text) {
         if (StringUtils.hasText(text)){
-            setValue(referenceRepository.getPersonById(new Long(text)));
+            setValue(getReferenceRepository().getPersonById(new Long(text)));
         } else{
             setValue(null);
         }

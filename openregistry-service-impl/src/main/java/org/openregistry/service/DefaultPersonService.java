@@ -47,45 +47,33 @@ public class DefaultPersonService implements PersonService {
 
     @Transactional
     public ServiceExecutionResult validateAndSaveRoleForPerson(final Person person, final Role role) {
-        String serviceName = "PersonService.validateAndSaveRoleForPerson";
-        Date executionDate = new Date();
-        DefaultServiceExecutionResult executionResult = null;
+        final String serviceName = "PersonService.validateAndSaveRoleForPerson";
+        final Errors errors = new DataBinder(role, "role").getBindingResult();
 
-        DataBinder db = new DataBinder(role, "role");
-        Errors errors = db.getBindingResult();
+        this.springMessageConverter.convertMessages(this.annotationValidator.validateObject(role), errors);
+        this.roleValidator.validate(role, errors);
 
-        //Do the actual validation (both using annotations and plain code)
-        //and accumulate any validation errors in the created Errors instance
-        this.springMessageConverter.convertMessages(annotationValidator.validateObject(role), errors);
-        roleValidator.validate(role, errors);
-        if (!errors.hasErrors()) {
-            this.personRepository.savePerson(person);
-            executionResult = new DefaultServiceExecutionResult(serviceName, executionDate);
+        if (errors.hasErrors()) {
+            return new DefaultServiceExecutionResult(serviceName, errors);
         }
-        return executionResult == null ? new DefaultServiceExecutionResult(serviceName, executionDate, errors) : executionResult;
+
+        this.personRepository.savePerson(person);
+        return new DefaultServiceExecutionResult(serviceName);
     }
 
     @Transactional
     public ServiceExecutionResult validateAndSavePerson(final Person person) {
-        String serviceName = "PersonService.validateAndSaveRoleForPerson";
-        Date executionDate = new Date();
-        DefaultServiceExecutionResult executionResult = null;
+        final String serviceName = "PersonService.validateAndSaveRoleForPerson";
+        final Errors errors = new DataBinder(person, "person").getBindingResult();
 
-        DataBinder db = new DataBinder(person, "person");
-        Errors errors = db.getBindingResult();
+        this.springMessageConverter.convertMessages(this.annotationValidator.validateObject(person), errors);
+        this.personValidator.validate(person, errors);
 
-        //Do the actual validation (both using annotations and plain code)
-        //and accumulate any validation errors in the created Errors instance        
-        this.springMessageConverter.convertMessages(annotationValidator.validateObject(person), errors);
-        
-        personValidator.validate(person, errors);
-        if (!errors.hasErrors()) {
-            // TODO Call to reconciliation code and save code.
-            executionResult = new DefaultServiceExecutionResult(serviceName, executionDate);
+        if (errors.hasErrors()) {
+            return new DefaultServiceExecutionResult(serviceName, errors);
         }
 
-        return executionResult == null ? new DefaultServiceExecutionResult(serviceName, executionDate, errors) : executionResult;
+        // TODO Call to reconciliation code and save code.
+        return new DefaultServiceExecutionResult(serviceName);
     }
-
-
 }

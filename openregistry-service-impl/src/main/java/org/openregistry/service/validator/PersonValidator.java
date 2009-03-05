@@ -1,11 +1,8 @@
 package org.openregistry.service.validator;
 
 import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Name;
 import org.springframework.validation.Errors;
-import org.springframework.util.StringUtils;
-
-import java.util.Date;
+import org.springframework.validation.ValidationUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,27 +13,11 @@ import java.util.Date;
  */
 public class PersonValidator {
 
-    public void validate(Person person, Errors errors) {
-        //tried to validate using javalid but had problems due to nested name class.
-        validateOfficialName(person, errors);
+    public void validate(final Person person, final Errors errors) {
+
+        // check official name
+        // TODO we really want to ensure that one item on the name is set, not these specifically --sb
+        ValidationUtils.rejectIfEmpty(errors, "officialName.given", "firstNameRequiredMsg");
+        ValidationUtils.rejectIfEmpty(errors, "officialName.family", "lastNameRequiredMsg");
     }
-
-    /**
-     * Official Name must have a first and last name.
-     * @param person
-     * @param errors
-     */
-    void validateOfficialName(Person person, Errors errors){
-        Name officialName = person.getOfficialName();
-        String givenName = officialName.getGiven();
-        String familyName = officialName.getFamily();
-
-		if (!StringUtils.hasText(givenName)) {
-		    errors.rejectValue("officialName","firstNameRequiredMsg");
-		}
-        if (!StringUtils.hasText(familyName)) {
-		    errors.rejectValue("officialName","lastNameRequiredMsg");
-		}
-    }
-
 }

@@ -19,19 +19,10 @@ import java.beans.PropertyEditorSupport;
  * Time: 8:25:30 AM
  * To change this template use File | Settings | File Templates.
  */
-public class DepartmentEditor extends PropertyEditorSupport {
-    private String format;
+public final class DepartmentEditor extends AbstractReferenceRepositoryPropertyEditor {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    ReferenceRepository referenceRepository;
-
-    public DepartmentEditor(ReferenceRepository referenceRepository){
-        this.referenceRepository = referenceRepository;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
+    public DepartmentEditor(final ReferenceRepository referenceRepository){
+        super(referenceRepository);
     }
 
     public String getAsText(){
@@ -40,9 +31,9 @@ public class DepartmentEditor extends PropertyEditorSupport {
     }
 
     @Override
-    public void setAsText(String text) {
+    public void setAsText(final String text) {
         if (StringUtils.hasText(text)){
-            setValue(referenceRepository.getDepartmentById(new Long(text)));
+            setValue(getReferenceRepository().getDepartmentById(new Long(text)));
         } else {
             setValue(null);
         }

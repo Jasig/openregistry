@@ -68,9 +68,9 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     public Name addOfficialName(){
-        JpaNameImpl name = new JpaNameImpl();
-        this.officialName = name;
-        return name;
+        this.officialName = new JpaNameImpl();
+        this.officialName.setOfficialPerson(this);
+        return this.officialName;
     }
 
     public String getFormattedNameAndID(){
@@ -86,9 +86,9 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     public Name addPreferredName(){
-        JpaNameImpl name = new JpaNameImpl();
-        this.preferredName = name;
-        return name;
+        this.preferredName = new JpaNameImpl();
+        this.preferredName.setPreferredNamePerson(this);
+        return this.preferredName;
     }
 
     @JvGroup
