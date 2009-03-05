@@ -55,10 +55,10 @@
 						<form:input path="officialName.given" id="c1_firstName" size="10" maxlength="30" tabindex="2" />
 
                         <label for="c1_middleName" class="middleName"><spring:message code="middleName.label" /></label>
-                        <form:input path="officialName.middle" id="c1_middleName" size="10" maxlength="30" tabindex="4" />
+                        <form:input path="officialName.middle" id="c1_middleName" size="10" maxlength="30" tabindex="3" />
 						    
                         <label for="c1_lastName" class="lastName"><spring:message code="lastName.label" /><em>*</em></label>
-                        <form:input path="officialName.family" id="c1_lastName" size="10" maxlength="30" tabindex="3" />
+                        <form:input path="officialName.family" id="c1_lastName" size="10" maxlength="30" tabindex="4" />
 
                         <label for="c1_suffix" class="suffix"><spring:message code="suffix.label" /></label>
                         <form:input path="officialName.suffix" id="c1_suffix" size="5" maxlength="5" tabindex="5" />
@@ -66,14 +66,14 @@
 
                     <div class="row">
                         <label for="c1_preferredName" class="preferredName"><spring:message code="preferredName.label"/></label>
-						<form:input path="preferredName.given" id="c1_preferredName" size="10" maxlength="30" tabindex="2" />
+						<form:input path="preferredName.given" id="c1_preferredName" size="10" maxlength="30" tabindex="6" />
                     </div>
 
                     <div class="row">
 
 						<label for="c1_gender" class="gender"><spring:message code="gender.label" /> <em>*</em></label>
 						<div class="select gender">
-                            <form:select path="gender" id="c1_gender" size="1" tabindex="6">
+                            <form:select path="gender" id="c1_gender" size="1" tabindex="7">
                                 <form:option value="" label=""/>
                                 <form:option value="F" label="Female"/>
 							    <form:option value="M" label="Male"/>
@@ -92,24 +92,24 @@
                     -->
                    <div class="row">
 						<label for="c1_dateOfBirth" class="dateOfBirth"><spring:message code="dateOfBirth.label"/><em>*</em></label>
-						<form:input path="dateOfBirth" id="c1_dateOfBirth" size="10" maxlength="10" tabindex="7" />
+						<form:input path="dateOfBirth" id="c1_dateOfBirth" size="10" maxlength="10" tabindex="8" />
                    </div>
 
                     <div class="row">
                         <label for="c1_SSN"><spring:message code="ssn.label"/></label>
-                        <form:input path="identifiers[0].value" id="c1_ssn" size="9" maxlength="9" tabindex="8" />
+                        <form:input path="identifiers[0].value" id="c1_ssn" size="9" maxlength="9" tabindex="9" />
                     </div>
 
                     <div class="row">
 						<label for="c1_RUID" class="ruid"><spring:message code="ruid.label" /></label>
-                        <form:input path="identifiers[1].value" id="c1_ruid" size="9" maxlength="9" tabindex="9" />
+                        <form:input path="identifiers[1].value" id="c1_ruid" size="9" maxlength="9" tabindex="10" />
 					</div>
 
 			</fieldset>
 			</fieldset>
             <c:if test='${empty infoModel}'>
 			    <div class="row fm-v" style="clear:both;">
-				    <input style="float:left;" type="submit" id="fm-search-submit1" name="fm-search-submit" class="btn-submit" value="Add Person" tabindex="19"/>
+				    <input style="float:left;" type="submit" id="fm-search-submit1" name="fm-search-submit" class="btn-submit" value="Add Person" tabindex="11"/>
 			    </div>
             </c:if>
 
