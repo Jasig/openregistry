@@ -19,19 +19,10 @@ import java.util.Iterator;
  * Time: 10:34:12 AM
  * To change this template use File | Settings | File Templates.
  */
-public class CountryEditor extends PropertyEditorSupport {
-
-    private String format;
-
-     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    ReferenceRepository referenceRepository;
+public final class CountryEditor extends AbstractReferenceRepositoryPropertyEditor {
 
     public CountryEditor(ReferenceRepository referenceRepository){
-        this.referenceRepository = referenceRepository;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
+        super(referenceRepository);
     }
 
     public String getAsText(){
@@ -42,7 +33,7 @@ public class CountryEditor extends PropertyEditorSupport {
     @Override 
     public void setAsText(String text) {
         if (StringUtils.hasText(text)){
-            setValue(referenceRepository.getCountryById(new Long(text)));
+            setValue(getReferenceRepository().getCountryById(new Long(text)));
         } else{
             setValue(null);
         }

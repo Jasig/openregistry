@@ -88,6 +88,14 @@ public class JpaNameImpl extends Entity implements Name {
         this.suffix = suffix;
     }
 
+    public void setOfficialPerson(final JpaPersonImpl person2) {
+        this.person2 = person2;
+    }
+
+    public void setPreferredNamePerson(final JpaPersonImpl person1) {
+        this.person1 = person1;
+    }
+
     public String getFormattedName(){
         final StringBuilder builder = new StringBuilder();
 

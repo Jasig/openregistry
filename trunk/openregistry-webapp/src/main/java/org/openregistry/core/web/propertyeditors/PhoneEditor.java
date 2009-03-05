@@ -1,5 +1,7 @@
 package org.openregistry.core.web.propertyeditors;
 
+import java.beans.PropertyEditorSupport;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Nancy Mond
@@ -7,10 +9,7 @@ package org.openregistry.core.web.propertyeditors;
  * Time: 9:19:42 AM
  * To change this template use File | Settings | File Templates.
  */
-
-import java.beans.PropertyEditorSupport;
-
-public class PhoneEditor extends PropertyEditorSupport {
+public final class PhoneEditor extends PropertyEditorSupport {
 
     /** Regular expression used to identify range of tag characters. */
     private static final String REG_EX_TAGS = "[()-. \t]";

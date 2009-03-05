@@ -21,42 +21,30 @@ import java.util.Iterator;
  * Time: 10:34:12 AM
  * To change this template use File | Settings | File Templates.
  */
-public class RegionEditor extends PropertyEditorSupport {
-
-    private String format;
-
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    ReferenceRepository referenceRepository;
+public final class RegionEditor extends AbstractReferenceRepositoryPropertyEditor {
 
     public RegionEditor(ReferenceRepository referenceRepository){
-        this.referenceRepository = referenceRepository;     
+        super(referenceRepository);     
     }
 
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public String getAsText(){
-        Region region = (Region) getValue();
+    public String getAsText() {
+        final Region region = (Region) getValue();
         return region != null ? region.getName() : " ";
     }
 
     @Override
-    public void setAsText(String text) {
+    public void setAsText(final String text) {
+        final String trimmedText = text.trim();
         setValue(null);
-        if (StringUtils.hasText(text)){
-            List regionList =  referenceRepository.getRegions();
-            Iterator<Region> iterator = regionList.iterator();
+        if (!StringUtils.hasText(trimmedText)) {
+            return;
+        }
 
-	        while ( iterator.hasNext() ){
-	            Region region = iterator.next();
-                text = text.trim();
-                if (region.getCode().trim().equals(text) || region.getName().trim().equals(text)){
-                    setValue(region);
-                    break;
-                }
-	        }
+        for (final Region region : getReferenceRepository().getRegions()) {
+            if (region.getCode().trim().equals(trimmedText) || region.getName().trim().equals(trimmedText)){
+                setValue(region);
+                break;
+            }
         }
     }
 }

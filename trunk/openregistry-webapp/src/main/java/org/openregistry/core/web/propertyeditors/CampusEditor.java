@@ -16,18 +16,10 @@ import java.beans.PropertyEditorSupport;
  * Time: 9:16:56 AM
  * To change this template use File | Settings | File Templates.
  */
-public class CampusEditor extends PropertyEditorSupport {
-private String format;
+public final class CampusEditor extends AbstractReferenceRepositoryPropertyEditor {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-    ReferenceRepository referenceRepository;
-
-    public CampusEditor(ReferenceRepository referenceRepository){
-        this.referenceRepository = referenceRepository;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
+    public CampusEditor(final ReferenceRepository referenceRepository){
+        super(referenceRepository);
     }
 
     public String getAsText(){
@@ -36,9 +28,9 @@ private String format;
     }
 
     @Override
-    public void setAsText(String text) {
+    public void setAsText(final String text) {
         if (StringUtils.hasText(text)){
-            setValue(referenceRepository.getCampusById(new Long(text)));
+            setValue(getReferenceRepository().getCampusById(new Long(text)));
         } else{
             setValue(null);
         }
