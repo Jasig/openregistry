@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.ui.ModelMap;
@@ -15,10 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.domain.*;
-import org.openregistry.core.factory.PersonFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletRequest;
+import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,21 +37,21 @@ import java.util.Date;
 public class PersonController {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Autowired(required=true)
     private PersonService personService;
 
-    private MessageSource messageSource;
-
-    private PersonFactory personFactory;
-
     @Autowired(required=true)
-    public PersonController(MessageSource messageSource, PersonFactory personFactory) {
-        this.messageSource = messageSource;
-        this.personFactory = personFactory;
-    }
+    private ObjectFactory<Person> personFactory;
 
     @Autowired(required = true)
     private ReferenceRepository referenceRepository;
+
+    private MessageSource messageSource;
+
+    @Autowired(required=true)
+    public PersonController(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
 	@RequestMapping(method = RequestMethod.GET)
     public String addPersonSetUpForm(ModelMap model, ServletRequest request) {
@@ -68,7 +69,9 @@ public class PersonController {
             logger.info("calling validate and save person");
             logger.info("oficialName: "+ person.getOfficialName().toString());
 
-            Errors errors = personService.validateAndSavePerson(person).getErrors();
+            // TODO temporarily disabled until we fix the design of the API --sb
+            final Errors errors = null;
+            //  = personService.validateAndSavePerson(person).getErrors();
 
             if (errors == null) {
                 model.addAttribute("infoModel", messageSource.getMessage("personAdded", null, null));
@@ -93,11 +96,11 @@ public class PersonController {
      * @return person
      */
     protected Person addPerson(){
-         Person person = personFactory.createPerson();
-         person.addOfficialName();
-         person.addPreferredName();
-         person.addIdentifier();
-         person.addIdentifier();
-         return person;
+        final Person person = personFactory.getObject();
+        person.addOfficialName();
+        person.addPreferredName();
+        person.addIdentifier();
+        person.addIdentifier();
+        return person;
     }
 }

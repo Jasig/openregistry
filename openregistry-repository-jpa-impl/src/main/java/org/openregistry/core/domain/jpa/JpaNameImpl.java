@@ -68,23 +68,23 @@ public class JpaNameImpl extends Entity implements Name {
         return this.suffix;
     }
 
-    public void setPrefix(String prefix){
+    public void setPrefix(final String prefix) {
         this.prefix = prefix;
     }
 
-    public void setGiven(String given){
+    public void setGiven(final String given) {
         this.given = given;
     }
 
-    public void setMiddle(String middle){
+    public void setMiddle(final String middle) {
         this.middle = middle;
     }
 
-    public void setFamily(String family){
+    public void setFamily(final String family) {
         this.family = family;
     }
 
-    public void setSuffix(String suffix){
+    public void setSuffix(final String suffix) {
         this.suffix = suffix;
     }
 

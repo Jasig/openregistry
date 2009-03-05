@@ -1,7 +1,10 @@
 package org.openregistry.core.factory.jpa;
 
-import org.openregistry.core.factory.PersonFactory;
 import org.openregistry.core.domain.jpa.JpaPersonImpl;
+import org.openregistry.core.domain.Person;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,9 +13,10 @@ import org.openregistry.core.domain.jpa.JpaPersonImpl;
  * Time: 11:50:09 AM
  * To change this template use File | Settings | File Templates.
  */
-public class JpaPersonFactory implements PersonFactory {
+@Component
+public final class JpaPersonFactory implements ObjectFactory<Person> {
 
-    public JpaPersonImpl createPerson(){
+    public Person getObject() throws BeansException {
         return new JpaPersonImpl();
     }
 }

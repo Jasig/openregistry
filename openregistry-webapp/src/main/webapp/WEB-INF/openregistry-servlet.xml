@@ -15,9 +15,4 @@
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-
-    <bean name="/addPerson.htm" class="org.openregistry.core.web.PersonController"
-        p:personClass="org.openregistry.core.domain.jpa.JpaPersonImpl">
-        <constructor-arg index="0" ref="messageSource" />
-    </bean>
 </beans>

@@ -32,6 +32,8 @@
                           value="org.hibernate.envers.event.AuditEventListener" />
                 <property name="hibernate.ejb.event.post-collection-recreate"
                           value="org.hibernate.envers.event.AuditEventListener" />
+                <property name="org.hibernate.envers.auditTablePrefix" value="aud_" />
+                <property name="org.hibernate.envers.auditTableSuffix" value="" />
             </properties>
         </persistence-unit>
 </persistence>

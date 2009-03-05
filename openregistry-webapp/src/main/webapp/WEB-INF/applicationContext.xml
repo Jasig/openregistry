@@ -9,7 +9,7 @@
         http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <context:component-scan base-package="org.openregistry.service"/>
-    <context:component-scan base-package="org.openregistry.core.repository"/>
+    <context:component-scan base-package="org.openregistry.core"/>
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
 
@@ -23,7 +23,7 @@
         </property>
         <property name="jpaProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>
@@ -47,7 +47,4 @@
     <bean id="roleValidator" class="org.openregistry.service.validator.RoleValidator"/>
 
     <bean id="personValidator" class="org.openregistry.service.validator.PersonValidator"/>
-
-    <bean id="personFactory" class="org.openregistry.core.factory.jpa.JpaPersonFactory"/>
-    
 </beans>
