@@ -13,12 +13,12 @@ import org.springframework.validation.Errors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.openregistry.core.service.PersonService;
-import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.domain.*;
-import org.openregistry.core.domain.jpa.JpaPersonImpl;
+import org.openregistry.core.factory.PersonFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,26 +41,23 @@ public class PersonController {
 
     private MessageSource messageSource;
 
-    private Class<? extends Person> personClass;
+    private PersonFactory personFactory;
 
     @Autowired(required=true)
-    public PersonController(MessageSource messageSource) {
+    public PersonController(MessageSource messageSource, PersonFactory personFactory) {
         this.messageSource = messageSource;
+        this.personFactory = personFactory;
     }
 
     @Autowired(required = true)
     private ReferenceRepository referenceRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
-    public String addPersonSetUpForm(ModelMap model) {
+    public String addPersonSetUpForm(ModelMap model, ServletRequest request) {
     	logger.info("Populating: setUpForm: ");
         Person person = addPerson();
         model.addAttribute("person", person);
     	return "addPerson";
-    }
-
-    public void setPersonClass(final Class<? extends Person> personClass) {
-        this.personClass = personClass;
     }
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -69,16 +66,16 @@ public class PersonController {
 
         if (!result.hasErrors()){
             logger.info("calling validate and save person");
-            ServiceExecutionResult res = personService.validateAndSavePerson(person);
-            Errors errors = res.getErrors();
+            logger.info("oficialName: "+ person.getOfficialName().toString());
+
+            Errors errors = personService.validateAndSavePerson(person).getErrors();
+
             if (errors == null) {
                 model.addAttribute("infoModel", messageSource.getMessage("personAdded", null, null));
                 status.setComplete();
             } else {
                 result.addAllErrors(errors);
             }
-        } else {
-            logger.info("results had errors");
         }
 
         model.addAttribute("person", person);
@@ -96,15 +93,11 @@ public class PersonController {
      * @return person
      */
     protected Person addPerson(){
-         try {
-             final Person person = personClass.newInstance();
-             person.addOfficialName();
-             person.addPreferredName();
-             person.addIdentifier();
-             person.addIdentifier();
-             return person;
-         } catch (final Exception e) {
-             throw new RuntimeException(e);
-         }
+         Person person = personFactory.createPerson();
+         person.addOfficialName();
+         person.addPreferredName();
+         person.addIdentifier();
+         person.addIdentifier();
+         return person;
     }
 }
