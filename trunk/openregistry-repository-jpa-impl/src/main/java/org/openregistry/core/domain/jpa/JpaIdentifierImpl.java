@@ -60,7 +60,7 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
         return this.person;
     }
 
-    public void setType(final Type type) {
+    public void setType(final IdentifierType type) {
         if (!(type instanceof JpaIdentifierTypeImpl)) {
             throw new IllegalArgumentException("Requires type JpaIdentifierTypeImpl");
         }
