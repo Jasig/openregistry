@@ -26,7 +26,7 @@ public class JpaNameImpl extends Entity implements Name {
     @Column(name="prefix", nullable=true, length=5)
     private String prefix;
 
-    @Column(name="given_name",nullable=true,length=100)
+    @Column(name="given_name",nullable=false,length=100)
     private String given;
 
     @Column(name="middle_name",nullable=true,length=100)
@@ -38,10 +38,10 @@ public class JpaNameImpl extends Entity implements Name {
     @Column(name="suffix",nullable=true,length=5)
     private String suffix;
 
-    @OneToOne(mappedBy = "preferredName")
+    @OneToOne(mappedBy = "preferredName",optional=true)
     private JpaPersonImpl person1;
 
-    @OneToOne(mappedBy = "officialName")
+    @OneToOne(mappedBy = "officialName", optional=true)
     private JpaPersonImpl person2;
 
     protected Long getId() {

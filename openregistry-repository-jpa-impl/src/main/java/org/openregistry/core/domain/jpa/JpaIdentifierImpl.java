@@ -25,11 +25,11 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @SequenceGenerator(name="prs_identifier_seq",sequenceName="prs_identifier_seq",initialValue=1,allocationSize=50)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="person_id", nullable=false)
+    @ManyToOne(optional=false)
+    @JoinColumn(name="person_id")
     private JpaPersonImpl person;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional=false)
     @JoinColumn(name="identifier_t")
     private JpaIdentifierTypeImpl type;
 

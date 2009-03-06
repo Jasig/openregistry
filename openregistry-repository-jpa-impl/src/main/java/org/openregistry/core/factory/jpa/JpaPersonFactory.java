@@ -7,11 +7,12 @@ import org.springframework.beans.BeansException;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by IntelliJ IDEA.
- * User: nmond
- * Date: Mar 5, 2009
- * Time: 11:50:09 AM
- * To change this template use File | Settings | File Templates.
+ * Autowired component that will construct a new JpaPersonImpl to be fed to our other layers.  There should only be one
+ * of these configured at a given time.
+ *
+ * @author Scott Battaglia
+ * @version $Revision$ $Date$
+ * @since 1.0.0
  */
 @Component
 public final class JpaPersonFactory implements ObjectFactory<Person> {
