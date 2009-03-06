@@ -13,7 +13,7 @@ public interface Identifier {
 
     String getValue();
 
-    void setType(Type type);
+    void setType(IdentifierType type);
 
     void setValue(String value);
 }

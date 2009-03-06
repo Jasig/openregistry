@@ -42,4 +42,8 @@ public interface ReferenceRepository {
     List<Type> getAddressTypes();
 
     List<Type> getPhoneTypes();
+
+    List<IdentifierType> getIdentifierTypes();
+
+    IdentifierType findIdentifierType(String identifierName);
 }

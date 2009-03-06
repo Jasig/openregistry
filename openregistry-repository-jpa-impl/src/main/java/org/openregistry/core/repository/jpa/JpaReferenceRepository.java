@@ -104,4 +104,17 @@ public final class JpaReferenceRepository implements ReferenceRepository {
         return result;
     }
 
+    @Transactional
+    public List<IdentifierType> getIdentifierTypes(){
+        return (List<IdentifierType>) this.entityManager.createQuery("select r from identifier_type r").getResultList();
+    }
+
+    @Transactional
+    public IdentifierType findIdentifierType(String identifierName){
+        Query q = this.entityManager.createQuery("select distinct r from identifier_type r where name=:name");
+        q.setParameter("name", identifierName);
+        IdentifierType result = (IdentifierType)q.getSingleResult();
+        return result;
+    }
+
 }
