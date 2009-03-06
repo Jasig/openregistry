@@ -1,6 +1,7 @@
 package org.openregistry.core.web.propertyeditors;
 
 import org.openregistry.core.repository.ReferenceRepository;
+import org.springframework.util.StringUtils;
 
 import java.beans.PropertyEditorSupport;
 
@@ -23,4 +24,15 @@ public abstract class AbstractReferenceRepositoryPropertyEditor extends Property
     protected ReferenceRepository getReferenceRepository() {
         return this.referenceRepository;
     }
+
+    @Override
+    public final void setAsText(final String s) throws IllegalArgumentException {
+        if (StringUtils.hasText(s)) {
+            setAsTextInternal(s);
+        } else {
+            setValue(null);
+        }
+    }
+
+    protected abstract void setAsTextInternal(String s);
 }
