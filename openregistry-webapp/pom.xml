@@ -86,15 +86,6 @@
             <version>${standard.version}</version>
         </dependency>
 
-        <!-- BEGIN Hibernate Dependencies -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>3.4.0.GA</version>
-            <scope>runtime</scope>
-        </dependency>
-        <!-- END Hibernate Dependencies -->
-
         <dependency>
             <groupId>aopalliance</groupId>
             <artifactId>aopalliance</artifactId>
