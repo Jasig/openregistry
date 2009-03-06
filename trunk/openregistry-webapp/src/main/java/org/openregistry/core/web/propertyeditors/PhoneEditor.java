@@ -1,26 +1,20 @@
 package org.openregistry.core.web.propertyeditors;
 
-import java.beans.PropertyEditorSupport;
-
 /**
- * Created by IntelliJ IDEA.
- * User: Nancy Mond
- * Date: Jan 30, 2009
- * Time: 9:19:42 AM
- * To change this template use File | Settings | File Templates.
+ * Removes the extraneous characters from the Phone number in oder to persist it.
+ *
+ * @author Nancy Mond
+ * @author Scott Battaglia
+ * @version $Revision$ $Date$
+ * @since 1.0.0
  */
-public final class PhoneEditor extends PropertyEditorSupport {
+public final class PhoneEditor extends AbstractRegExPropertyEditor {
 
     /** Regular expression used to identify range of tag characters. */
     private static final String REG_EX_TAGS = "[()-. \t]";
 
-    public String getAsText() {
-        return null;
+    public PhoneEditor() {
+        super(REG_EX_TAGS);
     }
-
-    public void setAsText(final String text) throws IllegalArgumentException {
-        setValue(text.replaceAll(REG_EX_TAGS, ""));
-    }
-
 }
 
