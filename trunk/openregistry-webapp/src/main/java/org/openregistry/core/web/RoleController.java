@@ -10,23 +10,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.context.MessageSource;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import org.openregistry.core.web.propertyeditors.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.repository.ReferenceRepository;
-import org.openregistry.service.DefaultServiceExecutionResult;
 
 /**
  * @author Nancy Mond
@@ -36,9 +28,8 @@ import org.openregistry.service.DefaultServiceExecutionResult;
 @Controller
 @RequestMapping("/addRole.htm")
 @SessionAttributes({"role", "person"})
-public class RoleController {
+public final class RoleController extends AbstractLocalizationController {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected final String ACTIVE_STATUS = "Active";
     protected final String TYPE_STATUS = "Status";
     protected final String TYPE_ADDRESS = "Address";
@@ -46,15 +37,8 @@ public class RoleController {
     protected final String TYPE_EMAIL_ADDRESS = "EmailAddress";
     protected final String CAMPUS = "Campus";
 
-    @Autowired
-    private PersonService personService;
-
-    private MessageSource messageSource;
-
     @Autowired(required=true)
-    public RoleController(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
+    private PersonService personService;
 
     @Autowired(required = true)
     private ReferenceRepository referenceRepository;
@@ -70,12 +54,12 @@ public class RoleController {
     }
 
 	@RequestMapping(method = RequestMethod.GET)
-    public String addRoleSetUpForm(ModelMap model, @RequestParam("personKey")String personKey, @RequestParam("roleInfoKey")String roleInfoKey) {
+    public String addRoleSetUpForm(final ModelMap model, @RequestParam("personKey") final Long personKey, @RequestParam("roleInfoKey") final Long roleInfoKey) {
     	logger.info("Populating: setUpForm: ");
 
-        Person person = personService.findPersonById(new Long(personKey));
-        RoleInfo roleInfo = referenceRepository.getRoleInfo(new Long(roleInfoKey));
-        Role role = addRole(person, roleInfo);
+        final Person person = this.personService.findPersonById(personKey);
+        final RoleInfo roleInfo = this.referenceRepository.getRoleInfo(roleInfoKey);
+        final Role role = addRole(person, roleInfo);
 
         model.addAttribute("role", role);
         model.addAttribute("person", person);
@@ -83,16 +67,16 @@ public class RoleController {
     }
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("person") Person person, @ModelAttribute("role") Role role, BindingResult result, SessionStatus status ) {
+	public String addRoleProcessSubmit(final ModelMap model, @ModelAttribute("person") final Person person, @ModelAttribute("role") final Role role, final BindingResult result, final SessionStatus status ) {
         logger.info("processSubmit in add role");
 
         if (!result.hasErrors()){
-            ServiceExecutionResult res = personService.validateAndSaveRoleForPerson(person, role);
+            final ServiceExecutionResult serviceExecutionResult = this.personService.validateAndSaveRoleForPerson(person, role);
             // TODO disabled right now because we need to get this off the interface
-            Errors errors = null;
+            final Errors errors = null;
                     // = res.getErrors();
             if (errors == null) {
-                model.addAttribute("infoModel", messageSource.getMessage("roleAdded", null, null));
+                model.addAttribute("infoModel", getMessageSource().getMessage("roleAdded", null, null));
                 status.setComplete();
             } else {
                 result.addAllErrors(errors);
@@ -105,15 +89,14 @@ public class RoleController {
 	}
 
     @InitBinder
-    protected void initDataBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        binder.registerCustomEditor(Date.class, null, new CustomDateEditor(df, true));
+    protected void initDataBinder(final HttpServletRequest request, final ServletRequestDataBinder binder) {
+        binder.registerCustomEditor(Date.class, createNewCustomDateEditor());
         binder.registerCustomEditor(String.class, "phones.number", new PhoneEditor());
         binder.registerCustomEditor(String.class, "phones.areaCode", new PhoneEditor());
         binder.registerCustomEditor(String.class, "phones.countryCode", new PhoneEditor());
-        binder.registerCustomEditor(Country.class, "addresses.country", new CountryEditor(referenceRepository));
-        binder.registerCustomEditor(Region.class, "addresses.region", new RegionEditor(referenceRepository));
-        binder.registerCustomEditor(Person.class, "sponsor", new SponsorEditor(referenceRepository));
+        binder.registerCustomEditor(Country.class, new CountryEditor(referenceRepository));
+        binder.registerCustomEditor(Region.class, new RegionEditor(referenceRepository));
+        binder.registerCustomEditor(Person.class, new SponsorEditor(referenceRepository));
     }
 
     /**
@@ -122,23 +105,24 @@ public class RoleController {
      * @param roleInfo
      * @return role
      */
-    protected Role addRole(Person person, RoleInfo roleInfo){
-        Role role = person.addRole(roleInfo);
+    protected Role addRole(final Person person, final RoleInfo roleInfo){
+        final Role role = person.addRole(roleInfo);
         role.setPersonStatus(referenceRepository.findType(TYPE_STATUS, ACTIVE_STATUS));
-        EmailAddress emailAddress = role.addEmailAddress();
+        final EmailAddress emailAddress = role.addEmailAddress();
         emailAddress.setAddressType(referenceRepository.findType(TYPE_EMAIL_ADDRESS, CAMPUS));
-        Phone phone = role.addPhone();
+        final Phone phone = role.addPhone();
         phone.setPhoneType(referenceRepository.findType(TYPE_PHONE, CAMPUS));
         phone.setAddressType(referenceRepository.findType(TYPE_PHONE, CAMPUS));
-        Address address = role.addAddress();
+        final Address address = role.addAddress();
         address.setType(referenceRepository.findType(TYPE_ADDRESS, CAMPUS));
 
         //provide default values for start and end date of role
-        Calendar cal = Calendar.getInstance();
+        final Calendar cal = Calendar.getInstance();
         role.setStart(cal.getTime());
         cal.add(Calendar.MONTH, 6);
         role.setEnd(cal.getTime());
         return role;
     }
+
 
 }

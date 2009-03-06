@@ -6,22 +6,14 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.context.MessageSource;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.openregistry.core.service.PersonService;
-import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.domain.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletRequest;
-import javax.annotation.Resource;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -34,8 +26,7 @@ import java.util.Date;
 @Controller
 @RequestMapping("/addPerson.htm")
 @SessionAttributes("person")
-public class PersonController {
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+public final class PersonController extends AbstractLocalizationController {
 
     @Autowired(required=true)
     private PersonService personService;
@@ -43,38 +34,26 @@ public class PersonController {
     @Autowired(required=true)
     private ObjectFactory<Person> personFactory;
 
-    @Autowired(required = true)
-    private ReferenceRepository referenceRepository;
-
-    private MessageSource messageSource;
-
-    @Autowired(required=true)
-    public PersonController(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
-
 	@RequestMapping(method = RequestMethod.GET)
-    public String addPersonSetUpForm(ModelMap model, ServletRequest request) {
+    public String addPersonSetUpForm(final ModelMap model, final ServletRequest request) {
     	logger.info("Populating: setUpForm: ");
-        Person person = addPerson();
-        model.addAttribute("person", person);
+        model.addAttribute("person", createPerson());
     	return "addPerson";
     }
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String addRoleProcessSubmit(ModelMap model, @ModelAttribute("person") Person person, BindingResult result, SessionStatus status ) {
+	public String addRoleProcessSubmit(final ModelMap model, @ModelAttribute("person") final Person person, final BindingResult result, final SessionStatus status ) {
         logger.info("processSubmit in add person");
 
         if (!result.hasErrors()){
             logger.info("calling validate and save person");
-            logger.info("oficialName: "+ person.getOfficialName().toString());
 
             // TODO temporarily disabled until we fix the design of the API --sb
             final Errors errors = null;
-            //  = personService.validateAndSavePerson(person).getErrors();
+            this.personService.validateAndSavePerson(person);
 
             if (errors == null) {
-                model.addAttribute("infoModel", messageSource.getMessage("personAdded", null, null));
+                model.addAttribute("infoModel", getMessageSource().getMessage("personAdded", null, null));
                 status.setComplete();
             } else {
                 result.addAllErrors(errors);
@@ -86,16 +65,15 @@ public class PersonController {
 	}
 
     @InitBinder
-    protected void initDataBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        binder.registerCustomEditor(Date.class, null, new CustomDateEditor(df, true));
+    protected void initDataBinder(final HttpServletRequest request, final ServletRequestDataBinder binder) {
+        binder.registerCustomEditor(Date.class, createNewCustomDateEditor());
     }
 
      /**
      * Add and initialize new person.
      * @return person
      */
-    protected Person addPerson(){
+    protected Person createPerson(){
         final Person person = personFactory.getObject();
         person.addOfficialName();
         person.addPreferredName();
