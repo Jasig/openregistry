@@ -12,27 +12,20 @@ import javax.persistence.PersistenceContext;
 /**
  * Person repository implementation built on top of JPA.
  *
- * @since 1.0
- *        TODO: review the implementation
+ * @author Dmitriy Kopylenko
+ * @version $Revision$ $Date$
+ * @since 1.0.0
  */
 @Repository
 public class JpaPersonRepository implements PersonRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
-    
 
-    /**
-     * @see org.openregistry.core.repository.PersonRepository#findByInternalId(Long)
-     */
     public Person findByInternalId(Long id) throws RepositoryAccessException {
         return this.entityManager.find(JpaPersonImpl.class, id);
     }
 
-    /**
-     *
-     * @see org.openregistry.core.repository.PersonRepository#savePerson(org.openregistry.core.domain.Person)
-     */
     public Person savePerson(Person person) throws RepositoryAccessException {
         return this.entityManager.merge(person);
     }
