@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.openregistry.core.service.PersonService;
+import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.domain.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,16 +48,13 @@ public final class PersonController extends AbstractLocalizationController {
 
         if (!result.hasErrors()){
             logger.info("calling validate and save person");
+            final ServiceExecutionResult serviceExecutionResult = this.personService.validateAndSavePerson(person);
 
-            // TODO temporarily disabled until we fix the design of the API --sb
-            final Errors errors = null;
-            this.personService.validateAndSavePerson(person);
-
-            if (errors == null) {
+            if (serviceExecutionResult.getValidationErrors().isEmpty()) {
                 model.addAttribute("infoModel", getMessageSource().getMessage("personAdded", null, null));
                 status.setComplete();
             } else {
-                result.addAllErrors(errors);
+                getConverter().convertValidationErrors(serviceExecutionResult.getValidationErrors(), result);
             }
         }
 
