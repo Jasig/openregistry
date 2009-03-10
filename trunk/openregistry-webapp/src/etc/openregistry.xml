@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context path="/openregistry">
+	<!-- Turn off tomcat session persistance -->
+   	<Manager className="org.apache.catalina.session.PersistentManager" saveOnRestart="false">
+    	<Store className="org.apache.catalina.session.FileStore"/>
+   	</Manager>
+
+	<Resource
+   		name="jdbc/MyDataSource"
+   		auth="Container"
+   		type="com.mchange.v2.c3p0.ComboPooledDataSource"
+        description="BFL Database"
+        factory="org.apache.naming.factory.BeanFactory"
+        acquireIncrement="5"
+        minPoolSize="5"
+        maxPoolSize="256"
+        maxIdleTimeExcessConnections="900"
+        driverClass="com.mysql.jdbc.Driver"
+        jdbcUrl="jdbc:mysql://localhost/test"
+        user="@@USERNAME@@"
+        password="@@PASSWORD@@"
+        maxStatementsPerConnection="37"
+        numHelperThreads="5"
+        testConnectionOnCheckin="true"
+        idleConnectionTestPeriod="300" />
+
+	<!-- org.hibernate.dialect.Oracle10gDialect -->
+	<Environment
+		description=""
+		name="conf/HibernateDialect"
+		override="false"
+		type="java.lang.String"
+		value="org.hibernate.dialect.MySQL5Dialect" />
+</Context>
