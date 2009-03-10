@@ -21,6 +21,8 @@ public abstract class AbstractLocalizationController {
 
     private String dateFormat = DEFAULT_DATE_FORMAT;
 
+    private final SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
+
     @Autowired(required=true)
     private MessageSource messageSource;
 
@@ -35,5 +37,9 @@ public abstract class AbstractLocalizationController {
 
     protected final MessageSource getMessageSource() {
         return this.messageSource;
+    }
+
+    protected final SpringErrorValidationErrorConverter getConverter() {
+        return this.converter;
     }
 }

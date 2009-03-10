@@ -1,21 +1,18 @@
 package org.openregistry.service;
 
-import org.springframework.validation.Errors;
 import org.openregistry.core.service.ServiceExecutionResult;
+import org.openregistry.core.service.ValidationError;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Collections;
 
 /**
- * Immutable implementation of a <code>ServiceExecutionResult </code>
+ * Implementation of a <code>ServiceExecutionResult </code>
  *
  * @since 1.0
  * @see org.openregistry.core.service.ServiceExecutionResult
  *
- * // TODO This is not immutable, despite what the Javadoc says -sb
- * // TODO This does not include the changes Dmitriy suggested for removing the dependency on Spring. -sb
  */
 public class DefaultServiceExecutionResult implements ServiceExecutionResult {
 
@@ -23,20 +20,20 @@ public class DefaultServiceExecutionResult implements ServiceExecutionResult {
 
     private final Date serviceExecutionDate = new Date();
 
-    private final Errors errors;
+    private final Object targetObject;
 
-    public DefaultServiceExecutionResult(final String serviceName) {
-        this(serviceName, null);
+    private final List<ValidationError> validationErrors;
+
+    public DefaultServiceExecutionResult(final String serviceName, final Object targetObject) {
+        this(serviceName, targetObject, null);
     }
 
-    public DefaultServiceExecutionResult(final String serviceName, final Errors errors) {
+    public DefaultServiceExecutionResult(final String serviceName, final Object targetObject, final List<ValidationError> validationErrors) {
         this.serviceName = serviceName;
-        this.errors = errors;
+        this.targetObject = targetObject;
+        this.validationErrors = validationErrors != null ? Collections.unmodifiableList(validationErrors) : Collections.<ValidationError>emptyList(); 
     }
 
-    public Errors getErrors() {
-        return this.errors;
-    }
 
     public Date getExecutionDate() {
         return new Date(this.serviceExecutionDate.getTime());
@@ -44,5 +41,13 @@ public class DefaultServiceExecutionResult implements ServiceExecutionResult {
 
     public String getServiceName() {
         return this.serviceName;
+    }
+
+    public Object getTargetObject() {
+        return this.targetObject;
+    }
+
+    public List<ValidationError> getValidationErrors() {
+        return this.validationErrors;
     }
 }

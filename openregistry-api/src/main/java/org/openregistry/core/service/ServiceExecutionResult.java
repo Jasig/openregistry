@@ -1,6 +1,7 @@
 package org.openregistry.core.service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * A container encapsulating results of any number of different Open Registry public service API invocations.
@@ -9,8 +10,6 @@ import java.util.Date;
  * @since 1.0
  */
 public interface ServiceExecutionResult {
-
-    // TODO we need to put in Dmitriy's refactoring and not depend on Spring --sb
 
     /**
      * Get an instant in time when a particular service, represented by this result, has been executed
@@ -23,4 +22,18 @@ public interface ServiceExecutionResult {
      * @return a string token representing a symbolic name of a service that has been executed
      */
     String getServiceName();
+
+    /**
+     * The original object we were working with.
+     *
+     * @return the original object.  This CANNOT be null.
+     */
+    Object getTargetObject();
+
+    /**
+     * The list of field or object level validations.
+     *
+     * @return the list of validations.  CANNOT be null.  CAN be empty.
+     */
+    List<ValidationError> getValidationErrors();
 }

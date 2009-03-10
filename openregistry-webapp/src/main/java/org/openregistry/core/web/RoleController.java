@@ -67,19 +67,16 @@ public final class RoleController extends AbstractLocalizationController {
     }
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String addRoleProcessSubmit(final ModelMap model, @ModelAttribute("person") final Person person, @ModelAttribute("role") final Role role, final BindingResult result, final SessionStatus status ) {
+	public String addRoleProcessSubmit(final ModelMap model, @ModelAttribute("person") final Person person, @ModelAttribute("role") final Role role, final BindingResult result, final SessionStatus status) {
         logger.info("processSubmit in add role");
 
         if (!result.hasErrors()){
             final ServiceExecutionResult serviceExecutionResult = this.personService.validateAndSaveRoleForPerson(person, role);
-            // TODO disabled right now because we need to get this off the interface
-            final Errors errors = null;
-                    // = res.getErrors();
-            if (errors == null) {
+            if (serviceExecutionResult.getValidationErrors().isEmpty()) {
                 model.addAttribute("infoModel", getMessageSource().getMessage("roleAdded", null, null));
                 status.setComplete();
             } else {
-                result.addAllErrors(errors);
+                getConverter().convertValidationErrors(serviceExecutionResult.getValidationErrors(), result);
             }
         }
 
