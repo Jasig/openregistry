@@ -6,6 +6,7 @@ import org.openregistry.core.service.reconciliation.Reconciler;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.service.validator.RoleValidator;
 import org.openregistry.service.validator.PersonValidator;
@@ -82,30 +83,31 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public ServiceExecutionResult addPerson(final SorPerson person, final ReconciliationResult oldReconciliationResult) {
-        final List<ValidationError> validationErrors = validateAndConvert(person);
+    public ServiceExecutionResult addPerson(final PersonSearch personSearch, final ReconciliationResult oldReconciliationResult) {
+        final List<ValidationError> validationErrors = validateAndConvert(personSearch);
         final String serviceName = "PersonService.addPerson";
 
         if (!validationErrors.isEmpty()) {
-            return new DefaultServiceExecutionResult(serviceName, person, validationErrors);
+            return new DefaultServiceExecutionResult(serviceName, personSearch, validationErrors);
         }
 
 
         if (oldReconciliationResult != null) {
-            final ReconciliationResult result = this.reconciler.reconcile(person);
+            final ReconciliationResult result = this.reconciler.reconcile(personSearch);
 
             if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
-                this.personRepository.saveSorPerson(person);
+                this.personRepository.saveSorPerson(personSearch.getPerson());
                 // TODO kick off the process to "calculate"
-                return new DefaultServiceExecutionResult(serviceName, person);
+                return new DefaultServiceExecutionResult(serviceName, personSearch);
             }
 
-            return new DefaultServiceExecutionResult(serviceName, person, result);
+            return new DefaultServiceExecutionResult(serviceName, personSearch, result);
         }
 
-        this.personRepository.saveSorPerson(person);
+        this.personRepository.saveSorPerson(personSearch.getPerson());
         // TODO kick off process to "calculate"
-        return new DefaultServiceExecutionResult(serviceName, person);
+        // TODO should we sent back Person when successful?
+        return new DefaultServiceExecutionResult(serviceName, personSearch);
     }
 
     protected List<ValidationError> validateAndConvert(final Object object) {

@@ -4,6 +4,7 @@ import org.openregistry.core.service.reconciliation.Reconciler;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.PersonSearch;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.Collections;
 @Component
 public final class NoOpReconciler implements Reconciler {
 
-    public ReconciliationResult reconcile(final SorPerson person) {
+    public ReconciliationResult reconcile(final PersonSearch personSearch) {
         return new ReconciliationResult() {
             public ReconciliationType getReconciliationType() {
                 return ReconciliationType.NONE;

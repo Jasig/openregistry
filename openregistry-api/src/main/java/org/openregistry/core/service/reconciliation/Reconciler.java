@@ -1,6 +1,7 @@
 package org.openregistry.core.service.reconciliation;
 
 import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.PersonSearch;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,6 +12,6 @@ import org.openregistry.core.domain.sor.SorPerson;
  */
 public interface Reconciler {
 
-    ReconciliationResult reconcile(SorPerson person);
+    ReconciliationResult reconcile(PersonSearch personSearch);
 
 }
