@@ -69,6 +69,8 @@ public interface Person extends Serializable {
 
     /**
      * The date of birth, never null.
+     *
+     * @param dateOfBirth the date of birth.
      */
     void setDateOfBirth(Date dateOfBirth);
 

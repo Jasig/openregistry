@@ -3,6 +3,7 @@ package org.openregistry.core.repository.jpa;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.jpa.JpaPersonImpl;
 import org.springframework.stereotype.Repository;
 
@@ -22,11 +23,15 @@ public class JpaPersonRepository implements PersonRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Person findByInternalId(Long id) throws RepositoryAccessException {
+    public Person findByInternalId(final Long id) throws RepositoryAccessException {
         return this.entityManager.find(JpaPersonImpl.class, id);
     }
 
-    public Person savePerson(Person person) throws RepositoryAccessException {
+    public Person savePerson(final Person person) throws RepositoryAccessException {
+        return this.entityManager.merge(person);
+    }
+
+    public SorPerson saveSorPerson(final SorPerson person) throws RepositoryAccessException {
         return this.entityManager.merge(person);
     }
 }

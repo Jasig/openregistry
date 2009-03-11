@@ -1,5 +1,7 @@
 package org.openregistry.core.service;
 
+import org.openregistry.core.service.reconciliation.ReconciliationResult;
+
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +26,13 @@ public interface ServiceExecutionResult {
     String getServiceName();
 
     /**
+     * Determines whether the action succeeded or not.  If it did not, then either validation errors or reconciliation
+     * object should be filled in.
+     * @return true if it succeeded, false otherwise.
+     */
+    boolean succeeded();
+
+    /**
      * The original object we were working with.
      *
      * @return the original object.  This CANNOT be null.
@@ -36,4 +45,10 @@ public interface ServiceExecutionResult {
      * @return the list of validations.  CANNOT be null.  CAN be empty.
      */
     List<ValidationError> getValidationErrors();
+
+    /**
+     * The result of any reconciliation process.
+     * @return the result of any reconciliation.  CAN be NULL.
+     */
+    ReconciliationResult getReconciliationResult();
 }
