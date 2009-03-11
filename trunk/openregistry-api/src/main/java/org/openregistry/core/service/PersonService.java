@@ -3,6 +3,7 @@ package org.openregistry.core.service;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 
 /**
@@ -47,11 +48,11 @@ public interface PersonService {
      * <p>
      * This method should attempt to reconcile the person you are adding.
      *
-     * @param person the person you are trying to add
+     * @param personSearch the person you are trying to add
      * @param result the reconciliation result if they had already attempted to save this person. Let's the system know
      * that we already looked through the list of possibilities.
      * @return the result of the action.
      */
     // TODO configuration parameters to pass for Reconciliation?
-    ServiceExecutionResult addPerson(SorPerson person, ReconciliationResult result);
+    ServiceExecutionResult addPerson(PersonSearch personSearch, ReconciliationResult result);
 }
