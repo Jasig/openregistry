@@ -1,10 +1,11 @@
 package org.openregistry.service;
 
-import org.openregistry.core.service.PersonService;
-import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.ValidationError;
+import org.openregistry.core.service.*;
+import org.openregistry.core.service.reconciliation.ReconciliationResult;
+import org.openregistry.core.service.reconciliation.Reconciler;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.service.validator.RoleValidator;
 import org.openregistry.service.validator.PersonValidator;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.javalid.core.AnnotationValidator;
 import org.javalid.core.ValidationMessage;
-import org.javalid.external.spring.SpringMessageConverter;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -38,6 +39,9 @@ public class DefaultPersonService implements PersonService {
 
     @Autowired(required=true)
     private PersonValidator personValidator;
+
+    @Autowired(required=true)
+    private Reconciler reconciler;
 
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
@@ -74,6 +78,33 @@ public class DefaultPersonService implements PersonService {
 
         // TODO Call to reconciliation code and save code.
         this.personRepository.savePerson(person);
+        return new DefaultServiceExecutionResult(serviceName, person);
+    }
+
+    @Transactional
+    public ServiceExecutionResult addPerson(final SorPerson person, final ReconciliationResult oldReconciliationResult) {
+        final List<ValidationError> validationErrors = validateAndConvert(person);
+        final String serviceName = "PersonService.addPerson";
+
+        if (!validationErrors.isEmpty()) {
+            return new DefaultServiceExecutionResult(serviceName, person, validationErrors);
+        }
+
+
+        if (oldReconciliationResult != null) {
+            final ReconciliationResult result = this.reconciler.reconcile(person);
+
+            if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
+                this.personRepository.saveSorPerson(person);
+                // TODO kick off the process to "calculate"
+                return new DefaultServiceExecutionResult(serviceName, person);
+            }
+
+            return new DefaultServiceExecutionResult(serviceName, person, result);
+        }
+
+        this.personRepository.saveSorPerson(person);
+        // TODO kick off process to "calculate"
         return new DefaultServiceExecutionResult(serviceName, person);
     }
 

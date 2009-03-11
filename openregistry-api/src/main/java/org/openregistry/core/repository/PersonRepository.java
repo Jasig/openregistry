@@ -1,6 +1,7 @@
 package org.openregistry.core.repository;
 
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.sor.SorPerson;
 
 /**
  * Repository abstraction to deal with persistence concerns for <code>Person</code> entities
@@ -31,6 +32,16 @@ public interface PersonRepository {
      *                                   technical reasons.
      */
     Person savePerson(Person person) throws RepositoryAccessException;
+
+    /**
+     * Saves the System of Record person.
+     *
+     * @param person the person to save.
+     * @return the person which was saved in the repository.
+     * @throws RepositoryAccessException if the operation does not succeed for any number of
+     *                                   technical reasons.
+     */
+    SorPerson saveSorPerson(SorPerson person) throws RepositoryAccessException;
 
 
 }
