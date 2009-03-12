@@ -1,18 +1,23 @@
 package org.openregistry.service;
 
 import org.openregistry.core.service.*;
+import org.openregistry.core.service.identifier.IdentifierAssigner;
+import org.openregistry.core.service.identifier.IdentifierGenerator;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.Reconciler;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
+import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.service.validator.RoleValidator;
 import org.openregistry.service.validator.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.javalid.core.AnnotationValidator;
 import org.javalid.core.ValidationMessage;
 
@@ -43,6 +48,15 @@ public class DefaultPersonService implements PersonService {
 
     @Autowired(required=true)
     private Reconciler reconciler;
+
+    @Autowired(required=true)
+    private ObjectFactory<Person> personObjectFactory;
+
+    @Autowired(required=false)
+    private List<IdentifierAssigner> identifierAssigners = new ArrayList<IdentifierAssigner>();
+
+    @Autowired(required=true)
+    private IdentifierGenerator identifierGenerator;
 
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
@@ -96,16 +110,16 @@ public class DefaultPersonService implements PersonService {
             final ReconciliationResult result = this.reconciler.reconcile(personSearch);
 
             if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
-                this.personRepository.saveSorPerson(personSearch.getPerson());
-                // TODO kick off the process to "calculate"
+
+                final Person person = magic(personSearch);
                 return new DefaultServiceExecutionResult(serviceName, personSearch);
             }
 
             return new DefaultServiceExecutionResult(serviceName, personSearch, result);
         }
 
-        this.personRepository.saveSorPerson(personSearch.getPerson());
-        // TODO kick off process to "calculate"
+        final Person person = magic(personSearch);
+
         // TODO should we sent back Person when successful?
         return new DefaultServiceExecutionResult(serviceName, personSearch);
     }
@@ -123,5 +137,42 @@ public class DefaultPersonService implements PersonService {
         }
 
         return validationErrors;
+    }
+
+    protected Person magic(final PersonSearch personSearch) {
+        final SorPerson sorPerson = personSearch.getPerson();
+
+        if (!StringUtils.hasText(sorPerson.getSorId())) {
+            sorPerson.setSorId(this.identifierGenerator.generateNextString());
+        }
+
+        // Save Sor Person
+        this.personRepository.saveSorPerson(personSearch.getPerson());
+
+        // Construct actual person from Sor Information
+        final Person person = personObjectFactory.getObject();
+        person.setDateOfBirth(sorPerson.getDateOfBirth());
+        person.setGender(sorPerson.getGender());
+        final Name name = person.addOfficialName();
+
+        // There should only be one at this point.
+        // TODO generalize this to all names
+        final Name sorName = sorPerson.getNames().iterator().next();
+
+        name.setFamily(sorName.getFamily());
+        name.setGiven(sorName.getGiven());
+        name.setMiddle(sorName.getMiddle());
+        name.setPrefix(sorName.getPrefix());
+        name.setSuffix(sorName.getSuffix());
+
+        // Assign identifiers, including SSN from the SoR Person
+        // TODO set SSN as an Identifier, it should be one of the IdentifierAssigners
+        for (final IdentifierAssigner ia : this.identifierAssigners) {
+            ia.addIdentifierTo(sorPerson, person);
+        }
+
+        // Save into the repository
+        this.personRepository.savePerson(person);
+        return person;
     }
 }
