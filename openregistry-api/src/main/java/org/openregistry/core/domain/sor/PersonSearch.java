@@ -16,5 +16,13 @@ public interface PersonSearch extends Serializable {
 
     SorPerson getPerson();
 
+    String getEmailAddress();
+
+    void setEmailAddress(String emailAddress);
+
+    String getPhoneNumber();
+
+    void setPhoneNumber(String phoneNumber);
+
     Map<IdentifierType, String> getIdentifiersByType();
 }
