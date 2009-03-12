@@ -1,6 +1,7 @@
 package org.openregistry.core.service.identifier;
 
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.sor.SorPerson;
 
 /**
  * @author Scott Battaglia
@@ -14,7 +15,14 @@ public interface IdentifierAssigner {
      * so identifier creation systems should not rely on the identifier table in OR to check whether a value
      * was used or not.
      *
+     * @param sorPerson the original SoR person.
      * @param person the person to add the identifier to.
      */
-    void addIdentifierTo(Person person);
+    void addIdentifierTo(SorPerson sorPerson, Person person);
+
+    /**
+     * Returns the type of identifier that this assiger can assign.
+     * @return
+     */
+    String getIdentifierType();
 }
