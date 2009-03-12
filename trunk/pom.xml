@@ -139,8 +139,8 @@
         <standard.version>1.1.2</standard.version>
         <javalid.version>1.1</javalid.version>
         <log4j.version>1.2.14</log4j.version>
-        <commons.logging.version>1.1.1</commons.logging.version>
         <sl4j.version>1.5.6</sl4j.version>
+        <spring.webflow.version>2.0.5.RELEASE</spring.webflow.version>
     </properties>
 
     <repositories>
