@@ -20,6 +20,26 @@ public class JpaSorPersonSearchImpl implements PersonSearch {
 
     private Map<IdentifierType, String> identifiersByType = new HashMap<IdentifierType, String>();
 
+    private String emailAddress;
+
+    private String phoneNumber;
+
+    public String getEmailAddress() {
+        return this.emailAddress;
+    }
+
+    public void setEmailAddress(final String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public void setPhoneNumber(final String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public SorPerson getPerson() {
         return this.sorPerson;
     }

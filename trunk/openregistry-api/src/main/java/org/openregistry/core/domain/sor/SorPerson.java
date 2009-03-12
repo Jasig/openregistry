@@ -82,4 +82,17 @@ public interface SorPerson {
      * @return the name that was added.
      */
     Name addName();
+
+    /**
+     * The SSN of the person.   Can be null.
+     * @return the SSN of the person.
+     */
+    String getSsn();
+
+    /**
+     * Sets the SSN of the person.
+     * 
+     * @param ssn the SSN of the person.
+     */
+    void setSsn(String ssn);
 }

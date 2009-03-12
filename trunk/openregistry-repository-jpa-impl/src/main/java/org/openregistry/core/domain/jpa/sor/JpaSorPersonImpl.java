@@ -29,8 +29,8 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_person_seq")
-    @SequenceGenerator(name="prc_person_seq",sequenceName="prc_person_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_person_seq")
+    @SequenceGenerator(name="prs_person_seq",sequenceName="prs_person_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="sor_id")
@@ -56,6 +56,17 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person")
     @ValidateList
     private Set<Name> names = new HashSet<Name>();
+
+    @Column(name="ssn",nullable=true)
+    private String ssn;
+
+    public String getSsn() {
+        return this.ssn;
+    }
+
+    public void setSsn(final String ssn) {
+        this.ssn = ssn;
+    }
 
     protected Long getId() {
         return this.id;
