@@ -3,6 +3,7 @@ package org.openregistry.core.domain.sor;
 import org.openregistry.core.domain.IdentifierType;
 
 import java.util.Map;
+import java.io.Serializable;
 
 /**
  * TODO: Rename this to SOMETHING else.
@@ -11,7 +12,7 @@ import java.util.Map;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface PersonSearch {
+public interface PersonSearch extends Serializable {
 
     SorPerson getPerson();
 
