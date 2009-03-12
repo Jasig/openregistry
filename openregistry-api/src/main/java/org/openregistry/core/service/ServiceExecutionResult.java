@@ -33,7 +33,7 @@ public interface ServiceExecutionResult {
     boolean succeeded();
 
     /**
-     * The original object we were working with.
+     * The original object we were working with, or the final object if we're successful.
      *
      * @return the original object.  This CANNOT be null.
      */
