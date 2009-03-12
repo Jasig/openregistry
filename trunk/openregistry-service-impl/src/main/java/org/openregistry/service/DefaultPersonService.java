@@ -110,18 +110,13 @@ public class DefaultPersonService implements PersonService {
             final ReconciliationResult result = this.reconciler.reconcile(personSearch);
 
             if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
-
-                final Person person = magic(personSearch);
-                return new DefaultServiceExecutionResult(serviceName, personSearch);
+                return new DefaultServiceExecutionResult(serviceName, magic(personSearch));
             }
 
             return new DefaultServiceExecutionResult(serviceName, personSearch, result);
         }
 
-        final Person person = magic(personSearch);
-
-        // TODO should we sent back Person when successful?
-        return new DefaultServiceExecutionResult(serviceName, personSearch);
+        return new DefaultServiceExecutionResult(serviceName, magic(personSearch));
     }
 
     protected List<ValidationError> validateAndConvert(final Object object) {
@@ -147,7 +142,7 @@ public class DefaultPersonService implements PersonService {
         }
 
         // Save Sor Person
-        this.personRepository.saveSorPerson(personSearch.getPerson());
+        this.personRepository.saveSorPerson(sorPerson);
 
         // Construct actual person from Sor Information
         final Person person = personObjectFactory.getObject();
