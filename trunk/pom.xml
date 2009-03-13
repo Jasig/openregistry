@@ -150,5 +150,13 @@
             <layout>default</layout>
             <url>http://developer.ja-sig.org/maven2</url>
         </repository>
+
+        <repository>
+            <id>spring</id>
+            <layout>default</layout>
+            <name>Spring Milestone Repository</name>
+            <snapshots><enabled>false</enabled></snapshots>
+            <url>http://repository.springsource.com/maven/bundles/milestone</url>
+        </repository>
     </repositories>
 </project>
