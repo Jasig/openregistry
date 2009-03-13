@@ -72,12 +72,14 @@
             <scope>compile</scope>
         </dependency>
 
+        <!--
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>org.springframework.jdbc</artifactId>
             <version>${spring.version}</version>
             <scope>runtime</scope>
         </dependency>
+        -->
 
         <dependency>
             <groupId>javax.servlet</groupId>
