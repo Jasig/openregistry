@@ -2,7 +2,6 @@ package org.openregistry.core.service;
 
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 
