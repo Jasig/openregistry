@@ -119,11 +119,23 @@ public class DefaultPersonService implements PersonService {
         return new DefaultServiceExecutionResult(serviceName, magic(personSearch));
     }
 
+    /**
+     * Validates the object using the JaValid annotation framework and then converts the errors into the OpenRegistry API for errors.
+     *
+     * @param object the object to check
+     * @return the list of validation errors.  CANNOT be NULL.  Can be empty.
+     */
     protected List<ValidationError> validateAndConvert(final Object object) {
-        final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object);
+        final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object, null, "", true, -1);
         return convertToValidationErrors(validationMessages);
     }
 
+    /**
+     * Converts the validation errors from JaValid into the OpenRegistry API validation errors.
+     *
+     * @param messages the JaValid messages to convert.
+     * @return the list of validation errors.  CANNOT be null.  CAN be empty.
+     */
     protected List<ValidationError> convertToValidationErrors(final List<ValidationMessage> messages) {
         final List<ValidationError> validationErrors = new ArrayList<ValidationError>();
 
@@ -134,6 +146,12 @@ public class DefaultPersonService implements PersonService {
         return validationErrors;
     }
 
+    /**
+     * Current workflow for converting an SorPerson into the actual Person.
+     * 
+     * @param personSearch the original search criteria.
+     * @return the newly saved Person.
+     */
     protected Person magic(final PersonSearch personSearch) {
         final SorPerson sorPerson = personSearch.getPerson();
 
