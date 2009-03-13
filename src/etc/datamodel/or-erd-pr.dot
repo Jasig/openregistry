@@ -4,7 +4,7 @@
  */
 
 digraph ORDATAMODEL {
-  graph [label="Draft OpenRegistry Data Model (2/09)", labelloc="t", labeljust="l", rankdir="LR"]
+  graph [label="Draft OpenRegistry Data Model (3/09)", labelloc="t", labeljust="l", rankdir="LR"]
   node [shape=plaintext, labeljust="l"]
 
   /*
@@ -202,9 +202,9 @@ digraph ORDATAMODEL {
      * Campuses
 	 */
 
-    prs_campuses [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+    prd_campuses [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
 <tr>
- <td bgcolor="yellow" colspan="3"><font point-size="14">prs_campuses</font></td>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prd_campuses</font></td>
 </tr>
 <tr>
  <td align="left" colspan="3"><font point-size="12">List of instantiated campuses.</font></td>
@@ -228,93 +228,6 @@ digraph ORDATAMODEL {
  <td align="left"><font face="Courier" point-size="10">locale</font></td>
  <td align="left"><font face="Courier" point-size="10">char</font></td>
  <td align="left">Locale of name</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">change_id</font></td>
- <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Change Identifier (ctx_change_log:id)</td>
-</tr>
-   </table>>];
-   
-    /*
-     * Department Contacts - broken out separately to allow > 1
-     */
-
-    prs_department_contact_records [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
-<tr>
- <td bgcolor="yellow" colspan="3"><font point-size="14">prs_department_contact_records</font></td>
-</tr>
-<tr>
- <td align="left" colspan="3"><font point-size="12">Standardized contact information for a department.</font></td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">department_id</font></td>
- <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Identifier of the associated Department (prs_departments:department_id)</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">contact_type</font></td>
- <td align="left"><font face="Courier" point-size="10">char</font></td>
- <td align="left">Type of this Contact: Address, Email, Phone, URL</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">contact_id</font></td>
- <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Identifier for this Department's Contact (prs_TYPEs:TYPE_id)</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">change_id</font></td>
- <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Change Identifier (ctx_change_log:id)</td>
-</tr>
-   </table>>];
-
-    /*
-     * Departments
-	 */
-
-    prs_departments [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
-<tr>
- <td bgcolor="yellow" colspan="3"><font point-size="14">prs_departments</font></td>
-</tr>
-<tr>
- <td align="left" colspan="3"><font point-size="12">Standardized department information.
- Multiple department hierarchies are possible via department_t.</font></td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">id</font></td>
- <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Identifier of this Department</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">department_t</font></td>
- <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Type of this Department (ctx_data_types:data_type=department)</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">code</font></td>
- <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
- <td align="left">Local code for this Department</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">name</font></td>
- <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
- <td align="left">Name of this Department</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">locale</font></td>
- <td align="left"><font face="Courier" point-size="10">char</font></td>
- <td align="left">Locale of name</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">campus_id</font></td>
- <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Identifier for this Department's Campus (prs_campuses:id)</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">parent_department_id</font></td>
- <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Identifier of this Department's Parent (prs_department:id)</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">change_id</font></td>
@@ -398,9 +311,9 @@ digraph ORDATAMODEL {
      * Emergency Contacts - broken out separately to allow > 1
      */
 
-    prs_emergency_contact_records [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+    prc_emergency_contacts [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
 <tr>
- <td bgcolor="yellow" colspan="3"><font point-size="14">prs_emergency_contact_records</font></td>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_emergency_contacts</font></td>
 </tr>
 <tr>
  <td align="left" colspan="3"><font point-size="12">Standardized emergency contact information for a person.</font></td>
@@ -573,6 +486,49 @@ digraph ORDATAMODEL {
  <td align="left"><font face="Courier" point-size="10">sor_role_record_id</font></td>
  <td align="left"><font face="Courier" point-size="10">int</font></td>
  <td align="left">Identifier of the associated SOR Role Record (prs_sor_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+	 * Leaves of Absense (Calculated)
+	 */
+	 
+	prc_leaves_of_absence [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_leaves_of_absence</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Calculated leave of absence information.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Leave of Absence</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">leave_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Leave Type (ctx_data_types:data_type=leave)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">start_date</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Date this leave becomes effective</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">end_date</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Last effective date of this leave</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">prc_role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the associated Role Record (prc_role_records:id)</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">change_id</font></td>
@@ -890,7 +846,7 @@ digraph ORDATAMODEL {
 <tr>
  <td align="left"><font face="Courier" point-size="10">role_id</font></td>
  <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Identifier for this Record's Role (prc_roles:id)</td>
+ <td align="left">Identifier for this Record's Role (prd_roles:id)</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">sponsor_id</font></td>
@@ -940,12 +896,12 @@ digraph ORDATAMODEL {
    </table>>];
    
     /*
-     * Roles (Standardized)
+     * Roles
 	 */
 
-    prs_roles [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+    prd_roles [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
 <tr>
- <td bgcolor="yellow" colspan="3"><font point-size="14">prs_roles</font></td>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prd_roles</font></td>
 </tr>
 <tr>
  <td align="left" colspan="3"><font point-size="12">Standardized role definitions.</font></td>
@@ -958,7 +914,7 @@ digraph ORDATAMODEL {
 <tr>
  <td align="left"><font face="Courier" point-size="10">department_id</font></td>
  <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Identifier for this Record's Department (prs_departments:id)</td>
+ <td align="left">Identifier for this Record's Department (drd_departments:id)</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">title</font></td>
@@ -1006,45 +962,12 @@ digraph ORDATAMODEL {
 <tr>
  <td align="left"><font face="Courier" point-size="10">department_id</font></td>
  <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">School Student graduated from (prs_departments:id)</td>
+ <td align="left">School Student graduated from (drd_departments:id)</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">change_id</font></td>
  <td align="left"><font face="Courier" point-size="10">int</font></td>
  <td align="left">Change Identifier (ctx_change_log:id)</td>
-</tr>
-   </table>>];
-
-    /*
-     * SOR Contact Records - broken out separately to allow > 1
-     */
-
-    prs_sor_contact_records [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
-<tr>
- <td bgcolor="yellow" colspan="3"><font point-size="14">prs_sor_contact_records</font></td>
-</tr>
-<tr>
- <td align="left" colspan="3"><font point-size="12">Standardized role specific contact data.</font></td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">sor_role_record_id</font></td>
- <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Identifier of the associated SOR Role Record (prs_sor_role_records:id)</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">contact_type</font></td>
- <td align="left"><font face="Courier" point-size="10">char</font></td>
- <td align="left">Type of this Contact: Address, Email, Phone, URL</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">contact_id</font></td>
- <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Identifier for this Record's Contact (prs_TYPEs:id)</td>
-</tr>
-<tr>
- <td align="left"><font face="Courier" point-size="10">change_id</font></td>
- <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Change Identifier (ct_change_log:id)</td>
 </tr>
    </table>>];
 
@@ -1110,7 +1033,7 @@ digraph ORDATAMODEL {
 <tr>
  <td align="left"><font face="Courier" point-size="10">role_id</font></td>
  <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Identifier for this Record's Role (prs_roles:id)</td>
+ <td align="left">Identifier for this Record's Role (prd_roles:id)</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">sponsor_id</font></td>
@@ -1178,7 +1101,7 @@ digraph ORDATAMODEL {
 <tr>
  <td align="left"><font face="Courier" point-size="10">department_id</font></td>
  <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">School Student enrolled in (prs_departments:id)</td>
+ <td align="left">School Student enrolled in (drd_departments:id)</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">change_id</font></td>
@@ -1193,7 +1116,7 @@ digraph ORDATAMODEL {
 
     prc_sponsors [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
 <tr>
- <td bgcolor="yellow" colspan="3"><font point-size="14">prs_sponsors</font></td>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_sponsors</font></td>
 </tr>
 <tr>
  <td align="left" colspan="3"><font point-size="12">Calculated sponsors for each of a person's roles.</font></td>
@@ -1344,8 +1267,8 @@ digraph ORDATAMODEL {
   bro_derived_attribute_overrides -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
   bro_derived_attribute_rules -> prs_sponsors [arrowhead="crowodot", arrowtail="odottee"];
   bro_preferred_attribute_overrides -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
-  bro_preferred_attribute_overrides -> prs_roles [arrowhead="crowodot", arrowtail="teetee"];
-  bro_preferred_attribute_rules -> prs_roles [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_overrides -> prd_roles [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_rules -> prd_roles [arrowhead="crowodot", arrowtail="teetee"];
   bro_preferred_attribute_rules -> prs_sponsors [arrowhead="crowodot", arrowtail="odottee"];
   ctx_registry_permissions -> prc_persons [arrowhead="odottee", arrowtail="teetee"];
   gro_group_members -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
@@ -1360,32 +1283,35 @@ digraph ORDATAMODEL {
   prs_addresses -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
   prs_addresses -> ctd_regions [arrowhead="crowodot", arrowtail="teetee"];
   prs_biodem -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
-  prs_campuses -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
-  prs_campuses -> prs_departments [arrowhead="teetee", arrowtail="crowodot"];
-  prs_campuses -> prs_roles [arrowhead="teetee", arrowtail="crowodot"];
-  prs_department_contact_records -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
-  prs_department_contact_records -> prs_addresses [arrowhead="crowodot", arrowtail="teetee"];
-  prs_department_contact_records -> prs_departments [arrowhead="teetee", arrowtail="crowodot"];
-  prs_department_contact_records -> prs_emails [arrowhead="crowodot", arrowtail="teetee"];
-  prs_department_contact_records -> prs_phones [arrowhead="crowodot", arrowtail="teetee"];
-  prs_department_contact_records -> prs_urls [arrowhead="crowodot", arrowtail="teetee"];
-  prs_departments -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
-  prs_departments -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prd_campuses -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prd_campuses -> drd_departments [arrowhead="teetee", arrowtail="crowodot"];
+  drd_departments -> prd_roles [arrowhead="teetee", arrowtail="crowodot"];
+  drs_department_contact_records -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  drs_department_contact_records -> prs_addresses [arrowhead="crowodot", arrowtail="teetee"];
+  drs_department_contact_records -> drd_departments [arrowhead="teetee", arrowtail="crowodot"];
+  drs_department_contact_records -> prs_emails [arrowhead="crowodot", arrowtail="teetee"];
+  drs_department_contact_records -> prs_phones [arrowhead="crowodot", arrowtail="teetee"];
+  drs_department_contact_records -> prs_urls [arrowhead="crowodot", arrowtail="teetee"];
+  drd_departments -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  drd_departments -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
   prc_emails -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
   prc_emails -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
   prc_emails -> prc_role_records [arrowhead="crowodot", arrowtail="teetee"];
   prs_emails -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
   prs_emails -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
-  prs_emergency_contact_records -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
-  prs_emergency_contact_records -> prc_persons [arrowhead="crowotee", arrowtail="crowodot"];
-  prs_emergency_contact_records -> prs_addresses [arrowhead="crowodot", arrowtail="teetee"];
-  prs_emergency_contact_records -> prs_emails [arrowhead="crowodot", arrowtail="teetee"];
-  prs_emergency_contact_records -> prs_phones [arrowhead="crowodot", arrowtail="teetee"];
-  prs_emergency_contact_records -> prs_urls [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emergency_contacts -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_emergency_contacts -> prc_persons [arrowhead="crowotee", arrowtail="crowodot"];
+  prc_emergency_contacts -> prs_addresses [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emergency_contacts -> prs_emails [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emergency_contacts -> prs_phones [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emergency_contacts -> prs_urls [arrowhead="crowodot", arrowtail="teetee"];
   prd_identifier_types -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
   prc_identifiers -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
   prc_identifiers -> prd_identifier_types [arrowhead="crowodot", arrowtail="teetee"];
   prc_identifiers -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
+  prc_leaves_of_absence -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_leaves_of_absence -> prc_role_records [arrowhead="odottee", arrowtail="teetee"];
+  prc_leaves_of_absence -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
   prs_leaves_of_absence -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
   prs_leaves_of_absence -> prs_sor_role_records [arrowhead="odottee", arrowtail="teetee"];
   prs_leaves_of_absence -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
@@ -1403,20 +1329,15 @@ digraph ORDATAMODEL {
   prc_role_records -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
   prc_role_records -> ctc_validities [arrowhead="crowodot", arrowtail="teetee"];
   prc_role_records -> prc_sponsors [arrowhead="odottee", arrowtail="crowodot"];
-  prs_roles -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prd_roles -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
   prs_sor_alumni_records -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
-  prs_sor_alumni_records -> prs_departments [arrowhead="crowodot", arrowtail="teetee"];
+  prs_sor_alumni_records -> drd_departments [arrowhead="crowodot", arrowtail="teetee"];
   prs_sor_alumni_records -> prs_sor_role_records [arrowhead="odottee", arrowtail="teetee"];
-  prs_sor_contact_records -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
-  prs_sor_contact_records -> prs_addresses [arrowhead="crowodot", arrowtail="teetee"];
-  prs_sor_contact_records -> prs_emails [arrowhead="crowodot", arrowtail="teetee"];
-  prs_sor_contact_records -> prs_phones [arrowhead="crowodot", arrowtail="teetee"];
-  prs_sor_contact_records -> prs_urls [arrowhead="crowodot", arrowtail="teetee"];
   prs_sor_employee_records -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
   prs_sor_employee_records -> prc_persons [arrowhead="crowodot", arrowtail="odottee"];
   prs_sor_employee_records -> prs_sor_role_records [arrowhead="odottee", arrowtail="teetee"];
   prs_sor_student_records -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
-  prs_sor_student_records -> prs_departments [arrowhead="crowodot", arrowtail="teetee"];
+  prs_sor_student_records -> drd_departments [arrowhead="crowodot", arrowtail="teetee"];
   prs_sor_student_records -> prs_sor_role_records [arrowhead="odottee", arrowtail="teetee"];
   prs_sor_role_records -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
   prs_sor_role_records -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
@@ -1425,10 +1346,10 @@ digraph ORDATAMODEL {
   prs_sor_role_records -> prs_sponsors [arrowhead="odottee", arrowtail="crowodot"];
   prc_sponsors -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
   prc_sponsors -> prc_persons [arrowhead="odottee", arrowtail="odottee"];
-  prc_sponsors -> prs_roles [arrowhead="odottee", arrowtail="odottee"];
+  prc_sponsors -> prd_roles [arrowhead="odottee", arrowtail="odottee"];
   prs_sponsors -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
   prs_sponsors -> prc_persons [arrowhead="odottee", arrowtail="odottee"];
-  prs_sponsors -> prs_roles [arrowhead="odottee", arrowtail="odottee"];
+  prs_sponsors -> prd_roles [arrowhead="odottee", arrowtail="odottee"];
   prc_urls -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
   prc_urls -> prc_role_records [arrowhead="crowodot", arrowtail="teetee"];
   prs_urls -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
