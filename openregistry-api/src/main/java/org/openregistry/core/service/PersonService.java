@@ -48,11 +48,11 @@ public interface PersonService {
      * <p>
      * This method should attempt to reconcile the person you are adding.
      *
-     * @param personSearch the person you are trying to add
+     * @param personSearch the person you are trying to add with their additional reconciliation data.
      * @param result the reconciliation result if they had already attempted to save this person. Let's the system know
-     * that we already looked through the list of possibilities.
-     * @return the result of the action.
+     * that we already looked through the list of possibilities.  CAN be null.  But if its null, reconciliation should execute.
+     * @return the result of the action.  If the action succeeded, the target object should be the new Person.  Otherwise, it
+     * will be the {@link org.openregistry.core.domain.sor.PersonSearch} object.
      */
-    // TODO configuration parameters to pass for Reconciliation?
     ServiceExecutionResult addPerson(PersonSearch personSearch, ReconciliationResult result);
 }
