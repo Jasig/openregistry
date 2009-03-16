@@ -55,7 +55,7 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person")
     @ValidateList
-    private Set<Name> names = new HashSet<Name>();
+    private Set<JpaSorNameImpl> names = new HashSet<JpaSorNameImpl>();
 
     @Column(name="ssn",nullable=true)
     private String ssn;
@@ -84,7 +84,7 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
         this.sorIdentifier = sorIdentifier;
     }
 
-    public Set<Name> getNames() {
+    public Set<? extends Name> getNames() {
         return this.names;
     }
 
