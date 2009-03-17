@@ -12,6 +12,7 @@ import org.springframework.validation.Errors;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.domain.*;
+import org.openregistry.core.repository.ReferenceRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletRequest;
@@ -34,6 +35,9 @@ public final class PersonController extends AbstractLocalizationController {
 
     @Autowired(required=true)
     private PersonService personService;
+
+    @Autowired(required = true)
+    private ReferenceRepository referenceRepository;
 
     @Autowired(required=true)
     private ObjectFactory<Person> personFactory;
@@ -78,8 +82,8 @@ public final class PersonController extends AbstractLocalizationController {
         final Person person = personFactory.getObject();
         person.addOfficialName();
         person.addPreferredName();
-        person.addIdentifier().getType().setName(SSN);    
-        person.addIdentifier().getType().setName(RUID);
+        person.addIdentifier().setType(referenceRepository.findIdentifierType(SSN));
+        person.addIdentifier().setType(referenceRepository.findIdentifierType(RUID));
         return person;
     }
 }
