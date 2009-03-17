@@ -140,7 +140,7 @@
         <javalid.version>1.1</javalid.version>
         <log4j.version>1.2.14</log4j.version>
         <sl4j.version>1.5.6</sl4j.version>
-        <spring.webflow.version>2.0.5.RELEASE</spring.webflow.version>
+        <spring.webflow.version>2.0.6.RELEASE</spring.webflow.version>
     </properties>
 
     <repositories>
@@ -158,5 +158,18 @@
             <snapshots><enabled>false</enabled></snapshots>
             <url>http://repository.springsource.com/maven/bundles/milestone</url>
         </repository>
+
+        <repository>
+            <id>com.springsource.repository.bundles.release</id>
+            <name>SpringSource Enterprise Bundle Repository - SpringSource Releases</name>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
+        </repository>
+
+        <repository>
+            <id>com.springsource.repository.bundles.external</id>
+            <name>SpringSource Enterprise Bundle Repository - External Releases</name>
+            <url>http://repository.springsource.com/maven/bundles/external</url>
+        </repository>
+        
     </repositories>
 </project>
