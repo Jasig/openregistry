@@ -29,7 +29,7 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @JoinColumn(name="person_id")
     private JpaPersonImpl person;
 
-    @ManyToOne(optional=false)
+    @ManyToOne(cascade=CascadeType.ALL, optional=false)
     @JoinColumn(name="identifier_t")
     private JpaIdentifierTypeImpl type;
 

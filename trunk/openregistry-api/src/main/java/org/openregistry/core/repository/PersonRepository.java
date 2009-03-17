@@ -43,5 +43,6 @@ public interface PersonRepository {
      */
     SorPerson saveSorPerson(SorPerson person) throws RepositoryAccessException;
 
+    void addPerson(Person person) throws RepositoryAccessException;
 
 }
