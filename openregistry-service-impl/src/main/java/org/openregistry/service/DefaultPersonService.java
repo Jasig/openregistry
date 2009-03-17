@@ -48,7 +48,7 @@ public class DefaultPersonService implements PersonService {
 
     @Autowired(required=true)
     private Reconciler reconciler;
-                                                                                                                                                                    
+
     @Autowired(required=true)
     private ObjectFactory<Person> personObjectFactory;
 
@@ -92,7 +92,8 @@ public class DefaultPersonService implements PersonService {
         }
 
         // TODO Call to reconciliation code and save code.
-        this.personRepository.savePerson(person);
+        //this.personRepository.savePerson(person);
+        this.personRepository.addPerson(person);
         return new DefaultServiceExecutionResult(serviceName, person);
     }
 
@@ -148,7 +149,7 @@ public class DefaultPersonService implements PersonService {
 
     /**
      * Current workflow for converting an SorPerson into the actual Person.
-     * 
+     *
      * @param personSearch the original search criteria.
      * @return the newly saved Person.
      */
