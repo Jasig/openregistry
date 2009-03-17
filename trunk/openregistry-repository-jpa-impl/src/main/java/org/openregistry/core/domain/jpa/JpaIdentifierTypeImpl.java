@@ -38,7 +38,4 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
         return this.name;
     }
 
-    public void setName(String name){
-        this.name = name;
-    }
 }

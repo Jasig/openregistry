@@ -129,8 +129,7 @@ public class JpaPersonImpl extends Entity implements Person {
 
     public Identifier addIdentifier(){
         final JpaIdentifierImpl jpaIdentifier = new JpaIdentifierImpl(this);
-        this.identifiers.add(jpaIdentifier);      
-        jpaIdentifier.setType(new JpaIdentifierTypeImpl());
+        this.identifiers.add(jpaIdentifier);
         return jpaIdentifier;
     }
 
