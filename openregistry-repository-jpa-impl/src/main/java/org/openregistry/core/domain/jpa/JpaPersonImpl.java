@@ -39,11 +39,11 @@ public class JpaPersonImpl extends Entity implements Person {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person")
     private List<JpaIdentifierImpl> identifiers = new ArrayList<JpaIdentifierImpl>();
 
-    @OneToOne(optional=true)
+    @OneToOne(cascade=CascadeType.ALL, optional=true)
     @JoinColumn(name="preferred_name_id")
     private JpaNameImpl preferredName;
 
-    @OneToOne(optional=true)
+    @OneToOne(cascade=CascadeType.ALL, optional=true)
     @JoinColumn(name="official_name_id")
     private JpaNameImpl officialName;
 
@@ -129,7 +129,8 @@ public class JpaPersonImpl extends Entity implements Person {
 
     public Identifier addIdentifier(){
         final JpaIdentifierImpl jpaIdentifier = new JpaIdentifierImpl(this);
-        this.identifiers.add(jpaIdentifier);
+        this.identifiers.add(jpaIdentifier);      
+        jpaIdentifier.setType(new JpaIdentifierTypeImpl());
         return jpaIdentifier;
     }
 

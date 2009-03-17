@@ -29,6 +29,9 @@ import java.util.Date;
 @SessionAttributes("person")
 public final class PersonController extends AbstractLocalizationController {
 
+    protected final String SSN = "SSN";
+    protected final String RUID = "RUID";
+
     @Autowired(required=true)
     private PersonService personService;
 
@@ -75,8 +78,8 @@ public final class PersonController extends AbstractLocalizationController {
         final Person person = personFactory.getObject();
         person.addOfficialName();
         person.addPreferredName();
-        person.addIdentifier();
-        person.addIdentifier();
+        person.addIdentifier().getType().setName(SSN);    
+        person.addIdentifier().getType().setName(RUID);
         return person;
     }
 }

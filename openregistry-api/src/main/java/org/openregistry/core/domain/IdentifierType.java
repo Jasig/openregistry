@@ -8,4 +8,6 @@ package org.openregistry.core.domain;
 public interface IdentifierType {
 
     String getName();
+
+    void setName(String name);
 }

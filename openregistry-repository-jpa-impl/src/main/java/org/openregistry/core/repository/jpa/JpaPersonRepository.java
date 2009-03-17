@@ -34,5 +34,9 @@ public class JpaPersonRepository implements PersonRepository {
     public SorPerson saveSorPerson(final SorPerson person) throws RepositoryAccessException {
         return this.entityManager.merge(person);
     }
+
+    public void addPerson(Person person) throws RepositoryAccessException {
+        this.entityManager.persist(person);
+    }
 }
 
