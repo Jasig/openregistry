@@ -72,8 +72,6 @@
             <scope>compile</scope>
         </dependency>
 
-
-
         <!--
         <dependency>
             <groupId>org.springframework</groupId>
@@ -95,11 +93,13 @@
             <artifactId>org.springframework.binding</artifactId>
             <version>${spring.webflow.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.webflow</groupId>
             <artifactId>org.springframework.js</artifactId>
             <version>${spring.webflow.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.webflow</groupId>
             <artifactId>org.springframework.webflow</artifactId>
@@ -141,6 +141,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>org.springframework.aop</artifactId>
@@ -157,30 +158,35 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.javalid</groupId>
             <artifactId>javalid-spring</artifactId>
             <version>${javalid.version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.javalid</groupId>
             <artifactId>javalid-core</artifactId>
             <version>${javalid.version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>${sl4j.version}</version>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -188,6 +194,7 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -210,12 +217,25 @@
             <scope>runtime</scope>
         </dependency>
     </dependencies>
+
     <repositories>
         <repository>
             <id>jasig</id>
             <name>JASIG Maven2 Repository</name>
             <layout>default</layout>
             <url>http://developer.ja-sig.org/maven2</url>
+        </repository>
+
+        <repository>
+            <id>com.springsource.repository.bundles.release</id>
+            <name>SpringSource Enterprise Bundle Repository - SpringSource Releases</name>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
+        </repository>
+        
+        <repository>
+            <id>com.springsource.repository.bundles.external</id>
+            <name>SpringSource Enterprise Bundle Repository - External Releases</name>
+            <url>http://repository.springsource.com/maven/bundles/external</url>
         </repository>
     </repositories>
 
