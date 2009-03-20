@@ -55,6 +55,7 @@
     </organization>
     <developers>
         <developer>
+            <id>steiner</id>
             <name>David Steiner</name>
             <email>steiner@rutgers.edu</email>
             <organization>Rutgers University - Identity Management</organization>
@@ -62,6 +63,7 @@
             <timezone>Eastern Standard Time</timezone>
         </developer>
         <developer>
+            <id>dima767</id>
             <name>Dmitriy Kopylenko</name>
             <email>dkopylen@rutgers.edu</email>
             <organization>Rutgers University - Architecture &amp; Engineering</organization>
@@ -69,6 +71,7 @@
             <timezone>Eastern Standard Time</timezone>
         </developer>
         <developer>
+            <id>nmond</id>
             <name>Nancy Mond</name>
             <email>nmond@rci.rutgers.edu</email>
             <organization>Rutgers University - Identity Management</organization>
@@ -76,6 +79,7 @@
             <timezone>Eastern Standard Time</timezone>
         </developer>
         <developer>
+            <id>benno</id>
             <name>Benn Oshrin</name>
             <email>benjamin.oshrin@rutgers.edu</email>
             <organization>Rutgers University - Identity Management</organization>
