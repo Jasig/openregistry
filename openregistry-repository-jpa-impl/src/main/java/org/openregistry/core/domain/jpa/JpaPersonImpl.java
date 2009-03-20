@@ -49,9 +49,11 @@ public class JpaPersonImpl extends Entity implements Person {
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
+    @NotNull (customCode="dateOfBirthRequiredMsg")
     private Date dateOfBirth;
 
     @Column(name="gender",length=1,nullable=false)
+    @NotEmpty(customCode="genderRequiredMsg")
     private String gender;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sponsor")
@@ -89,14 +91,10 @@ public class JpaPersonImpl extends Entity implements Person {
         return this.preferredName;
     }
 
-    @JvGroup
-    @NotEmpty(customCode="genderRequiredMsg")
     public String getGender() {
         return this.gender;
     }
 
-    @JvGroup
-    @NotNull (customCode="dateOfBirthRequiredMsg")
     public Date getDateOfBirth() {
         return this.dateOfBirth;
     }
@@ -132,5 +130,4 @@ public class JpaPersonImpl extends Entity implements Person {
         this.identifiers.add(jpaIdentifier);
         return jpaIdentifier;
     }
-
 }
