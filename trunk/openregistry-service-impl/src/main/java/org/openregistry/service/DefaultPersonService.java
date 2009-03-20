@@ -102,6 +102,8 @@ public class DefaultPersonService implements PersonService {
         final List<ValidationError> validationErrors = validateAndConvert(personSearch);
         final String serviceName = "PersonService.addPerson";
 
+        // TODO some SorIdentifier needs to be assigned (i.e. web-ui)
+
         if (!validationErrors.isEmpty()) {
             return new DefaultServiceExecutionResult(serviceName, personSearch, validationErrors);
         }
