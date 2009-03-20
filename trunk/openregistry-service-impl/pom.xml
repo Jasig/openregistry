@@ -38,7 +38,7 @@
         <dependency>
             <groupId>juel</groupId>
             <artifactId>juel-impl</artifactId>
-            <version>2.1.1-rc2</version>
+            <version>${juel.version}</version>
             <scope>runtime</scope>
         </dependency>
 

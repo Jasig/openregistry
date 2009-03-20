@@ -10,6 +10,7 @@ import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
+import org.javalid.annotations.validation.DateAfter;
 import org.hibernate.envers.Audited;
 
 /**
@@ -30,7 +31,7 @@ public class JpaRoleImpl extends Entity implements Role {
     @SequenceGenerator(name="prs_sor_role_record_seq",sequenceName="prs_sor_role_record_seq",initialValue=1,allocationSize=50)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)      
     private Set<JpaUrlImpl> urls = new HashSet<JpaUrlImpl>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
@@ -44,6 +45,7 @@ public class JpaRoleImpl extends Entity implements Role {
 
     @ManyToOne(optional = false)
     @JoinColumn(name="sponsor_id")
+    @NotNull (customCode="sponsorRequiredMsg")
     private JpaPersonImpl sponsor;
 
     @Column(name="percent_time",nullable=false)
@@ -69,10 +71,12 @@ public class JpaRoleImpl extends Entity implements Role {
 
     @Column(name="affiliation_date",nullable=false)
     @Temporal(TemporalType.DATE)
+    @NotNull (customCode="startDateRequiredMsg")
     private Date start;
 
     @Column(name="termination_date")
     @Temporal(TemporalType.DATE)
+    @DateAfter(after = "#{parent.start}", customCode = "startDateEndDateCompareMsg")
     private Date end;
 
     @ManyToOne()
@@ -147,8 +151,6 @@ public class JpaRoleImpl extends Entity implements Role {
         this.sponsor = (JpaPersonImpl) sponsor;
     }
 
-    @JvGroup
-    @NotNull (customCode="sponsorRequiredMsg")
     public Person getSponsor() {
         return this.sponsor;
     }
@@ -200,8 +202,6 @@ public class JpaRoleImpl extends Entity implements Role {
         this.terminationReason = (JpaTypeImpl) reason;
     }
 
-    @JvGroup
-    @NotNull (customCode="startDateRequiredMsg")
     public Date getStart() {
         return this.start;
     }

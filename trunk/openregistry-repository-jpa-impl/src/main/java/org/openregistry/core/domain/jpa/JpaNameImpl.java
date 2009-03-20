@@ -4,6 +4,8 @@ import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
+import org.javalid.annotations.validation.NotNull;
+import org.javalid.annotations.core.ValidateDefinition;
 
 import javax.persistence.*;
 
@@ -15,6 +17,7 @@ import javax.persistence.*;
 @javax.persistence.Entity(name="name")
 @Table(name="prc_names")
 @Audited
+@ValidateDefinition
 public class JpaNameImpl extends Entity implements Name {
 
     @Id
@@ -27,6 +30,7 @@ public class JpaNameImpl extends Entity implements Name {
     private String prefix;
 
     @Column(name="given_name",nullable=false,length=100)
+    @NotNull(customCode = "firstNameRequiredMsg")
     private String given;
 
     @Column(name="middle_name",nullable=true,length=100)

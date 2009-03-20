@@ -258,15 +258,6 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>jasig</id>
-            <name>JASIG Maven2 Repository</name>
-            <layout>default</layout>
-            <url>http://developer.ja-sig.org/maven2</url>
-        </repository>
-    </repositories>
-
     <build>
         <plugins>
             <plugin>
