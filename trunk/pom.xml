@@ -159,6 +159,28 @@
             <snapshots><enabled>false</enabled></snapshots>
             <url>http://repository.springsource.com/maven/bundles/milestone</url>
         </repository>
-        
     </repositories>
+
+        <distributionManagement>
+        <site>
+            <id>website</id>
+            <url>file:///jasig/htdocs/developer.ja-sig.org/projects/openregistry</url>
+        </site>
+    </distributionManagement>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jxr-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>changelog-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
