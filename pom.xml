@@ -87,6 +87,7 @@
             <timezone>Eastern Standard Time</timezone>
         </developer>
         <developer>
+            <id>sbattaglia</id>
             <name>Scott Battaglia</name>
             <email>battags@rutgers.edu</email>
             <organization>Rutgers University - Identity Management</organization>
