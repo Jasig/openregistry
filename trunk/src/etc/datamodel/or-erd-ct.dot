@@ -4,7 +4,7 @@
  */
 
 digraph ORDATAMODEL {
-  graph [label="Draft OpenRegistry Data Model (2/09)", labelloc="t", labeljust="l", rankdir="LR"]
+  graph [label="Draft OpenRegistry Data Model (3/09)", labelloc="t", labeljust="l", rankdir="LR"]
   node [shape=plaintext, labeljust="l"]
 
   /*
@@ -183,8 +183,8 @@ digraph ORDATAMODEL {
  <td align="left">Valid, Invalid, Expired, ...</td>
 </tr>
 <tr>
- <td align="left"><font face="Courier" point-size="10">department</font></td>
- <td align="left">School, Program, Division, Department, ...</td>
+ <td align="left"><font face="Courier" point-size="10">interface</font></td>
+ <td align="left">Batch, RealTime, WebUI, ...</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">leave</font></td>
@@ -197,6 +197,10 @@ digraph ORDATAMODEL {
 <tr>
  <td align="left"><font face="Courier" point-size="10">node</font></td>
  <td align="left">Solaris, Linux, NetApp, Windows, ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">organizational_unit</font></td>
+ <td align="left">School, Program, Division, Department, ...</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">person_status</font></td>
@@ -216,7 +220,11 @@ digraph ORDATAMODEL {
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">termination</font></td>
- <td align="left">Resigned, Fired, Retired, etc ...</td>
+ <td align="left">Resigned, Fired, Retired, Withdrew, etc ...</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">test</font></td>
+ <td align="left">Developer, Functional, Loaner, SOR, etc ...</td>
 </tr>
    </table>>];
 
