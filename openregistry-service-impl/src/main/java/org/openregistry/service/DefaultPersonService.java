@@ -96,7 +96,7 @@ public class DefaultPersonService implements PersonService {
         }
 
 
-        if (oldReconciliationResult != null) {
+        if (oldReconciliationResult == null) {
             final ReconciliationResult result = this.reconciler.reconcile(personSearch);
 
             if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
