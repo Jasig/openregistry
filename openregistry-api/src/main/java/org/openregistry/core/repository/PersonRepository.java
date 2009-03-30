@@ -1,5 +1,7 @@
 package org.openregistry.core.repository;
 
+import java.util.List;
+
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.SorPerson;
 
@@ -22,7 +24,16 @@ public interface PersonRepository {
      */
     Person findByInternalId(Long id) throws RepositoryAccessException;
 
-
+    /**
+     * Find a list of <code>Person</code> entities from the supplied Family Name.
+     * 
+     * @param family the Family Name to search for
+     * @return List of people find in the Open Registry's person repository or an empty list if 
+     *         no people exist with this Family Name.
+     * @throws RepositoryAccessException
+     */
+    List<Person> findByFamilyName(String family) throws RepositoryAccessException;
+    
     /**
      * Persist or update an instance of a canonical <code>Person</code> entity in the Open Registry.
      *

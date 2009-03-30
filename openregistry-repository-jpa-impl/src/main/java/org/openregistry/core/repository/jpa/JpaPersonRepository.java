@@ -1,5 +1,7 @@
 package org.openregistry.core.repository.jpa;
 
+import java.util.List;
+
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.domain.Person;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  * Person repository implementation built on top of JPA.
@@ -25,6 +28,12 @@ public class JpaPersonRepository implements PersonRepository {
 
     public Person findByInternalId(final Long id) throws RepositoryAccessException {
         return this.entityManager.find(JpaPersonImpl.class, id);
+    }
+    
+    public List<Person> findByFamilyName(final String family) throws RepositoryAccessException {
+    	Query query = this.entityManager.createQuery("SELECT person FROM Person person WHERE person.officialName.family = :family");
+    	query.setParameter("name", family);
+    	return query.getResultList();
     }
 
     public Person savePerson(final Person person) throws RepositoryAccessException {
