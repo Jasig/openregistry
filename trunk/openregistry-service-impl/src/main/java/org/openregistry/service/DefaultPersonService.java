@@ -23,6 +23,8 @@ import org.javalid.core.config.JvConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation of the {@link PersonService}.
@@ -31,7 +33,7 @@ import java.util.ArrayList;
  * @author Dmitriy Kopylenko
  * @since 1.0.0
  */
-@Service
+@Service("personService")
 public class DefaultPersonService implements PersonService {
 
     @Autowired(required = true)
@@ -51,6 +53,8 @@ public class DefaultPersonService implements PersonService {
 
     @Autowired(required=true)
     private IdentifierGenerator identifierGenerator;
+
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
@@ -86,6 +90,8 @@ public class DefaultPersonService implements PersonService {
 
     @Transactional
     public ServiceExecutionResult addPerson(final PersonSearch personSearch, final ReconciliationResult oldReconciliationResult) {
+        logger.info("In personService.addPerson.");
+        logger.info("In personService.addPerson: entered following for gender: "+ personSearch.getPerson().getGender());
         final List<ValidationError> validationErrors = validateAndConvert(personSearch);
         final String serviceName = "PersonService.addPerson";
 
@@ -102,7 +108,7 @@ public class DefaultPersonService implements PersonService {
             if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
                 return new DefaultServiceExecutionResult(serviceName, magic(personSearch));
             }
-
+            logger.info("In personService.addPerson: reconciliation result: "+ result.getReconciliationType().toString());
             return new DefaultServiceExecutionResult(serviceName, personSearch, result);
         }
 
@@ -116,7 +122,9 @@ public class DefaultPersonService implements PersonService {
      * @return the list of validation errors.  CANNOT be NULL.  Can be empty.
      */
     protected List<ValidationError> validateAndConvert(final Object object) {
-        final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object, null, "", true, -1);
+        //final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object, null, "", true, -1);
+        final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object);
+        logger.info("In personService.validateAndConvert: size of messages: "+ validationMessages.size());
         return convertToValidationErrors(validationMessages);
     }
 
@@ -156,7 +164,7 @@ public class DefaultPersonService implements PersonService {
         final Person person = personObjectFactory.getObject();
         person.setDateOfBirth(sorPerson.getDateOfBirth());
         person.setGender(sorPerson.getGender());
-        final Name name = person.addOfficialName();
+        final Name name = ((Person)person).addOfficialName();
 
         // There should only be one at this point.
         // TODO generalize this to all names

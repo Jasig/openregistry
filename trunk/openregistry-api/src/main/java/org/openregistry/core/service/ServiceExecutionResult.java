@@ -4,6 +4,7 @@ import org.openregistry.core.service.reconciliation.ReconciliationResult;
 
 import java.util.Date;
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * A container encapsulating results of any number of different Open Registry public service API invocations.
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @since 1.0
  */
-public interface ServiceExecutionResult {
+public interface ServiceExecutionResult extends Serializable {
 
     /**
      * Get an instant in time when a particular service, represented by this result, has been executed
