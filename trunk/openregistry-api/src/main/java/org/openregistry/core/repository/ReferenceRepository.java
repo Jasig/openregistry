@@ -15,9 +15,9 @@ public interface ReferenceRepository {
 
     Person getPersonById(Long id);
 
-    List<OrganizationalUnit> getOrganizationalUnits();
+    List<Department> getDepartments();
 
-    OrganizationalUnit getOrganizationalUnitById(Long id);
+    Department getDepartmentById(Long id);
 
     List<Campus> getCampuses();
 
