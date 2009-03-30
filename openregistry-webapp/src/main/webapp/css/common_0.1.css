@@ -190,6 +190,7 @@
     
         textarea {line-height:1.5;}
         input.btn-submit {border-width:2px;}
+        input.btn-cancel {border-width:2px;}
     
     
 /*    vertically aligned form
@@ -210,6 +211,7 @@
         .fm-v div.row span.msg-error {float:left; display:block; position:relative; top:.2em; margin:0 0 0 1em; padding:0 0 0 2em; font-size:1.1em; line-height:1.55; background:url(../images/error-s.gif) left top no-repeat; color:#b00;}
         .fm-v span.msg-error {float:left; display:block; xposition:relative; xtop:.2em; margin:1em 0; padding:0 0 0 2em; font-size:1.1em; line-height:1.55; background:url(../images/error-s.gif) left top no-repeat; color:#b00;}
         .fm-v div.row input.btn-submit {display:block; margin:0;} /* float:left; clear:left; margin-bottom:0; or display:block */
+        .fm-v div.row input.btn-cancel {display:block; margin:0;} /* float:left; clear:left; margin-bottom:0; or display:block */
 
 /* horizontally aligned form */
     .fm-h div.row {float:left; margin:0; padding:.5em 0; width:100%;}
@@ -219,6 +221,7 @@
         .fm-h div.row.check label {clear:none; width:auto; margin-right:1.5em;}
         .fm-h div.row.check input {position:relative; top:-2px;}
         .fm-h div.row input.btn-submit {clear:both; display:block; text-align:center; xmargin:0 0 0 15.5em;} /* float:left; clear:left; margin-bottom:0; or display block */
+        .fm-h div.row input.btn-cancel {clear:both; display:block; text-align:center; xmargin:0 0 0 15.5em;} /* float:left; clear:left; margin-bottom:0; or display block */
 
 
 /* highlight errors */
