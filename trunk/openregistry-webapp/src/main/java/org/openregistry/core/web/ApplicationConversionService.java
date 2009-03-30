@@ -1,4 +1,4 @@
-package org.openregistry.service;
+package org.openregistry.core.web;
 
 import org.springframework.binding.convert.converters.StringToDate;
 import org.springframework.binding.convert.service.DefaultConversionService;
