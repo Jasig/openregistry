@@ -31,13 +31,13 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
-    public List<Department> getDepartments() {
-        return (List<Department>) this.entityManager.createQuery("select d from department d order by d.name").getResultList(); 
+    public List<OrganizationalUnit> getOrganizationalUnits() {
+        return (List<OrganizationalUnit>) this.entityManager.createQuery("select d from organizational_unit d order by d.name").getResultList(); 
     }
 
     @Transactional
-    public Department getDepartmentById(final Long id) {
-        return this.entityManager.find(JpaDepartmentImpl.class, id);
+    public OrganizationalUnit getOrganizationalUnitById(final Long id) {
+        return this.entityManager.find(JpaOrganizationalUnitImpl.class, id);
     }
 
     @Transactional
