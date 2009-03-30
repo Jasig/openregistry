@@ -88,6 +88,13 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
         return this.names;
     }
 
+    private JpaSorNameImpl firstAddedName;
+
+    public JpaSorNameImpl getFirstAddedName(){
+        return firstAddedName;
+    }
+
+
     public void setSorId(final String id) {
         this.sorId = id;
     }
@@ -111,6 +118,7 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
     public Name addName() {
         final JpaSorNameImpl jpaSorName = new JpaSorNameImpl(this);
         this.names.add(jpaSorName);
+        if (names.size() == 1) firstAddedName = jpaSorName;
         
         return jpaSorName;
     }
