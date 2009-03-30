@@ -17,7 +17,6 @@ import java.util.Collections;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Component
 public final class NoOpReconciler implements Reconciler {
 
     public ReconciliationResult reconcile(final PersonSearch personSearch) {
