@@ -1,5 +1,6 @@
 package org.openregistry.service.reconciliation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -30,8 +31,8 @@ public final class NameReconciler implements Reconciler {
 	@Autowired(required = true)
 	private PersonRepository personRepository;
 	
-	private List<PersonMatch> exactMatches;
-	private List<PersonMatch> partialMatches;
+	private List<PersonMatch> exactMatches = new ArrayList<PersonMatch>();
+	private List<PersonMatch> partialMatches = new ArrayList<PersonMatch>();
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
