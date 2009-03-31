@@ -31,7 +31,7 @@ public class JpaPersonRepository implements PersonRepository {
     }
     
     public List<Person> findByFamilyName(final String family) throws RepositoryAccessException {
-    	Query query = this.entityManager.createQuery("SELECT person FROM Person person WHERE person.officialName.family = :family");
+    	Query query = this.entityManager.createQuery("SELECT p FROM person p WHERE p.officialName.family = :name");
     	query.setParameter("name", family);
     	return query.getResultList();
     }
