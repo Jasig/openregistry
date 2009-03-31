@@ -2,6 +2,7 @@ package org.openregistry.core.service.reconciliation;
 
 import org.openregistry.core.domain.Person;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,14 +12,14 @@ import java.util.List;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface PersonMatch {
+public interface PersonMatch extends Serializable {
 
     List<FieldMatch> getMatches();
 
     /**
      * Valid range from 0 - 100.
      *
-     * @return
+     * @return level
      */
     int getConfidenceLevel();
 
