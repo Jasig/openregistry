@@ -10,7 +10,7 @@
   <head><title>Update Person</title></head>
   <body>
   <div class="section">
-	<h2>Person Found in the Repository</h2>
+	<h3>Person Found in the Repository</h3>
 </div>
   </body>
 </html>
