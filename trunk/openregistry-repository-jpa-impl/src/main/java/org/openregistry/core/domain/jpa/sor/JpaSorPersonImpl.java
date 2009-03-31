@@ -88,6 +88,7 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
         return this.names;
     }
 
+    @Transient
     private JpaSorNameImpl firstAddedName;
 
     public JpaSorNameImpl getFirstAddedName(){
