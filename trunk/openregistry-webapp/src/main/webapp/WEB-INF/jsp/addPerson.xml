@@ -6,6 +6,7 @@
 
     <!-- By default, the first state is the start state. -->
     <var name="personSearch" class="org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl" />
+
     <view-state id="addPerson" model="personSearch">
         <binder>
             <binding property="person.dateOfBirth" converter="shortDate" required="true"/>
@@ -22,24 +23,36 @@
         <on-entry>
             <evaluate expression="personSearch.getPerson().addName()" />
         </on-entry>
-        <transition on="submitAddPerson" to="matchesFound"></transition>
+        <transition on="submitAddPerson" to="matchesFound" />
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>  
     </view-state>
 
-    <action-state id="matchesFound">
+    <action-state id="matchesFound" >
+        <evaluate expression="personSearch.getPerson().setSorIdentifier('or-webapp')" />
         <evaluate expression="personService.addPerson(personSearch, null)" result="flowScope.serviceExecutionResult"/>
         <evaluate expression="serviceExecutionResult.getReconciliationResult().getReconciliationType()" result="flowScope.reconciliationType"/>
         <transition on-exception="java.lang.NullPointerException" to="addPerson" />
-        <transition on="NONE" to="personAdded"/>
+        <transition on="NONE" to="personAdded">
+            <set name="requestScope.infoModel" value="'Person Added'" />
+        </transition>
         <transition on="EXACT" to="updatePerson" />
         <transition on="MAYBE" to="viewMatches" />
     </action-state>
 
     <view-state id="viewMatches" view="personMatches" model="serviceExecutionResult">
+        <transition on="submitAddPerson" to="addAnyway" />
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
 
-    <end-state id="personAdded" view="externalRedirect:contextRelative:/addPerson.htm"/>
+    <view-state id="addAnyway" view="personMatches" model="serviceExecutionResult">
+        <on-entry>
+            <set name="infoModel" value="'Person Added'" />
+        </on-entry>
+        <transition to="personAddedOverride" />
+    </view-state>
+
+    <end-state id="personAdded" view="addPerson" />
     <end-state id="updatePerson" view="updatePerson" />
+    <end-state id="personAddedOverride" view="personMatches" />
     <end-state id="cancelCreatePerson" view="externalRedirect:contextRelative:/addPerson.htm"/>
 </flow>
