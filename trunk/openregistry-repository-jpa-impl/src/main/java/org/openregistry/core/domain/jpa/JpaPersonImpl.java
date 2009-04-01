@@ -28,9 +28,9 @@ import java.util.ArrayList;
 public class JpaPersonImpl extends Entity implements Person {
 
     @Id
-    @Column(name="person_id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_person_seq")
-    @SequenceGenerator(name="prc_person_seq",sequenceName="prc_person_seq",initialValue=1,allocationSize=50)
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_persons_seq")
+    @SequenceGenerator(name="prc_persons_seq",sequenceName="prc_persons_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER)    

@@ -14,8 +14,16 @@ public interface Identifier extends Serializable {
     IdentifierType getType();
 
     String getValue();
+    
+    Boolean isPrimary();
+    
+    Boolean isDeleted();
 
     void setType(IdentifierType type);
 
     void setValue(String value);
+    
+    void setPrimary(Boolean value);
+    
+    void setDeleted(Boolean value);
 }

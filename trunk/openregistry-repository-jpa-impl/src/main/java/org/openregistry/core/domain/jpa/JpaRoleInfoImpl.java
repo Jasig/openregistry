@@ -1,7 +1,7 @@
 package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.RoleInfo;
-import org.openregistry.core.domain.Department;
+import org.openregistry.core.domain.OrganizationalUnit;
 import org.openregistry.core.domain.Campus;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
@@ -15,21 +15,21 @@ import java.util.List;
  * @since 1.0
  */
 @javax.persistence.Entity(name="roleInfo")
-@Table(name="prs_roles")
+@Table(name="prd_roles")
 @Audited
 public class JpaRoleInfoImpl extends Entity implements RoleInfo {
 
     @Id
-    @GeneratedValue(generator="prd_roleinfo_seq",strategy = GenerationType.AUTO)
-    @SequenceGenerator(name="prd_roleinfo_seq",sequenceName="prd_roleinfo_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(generator="prd_roles_seq",strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="prd_roles_seq",sequenceName="prd_roles_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="title",nullable = false, length = 100)
     private String title;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name="department_id")
-    private JpaDepartmentImpl department;
+    @JoinColumn(name="organizational_unit_id")
+    private JpaOrganizationalUnitImpl organizationalUnit;
 
     @ManyToOne(optional = false)
     @JoinColumn(name="campus_id")
@@ -53,8 +53,8 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
         return this.title;
     }
 
-    public Department getDepartment() {
-        return this.department;
+    public OrganizationalUnit getOrganizationalUnit() {
+        return this.organizationalUnit;
     }
 
     public Campus getCampus() {

@@ -28,7 +28,7 @@
     </view-state>
 
     <action-state id="matchesFound" >
-        <evaluate expression="personSearch.getPerson().setSorIdentifier('or-webapp')" />
+        <evaluate expression="personSearch.getPerson().setSourceSorIdentifier('or-webapp')" />
         <evaluate expression="personService.addPerson(personSearch, null)" result="flowScope.serviceExecutionResult"/>
         <evaluate expression="serviceExecutionResult.getReconciliationResult().getReconciliationType()" result="flowScope.reconciliationType"/>
         <transition on-exception="java.lang.NullPointerException" to="addThePerson" >

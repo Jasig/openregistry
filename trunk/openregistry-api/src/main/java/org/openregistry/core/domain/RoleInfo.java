@@ -9,7 +9,7 @@ public interface RoleInfo extends Serializable {
 
     String getTitle();
 
-    Department getDepartment();
+    OrganizationalUnit getOrganizationalUnit();
 
     Campus getCampus();
 

@@ -18,8 +18,8 @@ import java.util.List;
 public class JpaTypeImpl extends Entity implements Type {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_type_seq")
-    @SequenceGenerator(name="prs_type_seq",sequenceName="prs_type_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctx_data_types_seq")
+    @SequenceGenerator(name="ctx_data_types_seq",sequenceName="ctx_data_types_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="data_type", nullable = false, length =100)
@@ -31,8 +31,8 @@ public class JpaTypeImpl extends Entity implements Type {
     @OneToMany(fetch=FetchType.LAZY, mappedBy="type")
     private List<JpaAddressImpl> addresses;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="departmentType")
-    private List<JpaDepartmentImpl> departments;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="organizationalUnitType")
+    private List<JpaOrganizationalUnitImpl> organizationalUnits;
 
     @OneToMany(fetch=FetchType.LAZY,mappedBy = "type")
     private List<JpaEmailAddressImpl> emailAddresses;

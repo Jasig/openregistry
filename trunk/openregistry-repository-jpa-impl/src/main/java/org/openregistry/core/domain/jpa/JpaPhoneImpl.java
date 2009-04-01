@@ -17,6 +17,11 @@ import javax.persistence.*;
 @Audited
 public class JpaPhoneImpl extends Entity implements Phone {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_phones_seq")
+    @SequenceGenerator(name="prc_phones_seq",sequenceName="prc_phones_seq",initialValue=1,allocationSize=50)
+    private Long id;
+    
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
     private JpaTypeImpl addressType;
@@ -25,25 +30,20 @@ public class JpaPhoneImpl extends Entity implements Phone {
     @JoinColumn(name="phone_t")
     private JpaTypeImpl phoneType;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_phone_seq")
-    @SequenceGenerator(name="prs_phone_seq",sequenceName="prs_phone_seq",initialValue=1,allocationSize=50)
-    private Long id;
-
     @Column(name="country_code",nullable=false,length=5)
     private String countryCode;
 
     @Column(name="area_code",nullable=false,length=5)
     private String areaCode;
 
-    @Column(name="p_number",nullable=false,length=10)
+    @Column(name="phone_number",nullable=false,length=10)
     private String number;
 
     @Column(name="extension", nullable=true,length=5)
     private String extension;
 
     @ManyToOne(optional=false)
-    @JoinColumn(name="prc_role_record_id")
+    @JoinColumn(name="role_record_id")
     private JpaRoleImpl role;
 
     public JpaPhoneImpl() {

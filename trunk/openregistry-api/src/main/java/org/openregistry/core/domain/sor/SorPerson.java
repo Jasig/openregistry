@@ -34,14 +34,14 @@ public interface SorPerson {
      *
      * @return the identifier for the System of Record
      */
-    String getSorIdentifier();
+    String getSourceSorIdentifier();
 
     /**
      * Sets the identifier for the system of record.
      *
      * @param sorIdentifier the system of record identifier.
      */
-    void setSorIdentifier(String sorIdentifier);
+    void setSourceSorIdentifier(String sorIdentifier);
 
     /**
      * Returns the set of names the System of Record knows about the Person.

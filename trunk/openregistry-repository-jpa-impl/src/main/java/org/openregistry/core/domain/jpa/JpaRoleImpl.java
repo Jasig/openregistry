@@ -27,8 +27,8 @@ import org.hibernate.envers.Audited;
 public class JpaRoleImpl extends Entity implements Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_sor_role_record_seq")
-    @SequenceGenerator(name="prs_sor_role_record_seq",sequenceName="prs_sor_role_record_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_role_records_seq")
+    @SequenceGenerator(name="prc_role_records_seq",sequenceName="prc_role_records_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)      
@@ -55,14 +55,14 @@ public class JpaRoleImpl extends Entity implements Role {
     private String localCode;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name="status_t")
+    @JoinColumn(name="person_status_t")
     private JpaTypeImpl personStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch=FetchType.EAGER)
     private Set<JpaLeaveImpl> leaves = new HashSet<JpaLeaveImpl>();
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "role_info_id")
+    @JoinColumn(name = "role_id")
     private JpaRoleInfoImpl roleInfo;
 
     @ManyToOne(optional = false)
@@ -84,7 +84,7 @@ public class JpaRoleImpl extends Entity implements Role {
     private JpaTypeImpl terminationReason;
 
     public JpaRoleImpl() {
-
+        // nothing to do
     }
 
     public JpaRoleImpl(JpaRoleInfoImpl roleInfo, JpaPersonImpl person) {
@@ -179,8 +179,8 @@ public class JpaRoleImpl extends Entity implements Role {
         return this.leaves;
     }
 
-    public Department getDepartment() {
-        return this.roleInfo.getDepartment();
+    public OrganizationalUnit getOrganizationalUnit() {
+        return this.roleInfo.getOrganizationalUnit();
     }
 
     public Campus getCampus() {

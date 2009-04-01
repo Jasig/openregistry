@@ -13,14 +13,14 @@ import java.util.List;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="campus")
-@Table(name="prs_campuses")
+@Table(name="prd_campuses")
 @Audited
 public class JpaCampusImpl extends Entity implements Campus {
 
     @Id()
-    @Column(name="campus_id")
-    @GeneratedValue(generator="prd_campus_seq",strategy = GenerationType.AUTO)
-    @SequenceGenerator(name="prd_campus_seq",sequenceName="prd_campus_seq",initialValue=1,allocationSize=50)
+    @Column(name="id")
+    @GeneratedValue(generator="prd_campuses_seq",strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="prd_campuses_seq",sequenceName="prd_campuses_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="code", length=2, nullable = false)
@@ -33,7 +33,7 @@ public class JpaCampusImpl extends Entity implements Campus {
     private List<JpaRoleInfoImpl> roleInfos;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "campus")
-    private List<JpaDepartmentImpl> departments;
+    private List<JpaOrganizationalUnitImpl> organizationalUnits;
 
     public Long getId() {
         return this.id;

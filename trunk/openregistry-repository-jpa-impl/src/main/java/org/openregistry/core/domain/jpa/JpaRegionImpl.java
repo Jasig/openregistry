@@ -20,8 +20,8 @@ import java.util.List;
 public class JpaRegionImpl extends Entity implements Region {
 
     @Id
-    @SequenceGenerator(name="ctd_region_seq",sequenceName="ctd_region_seq",initialValue=1,allocationSize=50)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctd_region_seq")
+    @SequenceGenerator(name="ctd_regions_seq",sequenceName="ctd_regions_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctd_regions_seq")
     private Long id;
 
     @Column(name="name",nullable = false,length=100)

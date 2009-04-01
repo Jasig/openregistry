@@ -20,8 +20,8 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 
     @Id
     @Column(name="identifier_t")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prd_identifier_type_seq")
-    @SequenceGenerator(name="prd_identifier_type_seq",sequenceName="prd_identifier_type_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prd_identifier_types_seq")
+    @SequenceGenerator(name="prd_identifier_types_seq",sequenceName="prd_identifier_types_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="name",nullable = false,length = 100)

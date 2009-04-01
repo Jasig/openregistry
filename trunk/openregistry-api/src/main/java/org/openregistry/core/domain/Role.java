@@ -47,7 +47,7 @@ public interface Role extends Serializable, DateRange {
 
     String getTitle();
 
-    Department getDepartment();
+    OrganizationalUnit getOrganizationalUnit();
 
     Campus getCampus();
 

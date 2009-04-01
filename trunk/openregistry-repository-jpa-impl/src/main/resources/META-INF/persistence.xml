@@ -6,7 +6,7 @@
             <class>org.openregistry.core.domain.jpa.JpaAddressImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaCampusImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaCountryImpl</class>
-            <class>org.openregistry.core.domain.jpa.JpaDepartmentImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaOrganizationalUnitImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaEmailAddressImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaIdentifierImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaIdentifierTypeImpl</class>

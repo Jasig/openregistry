@@ -68,7 +68,7 @@ div.select {border:0;}
 .openregistry#update input.radio {top:.9em; border:0; height:13px; width:13px;}
 .openregistry#update div.row label.sponsor {margin-left:16px;}
 .openregistry#update div.row label.sponsortype {margin-left:26px;}
-.openregistry#update div.row label.department {margin-left:1px;}
+.openregistry#update div.row label.organizationalunit {margin-left:1px;}
 .openregistry#update div.row label.campus {margin-left:3px;}
 .openregistry#update div.row label.pt {margin-left:9px;}
 .openregistry#update div.row label.carrier {margin-left:9px;}

@@ -14,14 +14,14 @@ import java.util.Date;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="loa")
-@Table(name="prs_loa")
+@Table(name="prc_leaves_of_absence")
 @Audited
 public class JpaLeaveImpl extends Entity implements Leave {
 
     @Id
-    @Column(name="loa_id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_loa_seq")
-    @SequenceGenerator(name="prs_loa_seq",sequenceName="prs_loa_seq",initialValue=1,allocationSize=50)
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_leaves_of_absence_seq")
+    @SequenceGenerator(name="prc_leaves_of_absence_seq",sequenceName="prc_leaves_of_absence_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="start_date")
@@ -37,7 +37,7 @@ public class JpaLeaveImpl extends Entity implements Leave {
     private JpaTypeImpl reason;
 
     @ManyToOne(optional=false)
-    @JoinColumn(name="prc_role_record_id")
+    @JoinColumn(name="role_record_id")
     private JpaRoleImpl role;    
 
     protected Long getId() {

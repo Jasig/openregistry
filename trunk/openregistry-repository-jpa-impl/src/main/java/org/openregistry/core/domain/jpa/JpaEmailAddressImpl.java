@@ -19,8 +19,8 @@ import javax.persistence.*;
 public class JpaEmailAddressImpl extends Entity implements EmailAddress {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_email_seq")
-    @SequenceGenerator(name="prs_email_seq",sequenceName="prs_email_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_emails_seq")
+    @SequenceGenerator(name="prc_emails_seq",sequenceName="prc_emails_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @ManyToOne(optional = false)
@@ -31,7 +31,7 @@ public class JpaEmailAddressImpl extends Entity implements EmailAddress {
     private String address;
     
     @ManyToOne(optional=false)
-    @JoinColumn(name="prc_role_record_id")
+    @JoinColumn(name="role_record_id")
     private JpaRoleImpl role;
 
     public JpaEmailAddressImpl() {

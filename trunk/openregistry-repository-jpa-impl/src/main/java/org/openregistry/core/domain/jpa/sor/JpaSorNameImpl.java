@@ -24,8 +24,8 @@ public class JpaSorNameImpl extends Entity implements Name {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_name_seq")
-    @SequenceGenerator(name="prs_name_seq",sequenceName="prs_name_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_names_seq")
+    @SequenceGenerator(name="prs_names_seq",sequenceName="prs_names_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="prefix", nullable=true, length=5)
@@ -45,11 +45,11 @@ public class JpaSorNameImpl extends Entity implements Name {
     private String suffix;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name="person_id", nullable=false)
+    @JoinColumn(name="sor_person_id", nullable=false)
     private JpaSorPersonImpl person;
 
     public JpaSorNameImpl() {
-
+        // nothing to do
     }
 
     public JpaSorNameImpl(final JpaSorPersonImpl person) {

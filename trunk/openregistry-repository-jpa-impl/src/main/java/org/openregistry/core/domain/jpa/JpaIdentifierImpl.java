@@ -20,9 +20,9 @@ import javax.persistence.*;
 public class JpaIdentifierImpl extends Entity implements Identifier {
 
     @Id
-    @Column(name="identifier_id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_identifier_seq")
-    @SequenceGenerator(name="prs_identifier_seq",sequenceName="prs_identifier_seq",initialValue=1,allocationSize=50)
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_identifiers_seq")
+    @SequenceGenerator(name="prc_identifiers_seq",sequenceName="prc_identifiers_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @ManyToOne(optional=false)
@@ -33,8 +33,14 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @JoinColumn(name="identifier_t")
     private JpaIdentifierTypeImpl type;
 
-    @Column(name="identifier", length=100,nullable=false)
+    @Column(name="identifier", length=100, nullable=false)
     private String value;
+    
+    @Column(name="primary", nullable=false)
+    private Boolean primary;
+    
+    @Column(name="deleted", nullable=false)
+    private Boolean deleted;
 
     public JpaIdentifierImpl() {
         // nothing to do
@@ -59,6 +65,14 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     public Person getPerson() {
         return this.person;
     }
+    
+    public Boolean isPrimary() {
+    	return this.primary;
+    }
+    
+    public Boolean isDeleted() {
+    	return this.deleted;
+    }
 
     public void setType(final IdentifierType type) {
         if (!(type instanceof JpaIdentifierTypeImpl)) {
@@ -68,7 +82,15 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
         this.type = (JpaIdentifierTypeImpl) type;
     }
 
-    public void setValue(String value){
+    public void setValue(String value) {
         this.value = value;
+    }
+    
+    public void setPrimary(Boolean value) {
+    	this.primary = value;
+    }
+    
+    public void setDeleted(Boolean value) {
+    	this.deleted = value;
     }
 }
