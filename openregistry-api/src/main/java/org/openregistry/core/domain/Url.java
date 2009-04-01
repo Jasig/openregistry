@@ -1,6 +1,7 @@
 package org.openregistry.core.domain;
 
 import java.net.URL;
+import java.io.Serializable;
 
 /**
  * @author Scott Battaglia
@@ -8,7 +9,7 @@ import java.net.URL;
  * @since 1.0.0
  * 
  */
-public interface Url {
+public interface Url extends Serializable {
 
     Type getType();
 
