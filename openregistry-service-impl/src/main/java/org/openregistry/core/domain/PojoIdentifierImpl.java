@@ -26,4 +26,24 @@ public final class PojoIdentifierImpl implements Identifier {
     public void setValue(final String value) {
         this.value = value;
     }
+
+	public Boolean isDeleted() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Boolean isPrimary() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setDeleted(Boolean value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setPrimary(Boolean value) {
+		// TODO Auto-generated method stub
+		
+	}
 }
