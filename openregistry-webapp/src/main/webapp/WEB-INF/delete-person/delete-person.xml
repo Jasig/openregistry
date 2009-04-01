@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <view-state id="personSearch" model="searchCriteria">
+        <var name="searchCriteria" class="org.openregistry.core.domain.PojoPersonImpl" />
+        <on-entry>
+            <evaluate expression="referenceRepository.identifierTypes" result-type="java.util.List" result="viewScope.identifierTypes" />
+        </on-entry>
+        <transition on="submit" to="readResults">
+            <evaluate expression="personService.searchForPersonBy(searchCriteria)" result-type="java.util.List" result="flowScope.searchResults" />
+        </transition>
+    </view-state>
+
+    <decision-state id="readResults">
+        <if test="searchResults.size eq 0" then="personSearch" />
+        <if test="searchResults.size eq 1" then="onePerson" else="displayMatches" />
+    </decision-state>
+
+    <action-state id="onePerson">
+        <evaluate expression="searchResults[0].person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
+        <transition to="displayPerson" />
+    </action-state>
+
+    <view-state id="displayMatches">
+        <transition on="display" to="displayPerson">
+            <evaluate expression="searchResults[requestScope.searchId].person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
+        </transition>
+    </view-state>
+
+    <view-state id="displayPerson">
+        <transition on="submit">
+
+        </transition>
+        <transition on="cancel" to="cancelled" />
+    </view-state>
+
+    <end-state id="cancelled" view="cancelled.jsp" />
+
+    <end-state id="success" view="success.jsp" />
+</flow>
