@@ -5,6 +5,7 @@ import org.openregistry.core.service.identifier.IdentifierAssigner;
 import org.openregistry.core.service.identifier.IdentifierGenerator;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.Reconciler;
+import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Name;
@@ -113,6 +114,11 @@ public class DefaultPersonService implements PersonService {
         }
 
         return new DefaultServiceExecutionResult(serviceName, magic(personSearch));
+    }
+
+    @Transactional
+    public List<PersonMatch> searchForPersonBy(Person person) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     /**

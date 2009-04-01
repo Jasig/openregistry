@@ -3,7 +3,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
-    <view-state id="personSearch" model="searchCriteria">
+    <view-state id="personSearch" model="searchCriteria" view="personSearch.jsp">
         <var name="searchCriteria" class="org.openregistry.core.domain.PojoPersonImpl" />
         <on-entry>
             <evaluate expression="referenceRepository.identifierTypes" result-type="java.util.List" result="viewScope.identifierTypes" />
