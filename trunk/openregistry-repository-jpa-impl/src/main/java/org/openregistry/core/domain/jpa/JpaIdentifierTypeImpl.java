@@ -30,7 +30,7 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
     @OneToMany(fetch=FetchType.LAZY, mappedBy="type")
     private List<JpaIdentifierImpl> identifiers; 
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 
