@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Default implementation of temporary repository. 
  */
-@Repository
+@Repository(value = "referenceRepository")
 public final class JpaReferenceRepository implements ReferenceRepository {
 
     @PersistenceContext
