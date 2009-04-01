@@ -18,15 +18,7 @@
         <flow:flow-location path="/WEB-INF/delete-person/delete-person.xml" id="deletePerson" />
     </flow:flow-registry>
 
-    <flow:flow-builder-services id="flowBuilderServices" view-factory-creator="viewFactoryCreator" conversion-service="conversionService"/>
-
-    <bean id="viewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
-        <property name="viewResolvers">
-            <list>
-                <ref bean="viewResolver"/>
-            </list>
-        </property>
-    </bean>
+    <flow:flow-builder-services id="flowBuilderServices" conversion-service="conversionService"/>
 
     <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter" p:flowExecutor-ref="flowExecutor"/>
 
@@ -36,9 +28,8 @@
 
     <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping" p:flowRegistry-ref="flowRegistry" p:order="1"/>
 
-    <bean id="viewResolver"
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+            p:prefix="/WEB-INF/jsp/"
+            p:suffix=".jsp"
+            p:viewClass="org.springframework.web.servlet.view.JstlView"/>
 </beans>
