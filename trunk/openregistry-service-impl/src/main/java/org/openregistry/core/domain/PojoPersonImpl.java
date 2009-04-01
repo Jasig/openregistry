@@ -1,15 +1,20 @@
 package org.openregistry.core.domain;
 
+import org.apache.commons.collections15.list.LazyList;
+import org.apache.commons.collections15.Factory;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Date;
+import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public class PojoPersonImpl implements Person {
+public final class PojoPersonImpl implements Person {
 
     private Long id;
 
@@ -19,7 +24,7 @@ public class PojoPersonImpl implements Person {
 
     private Date dateOfBirth;
 
-    private List<? extends Identifier> identifiers;
+    private List<? extends Identifier> identifiers = LazyList.decorate(new ArrayList<PojoIdentifierImpl>(), new PojoIdentifierImplFactory());
 
     private Name preferredName = new PojoNameImpl();
 

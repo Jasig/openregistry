@@ -4,6 +4,9 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
+import org.openregistry.core.service.reconciliation.PersonMatch;
+
+import java.util.List;
 
 /**
  * Component defining the main public API for interacting with Open Registry Persons subsystem.
@@ -54,4 +57,10 @@ public interface PersonService {
      * will be the {@link org.openregistry.core.domain.sor.PersonSearch} object.
      */
     ServiceExecutionResult addPerson(PersonSearch personSearch, ReconciliationResult result);
+
+    /**
+     * Searches for a Person by the criteria provided.
+     * @return
+     */
+    List<PersonMatch> searchForPersonBy(Person person);
 }
