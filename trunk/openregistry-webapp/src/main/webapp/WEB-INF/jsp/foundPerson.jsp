@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head><title>Update Person</title></head>
+  <head><title>Found Person</title></head>
   <body>
   <div class="section">
 	<h3>Person Found in the Repository</h3>
