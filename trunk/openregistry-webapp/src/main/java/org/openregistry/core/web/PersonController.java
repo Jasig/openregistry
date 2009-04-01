@@ -26,7 +26,7 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@RequestMapping("/addPerson.htm")
+@RequestMapping("/oldAddPerson.htm")
 @SessionAttributes("person")
 public final class PersonController extends AbstractLocalizationController {
 
