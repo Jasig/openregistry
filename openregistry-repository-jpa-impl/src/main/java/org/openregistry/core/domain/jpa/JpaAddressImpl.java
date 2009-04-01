@@ -21,8 +21,8 @@ import javax.persistence.*;
 public class JpaAddressImpl extends Entity implements Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prd_address_seq")
-    @SequenceGenerator(name="prd_address_seq",sequenceName="prd_address_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_addresses_seq")
+    @SequenceGenerator(name="prc_addresses_seq",sequenceName="prc_addresses_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @ManyToOne
@@ -53,7 +53,7 @@ public class JpaAddressImpl extends Entity implements Address {
     private String postalCode;
 
     @ManyToOne(optional=false)
-    @JoinColumn(name="prc_role_record_id")
+    @JoinColumn(name="role_record_id")
     private JpaRoleImpl role;
 
     public JpaAddressImpl() {

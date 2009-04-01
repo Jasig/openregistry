@@ -19,8 +19,8 @@ import java.net.URL;
 public class JpaUrlImpl extends Entity implements Url {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_urls_seq")
-    @SequenceGenerator(name="prs_urls_seq",sequenceName="prs_urls_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_urls_seq")
+    @SequenceGenerator(name="prc_urls_seq",sequenceName="prc_urls_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @ManyToOne(optional = false)
@@ -31,7 +31,7 @@ public class JpaUrlImpl extends Entity implements Url {
     private URL url;
 
     @ManyToOne(optional=false)
-    @JoinColumn(name="prc_role_record_id")
+    @JoinColumn(name="role_record_id")
     private JpaRoleImpl role;
 
     public JpaUrlImpl() {

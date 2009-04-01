@@ -23,25 +23,25 @@ import java.util.HashSet;
  * @since 1.0.0
  */
 @Entity(name="sorPerson")
-@Table(name="prs_persons")
+@Table(name="prs_sor_persons")
 @ValidateDefinition
 public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Entity implements SorPerson {
 
     @Id
-    @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_person_seq")
-    @SequenceGenerator(name="prs_person_seq",sequenceName="prs_person_seq",initialValue=1,allocationSize=50)
-    private Long id;
+    @Column(name="record_id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_sor_persons_seq")
+    @SequenceGenerator(name="prs_sor_persons_seq",sequenceName="prs_sor_persons_seq",initialValue=1,allocationSize=50)
+    private Long recordId;
 
-    @Column(name="sor_id")
+    @Column(name="id")
     @NotEmpty
     @JvGroup
     private String sorId;
 
-    @Column(name="sor_identifier", nullable = false)
+    @Column(name="source_sor_id", nullable = false)
     @NotEmpty
     @JvGroup
-    private String sorIdentifier;
+    private String sourceSorIdentifier;
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
@@ -69,19 +69,19 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
     }
 
     protected Long getId() {
-        return this.id;
+        return this.recordId;
     }
 
     public String getSorId() {
         return this.sorId;
     }
 
-    public String getSorIdentifier() {
-        return this.sorIdentifier;
+    public String getSourceSorIdentifier() {
+        return this.sourceSorIdentifier;
     }
 
-    public void setSorIdentifier(final String sorIdentifier) {
-        this.sorIdentifier = sorIdentifier;
+    public void setSourceSorIdentifier(final String sorIdentifier) {
+        this.sourceSorIdentifier = sorIdentifier;
     }
 
     public Set<? extends Name> getNames() {

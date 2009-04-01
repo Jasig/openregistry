@@ -21,9 +21,9 @@ import javax.persistence.*;
 public class JpaNameImpl extends Entity implements Name {
 
     @Id
-    @Column(name="name_id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_name_seq")
-    @SequenceGenerator(name="prc_name_seq",sequenceName="prc_name_seq",initialValue=1,allocationSize=50)
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_names_seq")
+    @SequenceGenerator(name="prc_names_seq",sequenceName="prc_names_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name="prefix", nullable=true, length=5)
