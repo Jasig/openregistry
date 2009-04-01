@@ -35,10 +35,13 @@
             <set name="requestScope.infoModel" value="'Person Added'" />
         </transition>
         <transition on="EXACT" to="foundPerson" />
-        <transition on="MAYBE" to="viewMatches" />
+        <transition on="MAYBE" to="viewMatches">
+            <set name="flowScope.serviceExectionResult" value="serviceExecutionResult" />
+            <set name="flowScope.personToAdd" value="personSearch.getPerson()" />
+        </transition>
     </action-state>
 
-    <view-state id="viewMatches" view="personMatches" model="serviceExecutionResult">
+    <view-state id="viewMatches" view="personMatches.jsp" model="flowScope.serviceExecutionResult">
         <transition on="submitAddPerson" to="addThePerson" >
             <evaluate expression="personService.addPerson(personSearch, serviceExecutionResult.getReconciliationResult())" result="flowScope.serviceExecutionResult"/>
             <set name="requestScope.infoModel" value="'Person Added'" />
@@ -46,7 +49,7 @@
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
 
-    <end-state id="addThePerson" view="addPerson" />
-    <end-state id="foundPerson" view="foundPerson" />
-    <end-state id="cancelCreatePerson" view="externalRedirect:contextRelative:/addPerson.htm"/>
+    <end-state id="addThePerson" view="addPerson.jsp" />
+    <end-state id="foundPerson" view="foundPerson.jsp" />
+    <end-state id="cancelCreatePerson" view="addPerson.jsp"/>
 </flow>

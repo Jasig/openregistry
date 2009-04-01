@@ -28,10 +28,10 @@
    		<jsp:directive.include file="/WEB-INF/jsp/includes/info.jsp" />
 
 		<form:form modelAttribute="serviceExecutionResult" id="fm-search" method="post" action="personMatches.htm">
-			<fieldset id="personMatches">
+			<fieldset id="update">
 				<legend><span><spring:message code="personMatches.heading"/></span></legend>
                 <br/>
-
+                <p><b><c:out value="${personToAdd.firstAddedName.family}" />, <c:out value="${personToAdd.firstAddedName.given}" /></b></p>
                 <fieldset class="fm-h" id="ecn1">
 
 					<div class="row">
@@ -39,13 +39,11 @@
                             <tr>
                                 <th><spring:message code="nameColumn.label"/></th>
                                 <th><spring:message code="genderColumn.label"/></th>
-                                <th><spring:message code="titleColumn.label"/></th>
-                                <th><spring:message code="emailColumn.label"/></th>
                             </tr>
                             <tr>
-					            <c:forEach var="person" items="${reconciliationResult.getMatches}">
-                                    <td valign="top"><c:out value="${person.officialName}" /></td>
-                                    <td valign="top"><c:out value="${person.gender}" /></td>
+					            <c:forEach var="personMatch" items="${serviceExecutionResult.reconciliationResult.matches}">
+                                    <td valign="top"><c:out value="${personMatch.person.officialName.family}" />, <c:out value="${personMatch.person.officialName.given}" /></td>
+                                    <td valign="top"><c:out value="${personMatch.person.gender}" /></td>
                                 </c:forEach>
                             </tr>
                         </table>
