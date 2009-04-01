@@ -4,11 +4,10 @@
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:p="http://www.springframework.org/schema/p" xmlns:jee="http://www.springframework.org/schema/jee"
        xmlns:util="http://www.springframework.org/schema/util"
-       xmlns:flow="http://www.springframework.org/schema/webflow-config"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd">
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
     <context:component-scan base-package="org.openregistry.service"/>
     <context:component-scan base-package="org.openregistry.core"/>
@@ -43,44 +42,4 @@
             </list>
         </property>
     </bean>
-
-    <!-- Maps flow requests from DispatcherServlet to flowController -->
-    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="mappings">
-            <value>  
-                /addPerson.htm=flowController
-            </value>
-        </property>
-        <property name="alwaysUseFullPath" value="true"/>
-    </bean>
-
-    <!-- SPRING WEB FLOW STUFF -->
-    <!-- Plugs in a custom creator for Web Flow views -->
-
-    <bean id="flowController" class="org.springframework.webflow.mvc.servlet.FlowController">
-        <property name="flowExecutor" ref="flowExecutor"/>
-    </bean>
-
-    <flow:flow-executor id="flowExecutor" flow-registry="flowRegistry"/>
-    <!-- This creates an XmlFlowRegistryFactory bean -->
-        <flow:flow-registry id="flowRegistry" flow-builder-services="flowBuilderServices">
-        <flow:flow-location path="/WEB-INF/jsp/addPerson.xml"/>
-    </flow:flow-registry>
-
-    <flow:flow-builder-services id="flowBuilderServices" view-factory-creator="viewFactoryCreator" conversion-service="conversionService"/>
-
-    <bean id="viewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
-        <property name="viewResolvers">
-            <list>
-                <ref bean="viewResolver"/>
-            </list>
-    </property>
-    </bean>
-
-    <bean id="viewResolver"
-        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
-
 </beans>
