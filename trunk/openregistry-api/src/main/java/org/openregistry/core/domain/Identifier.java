@@ -1,5 +1,7 @@
 package org.openregistry.core.domain;
 
+import java.io.Serializable;
+
 /**
  * 
  *
@@ -7,7 +9,7 @@ package org.openregistry.core.domain;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface Identifier {
+public interface Identifier extends Serializable {
 
     IdentifierType getType();
 
