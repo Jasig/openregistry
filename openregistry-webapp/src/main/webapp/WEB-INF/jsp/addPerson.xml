@@ -31,20 +31,22 @@
         <evaluate expression="personSearch.getPerson().setSorIdentifier('or-webapp')" />
         <evaluate expression="personService.addPerson(personSearch, null)" result="flowScope.serviceExecutionResult"/>
         <evaluate expression="serviceExecutionResult.getReconciliationResult().getReconciliationType()" result="flowScope.reconciliationType"/>
-        <transition on-exception="java.lang.NullPointerException" to="addPerson" />
-        <transition on="NONE" to="personAdded" />
+        <transition on-exception="java.lang.NullPointerException" to="addThePerson" >
+            <set name="requestScope.infoModel" value="'Person Added'" />
+        </transition>
         <transition on="EXACT" to="foundPerson" />
         <transition on="MAYBE" to="viewMatches" />
     </action-state>
 
     <view-state id="viewMatches" view="personMatches" model="serviceExecutionResult">
-        <transition on="submitAddPerson" to="personAdded" >
+        <transition on="submitAddPerson" to="addThePerson" >
             <evaluate expression="personService.addPerson(personSearch, serviceExecutionResult.getReconciliationResult())" result="flowScope.serviceExecutionResult"/>
+            <set name="requestScope.infoModel" value="'Person Added'" />
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
 
-    <end-state id="personAdded" view="confirmAdd" />
+    <end-state id="addThePerson" view="addPerson" />
     <end-state id="foundPerson" view="foundPerson" />
     <end-state id="cancelCreatePerson" view="externalRedirect:contextRelative:/addPerson.htm"/>
 </flow>
