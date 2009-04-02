@@ -1,4 +1,4 @@
-package org.openregistry.core.web;
+package org.openregistry.core.web.propertyeditors;
 
 import org.springframework.binding.convert.converters.Converter;
 import org.openregistry.core.domain.IdentifierType;
@@ -10,7 +10,7 @@ import org.openregistry.core.domain.IdentifierType;
  * Time: 4:12:00 PM
  * To change this template use File | Settings | File Templates.
  */
-public class IdentifierTypeConverter implements Converter {
+public class IdentifierTypeToStringConverter implements Converter {
 
     public Class getSourceClass() {
         return IdentifierType.class;

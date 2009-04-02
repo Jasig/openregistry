@@ -110,11 +110,9 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
-    public IdentifierType findIdentifierType(String identifierName){
-        Query q = this.entityManager.createQuery("select distinct r from identifier_type r where name=:name");
-        q.setParameter("name", identifierName);
-        IdentifierType result = (IdentifierType)q.getSingleResult();
-        return result;
+    public IdentifierType findIdentifierType(final String identifierName){
+        final Query q = this.entityManager.createQuery("select distinct r from identifier_type r where name=:name").setParameter("name", identifierName);
+        return (IdentifierType) q.getSingleResult();
     }
 
 }

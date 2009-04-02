@@ -27,6 +27,15 @@ public interface PersonService {
     Person findPersonById(Long id);
 
     /**
+     * Deletes all or part of a person based on the deletion criteria specified.
+     *
+     * @param person the person to be deleted. CANNOT be null.
+     * @param deletionCriteria the portions of the person to delete.  CANNOT be null.
+     * @return true, if the action succeeded, false otherwise.
+     */
+    boolean delete(Person person, DeletionCriteria deletionCriteria);
+
+    /**
      * Validate, add and persist in the Open Registry a given Role for a given Person
      *
      * @param person a person to add a role to.
@@ -60,7 +69,9 @@ public interface PersonService {
 
     /**
      * Searches for a Person by the criteria provided.
-     * @return
+     *
+     * @param person the Person to search for.  CANNOT be null.
+     * @return the list of matches for a particular person.  This list CANNOT be null, but may be empty.  The list MUST be sorted in order of Confidence.
      */
     List<PersonMatch> searchForPersonBy(Person person);
 }
