@@ -51,5 +51,5 @@
 
     <end-state id="addThePerson" view="addPerson.jsp" />
     <end-state id="foundPerson" view="foundPerson.jsp" />
-    <end-state id="cancelCreatePerson" view="addPerson.jsp"/>
+    <end-state id="cancelCreatePerson" view="flowRedirect:addPerson" />
 </flow>
