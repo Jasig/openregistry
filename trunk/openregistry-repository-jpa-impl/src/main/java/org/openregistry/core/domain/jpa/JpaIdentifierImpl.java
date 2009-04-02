@@ -36,10 +36,10 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @Column(name="identifier", length=100, nullable=false)
     private String value;
     
-    @Column(name="primary", nullable=false)
+    @Column(name="is_primary", nullable=false)
     private Boolean primary;
     
-    @Column(name="deleted", nullable=false)
+    @Column(name="is_deleted", nullable=false)
     private Boolean deleted;
 
     public JpaIdentifierImpl() {
