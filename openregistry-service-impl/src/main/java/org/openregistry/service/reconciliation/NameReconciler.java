@@ -28,11 +28,10 @@ import org.springframework.stereotype.Component;
 @Component
 public final class NameReconciler implements Reconciler {
 
+	private static final long serialVersionUID = -7509304431552307514L;
+
 	@Autowired(required = true)
 	private PersonRepository personRepository;
-	
-	private List<PersonMatch> exactMatches = new ArrayList<PersonMatch>();
-	private List<PersonMatch> partialMatches = new ArrayList<PersonMatch>();
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -40,6 +39,9 @@ public final class NameReconciler implements Reconciler {
 	 * @see org.openregistry.core.service.reconciliation.Reconciler#reconcile(org.openregistry.core.domain.sor.PersonSearch)
 	 */
 	public ReconciliationResult reconcile(PersonSearch personSearch) {
+		List<PersonMatch> exactMatches = new ArrayList<PersonMatch>();
+		List<PersonMatch> partialMatches = new ArrayList<PersonMatch>();
+		
 		Set<? extends Name> names = personSearch.getPerson().getNames();  // TODO deal with multiple names properly
 		logger.info("Reconcile: found " + names.size() + " name(s)");
 		for(Name name: names) {
