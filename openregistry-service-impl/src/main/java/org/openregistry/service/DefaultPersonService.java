@@ -6,12 +6,15 @@ import org.openregistry.core.service.identifier.IdentifierGenerator;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.Reconciler;
 import org.openregistry.core.service.reconciliation.PersonMatch;
+import org.openregistry.core.service.reconciliation.FieldMatch;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Name;
+import org.openregistry.core.domain.PojoPersonImpl;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.repository.PersonRepository;
+import org.openregistry.service.reconciliation.PersonMatchImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.stereotype.Service;
@@ -41,7 +44,7 @@ public class DefaultPersonService implements PersonService {
     private PersonRepository personRepository;
 
     @Autowired(required = false)
-    private AnnotationValidator annotationValidator = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
+    private AnnotationValidator<Object> annotationValidator = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
 
     @Autowired(required=true)
     private Reconciler reconciler;
@@ -57,8 +60,14 @@ public class DefaultPersonService implements PersonService {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Transactional
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
+    }
+
+    @Transactional
+    public boolean delete(final Person person, final DeletionCriteria deletionCriteria) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Transactional
@@ -117,8 +126,16 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public List<PersonMatch> searchForPersonBy(Person person) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<PersonMatch> searchForPersonBy(final Person person) {
+        logger.info("searchForPersonBy was called.");
+        final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
+        final PersonMatch p = new PersonMatchImpl(new PojoPersonImpl(), 100, new ArrayList<FieldMatch>());
+        final PersonMatch p1 = new PersonMatchImpl(new PojoPersonImpl(), 50, new ArrayList<FieldMatch>());
+        personMatches.add(p);
+        personMatches.add(p1);
+
+        // TODO actually get some data here.
+        return personMatches;
     }
 
     /**

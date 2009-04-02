@@ -3,40 +3,55 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
-    <view-state id="personSearch" model="searchCriteria" view="personSearch.jsp">
+    <view-state id="personSearch" model="searchCriteria">
         <var name="searchCriteria" class="org.openregistry.core.domain.PojoPersonImpl" />
         <on-entry>
+            <set name="viewScope.errorMessage" value="flashScope.errorMessage" />
+            <set name="viewScope.searchResults" value="flowScope.searchResults" />
             <evaluate expression="referenceRepository.identifierTypes" result-type="java.util.List" result="viewScope.identifierTypes" />
         </on-entry>
-        <transition on="submit" to="readResults">
+        <transition on="submit" to="readResults" bind="true" validate="false">
             <evaluate expression="personService.searchForPersonBy(searchCriteria)" result-type="java.util.List" result="flowScope.searchResults" />
+        </transition>
+        <transition on="display" to="displayPerson">
+            <evaluate expression="flowScope.searchResults.get(requestParameters.searchId).person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
         </transition>
     </view-state>
 
     <decision-state id="readResults">
-        <if test="searchResults.size eq 0" then="personSearch" />
-        <if test="searchResults.size eq 1" then="onePerson" else="displayMatches" />
+        <if test="searchResults.size eq 0" then="noOneFound" />
+        <if test="searchResults.size eq 1" then="onePerson" else="personSearch" />
     </decision-state>
 
+    <action-state id="noOneFound">
+        <set name="flashScope.errorMessage" value="resourceBundle.noMatchesFoundMessage" />
+        <transition to="personSearch" />
+    </action-state>
+
     <action-state id="onePerson">
-        <evaluate expression="searchResults[0].person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
+        <evaluate expression="flowScope.searchResults.get(0).person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
         <transition to="displayPerson" />
     </action-state>
 
-    <view-state id="displayMatches">
-        <transition on="display" to="displayPerson">
-            <evaluate expression="searchResults[requestScope.searchId].person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
-        </transition>
-    </view-state>
-
-    <view-state id="displayPerson">
-        <transition on="submit">
-
+    <view-state id="displayPerson" model="deletionCriteria">
+        <var name="deletionCriteria" class="org.openregistry.service.DefaultDeletionCriteriaImpl" />
+        <transition on="submit" to="deletePerson">
+            <set name="requestScope.deletionCriteria" value="deletionCriteria" />
         </transition>
         <transition on="cancel" to="cancelled" />
     </view-state>
 
+    <action-state id="deletePerson">
+        <evaluate expression="personService.delete(flowScope.person, requestScope.deletionCriteria)" />
+        <transition on="yes" to="success">
+            <set name="flashScope.successMessage" value="resourceBundle.deleteSuccess" />
+        </transition>
+        <transition on="no" to="displayPerson">
+            <set name="flashScope.errorMessage" value="resourceBundle.deletionError" />
+        </transition>
+    </action-state>
+
     <end-state id="cancelled" view="cancelled.jsp" />
 
-    <end-state id="success" view="success.jsp" />
+    <end-state id="success" />
 </flow>
