@@ -23,17 +23,19 @@
         <on-entry>
             <evaluate expression="personSearch.getPerson().addName()" />
         </on-entry>
-        <transition on="submitAddPerson" to="matchesFound" />
+        <transition on="submitAddPerson" to="checkAddSucceeded" >
+            <evaluate expression="personSearch.getPerson().setSourceSorIdentifier('or-webapp')" />
+            <evaluate expression="personService.addPerson(personSearch, null)" result="flowScope.serviceExecutionResult"/>
+        </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>  
     </view-state>
 
+    <decision-state id="checkAddSucceeded">
+        <if test="flowScope.serviceExecutionResult.succeeded()" then="addSucceeded" else="matchesFound" />
+    </decision-state>
+
     <action-state id="matchesFound" >
-        <evaluate expression="personSearch.getPerson().setSourceSorIdentifier('or-webapp')" />
-        <evaluate expression="personService.addPerson(personSearch, null)" result="flowScope.serviceExecutionResult"/>
         <evaluate expression="serviceExecutionResult.getReconciliationResult().getReconciliationType()" result="flowScope.reconciliationType"/>
-        <transition on-exception="java.lang.NullPointerException" to="addThePerson" >
-            <set name="requestScope.infoModel" value="'Person Added'" />
-        </transition>
         <transition on="EXACT" to="foundPerson" />
         <transition on="MAYBE" to="viewMatches">
             <set name="flowScope.serviceExectionResult" value="serviceExecutionResult" />
@@ -42,14 +44,20 @@
     </action-state>
 
     <view-state id="viewMatches" view="personMatches.jsp" model="flowScope.serviceExecutionResult">
-        <transition on="submitAddPerson" to="addThePerson" >
+        <transition on="submitAddPerson" to="addSucceeded" >
             <evaluate expression="personService.addPerson(personSearch, serviceExecutionResult.getReconciliationResult())" result="flowScope.serviceExecutionResult"/>
-            <set name="requestScope.infoModel" value="'Person Added'" />
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
 
-    <end-state id="addThePerson" view="addPerson.jsp" />
+    <view-state id="addSucceeded" view="addPerson.jsp">
+        <on-entry>
+            <set name="flowScope.infoModel" value="'Person Added'" />
+        </on-entry>
+        <transition to="personWasAdded"/>
+    </view-state>
+
+    <end-state id="personWasAdded" />
     <end-state id="foundPerson" view="foundPerson.jsp" />
     <end-state id="cancelCreatePerson" view="flowRedirect:addPerson" />
 </flow>
