@@ -10,6 +10,7 @@
             <set name="viewScope.searchResults" value="flowScope.searchResults" />
             <evaluate expression="referenceRepository.identifierTypes" result-type="java.util.List" result="viewScope.identifierTypes" />
         </on-entry>
+        <!-- TODO temporarily disabled validation because of possible spring bug? -->
         <transition on="submit" to="readResults" bind="true" validate="false">
             <evaluate expression="personService.searchForPersonBy(searchCriteria)" result-type="java.util.List" result="flowScope.searchResults" />
         </transition>

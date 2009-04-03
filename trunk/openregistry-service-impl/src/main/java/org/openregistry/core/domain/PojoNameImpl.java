@@ -1,6 +1,8 @@
 package org.openregistry.core.domain;
 
 import org.openregistry.core.domain.Name;
+import org.javalid.annotations.core.ValidateDefinition;
+import org.javalid.annotations.validation.NotEmpty;
 
 /**
  * POJO implementation of the {@link org.openregistry.core.domain.Name} interface.
@@ -9,6 +11,7 @@ import org.openregistry.core.domain.Name;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
+@ValidateDefinition
 public class PojoNameImpl implements Name {
 
     private String prefix;
@@ -17,6 +20,7 @@ public class PojoNameImpl implements Name {
 
     private String middle;
 
+    @NotEmpty(customCode = "familyNameRequired")
     private String family;
 
     private String suffix;
@@ -59,5 +63,28 @@ public class PojoNameImpl implements Name {
 
     public void setSuffix(final String suffix) {
         this.suffix = suffix;
+    }
+
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+
+        if (this.prefix != null) {
+            builder.append(this.prefix);
+            builder.append(" ");
+        }
+
+        if (this.given != null) {
+            builder.append(this.given);
+            builder.append(" ");
+        }
+
+        builder.append(this.family);
+        builder.append(" ");
+
+        if (this.suffix != null) {
+            builder.append(this.suffix);
+        }
+
+        return builder.toString().trim();
     }
 }
