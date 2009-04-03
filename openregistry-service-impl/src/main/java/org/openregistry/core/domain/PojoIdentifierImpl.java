@@ -1,14 +1,21 @@
 package org.openregistry.core.domain;
 
+import org.javalid.annotations.validation.NotEmpty;
+import org.javalid.annotations.validation.NotNull;
+import org.javalid.annotations.core.ValidateDefinition;
+
 /**
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
+@ValidateDefinition()
 public final class PojoIdentifierImpl implements Identifier {
 
+    @NotNull(customCode = "testType")
     private IdentifierType type;
 
+    @NotEmpty(customCode = "testValue")
     private String value;
 
     public IdentifierType getType() {

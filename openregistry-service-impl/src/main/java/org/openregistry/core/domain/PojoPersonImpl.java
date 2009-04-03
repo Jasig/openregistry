@@ -2,6 +2,8 @@ package org.openregistry.core.domain;
 
 import org.apache.commons.collections15.list.LazyList;
 import org.apache.commons.collections15.Factory;
+import org.javalid.annotations.validation.ValidateList;
+import org.javalid.annotations.core.ValidateDefinition;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.io.Serializable;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
+@ValidateDefinition
 public final class PojoPersonImpl implements Person {
 
     private Long id;
@@ -24,6 +27,7 @@ public final class PojoPersonImpl implements Person {
 
     private Date dateOfBirth;
 
+    @ValidateList
     private List<? extends Identifier> identifiers = LazyList.decorate(new ArrayList<PojoIdentifierImpl>(), new PojoIdentifierImplFactory());
 
     private Name preferredName = new PojoNameImpl();
