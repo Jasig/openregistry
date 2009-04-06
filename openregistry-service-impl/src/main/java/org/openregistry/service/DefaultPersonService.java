@@ -84,28 +84,11 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public ServiceExecutionResult validateAndSavePerson(final Person person) {
-        final String serviceName = "PersonService.validateAndSaveRoleForPerson";
-        final List<ValidationError> validationErrors = validateAndConvert(person);
-
-        if (!validationErrors.isEmpty()) {
-            return new DefaultServiceExecutionResult(serviceName, person, validationErrors);
-        }
-
-        // TODO Call to reconciliation code and save code.
-        //this.personRepository.savePerson(person);
-        this.personRepository.addPerson(person);
-        return new DefaultServiceExecutionResult(serviceName, person);
-    }
-
-    @Transactional
     public ServiceExecutionResult addPerson(final PersonSearch personSearch, final ReconciliationResult oldReconciliationResult) {
         logger.info("In personService.addPerson.");
         logger.info("In personService.addPerson: entered following for gender: "+ personSearch.getPerson().getGender());
         final List<ValidationError> validationErrors = validateAndConvert(personSearch);
         final String serviceName = "PersonService.addPerson";
-
-        // TODO some SorIdentifier needs to be assigned (i.e. web-ui)
 
         if (!validationErrors.isEmpty()) {
             return new DefaultServiceExecutionResult(serviceName, personSearch, validationErrors);
@@ -130,9 +113,18 @@ public class DefaultPersonService implements PersonService {
         logger.info("searchForPersonBy was called.");
         final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
         final PersonMatch p = new PersonMatchImpl(new PojoPersonImpl(), 100, new ArrayList<FieldMatch>());
+        p.getPerson().getPreferredName().setPrefix("Mr.");
+        p.getPerson().getPreferredName().setGiven("Scott");
+        p.getPerson().getPreferredName().setFamily("Battaglia");
         final PersonMatch p1 = new PersonMatchImpl(new PojoPersonImpl(), 50, new ArrayList<FieldMatch>());
+        p1.getPerson().getPreferredName().setPrefix("Mr.");
+        p1.getPerson().getPreferredName().setGiven("David");
+        p1.getPerson().getPreferredName().setFamily("Steiner");
+
         personMatches.add(p);
-        personMatches.add(p1);
+        if (!"Scott".equals(person.getPreferredName().getGiven())) {
+            personMatches.add(p1);
+        }
 
         // TODO actually get some data here.
         return personMatches;
@@ -145,8 +137,8 @@ public class DefaultPersonService implements PersonService {
      * @return the list of validation errors.  CANNOT be NULL.  Can be empty.
      */
     protected List<ValidationError> validateAndConvert(final Object object) {
-        //final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object, null, "", true, -1);
-        final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object);
+        final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object, "1", "", true, -1);
+//        final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object);
         logger.info("In personService.validateAndConvert: size of messages: "+ validationMessages.size());
         return convertToValidationErrors(validationMessages);
     }

@@ -46,15 +46,6 @@ public interface PersonService {
     ServiceExecutionResult validateAndSaveRoleForPerson(Person person, Role role);
 
     /**
-     * Validate, add and persist a Person in the Open Registry
-     *
-     * @param person a person to valiate and add.
-     * @return an instance of a <code>ServiceExecutionResult</code> containing details
-     *         of whether this operation succeeded or failed.
-     */
-    ServiceExecutionResult validateAndSavePerson(Person person);
-
-    /**
      * Validate, add, and persist a person in the OpenRegistry system.
      * <p>
      * This method should attempt to reconcile the person you are adding.
