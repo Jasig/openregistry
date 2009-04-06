@@ -14,7 +14,7 @@
         <transition on="submit" to="readResults" bind="true" validate="false">
             <evaluate expression="personService.searchForPersonBy(searchCriteria)" result-type="java.util.List" result="flowScope.searchResults" />
         </transition>
-        <transition on="display" to="displayPerson">
+        <transition on="display" to="displayPerson" validate="false">
             <evaluate expression="flowScope.searchResults.get(requestParameters.searchId).person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
         </transition>
     </view-state>
