@@ -109,6 +109,9 @@
     </profiles>
     <list size="0" />
   </component>
+  <component name="IvyProjectSettings">
+    <dependencies />
+  </component>
   <component name="JavacSettings">
     <option name="DEBUGGING_INFO" value="true" />
     <option name="GENERATE_NO_WARNINGS" value="false" />
