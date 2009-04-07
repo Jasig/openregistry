@@ -9,6 +9,7 @@ import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
+import org.openregistry.core.domain.jpa.sor.JpaSorLeaveImpl;
 import org.openregistry.core.domain.Type;
 import org.hibernate.envers.Audited;
 
@@ -67,6 +68,9 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
     @ManyToOne(optional = false)
     @JoinColumn(name="person_status_t")
     private JpaTypeImpl personStatus;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch=FetchType.EAGER)
+    private Set<JpaSorLeaveImpl> leaves = new HashSet<JpaSorLeaveImpl>();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id")
