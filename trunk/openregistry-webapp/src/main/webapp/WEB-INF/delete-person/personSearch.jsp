@@ -35,39 +35,52 @@
 
                    <fieldset>
                        <legend>Name</legend>
-                       <form:label path="preferredName.prefix"><spring:message code="person.biodem.names.prefix.label" /></form:label>
-                       <form:select path="preferredName.prefix" cssErrorClass="formerror" cssClass="fl-textfield">
+                       <span>
+                       <form:select path="preferredName.prefix" cssErrorClass="formerror">
                            <form:option value="Mr." label="Mr." />
                            <form:option value="Mrs." label="Mrs." />
                            <form:option value="Ms." label="Ms." />
                            <form:option value="Miss" label="Miss" />
                            <form:option value="Dr." label="Dr." />
-                       </form:select> <form:errors path="preferredName.prefix" />
+                       </form:select>
+                       <form:label path="preferredName.prefix" cssClass="fl-font-size-80"><spring:message code="person.biodem.names.prefix.label" /></form:label>
+                       </span>
 
-                       <form:label path="preferredName.given"><spring:message code="person.biodem.names.given.label" /></form:label>
-                       <form:input path="preferredName.given" cssErrorClass="formerror" cssClass="fl-textfield" />
+                       <span>
+                       <form:input path="preferredName.given" cssErrorClass="formerror" />
+                       <form:label path="preferredName.given" cssClass="fl-font-size-80"><spring:message code="person.biodem.names.given.label" /></form:label>
+                       </span>
 
-                       <form:label path="preferredName.middle"><spring:message code="person.biodem.names.middle.label" /></form:label>
-                       <form:input path="preferredName.middle" cssErrorClass="formerror" cssClass="fl-textfield" />
+                       <span>
+                       <form:input path="preferredName.middle" cssErrorClass="formerror" />
+                        <form:label path="preferredName.middle" cssClass="fl-font-size-80"><spring:message code="person.biodem.names.middle.label" /></form:label>
+                       </span>
 
-                       <form:label path="preferredName.family"><spring:message code="person.diodem.names.family.label" /></form:label>
-                       <form:input path="preferredName.family" cssErrorClass="formerror" cssClass="fl-textfield" />
+                       <span>
+                       <form:input path="preferredName.family" cssErrorClass="formerror" />
+                        <form:label path="preferredName.family" cssClass="fl-font-size-80"><spring:message code="person.diodem.names.family.label" /></form:label>
+                       </span>
 
-                       <form:label path="preferredName.suffix"><spring:message code="person.biodem.names.suffix.label" /></form:label>
-                       <form:input path="preferredName.suffix" cssErrorClass="formerror" cssClass="fl-textfield" />
+                        <span>
+                        <form:input path="preferredName.suffix" cssErrorClass="formerror" />
+                        <form:label path="preferredName.suffix" cssClass="fl-font-size-80"><spring:message code="person.biodem.names.suffix.label" /></form:label>
+                        </span>
                    </fieldset>
 
                    <fieldset>
-                        <legend>Identifiers</legend>
+                       <span>
                        <form:label path="gender"><spring:message code="person.biodem.gender.label" /></form:label>
                        <form:select path="gender" cssErrorClass="formerror" cssClass="fl-textfield">
                            <form:option value="" label="" />
                            <form:option value="M"><spring:message code="person.biodem.gender.values.male" /></form:option>
                            <form:option value="F"><spring:message code="person.biodem.gender.values.female" /></form:option>
                        </form:select>
+                       </span>
 
+                       <span>
                        <form:label path="dateOfBirth"><spring:message code="person.biodem.dateOfBirth.label" /></form:label>
                        <form:input path="dateOfBirth" cssErrorClass="formerror" cssClass="fl-textfield" />
+                        </span>
                    </fieldset>
 
                    <fieldset>
