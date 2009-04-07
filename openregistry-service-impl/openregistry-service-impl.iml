@@ -11,10 +11,22 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="openregistry-api" exported="" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring:2.5.6" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-spring:1.1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: juel:juel-impl:2.1.1-rc2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.2-rc1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-spring:1.2-rc1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: net.sourceforge.collections:collections-generic:4.01" level="project" />
+    <orderEntry type="library" exported="" name="Maven: juel:juel-impl:2.1.1-rc4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.transaction:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.aop:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.beans:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.core:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.context:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.expression:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:jcl-over-slf4j:1.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-log4j12:1.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.14" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web.servlet:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web:3.0.0.M2" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>

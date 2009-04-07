@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module relativePaths="true" MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="" />
+        <setting name="targe-facet" value="" />
+        <datasource-mapping />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" optional="false" version="1.0" />
+      </configuration>
+    </facet>
+    <facet type="hibernate" name="Hibernate">
+      <configuration>
+        <datasource-map />
+        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/test/resources/hibernate.cfg.xml" optional="false" version="3.0" />
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -13,16 +30,14 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="openregistry-api" exported="" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring:2.5.6" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-context:2.5.6" level="project" />
-    <orderEntry type="library" exported="" name="Maven: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-beans:2.5.6" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-core:2.5.6" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-orm:2.5.6" level="project" />
-    <orderEntry type="library" exported="" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-tx:2.5.6" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.beans:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.core:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.transaction:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.aop:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.context:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.expression:3.0.0.M2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.2-rc1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-envers:3.4.0-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-core:3.4.0-SNAPSHOT" level="project" />
@@ -32,14 +47,13 @@
     <orderEntry type="library" exported="" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.transaction:jta:1.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-commons-annotations:3.4.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-annotations:3.4.0.GA" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-entitymanager:3.3.1.ga" level="project" />
-    <orderEntry type="library" exported="" name="Maven: jboss:jboss-common-core:2.0.4.GA" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-entitymanager:3.4.0-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-tools:3.2.0.ga" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.beanshell:bsh:2.0b4" level="project" />
     <orderEntry type="library" exported="" name="Maven: freemarker:freemarker:2.3.8" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.hibernate:jtidy:r8-20060801" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.hibernate:ejb3-persistence:1.0.2.GA" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-annotations:3.4.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: javassist:javassist:3.4.GA" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>

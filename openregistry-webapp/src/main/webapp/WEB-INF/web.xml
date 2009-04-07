@@ -4,7 +4,7 @@
          xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
-         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
+         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
     <display-name>OpenRegistry v1.00-SNAPSHOT Web Application</display-name>
 
@@ -18,14 +18,27 @@
     </listener>
 
     <servlet>
-        <servlet-name>openregistry</servlet-name>
+        <servlet-name>openregistry-ui</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <!-- RESTful API support -->
+    <servlet>
+        <servlet-name>openregistry-rest</servlet-name>
+        <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+
     <servlet-mapping>
-        <servlet-name>openregistry</servlet-name>
+        <servlet-name>openregistry-ui</servlet-name>
         <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>openregistry-rest</servlet-name>
+        <url-pattern>/api/v1/*</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
