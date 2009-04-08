@@ -65,7 +65,7 @@ public class PersonRequestRepresentation implements Serializable {
      *
      * @param personFormPayload representation of an incoming person
      * @throws IllegalArgumentException if any of the required fields are missing
-     *                                  or sor IDS are in the numerical form. There are no other validations performed.
+     *                                  or sor IDS are not in the numerical form. There are no other validations performed.
      */
     public PersonRequestRepresentation(MultivaluedMap<String, String> personFormPayload) throws IllegalArgumentException {
         if (!checkRequiredData(personFormPayload)) {
