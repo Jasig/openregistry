@@ -107,4 +107,72 @@ public class PersonRequestRepresentation implements Serializable {
                 && formPayload.getFirst("mobilePhoneNumber") != null
                 && formPayload.getFirst("mobileCarrier") != null);
     }
+
+    public Long getSystemOfRecordId() {
+        return systemOfRecordId;
+    }
+
+    public Long getSystemOfRecordPersonId() {
+        return systemOfRecordPersonId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getMobilePhoneNumber() {
+        return mobilePhoneNumber;
+    }
+
+    public String getMobileCarrier() {
+        return mobileCarrier;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public String getSsn() {
+        return ssn;
+    }
+
+    public String getRuId() {
+        return ruId;
+    }
+
+    public String getNetId() {
+        return netId;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
 }
