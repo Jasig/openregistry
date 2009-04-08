@@ -33,9 +33,9 @@ public class PersonFromSystemOfRecordRequest implements Serializable {
 
     private String email;
 
-    private String mobilPhoneNumber;
+    private String mobilePhoneNumber;
 
-    private String mobilCarrier;
+    private String mobileCarrier;
 
     /* Optional fields *************/
     private String dateOfBirth;
