@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Scope;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
+import java.util.Map;
 
 /**
  * Root RESTful resource representing people in Open Registry.
@@ -49,6 +50,14 @@ public class PeopleResource {
         Response response = null;
         UriBuilder uriBuilder = this.uriInfo.getAbsolutePathBuilder();
         URI uri = uriBuilder.path("rcpId").path("1234567").build();
+        PersonRequestRepresentation personRequest = null;
+        try {
+            personRequest = new PersonRequestRepresentation(formParams);
+        }
+        catch(IllegalArgumentException ex) {
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
 
         switch (respType) {
             case 201:
