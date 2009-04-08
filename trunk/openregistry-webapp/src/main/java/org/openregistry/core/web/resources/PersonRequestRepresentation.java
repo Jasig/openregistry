@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @author Dmitriy Kopylenko
  * @since 1.0
  */
-public class PersonFromSystemOfRecordRequest implements Serializable {
+public class PersonRequestRepresentation implements Serializable {
 
     private static final long serialVersionUID = -1085902781173568577L;
 
