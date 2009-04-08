@@ -24,19 +24,19 @@ public class PeopleResource {
 
     @Context
     //injected by Jersey
-            UriInfo uriInfo;
+    UriInfo uriInfo;
 
     @GET
     @Path("{personId}")
-    @Produces("text/plain")
-    public String getItem(@PathParam("personId") String personId) {
+    @Produces(MediaType.APPLICATION_XML)
+    public String showPerson(@PathParam("personId") String personId) {
         return "Yes, this is the representation from a Jersey-managed resource! The person ID is: " + personId;
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     //resp-type query param is here temporarily, for testing
-    public Response postSomeData(@DefaultValue("201") @QueryParam("resp-type") int respType,
+    public Response processIncomingPerson(@DefaultValue("201") @QueryParam("resp-type") int respType,
                                  MultivaluedMap<String, String> formParams) {
 
         //NOTE: The real handling of the POSTed representation will be done
