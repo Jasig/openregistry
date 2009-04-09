@@ -61,8 +61,8 @@ public interface PersonService {
     /**
      * Searches for a Person by the criteria provided.
      *
-     * @param person the Person to search for.  CANNOT be null.
+     * @param searchCriteria the Person to search for.  CANNOT be null.
      * @return the list of matches for a particular person.  This list CANNOT be null, but may be empty.  The list MUST be sorted in order of Confidence.
      */
-    List<PersonMatch> searchForPersonBy(Person person);
+    List<PersonMatch> searchForPersonBy(SearchCriteria searchCriteria);
 }

@@ -1,2 +1,47 @@
-label {display:block;}
-form span {float: left;}
+form ul li label {display:block; font-weight: bold;}
+form ul li span {float: left; margin:0 4px 0 0; padding:0 0 8px;}
+form ul li span label {font-weight: normal; font-size: .8em;}
+form ul li {list-style-type: none;clear:both;
+display:block;
+margin:0;
+padding:4px 5px 2px 9px;}
+form input {padding:2px 0;}
+
+li.leftHalf {
+clear:left;
+float:left;
+}
+
+li.rightHalf {
+    clear: none;
+    float: right;
+}
+
+form li.leftHalf, form li.rightHalf {
+width:46% !important;
+}
+
+select {
+    padding: 1px 0;
+}
+
+input[type="text"] {
+    width: 9em;
+    padding:2px 0;
+}
+
+.formerror {background-color: #f00;}
+
+input.suffix {width: 3em;}
+
+.fl-theme-mist form ul li span select {
+background-color:#DFEFFF !important;
+border:0.1em solid #5A95CF;
+margin:-0.1em;
+}
+
+.odd {background-color: #eee;}
+.even {background-color: #ddd;}
+
+table {width: 100%;}
+
