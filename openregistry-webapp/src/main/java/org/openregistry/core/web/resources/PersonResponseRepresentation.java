@@ -1,47 +1,52 @@
 package org.openregistry.core.web.resources;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Simple Java Bean encapsulating the representation of persons in the registry
  * for the purpose of exposing it via RESTful resources.
+ * This is class is marshalled into an XML representation using JAXB.
  * <p/>
  * This class is immutable
  *
  * @author Dmitriy Kopylenko
  * @since 1.0
  */
+@XmlRootElement(name = "open-registry-person")
 public class PersonResponseRepresentation implements Serializable {
 
-    private Long rcpId;
+    @XmlAttribute(name = "activation-generator-uri")
+    String activationGeneratorUri;
 
-    private String netId;
+    @XmlAttribute(name = "activation-processor-uri")
+    String activationProcessorUri;
 
-    private String activationGeneratorUri;
+    @XmlAttribute(name = "activation-token")
+    String activationToken;
 
-    private String activationProcessorUri;
+    @XmlElement(name = "id")        
+    List<PersonIdentifierRepresentation> identifiers;
 
-    public PersonResponseRepresentation(Long rcpId, String netId, String activationGeneratorUri,
-                                        String activationProcessorUri) {
-        this.rcpId = rcpId;
-        this.netId = netId;
+
+    /**
+     * Required by JAXB
+     */
+    PersonResponseRepresentation() {
+    }
+
+    PersonResponseRepresentation(String activationGeneratorUri,
+                                        String activationProcessorUri,
+                                        String activationToken,
+                                        List<PersonIdentifierRepresentation> ids) {
+
         this.activationGeneratorUri = activationGeneratorUri;
         this.activationProcessorUri = activationProcessorUri;
-    }
-
-    public Long getRcpId() {
-        return rcpId;
-    }
-
-    public String getNetId() {
-        return netId;
-    }
-
-    public String getActivationGeneratorUri() {
-        return activationGeneratorUri;
-    }
-
-    public String getActivationProcessorUri() {
-        return activationProcessorUri;
+        this.activationToken = activationToken;
+        this.identifiers = ids;
     }
 }

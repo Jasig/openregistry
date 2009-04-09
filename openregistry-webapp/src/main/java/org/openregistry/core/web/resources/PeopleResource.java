@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.Map;
+import java.util.Arrays;
 
 /**
  * Root RESTful resource representing people in Open Registry.
@@ -23,21 +23,34 @@ import java.util.Map;
 public class PeopleResource {
 
     @Context
-    //injected by Jersey
     UriInfo uriInfo;
 
     @GET
-    @Path("{personId}")
-    @Produces(MediaType.APPLICATION_XML)
-    public String showPerson(@PathParam("personId") String personId) {
-        return "Yes, this is the representation from a Jersey-managed resource! The person ID is: " + personId;
+    @Path("{personIdType}/{personId}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML}) //auto content negotiation!
+    public PersonResponseRepresentation showPerson(@PathParam("personId") String personId,
+                                                   @PathParam("personIdType") String personIdType) {
+
+        //Build activation generator URI
+        URI activationGeneratorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").build();
+
+        //Build activation proccess URI
+        URI activationProcessorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").path("proccess")
+                .queryParam("activation-token", "activation-token-skjfskjfhskjdfh").build();
+
+        return new PersonResponseRepresentation(
+                activationGeneratorUri.toString(),
+                activationProcessorUri.toString(),
+                "AT-153254325",
+                Arrays.asList(new PersonIdentifierRepresentation(personIdType, personId),
+                        new PersonIdentifierRepresentation("rcpId", "12345")));
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     //resp-type query param is here temporarily, for testing
     public Response processIncomingPerson(@DefaultValue("201") @QueryParam("resp-type") int respType,
-                                 MultivaluedMap<String, String> formParams) {
+                                          MultivaluedMap<String, String> formParams) {
 
         //NOTE: The real handling of the POSTed representation will be done
         //here by means of marshalling the submitted form data into a Java type
@@ -54,7 +67,7 @@ public class PeopleResource {
         try {
             personRequest = new PersonRequestRepresentation(formParams);
         }
-        catch(IllegalArgumentException ex) {
+        catch (IllegalArgumentException ex) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
