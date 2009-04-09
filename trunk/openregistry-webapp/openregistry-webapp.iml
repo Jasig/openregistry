@@ -229,7 +229,43 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
+          <containerElement type="library" name="Maven: com.sun.jersey:jersey-json:1.0.2" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: org.codehaus.jettison:jettison:1.0.1" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: stax:stax-api:1.0.1" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: com.sun.xml.bind:jaxb-impl:2.1.10" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: javax.xml.bind:jaxb-api:2.1" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: javax.xml.stream:stax-api:1.0" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: javax.activation:activation:1.1" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: org.codehaus.jackson:jackson-lgpl:0.9.4" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
           <containerElement type="library" name="Maven: com.sun.jersey.contribs:jersey-spring:1.0.2" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
+          <containerElement type="library" name="Maven: com.sun.xml.stream:sjsxp:1.0.1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
@@ -308,7 +344,16 @@
     <orderEntry type="library" exported="" name="Maven: com.sun.jersey:jersey-server:1.0.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: com.sun.jersey:jersey-core:1.0.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.ws.rs:jsr311-api:1.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: com.sun.jersey:jersey-json:1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.codehaus.jettison:jettison:1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: stax:stax-api:1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: com.sun.xml.bind:jaxb-impl:2.1.10" level="project" />
+    <orderEntry type="library" exported="" name="Maven: javax.xml.bind:jaxb-api:2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: javax.xml.stream:stax-api:1.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: javax.activation:activation:1.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.codehaus.jackson:jackson-lgpl:0.9.4" level="project" />
     <orderEntry type="library" exported="" name="Maven: com.sun.jersey.contribs:jersey-spring:1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: com.sun.xml.stream:sjsxp:1.0.1" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>
