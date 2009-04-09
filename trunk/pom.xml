@@ -164,15 +164,6 @@
             <snapshots><enabled>false</enabled></snapshots>
             <url>http://repository.springsource.com/maven/bundles/milestone</url>
         </repository>
-
-        <!-- Needed for Jersey JSR-311 (JAX-RS RESTful API) implementation -->
-        <repository>
-            <id>maven2-repository.dev.java.net</id>
-            <name>Java.net Repository for Maven</name>
-            <url>http://download.java.net/maven/2/</url>
-            <layout>default</layout>
-        </repository>
-
     </repositories>
 
         <distributionManagement>

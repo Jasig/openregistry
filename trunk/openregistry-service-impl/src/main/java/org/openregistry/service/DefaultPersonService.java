@@ -67,7 +67,7 @@ public class DefaultPersonService implements PersonService {
 
     @Transactional
     public boolean delete(final Person person, final DeletionCriteria deletionCriteria) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Transactional
@@ -109,7 +109,7 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public List<PersonMatch> searchForPersonBy(final Person person) {
+    public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
         logger.info("searchForPersonBy was called.");
         final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
         final PersonMatch p = new PersonMatchImpl(new PojoPersonImpl(), 100, new ArrayList<FieldMatch>());
@@ -122,7 +122,7 @@ public class DefaultPersonService implements PersonService {
         p1.getPerson().getPreferredName().setFamily("Steiner");
 
         personMatches.add(p);
-        if (!"Scott".equals(person.getPreferredName().getGiven())) {
+        if (!"Scott".equals(searchCriteria.getGivenName())) {
             personMatches.add(p1);
         }
 
