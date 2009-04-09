@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Scope;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import javax.xml.bind.annotation.XmlElement;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Root RESTful resource representing people in Open Registry.
@@ -27,7 +29,7 @@ public class PeopleResource {
 
     @GET
     @Path("{personIdType}/{personId}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML}) //auto content negotiation!
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON}) //auto content negotiation!
     public PersonResponseRepresentation showPerson(@PathParam("personId") String personId,
                                                    @PathParam("personIdType") String personIdType) {
 
@@ -57,12 +59,11 @@ public class PeopleResource {
         //and invoking the internal Open Registry API/APIs (TBD), and based on the outcome
         //return the appropriate response.
 
-        //The code bolow is just for testing the Jersey framework
+        //The code below is just for testing the Jersey framework
         //and to lay out the foundation for further work.        
 
         Response response = null;
-        UriBuilder uriBuilder = this.uriInfo.getAbsolutePathBuilder();
-        URI uri = uriBuilder.path("rcpId").path("1234567").build();
+        URI uri = this.uriInfo.getAbsolutePathBuilder().path("rcpId").path("1234567").build();
         PersonRequestRepresentation personRequest = null;
         try {
             personRequest = new PersonRequestRepresentation(formParams);
@@ -77,10 +78,11 @@ public class PeopleResource {
                 response = Response.created(uri).build();
                 break;
             case 409:
-                //Hack! Just to test. Need more robust way of building a list of links
-                String entityBody = "<link rel=\"person\" href=\"" + uri.toString() + "\"/>" +
-                        "\n<link rel=\"person\" href=\"" + uri.toString() + "\"/>\n";
-                response = Response.status(409).entity(entityBody).build();
+                LinkRepresentation entityBody =
+                        new LinkRepresentation(Arrays.asList(new LinkRepresentation.Link("person", uri.toString()),
+                                                             new LinkRepresentation.Link("person", uri.toString())));
+
+                response = Response.status(409).entity(entityBody).type(MediaType.APPLICATION_XHTML_XML).build();
                 break;
             case 307:
                 response = Response.temporaryRedirect(uri).build();
