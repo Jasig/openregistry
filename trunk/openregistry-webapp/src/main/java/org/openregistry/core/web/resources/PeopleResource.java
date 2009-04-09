@@ -53,7 +53,7 @@ public class PeopleResource {
                                           MultivaluedMap<String, String> formParams) {
 
         //NOTE: The real handling of the POSTed representation will be done
-        //here by means of marshalling the submitted form data into a Java type
+        //here by means of un-marshalling the submitted form data into a Java type
         //and invoking the internal Open Registry API/APIs (TBD), and based on the outcome
         //return the appropriate response.
 
