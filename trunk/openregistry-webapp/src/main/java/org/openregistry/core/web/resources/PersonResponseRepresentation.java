@@ -29,7 +29,7 @@ public class PersonResponseRepresentation implements Serializable {
     @XmlAttribute(name = "activation-token")
     String activationToken;
 
-    @XmlElement(name = "id")        
+    @XmlElement(name = "id")
     List<PersonIdentifierRepresentation> identifiers;
 
 
@@ -40,13 +40,34 @@ public class PersonResponseRepresentation implements Serializable {
     }
 
     PersonResponseRepresentation(String activationGeneratorUri,
-                                        String activationProcessorUri,
-                                        String activationToken,
-                                        List<PersonIdentifierRepresentation> ids) {
+                                 String activationProcessorUri,
+                                 String activationToken,
+                                 List<PersonIdentifierRepresentation> ids) {
 
         this.activationGeneratorUri = activationGeneratorUri;
         this.activationProcessorUri = activationProcessorUri;
         this.activationToken = activationToken;
         this.identifiers = ids;
+    }
+
+    @XmlRootElement
+    static class PersonIdentifierRepresentation {
+
+        @XmlAttribute
+        String type;
+
+        @XmlAttribute
+        String value;
+
+        /**
+         * Required by JAXB
+         */
+        PersonIdentifierRepresentation() {
+        }
+
+        PersonIdentifierRepresentation(String type, String value) {
+            this.type = type;
+            this.value = value;
+        }
     }
 }

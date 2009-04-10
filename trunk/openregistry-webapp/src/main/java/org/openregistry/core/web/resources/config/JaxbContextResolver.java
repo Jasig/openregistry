@@ -9,7 +9,6 @@ import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
 
-import org.openregistry.core.web.resources.PersonIdentifierRepresentation;
 import org.openregistry.core.web.resources.PersonResponseRepresentation;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
@@ -29,7 +28,7 @@ public final class JaxbContextResolver implements ContextResolver<JAXBContext> {
 
     private final Set<Class> types;
 
-    private final Class[] cTypes = {PersonIdentifierRepresentation.class, PersonResponseRepresentation.class};
+    private final Class[] cTypes = {PersonResponseRepresentation.class};
 
     public JaxbContextResolver() throws Exception {
         this.types = new HashSet(Arrays.asList(cTypes));
