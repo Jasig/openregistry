@@ -44,8 +44,8 @@ public class PeopleResource {
                 activationGeneratorUri.toString(),
                 activationProcessorUri.toString(),
                 "AT-153254325",
-                Arrays.asList(new PersonIdentifierRepresentation(personIdType, personId),
-                        new PersonIdentifierRepresentation("rcpId", "12345")));
+                Arrays.asList(new PersonResponseRepresentation.PersonIdentifierRepresentation(personIdType, personId),
+                        new PersonResponseRepresentation.PersonIdentifierRepresentation("rcpId", "12345")));
     }
 
     @POST
