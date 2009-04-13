@@ -31,5 +31,8 @@
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
             p:prefix="/WEB-INF/jsp/"
             p:suffix=".jsp"
-            p:viewClass="org.springframework.web.servlet.view.JstlView"/>
+            p:viewClass="org.springframework.web.servlet.view.JstlView"
+            p:order="1" />
+    
+    <bean class="org.springframework.web.servlet.view.XmlViewResolver" p:order="0" />
 </beans>

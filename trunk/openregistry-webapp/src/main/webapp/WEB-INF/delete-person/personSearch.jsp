@@ -10,9 +10,10 @@
     <head>
         <title><spring:message code="delete.person.title" /></title>
         <script type="text/javascript" src="dojo/dojo.js"></script>
-        <link href="dijit/themes/nihilo/nihilo.css" rel="stylesheet" />
         <link href="dojo/resources/dojo.css" rel="stylesheet" />
+        <link href="dijit/themes/nihilo/nihilo.css" rel="stylesheet" />
         <link href="css/or/or.forms.css" rel="stylesheet" />
+
 
         <script type="text/javascript">
   //Note that you do not have to dojo.require anything
@@ -37,7 +38,7 @@
         addElementToDojo("familyName", "dijit.form.TextBox");
         addElementToDojo("identifierType", "dijit.form.ComboBox");
         addElementToDojo("identifierValue", "dijit.form.TextBox");
-//        addElementToDojo("submitButton", "dijit.form.Button");
+        addElementToDojo("submitButton", "dijit.form.Button");
     });
 
 
@@ -82,15 +83,32 @@
     });
   });
 
-    var fadeOut = dojo.fadeOut({node: "status",duration: 1000});
+    function createFadeOutEffect() {
+        var fadeOut = dojo.fadeOut({node: "status",duration: 1000});
+        fadeOut.play();
+    }
 
-    function fadeOutAnimation() {
-      fadeOut.play();
-  }
+    function executeSearch() {
+        var button = dijit.byId("submitButton");
+        dojo.connect(button, "onClick", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
 
-    setTimeout("fadeOutAnimation()", 5000);
+            dojo.byId("searchResults").innerHTML = "Form being sent...";
+            var deferred = dojo.xhrPost({
+                form: "orForm", timeout: 3000, handleAs: "json", load: function (data) {
+                   dojo.byId("searchResults").innerHTML = "Foobar";
+                    alert("Loead");
+                }, error: function (err) {
+                    alert("Error");
+             }
+            });
+        });
+    }
 
-</script>
+    dojo.addOnLoad(executeSearch);
+    </script>
+
 
         <style type="text/css">
   .container {
@@ -98,7 +116,6 @@
     color: #292929;
     width: 300px;
     border: 1px solid #BABABA;
-  /*  background-color: #ddd;*/
     padding: 10px;
     margin-left: 10px;
     margin-bottom: 1em;
@@ -118,7 +135,7 @@
   .box {
     margin-top: 10px;
     color: #292929;
-    width: 300px;
+    width: 98%;
     border: 1px solid #BABABA;
     background-color: #ddd;
     padding-left: 10px;
@@ -146,15 +163,15 @@
     <body class="nihilo">
         <div id="header"><h1>OpenRegistry</h1><h2><spring:message code="delete.person.title" /></h2></div>
         <div id="content">
-            <c:if test="${errorMessage != null}"><p id="status" class="box">${errorMessage}</p><script type="text/javascript">window.setTimeout("fadeOutAnimation()", 5000);</script> </c:if>
-            <c:if test="${success != null}"><div id="status" class="box"><p><strong><spring:message code="deleteSuccess" /></strong></p></div></c:if>
+            <c:if test="${errorMessage != null}"><div id="status" class="box"><p>${errorMessage}</p></div><script type="text/javascript">setTimeout("createFadeOutEffect()", 5000);</script></c:if>
+            <c:if test="${success != null}"><div id="status" class="box"><p><strong><spring:message code="deleteSuccess" /></strong></p></div><script type="text/javascript">setTimeout("createFadeOutEffect()", 5000);</script></c:if>
 
             <div>
                <h2><spring:message code="delete.person.headers.find" /></h2>
-               <form:form commandName="searchCriteria" method="POST" id="orForm">
+               <form:form commandName="searchCriteria" method="POST" id="orForm" action="search.htm">
                    <form:errors path="*" element="p" id="globalErrors" />
                    <ul>
-                       <li class="container leftHalf">
+                       <li class="container">
                            <form:label path="givenName"><spring:message code="person.biodem.names.label" /></form:label>
                            <span>
                            <form:input path="givenName" cssErrorClass="formerror" />
@@ -166,7 +183,7 @@
                             <form:label path="familyName"><spring:message code="person.diodem.names.family.label" /></form:label>
                            </span>
                        </li>
-                       <li class="container rightHalf">
+                       <li class="container">
                            <form:label path="dateOfBirth"><spring:message code="person.biodem.dateOfBirth.label" /></form:label>
                           <span>
                            <form:input path="dateOfBirth" cssErrorClass="formerror" />
@@ -179,10 +196,11 @@
                            <form:input path="identifierValue" cssErrorClass="formerror" />
                           </span>
                        </li>
-                       <li><input type="submit" value="Search -&gt;" name="_eventId_submit" id="submitButton" /></li>
+                       <li><button name="_eventId_submit" id="submitButton">Search</button></li>
                    </ul>
                </form:form>
             </div>
+            <div id="searchResults"></div>
         </div>
         <div class="footer">
             <p><spring:message code="footer.copyright.text" /></p>
