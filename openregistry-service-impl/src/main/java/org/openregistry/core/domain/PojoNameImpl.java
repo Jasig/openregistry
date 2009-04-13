@@ -87,4 +87,29 @@ public class PojoNameImpl implements Name {
 
         return builder.toString().trim();
     }
+
+	public String getFormattedName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isOfficialName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean isPreferredName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setOfficialName() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setPreferredName() {
+		// TODO Auto-generated method stub
+		
+	}
 }

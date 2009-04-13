@@ -10,9 +10,11 @@ import org.javalid.annotations.validation.NotNull;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Person entity mapped to a persistence store with JPA annotations.
@@ -33,19 +35,14 @@ public class JpaPersonImpl extends Entity implements Person {
     @SequenceGenerator(name="prc_persons_seq",sequenceName="prc_persons_seq",initialValue=1,allocationSize=50)
     private Long id;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER)    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)
+    private Set<JpaNameImpl> names = new HashSet<JpaNameImpl>();
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)    
     private Collection<JpaRoleImpl> roles = new ArrayList<JpaRoleImpl>();
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person")
     private List<JpaIdentifierImpl> identifiers = new ArrayList<JpaIdentifierImpl>();
-
-    @OneToOne(cascade=CascadeType.ALL, optional=true)
-    @JoinColumn(name="preferred_name_id")
-    private JpaNameImpl preferredName;
-
-    @OneToOne(cascade=CascadeType.ALL, optional=true)
-    @JoinColumn(name="official_name_id")
-    private JpaNameImpl officialName;
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
@@ -62,33 +59,59 @@ public class JpaPersonImpl extends Entity implements Person {
     public Long getId() {
         return this.id;
     }
-
-    public Name getOfficialName() {
-        return this.officialName;
+    
+    public Set<? extends Name> getNames() {
+    	return this.names;
+    }
+    
+    public Name addName() {
+    	final JpaNameImpl name = new JpaNameImpl(this);
+    	this.names.add(name);
+    	return name;    	
     }
 
+    public Name getOfficialName() {
+    	Set<? extends Name> names = this.getNames();
+    	for(Name name: names) {
+    		if (name.isOfficialName()) {
+    			return name;
+    		}
+    	}
+    	return null;
+    }
+
+    // TODO this should check to see if we have one already
     public Name addOfficialName(){
-        this.officialName = new JpaNameImpl();
-        this.officialName.setOfficialPerson(this);
-        return this.officialName;
+        final JpaNameImpl name = new JpaNameImpl(this);
+        this.names.add(name);
+        name.setOfficialName();
+        return name;
     }
 
     public String getFormattedNameAndID(){
         final StringBuilder builder = new StringBuilder();
-        builder.append(this.officialName.getFormattedName());
+        builder.append(this.getOfficialName().getFormattedName());
         builder.append(" ID:");
         builder.append(this.id);
         return builder.toString();
     }
 
     public Name getPreferredName() {
-        return this.preferredName;
+       	Set<? extends Name> names = this.getNames();
+    	for(Name name: names) {
+    		if (name.isPreferredName()) {
+    			return name;
+    		}
+    	}
+    	return null;
     }
 
+    // TODO this should check to see if we have one already
     public Name addPreferredName(){
-        this.preferredName = new JpaNameImpl();
-        this.preferredName.setPreferredNamePerson(this);
-        return this.preferredName;
+        final JpaNameImpl name = new JpaNameImpl(this);
+        this.names.add(name);
+        name.setPreferredName();
+        return name;
     }
 
     public String getGender() {

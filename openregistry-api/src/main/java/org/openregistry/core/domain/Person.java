@@ -22,11 +22,21 @@ public interface Person extends Serializable {
      * @return the unique identifier for this person.
      */
     Long getId();
+    
+    /**
+     * Returns the set of names the System of Record knows about the Person.
+     * <p>
+     * There MUST be at least ONE name returned.
+     * @return the names, minimum of one.  CANNOT be null.
+     */
+    Set<? extends Name> getNames();
+    
+    Name addName();
 
     /**
      * Get a collection of roles associated with this person
      *
-     * @return a collection of rolles the person currently has or an empty collection.
+     * @return a collection of roles the person currently has or an empty collection.
      *         Note to implementers: this method should never return null.
      */
     Collection<? extends Role> getRoles();
