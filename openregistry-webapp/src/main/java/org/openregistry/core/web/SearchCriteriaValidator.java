@@ -24,30 +24,12 @@ import java.util.List;
 @Component("searchCriteriaValidator")
 public final class SearchCriteriaValidator implements Validator {
 
-//    private final SpringValidator validator;
-
     private final SpringMessageConverter springMessageConverter = new SpringMessageConverter();
 
-    private AnnotationValidatorImpl v = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
-
-    public SearchCriteriaValidator() {
-        final AnnotationValidatorImpl v = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
-//         v.setMessageCodeResolver(new MessageCodeResourceBundleResolverImpl(new String[] {"org/javalid/core/validator/jv_messages","messages"}));
-//        this.validator = new SpringValidator();
-
-//        this.validator.setValidator(v);
-//        this.validator.setValidatorMap(new ConcurrentHashMap<String, ValidatorParams>());
-    }
+    private final AnnotationValidatorImpl v = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
 
     public final void validate(final Object o, final Errors errors) {
         final List<ValidationMessage> validationMessageList = this.v.validateObject(o, "1", "", true, 2);
-
-        for (final ValidationMessage m : validationMessageList) {
-            System.out.println(m.toString());
-        }
-
-        errors.rejectValue("gender", "testValue");
-
         this.springMessageConverter.convertMessages(validationMessageList, errors);
     }
 
