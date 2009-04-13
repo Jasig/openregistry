@@ -29,5 +29,15 @@ public interface Name extends Serializable {
 
     void setSuffix(String suffix);
     
+    void setOfficialName();
+    
+    boolean isOfficialName();
+
+    void setPreferredName();
+    
+    boolean isPreferredName();
+    
+    String getFormattedName();
+    
     String toString();
 }

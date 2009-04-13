@@ -22,7 +22,7 @@ public final class JpaReferenceRepository implements ReferenceRepository {
 
     @Transactional
     public List<Person> getPeople() {
-        return (List<Person>) this.entityManager.createQuery("select p from person p order by p.preferredName.family, p.preferredName.given").getResultList();
+        return (List<Person>) this.entityManager.createQuery("select p from person p join p.names n where n.preferredName = 1 order by n.family, n.given").getResultList();
     }
 
     @Transactional

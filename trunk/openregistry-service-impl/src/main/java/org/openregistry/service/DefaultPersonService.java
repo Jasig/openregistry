@@ -179,7 +179,7 @@ public class DefaultPersonService implements PersonService {
         final Person person = personObjectFactory.getObject();
         person.setDateOfBirth(sorPerson.getDateOfBirth());
         person.setGender(sorPerson.getGender());
-        final Name name = ((Person)person).addOfficialName();
+        final Name name = person.addOfficialName();
 
         // There should only be one at this point.
         // TODO generalize this to all names

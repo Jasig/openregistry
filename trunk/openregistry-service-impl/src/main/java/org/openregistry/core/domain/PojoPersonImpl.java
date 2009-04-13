@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Set;
 import java.io.Serializable;
 
 /**
@@ -83,4 +84,14 @@ public final class PojoPersonImpl implements Person {
     public Name addPreferredName() {
         throw new UnsupportedOperationException("currently unsupported");
     }
+
+	public Name addName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Set<? extends Name> getNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

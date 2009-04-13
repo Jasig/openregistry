@@ -1,7 +1,6 @@
 package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
 import org.javalid.annotations.validation.NotNull;
@@ -41,12 +40,24 @@ public class JpaNameImpl extends Entity implements Name {
 
     @Column(name="suffix",nullable=true,length=5)
     private String suffix;
+    
+    @ManyToOne(optional=false)
+    @JoinColumn(name="person_id", nullable=false)
+    private JpaPersonImpl person;
 
-    @OneToOne(mappedBy = "preferredName",optional=true)
-    private JpaPersonImpl person1;
-
-    @OneToOne(mappedBy = "officialName", optional=true)
-    private JpaPersonImpl person2;
+    @Column(name="is_official_name", nullable=false)
+    private Boolean officialName = false;
+    
+    @Column(name="is_preferred_name", nullable=false)
+    private Boolean preferredName = false;
+ 
+    public JpaNameImpl() {
+    	// nothing else to do
+    }
+    
+    public JpaNameImpl(final JpaPersonImpl person) {
+    	this.person = person;
+    }
 
     protected Long getId() {
         return this.id;
@@ -92,12 +103,20 @@ public class JpaNameImpl extends Entity implements Name {
         this.suffix = suffix;
     }
 
-    public void setOfficialPerson(final JpaPersonImpl person2) {
-        this.person2 = person2;
+    public void setOfficialName() {
+        this.officialName = true;
+    }
+    
+    public boolean isOfficialName() {
+    	return this.officialName;
     }
 
-    public void setPreferredNamePerson(final JpaPersonImpl person1) {
-        this.person1 = person1;
+    public void setPreferredName() {
+        this.preferredName = true;
+    }
+    
+    public boolean isPreferredName() {
+    	return this.preferredName;
     }
 
     public String getFormattedName(){
