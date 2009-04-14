@@ -2,7 +2,9 @@ package org.openregistry.core.domain.jpa.sor;
 
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.Name;
+import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.internal.*;
+import org.openregistry.core.domain.jpa.JpaPersonImpl;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.validation.NotEmpty;
@@ -11,6 +13,7 @@ import org.javalid.annotations.validation.ValidateList;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+
 import java.util.Set;
 import java.util.Date;
 import java.util.HashSet;
@@ -42,6 +45,10 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
     @NotEmpty
     @JvGroup
     private String sourceSorIdentifier;
+
+    @OneToOne(cascade=CascadeType.ALL, optional=true)
+    @JoinColumn(name="person_id")
+    private JpaPersonImpl person;
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
@@ -123,4 +130,12 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
         
         return jpaSorName;
     }
+
+	public Person getPerson() {
+		return this.person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = (JpaPersonImpl)person;
+	}
 }
