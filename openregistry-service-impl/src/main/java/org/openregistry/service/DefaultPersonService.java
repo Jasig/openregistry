@@ -27,6 +27,8 @@ import org.javalid.core.config.JvConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +65,11 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
+    }
+
+    @Transactional
+    public Person findPersonBy(final String identifierType, final String identifierValue) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Transactional
@@ -116,11 +123,14 @@ public class DefaultPersonService implements PersonService {
         p.getPerson().getPreferredName().setPrefix("Mr.");
         p.getPerson().getPreferredName().setGiven("Scott");
         p.getPerson().getPreferredName().setFamily("Battaglia");
+        p.getPerson().setGender("M");
+        p.getPerson().setDateOfBirth(new Date());
         final PersonMatch p1 = new PersonMatchImpl(new PojoPersonImpl(), 50, new ArrayList<FieldMatch>());
         p1.getPerson().getPreferredName().setPrefix("Mr.");
         p1.getPerson().getPreferredName().setGiven("David");
         p1.getPerson().getPreferredName().setFamily("Steiner");
-
+        p1.getPerson().setGender("M");
+        p1.getPerson().setDateOfBirth(new Date());
         personMatches.add(p);
         if (!"Scott".equals(searchCriteria.getGivenName())) {
             personMatches.add(p1);
