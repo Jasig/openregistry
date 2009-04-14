@@ -209,6 +209,11 @@ public class DefaultPersonService implements PersonService {
 
         // Save into the repository
         this.personRepository.savePerson(person);
+        
+        // Now connect the SorPerson to the actual person
+        sorPerson.setPerson(person);
+        this.personRepository.saveSorPerson(sorPerson);
+        
         return person;
     }
 }
