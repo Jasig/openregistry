@@ -1,6 +1,7 @@
 package org.openregistry.core.domain.sor;
 
 import org.openregistry.core.domain.Name;
+import org.openregistry.core.domain.Person;
 
 import java.util.Set;
 import java.util.Date;
@@ -95,4 +96,8 @@ public interface SorPerson {
      * @param ssn the SSN of the person.
      */
     void setSsn(String ssn);
+    
+    Person getPerson();
+    
+    void setPerson(Person person);
 }
