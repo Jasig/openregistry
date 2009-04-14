@@ -86,12 +86,10 @@ public final class PojoPersonImpl implements Person {
     }
 
 	public Name addName() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("currently unsupported");
 	}
 
 	public Set<? extends Name> getNames() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("currently unsupported");
 	}
 }
