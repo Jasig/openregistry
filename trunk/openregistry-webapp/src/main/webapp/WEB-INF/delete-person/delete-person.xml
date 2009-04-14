@@ -5,7 +5,7 @@
 
     <var name="searchCriteria" class="org.openregistry.service.MutableSearchCriteriaImpl" />
 
-    <view-state id="personSearch" model="searchCriteria" >
+    <view-state id="personSearch" model="searchCriteria" view="openregistry.search">
         <on-entry>
             <set name="viewScope.success" value="externalContext.requestParameterMap['success']" />
             <set name="viewScope.errorMessage" value="flashScope.errorMessage" />
@@ -13,8 +13,10 @@
             <evaluate expression="referenceRepository.identifierTypes" result-type="java.util.List" result="viewScope.identifierTypes" />
         </on-entry>
         <!-- TODO temporarily disabled validation because of possible spring bug? -->
-        <transition on="submit" to="readResults" bind="true" validate="false">
+        <transition on="submit" bind="true" validate="false">
             <evaluate expression="personService.searchForPersonBy(searchCriteria)" result-type="java.util.List" result="flowScope.searchResults" />
+            <set name="viewScope.searchResults" value="flowScope.searchResults" />
+            <render fragments="searchResults" />
         </transition>
         <transition on="display" to="displayPerson" validate="false">
             <evaluate expression="flowScope.searchResults.get(requestParameters.searchId).person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />

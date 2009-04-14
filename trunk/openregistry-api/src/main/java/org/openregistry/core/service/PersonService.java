@@ -27,6 +27,16 @@ public interface PersonService {
     Person findPersonById(Long id);
 
     /**
+     * Finds a <code>Person</code> entity in the OpenRegistry by looking at the identifiers that are associated with the
+     * person, rather than the canonical internal identifier.
+     *
+     * @param identifierType the type of identifier we are providing.
+     * @param identifierValue the value of the identifier.
+     * @return the person.  CANNOT return null.  Undefined if person doesn't exist.
+     */
+    Person findPersonBy(String identifierType, String identifierValue);
+
+    /**
      * Deletes all or part of a person based on the deletion criteria specified.
      *
      * @param person the person to be deleted. CANNOT be null.

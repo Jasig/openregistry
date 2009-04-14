@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition name="openregistry.search" template="/WEB-INF/layouts/default.jsp">
+        <put-attribute name="head" value="/WEB-INF/tiles/searchHead.jsp" />
+        <put-attribute name="content" value="openregistry.search.content" />
+    </definition>
+
+    <definition name="openregistry.search.content" template="/WEB-INF/layouts/search.jsp">
+        <put-attribute name="searchForm" value="/WEB-INF/tiles/searchForm.jsp" />
+        <put-attribute name="searchResults" value="/WEB-INF/tiles/searchResults.jsp" />
+    </definition>
+</tiles-definitions>

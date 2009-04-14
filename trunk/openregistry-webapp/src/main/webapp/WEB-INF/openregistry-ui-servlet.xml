@@ -18,7 +18,16 @@
         <flow:flow-location path="/WEB-INF/delete-person/delete-person.xml" id="deletePerson" />
     </flow:flow-registry>
 
-    <flow:flow-builder-services id="flowBuilderServices" conversion-service="conversionService"/>
+    <flow:flow-builder-services id="flowBuilderServices" conversion-service="conversionService"  view-factory-creator="mvcViewFactoryCreator" />
+
+    <bean id="mvcViewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
+        <property name="viewResolvers">
+            <list>
+                <ref bean="tilesResolver" />
+                <ref bean="urlResolver" />
+            </list>
+        </property>
+    </bean>
 
     <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter" p:flowExecutor-ref="flowExecutor"/>
 
@@ -28,11 +37,21 @@
 
     <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping" p:flowRegistry-ref="flowRegistry" p:order="1"/>
 
-    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+    <bean id="urlResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"
             p:prefix="/WEB-INF/jsp/"
             p:suffix=".jsp"
             p:viewClass="org.springframework.web.servlet.view.JstlView"
             p:order="1" />
-    
-    <bean class="org.springframework.web.servlet.view.XmlViewResolver" p:order="0" />
+
+    <bean id="tilesResolver" class="org.springframework.js.ajax.AjaxUrlBasedViewResolver"
+            p:viewClass="org.springframework.webflow.mvc.view.FlowAjaxTilesView"
+            p:order="0"/>
+
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles-def.xml</value>
+            </list>
+        </property>
+     </bean>
 </beans>

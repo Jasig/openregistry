@@ -25,6 +25,16 @@ public interface PersonRepository {
     Person findByInternalId(Long id) throws RepositoryAccessException;
 
     /**
+     * Finds the <code>Person</code> based on the identifier type and value.
+     * @param identifierType the identifier type
+     * @param identifierValue the identifier value.
+     * @return the person.  CANNOT be null.
+     * @throws RepositoryAccessException if the operation does not succeed for any number of
+     *                                   technical reasons.
+     */
+    Person findByIdentifier(String identifierType, String identifierValue) throws RepositoryAccessException;
+
+    /**
      * Find a list of <code>Person</code> entities from the supplied Family Name.
      * 
      * @param family the Family Name to search for

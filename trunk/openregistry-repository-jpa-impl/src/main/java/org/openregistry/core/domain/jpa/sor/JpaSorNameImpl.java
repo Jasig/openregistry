@@ -100,31 +100,26 @@ public class JpaSorNameImpl extends Entity implements Name {
         this.suffix = suffix;
     }
 
-	@Override
 	public String getFormattedName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public boolean isOfficialName() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public boolean isPreferredName() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public void setOfficialName() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void setPreferredName() {
 		// TODO Auto-generated method stub
 		
