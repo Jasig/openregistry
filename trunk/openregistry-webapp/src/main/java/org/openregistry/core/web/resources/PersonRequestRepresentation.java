@@ -2,7 +2,6 @@ package org.openregistry.core.web.resources;
 
 import javax.ws.rs.core.MultivaluedMap;
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * A simple Java bean encapsulating an incoming request for addition to the registry of
@@ -35,18 +34,12 @@ public class PersonRequestRepresentation implements Serializable {
 
     private String email;
 
-    private String mobilePhoneNumber;
-
-    private String mobileCarrier;
+    private String phoneNumber;
 
     /* Optional fields *************/
     private String dateOfBirth;
 
     private String ssn;
-
-    private String ruId;
-
-    private String netId;
 
     private String gender;
 
@@ -84,12 +77,9 @@ public class PersonRequestRepresentation implements Serializable {
         this.firstName = personFormPayload.getFirst("firstName");
         this.lastName = personFormPayload.getFirst("lastName");
         this.email = personFormPayload.getFirst("email");
-        this.mobilePhoneNumber = personFormPayload.getFirst("mobilePhoneNumber");
-        this.mobileCarrier = personFormPayload.getFirst("mobileCarrier");
+        this.phoneNumber = personFormPayload.getFirst("phoneNumber");
         this.dateOfBirth = personFormPayload.getFirst("dateOfBirth");
         this.ssn = personFormPayload.getFirst("ssn");
-        this.ruId = personFormPayload.getFirst("ruId");
-        this.netId = personFormPayload.getFirst("netId");
         this.gender = personFormPayload.getFirst("gender");
         this.addressLine1 = personFormPayload.getFirst("addressLine1");
         this.addressLine2 = personFormPayload.getFirst("addressLine2");
@@ -104,8 +94,7 @@ public class PersonRequestRepresentation implements Serializable {
                 && formPayload.getFirst("firstName") != null
                 && formPayload.getFirst("lastName") != null
                 && formPayload.getFirst("email") != null
-                && formPayload.getFirst("mobilePhoneNumber") != null
-                && formPayload.getFirst("mobileCarrier") != null);
+                && formPayload.getFirst("phoneNumber") != null);
     }
 
     public Long getSystemOfRecordId() {
@@ -128,12 +117,8 @@ public class PersonRequestRepresentation implements Serializable {
         return email;
     }
 
-    public String getMobilePhoneNumber() {
-        return mobilePhoneNumber;
-    }
-
-    public String getMobileCarrier() {
-        return mobileCarrier;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public String getDateOfBirth() {
@@ -142,14 +127,6 @@ public class PersonRequestRepresentation implements Serializable {
 
     public String getSsn() {
         return ssn;
-    }
-
-    public String getRuId() {
-        return ruId;
-    }
-
-    public String getNetId() {
-        return netId;
     }
 
     public String getGender() {
