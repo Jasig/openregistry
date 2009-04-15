@@ -10,15 +10,20 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.MessageSource;
 
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.*;
+import java.text.SimpleDateFormat;
 
 import org.openregistry.core.web.propertyeditors.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.repository.ReferenceRepository;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * @author Nancy Mond
@@ -28,7 +33,7 @@ import org.openregistry.core.repository.ReferenceRepository;
 @Controller
 @RequestMapping("/addRole.htm")
 @SessionAttributes({"role", "person"})
-public final class RoleController extends AbstractLocalizationController {
+public final class RoleController {
 
     protected final String ACTIVE_STATUS = "Active";
     protected final String TYPE_STATUS = "Status";
@@ -36,6 +41,18 @@ public final class RoleController extends AbstractLocalizationController {
     protected final String TYPE_PHONE = "Phone";
     protected final String TYPE_EMAIL_ADDRESS = "EmailAddress";
     protected final String CAMPUS = "Campus";
+
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
+
+    private String dateFormat = DEFAULT_DATE_FORMAT;
+
+    private final SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
+
+    @Autowired(required=true)
+    private MessageSource messageSource;
+
 
     @Autowired(required=true)
     private PersonService personService;
@@ -73,10 +90,10 @@ public final class RoleController extends AbstractLocalizationController {
         if (!result.hasErrors()){
             final ServiceExecutionResult serviceExecutionResult = this.personService.validateAndSaveRoleForPerson(person, role);
             if (serviceExecutionResult.getValidationErrors().isEmpty()) {
-                model.addAttribute("infoModel", getMessageSource().getMessage("roleAdded", null, null));
+                model.addAttribute("infoModel", this.messageSource.getMessage("roleAdded", null, null));
                 status.setComplete();
             } else {
-                getConverter().convertValidationErrors(serviceExecutionResult.getValidationErrors(), result);
+                this.converter.convertValidationErrors(serviceExecutionResult.getValidationErrors(), result);
             }
         }
 
@@ -121,5 +138,11 @@ public final class RoleController extends AbstractLocalizationController {
         return role;
     }
 
+    public final void setDateFormat(final String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
 
+    protected final CustomDateEditor createNewCustomDateEditor() {
+        return new CustomDateEditor(new SimpleDateFormat(this.dateFormat), true);
+    }
 }
