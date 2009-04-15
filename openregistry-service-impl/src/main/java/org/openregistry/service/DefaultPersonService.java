@@ -180,10 +180,6 @@ public class DefaultPersonService implements PersonService {
             sorPerson.setSorId(this.identifierGenerator.generateNextString());
         }
 
-        // Save Sor Person
-        //Are we updating here or inserting?
-        this.personRepository.saveSorPerson(sorPerson);
-
         // Construct actual person from Sor Information
         final Person person = personObjectFactory.getObject();
         person.setDateOfBirth(sorPerson.getDateOfBirth());
@@ -206,13 +202,11 @@ public class DefaultPersonService implements PersonService {
             ia.addIdentifierTo(sorPerson, person);
         }
 
-        // Save into the repository
-        this.personRepository.savePerson(person);
-        
         // Now connect the SorPerson to the actual person
         sorPerson.setPerson(person);
+        // Save Sor Person (and Person)
         this.personRepository.saveSorPerson(sorPerson);
-        
+
         return person;
     }
 }
