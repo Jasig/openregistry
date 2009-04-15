@@ -62,7 +62,7 @@ public final class JpaReferenceRepository implements ReferenceRepository {
 
     @Transactional
     public List<RoleInfo> getRoleInfos() {
-        return (List<RoleInfo>) this.entityManager.createQuery("select r from roleInfo r order by r.title");
+        return (List<RoleInfo>) this.entityManager.createQuery("select r from roleInfo r order by r.title").getResultList();
     }
 
     @Transactional
