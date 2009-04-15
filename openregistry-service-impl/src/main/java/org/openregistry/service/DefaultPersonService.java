@@ -183,6 +183,7 @@ public class DefaultPersonService implements PersonService {
         }
 
         // Save Sor Person
+        //Are we updating here or inserting?
         this.personRepository.saveSorPerson(sorPerson);
 
         // Construct actual person from Sor Information

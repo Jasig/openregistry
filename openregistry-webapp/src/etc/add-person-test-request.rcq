@@ -1,9 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rest-client version="2.3">
-    <request>
-        <http-version>1.1</http-version>
-        <URL>http://localhost:8080/openregistry/api/v1/people</URL>
-        <method>POST</method>
-        <body content-type="application/x-www-form-urlencoded" charset="UTF-8">mobileCarrier=Verizon&amp;mobilePhoneNumber=732445776&amp;email=email%40example.com&amp;lastName=Doe&amp;firstName=John&amp;sorPersonId=7722&amp;sorSourceId=1234567</body>
-    </request>
-</rest-client>
+<rest-client version="2.3"><request><http-version>1.1</http-version><URL>http://localhost:8080/openregistry/api/v1/people</URL><method>POST</method><body content-type="application/x-www-form-urlencoded" charset="UTF-8">phoneNumber=732445776&amp;email=email%40example.com&amp;lastName=D&amp;firstName=K&amp;sorPersonId=7722&amp;sorSourceId=1234567&amp;dateOfBirth=10011978&amp;gender=m</body></request></rest-client>

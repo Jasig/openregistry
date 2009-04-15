@@ -2,6 +2,12 @@ package org.openregistry.core.web.resources;
 
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl;
+import org.openregistry.core.domain.Name;
+import org.openregistry.core.service.PersonService;
+import org.openregistry.core.service.ServiceExecutionResult;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -9,6 +15,9 @@ import javax.xml.bind.annotation.XmlElement;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 /**
  * Root RESTful resource representing people in Open Registry.
@@ -26,6 +35,9 @@ public class PeopleResource {
 
     @Context
     UriInfo uriInfo;
+
+    @Autowired(required = true)
+    PersonService personService;
 
     @GET
     @Path("{personIdType}/{personId}")
@@ -60,18 +72,20 @@ public class PeopleResource {
         //return the appropriate response.
 
         //The code below is just for testing the Jersey framework
-        //and to lay out the foundation for further work.        
+        //and to lay out the foundation for further work.
 
         Response response = null;
         URI uri = this.uriInfo.getAbsolutePathBuilder().path("rcpId").path("1234567").build();
-        PersonRequestRepresentation personRequest = null;
+        PersonSearch personSearch = null;
         try {
-            personRequest = new PersonRequestRepresentation(formParams);
+            personSearch = personRequestToPersonSearch(new PersonRequestRepresentation(formParams));
         }
         catch (IllegalArgumentException ex) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
+
+        ServiceExecutionResult result = this.personService.addPerson(personSearch, null);
 
         switch (respType) {
             case 201:
@@ -91,5 +105,31 @@ public class PeopleResource {
         }
         System.out.println("GOT HTTP form POSTed: " + formParams);
         return response;
+    }
+
+    private PersonSearch personRequestToPersonSearch(PersonRequestRepresentation request) {
+        JpaSorPersonSearchImpl ps = new JpaSorPersonSearchImpl();
+        ps.getPerson().setSourceSorIdentifier(String.valueOf(request.getSystemOfRecordId()));
+        ps.getPerson().setSorId(String.valueOf(request.getSystemOfRecordPersonId()));
+        Name name = ps.getPerson().addName();
+        name.setGiven(request.getFirstName());
+        name.setFamily(request.getLastName());
+        ps.setEmailAddress(request.getEmail());
+        ps.setPhoneNumber(request.getPhoneNumber());
+        try {
+            ps.getPerson().setDateOfBirth(new SimpleDateFormat("mmddyyyy").parse(request.getDateOfBirth()));
+        }
+        catch(Exception ex) {
+            //this is optional field. Carry on...
+        }
+        ps.getPerson().setSsn(request.getSsn());
+        ps.getPerson().setGender(request.getGender());
+        ps.setAddressLine1(request.getAddressLine1());
+        ps.setAddressLine2(request.getAddressLine2());
+        ps.setCity(request.getCity());
+        ps.setRegion(request.getRegion());
+        ps.setPostalCode(request.getPostalCode());
+
+        return ps;
     }
 }
