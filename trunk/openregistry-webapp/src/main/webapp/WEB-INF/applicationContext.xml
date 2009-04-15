@@ -27,8 +27,6 @@
             <map>
                 <entry key="hibernate.dialect" value-ref="hibernateDialect" />
                 <entry key="hibernate.hbm2ddl.auto" value="update" />
-                <entry key="hibernate.connection.tinyInt1isBit" value="true" />
-                <entry key="hibernate.connection.transformedBitIsBoolean" value="true" /> 
             </map>
         </property>
     </bean>
