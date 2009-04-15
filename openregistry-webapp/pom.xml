@@ -24,6 +24,13 @@
         </dependency>
             -->
         <dependency>
+            <groupId>displaytag</groupId>
+            <artifactId>displaytag</artifactId>
+            <version>1.2</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.jasig.openregistry</groupId>
             <artifactId>openregistry-api</artifactId>
             <version>${project.version}</version>

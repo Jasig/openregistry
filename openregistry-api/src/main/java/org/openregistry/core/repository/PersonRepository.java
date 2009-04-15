@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.service.SearchCriteria;
 
 /**
  * Repository abstraction to deal with persistence concerns for <code>Person</code> entities
@@ -33,6 +34,17 @@ public interface PersonRepository {
      *                                   technical reasons.
      */
     Person findByIdentifier(String identifierType, String identifierValue) throws RepositoryAccessException;
+
+    /**
+     * Searches for a person based on some or all of the supplied criteria.
+     *
+     * @param searchCriteria the search criteria.
+     * @return a list of people that match.
+     * 
+     * @throws RepositoryAccessException if the operation does not succeed for any number of
+     *                                   technical reasons.
+     */
+    List<Person> searchByCriteria(SearchCriteria searchCriteria) throws RepositoryAccessException;
 
     /**
      * Find a list of <code>Person</code> entities from the supplied Family Name.

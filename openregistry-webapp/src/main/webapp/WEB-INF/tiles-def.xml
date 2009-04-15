@@ -3,7 +3,7 @@
 <tiles-definitions>
     <definition name="openregistry.search" template="/WEB-INF/layouts/default.jsp">
         <put-attribute name="titleCode" value="delete.person.title" type="string" />
-        <put-attribute name="head" value="/WEB-INF/tiles/searchHead.jsp" />
+        <put-attribute name="head" value="/WEB-INF/tiles/search/searchHead.jsp" />
         <put-attribute name="content" value="openregistry.search.content" />
     </definition>
 

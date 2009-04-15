@@ -1,12 +1,14 @@
 package org.openregistry.core.repository.jpa;
 
 import java.util.List;
+import java.util.Date;
 
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.jpa.JpaPersonImpl;
+import org.openregistry.core.service.SearchCriteria;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -32,6 +34,18 @@ public class JpaPersonRepository implements PersonRepository {
 
     public Person findByIdentifier(final String identifierType, final String identifierValue) throws RepositoryAccessException {
         return (Person) this.entityManager.createQuery("Select p from person p join p.identifiers i join i.type t where t.name = :name and i.value = :value").setParameter("name", identifierType).setParameter("value", identifierValue).getSingleResult();
+    }
+
+    public List<Person> searchByCriteria(final SearchCriteria searchCriteria) throws RepositoryAccessException {
+        final String givenName = searchCriteria.getGivenName();
+        final String familyName = searchCriteria.getFamilyName();
+        final Date birthDate = searchCriteria.getDateOfBirth();
+
+        if (birthDate == null) {
+            return this.entityManager.createQuery("select p from person p join p.names n where n.given like :given and n.family  like :family").setParameter("given", "%" + givenName + "%").setParameter("family", "%" + familyName + "%").getResultList();
+        } else {
+            return this.entityManager.createQuery("select p from person p join p.names n where n.given like :given and n.family  like :family and p.dateOfBirth = :dateOfBirth").setParameter("given", "%" + givenName + "%").setParameter("family", "%" + familyName + "%").setParameter("dateOfBirth", birthDate).getResultList();
+        }
     }
 
     public List<Person> findByFamilyName(final String family) throws RepositoryAccessException {

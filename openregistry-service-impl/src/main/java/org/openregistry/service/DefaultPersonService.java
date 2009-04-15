@@ -10,7 +10,6 @@ import org.openregistry.core.service.reconciliation.FieldMatch;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.PojoPersonImpl;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.repository.PersonRepository;
@@ -68,11 +67,6 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public Person findPersonBy(final String identifierType, final String identifierValue) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Transactional
     public boolean delete(final Person person, final DeletionCriteria deletionCriteria) {
         return true;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -117,26 +111,30 @@ public class DefaultPersonService implements PersonService {
 
     @Transactional
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
-        logger.info("searchForPersonBy was called.");
         final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
-        final PersonMatch p = new PersonMatchImpl(new PojoPersonImpl(), 100, new ArrayList<FieldMatch>());
-        p.getPerson().getPreferredName().setPrefix("Mr.");
-        p.getPerson().getPreferredName().setGiven("Scott");
-        p.getPerson().getPreferredName().setFamily("Battaglia");
-        p.getPerson().setGender("M");
-        p.getPerson().setDateOfBirth(new Date());
-        final PersonMatch p1 = new PersonMatchImpl(new PojoPersonImpl(), 50, new ArrayList<FieldMatch>());
-        p1.getPerson().getPreferredName().setPrefix("Mr.");
-        p1.getPerson().getPreferredName().setGiven("David");
-        p1.getPerson().getPreferredName().setFamily("Steiner");
-        p1.getPerson().setGender("M");
-        p1.getPerson().setDateOfBirth(new Date());
-        personMatches.add(p);
-        if (!"Scott".equals(searchCriteria.getGivenName())) {
-            personMatches.add(p1);
+
+        if (StringUtils.hasText(searchCriteria.getIdentifierValue())) {
+            try {
+                final Person person = this.personRepository.findByIdentifier(searchCriteria.getIdentifierType(), searchCriteria.getIdentifierValue());
+
+                if (person != null) {
+                    final PersonMatch p = new PersonMatchImpl(person, 100, new ArrayList<FieldMatch>());
+                    personMatches.add(p);
+                    return personMatches;
+                }
+            } catch (final Exception e) {
+
+            }
         }
 
-        // TODO actually get some data here.
+        final List<Person> persons = this.personRepository.searchByCriteria(searchCriteria);
+
+        for (final Person person : persons) {
+            // TODO actually calculate the value for the match
+            final PersonMatch p = new PersonMatchImpl(person, 50, new ArrayList<FieldMatch>());
+            personMatches.add(p);
+        }
+
         return personMatches;
     }
 
