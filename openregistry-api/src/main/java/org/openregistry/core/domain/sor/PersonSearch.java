@@ -25,4 +25,14 @@ public interface PersonSearch extends Serializable {
     void setPhoneNumber(String phoneNumber);
 
     Map<IdentifierType, String> getIdentifiersByType();
+
+    public String getAddressLine1();
+
+    public String getAddressLine2();
+
+    public String getCity();
+
+    public String getRegion();
+
+    public String getPostalCode();
 }
