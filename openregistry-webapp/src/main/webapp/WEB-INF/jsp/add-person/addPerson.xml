@@ -7,7 +7,7 @@
     <!-- By default, the first state is the start state. -->
     <var name="personSearch" class="org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl" />
 
-    <view-state id="addPerson" model="personSearch">
+    <view-state id="addPerson" model="personSearch" view="openregistry.person.add.insert">
         <binder>
             <binding property="person.dateOfBirth" converter="shortDate" required="true"/>
             <binding property="person.firstAddedName.prefix" />
@@ -23,6 +23,9 @@
         <on-entry>
             <evaluate expression="personSearch.getPerson().addName()" />
         </on-entry>
+        <on-render>
+            <set name="viewScope.command" value="personSearch" />
+        </on-render>
         <transition on="submitAddPerson" to="checkAddSucceeded" >
             <evaluate expression="personSearch.getPerson().setSourceSorIdentifier('or-webapp')" />
             <evaluate expression="personService.addPerson(personSearch, null)" result="flowScope.serviceExecutionResult"/>
@@ -43,14 +46,17 @@
         </transition>
     </action-state>
 
-    <view-state id="viewMatches" view="personMatches.jsp" model="flowScope.serviceExecutionResult">
+    <view-state id="viewMatches" view="openregistry.person.add.matches" model="flowScope.serviceExecutionResult">
+        <on-render>
+            <set name="viewScope.command" value="serviceExecutionResult" />
+        </on-render>
         <transition on="submitAddPerson" to="addSucceeded" >
             <evaluate expression="personService.addPerson(personSearch, serviceExecutionResult.getReconciliationResult())" result="flowScope.serviceExecutionResult"/>
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
 
-    <view-state id="addSucceeded" view="addPerson.jsp">
+    <view-state id="addSucceeded" view="openregistry.person.add.insert">
         <on-entry>
             <set name="flowScope.infoModel" value="'Person Added'" />
         </on-entry>
@@ -58,6 +64,6 @@
     </view-state>
 
     <end-state id="personWasAdded" />
-    <end-state id="foundPerson" view="foundPerson.jsp" />
+    <end-state id="foundPerson" view="openregistry.person.add.found" />
     <end-state id="cancelCreatePerson" view="flowRedirect:addPerson" />
 </flow>
