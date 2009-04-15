@@ -1,8 +1,22 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %><c:if test="${searchResults != null and fn:length(searchResults) gt 0}">
-<h2><spring:message code="delete.person.headers.results" /></h2>
-   <ul>
-   <c:forEach items="${searchResults}" varStatus="status" var="result">
-        <li><a href="${flowExecutionUrl}&_eventId=display&searchId=${status.index}">${result.person.preferredName}</a></li>
-   </c:forEach>
-   </ul>
-</c:if>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
+
+<c:choose>
+    <c:when test="${searchResults eq null}">
+        
+    </c:when>
+    <c:when test="${empty searchResults}">
+        <h2><spring:message code="delete.person.headers.results" /></h2>
+        <p><strong>Your search returned no results.</strong></p>        
+    </c:when>
+    <c:otherwise>
+        <h2><spring:message code="delete.person.headers.results" /></h2>
+        <display:table name="searchResults" id="personMatch">
+            <display:column title="">${personMatch_rownum} </display:column> 
+            <display:column property="confidenceLevel" title="Confidence Level" />
+            <display:column property="person.preferredName" title="Name" />
+            <display:column property="person.dateOfBirth" title="Date of Birth" />
+            <display:column property="person.gender" title="Gender" />
+        </display:table>
+    </c:otherwise>
+</c:choose>

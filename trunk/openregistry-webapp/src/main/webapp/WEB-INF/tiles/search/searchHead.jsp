@@ -2,6 +2,7 @@
 <script type="text/javascript" src="<c:url value="/resources/dojo/dojo.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/spring/Spring.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/spring/Spring-Dojo.js" />"></script>
+<link href="<c:url value="/resources/dojo/resources/dojo.css" />" rel="stylesheet" />
 <link href="<c:url value="/resources/dijit/themes/nihilo/nihilo.css" />" rel="stylesheet" />
 <link href="<c:url value="/css/or/or.forms.css" />" rel="stylesheet" />
 
