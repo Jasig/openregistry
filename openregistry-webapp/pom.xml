@@ -14,6 +14,7 @@
     <packaging>war</packaging>
 
     <dependencies>
+        <!--
         <dependency>
             <groupId>org.dojotoolkit</groupId>
             <artifactId>dojo-war</artifactId>
@@ -21,7 +22,7 @@
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
-
+            -->
         <dependency>
             <groupId>org.jasig.openregistry</groupId>
             <artifactId>openregistry-api</artifactId>
@@ -84,13 +85,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>${jstl.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>displaytag</groupId>
-            <artifactId>displaytag</artifactId>
-            <version>1.2</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -323,13 +317,12 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
             </plugin>
-
+                <!--
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-war-plugin</artifactId>
                <configuration>
                  <overlays>
-                    <overlay></overlay>
                     <overlay>
                       <groupId>org.dojotoolkit</groupId>
                       <artifactId>dojo-war</artifactId>
@@ -340,6 +333,7 @@
                  </overlays>
                </configuration>
           </plugin>
+          -->
         </plugins>
     </build>
 </project>

@@ -45,7 +45,7 @@
 
     <bean id="tilesResolver" class="org.springframework.js.ajax.AjaxUrlBasedViewResolver"
             p:viewClass="org.springframework.webflow.mvc.view.FlowAjaxTilesView"
-            p:order="0"/>
+            p:order="0" />
 
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
         <property name="definitions">

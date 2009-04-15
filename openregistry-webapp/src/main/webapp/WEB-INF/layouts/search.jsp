@@ -1,5 +1,5 @@
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <tiles:insertAttribute name="searchForm" />
-<div>
-    <tiles:insertAttribute name="searchResults" />
+<div id="searchResults">
+    <tiles:insertAttribute name="searchResults" flush="true" />
 </div>
