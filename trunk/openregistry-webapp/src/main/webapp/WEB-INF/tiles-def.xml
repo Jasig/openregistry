@@ -2,12 +2,34 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
     <definition name="openregistry.search" template="/WEB-INF/layouts/default.jsp">
+        <put-attribute name="titleCode" value="delete.person.title" type="string" />
         <put-attribute name="head" value="/WEB-INF/tiles/searchHead.jsp" />
         <put-attribute name="content" value="openregistry.search.content" />
     </definition>
 
     <definition name="openregistry.search.content" template="/WEB-INF/layouts/search.jsp">
-        <put-attribute name="searchForm" value="/WEB-INF/tiles/searchForm.jsp" />
-        <put-attribute name="searchResults" value="/WEB-INF/tiles/searchResults.jsp" />
+        <put-attribute name="searchForm" value="/WEB-INF/tiles/search/searchForm.jsp" />
+        <put-attribute name="searchResults" value="/WEB-INF/tiles/search/searchResults.jsp" />
+    </definition>
+
+    <definition name="openregistry.search.displayPerson" template="/WEB-INF/layouts/default.jsp">
+        <put-attribute name="titleCode" value="delete.person.title" type="string" />
+        <put-attribute name="head" value="/WEB-INF/tiles/defaultHead.jsp" />
+        <put-attribute name="content" value="/WEB-INF/tiles/search/searchViewPerson.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.add.insert" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="addPerson.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/add-person/input.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.add.found" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="addPerson.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/add-person/found.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.add.matches" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="personMatches.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/add-person/matches.jsp" />
     </definition>
 </tiles-definitions>

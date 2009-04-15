@@ -23,7 +23,7 @@
     <bean id="mvcViewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
         <property name="viewResolvers">
             <list>
-                <ref bean="tilesResolver" />
+                <bean id="tilesResolver" class="org.springframework.js.ajax.AjaxUrlBasedViewResolver" p:viewClass="org.springframework.webflow.mvc.view.FlowAjaxTilesView" />
                 <ref bean="urlResolver" />
             </list>
         </property>
@@ -43,9 +43,7 @@
             p:viewClass="org.springframework.web.servlet.view.JstlView"
             p:order="1" />
 
-    <bean id="tilesResolver" class="org.springframework.js.ajax.AjaxUrlBasedViewResolver"
-            p:viewClass="org.springframework.webflow.mvc.view.FlowAjaxTilesView"
-            p:order="0" />
+
 
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
         <property name="definitions">

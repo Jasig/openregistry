@@ -8,6 +8,7 @@
     <view-state id="personSearch" model="searchCriteria" view="openregistry.search">
         <on-entry>
             <set name="viewScope.success" value="externalContext.requestParameterMap['success']" />
+            <set name="viewScope.cancelled" value="externalContext.requestParameterMap['cancel']" />
             <set name="viewScope.errorMessage" value="flashScope.errorMessage" />
             <set name="viewScope.searchResults" value="flowScope.searchResults" />
             <evaluate expression="referenceRepository.identifierTypes" result-type="java.util.List" result="viewScope.identifierTypes" />
@@ -38,7 +39,7 @@
         <transition to="displayPerson" />
     </action-state>
 
-    <view-state id="displayPerson" model="deletionCriteria">
+    <view-state id="displayPerson" model="deletionCriteria" view="openregistry.search.displayPerson">
         <var name="deletionCriteria" class="org.openregistry.service.DefaultDeletionCriteriaImpl" />
         <transition on="submit" to="deletePerson">
             <set name="requestScope.deletionCriteria" value="deletionCriteria" />
@@ -56,7 +57,7 @@
         </transition>
     </action-state>
 
-    <end-state id="cancelled" view="cancelled.jsp" />
+    <end-state id="cancelled" view="externalRedirect:contextRelative:deletePerson.htm?cancel=true" />
 
     <end-state id="success" view="externalRedirect:contextRelative:deletePerson.htm?success=true" />
 </flow>

@@ -1,33 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Nancy Mond
-  Date: Mar 23, 2009
-  Time: 9:54:22 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page language="java" %>
-<%@ page session="false"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<jsp:directive.include file="/WEB-INF/jsp/includes/head.jsp" />
-
-<head>
-    <title><spring:message code="personMatches.title"/></title>
-</head>
-<body class="openregistry" id="update">
-
-	<h1 id="app-name">Open Registry</h1>
-	<ul id="nav-system"><li id="logout"><a href="logout.htm" title="log out of current session"><spring:message code="logout.label" /></a></li></ul>
-
-	<div id="content">
-   		<c:set var="command" value="serviceExecutionResult" />
-   		<jsp:directive.include file="/WEB-INF/jsp/includes/errors.jsp" />
-   		<jsp:directive.include file="/WEB-INF/jsp/includes/info.jsp" />
-
-		<form:form modelAttribute="serviceExecutionResult" >
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<form:form modelAttribute="serviceExecutionResult" >
 			<fieldset id="update">
 				<legend><span><spring:message code="personMatches.heading"/><span style="color:#000;"><c:out value="${personToAdd.firstAddedName.family}" />, <c:out value="${personToAdd.firstAddedName.given}" /></span></span></legend>
 
@@ -58,7 +32,3 @@
         </div>
 
     </form:form>
-	</div>
-	<jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
-</body>
-</html>

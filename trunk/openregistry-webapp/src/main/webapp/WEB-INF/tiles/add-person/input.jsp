@@ -1,33 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Nancy Mond
-  Date: Feb 23, 2009
-  Time: 4:56:10 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page language="java" %>
-<%@ page session="false"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<jsp:directive.include file="/WEB-INF/jsp/includes/head.jsp" />
-
-<head>
-    <title><spring:message code="addPerson.title"/></title>
-</head>
-<body class="openregistry" id="update">
-
-	<h1 id="app-name">Open Registry</h1>
-	<ul id="nav-system"><li id="logout"><a href="logout.htm" title="log out of current session"><spring:message code="logout.label" /></a></li></ul>
-
-	<div id="content">
-   		<c:set var="command" value="personSearch" />
-   		<jsp:directive.include file="/WEB-INF/jsp/includes/errors.jsp" />
-   		<jsp:directive.include file="/WEB-INF/jsp/includes/info.jsp" />
-
-		<form:form modelAttribute="personSearch">
+<form:form modelAttribute="personSearch">
 			<fieldset id="addperson">
 				<legend><span><spring:message code="addPersonPage.heading"/></span></legend>
 				<p style="margin-bottom:0;">
@@ -56,7 +30,7 @@
 
                         <label for="c1_middleName" class="middleName"><spring:message code="middleName.label" /></label>
                         <form:input path="person.firstAddedName.middle" id="c1_middleName" size="10" maxlength="30" tabindex="3" />
-						    
+
                         <label for="c1_lastName" class="lastName"><spring:message code="lastName.label" /><em>*</em></label>
                         <form:input path="person.firstAddedName.family" id="c1_lastName" size="10" maxlength="30" tabindex="4" />
 
@@ -107,8 +81,3 @@
             </c:if>
 
 		</form:form>
-	</div>
-
-	<jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
-</body>
-</html>

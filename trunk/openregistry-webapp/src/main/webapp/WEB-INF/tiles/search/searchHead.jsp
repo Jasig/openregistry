@@ -2,8 +2,9 @@
 <script type="text/javascript" src="<c:url value="/resources/dojo/dojo.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/spring/Spring.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/spring/Spring-Dojo.js" />"></script>
-<link href="<c:url value="resources/dijit/themes/nihilo/nihilo.css" />" rel="stylesheet" />
-<link href="css/or/or.forms.css" rel="stylesheet" />
+<link href="<c:url value="/resources/dijit/themes/nihilo/nihilo.css" />" rel="stylesheet" />
+<link href="<c:url value="/css/or/or.forms.css" />" rel="stylesheet" />
+
 <script type="text/javascript">
     dojo.require("dijit.form.Button");
     dojo.require("dijit.form.DateTextBox");
@@ -63,53 +64,3 @@ function createFadeOutEffect() {
     fadeOut.play();
 }   
 </script>
-
-<style type="text/css">
-.container {
-    margin-top: 10px;
-    color: #292929;
-    width: 300px;
-    border: 1px solid #BABABA;
-    padding: 10px;
-    margin-left: 10px;
-    margin-bottom: 1em;
-    -o-border-radius: 10px;
-    -moz-border-radius: 12px;
-    -webkit-border-radius: 10px;
-    -webkit-box-shadow: 0px 3px 7px #adadad;
-    border-radius: 10px;
-    -moz-box-sizing: border-box;
-    -opera-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -khtml-box-sizing: border-box;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.box {
-    margin-top: 10px;
-    color: #292929;
-    width: 98%;
-    border: 1px solid #BABABA;
-    background-color: #ddd;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 10px;
-    margin-bottom: 1em;
-    -o-border-radius: 10px;
-    -moz-border-radius: 12px;
-    -webkit-border-radius: 10px;
-    -webkit-box-shadow: 0px 3px 7px #adadad;
-    border-radius: 10px;
-    -moz-box-sizing: border-box;
-    -opera-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -khtml-box-sizing: border-box;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.changed {
-    background-color: yellow;
-}
-</style>
