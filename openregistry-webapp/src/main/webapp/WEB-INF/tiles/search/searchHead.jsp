@@ -14,7 +14,7 @@
         Spring.addDecoration(new Spring.ElementDecoration({elementId: "dateOfBirth", widgetType: "dijit.form.DateTextBox", widgetAttrs: {promptMessage : "Enter the person's birth date."}}));
         Spring.addDecoration(new Spring.ElementDecoration({elementId: "givenName", widgetType: "dijit.form.TextBox", widgetAttrs: {promptMessage : "Enter all or part of the family name."}}));
         Spring.addDecoration(new Spring.ElementDecoration({elementId: "familyName", widgetType: "dijit.form.TextBox", widgetAttrs: {promptMessage : "Enter all or part of the given name."}}));
-        Spring.addDecoration(new Spring.ElementDecoration({elementId: "identifierType", widgetType: "dijit.form.ComboBox", widgetAttrs: {promptMessage : "Enter all or part of the family name."}}));
+        Spring.addDecoration(new Spring.ElementDecoration({elementId: "identifierType", widgetType: "dijit.form.ComboBox", widgetAttrs: {promptMessage : "Choose an identifier."}}));
         Spring.addDecoration(new Spring.ElementDecoration({elementId: "identifierValue", widgetType: "dijit.form.TextBox", widgetAttrs: {promptMessage : "Enter the value of the identifier."}}));
         Spring.addDecoration(new Spring.ElementDecoration({elementId: "submitButton", widgetType: "dijit.form.Button"}));
         Spring.addDecoration(new Spring.AjaxEventDecoration({elementId: "submitButton", event: "onclick",formId: "orForm", params: {fragments: "searchResults"}}));
