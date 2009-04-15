@@ -6,7 +6,7 @@
 
 <div>
    <h2><spring:message code="delete.person.headers.find" /></h2>
-   <form:form commandName="searchCriteria" method="POST" id="orForm">
+   <form:form commandName="searchCriteria" method="post" id="orForm">
        <form:errors path="*" element="p" id="globalErrors" />
        <ul>
            <li class="container">
@@ -28,13 +28,15 @@
               </span>
            </li>
            <li class="container">
-               <form:label path="identifierType" for="identifiertype">Identifier</form:label>
+               <form:label path="identifierType" for="identifierType">Identifier</form:label>
                <span>
                <form:select path="identifierType" items="${identifierTypes}" itemLabel="name" itemValue="name" />
                <form:input path="identifierValue" cssErrorClass="formerror" />
               </span>
            </li>
-           <li><input type="submit" id="submitButton" name="_eventId_submit" value="Search" /></li>
+           <li>
+               <input type="hidden" name="_eventId" value="submit" />
+               <button id="submitButton">Search</button></li>
        </ul>
    </form:form>
 </div>
