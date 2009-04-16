@@ -54,7 +54,7 @@ public interface Person extends Serializable {
      *
      * @return PersonIdentifiers. Please note that this method should never return null.
      */
-    List<? extends Identifier> getIdentifiers();
+    Set<? extends Identifier> getIdentifiers();
 
     /**
      * Get the name of the person.
