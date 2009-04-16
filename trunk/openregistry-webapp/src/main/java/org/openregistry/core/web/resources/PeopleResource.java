@@ -160,25 +160,24 @@ public class PeopleResource {
     }
 
     private URI buildPersonResourceUri(Person person) {
-        String personId = null;
-        for(Identifier id: person.getIdentifiers()) {
-            if(this.preferredPersonIdentifierType.equals(id.getType().getName())) {
+        for (Identifier id : person.getIdentifiers()) {
+            if (this.preferredPersonIdentifierType.equals(id.getType().getName())) {
                 return this.uriInfo.getAbsolutePathBuilder().path(this.preferredPersonIdentifierType)
-                                                     .path(id.getValue()).build();
+                        .path(id.getValue()).build();
             }
         }
         //Person MUST have at least one id of the preferred configured type. Results in HTTP 500
         throw new IllegalStateException("The person must have at least one id of the preferred configured type " +
-                "which is <" + this.preferredPersonIdentifierType + ">");        
+                "which is <" + this.preferredPersonIdentifierType + ">");
     }
 
     private LinkRepresentation buildLinksToConflictingPeopleFound(List<PersonMatch> matches) {
         //A little defensive stuff. Will result in HTTP 500
-        if(matches.size() == 0) {
+        if (matches.size() == 0) {
             throw new IllegalStateException("Person matches cannot be empty if reconciliation result is <MAYBE>");
         }
         List<LinkRepresentation.Link> links = new ArrayList<LinkRepresentation.Link>();
-        for(PersonMatch match: matches) {
+        for (PersonMatch match : matches) {
             links.add(new LinkRepresentation.Link("person", buildPersonResourceUri(match.getPerson()).toString()));
         }
         return new LinkRepresentation(links);
