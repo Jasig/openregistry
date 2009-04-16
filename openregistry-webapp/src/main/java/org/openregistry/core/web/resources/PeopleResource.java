@@ -12,6 +12,7 @@ import org.openregistry.core.service.ServiceExecutionResult;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.xml.bind.annotation.XmlElement;
+import javax.annotation.Resource;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
@@ -33,15 +34,24 @@ import java.text.ParseException;
 @Scope("singleton")
 public class PeopleResource {
 
+    //Jersey specific injection
     @Context
     UriInfo uriInfo;
 
-    @Autowired(required = true)
-    PersonService personService;
+    @Autowired
+    private PersonService personService;
+
+    //JSR-250 injection which is more appropriate here for 'autowiring by name' in the case of multiple types
+    //are defined in the app ctx (Strings). The looked up bean name defaults to the property name which
+    //needs an injection.
+    @Resource
+    private String preferredPersonIdentifierType;
+
 
     @GET
     @Path("{personIdType}/{personId}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON}) //auto content negotiation!
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    //auto content negotiation!
     public PersonResponseRepresentation showPerson(@PathParam("personId") String personId,
                                                    @PathParam("personIdType") String personIdType) {
 
@@ -94,7 +104,7 @@ public class PeopleResource {
             case 409:
                 LinkRepresentation entityBody =
                         new LinkRepresentation(Arrays.asList(new LinkRepresentation.Link("person", uri.toString()),
-                                                             new LinkRepresentation.Link("person", uri.toString())));
+                                new LinkRepresentation.Link("person", uri.toString())));
 
                 response = Response.status(409).entity(entityBody).type(MediaType.APPLICATION_XHTML_XML).build();
                 break;
@@ -119,7 +129,7 @@ public class PeopleResource {
         try {
             ps.getPerson().setDateOfBirth(new SimpleDateFormat("mmddyyyy").parse(request.getDateOfBirth()));
         }
-        catch(Exception ex) {
+        catch (Exception ex) {
             //this is optional field. Carry on...
         }
         ps.getPerson().setSsn(request.getSsn());
