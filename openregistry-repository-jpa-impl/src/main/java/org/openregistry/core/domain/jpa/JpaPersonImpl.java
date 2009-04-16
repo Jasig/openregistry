@@ -38,11 +38,11 @@ public class JpaPersonImpl extends Entity implements Person {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)
     private Set<JpaNameImpl> names = new HashSet<JpaNameImpl>();
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)    
-    private Collection<JpaRoleImpl> roles = new ArrayList<JpaRoleImpl>();
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaRoleImpl.class)
+    private List<Role> roles = new ArrayList<Role>();
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)
-    private Set<JpaIdentifierImpl> identifiers = new HashSet<JpaIdentifierImpl>();
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaIdentifierImpl.class)
+    private Set<Identifier> identifiers = new HashSet<Identifier>();
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
@@ -59,15 +59,15 @@ public class JpaPersonImpl extends Entity implements Person {
     public Long getId() {
         return this.id;
     }
-    
+
     public Set<? extends Name> getNames() {
     	return this.names;
     }
-    
+
     public Name addName() {
     	final JpaNameImpl name = new JpaNameImpl(this);
     	this.names.add(name);
-    	return name;    	
+    	return name;
     }
 
     public Name getOfficialName() {
@@ -140,11 +140,11 @@ public class JpaPersonImpl extends Entity implements Person {
         return jpaRole;
     }
 
-    public Collection<? extends Role> getRoles() {
+    public List<Role> getRoles() {
         return this.roles;
     }
 
-    public Set<? extends Identifier> getIdentifiers() {
+    public Set<Identifier> getIdentifiers() {
         return this.identifiers;
     }
 

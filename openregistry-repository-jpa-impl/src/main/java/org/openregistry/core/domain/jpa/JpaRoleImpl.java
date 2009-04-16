@@ -31,17 +31,17 @@ public class JpaRoleImpl extends Entity implements Role {
     @SequenceGenerator(name="prc_role_records_seq",sequenceName="prc_role_records_seq",initialValue=1,allocationSize=50)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)      
-    private Set<JpaUrlImpl> urls = new HashSet<JpaUrlImpl>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER, targetEntity = JpaUrlImpl.class)      
+    private Set<Url> urls = new HashSet<Url>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
-    private Set<JpaEmailAddressImpl> emailAddresses = new HashSet<JpaEmailAddressImpl>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER, targetEntity = JpaEmailAddressImpl.class)
+    private Set<EmailAddress> emailAddresses = new HashSet<EmailAddress>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
-    private Set<JpaPhoneImpl> phones = new HashSet<JpaPhoneImpl>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER, targetEntity = JpaPhoneImpl.class)
+    private Set<Phone> phones = new HashSet<Phone>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER)
-    private Set<JpaAddressImpl> addresses = new HashSet<JpaAddressImpl>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER, targetEntity = JpaAddressImpl.class)
+    private Set<Address> addresses = new HashSet<Address>();
 
     @ManyToOne(optional = false)
     @JoinColumn(name="sponsor_id")
@@ -58,8 +58,8 @@ public class JpaRoleImpl extends Entity implements Role {
     @JoinColumn(name="person_status_t")
     private JpaTypeImpl personStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch=FetchType.EAGER)
-    private Set<JpaLeaveImpl> leaves = new HashSet<JpaLeaveImpl>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch=FetchType.EAGER, targetEntity = JpaLeaveImpl.class)
+    private Set<Leave> leaves = new HashSet<Leave>();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id")
@@ -96,19 +96,19 @@ public class JpaRoleImpl extends Entity implements Role {
         return this.id;
     }
 
-    public Set<? extends Address> getAddresses() {
+    public Set<Address> getAddresses() {
         return this.addresses;
     }
 
-    public Set<? extends Phone> getPhones() {
+    public Set<Phone> getPhones() {
         return this.phones;
     }
 
-    public Set<? extends EmailAddress> getEmailAddresses() {
+    public Set<EmailAddress> getEmailAddresses() {
         return this.emailAddresses;
     }
 
-    public Set<? extends Url> getUrls() {
+    public Set<Url> getUrls() {
         return this.urls;
     }
 
@@ -175,7 +175,7 @@ public class JpaRoleImpl extends Entity implements Role {
         this.personStatus = (JpaTypeImpl) personStatus;
     }
 
-    public Set<? extends Leave> getLeaves() {
+    public Set<Leave> getLeaves() {
         return this.leaves;
     }
 

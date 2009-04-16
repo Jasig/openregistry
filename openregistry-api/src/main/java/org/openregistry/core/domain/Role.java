@@ -15,7 +15,7 @@ public interface Role extends Serializable, DateRange {
 
     Type getAffiliationType();
 
-    Set<? extends Address> getAddresses();
+    Set<Address> getAddresses();
 
     void setSponsor(Person sponsor);
     
@@ -29,11 +29,11 @@ public interface Role extends Serializable, DateRange {
 
     void setPersonStatus(Type personStatus);
 
-    Set<? extends Phone> getPhones();
+    Set<Phone> getPhones();
 
-    Set<? extends EmailAddress> getEmailAddresses();
+    Set<EmailAddress> getEmailAddresses();
 
-    Set<? extends Url> getUrls();
+    Set<Url> getUrls();
 
     Address addAddress();
 
@@ -43,7 +43,7 @@ public interface Role extends Serializable, DateRange {
 
     Phone addPhone();
 
-    Set<? extends Leave> getLeaves();
+    Set<Leave> getLeaves();
 
     String getTitle();
 
