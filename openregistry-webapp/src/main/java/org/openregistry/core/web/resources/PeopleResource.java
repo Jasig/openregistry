@@ -6,17 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl;
 import org.openregistry.core.domain.Name;
+import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
+import org.openregistry.core.service.reconciliation.ReconciliationResult;
+import org.openregistry.core.service.reconciliation.PersonMatch;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.annotation.Resource;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Date;
+import java.util.*;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
@@ -76,16 +78,8 @@ public class PeopleResource {
     public Response processIncomingPerson(@DefaultValue("201") @QueryParam("resp-type") int respType,
                                           MultivaluedMap<String, String> formParams) {
 
-        //NOTE: The real handling of the POSTed representation will be done
-        //here by means of un-marshalling the submitted form data into a Java type
-        //and invoking the internal Open Registry API/APIs (TBD), and based on the outcome
-        //return the appropriate response.
-
-        //The code below is just for testing the Jersey framework
-        //and to lay out the foundation for further work.
-
         Response response = null;
-        URI uri = this.uriInfo.getAbsolutePathBuilder().path("rcpId").path("1234567").build();
+        URI uri = null;
         PersonSearch personSearch = null;
         try {
             personSearch = personRequestToPersonSearch(new PersonRequestRepresentation(formParams));
@@ -96,8 +90,30 @@ public class PeopleResource {
         }
 
         ServiceExecutionResult result = this.personService.addPerson(personSearch, null);
+        //Now do the branching logic based on the result
+        if (result.succeeded()) {
+            if (personCreated(result.getReconciliationResult().getReconciliationType())) {
+                uri = buildPersonResourceUri((Person) result.getTargetObject());
+                response = Response.created(uri).build();
+            }
+            else if (personAlreadyExists(result.getReconciliationResult().getReconciliationType())) {
+                uri = buildPersonResourceUri((Person) result.getTargetObject());
+                response = Response.temporaryRedirect(uri).build();
+            }
+        }
+        else {
+            if (result.getValidationErrors().size() > 0) {
+                //TODO: add more informative message to the entity body
+                return Response.status(Response.Status.BAD_REQUEST).entity("The incoming request is malformed.").build();
+            }
+            else if (multiplePeopleFound(result.getReconciliationResult().getReconciliationType())) {
+                List<PersonMatch> conflictingPeopleFound = result.getReconciliationResult().getMatches();
+                response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound))
+                        .type(MediaType.APPLICATION_XHTML_XML).build();
+            }
+        }
 
-        switch (respType) {
+        /*switch (respType) {
             case 201:
                 response = Response.created(uri).build();
                 break;
@@ -112,7 +128,7 @@ public class PeopleResource {
                 response = Response.temporaryRedirect(uri).build();
             default:
                 break;
-        }
+        }*/
         System.out.println("GOT HTTP form POSTed: " + formParams);
         return response;
     }
@@ -130,7 +146,7 @@ public class PeopleResource {
             ps.getPerson().setDateOfBirth(new SimpleDateFormat("mmddyyyy").parse(request.getDateOfBirth()));
         }
         catch (Exception ex) {
-            //this is optional field. Carry on...
+            //Let the validation in JpaSorPersonSearchImpl catch the null property. Carry on...
         }
         ps.getPerson().setSsn(request.getSsn());
         ps.getPerson().setGender(request.getGender());
@@ -141,5 +157,43 @@ public class PeopleResource {
         ps.setPostalCode(request.getPostalCode());
 
         return ps;
+    }
+
+    private URI buildPersonResourceUri(Person person) {
+        String personId = null;
+        for(Identifier id: person.getIdentifiers()) {
+            if(this.preferredPersonIdentifierType.equals(id.getType().getName())) {
+                return this.uriInfo.getAbsolutePathBuilder().path(this.preferredPersonIdentifierType)
+                                                     .path(id.getValue()).build();
+            }
+        }
+        //Person MUST have at least one id of the preferred configured type. Results in HTTP 500
+        throw new IllegalStateException("The person must have at least one id of the preferred configured type " +
+                "which is <" + this.preferredPersonIdentifierType + ">");        
+    }
+
+    private LinkRepresentation buildLinksToConflictingPeopleFound(List<PersonMatch> matches) {
+        //A little defensive stuff. Will result in HTTP 500
+        if(matches.size() == 0) {
+            throw new IllegalStateException("Person matches cannot be empty if reconciliation result is <MAYBE>");
+        }
+        List<LinkRepresentation.Link> links = new ArrayList<LinkRepresentation.Link>();
+        for(PersonMatch match: matches) {
+            links.add(new LinkRepresentation.Link("person", buildPersonResourceUri(match.getPerson()).toString()));
+        }
+        return new LinkRepresentation(links);
+    }
+
+    //TODO: possibly refactor these methods into a helper type or encapsulate them in ReconciliationResult itself? 
+    private boolean personCreated(ReconciliationResult.ReconciliationType reconciliationType) {
+        return (reconciliationType == ReconciliationResult.ReconciliationType.NONE);
+    }
+
+    private boolean personAlreadyExists(ReconciliationResult.ReconciliationType reconciliationType) {
+        return (reconciliationType == ReconciliationResult.ReconciliationType.EXACT);
+    }
+
+    private boolean multiplePeopleFound(ReconciliationResult.ReconciliationType reconciliationType) {
+        return (reconciliationType == ReconciliationResult.ReconciliationType.MAYBE);
     }
 }
