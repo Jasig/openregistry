@@ -26,8 +26,6 @@ import org.javalid.core.config.JvConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,12 +98,15 @@ public class DefaultPersonService implements PersonService {
             final ReconciliationResult result = this.reconciler.reconcile(personSearch);
 
             if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
-                return new DefaultServiceExecutionResult(serviceName, magic(personSearch));
+                return new DefaultServiceExecutionResult(serviceName, magic(personSearch), result);
+            } else if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
+            	return new DefaultServiceExecutionResult(serviceName, personSearch, result);
             }
             logger.info("In personService.addPerson: reconciliation result: "+ result.getReconciliationType().toString());
+            // ReconciliationResult.ReconciliationType.MAYBE
             return new DefaultServiceExecutionResult(serviceName, personSearch, result);
         }
-
+        // Here if we were called a second time.  This means even though we found partial matches, this is a new person.
         return new DefaultServiceExecutionResult(serviceName, magic(personSearch));
     }
 
