@@ -100,4 +100,12 @@ public interface SorPerson {
     Long getPersonId();
     
     void setPersonId(Long personId);
+
+    /**
+     * Removes the SoR Role (and returns it) based on the SorRole Id provided.
+     *
+     * @param id the id of the role.
+     * @return the SorRole, if found and removed, otherwise, null.
+     */
+    SorRole removeRole(String id);
 }

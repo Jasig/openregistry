@@ -74,5 +74,10 @@ public class JpaPersonRepository implements PersonRepository {
     public void updateRole(final Person person, final Role role) {
         this.entityManager.merge(person);
     }
+
+    // TODO create the roles parameter
+    public SorPerson findSorPersonByPersonIdAndSorRoleId(final Long personId, final String sorRoleId) {
+        return (SorPerson) this.entityManager.createQuery("select s from sorPerson s join s.roles r where  r.sorRoleId = :sorRoleId and s.personId = :personId").setParameter("sorRoleId", sorRoleId).setParameter("personId", personId).getSingleResult();
+    }
 }
 

@@ -75,18 +75,22 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public boolean deleteRole(final Person person, final Role role, final String terminationReason) {
         try {
-// TODO implement these
-//            final SorPerson sorPerson = this.personRepository.findSorPersonByPersonId(person.getId());
-//            final SorRole sorRole= sorPerson.removeSorRole(role.getSorId());
-//            this.personRepository.deleteSorRole(sorPerson, sorRole);
+            final String sorRoleId = null; // TODO role.getSorId()
+            final SorPerson sorPerson = this.personRepository.findSorPersonByPersonIdAndSorRoleId(person.getId(), sorRoleId);
+            final SorRole sorRole= sorPerson.removeRole(sorRoleId);
 
-            final Type terminationType = this.referenceRepository.findType("TERMINATION", terminationReason);
+            if (sorRole != null) {
+                this.personRepository.deleteSorRole(sorPerson, sorRole);
 
-            role.setEnd(new Date());
-            role.setTerminationReason(terminationType);
+                final Type terminationType = this.referenceRepository.findType("TERMINATION", terminationReason);
 
-            this.personRepository.updateRole(person, role);
-            return true;
+                role.setEnd(new Date());
+                role.setTerminationReason(terminationType);
+
+                this.personRepository.updateRole(person, role);
+                return true;
+            }
+            return false;
         } catch (final Exception e) {
             return false;
         }

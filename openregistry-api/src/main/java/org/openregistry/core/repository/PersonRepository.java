@@ -97,4 +97,12 @@ public interface PersonRepository {
      */
     void updateRole(Person person, Role role);
 
+    /**
+     * 
+     * @param personId
+     * @param sorRoleId
+     * @return
+     */
+    SorPerson findSorPersonByPersonIdAndSorRoleId(Long personId, String sorRoleId);
+
 }
