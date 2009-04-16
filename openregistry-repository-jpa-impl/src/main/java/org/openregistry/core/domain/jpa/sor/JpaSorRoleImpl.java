@@ -26,14 +26,14 @@ import java.util.HashSet;
  * To change this template use File | Settings | File Templates.
  */
 @Entity(name="sorRole")
-@Table(name="prs_sor_role_records")
+@Table(name="prs_role_records")
 @ValidateDefinition
 public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity implements SorRole {
 
     @Id
     @Column(name="record_id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_sor_roles_seq")
-    @SequenceGenerator(name="prs_sor_roles_seq",sequenceName="prs_sor_roles_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_role_records_seq")
+    @SequenceGenerator(name="prs_role_records_seq",sequenceName="prs_role_records_seq",initialValue=1,allocationSize=50)
     private Long recordId;
 
     @Column(name="id")
