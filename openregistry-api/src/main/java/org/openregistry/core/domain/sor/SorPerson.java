@@ -97,7 +97,7 @@ public interface SorPerson {
      */
     void setSsn(String ssn);
     
-    Person getPerson();
+    Long getPersonId();
     
-    void setPerson(Person person);
+    void setPersonId(Long personId);
 }

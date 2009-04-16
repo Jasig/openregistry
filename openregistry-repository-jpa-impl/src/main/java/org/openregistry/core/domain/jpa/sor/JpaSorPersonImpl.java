@@ -46,9 +46,8 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
     @JvGroup
     private String sourceSorIdentifier;
 
-    @OneToOne(cascade=CascadeType.ALL, optional=true)
-    @JoinColumn(name="person_id")
-    private JpaPersonImpl person;
+    @Column(name="person_id")
+    private Long personId;
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
@@ -131,11 +130,11 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
         return jpaSorName;
     }
 
-	public Person getPerson() {
-		return this.person;
+	public Long getPersonId() {
+		return this.personId;
 	}
 
-	public void setPerson(Person person) {
-		this.person = (JpaPersonImpl)person;
+	public void setPersonId(Long personId) {
+		this.personId = personId;
 	}
 }
