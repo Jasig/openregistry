@@ -1,6 +1,7 @@
 package org.openregistry.core.domain.jpa.sor;
 
 import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.internal.*;
@@ -14,9 +15,7 @@ import org.javalid.annotations.validation.ValidateList;
 import javax.persistence.*;
 import javax.persistence.Entity;
 
-import java.util.Set;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Implementation of the SoR Person.
@@ -65,6 +64,10 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
 
     @Column(name="ssn",nullable=true)
     private String ssn;
+
+    // TODO we need to actually implement this
+    @Transient
+    private List<SorRole> roles = new ArrayList<SorRole>();
 
     public String getSsn() {
         return this.ssn;
@@ -137,4 +140,21 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
 	public void setPersonId(Long personId) {
 		this.personId = personId;
 	}
+
+    public synchronized SorRole removeRole(final String id) {
+        SorRole roleToDelete = null;
+        for (final SorRole role : this.roles) {
+            if (role.getSorId().equals(id)) {
+                roleToDelete = role;
+                break;
+            }
+        }
+
+        if (roleToDelete != null) {
+            this.roles.remove(roleToDelete);
+            return roleToDelete;
+        }
+        
+        return null;
+    }
 }
