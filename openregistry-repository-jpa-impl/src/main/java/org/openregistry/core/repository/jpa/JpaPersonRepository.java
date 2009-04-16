@@ -6,7 +6,9 @@ import java.util.Date;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.jpa.JpaPersonImpl;
 import org.openregistry.core.service.SearchCriteria;
 import org.springframework.stereotype.Repository;
@@ -63,6 +65,14 @@ public class JpaPersonRepository implements PersonRepository {
 
     public void addPerson(Person person) throws RepositoryAccessException {
         this.entityManager.persist(person);
+    }
+
+    public void deleteSorRole(final SorPerson person, final SorRole role) {
+        this.entityManager.merge(person);
+    }
+
+    public void updateRole(final Person person, final Role role) {
+        this.entityManager.merge(person);
     }
 }
 

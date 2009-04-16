@@ -27,13 +27,15 @@ public interface PersonService {
     Person findPersonById(Long id);
 
     /**
-     * Deletes all or part of a person based on the deletion criteria specified.
+     * Deletes a role.  Currently, this removes the record from the System of Record, and updates the "termination" date of the
+     * calculated role.
      *
      * @param person the person to be deleted. CANNOT be null.
-     * @param deletionCriteria the portions of the person to delete.  CANNOT be null.
+     * @param role the portions of the person to delete.  CANNOT be null.
+     * @param terminationReason the reason that this role is being deleted.
      * @return true, if the action succeeded, false otherwise.
      */
-    boolean delete(Person person, DeletionCriteria deletionCriteria);
+    boolean deleteRole(Person person, Role role, String terminationReason);
 
     /**
      * Validate, add and persist in the Open Registry a given Role for a given Person
