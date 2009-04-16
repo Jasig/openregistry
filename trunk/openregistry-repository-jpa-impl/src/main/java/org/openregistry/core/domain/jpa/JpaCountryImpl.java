@@ -32,8 +32,8 @@ public class JpaCountryImpl extends Entity implements Country {
     @Column(name="name",nullable = false, length=100)
     private String name;
 
-    @OneToMany(cascade= CascadeType.ALL, mappedBy="country")
-    private List<JpaRegionImpl> regions;
+    @OneToMany(cascade= CascadeType.ALL, mappedBy="country",targetEntity = JpaRegionImpl.class)
+    private List<Region> regions;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="country")
     private List<JpaAddressImpl> addresses;
@@ -50,7 +50,7 @@ public class JpaCountryImpl extends Entity implements Country {
         return this.name;
     }
 
-    public List<? extends Region> getRegions() {
+    public List<Region> getRegions() {
         return this.regions;
     }
 }

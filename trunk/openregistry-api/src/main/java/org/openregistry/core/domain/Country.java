@@ -16,5 +16,5 @@ public interface Country extends Serializable {
 
     String getName();
 
-    List<? extends Region> getRegions();
+    List<Region> getRegions();
 }
