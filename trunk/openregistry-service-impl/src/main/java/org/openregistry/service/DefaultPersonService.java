@@ -10,9 +10,12 @@ import org.openregistry.core.service.reconciliation.FieldMatch;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Name;
+import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.repository.PersonRepository;
+import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.service.reconciliation.PersonMatchImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.ObjectFactory;
@@ -26,6 +29,8 @@ import org.javalid.core.config.JvConfiguration;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +46,9 @@ public class DefaultPersonService implements PersonService {
 
     @Autowired(required = true)
     private PersonRepository personRepository;
+
+    @Autowired(required = true)
+    private ReferenceRepository referenceRepository;
 
     @Autowired(required = false)
     private AnnotationValidator<Object> annotationValidator = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
@@ -65,9 +73,24 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public boolean delete(final Person person, final DeletionCriteria deletionCriteria) {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+    public boolean deleteRole(final Person person, final Role role, final String terminationReason) {
+        try {
+// TODO implement these
+//            final SorPerson sorPerson = this.personRepository.findSorPersonByPersonId(person.getId());
+//            final SorRole sorRole= sorPerson.removeSorRole(role.getSorId());
+//            this.personRepository.deleteSorRole(sorPerson, sorRole);
+
+            final Type terminationType = this.referenceRepository.findType("TERMINATION", terminationReason);
+
+            role.setEnd(new Date());
+            role.setTerminationReason(terminationType);
+
+            this.personRepository.updateRole(person, role);
+            return true;
+        } catch (final Exception e) {
+            return false;
+        }
+    } 
 
     @Transactional
     public ServiceExecutionResult validateAndSaveRoleForPerson(final Person person, final Role role) {
