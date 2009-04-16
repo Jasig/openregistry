@@ -1,5 +1,6 @@
 package org.openregistry.service;
 
+import org.openregistry.core.domain.Person;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.ValidationError;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
@@ -46,7 +47,7 @@ public class DefaultServiceExecutionResult implements ServiceExecutionResult {
         this.targetObject = targetObject;
         this.validationErrors = validationErrors != null ? Collections.unmodifiableList(validationErrors) : Collections.<ValidationError>emptyList();
         this.reconciliationResult = reconciliationResult;
-        this.succeeded = this.validationErrors.isEmpty() && reconciliationResult == null;
+        this.succeeded = this.validationErrors.isEmpty() && this.targetObject instanceof Person;
     }
 
 
