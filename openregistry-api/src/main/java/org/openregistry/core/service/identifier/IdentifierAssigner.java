@@ -21,8 +21,8 @@ public interface IdentifierAssigner {
     void addIdentifierTo(SorPerson sorPerson, Person person);
 
     /**
-     * Returns the type of identifier that this assiger can assign.
-     * @return
+     * Returns the type of identifier that this assigner can assign.
+     * @return identifer type
      */
     String getIdentifierType();
 }

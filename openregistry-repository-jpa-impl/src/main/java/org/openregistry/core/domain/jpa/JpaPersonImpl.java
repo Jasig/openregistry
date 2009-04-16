@@ -41,8 +41,8 @@ public class JpaPersonImpl extends Entity implements Person {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)    
     private Collection<JpaRoleImpl> roles = new ArrayList<JpaRoleImpl>();
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person")
-    private List<JpaIdentifierImpl> identifiers = new ArrayList<JpaIdentifierImpl>();
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)
+    private Set<JpaIdentifierImpl> identifiers = new HashSet<JpaIdentifierImpl>();
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
@@ -144,7 +144,7 @@ public class JpaPersonImpl extends Entity implements Person {
         return this.roles;
     }
 
-    public List<? extends Identifier> getIdentifiers() {
+    public Set<? extends Identifier> getIdentifiers() {
         return this.identifiers;
     }
 
