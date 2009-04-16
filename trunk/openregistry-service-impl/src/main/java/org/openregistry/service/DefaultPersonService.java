@@ -174,14 +174,17 @@ public class DefaultPersonService implements PersonService {
      * @return the newly saved Person.
      */
     protected Person magic(final PersonSearch personSearch) {
-        final SorPerson sorPerson = personSearch.getPerson();
+        SorPerson sorPerson = personSearch.getPerson();
 
         if (!StringUtils.hasText(sorPerson.getSorId())) {
             sorPerson.setSorId(this.identifierGenerator.generateNextString());
         }
 
+        // Save Sor Person
+        sorPerson = this.personRepository.saveSorPerson(sorPerson);
+
         // Construct actual person from Sor Information
-        final Person person = personObjectFactory.getObject();
+        Person person = personObjectFactory.getObject();
         person.setDateOfBirth(sorPerson.getDateOfBirth());
         person.setGender(sorPerson.getGender());
         final Name name = person.addOfficialName();
@@ -202,11 +205,12 @@ public class DefaultPersonService implements PersonService {
             ia.addIdentifierTo(sorPerson, person);
         }
 
+        // Save into the repository
+        person = this.personRepository.savePerson(person);
+        
         // Now connect the SorPerson to the actual person
-        sorPerson.setPerson(person);
-        // Save Sor Person (and Person)
-        this.personRepository.saveSorPerson(sorPerson);
-
+        sorPerson.setPersonId(person.getId());
+        
         return person;
     }
 }
