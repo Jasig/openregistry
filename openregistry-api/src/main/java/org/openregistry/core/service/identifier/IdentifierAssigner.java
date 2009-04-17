@@ -4,6 +4,9 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.SorPerson;
 
 /**
+ * Assigns an identifier to a person based the data provided from the system of record.  Its the job of the identifier
+ * assigner to determine if it needs to add an identifier for a person or not.
+ *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0

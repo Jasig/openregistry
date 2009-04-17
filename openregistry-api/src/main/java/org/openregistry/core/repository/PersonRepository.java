@@ -98,11 +98,13 @@ public interface PersonRepository {
     void updateRole(Person person, Role role);
 
     /**
-     * 
-     * @param personId
-     * @param sorRoleId
-     * @return
+     * Locates a System of Record for a Person based on their internal personId and the internal system of record
+     * role identifier.
+     *
+     * @param personId the internal identifier for the person.
+     * @param sorRoleId the internal SoR Role identifier for the person, as assigned by OpenRegistry.
+     *
+     * @return the person if they exist.  In theory if you have both ids this should never return null.
      */
-    SorPerson findSorPersonByPersonIdAndSorRoleId(Long personId, String sorRoleId);
-
+    SorPerson findSorPersonByPersonIdAndSorRoleId(Long personId, Long sorRoleId);
 }

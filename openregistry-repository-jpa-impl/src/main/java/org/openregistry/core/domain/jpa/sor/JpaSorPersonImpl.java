@@ -141,13 +141,14 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
 		this.personId = personId;
 	}
 
-    public synchronized SorRole removeRole(final String id) {
+    // TODO fix this so it works
+    public synchronized SorRole removeRole(final Long id) {
         SorRole roleToDelete = null;
         for (final SorRole role : this.roles) {
-            if (role.getSorId().equals(id)) {
+            //if (role.getSorId().equals(id)) {
                 roleToDelete = role;
                 break;
-            }
+            // }
         }
 
         if (roleToDelete != null) {

@@ -107,5 +107,5 @@ public interface SorPerson {
      * @param id the id of the role.
      * @return the SorRole, if found and removed, otherwise, null.
      */
-    SorRole removeRole(String id);
+    SorRole removeRole(Long id);
 }
