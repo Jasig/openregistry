@@ -75,7 +75,7 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public boolean deleteRole(final Person person, final Role role, final String terminationReason) {
         try {
-            final String sorRoleId = null; // TODO role.getSorId()
+            final Long sorRoleId = null; // TODO role.getSorId()
             final SorPerson sorPerson = this.personRepository.findSorPersonByPersonIdAndSorRoleId(person.getId(), sorRoleId);
             final SorRole sorRole= sorPerson.removeRole(sorRoleId);
 
