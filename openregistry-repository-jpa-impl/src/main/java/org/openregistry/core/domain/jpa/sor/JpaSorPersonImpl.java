@@ -69,6 +69,10 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
     @Transient
     private List<SorRole> roles = new ArrayList<SorRole>();
 
+    public List<SorRole> getRoles(){
+        return roles;
+    }
+
     public String getSsn() {
         return this.ssn;
     }
