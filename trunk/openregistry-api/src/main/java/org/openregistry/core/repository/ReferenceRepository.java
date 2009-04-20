@@ -1,6 +1,7 @@
 package org.openregistry.core.repository;
 
 import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.Type.Types;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public interface ReferenceRepository {
 
     Region getRegionById(Long id);
 
-    Type findType(String type, String value);
+    Type findType(String type, String value);  
 
     List<Type> getEmailTypes();
 
@@ -46,4 +47,13 @@ public interface ReferenceRepository {
     List<IdentifierType> getIdentifierTypes();
 
     IdentifierType findIdentifierType(String identifierName);
+
+    /**
+     * Returns the list of types defined by the type grouping.  Default types are registered on the {@link org.openregistry.core.domain.Type.Types}
+     * interface.  For example {@link Types.ADDRESS}.
+     *
+     * @param type the typing grouping (i.e. ADDRESS, EMAIL, CAMPUS, etc.)
+     * @return the list of types.  CANNOT be NULL.  CAN be empty.
+     */
+    List<Type> getTypesBy(final Types type);
 }

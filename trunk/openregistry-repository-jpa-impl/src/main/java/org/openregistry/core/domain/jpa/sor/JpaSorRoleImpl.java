@@ -95,6 +95,9 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
     @JoinColumn(name="termination_t")
     private JpaTypeImpl terminationReason;
 
+    @Column(name="prc_role_id",nullable = true)
+    private Long roleId;
+
     protected Long getId() {
         return this.recordId;
     }
@@ -189,4 +192,11 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
         this.end = date;
     }
 
+    public void setRoleId(final Long roleId) {
+        this.roleId = roleId;
+    }
+
+    public Long getRoleId() {
+        return this.roleId;
+    }
 }

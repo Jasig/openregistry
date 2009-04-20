@@ -76,8 +76,8 @@ public class JpaPersonRepository implements PersonRepository {
     }
 
     // TODO create the roles parameter
-    public SorPerson findSorPersonByPersonIdAndSorRoleId(final Long personId, final Long sorRoleId) {
-        return (SorPerson) this.entityManager.createQuery("select s from sorPerson s join s.roles r where  r.sorRoleId = :sorRoleId and s.personId = :personId").setParameter("sorRoleId", sorRoleId).setParameter("personId", personId).getSingleResult();
+    public SorPerson findSorPersonByPersonIdAndSorRoleId(final Long personId, final Long roleId) {
+        return (SorPerson) this.entityManager.createQuery("select s from sorPerson s join s.roles r where r.roleId = :sorRoleId and s.personId = :personId").setParameter("roleId", roleId).setParameter("personId", personId).getSingleResult();
     }
 }
 

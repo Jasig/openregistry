@@ -39,15 +39,17 @@
         <transition to="displayPerson" />
     </action-state>
 
-    <view-state id="displayPerson" model="deletionCriteria" view="openregistry.search.displayPerson">
-        <var name="deletionCriteria" class="org.openregistry.service.DefaultDeletionCriteriaImpl" />
+    <view-state id="displayPerson" view="openregistry.search.displayPerson">
+        <on-entry>                                                
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$Types@TERMINATION)" result-type="java.util.List" result="viewScope.terminationTypes" />
+        </on-entry>
         <transition on="delete" to="deletePerson" />
         <transition on="cancel" to="cancelled" />
     </view-state>
 
     <action-state id="deletePerson">
         <evaluate expression="person.roles.get(requestParameters.roleId)" result-type="org.openregistry.core.domain.Role" result="flowScope.role" />
-        <evaluate expression="personService.deleteRole(flowScope.person, role,'Deleted')" />
+        <evaluate expression="personService.deleteRole(flowScope.person, role,requestParameters.terminationType)" />
         <transition on="yes" to="success" />
         <transition on="no" to="displayPerson">
             <set name="flashScope.errorMessage" value="resourceBundle.deletionError" />

@@ -13,6 +13,8 @@ import java.util.Set;
  */
 public interface Role extends Serializable, DateRange {
 
+    Long getId();
+
     Type getAffiliationType();
 
     Set<Address> getAddresses();

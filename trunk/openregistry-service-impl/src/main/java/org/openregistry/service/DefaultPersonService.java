@@ -11,6 +11,7 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.Type.Types;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.domain.sor.SorRole;
@@ -75,20 +76,21 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public boolean deleteRole(final Person person, final Role role, final String terminationReason) {
         try {
-            final Long sorRoleId = null; // TODO role.getSorId()
-            final SorPerson sorPerson = this.personRepository.findSorPersonByPersonIdAndSorRoleId(person.getId(), sorRoleId);
-            final SorRole sorRole= sorPerson.removeRole(sorRoleId);
+            final SorPerson sorPerson = this.personRepository.findSorPersonByPersonIdAndSorRoleId(person.getId(), role.getId());
+            if (sorPerson != null) {
+                final SorRole sorRole= sorPerson.removeRoleByRoleId(role.getId());
 
-            if (sorRole != null) {
-                this.personRepository.deleteSorRole(sorPerson, sorRole);
+                if (sorRole != null) {
+                    this.personRepository.deleteSorRole(sorPerson, sorRole);
 
-                final Type terminationType = this.referenceRepository.findType("TERMINATION", terminationReason);
+                    final Type terminationType = this.referenceRepository.findType(Types.TERMINATION.name(), terminationReason);
 
-                role.setEnd(new Date());
-                role.setTerminationReason(terminationType);
+                    role.setEnd(new Date());
+                    role.setTerminationReason(terminationType);
 
-                this.personRepository.updateRole(person, role);
-                return true;
+                    this.personRepository.updateRole(person, role);
+                    return true;
+                }
             }
             return false;
         } catch (final Exception e) {
