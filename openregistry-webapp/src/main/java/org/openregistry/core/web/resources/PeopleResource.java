@@ -12,6 +12,8 @@ import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -34,7 +36,7 @@ import java.text.ParseException;
 @Path("/people")
 @Component
 @Scope("singleton")
-public class PeopleResource {
+public final class PeopleResource {
 
     //Jersey specific injection
     @Context
@@ -48,6 +50,8 @@ public class PeopleResource {
     //needs an injection.
     @Resource
     private String preferredPersonIdentifierType;
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
     @GET
@@ -77,7 +81,7 @@ public class PeopleResource {
     //resp-type query param is here temporarily, for testing
     public Response processIncomingPerson(@DefaultValue("201") @QueryParam("resp-type") int respType,
                                           MultivaluedMap<String, String> formParams) {
-
+        logger.info(String.format("Recieved form data representing a person: {%s}", formParams));
         Response response = null;
         URI uri = null;
         PersonSearch personSearch = null;
@@ -89,20 +93,25 @@ public class PeopleResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
+        logger.info("Trying to add incoming person...");
         ServiceExecutionResult result = this.personService.addPerson(personSearch, null);
         //Now do the branching logic based on the result
         if (result.succeeded()) {
             if (personCreated(result.getReconciliationResult().getReconciliationType())) {
                 uri = buildPersonResourceUri((Person) result.getTargetObject());
                 response = Response.created(uri).build();
+                logger.info(String.format("Person successfuly created. The person resource URI is <%s>", uri.toString()));
             }
             else if (personAlreadyExists(result.getReconciliationResult().getReconciliationType())) {
                 uri = buildPersonResourceUri((Person) result.getTargetObject());
                 response = Response.temporaryRedirect(uri).build();
+                logger.info(String.format("Person already exists. The existing person resource URI is <%s>.", uri.toString()));
             }
         }
         else {
             if (result.getValidationErrors().size() > 0) {
+                logger.info("The incoming person payload did not pass validation. Validation errors: " +
+                        result.getValidationErrors());
                 //TODO: add more informative message to the entity body
                 return Response.status(Response.Status.BAD_REQUEST).entity("The incoming request is malformed.").build();
             }
@@ -110,6 +119,7 @@ public class PeopleResource {
                 List<PersonMatch> conflictingPeopleFound = result.getReconciliationResult().getMatches();
                 response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound))
                         .type(MediaType.APPLICATION_XHTML_XML).build();
+                logger.info("Multiple people found: " + response.getEntity());
             }
         }
 
