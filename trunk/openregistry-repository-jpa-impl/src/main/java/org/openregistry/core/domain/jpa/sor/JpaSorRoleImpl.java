@@ -124,6 +124,10 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
         this.sorPerson = sorPerson;
     }
 
+    public String getTitle() {
+        return this.roleInfo.getTitle();
+    }
+
     public Type getAffiliationType() {
         return this.roleInfo.getAffiliationType();
     }
