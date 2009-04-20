@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <!-- By default, the first state is the start state. -->
+    <var name="personSearch" class="org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl" />
+
+    <view-state id="updatePerson" model="personSearch" view="openregistry.person.update.update">
+        <binder>
+            <binding property="person.dateOfBirth" converter="shortDate" required="true"/>
+            <binding property="person.gender" required="true" />
+            <binding property="person.ssn" />
+        </binder>
+        <on-render>
+            <set name="viewScope.command" value="personSearch" />
+        </on-render>
+        <transition on="submitUpdatePerson" to="personWasUpdated" >
+            <evaluate expression="personService.updatePerson(personSearch, null)" result="flowScope.serviceExecutionResult"/>
+        </transition>
+        <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
+    </view-state>
+
+    <end-state id="personWasUpdated" />
+    <end-state id="foundPerson" view="openregistry.person.add.found" />
+    <end-state id="cancelUpdatePerson" view="flowRedirect:updatePerson" />
+</flow>
