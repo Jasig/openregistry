@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public interface Type extends Serializable {
 
+    enum Types {TERMINATION, STATUS, ADDRESS, PHONE, EMAIL, CAMPUS}
+
     Long getId();
 
     String getDataType();

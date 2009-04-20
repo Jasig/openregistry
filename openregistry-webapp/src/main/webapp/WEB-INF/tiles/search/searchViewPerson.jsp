@@ -12,9 +12,13 @@ Birth Date: <fmt:formatDate pattern="MM-dd-yyyy" value="${person.dateOfBirth}"/>
 <p>Which role would you like to remove/expire?</p>
 
 <c:forEach items="${person.roles}" var="role" varStatus="status">
-    <h3><a href="${flowExecutionUrl}&_eventId=deleteRole&roleId=${status.index}">${role.title}</a></h3>
+    <form action="${flowExecutionUrl}" method="post">
+    <h3>${role.title} <select name="terminationType"><c:forEach items="${terminationTypes}" var="type"><option value="${type.description}">${type.description}</option></c:forEach></select> <input type="submit" value="Delete" name="_eventId_delete" />
+     </h3>
     Valid: <fmt:formatDate pattern="MM-dd-yyyy" value="${role.start}"/> - <fmt:formatDate value="${role.end}" pattern="MM-dd-yyyy" />
+    <input type="hidden" value="${status.index}" name="roleId" />
+    </form>
     <hr />
 </c:forEach>
 
-<a href="${flowExecutionUrl}&eventId=cancel">Cancel</a>
+<a href="${flowExecutionUrl}&_eventId=cancel">Cancel</a>

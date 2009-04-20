@@ -92,7 +92,7 @@ public class JpaRoleImpl extends Entity implements Role {
         this.person = person;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 
