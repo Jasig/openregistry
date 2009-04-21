@@ -38,7 +38,6 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
 
     @Column(name="id")
     @NotEmpty
-    @JvGroup
     private String sorId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER)
@@ -55,12 +54,11 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
 
     @Column(name="source_sor_id", nullable = false)
     @NotEmpty
-    @JvGroup
     private String sourceSorIdentifier;
 
     @ManyToOne(optional = false)
     @JoinColumn(name="sor_person_id", nullable=false)
-    private JpaSorPersonImpl sorPerson;
+    private JpaSorPersonImpl person;
 
     @Column(name="percent_time",nullable=false)
     private int percentage;
@@ -98,6 +96,10 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
     @Column(name="prc_role_id",nullable = true)
     private Long roleId;
 
+    public JpaSorRoleImpl() {
+        // nothing to do
+    }
+
     protected Long getId() {
         return this.recordId;
     }
@@ -118,13 +120,9 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
         this.sourceSorIdentifier = sorIdentifier;
     }
 
-    public JpaSorRoleImpl() {
-        // nothing to do
-    }
-
     public JpaSorRoleImpl(JpaRoleInfoImpl roleInfo, JpaSorPersonImpl sorPerson) {
         this.roleInfo = roleInfo;
-        this.sorPerson = sorPerson;
+        this.person = sorPerson;
     }
 
     public String getTitle() {

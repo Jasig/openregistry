@@ -58,19 +58,18 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
     @NotEmpty
     private String gender;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person",targetEntity = JpaSorNameImpl.class)
     @ValidateList
-    private Set<JpaSorNameImpl> names = new HashSet<JpaSorNameImpl>();
+    private Set<Name> names = new HashSet<Name>();
 
     @Column(name="ssn",nullable=true)
     private String ssn;
 
-    // TODO we need to actually implement this
-    @Transient
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)
     private List<SorRole> roles = new ArrayList<SorRole>();
 
     public List<SorRole> getRoles(){
-        return roles;
+        return this.roles;
     }
 
     public String getSsn() {
@@ -97,7 +96,7 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
         this.sourceSorIdentifier = sorIdentifier;
     }
 
-    public Set<? extends Name> getNames() {
+    public Set<Name> getNames() {
         return this.names;
     }
 
