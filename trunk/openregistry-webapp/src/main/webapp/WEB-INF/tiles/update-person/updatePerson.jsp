@@ -20,7 +20,7 @@
                 <fieldset class="fm-h" id="ecn1">
                     <label class="desc" for="c1_prefix"><spring:message code="name.heading"/></label>
 					<div class="row">
-                        <table class="dataTable" cellspacing="0" width="100%">
+                        <table class="data" cellspacing="0" width="80%">
                             <thead>
                                 <tr class="appHeadingRow">
                                     <th><spring:message code="prefix.label"/></th>
@@ -57,29 +57,13 @@
                     </tbody>
                 </table>
             </div>
-            <div style="text-align:center;" class="addEmploy">
-                <input id="addNameBtn" class="button" type="button" name="_eventId_submitAddName" value="Add Name" title="add a new name" />
+            <div class="addEmploy">
+                <input id="addNameBtn" class="button" type="submit" name="_eventId_submitAddName" value="Add Name" title="add a new name" />
             </div>
 
-			<div class="row">
-                <label for="c1_dateOfBirthUpdate" class="dateOfBirthUpdate"><spring:message code="dateOfBirth.label"/><em>*</em></label>
-				    <form:input path="person.dateOfBirth" id="c1_dateOfBirthUpdate" size="10" maxlength="10" tabindex="7" />
-            </div>
-            <div class="row">
-                <label for="c1_genderUpdate" class="genderUpdate"><spring:message code="gender.label" /> <em>*</em></label>
-				<div class="select gender">
-                    <form:select path="person.gender" id="c1_genderUpdate" size="1" tabindex="6">
-                        <form:option value="" label=""/>
-                        <form:option value="F" label="Female"/>
-						<form:option value="M" label="Male"/>
-					</form:select>
-                </div>
-            </div>
-
-
-            <label class="desc" for="c1_prefix"><spring:message code="identifiers.heading"/></label>
+                    <label class="desc" for="c1_prefix"><spring:message code="identifiers.heading"/></label>
 					<div class="row">
-                        <table class="dataTable" cellspacing="0" width="100%">
+                        <table class="data" cellspacing="0" width="50%">
                             <thead>
                                 <tr class="appHeadingRow">
                                     <th><spring:message code="type.label"/></th>
@@ -98,13 +82,10 @@
                             </tbody>
                         </table>
                 </div>
-            <div class="row" style="text-align:center;" class="addEmploy">
-                <input id="addIdentifierBtn" class="button" type="button" name="_eventId_submitAddIdentifier" value="Add Identifier" title="add a new identifier" />
-            </div>
             
-            <label class="desc" for="c1_prefix"><spring:message code="roles.heading"/></label>
-                <div class="row">
-                    <table id="dataTable" cellspacing="0" width="100%">
+                <label class="desc" for="c1_prefix"><spring:message code="roles.heading"/></label>
+                <div class="row">              
+                    <table class="data" cellspacing="0" width="50%">
                         <thead>
                             <tr class="appHeadingRow">
                                 <th><spring:message code="affiliationTitle.label"/></th>
@@ -129,8 +110,23 @@
                     </tbody>
                 </table>
             </div>
-            <div style="text-align:center;" class="addEmploy">
-                <input id="addRoleBtn" class="button" type="button" name="_eventId_submitAddRole" value="Add Role" title="add a new role" />
+            <div class="addEmploy">
+                <input id="addRoleBtn" class="button" type="submit" name="_eventId_submitAddRole" value="Add Role" title="add a new role" />
+            </div>
+
+            <div class="row">
+                <label for="c1_dateOfBirthUpdate" class="dateOfBirthUpdate"><spring:message code="dateOfBirth.label"/><em>*</em></label>
+				<form:input path="person.dateOfBirth" id="c1_dateOfBirthUpdate" size="10" maxlength="10" tabindex="7" />
+            </div>
+            <div class="row">
+                <label for="c1_genderUpdate" class="genderUpdate"><spring:message code="gender.label" /> <em>*</em></label>
+				<div class="select gender">
+                    <form:select path="person.gender" id="c1_genderUpdate" size="1" tabindex="6">
+                        <form:option value="" label=""/>
+                        <form:option value="F" label="Female"/>
+						<form:option value="M" label="Male"/>
+					</form:select>
+                </div>
             </div>
 
 			</fieldset>

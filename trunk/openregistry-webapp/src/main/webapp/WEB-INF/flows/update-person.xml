@@ -6,6 +6,7 @@
 
     <!-- By default, the first state is the start state. -->
     <var name="personSearch" class="org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl" />
+    <var name="sorName" class="org.openregistry.core.domain.jpa.sor.JpaSorNameImpl" />
 
     <view-state id="updatePerson" model="personSearch" view="openregistry.person.update.update">
         <binder>
@@ -13,16 +14,36 @@
             <binding property="person.gender" required="true" />
             <binding property="person.ssn" />
         </binder>
-        <on-render>
+        <on-entry>
+            <evaluate expression="personRepository.findSorPersonByInternalId(2)" result="flowScope.sorPerson"/>
+            <evaluate expression="personSearch.setSorPerson(sorPerson)"/>
             <set name="viewScope.command" value="personSearch" />
-        </on-render>
+        </on-entry>
+        <transition on="submitAddName" to="addName" >
+            <evaluate expression="personSearch.getPerson().addName()" result="flowScope.sorName"/>
+        </transition>
         <transition on="submitUpdatePerson" to="personWasUpdated" >
             <evaluate expression="personService.updatePerson(personSearch, null)" result="flowScope.serviceExecutionResult"/>
         </transition>
         <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
     </view-state>
 
+    <view-state id="addName" model="sorName" view="openregistry.person.update.addName">
+        <binder>
+            <binding property="prefix" />
+            <binding property="given" required="true" />
+            <binding property="middle" />
+            <binding property="family" required="true"/>
+            <binding property="suffix" />
+        </binder>
+        <on-entry>
+            <set name="viewScope.command" value="personSearch" />
+        </on-entry>
+        <transition on="submitPerformAddName" to="personWasUpdated" >
+        </transition>
+        <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
+    </view-state>
+
     <end-state id="personWasUpdated" />
-    <end-state id="foundPerson" view="openregistry.person.add.found" />
     <end-state id="cancelUpdatePerson" view="flowRedirect:updatePerson" />
 </flow>
