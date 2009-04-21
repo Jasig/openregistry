@@ -26,13 +26,24 @@ public interface PersonSearch extends Serializable {
 
     Map<IdentifierType, String> getIdentifiersByType();
 
-    public String getAddressLine1();
+    String getAddressLine1();
 
-    public String getAddressLine2();
+    String getAddressLine2();
 
-    public String getCity();
+    String getCity();
 
-    public String getRegion();
+    String getRegion();
 
-    public String getPostalCode();
+    String getPostalCode();
+
+    void setAddressLine1(String addressLine1);
+
+    void setAddressLine2(String addressLine2);
+
+    String setCity(String city);
+
+    String setRegion(String region);
+
+    String setPostalCode(String postalCode);
+
 }

@@ -3,8 +3,8 @@ package org.openregistry.core.web.resources;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectFactory;
 import org.openregistry.core.domain.sor.PersonSearch;
-import org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Identifier;
@@ -44,6 +44,8 @@ public final class PeopleResource {
 
     @Autowired
     private PersonService personService;
+
+    private ObjectFactory<PersonSearch> personSearchObjectFactory;
 
     //JSR-250 injection which is more appropriate here for 'autowiring by name' in the case of multiple types
     //are defined in the app ctx (Strings). The looked up bean name defaults to the property name which
@@ -144,7 +146,7 @@ public final class PeopleResource {
     }
 
     private PersonSearch personRequestToPersonSearch(PersonRequestRepresentation request) {
-        JpaSorPersonSearchImpl ps = new JpaSorPersonSearchImpl();
+        PersonSearch ps = personSearchObjectFactory.getObject();
         ps.getPerson().setSourceSorIdentifier(String.valueOf(request.getSystemOfRecordId()));
         ps.getPerson().setSorId(String.valueOf(request.getSystemOfRecordPersonId()));
         Name name = ps.getPerson().addName();
