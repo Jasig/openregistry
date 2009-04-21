@@ -128,7 +128,7 @@ public class DefaultPersonService implements PersonService {
             if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
                 return new DefaultServiceExecutionResult(serviceName, magic(personSearch), result);
             } else if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
-            	return new DefaultServiceExecutionResult(serviceName, personSearch, result);
+            	return new DefaultServiceExecutionResult(serviceName, magicUpdate(personSearch, result), result);
             }
             logger.info("In personService.addPerson: reconciliation result: "+ result.getReconciliationType().toString());
             // ReconciliationResult.ReconciliationType.MAYBE
@@ -138,7 +138,7 @@ public class DefaultPersonService implements PersonService {
         return new DefaultServiceExecutionResult(serviceName, magic(personSearch));
     }
 
-    @Transactional
+	@Transactional
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
         final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
 
@@ -242,4 +242,25 @@ public class DefaultPersonService implements PersonService {
         
         return person;
     }
+    
+    protected Person magicUpdate(final PersonSearch personSearch,	final ReconciliationResult result) {
+    	if (result.getMatches().size() != 1) {
+        	// TODO throw an error as this shouldn't happen!
+        }
+        Person person = result.getMatches().iterator().next().getPerson();
+        
+    	SorPerson sorPerson = personSearch.getPerson();
+    	
+    	// TODO if this is the same SOR, just update fields, don't save new SOR records
+
+        if (!StringUtils.hasText(sorPerson.getSorId())) {
+            sorPerson.setSorId(this.identifierGenerator.generateNextString());
+        }
+        // Now connect the SorPerson to the actual person
+        sorPerson.setPersonId(person.getId());
+        // Save Sor Person
+        sorPerson = this.personRepository.saveSorPerson(sorPerson);
+        
+		return person;
+	}
 }
