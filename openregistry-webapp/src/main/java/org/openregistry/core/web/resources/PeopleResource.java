@@ -3,6 +3,7 @@ package org.openregistry.core.web.resources;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.ObjectFactory;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.domain.Name;
@@ -36,6 +37,7 @@ import java.text.ParseException;
 @Path("/people")
 @Component
 @Scope("singleton")
+@Qualifier(value = "personSearch")
 public final class PeopleResource {
 
     //Jersey specific injection
@@ -45,6 +47,8 @@ public final class PeopleResource {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    @Qualifier(value = "personSearch")
     private ObjectFactory<PersonSearch> personSearchObjectFactory;
 
     //JSR-250 injection which is more appropriate here for 'autowiring by name' in the case of multiple types
@@ -124,24 +128,6 @@ public final class PeopleResource {
                 logger.info("Multiple people found: " + response.getEntity());
             }
         }
-
-        /*switch (respType) {
-            case 201:
-                response = Response.created(uri).build();
-                break;
-            case 409:
-                LinkRepresentation entityBody =
-                        new LinkRepresentation(Arrays.asList(new LinkRepresentation.Link("person", uri.toString()),
-                                new LinkRepresentation.Link("person", uri.toString())));
-
-                response = Response.status(409).entity(entityBody).type(MediaType.APPLICATION_XHTML_XML).build();
-                break;
-            case 307:
-                response = Response.temporaryRedirect(uri).build();
-            default:
-                break;
-        }*/
-        System.out.println("GOT HTTP form POSTed: " + formParams);
         return response;
     }
 

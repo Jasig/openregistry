@@ -19,6 +19,7 @@ import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.service.reconciliation.PersonMatchImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +59,7 @@ public class DefaultPersonService implements PersonService {
     private Reconciler reconciler;
 
     @Autowired(required=true)
+    @Qualifier(value = "person")
     private ObjectFactory<Person> personObjectFactory;
 
     @Autowired(required=false)

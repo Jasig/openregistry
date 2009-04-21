@@ -1,6 +1,7 @@
 package org.openregistry.core.factory.jpa;
 
 import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.BeansException;
 import org.springframework.stereotype.Component;
 import org.openregistry.core.domain.sor.PersonSearch;
@@ -14,6 +15,7 @@ import org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl;
  * @since 1.0.0
  */
 @Component
+@Qualifier(value = "personSearch")
 public final class JpaSorPersonSearchFactory implements ObjectFactory<PersonSearch> {
 
     public PersonSearch getObject() throws BeansException {
