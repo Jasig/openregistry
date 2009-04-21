@@ -21,6 +21,7 @@ import javax.persistence.Query;
  * Person repository implementation built on top of JPA.
  *
  * @author Dmitriy Kopylenko
+ * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
@@ -75,9 +76,8 @@ public class JpaPersonRepository implements PersonRepository {
         this.entityManager.merge(person);
     }
 
-    // TODO create the roles parameter
     public SorPerson findSorPersonByPersonIdAndSorRoleId(final Long personId, final Long roleId) {
-        return (SorPerson) this.entityManager.createQuery("select s from sorPerson s join s.roles r where r.roleId = :sorRoleId and s.personId = :personId").setParameter("roleId", roleId).setParameter("personId", personId).getSingleResult();
+        return (SorPerson) this.entityManager.createQuery("select s from sorPerson s join s.roles r where r.roleId = :roleId and s.personId = :personId").setParameter("roleId", roleId).setParameter("personId", personId).getSingleResult();
     }
 }
 

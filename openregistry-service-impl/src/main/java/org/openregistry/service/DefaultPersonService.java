@@ -82,18 +82,17 @@ public class DefaultPersonService implements PersonService {
 
                 if (sorRole != null) {
                     this.personRepository.deleteSorRole(sorPerson, sorRole);
-
                     final Type terminationType = this.referenceRepository.findType(Types.TERMINATION.name(), terminationReason);
 
                     role.setEnd(new Date());
                     role.setTerminationReason(terminationType);
-
                     this.personRepository.updateRole(person, role);
                     return true;
                 }
             }
             return false;
         } catch (final Exception e) {
+            logger.error(e.getMessage(), e);
             return false;
         }
     } 
