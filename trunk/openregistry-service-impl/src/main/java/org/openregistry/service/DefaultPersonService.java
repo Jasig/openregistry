@@ -257,9 +257,9 @@ public class DefaultPersonService implements PersonService {
         return person;
     }
     
-    protected Person magicUpdate(final PersonSearch personSearch,	final ReconciliationResult result) {
+    protected Person magicUpdate(final PersonSearch personSearch, final ReconciliationResult result) {
     	if (result.getMatches().size() != 1) {
-        	// TODO throw an error as this shouldn't happen!
+        	throw new IllegalStateException("ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
         }
         Person person = result.getMatches().iterator().next().getPerson();
         
