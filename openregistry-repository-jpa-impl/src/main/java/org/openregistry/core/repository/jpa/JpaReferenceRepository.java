@@ -23,7 +23,7 @@ public final class JpaReferenceRepository implements ReferenceRepository {
 
     @Transactional
     public List<Person> getPeople() {
-        return (List<Person>) this.entityManager.createQuery("select p from person p join p.names n where n.preferredName = 1 order by n.family, n.given").getResultList();
+        return (List<Person>) this.entityManager.createQuery("select p from person p join p.names n where n.preferredName = true order by n.family, n.given").getResultList();
     }
 
     @Transactional
@@ -33,7 +33,7 @@ public final class JpaReferenceRepository implements ReferenceRepository {
 
     @Transactional
     public List<OrganizationalUnit> getOrganizationalUnits() {
-        return (List<OrganizationalUnit>) this.entityManager.createQuery("select d from organizational_unit d order by d.name").getResultList(); 
+        return (List<OrganizationalUnit>) this.entityManager.createQuery("select d from organizationalUnit d order by d.name").getResultList();
     }
 
     @Transactional
