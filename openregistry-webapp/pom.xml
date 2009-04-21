@@ -14,19 +14,10 @@
     <packaging>war</packaging>
 
     <dependencies>
-        <!--
-        <dependency>
-            <groupId>org.dojotoolkit</groupId>
-            <artifactId>dojo-war</artifactId>
-            <version>1.3.0</version>
-            <type>war</type>
-            <scope>runtime</scope>
-        </dependency>
-            -->
         <dependency>
             <groupId>displaytag</groupId>
             <artifactId>displaytag</artifactId>
-            <version>1.2</version>
+            <version>${displaytag.version}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -48,7 +39,7 @@
             <groupId>org.jasig.openregistry</groupId>
             <artifactId>openregistry-repository-jpa-impl</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -132,14 +123,14 @@
         <dependency>
             <groupId>aopalliance</groupId>
             <artifactId>aopalliance</artifactId>
-            <version>1.0</version>
+            <version>${aopalliance.version}</version>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr</artifactId>
-            <version>3.0.1</version>
+            <version>${antlr.version}</version>
         </dependency>
 
         <dependency>
@@ -223,21 +214,21 @@
         <dependency>
             <groupId>asm</groupId>
             <artifactId>asm</artifactId>
-            <version>2.2.3</version>
+            <version>${asm.version}</version>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>asm</groupId>
             <artifactId>asm-commons</artifactId>
-            <version>2.2.3</version>
+            <version>${asm.version}</version>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>ognl</groupId>
             <artifactId>ognl</artifactId>
-            <version>2.7.3</version>
+            <version>${ognl.version}</version>
         </dependency>
 
         <!-- Jersey RESTful stuff -->
@@ -296,7 +287,7 @@
         <dependency>
             <groupId>org.apache.tiles</groupId>
             <artifactId>tiles-jsp</artifactId>
-            <version>2.0.7</version>
+            <version>${tiles.version}</version>
             <scope>compile</scope>
         </dependency>
 
