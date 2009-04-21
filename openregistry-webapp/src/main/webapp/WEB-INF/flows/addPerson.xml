@@ -39,8 +39,12 @@
     
     <action-state id="addSucceeded">
         <evaluate expression="serviceExecutionResult.getReconciliationResult().getReconciliationType()" result="flowScope.reconciliationType"/>
-        <transition on="EXACT" to="foundPerson" />
-        <transition on="NONE"  to="addNewSucceeded"/>
+        <transition on="EXACT" to="addNewSucceeded">
+            <set name="flowScope.infoModel" value="'Person Found in the Repository, SOR Added'" />
+        </transition>
+        <transition on="NONE"  to="addNewSucceeded">
+            <set name="flowScope.infoModel" value="'Person Added'" />
+        </transition>
     </action-state>
 
     <action-state id="matchesFound" >
@@ -62,9 +66,6 @@
     </view-state>
 
     <view-state id="addNewSucceeded" view="openregistry.person.add.insert">
-        <on-entry>
-            <set name="flowScope.infoModel" value="'Person Added'" />
-        </on-entry>
         <transition to="personWasAdded"/>
     </view-state>
 
