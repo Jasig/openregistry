@@ -36,10 +36,15 @@
     <decision-state id="checkAddSucceeded">
         <if test="flowScope.serviceExecutionResult.succeeded()" then="addSucceeded" else="matchesFound" />
     </decision-state>
+    
+    <action-state id="addSucceeded">
+        <evaluate expression="serviceExecutionResult.getReconciliationResult().getReconciliationType()" result="flowScope.reconciliationType"/>
+        <transition on="EXACT" to="foundPerson" />
+        <transition on="NONE"  to="addNewSucceeded"/>
+    </action-state>
 
     <action-state id="matchesFound" >
         <evaluate expression="serviceExecutionResult.getReconciliationResult().getReconciliationType()" result="flowScope.reconciliationType"/>
-        <transition on="EXACT" to="foundPerson" />
         <transition on="MAYBE" to="viewMatches">
             <set name="flowScope.serviceExectionResult" value="serviceExecutionResult" />
             <set name="flowScope.personToAdd" value="personSearch.getPerson()" />
@@ -50,13 +55,13 @@
         <on-render>
             <set name="viewScope.command" value="serviceExecutionResult" />
         </on-render>
-        <transition on="submitAddPerson" to="addSucceeded" >
+        <transition on="submitAddPerson" to="addNewSucceeded" >
             <evaluate expression="personService.addPerson(personSearch, serviceExecutionResult.getReconciliationResult())" result="flowScope.serviceExecutionResult"/>
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
 
-    <view-state id="addSucceeded" view="openregistry.person.add.insert">
+    <view-state id="addNewSucceeded" view="openregistry.person.add.insert">
         <on-entry>
             <set name="flowScope.infoModel" value="'Person Added'" />
         </on-entry>
