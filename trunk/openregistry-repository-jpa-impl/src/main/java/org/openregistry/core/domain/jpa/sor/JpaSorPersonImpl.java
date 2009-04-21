@@ -58,7 +58,7 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
     @NotEmpty
     private String gender;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person",targetEntity = JpaSorNameImpl.class)
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
     @ValidateList
     private Set<Name> names = new HashSet<Name>();
 
