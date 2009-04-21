@@ -27,6 +27,15 @@ public interface PersonService {
     Person findPersonById(Long id);
 
     /**
+     * Finds the canonical <code>Person</code> by one of the unique identifiers that the system is aware of.
+     *
+     * @param identifierType the type of identifier
+     * @param identifierValue the value of the identifier
+     * @return the person, if found.  NULL otherwise.
+     */
+    Person findPersonByIdentifier(String identifierType, String identifierValue);
+
+    /**
      * Deletes a role.  Currently, this removes the record from the System of Record, and updates the "termination" date of the
      * calculated role.
      *

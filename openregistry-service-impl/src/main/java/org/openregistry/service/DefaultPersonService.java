@@ -74,6 +74,14 @@ public class DefaultPersonService implements PersonService {
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
     }
+    @Transactional
+    public Person findPersonByIdentifier(final String identifierType, final String identifierValue) {
+        try {
+            return this.personRepository.findByIdentifier(identifierType,identifierValue);
+        } catch (final Exception e) {
+            return null;
+        }
+    }
 
     @Transactional
     public boolean deleteRole(final Person person, final Role role, final String terminationReason) {
@@ -84,12 +92,16 @@ public class DefaultPersonService implements PersonService {
 
                 if (sorRole != null) {
                     this.personRepository.deleteSorRole(sorPerson, sorRole);
-                    final Type terminationType = this.referenceRepository.findType(Types.TERMINATION.name(), terminationReason);
+                    try {
+                        final Type terminationType = this.referenceRepository.findType(Types.TERMINATION.name(), terminationReason);
 
-                    role.setEnd(new Date());
-                    role.setTerminationReason(terminationType);
-                    this.personRepository.updateRole(person, role);
-                    return true;
+                        role.setEnd(new Date());
+                        role.setTerminationReason(terminationType);
+                        this.personRepository.updateRole(person, role);
+                        return true;
+                    } catch (final Exception e) {
+                        throw new IllegalArgumentException(e);
+                    }
                 }
             }
             return false;
