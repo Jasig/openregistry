@@ -40,10 +40,10 @@ public interface PersonSearch extends Serializable {
 
     void setAddressLine2(String addressLine2);
 
-    String setCity(String city);
+    void setCity(String city);
 
-    String setRegion(String region);
+    void setRegion(String region);
 
-    String setPostalCode(String postalCode);
+    void setPostalCode(String postalCode);
 
 }
