@@ -153,4 +153,11 @@ public class JpaPersonImpl extends Entity implements Person {
         this.identifiers.add(jpaIdentifier);
         return jpaIdentifier;
     }
+
+    public Role pickOutRoleByIdentifier(String roleIdentifier) {
+        //TODO: Implement by picking out the Role for the provided role identifier (not Role's PK)
+        //by iterating over the related collection of Roles; First we need to figure out what the 'role identifier; is
+        //and how to expose it
+        return null;
+    }
 }
