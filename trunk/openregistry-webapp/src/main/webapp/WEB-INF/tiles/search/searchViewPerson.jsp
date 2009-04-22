@@ -9,6 +9,10 @@ Name: ${person.preferredName}<br />
 Gender: ${person.gender}<br/>
 Birth Date: <fmt:formatDate pattern="MM-dd-yyyy" value="${person.dateOfBirth}"/><br/>
 
+<form action="${flowExecutionUrl}" method="post">
+    <input type="submit" name="_eventId_deletePerson" value="Delete Person" />
+</form>
+
 <p>Which role would you like to remove/expire?</p>
 
 <c:forEach items="${person.roles}" var="role" varStatus="status">

@@ -89,7 +89,7 @@ public class DefaultPersonService implements PersonService {
         try {
             final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
 
-            if (number.equals(0)) {
+            if (number.intValue() == 0) {
                 this.personRepository.deletePerson(person);
                 return true;
             }
@@ -104,6 +104,7 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson) {
         try {
+          updateCalculatedPersonOnDeleteOfSor(sorPerson);
           this.personRepository.deleteSorPerson(sorPerson);
             return true;
         } catch (final Exception e) {
@@ -121,12 +122,17 @@ public class DefaultPersonService implements PersonService {
                 return false;
             }
 
+            updateCalculatedPersonOnDeleteOfSor(sorPerson);
             this.personRepository.deleteSorPerson(sorPerson);
             return true;
         } catch (final Exception e) {
             logger.error(e.getMessage(), e);
             return false;
         }
+    }
+
+    protected void updateCalculatedPersonOnDeleteOfSor(final SorPerson sorPerson) {
+        // TODO something should happen here!        
     }
 
     @Transactional
