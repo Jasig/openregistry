@@ -217,4 +217,8 @@ public class JpaRoleImpl extends Entity implements Role {
     public void setEnd(final Date date) {
         this.end = date;
     }
+
+    public boolean isTerminated() {
+        return (this.end != null); 
+    }
 }

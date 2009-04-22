@@ -131,6 +131,12 @@ public final class PeopleResource {
         return response;
     }
 
+    @DELETE
+    @Path("{personIdType}/{personId}/roles/{roleId}")
+    public Response deleteRoleForPerson(@QueryParam("reason") String terminationReason) {
+        return null;
+    }
+
     private PersonSearch personRequestToPersonSearch(PersonRequestRepresentation request) {
         PersonSearch ps = personSearchObjectFactory.getObject();
         ps.getPerson().setSourceSorIdentifier(String.valueOf(request.getSystemOfRecordId()));

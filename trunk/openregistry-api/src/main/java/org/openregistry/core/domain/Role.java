@@ -58,4 +58,10 @@ public interface Role extends Serializable, DateRange {
     Type getTerminationReason();
 
     void setTerminationReason(Type reason);
+
+    /**
+     * Determine if this role has been terminated for an associated Person
+     * @return true if the role is terminated, false otherwise, i.e. the role is active
+     */
+    boolean isTerminated();
 }
