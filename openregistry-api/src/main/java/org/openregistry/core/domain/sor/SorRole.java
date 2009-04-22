@@ -1,9 +1,17 @@
 package org.openregistry.core.domain.sor;
 
+import org.openregistry.core.domain.Address;
+import org.openregistry.core.domain.Campus;
+import org.openregistry.core.domain.EmailAddress;
+import org.openregistry.core.domain.Leave;
+import org.openregistry.core.domain.OrganizationalUnit;
+import org.openregistry.core.domain.Phone;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.DateRange;
+import org.openregistry.core.domain.Url;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -58,7 +66,32 @@ public interface SorRole extends Serializable, DateRange {
     Type getTerminationReason();
 
     void setTerminationReason(Type reason);
+    
+    Set<Address> getAddresses();
+    
+    Address addAddress();
 
+    Set<Phone> getPhones();
+
+    Set<EmailAddress> getEmailAddresses();
+
+    EmailAddress addEmailAddress();
+
+    Phone addPhone();
+    
+    Set<Url> getUrls();
+
+    Url addUrl();
+
+    Set<Leave> getLeaves();
+
+    String getTitle();
+
+    OrganizationalUnit getOrganizationalUnit();
+
+    Campus getCampus();
+
+    String getLocalCode();
     /**
      * Sets the calculated role Id to create the link between the SoR Role and the calculated role.
      * @param roleId the role Id.  CANNOT be null.
