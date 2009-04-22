@@ -40,6 +40,10 @@ public class JpaPersonRepository implements PersonRepository {
         return (Person) this.entityManager.createQuery("Select p from person p join p.identifiers i join i.type t where t.name = :name and i.value = :value").setParameter("name", identifierType).setParameter("value", identifierValue).getSingleResult();
     }
 
+    public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier) {
+        return (SorPerson) this.entityManager.createQuery("Select s from sorPerson s where s.sourceSorIdentifier = :sorSourceIdentifier and s.personId = :personId").setParameter("sorSourceIdentifier", sorSourceIdentifier).setParameter("personId", personId).getSingleResult();
+    }
+
     public List<Person> searchByCriteria(final SearchCriteria searchCriteria) throws RepositoryAccessException {
         final String givenName = searchCriteria.getGivenName();
         final String familyName = searchCriteria.getFamilyName();
