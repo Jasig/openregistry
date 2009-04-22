@@ -12,7 +12,6 @@ import java.io.Serializable;
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
-
  */
 public interface Person extends Serializable {
 
@@ -22,15 +21,16 @@ public interface Person extends Serializable {
      * @return the unique identifier for this person.
      */
     Long getId();
-    
+
     /**
      * Returns the set of names the System of Record knows about the Person.
-     * <p>
+     * <p/>
      * There MUST be at least ONE name returned.
+     *
      * @return the names, minimum of one.  CANNOT be null.
      */
     Set<? extends Name> getNames();
-    
+
     Name addName();
 
     /**
@@ -67,12 +67,14 @@ public interface Person extends Serializable {
 
     /**
      * The gender of the person.  Current restrictions include only M or F.
+     *
      * @return the gender, never null.
      */
     String getGender();
 
     /**
      * The date of birth, never null.
+     *
      * @return the date of birth.
      */
     Date getDateOfBirth();
@@ -91,5 +93,14 @@ public interface Person extends Serializable {
     Name addOfficialName();
 
     Name addPreferredName();
+
+    /**
+     * Pick out the specific <code>Role</code> identified by provided role identifier
+     * from the collection of this person's roles
+     *
+     * @return Role of this person for the provided identifier or a null if this person does not have such a role
+     */
+    Role pickOutRoleByIdentifier(String roleIdentifier);
+
 
 }
