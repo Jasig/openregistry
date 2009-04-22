@@ -10,6 +10,7 @@ import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.jpa.JpaPersonImpl;
+import org.openregistry.core.domain.jpa.sor.JpaSorPersonImpl;
 import org.openregistry.core.service.SearchCriteria;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +26,7 @@ import javax.persistence.Query;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Repository
+@Repository (value = "personRepository")
 public class JpaPersonRepository implements PersonRepository {
 
     @PersistenceContext
@@ -79,5 +80,10 @@ public class JpaPersonRepository implements PersonRepository {
     public SorPerson findSorPersonByPersonIdAndSorRoleId(final Long personId, final Long roleId) {
         return (SorPerson) this.entityManager.createQuery("select s from sorPerson s join s.roles r where r.roleId = :roleId and s.personId = :personId").setParameter("roleId", roleId).setParameter("personId", personId).getSingleResult();
     }
+
+    public SorPerson findSorPersonByInternalId(final Long id) throws RepositoryAccessException {
+        return this.entityManager.find(JpaSorPersonImpl.class, id);
+    }
+
 }
 
