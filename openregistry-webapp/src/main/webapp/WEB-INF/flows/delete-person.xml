@@ -58,7 +58,7 @@
 
     <action-state id="deleteRole">
         <evaluate expression="person.roles.get(requestParameters.roleId)" result-type="org.openregistry.core.domain.Role" result="flowScope.role" />
-        <evaluate expression="personService.deleteRole(flowScope.person, role,requestParameters.terminationType)" />
+        <evaluate expression="personService.deleteSorRole(flowScope.person, role,requestParameters.terminationType)" />
         <transition on="yes" to="successRole" />
         <transition on="no" to="displayPerson">
             <set name="flashScope.errorMessage" value="resourceBundle.deletionError" />
