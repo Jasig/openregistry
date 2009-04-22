@@ -158,7 +158,7 @@ public final class PeopleResource {
         try {
             if (!this.personService.deleteSorRole(person, role, terminationReason)) {
                 //HTTP 500. Is this OK?
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("The operation resulted in the internal error")
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("The operation resulted in an internal error")
                         .build();
             }
         }
