@@ -43,14 +43,23 @@
         <on-entry>                                                
             <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$Types@TERMINATION)" result-type="java.util.List" result="viewScope.terminationTypes" />
         </on-entry>
-        <transition on="delete" to="deletePerson" />
+        <transition on="deletePerson" to="deletePerson" />
+        <transition on="delete" to="deleteRole" />
         <transition on="cancel" to="cancelled" />
     </view-state>
 
     <action-state id="deletePerson">
+        <evaluate expression="personService.deletePerson(flowScope.person)" />
+        <transition on="yes" to="successPerson" />
+        <transition on="no" to="displayPerson">
+            <set name="flashScope.errorMessage" value="resourceBundle.deletePersonError" />
+        </transition>
+    </action-state>
+
+    <action-state id="deleteRole">
         <evaluate expression="person.roles.get(requestParameters.roleId)" result-type="org.openregistry.core.domain.Role" result="flowScope.role" />
         <evaluate expression="personService.deleteRole(flowScope.person, role,requestParameters.terminationType)" />
-        <transition on="yes" to="success" />
+        <transition on="yes" to="successRole" />
         <transition on="no" to="displayPerson">
             <set name="flashScope.errorMessage" value="resourceBundle.deletionError" />
         </transition>
@@ -58,5 +67,7 @@
 
     <end-state id="cancelled" view="externalRedirect:contextRelative:deletePerson.htm?cancel=true" />
 
-    <end-state id="success" view="externalRedirect:contextRelative:deletePerson.htm?success=true" />
+    <end-state id="successPerson" view="externalRedirect:contextRelative:deletePerson.htm?success=person" />
+
+    <end-state id="successRole" view="externalRedirect:contextRelative:deletePerson.htm?success=role" />
 </flow>
