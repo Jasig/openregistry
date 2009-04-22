@@ -83,6 +83,32 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
+    public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson) {
+        try {
+          this.personRepository.deleteSorPerson(sorPerson);
+            return true;
+        } catch (final Exception e) {
+            logger.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    public boolean deleteSystemOfRecordPerson(final String sorSourceIdentifier, final String sorId) {
+        try {
+          final SorPerson sorPerson = this.personRepository.findBySorIdentifierAndSource(sorSourceIdentifier, sorId);
+
+            if (sorPerson == null) {
+                return false;
+            }
+
+            this.personRepository.deleteSorPerson(sorPerson);
+            return true;
+        } catch (final Exception e) {
+            logger.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
     @Transactional
     public boolean deleteRole(final Person person, final Role role, final String terminationReason) {
         try {
