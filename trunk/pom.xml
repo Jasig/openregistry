@@ -11,21 +11,21 @@
         <module>openregistry-repository-jpa-impl</module>
         <module>openregistry-webapp</module>
     </modules>
-    <name>JASIG OpenRegistry</name>
+    <name>Jasig OpenRegistry</name>
     <description>Registry System</description>
     <inceptionYear>2009</inceptionYear>
     <url>http://www.ja-sig.org/wiki/display/OR/Home</url>
     <packaging>pom</packaging>
     <mailingLists>
         <mailingList>
-            <name>Developer's List</name>
+            <name>Developers' List</name>
             <archive>https://lists.wisc.edu/read/?forum=openregistry-dev</archive>
             <post>mailto:openregistry-dev@lists.ja-sig.org</post>
             <subscribe>https://lists.wisc.edu/read/all_forums/subscribe?name=openregistry-dev</subscribe>
             <unsubscribe>leave-openregistry-dev@lists.wisc.edu</unsubscribe>
         </mailingList>
         <mailingList>
-            <name>Users List</name>
+            <name>Users' List</name>
             <archive>https://lists.wisc.edu/read/?forum=openregistry-user</archive>
             <post>mailto:openregistry-user@lists.ja-sig.org</post>
             <subscribe>https://lists.wisc.edu/read/all_forums/subscribe?name=openregistry-user</subscribe>
@@ -181,7 +181,7 @@
         </repository>
     </repositories>
 
-        <distributionManagement>
+    <distributionManagement>
         <site>
             <id>website</id>
             <url>file:///jasig/htdocs/developer.ja-sig.org/projects/openregistry</url>
