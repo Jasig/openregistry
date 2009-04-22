@@ -70,6 +70,15 @@ public interface PersonService {
     boolean deleteSystemOfRecordPerson(String sorSourceIdentifier, String sorId);
 
     /**
+     * Removes a person from the repository. A person CAN only be removed IF there are no System of Record people associated
+     * with the person, otherwise they would just come back!
+     *
+     * @param person the person to remove
+     * @return true if it succeeded, false otherwise.
+     */
+    boolean deletePerson(Person person);
+
+    /**
      * Validate, add and persist in the Open Registry a given Role for a given Person
      *
      * @param person a person to add a role to.
