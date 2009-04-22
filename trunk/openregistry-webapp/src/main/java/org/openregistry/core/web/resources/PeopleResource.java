@@ -9,6 +9,7 @@ import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Identifier;
+import org.openregistry.core.domain.Role;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
@@ -133,7 +134,40 @@ public final class PeopleResource {
 
     @DELETE
     @Path("{personIdType}/{personId}/roles/{roleId}")
-    public Response deleteRoleForPerson(@QueryParam("reason") String terminationReason) {
+    public Response deleteRoleForPerson(@PathParam("personIdType") String personIdType,
+                                        @PathParam("personId") String personId,
+                                        @PathParam("roleId") String roleId,
+                                        @QueryParam("reason") String terminationReason) {
+
+        if (terminationReason == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please specify the <reason> for termination.")
+                    .build();
+        }
+        Person person = this.personService.findPersonByIdentifier(personIdType, personId);
+        if (person == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("The specified person is not found in the system")
+                    .build();
+        }
+        Role role = person.pickOutRoleByIdentifier(roleId);
+        if (role == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("The specified role is not found for this person")
+                    .build();
+        }
+        if (role.isTerminated()) {
+            //Results in HTTP 204
+            return null;
+        }
+        try {
+            if (!this.personService.deleteRole(person, role, terminationReason)) {
+                //HTTP 500. Is this OK?
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("The operation resulted in the internal error")
+                        .build();
+            }
+        }
+        catch (IllegalArgumentException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+        //If we got here, everything went well. HTTP 204
         return null;
     }
 
