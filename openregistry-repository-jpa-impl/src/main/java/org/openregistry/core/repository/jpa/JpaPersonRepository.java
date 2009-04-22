@@ -92,5 +92,13 @@ public class JpaPersonRepository implements PersonRepository {
     public void deleteSorPerson(final SorPerson person) {
         this.entityManager.remove(person);
     }
+
+    public Number getCountOfSoRRecordsForPerson(final Person person) {
+        return (Number) this.entityManager.createQuery("select count(s) from sorPerson s where s.personId = :personId").setParameter("personId", person.getId()).getSingleResult();
+    }
+
+    public void deletePerson(final Person person) {
+        this.entityManager.remove(person);
+    }
 }
 

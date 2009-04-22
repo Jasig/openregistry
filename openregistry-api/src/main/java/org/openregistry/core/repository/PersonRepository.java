@@ -99,11 +99,27 @@ public interface PersonRepository {
     void deleteSorRole(SorPerson person, SorRole role);
 
     /**
+     * Returns the count of the number of SoR records for a particular person.
+     *
+     * @param person the person
+     * @return the number of reords.  Must be >=0.
+     */
+    Number getCountOfSoRRecordsForPerson(Person person);
+
+    /**
      * Deletes the Sor Person from the repository.
      *
      * @param person the person to remove.  CANNOT be null.
      */
     void deleteSorPerson(SorPerson person);
+
+    /**
+     * Removes the calculated person from the database. Note, this method does NOT check whether there would be any orphaned SOR
+     * records associated with this person.  If there are orphaned SOR records, it could mean that the person comes back!
+     *
+     * @param person the person to delete. CANNOT be null.
+     */
+    void deletePerson(Person person);
 
     /**
      * Updates the role in the database.

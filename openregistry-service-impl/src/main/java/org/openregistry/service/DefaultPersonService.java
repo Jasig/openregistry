@@ -74,6 +74,7 @@ public class DefaultPersonService implements PersonService {
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
     }
+    
     @Transactional
     public Person findPersonByIdentifier(final String identifierType, final String identifierValue) {
         try {
@@ -83,6 +84,24 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
+    @Transactional
+    public boolean deletePerson(final Person person) {
+        try {
+            final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
+
+            if (number.equals(0)) {
+                this.personRepository.deletePerson(person);
+                return true;
+            }
+            
+            return false;
+        } catch (final Exception e) {
+            logger.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    @Transactional
     public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson) {
         try {
           this.personRepository.deleteSorPerson(sorPerson);
@@ -93,6 +112,7 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
+    @Transactional
     public boolean deleteSystemOfRecordPerson(final String sorSourceIdentifier, final String sorId) {
         try {
           final SorPerson sorPerson = this.personRepository.findBySorIdentifierAndSource(sorSourceIdentifier, sorId);
