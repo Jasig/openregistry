@@ -1,7 +1,6 @@
 package org.openregistry.core.domain.jpa.sor;
 
 import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
 import org.javalid.annotations.validation.DateAfter;
@@ -10,7 +9,14 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorLeaveImpl;
+import org.openregistry.core.domain.Address;
+import org.openregistry.core.domain.Campus;
+import org.openregistry.core.domain.EmailAddress;
+import org.openregistry.core.domain.Leave;
+import org.openregistry.core.domain.OrganizationalUnit;
+import org.openregistry.core.domain.Phone;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.Url;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -40,17 +46,17 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
     @NotEmpty
     private String sorId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER)
-    private Set<JpaSorUrlImpl> urls = new HashSet<JpaSorUrlImpl>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorUrlImpl.class)
+    private Set<Url> urls = new HashSet<Url>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER)
-    private Set<JpaSorEmailAddressImpl> emailAddresses = new HashSet<JpaSorEmailAddressImpl>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorEmailAddressImpl.class)
+    private Set<EmailAddress> emailAddresses = new HashSet<EmailAddress>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER)
-    private Set<JpaSorPhoneImpl> phones = new HashSet<JpaSorPhoneImpl>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorPhoneImpl.class)
+    private Set<Phone> phones = new HashSet<Phone>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER)
-    private Set<JpaSorAddressImpl> addresses = new HashSet<JpaSorAddressImpl>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorAddressImpl.class)
+    private Set<Address> addresses = new HashSet<Address>();
 
     @Column(name="source_sor_id", nullable = false)
     @NotEmpty
@@ -67,8 +73,8 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
     @JoinColumn(name="person_status_t")
     private JpaTypeImpl personStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch=FetchType.EAGER)
-    private Set<JpaSorLeaveImpl> leaves = new HashSet<JpaSorLeaveImpl>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch=FetchType.EAGER, targetEntity = JpaSorLeaveImpl.class)
+    private Set<Leave> leaves = new HashSet<Leave>();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id")
@@ -197,4 +203,63 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
     public Long getRoleId() {
         return this.roleId;
     }
+
+	public Address addAddress() {
+	    final JpaSorAddressImpl jpaAddress = new JpaSorAddressImpl(this);
+	    this.addresses.add(jpaAddress);
+	    return jpaAddress;
+	}
+
+	public EmailAddress addEmailAddress() {
+	    final JpaSorEmailAddressImpl jpaEmailAddress = new JpaSorEmailAddressImpl(this);
+	    this.emailAddresses.add(jpaEmailAddress);
+	    return jpaEmailAddress;
+	}
+
+	public Phone addPhone() {
+	    final JpaSorPhoneImpl jpaPhone = new JpaSorPhoneImpl(this);
+	    this.phones.add(jpaPhone);
+	    return jpaPhone;
+	}
+
+	public Url addUrl() {
+	    final JpaSorUrlImpl jpaUrl = new JpaSorUrlImpl(this);
+	    this.urls.add(jpaUrl);
+	    return jpaUrl;
+	}
+
+	public Set<Address> getAddresses() {
+		return this.addresses;
+	}
+
+	public Set<EmailAddress> getEmailAddresses() {
+		return this.emailAddresses;
+	}
+
+	public Set<Leave> getLeaves() {
+		return this.leaves;
+	}
+
+	public Set<Phone> getPhones() {
+		return this.phones;
+	}
+
+	public Set<Url> getUrls() {
+		return this.urls;
+	}
+
+	public Campus getCampus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getLocalCode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public OrganizationalUnit getOrganizationalUnit() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
