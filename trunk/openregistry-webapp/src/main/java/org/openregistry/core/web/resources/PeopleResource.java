@@ -19,12 +19,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import javax.xml.bind.annotation.XmlElement;
 import javax.annotation.Resource;
 import java.net.URI;
 import java.util.*;
 import java.text.SimpleDateFormat;
-import java.text.ParseException;
 
 /**
  * Root RESTful resource representing people in Open Registry.
@@ -158,7 +156,7 @@ public final class PeopleResource {
             return null;
         }
         try {
-            if (!this.personService.deleteRole(person, role, terminationReason)) {
+            if (!this.personService.deleteSorRole(person, role, terminationReason)) {
                 //HTTP 500. Is this OK?
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("The operation resulted in the internal error")
                         .build();

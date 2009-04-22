@@ -47,6 +47,15 @@ public interface PersonRepository {
     SorPerson findBySorIdentifierAndSource(String sorSourceIdentifier, String sorId);
 
     /**
+     * Locates the System of Record person based on the source and the Person ID.
+     *
+     * @param personId the id of the calculated person
+     * @param sorSourceIdentifier the source
+     * @return the person, if found.  false otherwise.
+     */
+    SorPerson findByPersonIdAndSorIdentifier(Long personId, String sorSourceIdentifier);
+
+    /**
      * Searches for a person based on some or all of the supplied criteria.
      *
      * @param searchCriteria the search criteria.

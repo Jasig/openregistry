@@ -17,6 +17,7 @@ import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
+import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.service.reconciliation.PersonMatchImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -136,24 +137,15 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public boolean deleteRole(final Person person, final Role role, final String terminationReason) {
+    public boolean deleteSorRole(final Person person, final Role role, final String terminationReason) {
         try {
             final SorPerson sorPerson = this.personRepository.findSorPersonByPersonIdAndSorRoleId(person.getId(), role.getId());
             if (sorPerson != null) {
                 final SorRole sorRole= sorPerson.removeRoleByRoleId(role.getId());
 
                 if (sorRole != null) {
-                    this.personRepository.deleteSorRole(sorPerson, sorRole);
-                    try {
-                        final Type terminationType = this.referenceRepository.findType(Types.TERMINATION.name(), terminationReason);
-
-                        role.setEnd(new Date());
-                        role.setTerminationReason(terminationType);
-                        this.personRepository.updateRole(person, role);
-                        return true;
-                    } catch (final Exception e) {
-                        throw new IllegalArgumentException(e);
-                    }
+                    removeSorRoleFromDatabase(sorPerson, sorRole, person, role, terminationReason);
+                    return true;
                 }
             }
             return false;
@@ -161,7 +153,41 @@ public class DefaultPersonService implements PersonService {
             logger.error(e.getMessage(), e);
             return false;
         }
-    } 
+    }
+
+    public SorPerson findSorPersonByIdentifierAndSourceIDentifier(final String identifierType, final String identifierValue, final String sorSourceId) {
+        try {
+            final Person person = this.personRepository.findByIdentifier(identifierType, identifierValue);
+
+            if (person == null) {
+                return null;
+            }
+
+            return this.personRepository.findByPersonIdAndSorIdentifier(person.getId(), sorSourceId);
+        } catch (final Exception e) {
+            return null;
+        }
+    }
+
+    public boolean deleteSorRole(SorPerson sorPerson, SorRole sorRole, String terminationReason) throws IllegalArgumentException {
+        try {
+            final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
+            if (person == null) {
+                return false;
+            }
+
+            for (final Role role : person.getRoles()) {
+                if (role.getId().equals(sorRole.getRoleId())) {
+                    removeSorRoleFromDatabase(sorPerson, sorRole, person, role, terminationReason);
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (final RepositoryAccessException e) {
+            return false;
+        }
+    }
 
     @Transactional
     public ServiceExecutionResult validateAndSaveRoleForPerson(final Person person, final Role role) {
@@ -231,6 +257,28 @@ public class DefaultPersonService implements PersonService {
         }
 
         return personMatches;
+    }
+
+    /**
+     * Removes the SoR record from the database as well as updates the calculated role.
+     *
+     * @param sorPerson the system of record person
+     * @param sorRole the system of record role
+     * @param person the calculated person
+     * @param role the calculated role
+     * @param terminationReason the reason for termination
+     */
+    protected void removeSorRoleFromDatabase(final SorPerson sorPerson, final SorRole sorRole, final Person person, final Role role, final String terminationReason) {
+        this.personRepository.deleteSorRole(sorPerson, sorRole);
+        try {
+            final Type terminationType = this.referenceRepository.findType(Types.TERMINATION.name(), terminationReason);
+
+            role.setEnd(new Date());
+            role.setTerminationReason(terminationType);
+            this.personRepository.updateRole(person, role);
+        } catch (final Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     /**

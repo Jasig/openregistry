@@ -4,6 +4,7 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 
@@ -37,16 +38,38 @@ public interface PersonService {
     Person findPersonByIdentifier(String identifierType, String identifierValue);
 
     /**
+     * Locates the original system of record record by a calculated identifier AND the source of the system of record.
+     *
+     * @param identifierType the type of the identifier
+     * @param identifierValue the value of the identifier
+     * @param sorSourceId the source
+     * @return the SorPerson, if found.  Otherwise, NULL.
+     */
+    SorPerson findSorPersonByIdentifierAndSourceIDentifier(String identifierType, String identifierValue, String sorSourceId);
+
+    /**
      * Deletes a role.  Currently, this removes the record from the System of Record, and updates the "termination" date of the
      * calculated role.
      *
-     * @param person the person to be deleted. CANNOT be null.
+     * @param person the person who's role is to be deleted. CANNOT be null.
      * @param role the portions of the person to delete.  CANNOT be null.
      * @param terminationReason the reason that this role is being deleted.
      * @return true, if the action succeeded, false otherwise.
      * @throws IllegalArgumentException if an invalid parameter is passed in (i.e. an invalid termination reason).
      */
-    boolean deleteRole(Person person, Role role, String terminationReason) throws IllegalArgumentException;
+    boolean deleteSorRole(Person person, Role role, String terminationReason) throws IllegalArgumentException;
+
+    /**
+     * Deletes the system of record role.  Currently, this removes the record from the System of Record and updates the "termination" date of the
+     * calculated role.
+     *
+     * @param person the person who's role is to be deleted. CANNOT be null.
+     * @param role the portions of the person to delete.  CANNOT be null.
+     * @param terminationReason the reason that this role is being deleted.
+     * @return true, if the action succeeded, false otherwise.
+     * @throws IllegalArgumentException if an invalid parameter is passed in (i.e. an invalid termination reason).
+     */
+    boolean deleteSorRole(SorPerson person, SorRole role, String terminationReason) throws IllegalArgumentException;
 
     /**
      * Removes the System of Record person from the repository.  A system may wish to do this when it no longer asserts the person
