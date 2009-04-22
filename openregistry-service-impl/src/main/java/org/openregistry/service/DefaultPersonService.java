@@ -86,6 +86,21 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
+    public SorPerson findSorPersonByIdentifierAndSourceIDentifier(final String identifierType, final String identifierValue, final String sorSourceId) {
+        try {
+            final Person person = this.personRepository.findByIdentifier(identifierType, identifierValue);
+
+            if (person == null) {
+                return null;
+            }
+
+            return this.personRepository.findByPersonIdAndSorIdentifier(person.getId(), sorSourceId);
+        } catch (final Exception e) {
+            return null;
+        }
+    }
+
+    @Transactional
     public boolean deletePerson(final Person person) {
         try {
             final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
@@ -132,41 +147,24 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
-    protected void updateCalculatedPersonOnDeleteOfSor(final SorPerson sorPerson) {
-        // TODO something should happen here!        
-    }
-
     @Transactional
     public boolean deleteSorRole(final Person person, final Role role, final String terminationReason) {
         try {
             final SorPerson sorPerson = this.personRepository.findSorPersonByPersonIdAndSorRoleId(person.getId(), role.getId());
-            if (sorPerson != null) {
-                final SorRole sorRole= sorPerson.removeRoleByRoleId(role.getId());
+            if (sorPerson == null) {
+                return false;
+            }
 
-                if (sorRole != null) {
-                    removeSorRoleFromDatabase(sorPerson, sorRole, person, role, terminationReason);
-                    return true;
-                }
+            final SorRole sorRole = sorPerson.removeRoleByRoleId(role.getId());
+
+            if (sorRole != null) {
+                removeSorRoleFromDatabase(sorPerson, sorRole, person, role, terminationReason);
+                return true;
             }
             return false;
-        } catch (final Exception e) {
+        } catch (final RepositoryAccessException e) {
             logger.error(e.getMessage(), e);
             return false;
-        }
-    }
-
-    @Transactional
-    public SorPerson findSorPersonByIdentifierAndSourceIDentifier(final String identifierType, final String identifierValue, final String sorSourceId) {
-        try {
-            final Person person = this.personRepository.findByIdentifier(identifierType, identifierValue);
-
-            if (person == null) {
-                return null;
-            }
-
-            return this.personRepository.findByPersonIdAndSorIdentifier(person.getId(), sorSourceId);
-        } catch (final Exception e) {
-            return null;
         }
     }
 
@@ -261,6 +259,24 @@ public class DefaultPersonService implements PersonService {
         return personMatches;
     }
 
+    protected void updateCalculatedPersonOnDeleteOfSor(final SorPerson sorPerson) {
+        final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
+
+        if (person == null) {
+            throw new IllegalStateException("No calculated preson for SorPerson");
+        }
+
+        final List<SorRole> sorRoles = new ArrayList<SorRole>(sorPerson.getRoles());
+        for (final SorRole sorRole : sorRoles) {
+            for (final Role role : person.getRoles()) {
+                if (sorRole.getRoleId().equals(role.getId())) {
+                    removeSorRoleFromDatabase(sorPerson, sorRole, person, role, "Fired");
+                }
+            }
+        }
+        // TODO what do we need to recalculate, if anything?
+    }
+
     /**
      * Removes the SoR record from the database as well as updates the calculated role.
      *
@@ -271,6 +287,7 @@ public class DefaultPersonService implements PersonService {
      * @param terminationReason the reason for termination
      */
     protected void removeSorRoleFromDatabase(final SorPerson sorPerson, final SorRole sorRole, final Person person, final Role role, final String terminationReason) {
+        sorPerson.getRoles().remove(sorRole);
         this.personRepository.deleteSorRole(sorPerson, sorRole);
         try {
             final Type terminationType = this.referenceRepository.findType(Types.TERMINATION.name(), terminationReason);

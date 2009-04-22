@@ -5,6 +5,7 @@ import org.openregistry.core.domain.Person;
 
 import java.util.Set;
 import java.util.Date;
+import java.util.List;
 
 /**
  * An Sor Person is the representation of the person as the System of Record knows the person.   This is in isolation
@@ -108,4 +109,12 @@ public interface SorPerson {
      * @return the SorRole, if found and removed, otherwise, null.
      */
     SorRole removeRoleByRoleId(Long id);
+
+    /**
+     * Retrieves the list of System of Record roles.
+     * @return the list of roles, CANNOT be null.  CAN be empty.
+     */
+    List<SorRole> getRoles();
+
+    
 }
