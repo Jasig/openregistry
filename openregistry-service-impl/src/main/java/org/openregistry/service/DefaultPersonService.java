@@ -155,6 +155,7 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
+    @Transactional
     public SorPerson findSorPersonByIdentifierAndSourceIDentifier(final String identifierType, final String identifierValue, final String sorSourceId) {
         try {
             final Person person = this.personRepository.findByIdentifier(identifierType, identifierValue);
@@ -169,6 +170,7 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
+    @Transactional
     public boolean deleteSorRole(SorPerson sorPerson, SorRole sorRole, String terminationReason) throws IllegalArgumentException {
         try {
             final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
