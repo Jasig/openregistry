@@ -43,8 +43,9 @@ public interface PersonService {
      * @param role the portions of the person to delete.  CANNOT be null.
      * @param terminationReason the reason that this role is being deleted.
      * @return true, if the action succeeded, false otherwise.
+     * @throws IllegalArgumentException if an invalid parameter is passed in (i.e. an invalid termination reason).
      */
-    boolean deleteRole(Person person, Role role, String terminationReason);
+    boolean deleteRole(Person person, Role role, String terminationReason) throws IllegalArgumentException;
 
     /**
      * Validate, add and persist in the Open Registry a given Role for a given Person
