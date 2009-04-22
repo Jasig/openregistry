@@ -3,6 +3,7 @@ package org.openregistry.core.service;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 
@@ -46,6 +47,27 @@ public interface PersonService {
      * @throws IllegalArgumentException if an invalid parameter is passed in (i.e. an invalid termination reason).
      */
     boolean deleteRole(Person person, Role role, String terminationReason) throws IllegalArgumentException;
+
+    /**
+     * Removes the System of Record person from the repository.  A system may wish to do this when it no longer asserts the person
+     * (i.e. they aren't taking classes anymore).  While its more likely, they would just leave the person, its possible some do
+     * periodic clean ups of their datasources.  Having this information will allow us to more accurately "calculate" the actual
+     * person the system knows about by discounting out-of-date information from systems of records.
+     *
+     * @param sorPerson the person to remove from the system of record.
+     * @return true if it succeeded, false otherwise.
+     */
+    boolean deleteSystemOfRecordPerson(SorPerson sorPerson);
+
+    /**
+     * See {@link PersonService#deleteSystemOfRecordPerson(org.openregistry.core.domain.sor.SorPerson)}.  This is a convenience
+     * method on top of that.
+     *
+     * @param sorSourceIdentifier the source name for the system of record (i.e or-webapp)
+     * @param sorId the identifier.
+     * @return true if it succeded, false otherwise.
+     */
+    boolean deleteSystemOfRecordPerson(String sorSourceIdentifier, String sorId);
 
     /**
      * Validate, add and persist in the Open Registry a given Role for a given Person

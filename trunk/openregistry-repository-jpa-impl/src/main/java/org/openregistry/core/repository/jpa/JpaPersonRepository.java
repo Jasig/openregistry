@@ -85,5 +85,12 @@ public class JpaPersonRepository implements PersonRepository {
         return this.entityManager.find(JpaSorPersonImpl.class, id);
     }
 
+    public SorPerson findBySorIdentifierAndSource(final String sorSourceIdentifier, final String sorId) {
+        return (SorPerson) this.entityManager.createQuery("select s from sorPerson s where s.sourceSorIdentifier = :sorSourceIdentifier and s.sorId = :sorId").setParameter("sorSourceIdentifier", sorSourceIdentifier).setParameter("sorId", sorId).getSingleResult();
+    }
+
+    public void deleteSorPerson(final SorPerson person) {
+        this.entityManager.remove(person);
+    }
 }
 

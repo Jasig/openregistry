@@ -38,6 +38,15 @@ public interface PersonRepository {
     Person findByIdentifier(String identifierType, String identifierValue) throws RepositoryAccessException;
 
     /**
+     * Locates the System of Record person based on the source and the identifier the source asserts.
+     *
+     * @param sorSourceIdentifier the source
+     * @param sorId the identifier the source uses.
+     * @return if the person was found, false otherwise.
+     */
+    SorPerson findBySorIdentifierAndSource(String sorSourceIdentifier, String sorId);
+
+    /**
      * Searches for a person based on some or all of the supplied criteria.
      *
      * @param searchCriteria the search criteria.
@@ -88,6 +97,13 @@ public interface PersonRepository {
      * @param role the role that is being removed.
      */
     void deleteSorRole(SorPerson person, SorRole role);
+
+    /**
+     * Deletes the Sor Person from the repository.
+     *
+     * @param person the person to remove.  CANNOT be null.
+     */
+    void deleteSorPerson(SorPerson person);
 
     /**
      * Updates the role in the database.
