@@ -24,6 +24,8 @@ import java.net.URI;
 import java.util.*;
 import java.text.SimpleDateFormat;
 
+import com.sun.jersey.api.NotFoundException;
+
 /**
  * Root RESTful resource representing people in Open Registry.
  * This component is managed and autowired by Spring by means of context-component-scan,
@@ -64,7 +66,7 @@ public final class PeopleResource {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     //auto content negotiation!
     public PersonResponseRepresentation showPerson(@PathParam("personId") String personId,
-                                                   @PathParam("personIdType") String personIdType) {
+                          @PathParam("personIdType") String personIdType) {
 
         //Build activation generator URI
         URI activationGeneratorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").build();
@@ -73,12 +75,19 @@ public final class PeopleResource {
         URI activationProcessorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").path("proccess")
                 .queryParam("activation-token", "activation-token-skjfskjfhskjdfh").build();
 
+        Person person = this.personService.findPersonByIdentifier(personIdType, personId);
+        if(person == null) {
+            //HTTP 404
+            throw new NotFoundException(
+                    String.format("The person resource identified by /people/%s/%s URI does not exist",
+                            personIdType, personId));
+        }
+
         return new PersonResponseRepresentation(
                 activationGeneratorUri.toString(),
                 activationProcessorUri.toString(),
                 "AT-153254325",
-                Arrays.asList(new PersonResponseRepresentation.PersonIdentifierRepresentation(personIdType, personId),
-                        new PersonResponseRepresentation.PersonIdentifierRepresentation("rcpId", "12345")));
+                buildPersonIdentifierRepresentations(person.getIdentifiers()));
     }
 
     @POST
@@ -105,12 +114,12 @@ public final class PeopleResource {
             if (personCreated(result.getReconciliationResult().getReconciliationType())) {
                 uri = buildPersonResourceUri((Person) result.getTargetObject());
                 response = Response.created(uri).build();
-                logger.info(String.format("Person successfuly created. The person resource URI is <%s>", uri.toString()));
+                logger.info(String.format("Person successfuly created. The person resource URI is %s", uri.toString()));
             }
             else if (personAlreadyExists(result.getReconciliationResult().getReconciliationType())) {
                 uri = buildPersonResourceUri((Person) result.getTargetObject());
                 response = Response.temporaryRedirect(uri).build();
-                logger.info(String.format("Person already exists. The existing person resource URI is <%s>.", uri.toString()));
+                logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
             }
         }
         else {
@@ -217,6 +226,21 @@ public final class PeopleResource {
             links.add(new LinkRepresentation.Link("person", buildPersonResourceUri(match.getPerson()).toString()));
         }
         return new LinkRepresentation(links);
+    }
+
+    private List<PersonResponseRepresentation.PersonIdentifierRepresentation>
+    buildPersonIdentifierRepresentations(Set<Identifier> identifiers) {
+
+        List<PersonResponseRepresentation.PersonIdentifierRepresentation> idsRep =
+                new ArrayList<PersonResponseRepresentation.PersonIdentifierRepresentation>();
+
+        for(Identifier id : identifiers) {
+            idsRep.add(new PersonResponseRepresentation.PersonIdentifierRepresentation(id.getType().getName(), id.getValue()));
+        }
+        if(idsRep.isEmpty()) {
+            throw new IllegalStateException("Person identifiers cannot be empty");
+        }        
+        return idsRep;
     }
 
     //TODO: possibly refactor these methods into a helper type or encapsulate them in ReconciliationResult itself? 
