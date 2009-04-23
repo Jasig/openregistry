@@ -100,6 +100,27 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
         return this.names;
     }
 
+    public void setNames(Set<Name> names){
+        this.names = names;
+    }
+
+    @Transient
+    private List<Name> nameList;
+
+    public List<Name> getNameList() {
+        nameList = new ArrayList();
+        Iterator iterator = getNames().iterator();
+        while (iterator.hasNext()){
+            Name name = (Name)iterator.next();
+            nameList.add(name);
+        }
+        return this.nameList;
+    }
+
+    public void setNameList(List list){
+        this.nameList=list;
+    }
+
     @Transient
     private JpaSorNameImpl firstAddedName;
 
