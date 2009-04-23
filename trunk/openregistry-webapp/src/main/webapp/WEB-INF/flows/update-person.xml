@@ -13,10 +13,17 @@
             <binding property="person.dateOfBirth" converter="shortDate" required="true"/>
             <binding property="person.gender" required="true" />
             <binding property="person.ssn" />
+            <binding property="person.nameList" />
+            <binding property="sorName.prefix" />
+            <binding property="sorName.first" />
+            <binding property="sorName.middle" />
+            <binding property="sorName.given" />
+            <binding property="sorName.suffix" />
         </binder>
         <on-entry>
             <evaluate expression="personRepository.findSorPersonByInternalId(2)" result="flowScope.sorPerson"/>
             <evaluate expression="personSearch.setSorPerson(sorPerson)"/>
+            <evaluate expression="sorPerson.getNameList()" result="flowScope.names"/>
             <set name="viewScope.command" value="personSearch" />
         </on-entry>
         <transition on="submitAddName" to="addName" >
@@ -39,7 +46,8 @@
         <on-entry>
             <set name="viewScope.command" value="personSearch" />
         </on-entry>
-        <transition on="submitPerformAddName" to="personWasUpdated" >
+        <transition on="submitPerformAddName" to="updatePerson" >
+
         </transition>
         <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
     </view-state>

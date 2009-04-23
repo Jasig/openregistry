@@ -19,7 +19,8 @@
 
                 <fieldset class="fm-h" id="ecn1">
                     <label class="desc" for="c1_prefix"><spring:message code="name.heading"/></label>
-					<div class="row">
+
+                    <div>
                         <table class="data" cellspacing="0" width="80%">
                             <thead>
                                 <tr class="appHeadingRow">
@@ -32,37 +33,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="name" items="${person.names}" >
+                            <c:forEach var="sorName" items="${personSearch.person.nameList}" varStatus="loopStatus">
                             <tr>
-                                <td>
-                                     <c:out value="${name.prefix}"/>
-                                </td>
-                                <td>
-                                     <c:out value="${name.first}"/>
-                                </td>
-                                <td>
-                                    <c:out value="${name.middle}"/>
-                                </td>
-                                <td>
-                                    <c:out value="${name.family}"/>
-                                </td>
-                                <td>
-                                    <c:out value="${name.suffix}"/>
-                                </td>
-                                <td>
-                                    Official
-                                </td>
+                                <td><form:input path="person.nameList[${loopStatus.index}].prefix" /></td>
+                                <td><form:input path="person.nameList[${loopStatus.index}].given" /></</td>
+                                <td><form:input path="person.nameList[${loopStatus.index}].middle" /></td>
+                                <td><form:input path="person.nameList[${loopStatus.index}].family" /></td>
+                                <td><form:input path="person.nameList[${loopStatus.index}].suffix" /></td>
+                                <td>Official</td>
                             </tr>
                             </c:forEach>
                     </tbody>
                 </table>
             </div>
-            <div class="addEmploy">
+            <div>
                 <input id="addNameBtn" class="button" type="submit" name="_eventId_submitAddName" value="Add Name" title="add a new name" />
             </div>
 
                     <label class="desc" for="c1_prefix"><spring:message code="identifiers.heading"/></label>
-					<div class="row">
+					<div>
                         <table class="data" cellspacing="0" width="50%">
                             <thead>
                                 <tr class="appHeadingRow">
@@ -84,7 +73,7 @@
                 </div>
             
                 <label class="desc" for="c1_prefix"><spring:message code="roles.heading"/></label>
-                <div class="row">              
+                <div>
                     <table class="data" cellspacing="0" width="50%">
                         <thead>
                             <tr class="appHeadingRow">
@@ -110,7 +99,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="addEmploy">
+            <div>
                 <input id="addRoleBtn" class="button" type="submit" name="_eventId_submitAddRole" value="Add Role" title="add a new role" />
             </div>
 
