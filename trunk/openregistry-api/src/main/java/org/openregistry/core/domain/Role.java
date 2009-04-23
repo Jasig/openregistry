@@ -61,6 +61,7 @@ public interface Role extends Serializable, DateRange {
 
     /**
      * Determine if this role has been terminated for an associated Person
+     * 
      * @return true if the role is terminated, false otherwise, i.e. the role is active
      */
     boolean isTerminated();

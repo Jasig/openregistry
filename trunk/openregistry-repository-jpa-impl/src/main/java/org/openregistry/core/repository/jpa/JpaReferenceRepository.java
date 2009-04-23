@@ -2,7 +2,7 @@ package org.openregistry.core.repository.jpa;
 
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.domain.*;
-import org.openregistry.core.domain.Type.Types;
+import org.openregistry.core.domain.Type.DataTypes;
 import org.openregistry.core.domain.jpa.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,7 +82,7 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
-    public List<Type> getTypesBy(final Types type) {
+    public List<Type> getTypesBy(final DataTypes type) {
         return (List<Type>) this.entityManager.createQuery("select r from type r where r.dataType = :dataType").setParameter("dataType", type.name()).getResultList();
     }
 

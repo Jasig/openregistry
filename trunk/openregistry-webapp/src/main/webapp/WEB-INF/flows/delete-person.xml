@@ -41,7 +41,7 @@
 
     <view-state id="displayPerson" view="openregistry.search.displayPerson">
         <on-entry>                                                
-            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$Types@TERMINATION)" result-type="java.util.List" result="viewScope.terminationTypes" />
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@TERMINATION)" result-type="java.util.List" result="viewScope.terminationTypes" />
         </on-entry>
         <transition on="deletePerson" to="deletePerson" />
         <transition on="delete" to="deleteRole" />
