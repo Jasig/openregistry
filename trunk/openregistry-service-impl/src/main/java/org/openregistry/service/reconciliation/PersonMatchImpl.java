@@ -24,7 +24,7 @@ public class PersonMatchImpl implements PersonMatch {
 		return this.confidenceLevel;
 	}
 
-	public List<FieldMatch> getMatches() {
+	public List<FieldMatch> getFieldMatches() {
 		return this.matches;
 	}
 
