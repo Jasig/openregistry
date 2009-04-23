@@ -97,9 +97,20 @@ public interface SorPerson {
      * @param ssn the SSN of the person.
      */
     void setSsn(String ssn);
-    
+
+    /**
+     * Retrieves the identifier of the Calculated Person associated with this System of Record person.  Portions of the
+     * System of Record Person were used to calculate this Calculated Person.
+     *
+     * @return the id, or null, if they have not been linked yet.
+     */
     Long getPersonId();
-    
+
+    /**
+     * Sets the identifier of the Calculated Person that this System of Record person is associated with.
+     *
+     * @param personId the identifier for the Calculated Person.
+     */
     void setPersonId(Long personId);
 
     /**
@@ -115,6 +126,4 @@ public interface SorPerson {
      * @return the list of roles, CANNOT be null.  CAN be empty.
      */
     List<SorRole> getRoles();
-
-    
 }

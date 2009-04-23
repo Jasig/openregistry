@@ -31,6 +31,11 @@ public interface Person extends Serializable {
      */
     Set<? extends Name> getNames();
 
+    /**
+     * Adds an EMPTY name to the collection of names.  These names should then be populated.
+     * 
+     * @return an EMPTY name.  CANNOT return NULL.
+     */
     Name addName();
 
     /**

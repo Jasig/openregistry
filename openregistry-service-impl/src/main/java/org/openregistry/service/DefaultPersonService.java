@@ -11,7 +11,6 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
-import org.openregistry.core.domain.Type.Types;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.domain.sor.SorRole;
@@ -290,7 +289,7 @@ public class DefaultPersonService implements PersonService {
         sorPerson.getRoles().remove(sorRole);
         this.personRepository.deleteSorRole(sorPerson, sorRole);
         try {
-            final Type terminationType = this.referenceRepository.findType(Types.TERMINATION.name(), terminationReason);
+            final Type terminationType = this.referenceRepository.findType(Type.DataTypes.TERMINATION.name(), terminationReason);
 
             role.setEnd(new Date());
             role.setTerminationReason(terminationType);
