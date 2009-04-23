@@ -14,8 +14,14 @@ import java.util.List;
  */
 public final class SpringErrorValidationErrorConverter {
 
+    /**
+     * COnverts the validation errors returned from the {@link org.openregistry.core.service.PersonService} into
+     * Spring {@link org.springframework.validation.Errors}.
+     *
+     * @param validationErrors the errors provided by the {@link org.openregistry.core.service.PersonService}
+     * @param errors an instance of Spring's {@link org.springframework.validation.Errors}
+     */
     public void convertValidationErrors(final List<ValidationError> validationErrors, final Errors errors) {
-
         for (final ValidationError validationError : validationErrors) {
             if (validationError.getField() == null) {
                 errors.reject(validationError.getCode(), validationError.getArguments(), null);
