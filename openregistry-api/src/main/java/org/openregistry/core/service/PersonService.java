@@ -27,6 +27,15 @@ public interface PersonService {
      *         exist in Open Registry for a given internal id.
      */
     Person findPersonById(Long id);
+    
+    /**
+     * Find canonical <code>SorPerson</code> entity in the Open Registry.
+     *
+     * @param id a primary key internal identifier for a sorPerson in Open Registry.
+     * @return sorPerson found in the Open Registry's person repository or null if no person
+     *         exist in Open Registry for a given internal id.
+     */
+    SorPerson findSorPersonById(Long id);
 
     /**
      * Finds the canonical <code>Person</code> by one of the unique identifiers that the system is aware of.
@@ -104,12 +113,12 @@ public interface PersonService {
     /**
      * Validate, add and persist in the Open Registry a given Role for a given Person
      *
-     * @param person a person to add a role to.
-     * @param role   to validate and add to a given person.
+     * @param sorPerson a person to add a role to.
+     * @param sorRole   to validate and add to a given person.
      * @return an instance of a <code>ServiceExecutionResult</code> containing details
      *         of whether this operation succeeded or failed.
      */
-    ServiceExecutionResult validateAndSaveRoleForPerson(Person person, Role role);
+    ServiceExecutionResult validateAndSaveRoleForSorPerson(SorPerson sorPerson, SorRole sorRole);
 
     /**
      * Validate, add, and persist a person in the OpenRegistry system.

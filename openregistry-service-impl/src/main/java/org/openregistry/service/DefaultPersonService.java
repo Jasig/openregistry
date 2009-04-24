@@ -76,6 +76,11 @@ public class DefaultPersonService implements PersonService {
     }
     
     @Transactional
+    public SorPerson findSorPersonById(final Long id) {
+        return this.personRepository.findSorByInternalId(id);
+    }
+    
+    @Transactional
     public Person findPersonByIdentifier(final String identifierType, final String identifierValue) {
         try {
             return this.personRepository.findByIdentifier(identifierType,identifierValue);
@@ -189,16 +194,21 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public ServiceExecutionResult validateAndSaveRoleForPerson(final Person person, final Role role) {
-        final String serviceName = "PersonService.validateAndSaveRoleForPerson";
-        final List<ValidationError> validationErrors = validateAndConvert(role);
+    public ServiceExecutionResult validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
+        final String serviceName = "PersonService.validateAndSaveRoleForSorPerson";
+        final List<ValidationError> validationErrors = validateAndConvert(sorRole);
 
         if (!validationErrors.isEmpty()) {
-            return new DefaultServiceExecutionResult(serviceName, role, validationErrors);
+            return new DefaultServiceExecutionResult(serviceName, sorRole, validationErrors);
         }
 
+        SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
+        
+        Person person = this.personRepository.findByInternalId(savedSorPerson.getPersonId());
+        person.addRole(this.referenceRepository.getRoleInfo(sorRole.getRoleId()), sorRole);
         this.personRepository.savePerson(person);
-        return new DefaultServiceExecutionResult(serviceName, role);
+        
+        return new DefaultServiceExecutionResult(serviceName, sorRole);
     }
 
     @Transactional
