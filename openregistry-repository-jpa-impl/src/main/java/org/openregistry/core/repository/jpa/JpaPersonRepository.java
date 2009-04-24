@@ -36,6 +36,10 @@ public class JpaPersonRepository implements PersonRepository {
     public Person findByInternalId(final Long id) throws RepositoryAccessException {
         return this.entityManager.find(JpaPersonImpl.class, id);
     }
+    
+    public SorPerson findSorByInternalId(final Long id) throws RepositoryAccessException {
+        return this.entityManager.find(JpaSorPersonImpl.class, id);
+    }
 
     public Person findByIdentifier(final String identifierType, final String identifierValue) throws RepositoryAccessException {
         return (Person) this.entityManager.createQuery("Select p from person p join p.identifiers i join i.type t where t.name = :name and i.value = :value").setParameter("name", identifierType).setParameter("value", identifierValue).getSingleResult();

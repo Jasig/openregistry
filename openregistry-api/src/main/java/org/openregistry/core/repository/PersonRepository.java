@@ -29,6 +29,17 @@ public interface PersonRepository {
     Person findByInternalId(Long id) throws RepositoryAccessException;
 
     /**
+     * Find canonical <code>SorPerson</code> entity in the Open Registry.
+     *
+     * @param id a primary key internal identifier for a sorPerson in Open Registry person repository
+     * @return sorPerson found in the Open Registry's person repository or null if no person
+     *         exist in this repository for a given internal id.
+     * @throws RepositoryAccessException if the operation does not succeed for any number of
+     *                                   technical reasons.
+     */
+    SorPerson findSorByInternalId(Long id) throws RepositoryAccessException;
+    
+    /**
      * Finds the <code>Person</code> based on the identifier type and value.
      * @param identifierType the identifier type
      * @param identifierValue the identifier value.
