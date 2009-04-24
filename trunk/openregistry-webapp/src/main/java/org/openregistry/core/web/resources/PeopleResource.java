@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.ObjectFactory;
 import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Identifier;
@@ -66,7 +67,7 @@ public final class PeopleResource {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     //auto content negotiation!
     public PersonResponseRepresentation showPerson(@PathParam("personId") String personId,
-                          @PathParam("personIdType") String personIdType) {
+                                                   @PathParam("personIdType") String personIdType) {
 
         //Build activation generator URI
         URI activationGeneratorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").build();
@@ -76,7 +77,7 @@ public final class PeopleResource {
                 .queryParam("activation-token", "activation-token-skjfskjfhskjdfh").build();
 
         Person person = this.personService.findPersonByIdentifier(personIdType, personId);
-        if(person == null) {
+        if (person == null) {
             //HTTP 404
             throw new NotFoundException(
                     String.format("The person resource identified by /people/%s/%s URI does not exist",
@@ -178,6 +179,27 @@ public final class PeopleResource {
         return null;
     }
 
+    @DELETE
+    @Path("{personIdType}/{personId}/sor/{sorSourceId}/")
+    public Response deleteSystemOfRecordPerson(@PathParam("sorSourceId") String sorSourceId,
+                                               @PathParam("personIdType") String personIdType,
+                                               @PathParam("personId") String personId) {
+
+        SorPerson person = this.personService.findSorPersonByIdentifierAndSourceIDentifier(personIdType,
+                personId, sorSourceId);
+        if (person == null) {
+            //HTTP 404
+            throw new NotFoundException(
+                    String.format("The person resource identified by /people/%s/%s/sor/%s URI does not exist",
+                            personIdType, personId, sorSourceId));
+        }
+        if(!this.personService.deleteSystemOfRecordPerson(person)) {
+            throw new WebApplicationException(500);
+        }
+        //HTTP 204
+        return null;
+    }
+
     private PersonSearch personRequestToPersonSearch(PersonRequestRepresentation request) {
         PersonSearch ps = personSearchObjectFactory.getObject();
         ps.getPerson().setSourceSorIdentifier(String.valueOf(request.getSystemOfRecordId()));
@@ -234,12 +256,12 @@ public final class PeopleResource {
         List<PersonResponseRepresentation.PersonIdentifierRepresentation> idsRep =
                 new ArrayList<PersonResponseRepresentation.PersonIdentifierRepresentation>();
 
-        for(Identifier id : identifiers) {
+        for (Identifier id : identifiers) {
             idsRep.add(new PersonResponseRepresentation.PersonIdentifierRepresentation(id.getType().getName(), id.getValue()));
         }
-        if(idsRep.isEmpty()) {
+        if (idsRep.isEmpty()) {
             throw new IllegalStateException("Person identifiers cannot be empty");
-        }        
+        }
         return idsRep;
     }
 
