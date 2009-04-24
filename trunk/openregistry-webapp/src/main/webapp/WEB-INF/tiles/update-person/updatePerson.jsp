@@ -18,7 +18,7 @@
                 <br/>
 
                 <fieldset class="fm-h" id="ecn1">
-                    <label class="desc" for="c1_prefix"><spring:message code="name.heading"/></label>
+                    <label class="desc"><spring:message code="name.heading"/></label>
 
                     <div>
                         <table class="data" cellspacing="0" width="80%">
@@ -35,7 +35,15 @@
                             <tbody>
                             <c:forEach var="sorName" items="${personSearch.person.nameList}" varStatus="loopStatus">
                             <tr>
-                                <td><form:input path="person.nameList[${loopStatus.index}].prefix" /></td>
+                                <td><form:select path="person.nameList[${loopStatus.index}].prefix">
+                                        <form:option value="Empty" label=""/>
+							            <form:option value="Mrs" label="Mrs."/>
+                                        <form:option value="Miss" label="Miss"/>
+                                        <form:option value="Ms" label="Ms."/>
+                                        <form:option value="Mr" label="Mr."/>
+                                        <form:option value="Dr" label="Dr."/>
+                                    </form:select>
+                                </td>
                                 <td><form:input path="person.nameList[${loopStatus.index}].given" /></</td>
                                 <td><form:input path="person.nameList[${loopStatus.index}].middle" /></td>
                                 <td><form:input path="person.nameList[${loopStatus.index}].family" /></td>
@@ -50,7 +58,7 @@
                 <input id="addNameBtn" class="button" type="submit" name="_eventId_submitAddName" value="Add Name" title="add a new name" />
             </div>
 
-                    <label class="desc" for="c1_prefix"><spring:message code="identifiers.heading"/></label>
+            <label class="desc"><spring:message code="identifiers.heading"/></label>
 					<div>
                         <table class="data" cellspacing="0" width="50%">
                             <thead>
@@ -61,18 +69,20 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>
-                                  SSN
-                                </td>
-                                <td>
-                                    <form:input path="person.ssn" id="c1_firstName" size="10" maxlength="30" />
-                                </td>
+                                <td><spring:message code="ssn.label"/></td>
+                                <td><form:input path="person.ssn" size="10" maxlength="10" /></td>
                             </tr>
+                                <c:forEach var="identifier" items="${identifiers}">
+                                    <tr>
+                                        <td>${identifier.type.name}</td>
+                                        <td>${identifier.value}</td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                 </div>
             
-                <label class="desc" for="c1_prefix"><spring:message code="roles.heading"/></label>
+                <label class="desc"><spring:message code="roles.heading"/></label>
                 <div>
                     <table class="data" cellspacing="0" width="50%">
                         <thead>
@@ -83,7 +93,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                             <c:forEach var="role" items="${person.roles}">
+                             <c:forEach var="role" items="${personSearch.person.roles}">
                             <tr>
                                 <td>
                                     <c:out value="${role.affiliationType.description}"/>/<c:out value="${role.title}"/>
@@ -103,19 +113,31 @@
                 <input id="addRoleBtn" class="button" type="submit" name="_eventId_submitAddRole" value="Add Role" title="add a new role" />
             </div>
 
-            <div class="row">
-                <label for="c1_dateOfBirthUpdate" class="dateOfBirthUpdate"><spring:message code="dateOfBirth.label"/><em>*</em></label>
-				<form:input path="person.dateOfBirth" id="c1_dateOfBirthUpdate" size="10" maxlength="10" tabindex="7" />
-            </div>
-            <div class="row">
-                <label for="c1_genderUpdate" class="genderUpdate"><spring:message code="gender.label" /> <em>*</em></label>
-				<div class="select gender">
-                    <form:select path="person.gender" id="c1_genderUpdate" size="1" tabindex="6">
-                        <form:option value="" label=""/>
-                        <form:option value="F" label="Female"/>
-						<form:option value="M" label="Male"/>
-					</form:select>
-                </div>
+            <label class="desc"><spring:message code="biodem.heading"/></label>
+            <div>
+                <table class="data" cellspacing="0" width="50%">
+                    <thead>
+                        <tr class="appHeadingRow">
+                            <th><spring:message code="type.label"/></th>
+                            <th><spring:message code="value.label"/></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><spring:message code="dateOfBirth.label"/><em>*</em></td>
+                            <td><form:input path="person.dateOfBirth" size="10" maxlength="10"/></td>
+                        </tr>
+                        <tr>
+                            <td><spring:message code="gender.label" /> <em>*</em></td>
+                            <td><form:select path="person.gender">
+                                    <form:option value="" label=""/>
+                                    <form:option value="F" label="Female"/>
+						            <form:option value="M" label="Male"/>
+					             </form:select></td>
+                        </tr>
+
+                    </tbody>
+                </table>
             </div>
 
 			</fieldset>
