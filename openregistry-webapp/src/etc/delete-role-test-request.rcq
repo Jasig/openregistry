@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rest-client version="2.3"><request><http-version>1.1</http-version><URL>http://localhost:8080/openregistry/api/v1/people/RCPID/123/roles/r123?reason=Leaving</URL><method>DELETE</method></request></rest-client>
