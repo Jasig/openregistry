@@ -100,10 +100,34 @@ public class JpaSorNameImpl extends Entity implements Name {
         this.suffix = suffix;
     }
 
-	public String getFormattedName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String getFormattedName(){
+        final StringBuilder builder = new StringBuilder();
+
+        construct(builder, "", this.family, ",");
+        construct(builder, "", this.given, "");
+
+        return builder.toString();
+    }
+
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+
+        construct(builder, "", this.prefix, " ");
+        construct(builder, "", this.given, " ");
+        construct(builder, "", this.middle, " ");
+        construct(builder, "", this.family, "");
+        construct(builder, ",", this.suffix, "");
+
+        return builder.toString();
+    }
+
+    protected void construct(final StringBuilder builder, final String prefix, final String string, final String delimiter) {
+        if (string != null) {
+            builder.append(prefix);
+            builder.append(string);
+            builder.append(delimiter);
+        }
+    }
 
 	public boolean isOfficialName() {
 		// TODO Auto-generated method stub
