@@ -120,25 +120,6 @@ input.btn-cancel {margin-top:0;font-weight:900;left:22%; margin-left:2px;}
 	background-color: #eee;
 }
 
-.dataTable td {
-	border-bottom: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	vertical-align:top;
-	line-height:17px;
-	text-align: center;
-}
-
-.dataTable {
-	border:solid 1px #999;
-	border-bottom: solid 1px #ccc;
-	border-right: solid 1px #ccc;
-}
-
-table.dataTable textarea {
-	border: solid 1px #ccc;
-}
-
-
 /* Safari 2.x specific fixes */
 html[xmlns*=""] body:last-child div.select {border:0 !important;}
 html[xmlns*=""] body:last-child div.row label.state {margin-left:3px !important;}

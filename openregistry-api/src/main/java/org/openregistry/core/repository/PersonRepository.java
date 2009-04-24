@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
+import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.service.SearchCriteria;
@@ -148,4 +149,13 @@ public interface PersonRepository {
      * @return the person if they exist.  In theory if you have both ids this should never return null.
      */
     SorPerson findSorPersonByPersonIdAndSorRoleId(Long personId, Long sorRoleId);
+
+    /**
+     * Finds the identifers for a person.
+     *
+     * @param personId the internal identifier for the person.
+     *
+     * @return a list of identifiers.
+     */
+    List<Identifier> findPersonIdentifiers(final Long personId);
 }

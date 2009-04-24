@@ -7,6 +7,7 @@ import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
+import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.jpa.JpaPersonImpl;
@@ -103,6 +104,11 @@ public class JpaPersonRepository implements PersonRepository {
 
     public void deletePerson(final Person person) {
         this.entityManager.createQuery("Delete from person p where p.id = :personId").setParameter("personId", person.getId()).executeUpdate();
+    }
+
+    public List<Identifier> findPersonIdentifiers(final Long personId) throws RepositoryAccessException {
+        //return (List<Identifier>)this.entityManager.createQuery("SELECT i FROM identifier i WHERE i.id = :id").setParameter("id", personId).getResultList();
+        return (List<Identifier>) this.entityManager.createQuery("select i from identifier i join i.person p where p.id = :personId and i.person = :personId").setParameter("personId", personId).getResultList();
     }
 }
 

@@ -24,7 +24,9 @@
             <evaluate expression="personRepository.findSorPersonByInternalId(2)" result="flowScope.sorPerson"/>
             <evaluate expression="personSearch.setSorPerson(sorPerson)"/>
             <evaluate expression="sorPerson.getNameList()" result="flowScope.names"/>
+            <evaluate expression="personRepository.findPersonIdentifiers(2)" result="flowScope.identifiers" />
             <set name="viewScope.command" value="personSearch" />
+            <set name="viewScope.identifiers" value="identifiers" />
         </on-entry>
         <transition on="submitAddName" to="addName" >
             <evaluate expression="personSearch.getPerson().addName()" result="flowScope.sorName"/>
