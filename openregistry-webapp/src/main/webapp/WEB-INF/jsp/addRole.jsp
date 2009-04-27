@@ -55,7 +55,7 @@
 
 						<label for="c1_sponsor" class="sponsor"><spring:message code="sponsor.label" /><em>*</em></label>
                         <div class="select sponsor">
-							<form:select path="sponsor" id="c1_sponsor" items="${sponsorLookup}" itemValue="id" itemLabel= "formattedNameAndID" size="1" tabindex="3" />
+							<form:select path="sponsor.sponsorId" id="c1_sponsor" items="${sponsorLookup}" itemValue="id" itemLabel= "formattedNameAndID" size="1" tabindex="3" />
                        </div>
                     </div>
 

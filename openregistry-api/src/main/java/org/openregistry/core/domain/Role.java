@@ -1,7 +1,6 @@
 package org.openregistry.core.domain;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,9 +18,9 @@ public interface Role extends Serializable, DateRange {
 
     Set<Address> getAddresses();
 
-    void setSponsor(Person sponsor);
+    Sponsor setSponsor();
     
-    Person getSponsor();
+    Sponsor getSponsor();
 
     int getPercentage();
 
@@ -30,6 +29,8 @@ public interface Role extends Serializable, DateRange {
     Type getPersonStatus();
 
     void setPersonStatus(Type personStatus);
+    
+    RoleInfo getRoleInfo();
 
     Set<Phone> getPhones();
 
@@ -38,12 +39,20 @@ public interface Role extends Serializable, DateRange {
     Set<Url> getUrls();
 
     Address addAddress();
+    
+    Address addAddress(Address sorAddress);
 
     Url addUrl();
+    
+    Url addUrl(Url sorUrl);
 
     EmailAddress addEmailAddress();
+    
+    EmailAddress addEmailAddress(EmailAddress sorEmailAddress);
 
     Phone addPhone();
+    
+    Phone addPhone(Phone sorPhone);
 
     Set<Leave> getLeaves();
 

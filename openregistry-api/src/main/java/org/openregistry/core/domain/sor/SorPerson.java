@@ -2,10 +2,11 @@ package org.openregistry.core.domain.sor;
 
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.RoleInfo;
 
+import java.util.List;
 import java.util.Set;
 import java.util.Date;
-import java.util.List;
 
 /**
  * An Sor Person is the representation of the person as the System of Record knows the person.   This is in isolation
@@ -97,7 +98,9 @@ public interface SorPerson {
      * @param ssn the SSN of the person.
      */
     void setSsn(String ssn);
-
+    
+	SorRole addRole(RoleInfo roleInfo);
+    
     /**
      * Retrieves the identifier of the Calculated Person associated with this System of Record person.  Portions of the
      * System of Record Person were used to calculate this Calculated Person.

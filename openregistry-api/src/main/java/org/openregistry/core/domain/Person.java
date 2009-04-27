@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Date;
 import java.io.Serializable;
 
+import org.openregistry.core.domain.sor.SorRole;
+
 /**
  * Entity representing canonical persons and their identity in the Open Registry system.
  *
@@ -47,12 +49,21 @@ public interface Person extends Serializable {
     List<Role> getRoles();
 
     /**
-     * Add a new role to a collection of role this person holds.
+     * Add a new role to a collection of roles this person holds.
      *
      * @param roleInfo the basic role information about this role (not customizable)
      * @return role new role to add to this person instance.  NEVER returns null.
      */
     Role addRole(RoleInfo roleInfo);
+ 
+    /**
+     * Add a new role to a collection of roles this person holds and populate it with the data from the given sorRole.
+     *
+     * @param roleInfo the basic role information about this role (not customizable)
+     * @param sorRole the sor role to populate the data from
+     * @return role new role to add to this person instance.  NEVER returns null.
+     */
+    Role addRole(RoleInfo roleInfo, SorRole sorRole);
 
     /**
      * Get identifiers associated with this person.
