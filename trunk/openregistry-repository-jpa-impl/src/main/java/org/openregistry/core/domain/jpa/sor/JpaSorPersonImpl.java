@@ -3,9 +3,8 @@ package org.openregistry.core.domain.jpa.sor;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.internal.*;
-import org.openregistry.core.domain.jpa.JpaPersonImpl;
+import org.openregistry.core.domain.RoleInfo;
+import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.validation.NotEmpty;
@@ -13,7 +12,6 @@ import org.javalid.annotations.validation.NotNull;
 import org.javalid.annotations.validation.ValidateList;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 
 import java.util.*;
 
@@ -156,6 +154,15 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
         
         return jpaSorName;
     }
+    
+    public String getFormattedNameAndID(){
+        final StringBuilder builder = new StringBuilder();
+        // TODO fix this next line
+        builder.append(this.getNames().iterator().next().getFormattedName());
+        builder.append(" ID:");
+        builder.append(this.recordId);
+        return builder.toString();
+    }
 
 	public Long getPersonId() {
 		return this.personId;
@@ -164,6 +171,16 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
 	public void setPersonId(Long personId) {
 		this.personId = personId;
 	}
+	
+	public SorRole addRole(final RoleInfo roleInfo) {
+        if (!(roleInfo instanceof JpaRoleInfoImpl)) {
+            throw new IllegalArgumentException("roleInfo of type JpaRoleInfoImpl required.");
+        }
+        final JpaSorRoleImpl jpaRole = new JpaSorRoleImpl((JpaRoleInfoImpl) roleInfo, this);
+        this.roles.add(jpaRole);
+
+        return jpaRole;
+    }
 
     public synchronized SorRole removeRoleByRoleId(final Long id) {
         SorRole roleToDelete = null;

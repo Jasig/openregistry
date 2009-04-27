@@ -5,7 +5,7 @@ import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
 import org.javalid.annotations.validation.DateAfter;
 import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorLeaveImpl;
@@ -15,6 +15,7 @@ import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Leave;
 import org.openregistry.core.domain.OrganizationalUnit;
 import org.openregistry.core.domain.Phone;
+import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Url;
 import org.hibernate.envers.Audited;
@@ -80,10 +81,10 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
     @JoinColumn(name = "role_id")
     private JpaRoleInfoImpl roleInfo;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name="sponsor_id")
     @NotNull (customCode="sponsorRequiredMsg")
-    private JpaSorPersonImpl sponsor;
+    private JpaSorSponsorImpl sponsor;
 
     @Column(name="affiliation_date",nullable=false)
     @Temporal(TemporalType.DATE)
@@ -105,6 +106,11 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
     public JpaSorRoleImpl() {
         // nothing to do
     }
+    
+    public JpaSorRoleImpl(JpaRoleInfoImpl roleInfo, JpaSorPersonImpl sorPerson) {
+        this.roleInfo = roleInfo;
+        this.person = sorPerson;
+    }
 
     protected Long getId() {
         return this.recordId;
@@ -125,10 +131,9 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
     public void setSourceSorIdentifier(final String sorIdentifier) {
         this.sourceSorIdentifier = sorIdentifier;
     }
-
-    public JpaSorRoleImpl(JpaRoleInfoImpl roleInfo, JpaSorPersonImpl sorPerson) {
-        this.roleInfo = roleInfo;
-        this.person = sorPerson;
+    
+    public RoleInfo getRoleInfo() {
+    	return this.roleInfo;
     }
 
     public String getTitle() {
@@ -159,14 +164,13 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
         this.personStatus = (JpaTypeImpl) personStatus;
     }
 
-    public void setSponsor(final SorPerson sponsor) {
-        if (!(sponsor instanceof JpaSorPersonImpl)) {
-            throw new IllegalArgumentException("sponsor must be of type JpaSorPersonImpl.");
-        }
-        this.sponsor = (JpaSorPersonImpl) sponsor;
+    public SorSponsor setSponsor() {
+       	final JpaSorSponsorImpl sponsor = new JpaSorSponsorImpl(this);
+        this.sponsor = sponsor;
+        return sponsor;
     }
 
-    public SorPerson getSponsor() {
+    public SorSponsor getSponsor() {
         return this.sponsor;
     }
     public Type getTerminationReason() {

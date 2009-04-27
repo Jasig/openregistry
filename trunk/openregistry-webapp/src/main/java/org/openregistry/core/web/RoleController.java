@@ -1,6 +1,9 @@
 package org.openregistry.core.web;
 
 import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.SorRole;
+import org.openregistry.core.domain.sor.SorSponsor;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +11,6 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
@@ -41,6 +43,8 @@ public final class RoleController {
     protected final String TYPE_PHONE = "Phone";
     protected final String TYPE_EMAIL_ADDRESS = "EmailAddress";
     protected final String CAMPUS = "Campus";
+    protected final String TYPE_SPONSOR = "Sponsor";
+    protected final String PERSON = "Person";
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -71,24 +75,24 @@ public final class RoleController {
     }
 
 	@RequestMapping(method = RequestMethod.GET)
-    public String addRoleSetUpForm(final ModelMap model, @RequestParam("personKey") final Long personKey, @RequestParam("roleInfoKey") final Long roleInfoKey) {
+    public String addRoleSetUpForm(final ModelMap model, @RequestParam("sorPersonKey") final Long sorPersonKey, @RequestParam("roleInfoKey") final Long roleInfoKey) {
     	logger.info("Populating: setUpForm: ");
 
-        final Person person = this.personService.findPersonById(personKey);
+        final SorPerson sorPerson = this.personService.findSorPersonById(sorPersonKey);
         final RoleInfo roleInfo = this.referenceRepository.getRoleInfo(roleInfoKey);
-        final Role role = addRole(person, roleInfo);
+        final SorRole sorRole = addRole(sorPerson, roleInfo);
 
-        model.addAttribute("role", role);
-        model.addAttribute("person", person);
+        model.addAttribute("role", sorRole);
+        model.addAttribute("person", sorPerson);
     	return "addRole";
     }
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String addRoleProcessSubmit(final ModelMap model, @ModelAttribute("person") final Person person, @ModelAttribute("role") final Role role, final BindingResult result, final SessionStatus status) {
+	public String addRoleProcessSubmit(final ModelMap model, @ModelAttribute("person") final SorPerson sorPerson, @ModelAttribute("role") final SorRole sorRole, final BindingResult result, final SessionStatus status) {
         logger.info("processSubmit in add role");
 
         if (!result.hasErrors()){
-            final ServiceExecutionResult serviceExecutionResult = this.personService.validateAndSaveRoleForPerson(person, role);
+            final ServiceExecutionResult serviceExecutionResult = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
             if (serviceExecutionResult.getValidationErrors().isEmpty()) {
                 model.addAttribute("infoModel", this.messageSource.getMessage("roleAdded", null, null));
                 status.setComplete();
@@ -97,8 +101,8 @@ public final class RoleController {
             }
         }
 
-        model.addAttribute("role", role);
-        model.addAttribute("person", person);
+        model.addAttribute("role", sorRole);
+        model.addAttribute("person", sorPerson);
 		return "addRole";
 	}
 
@@ -115,27 +119,31 @@ public final class RoleController {
 
     /**
      * Add and initialize new role.
-     * @param person
+     * @param sorPerson
      * @param roleInfo
-     * @return role
+     * @return sorRole
      */
-    protected Role addRole(final Person person, final RoleInfo roleInfo){
-        final Role role = person.addRole(roleInfo);
-        role.setPersonStatus(referenceRepository.findType(TYPE_STATUS, ACTIVE_STATUS));
-        final EmailAddress emailAddress = role.addEmailAddress();
+    protected SorRole addRole(final SorPerson sorPerson, final RoleInfo roleInfo){
+        final SorRole sorRole = sorPerson.addRole(roleInfo);
+        sorRole.setSorId("1");  // TODO Don't hardcode
+        sorRole.setSourceSorIdentifier("or-webapp"); // TODO Don't hardcode
+        sorRole.setPersonStatus(referenceRepository.findType(TYPE_STATUS, ACTIVE_STATUS));
+        final EmailAddress emailAddress = sorRole.addEmailAddress();
         emailAddress.setAddressType(referenceRepository.findType(TYPE_EMAIL_ADDRESS, CAMPUS));
-        final Phone phone = role.addPhone();
+        final Phone phone = sorRole.addPhone();
         phone.setPhoneType(referenceRepository.findType(TYPE_PHONE, CAMPUS));
         phone.setAddressType(referenceRepository.findType(TYPE_PHONE, CAMPUS));
-        final Address address = role.addAddress();
+        final Address address = sorRole.addAddress();
         address.setType(referenceRepository.findType(TYPE_ADDRESS, CAMPUS));
+        final SorSponsor sponsor = sorRole.setSponsor();
+        sponsor.setType(referenceRepository.findType(TYPE_SPONSOR, PERSON));  // TODO handle other types
 
         //provide default values for start and end date of role
         final Calendar cal = Calendar.getInstance();
-        role.setStart(cal.getTime());
+        sorRole.setStart(cal.getTime());
         cal.add(Calendar.MONTH, 6);
-        role.setEnd(cal.getTime());
-        return role;
+        sorRole.setEnd(cal.getTime());
+        return sorRole;
     }
 
     public final void setDateFormat(final String dateFormat) {

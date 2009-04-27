@@ -1,6 +1,7 @@
 package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.internal.Entity;
+import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.*;
 import org.hibernate.envers.Audited;
 import org.javalid.annotations.core.JvGroup;
@@ -9,7 +10,6 @@ import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Date;
@@ -136,7 +136,30 @@ public class JpaPersonImpl extends Entity implements Person {
         }
         final JpaRoleImpl jpaRole = new JpaRoleImpl((JpaRoleInfoImpl) roleInfo, this);
         this.roles.add(jpaRole);
-
+        return jpaRole;
+    }
+    
+    public Role addRole(final RoleInfo roleInfo, final SorRole sorRole) {
+        if (!(roleInfo instanceof JpaRoleInfoImpl)) {
+            throw new IllegalArgumentException("roleInfo of type JpaRoleInfoImpl required.");
+        }
+        final JpaRoleImpl jpaRole = (JpaRoleImpl)this.addRole(roleInfo);
+        jpaRole.setPersonStatus(sorRole.getPersonStatus());
+        jpaRole.setStart(sorRole.getStart());
+        jpaRole.setEnd(sorRole.getEnd());
+        jpaRole.addSponsor(sorRole.getSponsor());
+        for (Address address: sorRole.getAddresses()) {
+        	jpaRole.addAddress(address);
+        }
+        for (EmailAddress emailAddress: sorRole.getEmailAddresses()) {
+        	jpaRole.addEmailAddress(emailAddress);
+        }
+        for (Phone phone: sorRole.getPhones()) {
+        	jpaRole.addPhone(phone);
+        }
+        for (Url url: sorRole.getUrls()) {
+        	jpaRole.addUrl(url);
+        }
         return jpaRole;
     }
 

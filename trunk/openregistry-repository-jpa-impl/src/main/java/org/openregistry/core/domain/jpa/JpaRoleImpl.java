@@ -1,17 +1,18 @@
 package org.openregistry.core.domain.jpa;
 
-import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.internal.Entity;
+import org.openregistry.core.domain.sor.SorSponsor;
+import org.hibernate.envers.Audited;
+import org.javalid.annotations.core.ValidateDefinition;
+import org.javalid.annotations.validation.DateAfter;
+import org.javalid.annotations.validation.NotNull;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
-import java.util.*;
-
-import org.javalid.annotations.core.JvGroup;
-import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.validation.NotEmpty;
-import org.javalid.annotations.validation.NotNull;
-import org.javalid.annotations.validation.DateAfter;
-import org.hibernate.envers.Audited;
 
 /**
  * Role entity mapped to a persistence store with JPA annotations.
@@ -43,10 +44,10 @@ public class JpaRoleImpl extends Entity implements Role {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER, targetEntity = JpaAddressImpl.class)
     private Set<Address> addresses = new HashSet<Address>();
 
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name="sponsor_id")
     @NotNull (customCode="sponsorRequiredMsg")
-    private JpaPersonImpl sponsor;
+    private JpaSponsorImpl sponsor;
 
     @Column(name="percent_time",nullable=false)
     private int percentage;
@@ -95,6 +96,10 @@ public class JpaRoleImpl extends Entity implements Role {
     public Long getId() {
         return this.id;
     }
+    
+    public RoleInfo getRoleInfo() {
+    	return this.roleInfo;
+    }
 
     public Set<Address> getAddresses() {
         return this.addresses;
@@ -117,10 +122,30 @@ public class JpaRoleImpl extends Entity implements Role {
         this.addresses.add(jpaAddress);
         return jpaAddress;
     }
+    
+    public Address addAddress(Address sorAddress) {
+    	final JpaAddressImpl jpaAddress = (JpaAddressImpl)this.addAddress();
+    	jpaAddress.setLine1(sorAddress.getLine1());
+    	jpaAddress.setLine2(sorAddress.getLine2());
+    	jpaAddress.setLine3(sorAddress.getLine3());
+    	jpaAddress.setCity(sorAddress.getLine1());
+    	jpaAddress.setRegion(sorAddress.getRegion());
+    	jpaAddress.setPostalCode(sorAddress.getPostalCode());
+       	jpaAddress.setCountry(sorAddress.getCountry());
+    	jpaAddress.setType(sorAddress.getType());
+    	return jpaAddress;
+    }
 
     public Url addUrl() {
         final JpaUrlImpl url = new JpaUrlImpl(this);
         this.urls.add(url);
+        return url;
+    }
+    
+    public Url addUrl(Url sorUrl) {
+        final JpaUrlImpl url = (JpaUrlImpl)this.addUrl();
+        url.setURL(sorUrl.getUrl());
+        url.setType(sorUrl.getType());
         return url;
     }
 
@@ -129,10 +154,28 @@ public class JpaRoleImpl extends Entity implements Role {
         this.emailAddresses.add(jpaEmailAddress);
         return jpaEmailAddress;
     }
+    
+    public EmailAddress addEmailAddress(EmailAddress sorEmailAddress) {
+        final JpaEmailAddressImpl jpaEmailAddress = (JpaEmailAddressImpl)this.addEmailAddress();
+        jpaEmailAddress.setAddress(sorEmailAddress.getAddress());
+        jpaEmailAddress.setAddressType(sorEmailAddress.getAddressType());
+        return jpaEmailAddress;
+    }
 
     public Phone addPhone() {
         final JpaPhoneImpl jpaPhone = new JpaPhoneImpl(this);
         this.phones.add(jpaPhone);
+        return jpaPhone;
+    }
+    
+    public Phone addPhone(Phone sorPhone) {
+        final JpaPhoneImpl jpaPhone = (JpaPhoneImpl)this.addPhone();
+        jpaPhone.setCountryCode(sorPhone.getCountryCode());
+        jpaPhone.setAreaCode(sorPhone.getAreaCode());
+        jpaPhone.setNumber(sorPhone.getNumber());
+        jpaPhone.setExtension(sorPhone.getExtension());
+        jpaPhone.setPhoneType(sorPhone.getPhoneType());
+        jpaPhone.setAddressType(sorPhone.getAddressType());
         return jpaPhone;
     }
 
@@ -144,14 +187,22 @@ public class JpaRoleImpl extends Entity implements Role {
         return this.roleInfo.getAffiliationType();
     }
 
-    public void setSponsor(final Person sponsor) {
-        if (!(sponsor instanceof JpaPersonImpl)) {
-            throw new IllegalArgumentException("sponsor must be of type JpaPersonImpl.");
-        }
-        this.sponsor = (JpaPersonImpl) sponsor;
+    public Sponsor setSponsor() {
+    	final JpaSponsorImpl sponsor = new JpaSponsorImpl(this);
+        this.sponsor = sponsor;
+        return sponsor;
+    }
+    
+    public Sponsor addSponsor(SorSponsor sorSponsor) {
+       	final JpaSponsorImpl sponsor = new JpaSponsorImpl(this);
+       	sponsor.setSponsorId(sorSponsor.getSponsorId());
+       	sponsor.setType(sorSponsor.getType());
+       	sponsor.addRole(this);
+       	this.sponsor = sponsor;
+        return sponsor;
     }
 
-    public Person getSponsor() {
+    public Sponsor getSponsor() {
         return this.sponsor;
     }
 

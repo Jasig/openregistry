@@ -8,6 +8,7 @@ import org.openregistry.core.domain.Person;
  *
  * @author Nancy Mond
  * @author Scott Battaglia
+ * @author Dave Steiner
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
@@ -23,6 +24,6 @@ public final class SponsorEditor extends AbstractReferenceRepositoryPropertyEdit
     }
 
     protected void setAsTextInternal(final String s) {
-        setValue(getReferenceRepository().getPersonById(new Long(s)));
+        setValue(new Long(s));
     }
 }

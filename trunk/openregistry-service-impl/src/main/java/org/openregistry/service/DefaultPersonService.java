@@ -205,8 +205,9 @@ public class DefaultPersonService implements PersonService {
         SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
         
         Person person = this.personRepository.findByInternalId(savedSorPerson.getPersonId());
-        person.addRole(this.referenceRepository.getRoleInfo(sorRole.getRoleId()), sorRole);
+        person.addRole(sorRole.getRoleInfo(), sorRole);
         this.personRepository.savePerson(person);
+//        sorRole.setRoleId(person.getRoles());
         
         return new DefaultServiceExecutionResult(serviceName, sorRole);
     }

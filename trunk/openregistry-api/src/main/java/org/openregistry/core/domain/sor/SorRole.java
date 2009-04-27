@@ -6,6 +6,7 @@ import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Leave;
 import org.openregistry.core.domain.OrganizationalUnit;
 import org.openregistry.core.domain.Phone;
+import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.DateRange;
 import org.openregistry.core.domain.Url;
@@ -58,10 +59,12 @@ public interface SorRole extends Serializable, DateRange {
     Type getPersonStatus();
 
     void setPersonStatus(Type personStatus);
+    
+    RoleInfo getRoleInfo();
 
-    void setSponsor(SorPerson sponsor);
+    SorSponsor setSponsor();
 
-    SorPerson getSponsor();
+    SorSponsor getSponsor();
 
     Type getTerminationReason();
 
@@ -92,6 +95,7 @@ public interface SorRole extends Serializable, DateRange {
     Campus getCampus();
 
     String getLocalCode();
+ 
     /**
      * Sets the calculated role Id to create the link between the SoR Role and the calculated role.
      * @param roleId the role Id.  CANNOT be null.
