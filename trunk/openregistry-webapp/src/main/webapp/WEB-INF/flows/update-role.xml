@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <!-- By default, the first state is the start state. -->
+    <input name="role" />
+
+    <view-state id="updateRole" model="role" view="openregistry.role.update">
+        <on-entry>
+            <set name="viewScope.command" value="'role'" />
+        </on-entry>
+        <transition on="submitUpdateRole" to="updateRole" />
+        <transition on="cancelUpdatePerson" to="cancelUpdateRole"/>
+    </view-state>
+
+    <end-state id="roleWasUpdated" />
+    <end-state id="cancelUpdateRole" view="flowRedirect:updateRole" />
+</flow>

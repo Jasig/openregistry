@@ -23,6 +23,7 @@ import java.util.Set;
  */
 public interface SorRole extends Serializable, DateRange {
 
+    Long getId();
     /**
      * Identifier as assigned from the System of Record
      *

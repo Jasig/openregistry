@@ -25,15 +25,23 @@
             <evaluate expression="personSearch.setSorPerson(sorPerson)"/>
             <evaluate expression="sorPerson.getNameList()" result="flowScope.names"/>
             <evaluate expression="personRepository.findPersonIdentifiers(2)" result="flowScope.identifiers" />
-            <set name="viewScope.command" value="personSearch" />
+            <set name="viewScope.command" value="'personSearch'" />
             <set name="viewScope.identifiers" value="identifiers" />
         </on-entry>
         <transition on="submitAddName" to="addName" >
             <evaluate expression="personSearch.getPerson().addName()" result="flowScope.sorName"/>
         </transition>
-        <transition on="submitUpdatePerson" to="personWasUpdated" >
-            <evaluate expression="personService.updatePerson(personSearch, null)" result="flowScope.serviceExecutionResult"/>
+        <transition on="submitAddRole" to="selectRole" />
+
+        <transition on="submitUpdateRole" to="updateRole" >
+            <set name="requestScope.roleId" value="requestParameters.roleId" type="long" />
+            <evaluate expression="personRepository.findSorRoleByInternalId(roleId)" result="flowScope.role"/>
         </transition>
+
+        <transition on="submitUpdatePerson" to="personWasUpdated" >
+            <evaluate expression="personService.updateSorPerson(personSearch)" result="flowScope.serviceExecutionResult"/>
+        </transition>
+        
         <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
     </view-state>
 
@@ -46,7 +54,7 @@
             <binding property="suffix" />
         </binder>
         <on-entry>
-            <set name="viewScope.command" value="personSearch" />
+            <set name="viewScope.command" value="'sorName'" />
         </on-entry>
         <transition on="submitPerformAddName" to="updatePerson" >
 
@@ -54,6 +62,29 @@
         <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
     </view-state>
 
+    <view-state id="selectRole" model="role" view="openregistry.person.update.selectRole">
+        <binder>
+            <binding property="roleInfo.affiliationType.description" />
+            <binding property="roleInfo.title" required="true" />
+        </binder>
+        <on-entry>
+            <evaluate expression="referenceRepository.getAffiliationTypes()" result="flowScope.affiliationList" />
+            <set name="viewScope.command" value="'personSearch'" />
+            <set name="viewScope.affiliationList" value="affiliationList" />
+        </on-entry>
+        <transition on="submitPerformAddName" to="updatePerson" >
+
+        </transition>
+        <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
+    </view-state>
+
+    <subflow-state id="updateRole" subflow="updateRole" >
+        <input name="role" />
+        <input name="personSearch" />
+        <transition to="roleWasUpdated" />
+    </subflow-state>
+
     <end-state id="personWasUpdated" />
     <end-state id="cancelUpdatePerson" view="flowRedirect:updatePerson" />
+    <end-state id="roleWasUpdated" view="flowRedirect:updatePerson" />
 </flow>

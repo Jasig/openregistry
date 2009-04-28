@@ -21,7 +21,7 @@
 	<ul id="nav-system"><li id="logout"><a href="logout.htm" title="log out of current session"><spring:message code="logout.label" /></a></li></ul>
 
 	<div id="content">
-   		<c:set var="command" value="personSearch" />
+   		<c:set var="command" value="${command}" />
    		<jsp:directive.include file="/WEB-INF/jsp/includes/errors.jsp" />
    		<jsp:directive.include file="/WEB-INF/jsp/includes/info.jsp" />
         <tiles:insertAttribute name="body" />

@@ -57,30 +57,6 @@
             <div>
                 <input id="addNameBtn" class="button" type="submit" name="_eventId_submitAddName" value="Add Name" title="add a new name" />
             </div>
-
-            <label class="desc"><spring:message code="identifiers.heading"/></label>
-					<div>
-                        <table class="data" cellspacing="0" width="50%">
-                            <thead>
-                                <tr class="appHeadingRow">
-                                    <th><spring:message code="type.label"/></th>
-                                    <th><spring:message code="value.label"/></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td><spring:message code="ssn.label"/></td>
-                                <td><form:input path="person.ssn" size="10" maxlength="10" /></td>
-                            </tr>
-                                <c:forEach var="identifier" items="${identifiers}">
-                                    <tr>
-                                        <td>${identifier.type.name}</td>
-                                        <td>${identifier.value}</td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                </div>
             
                 <label class="desc"><spring:message code="roles.heading"/></label>
                 <div>
@@ -96,7 +72,7 @@
                              <c:forEach var="role" items="${personSearch.person.roles}">
                             <tr>
                                 <td>
-                                    <c:out value="${role.affiliationType.description}"/>/<c:out value="${role.title}"/>
+                                    <a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}">${role.affiliationType.description}/${role.title}</a>
                                 </td>
                                 <td>
                                     <c:out value="${role.start}"/>
@@ -139,6 +115,29 @@
                     </tbody>
                 </table>
             </div>
+                    <label class="desc"><spring:message code="identifiers.heading"/></label>
+					<div>
+                        <table class="data" cellspacing="0" width="50%">
+                            <thead>
+                                <tr class="appHeadingRow">
+                                    <th><spring:message code="type.label"/></th>
+                                    <th><spring:message code="value.label"/></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><spring:message code="ssn.label"/></td>
+                                <td><form:input path="person.ssn" size="9" maxlength="9" /></td>
+                            </tr>
+                                <c:forEach var="identifier" items="${identifiers}">
+                                    <tr>
+                                        <td>${identifier.type.name}</td>
+                                        <td>${identifier.value}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                </div>
 
 			</fieldset>
 			</fieldset>
