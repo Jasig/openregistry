@@ -43,6 +43,8 @@ public interface ReferenceRepository {
 
     List<Type> getPhoneTypes();
 
+    List<Type> getAffiliationTypes();
+
     List<IdentifierType> getIdentifierTypes();
 
     IdentifierType findIdentifierType(String identifierName);

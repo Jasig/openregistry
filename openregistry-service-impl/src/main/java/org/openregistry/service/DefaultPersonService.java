@@ -406,4 +406,29 @@ public class DefaultPersonService implements PersonService {
         
 		return person;
 	}
+
+    /**
+     * Persists an SorPerson on update.
+     *
+     * @param personSearch the original search criteria.
+     * @return serviceExecutionResult.
+     */
+    @Transactional
+    public ServiceExecutionResult updateSorPerson(final PersonSearch personSearch) {
+        final String serviceName = "PersonService.updateSorPerson";
+        SorPerson sorPerson = personSearch.getPerson();
+
+        final List<ValidationError> validationErrors = validateAndConvert(personSearch);
+
+        if (!validationErrors.isEmpty()) {
+            return new DefaultServiceExecutionResult(serviceName, personSearch, validationErrors);
+        }
+
+        // Save Sor Person
+        sorPerson = this.personRepository.saveSorPerson(sorPerson);
+        return new DefaultServiceExecutionResult(serviceName, sorPerson);
+
+        // TODO Need to update the calculated person. Need to establish rules to do this.
+    }
+
 }

@@ -24,7 +24,7 @@
             <evaluate expression="personSearch.getPerson().addName()" />
         </on-entry>
         <on-render>
-            <set name="viewScope.command" value="personSearch" />
+            <set name="viewScope.command" value="'personSearch'" />
         </on-render>
         <transition on="submitAddPerson" to="checkAddSucceeded" >
             <evaluate expression="personSearch.getPerson().setSourceSorIdentifier('or-webapp')" />

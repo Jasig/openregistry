@@ -53,6 +53,7 @@ legend span span {color:#777; font-weight:400; font-size:1em; display:inline;}
 #c1_title {width:40%;}
 .openregistry#update div.row label.pt {left:40%; margin-left:4px;}
 .openregistry#update div.pt {float:left; margin-left:3px;}
+.openregistry#update div.row label.updateRolePt {left:21%; margin-left:3px;}
 
 #c1_address1 {width:30%;}
 .openregistry#update div.row label.address2 {left:31%; margin-left:5px;}

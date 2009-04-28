@@ -12,6 +12,7 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.jpa.JpaPersonImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorPersonImpl;
+import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.service.SearchCriteria;
 import org.springframework.stereotype.Repository;
 
@@ -47,6 +48,10 @@ public class JpaPersonRepository implements PersonRepository {
 
     public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier) {
         return (SorPerson) this.entityManager.createQuery("Select s from sorPerson s where s.sourceSorIdentifier = :sorSourceIdentifier and s.personId = :personId").setParameter("sorSourceIdentifier", sorSourceIdentifier).setParameter("personId", personId).getSingleResult();
+    }
+
+    public SorRole findSorRoleByInternalId(final Long id) throws RepositoryAccessException {
+        return this.entityManager.find(JpaSorRoleImpl.class, id);
     }
 
     public List<Person> searchByCriteria(final SearchCriteria searchCriteria) throws RepositoryAccessException {

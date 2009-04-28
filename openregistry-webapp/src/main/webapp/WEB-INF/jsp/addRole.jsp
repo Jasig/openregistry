@@ -29,7 +29,7 @@
 		
 		<form:form modelAttribute="role" id="fm-search" method="post" action="addRole.htm">
 			<fieldset id="addrole">
-				<legend><span><spring:message code="page.heading"/></span></legend>
+				<legend><span><spring:message code="addRolePage.heading"/></span></legend>
 				<p style="margin-bottom:0;">
 					<spring:message code="requiredFields.heading" /><span style="color:#b00;">*</span>.
 				</p>

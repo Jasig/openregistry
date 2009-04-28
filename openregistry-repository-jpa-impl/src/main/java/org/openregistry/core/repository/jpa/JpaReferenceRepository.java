@@ -102,6 +102,11 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
+    public List<Type> getAffiliationTypes() {
+        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='Affiliation'").getResultList();
+    }
+
+    @Transactional
     public Type findType(String data_type, String description) {
         Query q = this.entityManager.createQuery("select distinct r from type r where dataType=:data_type and description=:description");
         q.setParameter("data_type", data_type);

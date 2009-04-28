@@ -43,4 +43,14 @@
         <put-attribute name="body" value="/WEB-INF/tiles/update-person/addName.jsp" />
     </definition>
 
+    <definition name="openregistry.person.update.selectRole" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="selectRoleToAdd.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/update-person/selectRole.jsp" />
+    </definition>
+
+    <definition name="openregistry.role.update" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="updateRole.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/update-role/updateRole.jsp" />
+    </definition>
+
 </tiles-definitions>

@@ -112,7 +112,7 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
         this.person = sorPerson;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.recordId;
     }
 

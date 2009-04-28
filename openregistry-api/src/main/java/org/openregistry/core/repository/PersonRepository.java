@@ -67,6 +67,7 @@ public interface PersonRepository {
      */
     SorPerson findByPersonIdAndSorIdentifier(Long personId, String sorSourceIdentifier);
 
+    SorRole findSorRoleByInternalId(Long id);
     /**
      * Searches for a person based on some or all of the supplied criteria.
      *
