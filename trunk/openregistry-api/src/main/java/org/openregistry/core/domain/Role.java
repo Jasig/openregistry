@@ -3,6 +3,8 @@ package org.openregistry.core.domain;
 import java.io.Serializable;
 import java.util.Set;
 
+import org.openregistry.core.domain.sor.SorSponsor;
+
 /**
  * Entity representing canonical roles associated with resources and persons in the Open Registry system
  *
@@ -19,6 +21,8 @@ public interface Role extends Serializable, DateRange {
     Set<Address> getAddresses();
 
     Sponsor setSponsor();
+    
+    Sponsor addSponsor(SorSponsor sorSponsor);
     
     Sponsor getSponsor();
 
