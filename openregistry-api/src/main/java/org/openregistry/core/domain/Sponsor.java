@@ -12,12 +12,14 @@ public interface Sponsor extends Serializable {
 	
 	/**
      * Defines the type of Sponsor this is, i.e. person, role, organizational unit, etc.
+     * 
      * @return the type.  CANNOT be null.
      */
     Type getType();
 
     /**
      * The actual Sponsor ID value.
+     * 
      * @return the Sponsor ID value.  CANNOT be null.
      */
     Long getSponsorId();
@@ -31,12 +33,23 @@ public interface Sponsor extends Serializable {
 
     /**
      * Sets the Sponsor ID value.
+     * 
      * @param id the Sponsor ID value.  CANNOT be null.
      */
     void setSponsorId(Long id);
     
+    /**
+     * Returns the set of roles for this Sponsor
+     * 
+     * @return roles
+     */
     Set<Role> getRoles();
     
+    /**
+     * Add a role to this Sponsor
+     * 
+     * @param role role to be added
+     */
     void addRole(Role role);
 
 }
