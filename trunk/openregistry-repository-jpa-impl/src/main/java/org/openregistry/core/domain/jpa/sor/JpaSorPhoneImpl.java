@@ -5,10 +5,9 @@ import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Phone;
-import org.openregistry.core.domain.internal.*;
+import org.openregistry.core.domain.internal.Entity;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +18,8 @@ import javax.persistence.Entity;
  */
 @javax.persistence.Entity(name="sorPhone")
 @Table(name="prs_phones")
-public class JpaSorPhoneImpl extends org.openregistry.core.domain.internal.Entity implements Phone {
+@Audited
+public class JpaSorPhoneImpl extends Entity implements Phone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_phones_seq")

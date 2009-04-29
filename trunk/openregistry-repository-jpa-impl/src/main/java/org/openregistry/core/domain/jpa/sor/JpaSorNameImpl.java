@@ -2,7 +2,7 @@ package org.openregistry.core.domain.jpa.sor;
 
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.jpa.JpaPersonImpl;
+import org.hibernate.envers.Audited;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.core.ValidateDefinition;
 
@@ -19,6 +19,7 @@ import javax.persistence.*;
  */
 @javax.persistence.Entity(name="sorName")
 @Table(name="prs_names")
+@Audited
 @ValidateDefinition
 public class JpaSorNameImpl extends Entity implements Name {
 

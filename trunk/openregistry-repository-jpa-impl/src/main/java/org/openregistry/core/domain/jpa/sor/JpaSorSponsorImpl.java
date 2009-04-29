@@ -1,8 +1,6 @@
 package org.openregistry.core.domain.jpa.sor;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -17,6 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorSponsor;
@@ -28,7 +27,8 @@ import org.openregistry.core.domain.sor.SorSponsor;
  */
 @javax.persistence.Entity(name="sorSponsor")
 @Table(name="prs_sponsors")
-public class JpaSorSponsorImpl implements SorSponsor {
+@Audited
+public class JpaSorSponsorImpl extends Entity implements SorSponsor {
 
 	private static final long serialVersionUID = 3547710151070428086L;
 
