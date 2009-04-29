@@ -5,6 +5,8 @@ import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
+import org.openregistry.core.domain.internal.Entity;
+import org.hibernate.envers.Audited;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.validation.NotEmpty;
@@ -22,10 +24,11 @@ import java.util.*;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Entity(name="sorPerson")
+@javax.persistence.Entity(name="sorPerson")
 @Table(name="prs_sor_persons")
+@Audited
 @ValidateDefinition
-public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Entity implements SorPerson {
+public class JpaSorPersonImpl extends Entity implements SorPerson {
 
     @Id
     @Column(name="record_id")

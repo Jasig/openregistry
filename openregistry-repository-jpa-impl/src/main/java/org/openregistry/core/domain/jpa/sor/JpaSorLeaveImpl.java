@@ -1,13 +1,13 @@
 package org.openregistry.core.domain.jpa.sor;
 
+import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Leave;
-import org.openregistry.core.domain.internal.*;
+import org.openregistry.core.domain.internal.Entity;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.Date;
 
 /**
@@ -19,7 +19,8 @@ import java.util.Date;
  */
 @javax.persistence.Entity(name="sorLoa")
 @Table(name="prs_leaves_of_absence")
-public class JpaSorLeaveImpl extends org.openregistry.core.domain.internal.Entity implements Leave {
+@Audited
+public class JpaSorLeaveImpl extends Entity implements Leave {
 
     @Id
     @Column(name="id")

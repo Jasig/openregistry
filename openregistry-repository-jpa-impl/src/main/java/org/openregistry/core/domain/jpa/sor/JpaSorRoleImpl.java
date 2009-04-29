@@ -18,6 +18,7 @@ import org.openregistry.core.domain.Phone;
 import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Url;
+import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -30,10 +31,11 @@ import java.util.*;
  * Time: 11:15:09 AM
  * To change this template use File | Settings | File Templates.
  */
-@Entity(name="sorRole")
+@javax.persistence.Entity(name="sorRole")
 @Table(name="prs_role_records")
+@Audited
 @ValidateDefinition
-public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity implements SorRole {
+public class JpaSorRoleImpl extends Entity implements SorRole {
 
     @Id
     @Column(name="record_id")

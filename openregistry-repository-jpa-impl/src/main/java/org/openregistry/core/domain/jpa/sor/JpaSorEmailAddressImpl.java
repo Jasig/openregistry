@@ -19,6 +19,7 @@ import javax.persistence.*;
 
 @javax.persistence.Entity(name="sorEmailAddress")
 @Table(name="prs_emails")
+@Audited
 public class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
 
     @Id

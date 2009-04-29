@@ -19,6 +19,7 @@ import java.net.URL;
  */
 @javax.persistence.Entity(name="sorUrl")
 @Table(name="prs_urls")
+@Audited
 public class JpaSorUrlImpl extends Entity implements Url {
 
     @Id
