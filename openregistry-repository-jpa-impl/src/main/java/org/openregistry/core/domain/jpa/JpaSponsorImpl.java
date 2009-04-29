@@ -1,7 +1,7 @@
 package org.openregistry.core.domain.jpa;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -44,7 +44,7 @@ public class JpaSponsorImpl extends Entity implements Sponsor {
     private Long sponsorId;
     
     @OneToMany(mappedBy = "sponsor", targetEntity = JpaRoleImpl.class)
-    private List<Role> roles = new ArrayList<Role>();
+    private Set<Role> roles = new HashSet<Role>();
 
 	public JpaSponsorImpl() {
 		// nothing to do
@@ -85,7 +85,7 @@ public class JpaSponsorImpl extends Entity implements Sponsor {
 		this.roles.add(role);
 	}
 
-	public List<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return this.roles;
 	}
 	
