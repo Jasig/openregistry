@@ -72,18 +72,20 @@ public final class PeopleResource {
         //Build activation generator URI
         URI activationGeneratorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").build();
 
-        //Build activation proccess URI
+        //Build activation proccess URI - there will need to be an activation token generator service. TBD.
         URI activationProcessorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").path("proccess")
                 .queryParam("activation-token", "activation-token-skjfskjfhskjdfh").build();
 
+        logger.info(String.format("Searching for a person with  {personIdType:%s, personId:%s} ...", personIdType, personId));
         Person person = this.personService.findPersonByIdentifier(personIdType, personId);
         if (person == null) {
             //HTTP 404
+            logger.info("Person is not found.");
             throw new NotFoundException(
                     String.format("The person resource identified by /people/%s/%s URI does not exist",
                             personIdType, personId));
         }
-
+        logger.info("Person is found. Building a suitable representation...");
         return new PersonResponseRepresentation(
                 activationGeneratorUri.toString(),
                 activationProcessorUri.toString(),
@@ -146,36 +148,46 @@ public final class PeopleResource {
                                         @PathParam("personId") String personId,
                                         @PathParam("roleId") String roleId,
                                         @QueryParam("reason") String terminationReason) {
-
+        logger.info(String.format("Received a request to delete a role for a person with the following params: " +
+                "{personIdType:%s, personId:%s, roleId:%s, reason:%s}", personIdType, personId, roleId, terminationReason));
         if (terminationReason == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please specify the <reason> for termination.")
                     .build();
         }
+        logger.info("Searching for a person...");
         Person person = this.personService.findPersonByIdentifier(personIdType, personId);
         if (person == null) {
+            logger.info("Person is not found...");
             return Response.status(Response.Status.NOT_FOUND).entity("The specified person is not found in the system")
                     .build();
         }
+        logger.info("Person is found. Picking out the role for a provided 'roleId'...");
         Role role = person.pickOutRoleByIdentifier(roleId);
         if (role == null) {
+            logger.info("The Role with the specified 'roleId' is not found in the collection of Person Roles");
             return Response.status(Response.Status.NOT_FOUND).entity("The specified role is not found for this person")
                     .build();
         }
+        logger.info("The Role is found");
         if (role.isTerminated()) {
+            logger.info("The Role is already terminated.");
             //Results in HTTP 204
             return null;
         }
         try {
             if (!this.personService.deleteSorRole(person, role, terminationReason)) {
                 //HTTP 500. Is this OK?
+                logger.info("The call to PersonService.deleteSorRole returned <false>. Assuming it's an internal error.");
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("The operation resulted in an internal error")
                         .build();
             }
         }
         catch (IllegalArgumentException ex) {
+            logger.info("The 'terminationReason' did not pass the validation");
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
         //If we got here, everything went well. HTTP 204
+        logger.info("The Role resource has been successfully DELETEd");
         return null;
     }
 
@@ -185,18 +197,26 @@ public final class PeopleResource {
                                                @PathParam("personIdType") String personIdType,
                                                @PathParam("personId") String personId) {
 
+        logger.info(String.format("Received a request to delete a system of record person with the following params: " +
+                "{sorSourceId:%s, personIdType:%s, personId:%s}", sorSourceId, personIdType, personId));
+
+        logger.info("Searching for SOR Person...");
         SorPerson person = this.personService.findSorPersonByIdentifierAndSourceIDentifier(personIdType,
                 personId, sorSourceId);
         if (person == null) {
+            logger.info("SOR Person is not found");
             //HTTP 404
             throw new NotFoundException(
                     String.format("The person resource identified by /people/%s/%s/sor/%s URI does not exist",
                             personIdType, personId, sorSourceId));
         }
-        if(!this.personService.deleteSystemOfRecordPerson(person)) {
+        logger.info("SOR Person is found. Trying do delete...");
+        if (!this.personService.deleteSystemOfRecordPerson(person)) {
+            logger.info("PersonService.deleteSystemOfRecordPerson call has returned <false>. Assuming an internal error.");
             throw new WebApplicationException(500);
         }
         //HTTP 204
+        logger.info("The SOR Person resource has been successfully DELETEd");
         return null;
     }
 
