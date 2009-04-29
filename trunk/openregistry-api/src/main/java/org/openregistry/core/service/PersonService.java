@@ -142,4 +142,20 @@ public interface PersonService {
      * @return the list of matches for a particular person.  This list CANNOT be null, but may be empty.  The list MUST be sorted in order of Confidence.
      */
     List<PersonMatch> searchForPersonBy(SearchCriteria searchCriteria);
+
+    /**
+     * Updates the SorPerson.
+     *
+     * @param personSearch the Person to search for.
+     * @return Result of updating.  Validation errors if they occurred or the sorPerson.
+     */
+    ServiceExecutionResult updateSorPerson(final PersonSearch personSearch);
+
+    /**
+     * Updates the SorRole.
+     *
+     * @param role to update
+     * @return Result of updating.  Validation errors if they occurred or the sorPerson.
+     */
+    ServiceExecutionResult updateSorRole(final SorRole role);
 }

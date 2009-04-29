@@ -91,6 +91,10 @@ public class JpaPersonRepository implements PersonRepository {
         this.entityManager.merge(person);
     }
 
+    public SorRole saveSorRole(final SorRole role) throws RepositoryAccessException {
+        return this.entityManager.merge(role);
+    }
+
     public SorPerson findSorPersonByPersonIdAndSorRoleId(final Long personId, final Long roleId) {
         return (SorPerson) this.entityManager.createQuery("select s from sorPerson s join s.roles r where r.roleId = :roleId and s.personId = :personId").setParameter("roleId", roleId).setParameter("personId", personId).getSingleResult();
     }

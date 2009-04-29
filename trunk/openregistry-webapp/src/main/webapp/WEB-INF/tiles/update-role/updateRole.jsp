@@ -16,11 +16,28 @@
         <br/>
 
         <fieldset class="fm-h" id="ecn1">
-            <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2><c:out value="${personSearch.person.formattedNameAndID}"/></em2></label>
+            <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2><c:out value="${sorPerson.formattedNameAndID}"/></em2></label>
                 <br/><br/>
-                <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="role.label"/></span><em2><c:out value="${role.affiliationType.description}"/>/<c:out value="${role.title}"/></em2></label>
-     
-                <br/><br/>
+                <label class="desc"><spring:message code="role.heading"/></label>
+                <div>
+                    <table class="data" cellspacing="0" width="50%">
+                        <thead>
+                            <tr class="appHeadingRow">
+                                <th><spring:message code="affiliationTitle.label"/></th>
+                                <th><spring:message code="organization.label"/></th>
+                                <th><spring:message code="campus.label"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><c:out value="${role.affiliationType.description}"/>/<c:out value="${role.title}"/></td>
+                                <td><c:out value="${role.organizationalUnit.name}"/></td>
+                                <td><c:out value="${role.campus.name}"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <label class="desc" for="c1_startdate"><spring:message code="specifyRoleInfo.heading"/></label>
 
                 <div class="row">
@@ -32,12 +49,12 @@
 
                     <label for="c1_sponsor" class="sponsor"><spring:message code="sponsor.label" /><em>*</em></label>
                     <div class="select sponsor">
-                        <form:select path="sponsor" id="c1_sponsor" items="${sponsorLookup}" itemValue="id" itemLabel= "formattedNameAndID" size="1" tabindex="3" />
+					    <form:select path="sponsor.sponsorId" id="c1_sponsor" items="${sponsorList}" itemValue="id" itemLabel= "formattedNameAndID" size="1" tabindex="3" />
                     </div>
 
                     <label for="c1_pt" class="updateRolePt"><spring:message code="pt.label" /></label>
                        <div class="select pt">
-							<form:select path="percentage" id="c1_pt" size="1" tabindex="7">
+							<form:select path="percentage" id="c1_pt" size="1" tabindex="4">
                             <form:option value="100" label="100"/>
 							<form:option value="75" label="75"/>
                             <form:option value="50" label="50"/>
@@ -56,18 +73,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="emailAddress" items="${role.emailAddresses}">
+                            <c:forEach var="emailAddress" items="${role.emailAddressList}" varStatus="loopStatus">
                             <tr>
                                 <td><c:out value="${emailAddress.addressType.description}"/></td>
-                                <td><c:out value="${emailAddress.address}"/></td>
+                                <td><form:input path="emailAddressList[${loopStatus.index}].address" /></</td>
                             </tr>
                             </c:forEach>
                         </tbody>
                     </table>
-                </div>
-
-                <div>
-                    <input id="addEmailAddressBtn" class="button" type="submit" name="_eventId_submitAddEmailAddress" value="Add Email Address" title="add a new email address" />
                 </div>
 
                 <label class="desc"><spring:message code="phones.heading"/></label>
@@ -83,21 +96,50 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="phone" items="${role.phones}">
+                            <c:forEach var="phone" items="${role.phoneList}" varStatus="loopStatus">
                             <tr>
                                 <td><c:out value="${phone.phoneType.description}"/></td>
-                                <td><c:out value="${phone.countryCode}"/></td>
-                                <td><c:out value="${phone.areaCode}"/></td>
-                                <td><c:out value="${phone.number}"/></td>
-                                <td><c:out value="${phone.extension}"/></td>
+                                <td><form:input path="phoneList[${loopStatus.index}].countryCode" /></</td>
+                                <td><form:input path="phoneList[${loopStatus.index}].areaCode" /></</td>
+                                <td><form:input path="phoneList[${loopStatus.index}].number" /></</td>
+                                <td><form:input path="phoneList[${loopStatus.index}].extension" /></</td>
                             </tr>
                             </c:forEach>
                         </tbody>
                     </table>
                 </div>
 
+                <label class="desc"><spring:message code="addresses.heading"/></label>
                 <div>
-                    <input id="addPhonesBtn" class="button" type="submit" name="_eventId_submitAddPhones" value="Add Phone" title="add a new phone" />
+                    <c:forEach var="address" items="${role.addressList}" varStatus="loopStatus">
+                        <div class="row">
+                            <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="addressType.heading"/></span><em2><c:out value="${address.type.description}"/></em2></label>  
+                        </div>
+                        <div class="row">
+						    <label for="c1_address1" class="address1"><spring:message code="addressLine1.label"/></label>
+						    <form:input path="addressList[${loopStatus.index}].line1" id="c1_address1" size="30" maxlength="30" tabindex="8" />
+					    </div>
+                        <div class="row">
+						    <label for="c1_address1" class="address1"><spring:message code="addressLine2.label"/></label>
+						    <form:input path="addressList[${loopStatus.index}].line2" id="c1_address1" size="30" maxlength="30" tabindex="9" />
+					    </div>
+                        <div class="row">
+						    <label for="c1_address1" class="address1"><spring:message code="addressLine3.label"/></label>
+						    <form:input path="addressList[${loopStatus.index}].line3" id="c1_address1" size="30" maxlength="30" tabindex="10" />
+					    </div>
+
+					    <div class="row">
+						    <label for="c1_city"><spring:message code="city.label"/></label>
+						    <form:input path="addressList[${loopStatus.index}].city" id="c1_city" size="30" maxlength="30" tabindex="11" />
+
+                            <label for="c1_state" class="state"><spring:message code="region.label"/></label>
+					        <form:input path="addressList[${loopStatus.index}].region" id="c1_state" size="10" maxlength="10" tabindex="12" />
+
+						    <label for="c1_zip" class="zip"><spring:message code="postalCode.label"/></label>
+						    <form:input path="addressList[${loopStatus.index}].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="13" />
+					    </div>
+                    </c:forEach>
+                    <br/><br/>
                 </div>
 
 			</fieldset>

@@ -26,5 +26,9 @@ public final class ApplicationConversionService extends DefaultConversionService
 	    StringToDate dateConverter = new StringToDate();
 	    dateConverter.setPattern("MM/dd/yyyy");
 	    addConverter("shortDate", dateConverter);
+        addConverter(dateConverter);
+
+        addConverter(new RegionConverter());
+        addConverter(new SponsorConverter());
     }
 }

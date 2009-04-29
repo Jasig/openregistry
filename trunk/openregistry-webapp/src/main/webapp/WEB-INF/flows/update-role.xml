@@ -6,15 +6,19 @@
 
     <!-- By default, the first state is the start state. -->
     <input name="role" />
+    <input name="sorPerson" />
 
     <view-state id="updateRole" model="role" view="openregistry.role.update">
         <on-entry>
             <set name="viewScope.command" value="'role'" />
+            <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
         </on-entry>
-        <transition on="submitUpdateRole" to="updateRole" />
+        <transition on="submitUpdateRole" to="roleWasUpdated" >
+            <evaluate expression="personService.updateSorRole(role)" result="flowScope.serviceExecutionResult"/>
+        </transition>
         <transition on="cancelUpdatePerson" to="cancelUpdateRole"/>
     </view-state>
-
+    
     <end-state id="roleWasUpdated" />
     <end-state id="cancelUpdateRole" view="flowRedirect:updateRole" />
 </flow>

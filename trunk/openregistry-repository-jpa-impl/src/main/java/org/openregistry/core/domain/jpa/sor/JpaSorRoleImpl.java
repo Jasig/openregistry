@@ -21,9 +21,7 @@ import org.openregistry.core.domain.Url;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -236,9 +234,45 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
 		return this.addresses;
 	}
 
+    //work around to problems with binding to a set versus a list.
+    @Transient
+    private List<Address> addressList;
+
+    public List<Address> getAddressList() {
+        addressList = new ArrayList();
+        Iterator iterator = getAddresses().iterator();
+        while (iterator.hasNext()){
+            Address address = (Address)iterator.next();
+            addressList.add(address);
+        }
+        return this.addressList;
+    }
+
+    public void setAddressList(List list){
+        this.addressList=list;
+    }
+
 	public Set<EmailAddress> getEmailAddresses() {
 		return this.emailAddresses;
 	}
+
+    //work around to problems with binding to a set versus a list.
+    @Transient
+    private List<EmailAddress> emailAddressList;
+
+    public List<EmailAddress> getEmailAddressList() {
+        emailAddressList = new ArrayList();
+        Iterator iterator = getEmailAddresses().iterator();
+        while (iterator.hasNext()){
+            EmailAddress emailAddress = (EmailAddress)iterator.next();
+            emailAddressList.add(emailAddress);
+        }
+        return this.emailAddressList;
+    }
+
+    public void setEmailAddressList(List list){
+        this.emailAddressList=list;
+    }
 
 	public Set<Leave> getLeaves() {
 		return this.leaves;
@@ -248,13 +282,31 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
 		return this.phones;
 	}
 
+    //work around to problems with binding to a set versus a list.
+    @Transient
+    private List<Phone> phoneList;
+
+    public List<Phone> getPhoneList() {
+        phoneList = new ArrayList();
+        Iterator iterator = getPhones().iterator();
+        while (iterator.hasNext()){
+            Phone phone = (Phone)iterator.next();
+            phoneList.add(phone);
+        }
+        return this.phoneList;
+    }
+
+    public void setPhoneList(List list){
+        this.phoneList=list;
+    }
+
+
 	public Set<Url> getUrls() {
 		return this.urls;
 	}
 
 	public Campus getCampus() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.roleInfo.getCampus();
 	}
 
 	public String getLocalCode() {
@@ -263,7 +315,6 @@ public class JpaSorRoleImpl extends org.openregistry.core.domain.internal.Entity
 	}
 
 	public OrganizationalUnit getOrganizationalUnit() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.roleInfo.getOrganizationalUnit();
 	}
 }
