@@ -9,22 +9,11 @@
     <var name="sorName" class="org.openregistry.core.domain.jpa.sor.JpaSorNameImpl" />
 
     <view-state id="updatePerson" model="personSearch" view="openregistry.person.update.update">
-        <binder>
-            <binding property="person.dateOfBirth" converter="shortDate" required="true"/>
-            <binding property="person.gender" required="true" />
-            <binding property="person.ssn" />
-            <binding property="person.nameList" />
-            <binding property="sorName.prefix" />
-            <binding property="sorName.first" />
-            <binding property="sorName.middle" />
-            <binding property="sorName.given" />
-            <binding property="sorName.suffix" />
-        </binder>
         <on-entry>
             <evaluate expression="personRepository.findSorPersonByInternalId(2)" result="flowScope.sorPerson"/>
             <evaluate expression="personSearch.setSorPerson(sorPerson)"/>
             <evaluate expression="sorPerson.getNameList()" result="flowScope.names"/>
-            <evaluate expression="personRepository.findPersonIdentifiers(2)" result="flowScope.identifiers" />
+            <evaluate expression="personRepository.findPersonIdentifiers(sorPerson.getPersonId())" result="flowScope.identifiers" />
             <set name="viewScope.command" value="'personSearch'" />
             <set name="viewScope.identifiers" value="identifiers" />
         </on-entry>
@@ -56,8 +45,8 @@
         <on-entry>
             <set name="viewScope.command" value="'sorName'" />
         </on-entry>
-        <transition on="submitPerformAddName" to="updatePerson" >
-
+        <transition on="submitPerformAddName" to="personWasUpdated" >
+            <evaluate expression="personService.updateSorPerson(personSearch)" result="flowScope.serviceExecutionResult"/>
         </transition>
         <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
     </view-state>
@@ -80,11 +69,11 @@
 
     <subflow-state id="updateRole" subflow="updateRole" >
         <input name="role" />
-        <input name="personSearch" />
+        <input name="sorPerson" />
         <transition to="roleWasUpdated" />
     </subflow-state>
 
-    <end-state id="personWasUpdated" />
+    <end-state id="personWasUpdated" view="flowRedirect:updatePerson" />
     <end-state id="cancelUpdatePerson" view="flowRedirect:updatePerson" />
     <end-state id="roleWasUpdated" view="flowRedirect:updatePerson" />
 </flow>

@@ -102,6 +102,7 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
         this.names = names;
     }
 
+    //work around to problems with binding to a set versus a list.
     @Transient
     private List<Name> nameList;
 
@@ -171,14 +172,13 @@ public class JpaSorPersonImpl extends org.openregistry.core.domain.internal.Enti
 	public void setPersonId(Long personId) {
 		this.personId = personId;
 	}
-	
+
 	public SorRole addRole(final RoleInfo roleInfo) {
         if (!(roleInfo instanceof JpaRoleInfoImpl)) {
             throw new IllegalArgumentException("roleInfo of type JpaRoleInfoImpl required.");
         }
         final JpaSorRoleImpl jpaRole = new JpaSorRoleImpl((JpaRoleInfoImpl) roleInfo, this);
         this.roles.add(jpaRole);
-
         return jpaRole;
     }
 

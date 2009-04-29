@@ -152,6 +152,13 @@ public interface PersonRepository {
     void updateRole(Person person, Role role);
 
     /**
+     * Updates the sor role in the database.
+     *
+     * @param role the sor role being updated.
+     */
+    SorRole saveSorRole(SorRole role);
+    
+    /**
      * Locates a System of Record for a Person based on their internal personId and the internal system of record
      * role identifier.
      *

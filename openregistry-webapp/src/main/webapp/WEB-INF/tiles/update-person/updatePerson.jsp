@@ -8,6 +8,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <form:form modelAttribute="personSearch">
 			<fieldset id="updateperson">
@@ -48,22 +49,25 @@
                                 <td><form:input path="person.nameList[${loopStatus.index}].middle" /></td>
                                 <td><form:input path="person.nameList[${loopStatus.index}].family" /></td>
                                 <td><form:input path="person.nameList[${loopStatus.index}].suffix" /></td>
-                                <td>Official</td>
+                                <td> </td>
                             </tr>
                             </c:forEach>
                     </tbody>
                 </table>
             </div>
-            <div>
-                <input id="addNameBtn" class="button" type="submit" name="_eventId_submitAddName" value="Add Name" title="add a new name" />
-            </div>
-            
+
+                <div>
+                    <input id="addNameBtn" class="button" type="submit" name="_eventId_submitAddName" value="Add Name" title="add a new name" />
+                </div>
+
                 <label class="desc"><spring:message code="roles.heading"/></label>
                 <div>
                     <table class="data" cellspacing="0" width="50%">
                         <thead>
                             <tr class="appHeadingRow">
                                 <th><spring:message code="affiliationTitle.label"/></th>
+                                <th><spring:message code="organization.label"/></th>
+                                <th><spring:message code="campus.label"/></th>
                                 <th><spring:message code="startDate.label"/></th>
                                 <th><spring:message code="endDate.label"/></th>
                             </tr>
@@ -75,18 +79,21 @@
                                     <a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}">${role.affiliationType.description}/${role.title}</a>
                                 </td>
                                 <td>
-                                    <c:out value="${role.start}"/>
+                                    ${role.organizationalUnit.name}
                                 </td>
                                 <td>
-                                    <c:out value="${role.end}"/>
+                                    ${role.campus.name}
+                                </td>
+                                <td>
+                                    <fmt:formatDate pattern="MM/dd/yyyy" value="${role.start}"/>
+                                </td>
+                                <td>
+                                    <fmt:formatDate pattern="MM/dd/yyyy" value="${role.end}"/>
                                 </td>
                             </tr>
                             </c:forEach>
                     </tbody>
                 </table>
-            </div>
-            <div>
-                <input id="addRoleBtn" class="button" type="submit" name="_eventId_submitAddRole" value="Add Role" title="add a new role" />
             </div>
 
             <label class="desc"><spring:message code="biodem.heading"/></label>

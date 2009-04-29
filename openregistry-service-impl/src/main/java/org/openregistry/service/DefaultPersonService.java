@@ -416,6 +416,8 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public ServiceExecutionResult updateSorPerson(final PersonSearch personSearch) {
         final String serviceName = "PersonService.updateSorPerson";
+        logger.info("PersonService:updateSorPerson:");
+
         SorPerson sorPerson = personSearch.getPerson();
 
         final List<ValidationError> validationErrors = validateAndConvert(personSearch);
@@ -426,9 +428,36 @@ public class DefaultPersonService implements PersonService {
 
         // Save Sor Person
         sorPerson = this.personRepository.saveSorPerson(sorPerson);
+
         return new DefaultServiceExecutionResult(serviceName, sorPerson);
 
         // TODO Need to update the calculated person. Need to establish rules to do this.
     }
+
+    /**
+     * Persists an SorRole on update.
+     *
+     * @param role to update.
+     * @return serviceExecutionResult.
+     */
+    @Transactional
+    public ServiceExecutionResult updateSorRole(SorRole role) {
+        final String serviceName = "PersonService.updateSorRole";
+        logger.info("PersonService:updateSorRole:");
+
+        final List<ValidationError> validationErrors = validateAndConvert(role);
+
+        if (!validationErrors.isEmpty()) {
+            return new DefaultServiceExecutionResult(serviceName, role, validationErrors);
+        }
+
+        // Save Sor Person
+        role = this.personRepository.saveSorRole(role);
+
+        return new DefaultServiceExecutionResult(serviceName, role);
+
+        // TODO Need to update the calculated role. Need to establish rules to do this.
+    }
+
 
 }
