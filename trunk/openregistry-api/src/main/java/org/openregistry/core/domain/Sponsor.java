@@ -1,7 +1,7 @@
 package org.openregistry.core.domain;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author Dave Steiner
@@ -35,7 +35,7 @@ public interface Sponsor extends Serializable {
      */
     void setSponsorId(Long id);
     
-    List<Role> getRoles();
+    Set<Role> getRoles();
     
     void addRole(Role role);
 
