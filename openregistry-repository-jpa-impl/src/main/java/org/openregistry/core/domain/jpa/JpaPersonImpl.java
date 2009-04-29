@@ -4,7 +4,6 @@ import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.*;
 import org.hibernate.envers.Audited;
-import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
@@ -52,9 +51,6 @@ public class JpaPersonImpl extends Entity implements Person {
     @Column(name="gender",length=1,nullable=false)
     @NotEmpty(customCode="genderRequiredMsg")
     private String gender;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sponsor")
-    private List<JpaRoleImpl> sponsoredRoles;
 
     public Long getId() {
         return this.id;
