@@ -38,12 +38,7 @@ import org.slf4j.Logger;
 public final class RoleController {
 
     protected final String ACTIVE_STATUS = "Active";
-    protected final String TYPE_STATUS = "Status";
-    protected final String TYPE_ADDRESS = "Address";
-    protected final String TYPE_PHONE = "Phone";
-    protected final String TYPE_EMAIL_ADDRESS = "EmailAddress";
     protected final String CAMPUS = "Campus";
-    protected final String TYPE_SPONSOR = "Sponsor";
     protected final String PERSON = "Person";
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -127,16 +122,16 @@ public final class RoleController {
         final SorRole sorRole = sorPerson.addRole(roleInfo);
         sorRole.setSorId("1");  // TODO Don't hardcode
         sorRole.setSourceSorIdentifier("or-webapp"); // TODO Don't hardcode
-        sorRole.setPersonStatus(referenceRepository.findType(TYPE_STATUS, ACTIVE_STATUS));
+        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS.name(), ACTIVE_STATUS));
         final EmailAddress emailAddress = sorRole.addEmailAddress();
-        emailAddress.setAddressType(referenceRepository.findType(TYPE_EMAIL_ADDRESS, CAMPUS));
+        emailAddress.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL.name(), CAMPUS));
         final Phone phone = sorRole.addPhone();
-        phone.setPhoneType(referenceRepository.findType(TYPE_PHONE, CAMPUS));
-        phone.setAddressType(referenceRepository.findType(TYPE_PHONE, CAMPUS));
+        phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE.name(), CAMPUS));
+        phone.setAddressType(referenceRepository.findType(Type.DataTypes.PHONE.name(), CAMPUS));
         final Address address = sorRole.addAddress();
-        address.setType(referenceRepository.findType(TYPE_ADDRESS, CAMPUS));
+        address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS.name(), CAMPUS));
         final SorSponsor sponsor = sorRole.setSponsor();
-        sponsor.setType(referenceRepository.findType(TYPE_SPONSOR, PERSON));  // TODO handle other types
+        sponsor.setType(referenceRepository.findType(Type.DataTypes.SPONSOR.name(), PERSON));  // TODO handle other types
 
         //provide default values for start and end date of role
         final Calendar cal = Calendar.getInstance();
