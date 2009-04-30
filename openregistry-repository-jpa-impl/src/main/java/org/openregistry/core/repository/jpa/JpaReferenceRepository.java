@@ -77,7 +77,7 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
     
     @Transactional
-    public RoleInfo getRoleInfoByOrganizationUnitAndTitle(final OrganizationalUnit ou, final String title) {
+    public RoleInfo getRoleInfoByOrganizationalUnitAndTitle(final OrganizationalUnit ou, final String title) {
        	return (RoleInfo)this.entityManager.createQuery("select r from roleInfo r where r.organizationalUnit = :ou and r.title = :title order by r.title").setParameter("ou", ou).setParameter("title", title).getSingleResult();
     }
 

@@ -33,7 +33,7 @@ public interface ReferenceRepository {
     
     RoleInfo getRoleInfoByCode(String code);
     
-    RoleInfo getRoleInfoByOrganizationUnitAndTitle(OrganizationalUnit ou, String title);
+    RoleInfo getRoleInfoByOrganizationalUnitAndTitle(OrganizationalUnit ou, String title);
 
     List<Region> getRegions();
 
