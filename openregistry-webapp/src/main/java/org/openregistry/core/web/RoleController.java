@@ -74,7 +74,7 @@ public final class RoleController {
     	logger.info("Populating: setUpForm: ");
 
         final SorPerson sorPerson = this.personService.findSorPersonById(sorPersonKey);
-        final RoleInfo roleInfo = this.referenceRepository.getRoleInfo(roleInfoKey);
+        final RoleInfo roleInfo = this.referenceRepository.getRoleInfoById(roleInfoKey);
         final SorRole sorRole = addRole(sorPerson, roleInfo);
 
         model.addAttribute("role", sorRole);

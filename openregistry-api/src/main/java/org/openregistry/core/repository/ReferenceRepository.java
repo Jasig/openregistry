@@ -29,7 +29,11 @@ public interface ReferenceRepository {
 
     List<RoleInfo> getRoleInfos();
 
-    RoleInfo getRoleInfo(Long id);
+    RoleInfo getRoleInfoById(Long id);
+    
+    RoleInfo getRoleInfoByCode(String code);
+    
+    RoleInfo getRoleInfoByOrganizationUnitAndTitle(OrganizationalUnit ou, String title);
 
     List<Region> getRegions();
 
