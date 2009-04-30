@@ -192,10 +192,13 @@ public final class PeopleResource {
     }
 
     @DELETE
-    @Path("{personIdType}/{personId}/sor/{sorSourceId}/")
-    public Response deleteSystemOfRecordPerson(@PathParam("sorSourceId") String sorSourceId,
-                                               @PathParam("personIdType") String personIdType,
-                                               @PathParam("personId") String personId) {
+    @Path("{personIdType}/{personId}")
+    public Response deleteSystemOfRecordPerson(@PathParam("personIdType") String personIdType,
+                                               @PathParam("personId") String personId,
+                                               @QueryParam("sor") String sorSourceId) {
+        if (sorSourceId == null) {
+            throw new WebApplicationException(new IllegalArgumentException("'sor' query parameter must be provided"), 400);
+        }
 
         logger.info(String.format("Received a request to delete a system of record person with the following params: " +
                 "{sorSourceId:%s, personIdType:%s, personId:%s}", sorSourceId, personIdType, personId));
