@@ -18,16 +18,16 @@ public class SponsorConverter extends StringToObject {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired(required = true)
-    private PersonRepository personRepository;
+    private PersonRepository personRepository=null;
 
-    public SponsorConverter() {
+    public SponsorConverter(PersonRepository personRepository) {
        super(Person.class);
+       this.personRepository = personRepository;
    }
 
     @Override
     protected Object toObject(String string, Class targetClass) throws Exception {
-       return personRepository.findByInternalId(new Long(string));
+        return personRepository.findByInternalId(new Long(string));
     }
 
    @Override

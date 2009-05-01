@@ -4,7 +4,11 @@ import org.springframework.binding.convert.converters.StringToDate;
 import org.springframework.binding.convert.service.DefaultConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.InitializingBean;
 import org.openregistry.core.repository.ReferenceRepository;
+import org.openregistry.core.repository.PersonRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,10 +19,15 @@ import org.openregistry.core.repository.ReferenceRepository;
  */
 
 @Service("conversionService")
-public final class ApplicationConversionService extends DefaultConversionService {
+public final class ApplicationConversionService extends DefaultConversionService implements InitializingBean {
 
     @Autowired(required = true)
     private ReferenceRepository referenceRepository;
+
+    @Autowired(required = true)
+    private PersonRepository personRepository;
+
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     protected void addDefaultConverters() {
@@ -27,8 +36,11 @@ public final class ApplicationConversionService extends DefaultConversionService
 	    dateConverter.setPattern("MM/dd/yyyy");
 	    addConverter("shortDate", dateConverter);
         addConverter(dateConverter);
-
-        addConverter(new RegionConverter());
-        addConverter(new SponsorConverter());
     }
+
+    public void afterPropertiesSet() throws Exception {
+        addConverter(new RegionConverter(this.referenceRepository));
+        addConverter(new SponsorConverter(this.personRepository));
+    } 
+
 }
