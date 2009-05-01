@@ -207,7 +207,7 @@ public class DefaultPersonService implements PersonService {
         Person person = this.personRepository.findByInternalId(savedSorPerson.getPersonId());
         person.addRole(sorRole.getRoleInfo(), sorRole);
         this.personRepository.savePerson(person);
-//        sorRole.setRoleId(person.getRoles());
+// TODO       sorRole.setRoleId(person.getRoles());
         
         return new ReconciliationServiceExecutionResult(serviceName, sorRole);
     }
