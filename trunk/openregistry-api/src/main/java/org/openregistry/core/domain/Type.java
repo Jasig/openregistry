@@ -18,7 +18,8 @@ public interface Type extends Serializable {
     /**
      * The default list of enumerations that the system understands.
      */
-    enum DataTypes {TERMINATION, STATUS, ADDRESS, PHONE, EMAIL, CAMPUS, AFFILIATION, SPONSOR}
+    enum DataTypes {ADDRESS, AFFILIATION, CAMPUS, EMAIL, LEAVE, NAME, ORGANIZATIONAL_UNIT, PERSON_STATUS, 
+    	PHONE, REGION, SOR, SPONSOR, STATUS,  TERMINATION, TEST}
 
     /**
      * The internal identifier of the type.
