@@ -8,6 +8,9 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Region;
 import org.openregistry.core.repository.ReferenceRepository;
 
+import java.util.List;
+import java.util.Iterator;
+
 /**
  * Created by IntelliJ IDEA.
  * User: nmond
@@ -19,11 +22,11 @@ public class RegionConverter extends StringToObject {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired(required = true)
-    private ReferenceRepository referenceRepository;
+    private ReferenceRepository referenceRepository=null;
 
-    public RegionConverter() {
+    public RegionConverter(ReferenceRepository referenceRepository) {
        super(Region.class);
+       this.referenceRepository = referenceRepository;
    }
 
     @Override
@@ -41,7 +44,8 @@ public class RegionConverter extends StringToObject {
    @Override
    protected String toString(Object object) throws Exception {
        Region region = (Region) object;
-       return region.getName();
+       logger.info("RegionConverter: converting to string"+ region.getName() + " " +region.getCode());
+       return region != null ? region.getCode() : " ";
    }
 
 }
