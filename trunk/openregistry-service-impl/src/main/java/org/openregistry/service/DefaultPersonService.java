@@ -199,7 +199,7 @@ public class DefaultPersonService implements PersonService {
         final List<ValidationError> validationErrors = validateAndConvert(sorRole);
 
         if (!validationErrors.isEmpty()) {
-            return new DefaultServiceExecutionResult(serviceName, sorRole, validationErrors);
+            return new ReconciliationServiceExecutionResult(serviceName, sorRole, validationErrors);
         }
 
         SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
@@ -209,7 +209,7 @@ public class DefaultPersonService implements PersonService {
         this.personRepository.savePerson(person);
 //        sorRole.setRoleId(person.getRoles());
         
-        return new DefaultServiceExecutionResult(serviceName, sorRole);
+        return new ReconciliationServiceExecutionResult(serviceName, sorRole);
     }
 
     @Transactional
@@ -220,7 +220,7 @@ public class DefaultPersonService implements PersonService {
         final String serviceName = "PersonService.addPerson";
 
         if (!validationErrors.isEmpty()) {
-            return new DefaultServiceExecutionResult(serviceName, personSearch, validationErrors);
+            return new ReconciliationServiceExecutionResult(serviceName, personSearch, validationErrors);
         }
 
 
@@ -228,16 +228,16 @@ public class DefaultPersonService implements PersonService {
             final ReconciliationResult result = this.reconciler.reconcile(personSearch);
 
             if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
-                return new DefaultServiceExecutionResult(serviceName, magic(personSearch), result);
+                return new ReconciliationServiceExecutionResult(serviceName, magic(personSearch), result);
             } else if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
-            	return new DefaultServiceExecutionResult(serviceName, magicUpdate(personSearch, result), result);
+            	return new ReconciliationServiceExecutionResult(serviceName, magicUpdate(personSearch, result), result);
             }
             logger.info("In personService.addPerson: reconciliation result: "+ result.getReconciliationType().toString());
             // ReconciliationResult.ReconciliationType.MAYBE
-            return new DefaultServiceExecutionResult(serviceName, personSearch, result);
+            return new ReconciliationServiceExecutionResult(serviceName, personSearch, result);
         }
         // Here if we were called a second time.  This means even though we found partial matches, this is a new person.
-        return new DefaultServiceExecutionResult(serviceName, magic(personSearch));
+        return new ReconciliationServiceExecutionResult(serviceName, magic(personSearch));
     }
 
 	@Transactional
@@ -423,13 +423,15 @@ public class DefaultPersonService implements PersonService {
         final List<ValidationError> validationErrors = validateAndConvert(personSearch);
 
         if (!validationErrors.isEmpty()) {
-            return new DefaultServiceExecutionResult(serviceName, personSearch, validationErrors);
+            logger.info("PersonService:updateSorPerson: validation errors found");
+            return new GeneralServiceExecutionResult(serviceName, personSearch, validationErrors);
         }
 
         // Save Sor Person
+        logger.info("PersonService:updateSorPerson: updating person...");
         sorPerson = this.personRepository.saveSorPerson(sorPerson);
 
-        return new DefaultServiceExecutionResult(serviceName, sorPerson);
+        return new GeneralServiceExecutionResult(serviceName, sorPerson);
 
         // TODO Need to update the calculated person. Need to establish rules to do this.
     }
@@ -448,13 +450,15 @@ public class DefaultPersonService implements PersonService {
         final List<ValidationError> validationErrors = validateAndConvert(role);
 
         if (!validationErrors.isEmpty()) {
-            return new DefaultServiceExecutionResult(serviceName, role, validationErrors);
+            logger.info("PersonService:updateSorRole: validation errors found");
+            return new GeneralServiceExecutionResult(serviceName, role, validationErrors);
         }
 
+        logger.info("PersonService:updateSorPerson: updating role...");
         // Save Sor Person
         role = this.personRepository.saveSorRole(role);
 
-        return new DefaultServiceExecutionResult(serviceName, role);
+        return new GeneralServiceExecutionResult(serviceName, role);
 
         // TODO Need to update the calculated role. Need to establish rules to do this.
     }

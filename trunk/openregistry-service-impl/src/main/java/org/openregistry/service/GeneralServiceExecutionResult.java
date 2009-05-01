@@ -4,6 +4,8 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.ValidationError;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Date;
@@ -16,7 +18,7 @@ import java.util.Collections;
  * @see org.openregistry.core.service.ServiceExecutionResult
  *
  */
-public class DefaultServiceExecutionResult implements ServiceExecutionResult {
+public class GeneralServiceExecutionResult implements ServiceExecutionResult {
 
     private final String serviceName;
 
@@ -26,30 +28,23 @@ public class DefaultServiceExecutionResult implements ServiceExecutionResult {
 
     private final List<ValidationError> validationErrors;
 
-    private final ReconciliationResult reconciliationResult;
+    private boolean succeeded;
 
-    private final boolean succeeded;
-
-    public DefaultServiceExecutionResult(final String serviceName, final Object targetObject) {
-        this(serviceName, targetObject, null, null);
+    public GeneralServiceExecutionResult(final String serviceName, final Object targetObject) {
+        this(serviceName, targetObject, null);
     }
 
-    public DefaultServiceExecutionResult(final String serviceName, final Object targetObject, final List<ValidationError> validationErrors) {
-        this(serviceName, targetObject, validationErrors, null);
-    }
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public DefaultServiceExecutionResult(final String serviceName, final Object targetObject, final ReconciliationResult reconciliationResult) {
-        this(serviceName, targetObject, null, reconciliationResult);
-    }
-
-    protected DefaultServiceExecutionResult(final String serviceName, final Object targetObject, final List<ValidationError> validationErrors, final ReconciliationResult reconciliationResult) {
+    // protected GeneralServiceExecutionResult(final String serviceName, final Object targetObject, final List<ValidationError> validationErrors, final ReconciliationResult reconciliationResult) {
+    public GeneralServiceExecutionResult(final String serviceName, final Object targetObject, final List<ValidationError> validationErrors) {
         this.serviceName = serviceName;
         this.targetObject = targetObject;
         this.validationErrors = validationErrors != null ? Collections.unmodifiableList(validationErrors) : Collections.<ValidationError>emptyList();
-        this.reconciliationResult = reconciliationResult;
-        this.succeeded = this.validationErrors.isEmpty() && this.targetObject instanceof Person;
+        this.succeeded = this.validationErrors.isEmpty();
+        if (this.succeeded) logger.info("Returning succeeded");
+        else logger.info("Returning DID NOT succeed");
     }
-
 
     public Date getExecutionDate() {
         return new Date(this.serviceExecutionDate.getTime());
@@ -71,7 +66,12 @@ public class DefaultServiceExecutionResult implements ServiceExecutionResult {
         return succeeded;
     }
 
-    public ReconciliationResult getReconciliationResult() {
-        return this.reconciliationResult;
+    protected void setSucceeded(boolean succeeded){
+        this.succeeded = succeeded;
     }
+
+    public ReconciliationResult getReconciliationResult() {
+        return null;
+    }
+
 }

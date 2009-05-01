@@ -57,7 +57,7 @@
 
     <view-state id="viewMatches" view="openregistry.person.add.matches" model="flowScope.serviceExecutionResult">
         <on-render>
-            <set name="viewScope.command" value="serviceExecutionResult" />
+            <set name="viewScope.command" value="'personSearch'" />
         </on-render>
         <transition on="submitAddPerson" to="addNewSucceeded" >
             <evaluate expression="personService.addPerson(personSearch, serviceExecutionResult.getReconciliationResult())" result="flowScope.serviceExecutionResult"/>
@@ -66,7 +66,9 @@
     </view-state>
 
     <view-state id="addNewSucceeded" view="openregistry.person.add.insert">
-        <transition to="personWasAdded"/>
+        <transition to="personWasAdded">
+            <set name="flowScope.infoModel" value="'Person Added'" />
+        </transition>
     </view-state>
 
     <end-state id="personWasAdded" />

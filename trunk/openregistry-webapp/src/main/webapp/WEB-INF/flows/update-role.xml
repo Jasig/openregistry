@@ -13,12 +13,26 @@
             <set name="viewScope.command" value="'role'" />
             <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
         </on-entry>
-        <transition on="submitUpdateRole" to="roleWasUpdated" >
+        <transition on="submitUpdateRole" to="checkRoleUpdateSucceeded" >
             <evaluate expression="personService.updateSorRole(role)" result="flowScope.serviceExecutionResult"/>
         </transition>
         <transition on="cancelUpdatePerson" to="cancelUpdateRole"/>
     </view-state>
-    
+
+    <action-state id="checkRoleUpdateSucceeded">
+        <evaluate expression="flowScope.serviceExecutionResult.succeeded()" />
+        <transition on="yes" to="updateSucceeded" >
+             <set name="flowScope.infoModel" value="'Role Updated'" />
+         </transition>
+        <transition on="no" to="updateSucceeded">
+            <set name="flowScope.infoModel" value="'Errors Found'" />
+        </transition>
+    </action-state>
+
+    <view-state id="updateSucceeded" view="openregistry.role.update">
+        <transition to="roleWasUpdated"/>
+    </view-state>
+
     <end-state id="roleWasUpdated" />
     <end-state id="cancelUpdateRole" view="flowRedirect:updateRole" />
 </flow>
