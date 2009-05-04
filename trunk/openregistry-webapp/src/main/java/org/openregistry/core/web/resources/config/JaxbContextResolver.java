@@ -9,7 +9,7 @@ import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
 
-import org.openregistry.core.web.resources.PersonResponseRepresentation;
+import org.openregistry.core.web.resources.representations.PersonResponseRepresentation;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 

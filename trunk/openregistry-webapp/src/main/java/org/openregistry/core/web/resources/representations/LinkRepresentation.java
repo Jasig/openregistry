@@ -1,4 +1,4 @@
-package org.openregistry.core.web.resources;
+package org.openregistry.core.web.resources.representations;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -17,7 +17,7 @@ import java.util.List;
  * @since 1.0
  */
 @XmlRootElement(name = "open-registry-resources")
-class LinkRepresentation {
+public class LinkRepresentation {
 
     @XmlElement(name = "link")
     List<Link> links;
@@ -25,25 +25,25 @@ class LinkRepresentation {
     /**
      * Required by JAXB
      */
-    LinkRepresentation() {
+    public LinkRepresentation() {
     }
 
-    LinkRepresentation(List<Link> links) {
+    public LinkRepresentation(List<Link> links) {
         this.links = links;
     }
 
     @XmlRootElement
-    static class Link {
+    public static class Link {
         @XmlAttribute
         String rel;
 
         @XmlAttribute
         String href;
 
-        Link() {
+        public Link() {
         }
 
-        Link(String rel, String href) {
+        public Link(String rel, String href) {
             this.rel = rel;
             this.href = href;
         }

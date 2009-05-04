@@ -15,6 +15,10 @@ import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
+import org.openregistry.core.web.resources.representations.LinkRepresentation;
+import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
+import org.openregistry.core.web.resources.representations.PersonResponseRepresentation;
+import org.openregistry.core.web.resources.representations.RoleRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +65,17 @@ public final class PeopleResource {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @PUT
+    @Path("{personIdType}/{personId}/roles/{roleCode}")
+    @Consumes(MediaType.APPLICATION_XML)
+    public RoleRepresentation processIncomingRole(@PathParam("personIdType") String personIdType,
+                                                  @PathParam("personId") String personId,
+                                                  @PathParam("roleCode") String roleCode,
+                                                  @QueryParam("sor") String sorSourceId,
+                                                  RoleRepresentation r) {
+        //TODO: Add real implementation
+        return r;
+    }
 
     @GET
     @Path("{personIdType}/{personId}")
