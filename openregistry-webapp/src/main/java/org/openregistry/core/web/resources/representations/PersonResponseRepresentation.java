@@ -1,4 +1,4 @@
-package org.openregistry.core.web.resources;
+package org.openregistry.core.web.resources.representations;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -36,10 +36,10 @@ public class PersonResponseRepresentation implements Serializable {
     /**
      * Required by JAXB
      */
-    PersonResponseRepresentation() {
+    public PersonResponseRepresentation() {
     }
 
-    PersonResponseRepresentation(String activationGeneratorUri,
+    public PersonResponseRepresentation(String activationGeneratorUri,
                                  String activationProcessorUri,
                                  String activationToken,
                                  List<PersonIdentifierRepresentation> ids) {
@@ -51,7 +51,7 @@ public class PersonResponseRepresentation implements Serializable {
     }
 
     @XmlRootElement
-    static class PersonIdentifierRepresentation {
+    public static class PersonIdentifierRepresentation {
 
         @XmlAttribute
         String type;
@@ -62,10 +62,10 @@ public class PersonResponseRepresentation implements Serializable {
         /**
          * Required by JAXB
          */
-        PersonIdentifierRepresentation() {
+        public PersonIdentifierRepresentation() {
         }
 
-        PersonIdentifierRepresentation(String type, String value) {
+        public PersonIdentifierRepresentation(String type, String value) {
             this.type = type;
             this.value = value;
         }

@@ -1,4 +1,4 @@
-package org.openregistry.core.web.resources;
+package org.openregistry.core.web.resources.representations;
 
 import javax.ws.rs.core.MultivaluedMap;
 import java.io.Serializable;
