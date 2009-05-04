@@ -275,6 +275,24 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         this.emailAddressList=list;
     }
 
+    //work around to problems with binding to a set versus a list.
+    @Transient
+    private List<Url> urlList;
+
+    public List<Url> getUrlList() {
+        urlList = new ArrayList();
+        Iterator iterator = getUrls().iterator();
+        while (iterator.hasNext()){
+            Url url = (Url)iterator.next();
+            urlList.add(url);
+        }
+        return this.urlList;
+    }
+
+    public void setUrlList(List list){
+        this.urlList=list;
+    }
+
 	public Set<Leave> getLeaves() {
 		return this.leaves;
 	}

@@ -109,6 +109,32 @@
                     </table>
                 </div>
 
+                <label class="desc"><spring:message code="urls.heading"/></label>
+                <c:choose>
+                <c:when test="${not empty role.urlList}">
+                <div>
+                    <table class="data" cellspacing="0" width="50%">
+                        <thead>
+                            <tr class="appHeadingRow">
+                                <th><spring:message code="type.label"/></th>
+                                <th><spring:message code="value.label"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="url" items="${role.urlList}" varStatus="loopStatus">
+                            <tr>
+                                <td><c:out value="${url.type.description}"/></td>
+                                <td><form:input path="urlList[${loopStatus.index}].url" /></</td>
+                            </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                </c:when>
+                    <c:otherwise><spring:message code="noUrlsDefined.label"/></c:otherwise>
+                </c:choose>
+
+
                 <label class="desc"><spring:message code="addresses.heading"/></label>
                 <div>
                     <c:forEach var="address" items="${role.addressList}" varStatus="loopStatus">
