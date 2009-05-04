@@ -77,7 +77,6 @@ public class JpaRoleImpl extends Entity implements Role {
 
     @Column(name="termination_date")
     @Temporal(TemporalType.DATE)
-    @DateAfter(after = "#{parent.start}", customCode = "startDateEndDateCompareMsg")
     private Date end;
 
     @ManyToOne()

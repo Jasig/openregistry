@@ -93,7 +93,6 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
 
     @Column(name="termination_date")
     @Temporal(TemporalType.DATE)
-    @DateAfter(after = "#{parent.start}", customCode = "startDateEndDateCompareMsg")
     private Date end;
 
     @ManyToOne()
