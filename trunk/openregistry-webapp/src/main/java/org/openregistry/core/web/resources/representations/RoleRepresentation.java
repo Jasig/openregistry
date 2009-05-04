@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Simple struct-like class encapsulating the representation of a <i>Role</i> in the registry
  * for the purpose of exposing it via RESTful resources. It should not be used for any other purposes.
- * This is class is marshalled into an XML representation using JAXB.
+ * This class is marshalled into an XML representation using JAXB.
  *
  * @author Dmitriy Kopylenko
  * @since 1.0
