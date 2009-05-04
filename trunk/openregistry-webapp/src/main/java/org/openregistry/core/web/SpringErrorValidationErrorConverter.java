@@ -2,6 +2,8 @@ package org.openregistry.core.web;
 
 import org.openregistry.core.service.ValidationError;
 import org.springframework.validation.Errors;
+import org.springframework.binding.message.MessageContext;
+import org.springframework.binding.message.MessageBuilder;
 
 import java.util.List;
 
@@ -9,13 +11,14 @@ import java.util.List;
  * Converts the OpenRegistry Validation Errors to the Spring Validation Errors.
  *
  * @author Scott Battaglia
+ * @author Nancy Mond
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 public final class SpringErrorValidationErrorConverter {
 
     /**
-     * COnverts the validation errors returned from the {@link org.openregistry.core.service.PersonService} into
+     * Converts the validation errors returned from the {@link org.openregistry.core.service.PersonService} into
      * Spring {@link org.springframework.validation.Errors}.
      *
      * @param validationErrors the errors provided by the {@link org.openregistry.core.service.PersonService}
@@ -27,6 +30,24 @@ public final class SpringErrorValidationErrorConverter {
                 errors.reject(validationError.getCode(), validationError.getArguments(), null);
             } else {
                 errors.rejectValue(validationError.getField(), validationError.getCode(), validationError.getArguments(), null);
+            }
+        }
+    }
+
+    /**
+     * Converts the validation errors returned from the {@link org.openregistry.core.service.PersonService} into
+     * Spring {@link org.springframework.binding.message.MessageContext} for Spring Web flow.
+     *
+     * @param validationErrors the errors provided by the {@link org.openregistry.core.service.PersonService}
+     * @param messages an instance of Spring's {@link org.springframework.binding.message.MessageContext}
+     */
+    public void convertValidationErrors(final List<ValidationError> validationErrors, MessageContext messages) {
+
+        for (final ValidationError validationError : validationErrors) {
+            if (validationError.getField() == null) {
+                messages.addMessage(new MessageBuilder().error().args(validationError.getArguments()).code(validationError.getCode()).build());
+            } else {
+                messages.addMessage(new MessageBuilder().error().args(validationError.getArguments()).source(validationError.getField()).code(validationError.getCode()).build());
             }
         }
     }
