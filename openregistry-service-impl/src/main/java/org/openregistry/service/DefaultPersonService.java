@@ -420,7 +420,7 @@ public class DefaultPersonService implements PersonService {
 
         SorPerson sorPerson = personSearch.getPerson();
 
-        final List<ValidationError> validationErrors = validateAndConvert(personSearch, 3);
+        final List<ValidationError> validationErrors = validateAndConvert(sorPerson, 1);
 
         if (!validationErrors.isEmpty()) {
             logger.info("PersonService:updateSorPerson: validation errors found");

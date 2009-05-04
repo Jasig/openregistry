@@ -51,16 +51,15 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
-    @NotNull
+    @NotNull(customCode="dateOfBirthRequiredMsg")
     @JvGroup
     private Date dateOfBirth;
 
     @Column(name="gender",length=1,nullable=false)
-    @NotEmpty
+    @NotEmpty(customCode="genderRequiredMsg")
     private String gender;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
-    @ValidateList
     private Set<Name> names = new HashSet<Name>();
 
     @Column(name="ssn",nullable=true)

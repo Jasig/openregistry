@@ -27,22 +27,11 @@
             <evaluate expression="personRepository.findSorRoleByInternalId(roleId)" result="flowScope.role"/>
         </transition>
 
-        <transition on="submitUpdatePerson" to="checkPersonUpdateSucceeded" >
-            <evaluate expression="personService.updateSorPerson(personSearch)" result="flowScope.serviceExecutionResult"/>
+        <transition on="submitUpdatePerson" to="updateSucceeded" >
+            <evaluate expression="personSearchAction.updateSorPerson(personSearch, messageContext)"/>
         </transition>
-        
-        <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
-    </view-state>
 
-    <action-state id="checkPersonUpdateSucceeded">
-        <evaluate expression="flowScope.serviceExecutionResult.succeeded()" />
-        <transition on="yes" to="updateSucceeded" >
-             <set name="flowScope.infoModel" value="'Person Updated'" />
-         </transition>        
-        <transition on="no" to="updatePerson">
-            <set name="flowScope.infoModel" value="'Errors Found'" />
-        </transition>
-    </action-state>
+    </view-state>
 
     <view-state id="addName" model="sorName" view="openregistry.person.update.addName">
         <binder>
@@ -71,10 +60,7 @@
             <set name="viewScope.command" value="'personSearch'" />
             <set name="viewScope.affiliationList" value="affiliationList" />
         </on-entry>
-        <transition on="submitPerformAddName" to="updatePerson" >
-
-        </transition>
-        <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
+        <transition on="submitPerformAddName" to="updatePerson" />
     </view-state>
 
     <subflow-state id="updateRole" subflow="updateRole" >
@@ -84,10 +70,12 @@
     </subflow-state>
 
     <view-state id="updateSucceeded" view="openregistry.person.update.update">
+        <on-entry>
+            <set name="flowScope.infoModel" value="'Person Updated'" />
+        </on-entry>
         <transition to="personWasUpdated"/>
     </view-state>
 
     <end-state id="personWasUpdated" />
-    <end-state id="cancelUpdatePerson" view="flowRedirect:updatePerson" />
     <end-state id="roleWasUpdated" view="flowRedirect:updatePerson" />
 </flow>
