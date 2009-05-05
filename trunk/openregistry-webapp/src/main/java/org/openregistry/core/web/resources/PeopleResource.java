@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.ObjectFactory;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.domain.Role;
+import org.openregistry.core.domain.sor.SorRole;
+import org.openregistry.core.domain.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
@@ -19,6 +17,7 @@ import org.openregistry.core.web.resources.representations.LinkRepresentation;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
 import org.openregistry.core.web.resources.representations.PersonResponseRepresentation;
 import org.openregistry.core.web.resources.representations.RoleRepresentation;
+import org.openregistry.core.repository.ReferenceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +53,9 @@ public final class PeopleResource {
     private PersonService personService;
 
     @Autowired
+    private ReferenceRepository referenceRepository;
+
+    @Autowired
     @Qualifier(value = "personSearch")
     private ObjectFactory<PersonSearch> personSearchObjectFactory;
 
@@ -68,12 +70,30 @@ public final class PeopleResource {
     @PUT
     @Path("{personIdType}/{personId}/roles/{roleCode}")
     @Consumes(MediaType.APPLICATION_XML)
+    //TODO: change the return type to 'Response'
     public RoleRepresentation processIncomingRole(@PathParam("personIdType") String personIdType,
                                                   @PathParam("personId") String personId,
                                                   @PathParam("roleCode") String roleCode,
                                                   @QueryParam("sor") String sorSourceId,
                                                   RoleRepresentation r) {
-        //TODO: Add real implementation
+
+        if (sorSourceId == null) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
+                    .entity("The 'sor' query parameter is missing").build());
+        }
+        SorPerson sorPerson = this.personService.findSorPersonByIdentifierAndSourceIDentifier(personIdType, personId, sorSourceId);
+        if(sorPerson == null) {
+            //HTTP 404
+            throw new NotFoundException(
+                    String.format("The person resource identified by [%s/%s] URI does not exist for the given [%s] sor id",
+                            personIdType, personId, sorSourceId));
+        }
+        final RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(roleCode);
+        if(roleInfo == null) {
+            throw new NotFoundException(
+                    String.format("The role identified by [%s] does not exist",roleCode));
+        }
+        //final SorRole sorRole = null;
         return r;
     }
 
@@ -144,7 +164,6 @@ public final class PeopleResource {
             if (result.getValidationErrors().size() > 0) {
                 logger.info("The incoming person payload did not pass validation. Validation errors: " +
                         result.getValidationErrors());
-                //TODO: add more informative message to the entity body
                 return Response.status(Response.Status.BAD_REQUEST).entity("The incoming request is malformed.").build();
             }
             else if (multiplePeopleFound(result.getReconciliationResult().getReconciliationType())) {
@@ -166,22 +185,19 @@ public final class PeopleResource {
         logger.info(String.format("Received a request to delete a role for a person with the following params: " +
                 "{personIdType:%s, personId:%s, roleId:%s, reason:%s}", personIdType, personId, roleId, terminationReason));
         if (terminationReason == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Please specify the <reason> for termination.")
-                    .build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please specify the <reason> for termination.").build();
         }
         logger.info("Searching for a person...");
         Person person = this.personService.findPersonByIdentifier(personIdType, personId);
         if (person == null) {
             logger.info("Person is not found...");
-            return Response.status(Response.Status.NOT_FOUND).entity("The specified person is not found in the system")
-                    .build();
+            return Response.status(Response.Status.NOT_FOUND).entity("The specified person is not found in the system").build();
         }
         logger.info("Person is found. Picking out the role for a provided 'roleId'...");
         Role role = person.pickOutRoleByIdentifier(roleId);
         if (role == null) {
             logger.info("The Role with the specified 'roleId' is not found in the collection of Person Roles");
-            return Response.status(Response.Status.NOT_FOUND).entity("The specified role is not found for this person")
-                    .build();
+            return Response.status(Response.Status.NOT_FOUND).entity("The specified role is not found for this person").build();
         }
         logger.info("The Role is found");
         if (role.isTerminated()) {
