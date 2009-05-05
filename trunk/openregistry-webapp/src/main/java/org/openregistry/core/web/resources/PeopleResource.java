@@ -8,6 +8,7 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
+import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
@@ -71,30 +72,36 @@ public final class PeopleResource {
     @Path("{personIdType}/{personId}/roles/{roleCode}")
     @Consumes(MediaType.APPLICATION_XML)
     //TODO: change the return type to 'Response'
-    public RoleRepresentation processIncomingRole(@PathParam("personIdType") String personIdType,
+    public Response processIncomingRole(@PathParam("personIdType") String personIdType,
                                                   @PathParam("personId") String personId,
                                                   @PathParam("roleCode") String roleCode,
                                                   @QueryParam("sor") String sorSourceId,
-                                                  RoleRepresentation r) {
+                                                  RoleRepresentation roleRepresentation) {
 
         if (sorSourceId == null) {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
                     .entity("The 'sor' query parameter is missing").build());
         }
         SorPerson sorPerson = this.personService.findSorPersonByIdentifierAndSourceIDentifier(personIdType, personId, sorSourceId);
-        if(sorPerson == null) {
+        if (sorPerson == null) {
             //HTTP 404
             throw new NotFoundException(
                     String.format("The person resource identified by [%s/%s] URI does not exist for the given [%s] sor id",
                             personIdType, personId, sorSourceId));
         }
-        final RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(roleCode);
-        if(roleInfo == null) {
+        RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(roleCode);
+        if (roleInfo == null) {
             throw new NotFoundException(
-                    String.format("The role identified by [%s] does not exist",roleCode));
+                    String.format("The role identified by [%s] does not exist", roleCode));
         }
-        //final SorRole sorRole = null;
-        return r;
+        SorRole sorRole = freshSorRole(sorPerson, roleInfo, roleRepresentation);
+        ServiceExecutionResult result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
+        if(result.getValidationErrors().size() > 0) {
+            //Need more elaborate response. How to pass validation errors in the response entity body???
+            throw new WebApplicationException(400);
+        }
+        //HTTP 201
+        return Response.created(this.uriInfo.getAbsolutePath()).build();
     }
 
     @GET
@@ -252,6 +259,48 @@ public final class PeopleResource {
         //HTTP 204
         logger.info("The SOR Person resource has been successfully DELETEd");
         return null;
+    }
+
+    //TODO: what happens if the role (identified by RoleInfo) has been added already?
+    //NOTE: the sponsor is not set (remains null) as it was not defined in the XML payload as was discussed
+    private SorRole freshSorRole(SorPerson person, RoleInfo roleInfo, RoleRepresentation roleRepresentation) {
+        SorRole sorRole = person.addRole(roleInfo);
+        sorRole.setSorId("1");  // TODO: what to set here?
+        sorRole.setSourceSorIdentifier(person.getSourceSorIdentifier());
+        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS.name(), "active"));
+        sorRole.setStart(roleRepresentation.startDate);
+        sorRole.setEnd(roleRepresentation.endDate);
+
+        //Emails
+        for (RoleRepresentation.Email e : roleRepresentation.emails) {
+            EmailAddress email = sorRole.addEmailAddress();
+            email.setAddress(e.address);
+            email.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL.name(), e.type));
+        }
+
+        //Phones
+        for (RoleRepresentation.Phone ph : roleRepresentation.phones) {
+            Phone phone = sorRole.addPhone();
+            phone.setNumber(ph.number);
+            phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS.name(), ph.addressType));
+            phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE.name(), ph.type));
+            phone.setCountryCode(ph.countryCode);
+            phone.setAreaCode(ph.areaCode);
+            phone.setExtension(ph.extension);
+        }
+
+        //Addresses
+        for (RoleRepresentation.Address a : roleRepresentation.addresses) {
+            Address address = sorRole.addAddress();
+            address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS.name(), a.type));
+            address.setLine1(a.line1);
+            address.setLine2(a.line2);
+            address.setLine3(a.line3);
+            address.setCity(a.city);
+            address.setPostalCode(a.postalCode);
+            //TODO: how to set Region and Country instances??? Currently there is no way!
+        }
+        return sorRole;
     }
 
     private PersonSearch personRequestToPersonSearch(PersonRequestRepresentation request) {
