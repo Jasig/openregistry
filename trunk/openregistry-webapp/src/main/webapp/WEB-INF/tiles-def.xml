@@ -53,4 +53,9 @@
         <put-attribute name="body" value="/WEB-INF/tiles/update-role/updateRole.jsp" />
     </definition>
 
+    <definition name="openregistry.role.add" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="addRole.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/add-role/addRole.jsp" />
+    </definition>
+
 </tiles-definitions>

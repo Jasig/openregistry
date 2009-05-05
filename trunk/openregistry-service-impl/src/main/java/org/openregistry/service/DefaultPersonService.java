@@ -209,7 +209,7 @@ public class DefaultPersonService implements PersonService {
         this.personRepository.savePerson(person);
 // TODO       sorRole.setRoleId(person.getRoles());
         
-        return new ReconciliationServiceExecutionResult(serviceName, sorRole);
+        return new GeneralServiceExecutionResult(serviceName, sorRole);
     }
 
     @Transactional

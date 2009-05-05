@@ -41,6 +41,8 @@ public final class ApplicationConversionService extends DefaultConversionService
     public void afterPropertiesSet() throws Exception {
         addConverter(new RegionConverter(this.referenceRepository));
         addConverter(new SponsorConverter(this.personRepository));
+        addConverter(new CountryConverter(this.referenceRepository));
+        addConverter(new CampusConverter(this.referenceRepository));
     } 
 
 }
