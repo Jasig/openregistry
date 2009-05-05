@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <view-state id="addRole" model="role" view="openregistry.role.add">
+        <on-entry>
+            <set name="viewScope.command" value="'role'" />
+            <set name="flowScope.sorPersonKey" value="requestParameters.sorPersonKey" type="long" />
+            <set name="flowScope.roleInfoKey" value="requestParameters.roleInfoKey" type="long" />
+            <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
+            <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
+            <evaluate expression="personService.findSorPersonById(sorPersonKey)" result="flowScope.person" />
+            <evaluate expression="roleAction.initSorRole(person, roleInfoKey)" result="flowScope.role" />
+        </on-entry>
+        <transition on="submitAddRole" to="displayPage" >
+            <evaluate expression="roleAction.addSorRole(person, role, messageContext)"/>
+        </transition>
+    </view-state>
+
+    <view-state id="displayPage" view="openregistry.role.add">
+        <on-entry>
+            <set name="flowScope.infoModel" value="'Role Added'" />
+        </on-entry>
+        <transition to="roleWasAdded"/>
+    </view-state>
+
+    <end-state id="roleWasAdded" />
+
+</flow>
