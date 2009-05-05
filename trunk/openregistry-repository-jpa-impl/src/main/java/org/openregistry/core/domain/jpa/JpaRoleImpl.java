@@ -21,45 +21,45 @@ import javax.persistence.*;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@javax.persistence.Entity(name="role")
-@Table(name="prc_role_records")
+@javax.persistence.Entity(name = "role")
+@Table(name = "prc_role_records")
 @ValidateDefinition
 @Audited
 public class JpaRoleImpl extends Entity implements Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_role_records_seq")
-    @SequenceGenerator(name="prc_role_records_seq",sequenceName="prc_role_records_seq",initialValue=1,allocationSize=50)
+    @SequenceGenerator(name = "prc_role_records_seq", sequenceName = "prc_role_records_seq", initialValue = 1, allocationSize = 50)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER, targetEntity = JpaUrlImpl.class)      
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaUrlImpl.class)
     private Set<Url> urls = new HashSet<Url>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER, targetEntity = JpaEmailAddressImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaEmailAddressImpl.class)
     private Set<EmailAddress> emailAddresses = new HashSet<EmailAddress>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER, targetEntity = JpaPhoneImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaPhoneImpl.class)
     private Set<Phone> phones = new HashSet<Phone>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch = FetchType.EAGER, targetEntity = JpaAddressImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaAddressImpl.class)
     private Set<Address> addresses = new HashSet<Address>();
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name="sponsor_id")
-    @NotNull (customCode="sponsorRequiredMsg")
+    @JoinColumn(name = "sponsor_id")
+    @NotNull(customCode = "sponsorRequiredMsg")
     private JpaSponsorImpl sponsor;
 
-    @Column(name="percent_time",nullable=false)
+    @Column(name = "percent_time", nullable = false)
     private int percentage;
 
-    @Column(name="code", nullable = true, updatable = false, insertable = false)
+    @Column(name = "code", nullable = true, updatable = false, insertable = false)
     private String localCode;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name="person_status_t")
+    @JoinColumn(name = "person_status_t")
     private JpaTypeImpl personStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="role",fetch=FetchType.EAGER, targetEntity = JpaLeaveImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaLeaveImpl.class)
     private Set<Leave> leaves = new HashSet<Leave>();
 
     @ManyToOne(optional = false)
@@ -67,20 +67,20 @@ public class JpaRoleImpl extends Entity implements Role {
     private JpaRoleInfoImpl roleInfo;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name="person_id", nullable=false)
+    @JoinColumn(name = "person_id", nullable = false)
     private JpaPersonImpl person;
 
-    @Column(name="affiliation_date",nullable=false)
+    @Column(name = "affiliation_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    @NotNull (customCode="startDateRequiredMsg")
+    @NotNull(customCode = "startDateRequiredMsg")
     private Date start;
 
-    @Column(name="termination_date")
+    @Column(name = "termination_date")
     @Temporal(TemporalType.DATE)
     private Date end;
 
     @ManyToOne()
-    @JoinColumn(name="termination_t")
+    @JoinColumn(name = "termination_t")
     private JpaTypeImpl terminationReason;
 
     public JpaRoleImpl() {
@@ -95,9 +95,9 @@ public class JpaRoleImpl extends Entity implements Role {
     public Long getId() {
         return this.id;
     }
-    
+
     public RoleInfo getRoleInfo() {
-    	return this.roleInfo;
+        return this.roleInfo;
     }
 
     public Set<Address> getAddresses() {
@@ -121,18 +121,18 @@ public class JpaRoleImpl extends Entity implements Role {
         this.addresses.add(jpaAddress);
         return jpaAddress;
     }
-    
+
     public Address addAddress(Address sorAddress) {
-    	final JpaAddressImpl jpaAddress = (JpaAddressImpl)this.addAddress();
-    	jpaAddress.setLine1(sorAddress.getLine1());
-    	jpaAddress.setLine2(sorAddress.getLine2());
-    	jpaAddress.setLine3(sorAddress.getLine3());
-    	jpaAddress.setCity(sorAddress.getLine1());
-    	jpaAddress.setRegion(sorAddress.getRegion());
-    	jpaAddress.setPostalCode(sorAddress.getPostalCode());
-       	jpaAddress.setCountry(sorAddress.getCountry());
-    	jpaAddress.setType(sorAddress.getType());
-    	return jpaAddress;
+        final JpaAddressImpl jpaAddress = (JpaAddressImpl) this.addAddress();
+        jpaAddress.setLine1(sorAddress.getLine1());
+        jpaAddress.setLine2(sorAddress.getLine2());
+        jpaAddress.setLine3(sorAddress.getLine3());
+        jpaAddress.setCity(sorAddress.getLine1());
+        jpaAddress.setRegion(sorAddress.getRegion());
+        jpaAddress.setPostalCode(sorAddress.getPostalCode());
+        jpaAddress.setCountry(sorAddress.getCountry());
+        jpaAddress.setType(sorAddress.getType());
+        return jpaAddress;
     }
 
     public Url addUrl() {
@@ -140,9 +140,9 @@ public class JpaRoleImpl extends Entity implements Role {
         this.urls.add(url);
         return url;
     }
-    
+
     public Url addUrl(Url sorUrl) {
-        final JpaUrlImpl url = (JpaUrlImpl)this.addUrl();
+        final JpaUrlImpl url = (JpaUrlImpl) this.addUrl();
         url.setURL(sorUrl.getUrl());
         url.setType(sorUrl.getType());
         return url;
@@ -153,9 +153,9 @@ public class JpaRoleImpl extends Entity implements Role {
         this.emailAddresses.add(jpaEmailAddress);
         return jpaEmailAddress;
     }
-    
+
     public EmailAddress addEmailAddress(EmailAddress sorEmailAddress) {
-        final JpaEmailAddressImpl jpaEmailAddress = (JpaEmailAddressImpl)this.addEmailAddress();
+        final JpaEmailAddressImpl jpaEmailAddress = (JpaEmailAddressImpl) this.addEmailAddress();
         jpaEmailAddress.setAddress(sorEmailAddress.getAddress());
         jpaEmailAddress.setAddressType(sorEmailAddress.getAddressType());
         return jpaEmailAddress;
@@ -166,9 +166,9 @@ public class JpaRoleImpl extends Entity implements Role {
         this.phones.add(jpaPhone);
         return jpaPhone;
     }
-    
+
     public Phone addPhone(Phone sorPhone) {
-        final JpaPhoneImpl jpaPhone = (JpaPhoneImpl)this.addPhone();
+        final JpaPhoneImpl jpaPhone = (JpaPhoneImpl) this.addPhone();
         jpaPhone.setCountryCode(sorPhone.getCountryCode());
         jpaPhone.setAreaCode(sorPhone.getAreaCode());
         jpaPhone.setNumber(sorPhone.getNumber());
@@ -187,17 +187,17 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public Sponsor setSponsor() {
-    	final JpaSponsorImpl sponsor = new JpaSponsorImpl(this);
+        final JpaSponsorImpl sponsor = new JpaSponsorImpl(this);
         this.sponsor = sponsor;
         return sponsor;
     }
-    
+
     public Sponsor addSponsor(SorSponsor sorSponsor) {
-       	final JpaSponsorImpl sponsor = new JpaSponsorImpl(this);
-       	sponsor.setSponsorId(sorSponsor.getSponsorId());
-       	sponsor.setType(sorSponsor.getType());
-       	sponsor.addRole(this);
-       	this.sponsor = sponsor;
+        final JpaSponsorImpl sponsor = new JpaSponsorImpl(this);
+        sponsor.setSponsorId(sorSponsor.getSponsorId());
+        sponsor.setType(sorSponsor.getType());
+        sponsor.addRole(this);
+        this.sponsor = sponsor;
         return sponsor;
     }
 
@@ -269,6 +269,6 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public boolean isTerminated() {
-        return (this.end != null); 
+        return ((this.end != null) && (this.end.compareTo(new Date()) >= 0));
     }
 }
