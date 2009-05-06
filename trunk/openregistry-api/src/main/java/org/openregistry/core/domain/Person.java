@@ -111,12 +111,11 @@ public interface Person extends Serializable {
     Name addPreferredName();
 
     /**
-     * Pick out the specific <code>Role</code> identified by provided role identifier
+     * Pick out the specific <code>Role</code> identified by provided role code
      * from the collection of this person's roles
      *
      * @return Role of this person for the provided identifier or a null if this person does not have such a role
      */
-    Role pickOutRoleByIdentifier(String roleIdentifier);
-
+    Role pickOutRole(String code);
 
 }
