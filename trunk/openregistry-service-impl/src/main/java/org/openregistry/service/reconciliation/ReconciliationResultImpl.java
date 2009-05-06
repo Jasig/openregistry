@@ -23,4 +23,15 @@ public class ReconciliationResultImpl implements ReconciliationResult {
 		return this.type;
 	}
 
+    public boolean noPeopleFound() {
+        return (this.type == ReconciliationResult.ReconciliationType.NONE);
+    }
+
+    public boolean personAlreadyExists() {
+        return (this.type == ReconciliationResult.ReconciliationType.EXACT);
+    }
+
+    public boolean multiplePeopleFound() {
+        return (this.type == ReconciliationResult.ReconciliationType.MAYBE);
+    }
 }
