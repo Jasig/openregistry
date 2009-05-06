@@ -36,4 +36,11 @@ public interface ReconciliationResult extends Serializable {
      * @return the list of matches.
      */
     List<PersonMatch> getMatches();
+
+    boolean noPeopleFound();
+
+    boolean personAlreadyExists();
+
+    boolean multiplePeopleFound();
+
 }
