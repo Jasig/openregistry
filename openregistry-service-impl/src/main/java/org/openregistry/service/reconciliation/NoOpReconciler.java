@@ -26,7 +26,19 @@ public final class NoOpReconciler implements Reconciler {
             }
 
             public List<PersonMatch> getMatches() {
-                return Collections.emptyList();
+                return Collections.EMPTY_LIST;
+            }
+
+            public boolean noPeopleFound() {
+                return true;
+            }
+
+            public boolean personAlreadyExists() {
+                return false;
+            }
+
+            public boolean multiplePeopleFound() {
+                return false;  
             }
         };
     }

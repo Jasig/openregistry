@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<open-registry-person sor="123" sor-person-id="123" first-name="John" last-name="Doe" email="j@gmail.com" phone="7326543322">
+
+    <dob>1977-06-11</dob>
+    <ssn>123223456</ssn>
+    <gender>male</gender>
+    <address-line1>123 Main st.</address-line1>
+    <address-line2>suite 5</address-line2>
+    <city>New Brunswick</city>
+    <region>NJ</region>
+    <postal-code>23458</postal-code>
+
+</open-registry-person>
