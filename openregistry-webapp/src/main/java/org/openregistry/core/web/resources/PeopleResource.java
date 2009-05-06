@@ -25,7 +25,6 @@ import javax.ws.rs.core.*;
 import javax.annotation.Resource;
 import java.net.URI;
 import java.util.*;
-import java.text.SimpleDateFormat;
 
 import com.sun.jersey.api.NotFoundException;
 
@@ -176,13 +175,13 @@ public final class PeopleResource {
     }
 
     @DELETE
-    @Path("{personIdType}/{personId}/roles/{roleId}")
+    @Path("{personIdType}/{personId}/roles/{roleCode}")
     public Response deleteRoleForPerson(@PathParam("personIdType") String personIdType,
                                         @PathParam("personId") String personId,
-                                        @PathParam("roleId") String roleId,
+                                        @PathParam("roleCode") String roleCode,
                                         @QueryParam("reason") String terminationReason) {
         logger.info(String.format("Received a request to delete a role for a person with the following params: " +
-                "{personIdType:%s, personId:%s, roleId:%s, reason:%s}", personIdType, personId, roleId, terminationReason));
+                "{personIdType:%s, personId:%s, roleCode:%s, reason:%s}", personIdType, personId, roleCode, terminationReason));
         if (terminationReason == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please specify the <reason> for termination.").build();
         }
@@ -193,7 +192,7 @@ public final class PeopleResource {
             return Response.status(Response.Status.NOT_FOUND).entity("The specified person is not found in the system").build();
         }
         logger.info("Person is found. Picking out the role for a provided 'roleId'...");
-        Role role = person.pickOutRoleByIdentifier(roleId);
+        Role role = person.pickOutRole(roleCode);
         if (role == null) {
             logger.info("The Role with the specified 'roleId' is not found in the collection of Person Roles");
             return Response.status(Response.Status.NOT_FOUND).entity("The specified role is not found for this person").build();

@@ -173,10 +173,13 @@ public class JpaPersonImpl extends Entity implements Person {
         return jpaIdentifier;
     }
 
-    public Role pickOutRoleByIdentifier(String roleIdentifier) {
-        //TODO: Implement by picking out the Role for the provided role identifier (not Role's PK)
-        //by iterating over the related collection of Roles; First we need to figure out what the 'role identifier; is
-        //and how to expose it
+    public Role pickOutRole(String code) {
+        //TODO: Is this the correct assumption???
+        for(Role r : this.roles) {
+            if(r.getRoleInfo().getCode().equals(code)) {
+                return r;
+            }
+        }
         return null;
     }
 }
