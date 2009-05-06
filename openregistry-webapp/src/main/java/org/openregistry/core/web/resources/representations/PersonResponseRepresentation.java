@@ -17,7 +17,7 @@ import java.util.List;
  * @author Dmitriy Kopylenko
  * @since 1.0
  */
-@XmlRootElement(name = "open-registry-person")
+@XmlRootElement(name = "open-registry-person-ref")
 public class PersonResponseRepresentation implements Serializable {
 
     @XmlAttribute(name = "activation-generator-uri")
@@ -29,6 +29,7 @@ public class PersonResponseRepresentation implements Serializable {
     @XmlAttribute(name = "activation-token")
     String activationToken;
 
+    @XmlElementWrapper(name = "identifiers")
     @XmlElement(name = "id")
     List<PersonIdentifierRepresentation> identifiers;
 
