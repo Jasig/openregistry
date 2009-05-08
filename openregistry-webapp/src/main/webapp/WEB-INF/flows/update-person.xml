@@ -8,9 +8,15 @@
     <var name="personSearch" class="org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl" />
     <var name="sorName" class="org.openregistry.core.domain.jpa.sor.JpaSorNameImpl" />
 
+    <subflow-state id="searchForPerson" subflow="searchForPerson" >
+        <input name="taskTitleCode" value="'updatePerson.title'"/>
+        <output name="person" />
+        <transition to="updatePerson" />
+    </subflow-state>
+
     <view-state id="updatePerson" model="personSearch" view="openregistry.person.update.update">
         <on-entry>
-            <evaluate expression="personRepository.findSorPersonByInternalId(2)" result="flowScope.sorPerson"/>
+            <evaluate expression="personRepository.findSorPersonByInternalId(person.id)" result="flowScope.sorPerson"/>
             <evaluate expression="personSearch.setSorPerson(sorPerson)"/>
             <evaluate expression="sorPerson.getNameList()" result="flowScope.names"/>
             <evaluate expression="personRepository.findPersonIdentifiers(sorPerson.getPersonId())" result="flowScope.identifiers" />

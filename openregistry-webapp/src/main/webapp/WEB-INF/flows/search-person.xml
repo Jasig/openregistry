@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <var name="searchCriteria" class="org.openregistry.service.MutableSearchCriteriaImpl" />
+    <input name="taskTitleCode" />
+
+    <view-state id="searchForPerson" model="searchCriteria" view="openregistry.search">
+        <on-entry>
+            <set name="viewScope.success" value="externalContext.requestParameterMap['success']" />
+            <set name="viewScope.cancelled" value="externalContext.requestParameterMap['cancel']" />
+            <set name="viewScope.errorMessage" value="flashScope.errorMessage" />
+            <set name="viewScope.searchResults" value="flowScope.searchResults" />
+            <set name="flowScope.taskTitleCode" value="taskTitleCode" />
+            <evaluate expression="referenceRepository.identifierTypes" result-type="java.util.List" result="viewScope.identifierTypes" />
+        </on-entry>
+        <transition on="submit" bind="true" validate="false">
+            <evaluate expression="personService.searchForPersonBy(searchCriteria)" result-type="java.util.List" result="flowScope.searchResults" />
+            <set name="viewScope.searchResults" value="flowScope.searchResults" />
+            <render fragments="searchResults" />
+        </transition>
+        <transition on="display" to="personSelected" validate="false">
+            <evaluate expression="flowScope.searchResults.get(requestParameters.searchId).person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
+        </transition>
+    </view-state>
+
+    <decision-state id="readResults">
+        <if test="searchResults.size eq 0" then="noOneFound" />
+        <if test="searchResults.size eq 1" then="onePerson" else="personSearch" />
+    </decision-state>
+
+    <action-state id="noOneFound">
+        <set name="flashScope.errorMessage" value="resourceBundle.noMatchesFoundMessage" />
+        <transition to="personSearch" />
+    </action-state>
+
+    <action-state id="onePerson">
+        <evaluate expression="flowScope.searchResults.get(0).person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
+        <transition to="personSelected" />
+    </action-state>
+
+    <end-state id="personSelected">
+        <output name="person" value="person"/>
+    </end-state>
+
+</flow>
