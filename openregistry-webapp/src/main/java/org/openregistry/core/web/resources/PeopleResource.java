@@ -67,8 +67,7 @@ public final class PeopleResource {
 
     @PUT
     @Path("{personIdType}/{personId}/roles/{roleCode}")
-    @Consumes(MediaType.APPLICATION_XML)
-    //TODO: change the return type to 'Response'
+    @Consumes(MediaType.APPLICATION_XML)    
     public Response processIncomingRole(@PathParam("personIdType") String personIdType,
                                         @PathParam("personId") String personId,
                                         @PathParam("roleCode") String roleCode,
