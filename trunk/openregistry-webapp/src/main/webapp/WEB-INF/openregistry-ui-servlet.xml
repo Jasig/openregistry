@@ -19,6 +19,7 @@
         <flow:flow-location path="/WEB-INF/flows/update-person.xml" id="updatePerson" />
         <flow:flow-location path="/WEB-INF/flows/update-role.xml" id="updateRole" />
         <flow:flow-location path="/WEB-INF/flows/add-role.xml" id="addRole" />
+        <flow:flow-location path="/WEB-INF/flows/search-person.xml" id="searchForPerson" />
     </flow:flow-registry>
 
     <flow:flow-builder-services id="flowBuilderServices" conversion-service="conversionService" view-factory-creator="mvcViewFactoryCreator" />
