@@ -12,12 +12,10 @@
                 <fieldset class="fm-h" id="ecn1">
 
 					<div class="row">
-						<label for="c1_affiliation" class="affiliation"><spring:message code="selectAffiliation.label"/></label>
+						<label for="c1_affiliation" class="affiliation"><spring:message code="affiliationTitle.label"/></label>
                         <div class="select affiliation">
-                            <form:select path="affiliationType.description" id="c1_affiliation" items="${affiliationList}" itemValue="id" itemLabel="name" size="1" tabindex="1" />
+                            <form:select path="roleInfo" id="c1_affiliation" items="${roleInfoList}" itemLabel="displayableName" size="1" tabindex="1" />
                         </div>
-                        <label for="c1_title" class="title"><spring:message code="selectTitle.label"/></label>
-                        <form:input path="title" id="c1_title" size="40" maxlength="100" tabindex="2" />
                     </div>
 
 			</fieldset>

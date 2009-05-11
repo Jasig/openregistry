@@ -4,15 +4,31 @@
       xsi:schemaLocation="http://www.springframework.org/schema/webflow
     http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
+    <subflow-state id="searchForPerson" subflow="searchForPerson" >
+        <input name="taskTitleCode" value="'addRole.title'"/>
+        <output name="person" />
+        <transition to="selectRole" />
+    </subflow-state>
+
+    <view-state id="selectRole" model="role" view="openregistry.person.update.selectRole">
+        <binder>
+            <binding property="roleInfo" converter="roleConverter" required="true" />
+        </binder>
+        <on-entry>
+            <evaluate expression="referenceRepository.getRoleInfos()" result="flowScope.roleInfoList" />
+            <set name="viewScope.command" value="'role'" />
+            <set name="viewScope.roleInfoList" value="roleInfoList" />
+            <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
+            <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
+            <evaluate expression="personService.findSorPersonById(person.id)" result="flowScope.person" />
+            <evaluate expression="roleAction.initSorRole(person, roleInfoList)" result="flowScope.role"/>
+        </on-entry>
+        <transition on="submitSelectRole" to="addRole" />
+    </view-state>
+
     <view-state id="addRole" model="role" view="openregistry.role.add">
         <on-entry>
             <set name="viewScope.command" value="'role'" />
-            <set name="flowScope.sorPersonKey" value="requestParameters.sorPersonKey" type="long" />
-            <set name="flowScope.roleInfoKey" value="requestParameters.roleInfoKey" type="long" />
-            <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
-            <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
-            <evaluate expression="personService.findSorPersonById(sorPersonKey)" result="flowScope.person" />
-            <evaluate expression="roleAction.initSorRole(person, roleInfoKey)" result="flowScope.role" />
         </on-entry>
         <transition on="submitAddRole" to="displayPage" >
             <evaluate expression="roleAction.addSorRole(person, role, messageContext)"/>

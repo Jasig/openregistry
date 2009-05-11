@@ -135,6 +135,10 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     	return this.roleInfo;
     }
 
+    public void setRoleInfo(RoleInfo roleInfo) {
+    	this.roleInfo = (JpaRoleInfoImpl) roleInfo;
+    }
+
     public String getTitle() {
         return this.roleInfo.getTitle();
     }

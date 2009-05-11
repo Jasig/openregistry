@@ -110,6 +110,10 @@ public class JpaPersonImpl extends Entity implements Person {
         return name;
     }
 
+    public void setPreferredName(Name name){
+        name.setPreferredName();
+    }
+
     public String getGender() {
         return this.gender;
     }

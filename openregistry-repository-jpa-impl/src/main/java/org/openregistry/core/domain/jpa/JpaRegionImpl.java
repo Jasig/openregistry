@@ -52,4 +52,8 @@ public class JpaRegionImpl extends Entity implements Region {
     public Country getCountry() {
         return this.country;
     }
+
+    public String toString(){
+        return getCode();    
+    }
 }
