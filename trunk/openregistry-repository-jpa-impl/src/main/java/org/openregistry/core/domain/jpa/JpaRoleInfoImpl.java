@@ -45,7 +45,7 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
     @OneToMany(mappedBy = "roleInfo")
     private List<JpaRoleImpl> roles = new ArrayList<JpaRoleImpl>();
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 
@@ -67,5 +67,13 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
 
     public String getCode() {
         return this.code;
+    }
+
+    public String getDisplayableName(){
+        return getAffiliationType().getDescription()+ "/"+ getTitle();
+    }
+
+    public String toString(){
+        return getId().toString();
     }
 }

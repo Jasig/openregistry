@@ -359,7 +359,10 @@ public class DefaultPersonService implements PersonService {
         Person person = personObjectFactory.getObject();
         person.setDateOfBirth(sorPerson.getDateOfBirth());
         person.setGender(sorPerson.getGender());
+        
+        //initialize the name to be both official and preferred.
         final Name name = person.addOfficialName();
+        person.setPreferredName(name);
 
         // There should only be one at this point.
         // TODO generalize this to all names

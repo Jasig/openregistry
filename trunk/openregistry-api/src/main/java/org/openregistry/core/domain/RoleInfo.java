@@ -45,4 +45,12 @@ public interface RoleInfo extends Serializable {
      * @return the local code.
      */
     String getCode();
+
+    /**
+     * A name to display for the roleinfo.
+     * @return
+     */
+    String getDisplayableName();
+
+    Long getId();
 }

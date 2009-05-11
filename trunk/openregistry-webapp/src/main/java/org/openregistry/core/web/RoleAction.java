@@ -14,7 +14,8 @@ import org.openregistry.core.repository.ReferenceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Calendar;
+import java.util.*;
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -40,10 +41,9 @@ public class RoleAction {
 
     private final SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
 
-    public SorRole initSorRole(SorPerson sorPerson, final Long roleInfoKey) {
+    public SorRole initSorRole(SorPerson sorPerson, java.util.List<RoleInfo> roleInfoList) {
 
-        logger.info("RoleAction: initializing role ");
-        final RoleInfo roleInfo = this.referenceRepository.getRoleInfoById(roleInfoKey);
+        RoleInfo roleInfo = roleInfoList.get(0);
         final SorRole sorRole = addRole(sorPerson, roleInfo);
         return sorRole;
     }
@@ -101,5 +101,5 @@ public class RoleAction {
         }
 
     }
-   
+
 }

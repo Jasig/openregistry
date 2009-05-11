@@ -110,6 +110,8 @@ public interface Person extends Serializable {
 
     Name addPreferredName();
 
+    void setPreferredName(Name name);
+
     /**
      * Pick out the specific <code>Role</code> identified by provided role code
      * from the collection of this person's roles
