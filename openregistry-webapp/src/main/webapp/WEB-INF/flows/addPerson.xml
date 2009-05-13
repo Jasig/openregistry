@@ -28,14 +28,20 @@
         </on-render>
         <transition on="submitAddPerson" to="checkAddSucceeded" >
             <evaluate expression="personSearch.getPerson().setSourceSorIdentifier('or-webapp')" />
-            <evaluate expression="personService.addPerson(personSearch, null)" result="flowScope.serviceExecutionResult"/>
+            <evaluate expression="personService.addPerson(personSearch, null)" result="flowScope.serviceExecutionResult" result-type="org.openregistry.core.service.ServiceExecutionResult"/>
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>  
     </view-state>
 
     <decision-state id="checkAddSucceeded">
+        <if test="flowScope.serviceExecutionResult.validationErrors.size() > 0" then="updateErrorsInstance" />
         <if test="flowScope.serviceExecutionResult.succeeded()" then="addSucceeded" else="matchesFound" />
     </decision-state>
+    
+    <action-state id="updateErrorsInstance">
+        <evaluate expression="springErrorValidationErrorConverter.convertValidationErrors(serviceExecutionResult.validationErrors, messageContext)" />
+        <transition to="addPerson" />
+    </action-state>
     
     <action-state id="addSucceeded">
         <evaluate expression="serviceExecutionResult.getReconciliationResult().getReconciliationType()" result="flowScope.reconciliationType"/>
@@ -50,7 +56,7 @@
     <action-state id="matchesFound" >
         <evaluate expression="serviceExecutionResult.getReconciliationResult().getReconciliationType()" result="flowScope.reconciliationType"/>
         <transition on="MAYBE" to="viewMatches">
-            <set name="flowScope.serviceExectionResult" value="serviceExecutionResult" />
+            <set name="flowScope.serviceExecutionResult" value="serviceExecutionResult" />
             <set name="flowScope.personToAdd" value="personSearch.getPerson()" />
         </transition>
     </action-state>
