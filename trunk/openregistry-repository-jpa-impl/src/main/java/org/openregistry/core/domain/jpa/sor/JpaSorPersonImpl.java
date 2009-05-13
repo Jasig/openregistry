@@ -39,7 +39,6 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     private Long recordId;
 
     @Column(name="id")
-    @NotEmpty
     private String sorId;
 
     @Column(name="source_sor_id", nullable = false)
