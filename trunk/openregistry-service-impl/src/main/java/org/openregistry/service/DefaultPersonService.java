@@ -28,6 +28,7 @@ import org.javalid.core.AnnotationValidator;
 import org.javalid.core.ValidationMessage;
 import org.javalid.core.AnnotationValidatorImpl;
 import org.javalid.core.config.JvConfiguration;
+import org.javalid.annotations.core.JvGroup;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -196,7 +197,7 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public ServiceExecutionResult validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
         final String serviceName = "PersonService.validateAndSaveRoleForSorPerson";
-        final List<ValidationError> validationErrors = validateAndConvert(sorRole, 2);
+        final List<ValidationError> validationErrors = validateAndConvert(sorRole);
 
         if (!validationErrors.isEmpty()) {
             return new ReconciliationServiceExecutionResult(serviceName, sorRole, validationErrors);
@@ -216,7 +217,7 @@ public class DefaultPersonService implements PersonService {
     public ServiceExecutionResult addPerson(final PersonSearch personSearch, final ReconciliationResult oldReconciliationResult) {
         logger.info("In personService.addPerson.");
         logger.info("In personService.addPerson: entered following for gender: "+ personSearch.getPerson().getGender());
-        final List<ValidationError> validationErrors = validateAndConvert(personSearch, 2);
+        final List<ValidationError> validationErrors = validateAndConvert(personSearch);
         final String serviceName = "PersonService.addPerson";
 
         if (!validationErrors.isEmpty()) {
@@ -316,9 +317,8 @@ public class DefaultPersonService implements PersonService {
      * @param object the object to check
      * @return the list of validation errors.  CANNOT be NULL.  Can be empty.
      */
-    protected List<ValidationError> validateAndConvert(final Object object, int levelDeep) {
-        final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object, "1", "", true, levelDeep);
-        //final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object);
+    protected List<ValidationError> validateAndConvert(final Object object) {
+        final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object, JvGroup.DEFAULT_GROUP, "", true, 5);
         logger.info("In personService.validateAndConvert: size of messages: "+ validationMessages.size());
         return convertToValidationErrors(validationMessages);
     }
@@ -423,7 +423,7 @@ public class DefaultPersonService implements PersonService {
 
         SorPerson sorPerson = personSearch.getPerson();
 
-        final List<ValidationError> validationErrors = validateAndConvert(sorPerson, 1);
+        final List<ValidationError> validationErrors = validateAndConvert(sorPerson);
 
         if (!validationErrors.isEmpty()) {
             logger.info("PersonService:updateSorPerson: validation errors found");
@@ -450,7 +450,7 @@ public class DefaultPersonService implements PersonService {
         final String serviceName = "PersonService.updateSorRole";
         logger.info("PersonService:updateSorRole:");
 
-        final List<ValidationError> validationErrors = validateAndConvert(role, 1);
+        final List<ValidationError> validationErrors = validateAndConvert(role);
         
         if (!validationErrors.isEmpty()) {
             logger.info("PersonService:updateSorRole: validation errors found");

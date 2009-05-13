@@ -12,6 +12,8 @@ import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
 import org.javalid.annotations.validation.ValidateList;
+import org.javalid.annotations.validation.DateCheck;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
@@ -38,12 +40,10 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
 
     @Column(name="id")
     @NotEmpty
-    @JvGroup
     private String sorId;
 
     @Column(name="source_sor_id", nullable = false)
     @NotEmpty
-    @JvGroup
     private String sourceSorIdentifier;
 
     @Column(name="person_id")
@@ -52,7 +52,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
     @NotNull(customCode="dateOfBirthRequiredMsg")
-    @JvGroup
+    @DateCheck(today = true, mode=DateCheck.MODE_LESS_THAN)
     private Date dateOfBirth;
 
     @Column(name="gender",length=1,nullable=false)
@@ -60,13 +60,23 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     private String gender;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
+    @ValidateList
     private Set<Name> names = new HashSet<Name>();
 
     @Column(name="ssn",nullable=true)
     private String ssn;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)
+    @ValidateList
     private List<SorRole> roles = new ArrayList<SorRole>();
+
+    // XXX work around to problems with binding to a set versus a list.
+    // TODO fix this
+    @Transient
+    private List<Name> nameList;
+
+    @Transient
+    private JpaSorNameImpl firstAddedName;
 
     public List<SorRole> getRoles(){
         return this.roles;
@@ -104,26 +114,19 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         this.names = names;
     }
 
-    //work around to problems with binding to a set versus a list.
-    @Transient
-    private List<Name> nameList;
-
     public List<Name> getNameList() {
-        nameList = new ArrayList();
-        Iterator iterator = getNames().iterator();
-        while (iterator.hasNext()){
-            Name name = (Name)iterator.next();
-            nameList.add(name);
+        this.nameList = new ArrayList();
+
+        for (final Name name : this.names) {
+            this.nameList.add(name);
         }
+            
         return this.nameList;
     }
 
-    public void setNameList(List list){
-        this.nameList=list;
+    public void setNameList(final List list){
+        this.nameList = list;
     }
-
-    @Transient
-    private JpaSorNameImpl firstAddedName;
 
     public JpaSorNameImpl getFirstAddedName(){
         return firstAddedName;
@@ -153,11 +156,13 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     public Name addName() {
         final JpaSorNameImpl jpaSorName = new JpaSorNameImpl(this);
         this.names.add(jpaSorName);
+        // TODO fix this
         if (names.size() == 1) firstAddedName = jpaSorName;
         
         return jpaSorName;
     }
-    
+
+    // TODO not sure if this should be here
     public String getFormattedNameAndID(){
         final StringBuilder builder = new StringBuilder();
         // TODO fix this next line
@@ -176,9 +181,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
 	}
 
 	public SorRole addRole(final RoleInfo roleInfo) {
-        if (!(roleInfo instanceof JpaRoleInfoImpl)) {
-            throw new IllegalArgumentException("roleInfo of type JpaRoleInfoImpl required.");
-        }
+        Assert.isInstanceOf(JpaRoleInfoImpl.class, roleInfo);
         final JpaSorRoleImpl jpaRole = new JpaSorRoleImpl((JpaRoleInfoImpl) roleInfo, this);
         this.roles.add(jpaRole);
         return jpaRole;

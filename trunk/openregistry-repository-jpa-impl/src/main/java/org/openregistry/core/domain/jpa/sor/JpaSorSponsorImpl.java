@@ -19,6 +19,9 @@ import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorSponsor;
+import org.javalid.annotations.validation.NotNull;
+import org.javalid.annotations.core.ValidateDefinition;
+import org.springframework.util.Assert;
 
 /**
  * @author Dave Steiner
@@ -28,6 +31,7 @@ import org.openregistry.core.domain.sor.SorSponsor;
 @javax.persistence.Entity(name="sorSponsor")
 @Table(name="prs_sponsors")
 @Audited
+@ValidateDefinition
 public class JpaSorSponsorImpl extends Entity implements SorSponsor {
 
 	private static final long serialVersionUID = 3547710151070428086L;
@@ -39,9 +43,11 @@ public class JpaSorSponsorImpl extends Entity implements SorSponsor {
     
     @ManyToOne(optional = false)
     @JoinColumn(name="sponsor_t")
+    @NotNull
     private JpaTypeImpl sponsorType;
 
     @Column(name="sponsor_id")
+    @NotNull
     private Long sponsorId;
     
     @OneToMany(mappedBy = "sponsor", targetEntity = JpaSorRoleImpl.class)
@@ -51,7 +57,7 @@ public class JpaSorSponsorImpl extends Entity implements SorSponsor {
 		// nothing to do
 	}
 	
-	public JpaSorSponsorImpl(SorRole role) {
+	public JpaSorSponsorImpl(final JpaSorRoleImpl role) {
 		this.roles.add(role);
 	}
 
@@ -73,16 +79,12 @@ public class JpaSorSponsorImpl extends Entity implements SorSponsor {
 
 
 	public void setType(final Type type) {
-	    if (!(type instanceof JpaTypeImpl)) {
-	    	throw new IllegalArgumentException("Requires type JpaTypeImpl");
-	    }
+        Assert.isInstanceOf(JpaTypeImpl.class, type);
 	    this.sponsorType = (JpaTypeImpl)type;
 	}
 
 	public void addRole(final SorRole role) {
-		if (!(role instanceof JpaSorRoleImpl)) {
-			throw new IllegalArgumentException("role of type JpaSorRoleImpl required");
-		}
+        Assert.isInstanceOf(JpaSorRoleImpl.class, role);
 		this.roles.add(role);
 	}
 

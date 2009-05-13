@@ -10,6 +10,9 @@ import org.openregistry.core.domain.jpa.JpaRegionImpl;
 import org.openregistry.core.domain.jpa.JpaCountryImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.hibernate.envers.Audited;
+import org.javalid.annotations.core.ValidateDefinition;
+import org.javalid.annotations.validation.NotNull;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
@@ -23,7 +26,8 @@ import javax.persistence.*;
 @javax.persistence.Entity(name="sorAddress")
 @Table(name="prs_addresses")
 @Audited
-public class JpaSorAddressImpl extends Entity implements Address {
+@ValidateDefinition
+public final class JpaSorAddressImpl extends Entity implements Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_addresses_seq")
@@ -32,9 +36,11 @@ public class JpaSorAddressImpl extends Entity implements Address {
 
     @ManyToOne
     @JoinColumn(name="address_t")
+    @NotNull
     private JpaTypeImpl type;
 
     @Column(name="line1", nullable = true,length=100)
+    @NotNull
     private String line1;
 
     @Column(name="line2", nullable = true,length=100)
@@ -49,12 +55,15 @@ public class JpaSorAddressImpl extends Entity implements Address {
 
     @ManyToOne
     @JoinColumn(name="country_id")
+    @NotNull
     private JpaCountryImpl country;
 
     @Column(name="city",length=100,nullable = false)
+    @NotNull
     private String city;
 
     @Column(name="postal_code",length=9, nullable = false)
+    @NotNull
     private String postalCode;
 
     @ManyToOne(optional=false)
@@ -106,10 +115,7 @@ public class JpaSorAddressImpl extends Entity implements Address {
     }
 
     public void setType(final Type type) {
-        if (!(type instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
-
+        Assert.isInstanceOf(JpaTypeImpl.class, type);
         this.type = (JpaTypeImpl) type;
     }
 
@@ -126,16 +132,12 @@ public class JpaSorAddressImpl extends Entity implements Address {
     }
 
     public void setRegion(final Region region) {
-        if (region != null && !(region instanceof JpaRegionImpl)) {
-            throw new IllegalStateException("Region implementation must be of type JpaRegionImpl");
-        }
+        Assert.isInstanceOf(JpaRegionImpl.class, region);
         this.region = (JpaRegionImpl) region;
     }
 
     public void setCountry(final Country country) {
-        if (country != null && !(country instanceof JpaCountryImpl)) {
-            throw new IllegalStateException("Country implementation must be of type JpaCountryImpl");
-        }
+        Assert.isInstanceOf(JpaCountryImpl.class, country);
         this.country = (JpaCountryImpl) country;
     }
 

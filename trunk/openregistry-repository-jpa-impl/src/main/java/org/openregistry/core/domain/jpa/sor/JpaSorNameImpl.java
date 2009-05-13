@@ -12,6 +12,8 @@ import javax.persistence.*;
  * Implementation of the Name domain object that conforms to the tables for the Systems of Record
  *
  * TODO: Add Type field.
+ * TODO: fix stubs
+ * TODO: we want a type and not "is..." since those are our names
  *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
@@ -21,7 +23,7 @@ import javax.persistence.*;
 @Table(name="prs_names")
 @Audited
 @ValidateDefinition
-public class JpaSorNameImpl extends Entity implements Name {
+public final class JpaSorNameImpl extends Entity implements Name {
 
     @Id
     @Column(name="id")

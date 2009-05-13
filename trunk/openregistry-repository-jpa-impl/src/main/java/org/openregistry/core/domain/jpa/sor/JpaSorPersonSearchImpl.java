@@ -4,6 +4,7 @@ import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.IdentifierType;
 import org.javalid.annotations.validation.NotEmpty;
+import org.javalid.annotations.validation.NotNull;
 import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.core.ValidateDefinition;
 
@@ -18,8 +19,9 @@ import java.util.HashMap;
  * @since 1.0.0
  */
 @ValidateDefinition
-public class JpaSorPersonSearchImpl implements PersonSearch {
+public final class JpaSorPersonSearchImpl implements PersonSearch {
 
+    @NotNull
     private SorPerson sorPerson = new JpaSorPersonImpl();
 
     private Map<IdentifierType, String> identifiersByType = new HashMap<IdentifierType, String>();

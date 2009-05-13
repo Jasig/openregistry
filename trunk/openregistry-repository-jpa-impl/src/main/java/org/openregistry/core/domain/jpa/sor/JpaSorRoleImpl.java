@@ -1,14 +1,11 @@
 package org.openregistry.core.domain.jpa.sor;
 
 import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.validation.NotEmpty;
-import org.javalid.annotations.validation.NotNull;
-import org.javalid.annotations.validation.DateAfter;
+import org.javalid.annotations.validation.*;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
-import org.openregistry.core.domain.jpa.sor.JpaSorLeaveImpl;
 import org.openregistry.core.domain.Address;
 import org.openregistry.core.domain.Campus;
 import org.openregistry.core.domain.EmailAddress;
@@ -20,6 +17,7 @@ import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Url;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.*;
@@ -35,7 +33,7 @@ import java.util.*;
 @Table(name="prs_role_records")
 @Audited
 @ValidateDefinition
-public class JpaSorRoleImpl extends Entity implements SorRole {
+public final class JpaSorRoleImpl extends Entity implements SorRole {
 
     @Id
     @Column(name="record_id")
@@ -48,15 +46,19 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     private String sorId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorUrlImpl.class)
+    @ValidateList
     private Set<Url> urls = new HashSet<Url>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorEmailAddressImpl.class)
+    @ValidateList
     private Set<EmailAddress> emailAddresses = new HashSet<EmailAddress>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorPhoneImpl.class)
+    @ValidateList
     private Set<Phone> phones = new HashSet<Phone>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorAddressImpl.class)
+    @ValidateList
     private Set<Address> addresses = new HashSet<Address>();
 
     @Column(name="source_sor_id", nullable = false)
@@ -68,17 +70,22 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     private JpaSorPersonImpl person;
 
     @Column(name="percent_time",nullable=false)
+    @MinValue(0)
+    @MaxValue(100)
     private int percentage;
 
     @ManyToOne(optional = false)
     @JoinColumn(name="person_status_t")
+    @NotNull
     private JpaTypeImpl personStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch=FetchType.EAGER, targetEntity = JpaSorLeaveImpl.class)
+    @ValidateList
     private Set<Leave> leaves = new HashSet<Leave>();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id")
+    @NotNull
     private JpaRoleInfoImpl roleInfo;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
@@ -106,7 +113,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         // nothing to do
     }
     
-    public JpaSorRoleImpl(JpaRoleInfoImpl roleInfo, JpaSorPersonImpl sorPerson) {
+    public JpaSorRoleImpl(final JpaRoleInfoImpl roleInfo, final JpaSorPersonImpl sorPerson) {
         this.roleInfo = roleInfo;
         this.person = sorPerson;
     }
@@ -160,13 +167,11 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     }
 
     public void setPersonStatus(final Type personStatus) {
-        if (!(personStatus instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
-
+        Assert.isInstanceOf(JpaTypeImpl.class, personStatus);
         this.personStatus = (JpaTypeImpl) personStatus;
     }
 
+    // TODO this is not setSponsor.  Setters should be for JavaBean properties
     public SorSponsor setSponsor() {
        	final JpaSorSponsorImpl sponsor = new JpaSorSponsorImpl(this);
         this.sponsor = sponsor;
@@ -181,9 +186,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     }
 
     public void setTerminationReason(final Type reason) {
-        if (!(reason instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
+        Assert.isInstanceOf(JpaTypeImpl.class, reason);
         this.terminationReason = (JpaTypeImpl) reason;
     }
 
@@ -239,7 +242,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
 		return this.addresses;
 	}
 
-    //work around to problems with binding to a set versus a list.
+    //TODO FIX THIS work around to problems with binding to a set versus a list.
     @Transient
     private List<Address> addressList;
 

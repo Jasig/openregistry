@@ -6,6 +6,9 @@ import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.hibernate.envers.Audited;
+import org.javalid.annotations.core.ValidateDefinition;
+import org.javalid.annotations.validation.NotNull;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
@@ -20,7 +23,8 @@ import javax.persistence.*;
 @javax.persistence.Entity(name="sorEmailAddress")
 @Table(name="prs_emails")
 @Audited
-public class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
+@ValidateDefinition
+public final class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_emails_seq")
@@ -29,9 +33,11 @@ public class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
 
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
+    @NotNull
     private JpaTypeImpl type;
 
     @Column(name="address",nullable=false,length=100)
+    @NotNull
     private String address;
 
     @ManyToOne(optional=false)
@@ -63,12 +69,7 @@ public class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
     }
 
     public void setAddressType(final Type type) {
-        if (!(type instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
-
+        Assert.isInstanceOf(JpaTypeImpl.class, type);
         this.type = (JpaTypeImpl) type;
     }
-
-
 }
