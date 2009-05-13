@@ -60,7 +60,8 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     private String gender;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
-    @ValidateList
+//    @ValidateList
+    // TODO we need to validate this
     private Set<Name> names = new HashSet<Name>();
 
     @Column(name="ssn",nullable=true)
