@@ -6,6 +6,9 @@ import org.openregistry.core.domain.Url;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
+import org.javalid.annotations.validation.NotNull;
+import org.javalid.annotations.core.ValidateDefinition;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.net.URL;
@@ -20,7 +23,8 @@ import java.net.URL;
 @javax.persistence.Entity(name="sorUrl")
 @Table(name="prs_urls")
 @Audited
-public class JpaSorUrlImpl extends Entity implements Url {
+@ValidateDefinition
+public final class JpaSorUrlImpl extends Entity implements Url {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_urls_seq")
@@ -29,9 +33,11 @@ public class JpaSorUrlImpl extends Entity implements Url {
 
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
+    @NotNull
     private JpaTypeImpl type;
 
     @Column(name="url",length=500,nullable = false)
+    @NotNull
     private URL url;
 
     @ManyToOne(optional=false)
@@ -55,10 +61,7 @@ public class JpaSorUrlImpl extends Entity implements Url {
     }
 
     public void setType(final Type type) {
-        if (!(type instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
-
+        Assert.isInstanceOf(JpaTypeImpl.class, type);
         this.type = (JpaTypeImpl) type;
     }
 

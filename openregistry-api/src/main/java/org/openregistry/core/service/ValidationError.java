@@ -1,5 +1,7 @@
 package org.openregistry.core.service;
 
+import java.io.Serializable;
+
 /**
  * Represents an error from when the system attempted to validate the object.
  * <p>
@@ -9,7 +11,7 @@ package org.openregistry.core.service;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface ValidationError {
+public interface ValidationError extends Serializable {
 
     /**
      * The field from which there was an error.  If its null, that means global error message.

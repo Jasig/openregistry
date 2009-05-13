@@ -6,6 +6,9 @@ import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Phone;
 import org.openregistry.core.domain.internal.Entity;
+import org.javalid.annotations.core.ValidateDefinition;
+import org.javalid.annotations.validation.NotNull;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
@@ -19,7 +22,8 @@ import javax.persistence.*;
 @javax.persistence.Entity(name="sorPhone")
 @Table(name="prs_phones")
 @Audited
-public class JpaSorPhoneImpl extends Entity implements Phone {
+@ValidateDefinition
+public final class JpaSorPhoneImpl extends Entity implements Phone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_phones_seq")
@@ -28,19 +32,24 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
 
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
+    @NotNull
     private JpaTypeImpl addressType;
 
     @ManyToOne(optional = false)
     @JoinColumn(name="phone_t")
+    @NotNull
     private JpaTypeImpl phoneType;
 
     @Column(name="country_code",nullable=false,length=5)
+    @NotNull
     private String countryCode;
 
     @Column(name="area_code",nullable=false,length=5)
+    @NotNull
     private String areaCode;
 
     @Column(name="phone_number",nullable=false,length=10)
+    @NotNull
     private String number;
 
     @Column(name="extension", nullable=true,length=5)
@@ -54,7 +63,7 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
         // nothing to do
     }
 
-    public JpaSorPhoneImpl(JpaSorRoleImpl sorRole) {
+    public JpaSorPhoneImpl(final JpaSorRoleImpl sorRole) {
         this.sorRole = sorRole;
     }
 
@@ -87,18 +96,12 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
     }
 
     public void setAddressType(final Type addressType) {
-        if (!(addressType instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
-
+        Assert.isInstanceOf(JpaTypeImpl.class, addressType);
         this.addressType = (JpaTypeImpl) addressType;
     }
 
     public void setPhoneType(final Type phoneType) {
-        if (!(phoneType instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
-
+        Assert.isInstanceOf(JpaTypeImpl.class, phoneType);
         this.phoneType = (JpaTypeImpl) phoneType;
     }
 
@@ -117,5 +120,4 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
     public void setExtension(final String extension) {
         this.extension = extension;
     }
-
 }

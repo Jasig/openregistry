@@ -6,6 +6,9 @@ import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Leave;
 import org.openregistry.core.domain.internal.Entity;
+import org.javalid.annotations.validation.NotNull;
+import org.javalid.annotations.core.ValidateDefinition;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,7 +23,8 @@ import java.util.Date;
 @javax.persistence.Entity(name="sorLoa")
 @Table(name="prs_leaves_of_absence")
 @Audited
-public class JpaSorLeaveImpl extends Entity implements Leave {
+@ValidateDefinition
+public final class JpaSorLeaveImpl extends Entity implements Leave {
 
     @Id
     @Column(name="id")
@@ -30,6 +34,7 @@ public class JpaSorLeaveImpl extends Entity implements Leave {
 
     @Column(name="start_date")
     @Temporal(TemporalType.DATE)
+    @NotNull
     private Date start;
 
     @Column(name="end_date")
@@ -38,6 +43,7 @@ public class JpaSorLeaveImpl extends Entity implements Leave {
 
     @ManyToOne(optional = false)
     @JoinColumn(name="leave_t")
+    @NotNull
     private JpaTypeImpl reason;
 
     @ManyToOne(optional=false)
@@ -69,10 +75,7 @@ public class JpaSorLeaveImpl extends Entity implements Leave {
     }
 
     public void setReason(final Type type) {
-        if (!(type instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
-
+        Assert.isInstanceOf(JpaTypeImpl.class, type);
         this.reason = (JpaTypeImpl) type;
     }
 }
