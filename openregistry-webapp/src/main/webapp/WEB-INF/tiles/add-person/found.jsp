@@ -1,1 +1,0 @@
-<h3>Person Found in the Repository</h3>
