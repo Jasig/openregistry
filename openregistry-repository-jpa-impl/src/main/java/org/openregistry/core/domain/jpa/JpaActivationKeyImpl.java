@@ -38,7 +38,7 @@ public class JpaActivationKeyImpl extends Entity implements ActivationKey {
     @Temporal(TemporalType.DATE)
     private Date activationDate;
 
-    @ManyToOne(optional=false)
+    @OneToOne(optional=false)
     @JoinColumn(name="identifier")
     private JpaIdentifierImpl identifier;
 

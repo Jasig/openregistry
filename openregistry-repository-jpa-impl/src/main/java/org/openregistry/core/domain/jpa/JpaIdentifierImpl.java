@@ -1,9 +1,6 @@
 package org.openregistry.core.domain.jpa;
 
-import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.domain.IdentifierType;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
 
@@ -41,6 +38,9 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     
     @Column(name="is_deleted", nullable=false)
     private Boolean deleted;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "identifier", fetch = FetchType.EAGER, targetEntity = JpaActivationKeyImpl.class, optional = true)
+    private JpaActivationKeyImpl activationKey;
 
     public JpaIdentifierImpl() {
         // nothing to do
@@ -93,4 +93,11 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     public void setDeleted(Boolean value) {
     	this.deleted = value;
     }
+
+    public ActivationKey addActivationKey(){
+        this.activationKey = new JpaActivationKeyImpl();
+        this.activationKey.setIdentifier(this);
+        return this.activationKey;
+    }
+
 }

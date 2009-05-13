@@ -26,4 +26,6 @@ public interface Identifier extends Serializable {
     void setPrimary(Boolean value);
     
     void setDeleted(Boolean value);
+
+    ActivationKey addActivationKey();
 }

@@ -26,58 +26,46 @@
         <on-render>
             <set name="viewScope.command" value="'personSearch'" />
         </on-render>
-        <transition on="submitAddPerson" to="checkAddSucceeded" >
-            <evaluate expression="personSearch.getPerson().setSourceSorIdentifier('or-webapp')" />
-            <evaluate expression="personService.addPerson(personSearch, null)" result="flowScope.serviceExecutionResult" result-type="org.openregistry.core.service.ServiceExecutionResult"/>
+        <transition on="submitAddPerson" to="checkForErrors" >
+            <evaluate expression="personSearchAction.addSorPerson(personSearch,null,messageContext)" result="flowScope.serviceExecutionResult" result-type="org.openregistry.core.service.ServiceExecutionResult"/>
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>  
     </view-state>
 
-    <decision-state id="checkAddSucceeded">
-        <if test="flowScope.serviceExecutionResult.validationErrors.size() > 0" then="updateErrorsInstance" />
-        <if test="flowScope.serviceExecutionResult.succeeded()" then="addSucceeded" else="matchesFound" />
+    <decision-state id="checkForErrors">
+        <if test="flowScope.serviceExecutionResult.validationErrors.size() > 0" then="addPerson" else="checkPersonAdded" />
     </decision-state>
-    
-    <action-state id="updateErrorsInstance">
-        <evaluate expression="springErrorValidationErrorConverter.convertValidationErrors(serviceExecutionResult.validationErrors, messageContext)" />
-        <transition to="addPerson" />
-    </action-state>
-    
-    <action-state id="addSucceeded">
-        <evaluate expression="serviceExecutionResult.getReconciliationResult().getReconciliationType()" result="flowScope.reconciliationType"/>
-        <transition on="EXACT" to="addNewSucceeded">
-            <set name="flowScope.infoModel" value="'Person Found in the Repository, SOR Added'" />
-        </transition>
-        <transition on="NONE"  to="addNewSucceeded">
-            <set name="flowScope.infoModel" value="'Person Added'" />
-        </transition>
-    </action-state>
 
-    <action-state id="matchesFound" >
-        <evaluate expression="serviceExecutionResult.getReconciliationResult().getReconciliationType()" result="flowScope.reconciliationType"/>
-        <transition on="MAYBE" to="viewMatches">
-            <set name="flowScope.serviceExecutionResult" value="serviceExecutionResult" />
-            <set name="flowScope.personToAdd" value="personSearch.getPerson()" />
-        </transition>
-    </action-state>
+    <decision-state id="checkPersonAdded">
+        <if test="flowScope.serviceExecutionResult.succeeded()" then="addNewSucceeded" else="viewMatches" />
+    </decision-state>
 
     <view-state id="viewMatches" view="openregistry.person.add.matches" model="flowScope.serviceExecutionResult">
         <on-render>
             <set name="viewScope.command" value="'personSearch'" />
+            <set name="viewScope.personToAdd" value="personSearch.getPerson()" />
         </on-render>
-        <transition on="submitAddPerson" to="addNewSucceeded" >
-            <evaluate expression="personService.addPerson(personSearch, serviceExecutionResult.getReconciliationResult())" result="flowScope.serviceExecutionResult"/>
+        <transition on="submitAddPerson" to="checkForViewMatchAddErrors" >
+            <evaluate expression="personSearchAction.addSorPerson(personSearch, serviceExecutionResult.getReconciliationResult(), messageContext)" result="flowScope.serviceExecutionResult"/>
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
 
+    <decision-state id="checkForViewMatchAddErrors">
+        <if test="flowScope.serviceExecutionResult.validationErrors.size() > 0" then="viewMatches" else="checkAddPersonAnyway" />
+    </decision-state>
+
+    <decision-state id="checkAddPersonAnyway">
+        <if test="flowScope.serviceExecutionResult.succeeded()" then="addNewSucceeded" else="viewMatches" />
+    </decision-state>
+
     <view-state id="addNewSucceeded" view="openregistry.person.add.insert">
-        <transition to="personWasAdded">
-            <set name="flowScope.infoModel" value="'Person Added'" />
-        </transition>
+        <on-render>
+            <set name="flowScope.addSucceeded" value="'addSucceeded'"/>
+        </on-render>
+        <transition to="personWasAdded" />
     </view-state>
 
     <end-state id="personWasAdded" />
-    <end-state id="foundPerson" view="openregistry.person.add.found" />
     <end-state id="cancelCreatePerson" view="flowRedirect:addPerson" />
 </flow>
