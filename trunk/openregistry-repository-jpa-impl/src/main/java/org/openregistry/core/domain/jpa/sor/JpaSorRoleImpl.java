@@ -46,19 +46,23 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     private String sorId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorUrlImpl.class)
-    @ValidateList
+//    @ValidateList
+    // TODO we need to validate this
     private Set<Url> urls = new HashSet<Url>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorEmailAddressImpl.class)
-    @ValidateList
+    // @ValidateList
+    // TODO we need to validate this
     private Set<EmailAddress> emailAddresses = new HashSet<EmailAddress>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorPhoneImpl.class)
-    @ValidateList
+    // @ValidateList
+    // TODO we need to validate this
     private Set<Phone> phones = new HashSet<Phone>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorAddressImpl.class)
-    @ValidateList
+    // @ValidateList
+    // TODO we need to validate this
     private Set<Address> addresses = new HashSet<Address>();
 
     @Column(name="source_sor_id", nullable = false)
