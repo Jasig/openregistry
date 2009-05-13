@@ -186,4 +186,13 @@ public class JpaPersonImpl extends Entity implements Person {
         }
         return null;
     }
+
+    public Identifier pickOutIdentifier(String name) {
+        for(Identifier i : this.identifiers) {
+            if(i.getType().getName().equals(name)) {
+                return i;
+            }
+        }
+        return null;
+    }
 }

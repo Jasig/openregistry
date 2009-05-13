@@ -74,7 +74,7 @@
 
 			</fieldset>
 			</fieldset>
-            <c:if test='${empty infoModel}'>
+            <c:if test='${empty addSucceeded}'>
 			    <div class="row fm-v" style="clear:both;">
 				    <input style="float:left;" type="submit" id="fm-search-submit1" name="_eventId_submitAddPerson" class="btn-submit" value="Add Person" tabindex="11"/>
 			    </div>
