@@ -28,4 +28,6 @@ public interface Identifier extends Serializable {
     void setDeleted(Boolean value);
 
     ActivationKey addActivationKey();
+
+    ActivationKey getActivationKey();
 }

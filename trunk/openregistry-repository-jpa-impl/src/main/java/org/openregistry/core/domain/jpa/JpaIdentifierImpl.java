@@ -100,4 +100,8 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
         return this.activationKey;
     }
 
+    public ActivationKey getActivationKey(){
+        return this.activationKey;
+    }
+
 }
