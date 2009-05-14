@@ -120,4 +120,11 @@ public interface Person extends Serializable {
      */
     Role pickOutRole(String code);
 
+    /**
+     * Pick out the specific Identifier from the collection of identifiers for this person.
+     * @param name
+     * @return Identifier
+     */
+    Identifier pickOutIdentifier(String name);
+
 }

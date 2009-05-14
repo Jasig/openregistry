@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
@@ -31,6 +33,8 @@ public class PersonSearchAction {
     //TODO don't hardcode.
     private final String SOR_INDENTIFIER = "or-webapp";
 
+    private final String identifierType = "NETID";
+
     private final SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
 
     public ServiceExecutionResult addSorPerson(PersonSearch personSearch, ReconciliationResult oldResult, MessageContext context) {
@@ -44,18 +48,20 @@ public class PersonSearchAction {
 
         ReconciliationResult reconciliationResult = result.getReconciliationResult();
 
-        if (result.succeeded() && reconciliationResult == null){
-            context.addMessage(new MessageBuilder().info().code("personAdded").build());
-            return result;
-        }
+        if (result.succeeded()){
+            //provide netid and activation key in confirmation message.
+            Person person = (Person)result.getTargetObject();           
+            Identifier netId = person.pickOutIdentifier(identifierType);
 
-        if (result.succeeded() && reconciliationResult != null){
-            ReconciliationResult.ReconciliationType resultType = reconciliationResult.getReconciliationType();
-
-            if (resultType == ReconciliationResult.ReconciliationType.NONE)
-                context.addMessage(new MessageBuilder().info().code("personAdded").build());
-            else if (resultType == ReconciliationResult.ReconciliationType.EXACT)
-                context.addMessage(new MessageBuilder().info().code("sorPersonAdded").build());
+            if (reconciliationResult == null){
+                context.addMessage(new MessageBuilder().info().code("personAdded").arg(netId.getValue()).arg(netId.getActivationKey().getValue()).build());
+            } else {
+                ReconciliationResult.ReconciliationType resultType = reconciliationResult.getReconciliationType();
+                if (resultType == ReconciliationResult.ReconciliationType.NONE)
+                    context.addMessage(new MessageBuilder().info().code("personAdded").arg(netId.getValue()).arg(netId.getActivationKey().getValue()).build());
+                else if (resultType == ReconciliationResult.ReconciliationType.EXACT)
+                    context.addMessage(new MessageBuilder().info().code("sorPersonAdded").build());
+            }
         }
 
         return result;
