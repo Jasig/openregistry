@@ -164,6 +164,12 @@
 						    <label for="c1_zip" class="zip"><spring:message code="postalCode.label"/></label>
 						    <form:input path="addressList[${loopStatus.index}].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="13" />
 					    </div>
+                        <div class="row">
+                            <label for="c1_country"><spring:message code="country.label"/></label>
+                            <div class="select country">
+                            <form:select path="addressList[${loopStatus.index}].country" id="c1_country" items="${countryList}" itemLabel="name" size="1" tabindex="14" />
+                        </div>
+                </div>
                     </c:forEach>
                     <br/><br/>
                 </div>
