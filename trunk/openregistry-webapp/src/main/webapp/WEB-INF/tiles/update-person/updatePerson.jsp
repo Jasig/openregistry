@@ -10,7 +10,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<form:form modelAttribute="personSearch">
+<form:form modelAttribute="sorPerson">
 			<fieldset id="updateperson">
 				<legend><span><spring:message code="updatePersonPage.heading"/></span></legend>
 				<p style="margin-bottom:0;">
@@ -34,9 +34,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="sorName" items="${personSearch.person.nameList}" varStatus="loopStatus">
+                            <c:forEach var="sorName" items="${sorPerson.names}" varStatus="loopStatus">
                             <tr>
-                                <td><form:select path="person.nameList[${loopStatus.index}].prefix">
+                                <td><form:select path="names[${loopStatus.index}].prefix">
                                         <form:option value="Empty" label=""/>
 							            <form:option value="Mrs" label="Mrs."/>
                                         <form:option value="Miss" label="Miss"/>
@@ -45,10 +45,10 @@
                                         <form:option value="Dr" label="Dr."/>
                                     </form:select>
                                 </td>
-                                <td><form:input path="person.nameList[${loopStatus.index}].given" /></</td>
-                                <td><form:input path="person.nameList[${loopStatus.index}].middle" /></td>
-                                <td><form:input path="person.nameList[${loopStatus.index}].family" /></td>
-                                <td><form:input path="person.nameList[${loopStatus.index}].suffix" /></td>
+                                <td><form:input path="names[${loopStatus.index}].given" /></</td>
+                                <td><form:input path="names[${loopStatus.index}].middle" /></td>
+                                <td><form:input path="names[${loopStatus.index}].family" /></td>
+                                <td><form:input path="names[${loopStatus.index}].suffix" /></td>
                                 <td> </td>
                             </tr>
                             </c:forEach>
@@ -73,7 +73,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                             <c:forEach var="role" items="${personSearch.person.roles}">
+                             <c:forEach var="role" items="${sorPerson.roles}">
                             <tr>
                                 <td>
                                     <a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}">${role.affiliationType.description}/${role.title}</a>
@@ -108,11 +108,11 @@
                     <tbody>
                         <tr>
                             <td><spring:message code="dateOfBirth.label"/><em>*</em></td>
-                            <td><form:input path="person.dateOfBirth" size="10" maxlength="10"/></td>
+                            <td><form:input path="dateOfBirth" size="10" maxlength="10"/></td>
                         </tr>
                         <tr>
                             <td><spring:message code="gender.label" /> <em>*</em></td>
-                            <td><form:select path="person.gender">
+                            <td><form:select path="gender">
                                     <form:option value="" label=""/>
                                     <form:option value="F" label="Female"/>
 						            <form:option value="M" label="Male"/>
@@ -134,7 +134,7 @@
                             <tbody>
                             <tr>
                                 <td><spring:message code="ssn.label"/></td>
-                                <td><form:input path="person.ssn" size="9" maxlength="9" /></td>
+                                <td><form:input path="ssn" size="9" maxlength="9" /></td>
                             </tr>
                                 <c:forEach var="identifier" items="${identifiers}">
                                     <tr>

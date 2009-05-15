@@ -5,7 +5,6 @@
     http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
     <!-- By default, the first state is the start state. -->
-    <var name="personSearch" class="org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl" />
     <var name="sorName" class="org.openregistry.core.domain.jpa.sor.JpaSorNameImpl" />
 
     <subflow-state id="searchForPerson" subflow="searchForPerson" >
@@ -14,19 +13,16 @@
         <transition to="updatePerson" />
     </subflow-state>
 
-    <view-state id="updatePerson" model="personSearch" view="openregistry.person.update.update">
+    <view-state id="updatePerson" model="sorPerson" view="openregistry.person.update.update">
         <on-entry>
-            <evaluate expression="personRepository.findSorPersonByInternalId(person.id)" result="flowScope.sorPerson"/>
-            <evaluate expression="personSearch.setSorPerson(sorPerson)"/>
-            <evaluate expression="sorPerson.getNameList()" result="flowScope.names"/>
+            <evaluate expression="personRepository.findSorPersonByPersonId(person.id)" result="flowScope.sorPerson"/>
             <evaluate expression="personRepository.findPersonIdentifiers(sorPerson.getPersonId())" result="flowScope.identifiers" />
-            <set name="viewScope.command" value="'personSearch'" />
+            <set name="viewScope.command" value="'sorPerson'" />
             <set name="viewScope.identifiers" value="identifiers" />
         </on-entry>
         <transition on="submitAddName" to="addName" >
-            <evaluate expression="personSearch.getPerson().addName()" result="flowScope.sorName"/>
+            <evaluate expression="sorPerson.addName()" result="flowScope.sorName"/>
         </transition>
-        <transition on="submitAddRole" to="selectRole" />
 
         <transition on="submitUpdateRole" to="updateRole" >
             <set name="requestScope.roleId" value="requestParameters.roleId" type="long" />
@@ -34,7 +30,7 @@
         </transition>
 
         <transition on="submitUpdatePerson" to="updateSucceeded" >
-            <evaluate expression="personSearchAction.updateSorPerson(personSearch, messageContext)"/>
+            <evaluate expression="personSearchAction.updateSorPerson(sorPerson, messageContext)"/>
         </transition>
 
     </view-state>
@@ -51,22 +47,9 @@
             <set name="viewScope.command" value="'sorName'" />
         </on-entry>
         <transition on="submitPerformAddName" to="personWasUpdated" >
-            <evaluate expression="personService.updateSorPerson(personSearch)" result="flowScope.serviceExecutionResult"/>
+            <evaluate expression="personService.updateSorPerson(sorPerson)" result="flowScope.serviceExecutionResult"/>
         </transition>
         <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
-    </view-state>
-
-    <view-state id="selectRole" model="role" view="openregistry.person.update.selectRole">
-        <binder>
-            <binding property="roleInfo.affiliationType.description" />
-            <binding property="roleInfo.title" required="true" />
-        </binder>
-        <on-entry>
-            <evaluate expression="referenceRepository.getAffiliationTypes()" result="flowScope.affiliationList" />
-            <set name="viewScope.command" value="'personSearch'" />
-            <set name="viewScope.affiliationList" value="affiliationList" />
-        </on-entry>
-        <transition on="submitPerformAddName" to="updatePerson" />
     </view-state>
 
     <subflow-state id="updateRole" subflow="updateRole" >

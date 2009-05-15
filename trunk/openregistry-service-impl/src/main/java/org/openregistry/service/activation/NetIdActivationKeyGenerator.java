@@ -7,6 +7,8 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Name;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.Random;
@@ -25,13 +27,15 @@ public final class NetIdActivationKeyGenerator implements ActivationKeyGenerator
     }
 
     public String generateNextString(){
-        String hash = Long.toHexString(random.nextLong()) + Long.toHexString(random.nextLong());
+        String hash = Long.toHexString(random.nextLong());
+        
         // Filter out 0's, o's, 1's, l's
         hash.replaceAll("0","a") ;
         hash.replaceAll("o","b") ;
         hash.replaceAll("O","c") ;
         hash.replaceAll("1","d");
         hash.replaceAll("l","e");
+
         return hash.substring(0,8);
     }
 

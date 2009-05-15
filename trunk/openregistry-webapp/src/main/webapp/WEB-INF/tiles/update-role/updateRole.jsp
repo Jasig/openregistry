@@ -73,10 +73,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="emailAddress" items="${role.emailAddressList}" varStatus="loopStatus">
+                            <c:forEach var="emailAddress" items="${role.emailAddresses}" varStatus="loopStatus">
                             <tr>
                                 <td><c:out value="${emailAddress.addressType.description}"/></td>
-                                <td><form:input path="emailAddressList[${loopStatus.index}].address" /></</td>
+                                <td><form:input path="emailAddresses[${loopStatus.index}].address" /></</td>
                             </tr>
                             </c:forEach>
                         </tbody>
@@ -96,13 +96,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="phone" items="${role.phoneList}" varStatus="loopStatus">
+                            <c:forEach var="phone" items="${role.phones}" varStatus="loopStatus">
                             <tr>
                                 <td><c:out value="${phone.phoneType.description}"/></td>
-                                <td><form:input path="phoneList[${loopStatus.index}].countryCode" /></</td>
-                                <td><form:input path="phoneList[${loopStatus.index}].areaCode" /></</td>
-                                <td><form:input path="phoneList[${loopStatus.index}].number" /></</td>
-                                <td><form:input path="phoneList[${loopStatus.index}].extension" /></</td>
+                                <td><form:input path="phones[${loopStatus.index}].countryCode" /></</td>
+                                <td><form:input path="phones[${loopStatus.index}].areaCode" /></</td>
+                                <td><form:input path="phones[${loopStatus.index}].number" /></</td>
+                                <td><form:input path="phones[${loopStatus.index}].extension" /></</td>
                             </tr>
                             </c:forEach>
                         </tbody>
@@ -111,7 +111,7 @@
 
                 <label class="desc"><spring:message code="urls.heading"/></label>
                 <c:choose>
-                <c:when test="${not empty role.urlList}">
+                <c:when test="${not empty role.urls}">
                 <div>
                     <table class="data" cellspacing="0" width="50%">
                         <thead>
@@ -121,10 +121,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="url" items="${role.urlList}" varStatus="loopStatus">
+                            <c:forEach var="url" items="${role.urls}" varStatus="loopStatus">
                             <tr>
                                 <td><c:out value="${url.type.description}"/></td>
-                                <td><form:input path="urlList[${loopStatus.index}].url" /></</td>
+                                <td><form:input path="urls[${loopStatus.index}].url" /></</td>
                             </tr>
                             </c:forEach>
                         </tbody>
@@ -137,37 +137,37 @@
 
                 <label class="desc"><spring:message code="addresses.heading"/></label>
                 <div>
-                    <c:forEach var="address" items="${role.addressList}" varStatus="loopStatus">
+                    <c:forEach var="address" items="${role.addresses}" varStatus="loopStatus">
                         <div class="row">
                             <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="addressType.heading"/></span><em2><c:out value="${address.type.description}"/></em2></label>  
                         </div>
                         <div class="row">
 						    <label for="c1_address1" class="address1"><spring:message code="addressLine1.label"/></label>
-						    <form:input path="addressList[${loopStatus.index}].line1" id="c1_address1" size="30" maxlength="30" tabindex="8" />
+						    <form:input path="addresses[${loopStatus.index}].line1" id="c1_address1" size="30" maxlength="30" tabindex="8" />
 					    </div>
                         <div class="row">
 						    <label for="c1_address1" class="address1"><spring:message code="addressLine2.label"/></label>
-						    <form:input path="addressList[${loopStatus.index}].line2" id="c1_address1" size="30" maxlength="30" tabindex="9" />
+						    <form:input path="addresses[${loopStatus.index}].line2" id="c1_address1" size="30" maxlength="30" tabindex="9" />
 					    </div>
                         <div class="row">
 						    <label for="c1_address1" class="address1"><spring:message code="addressLine3.label"/></label>
-						    <form:input path="addressList[${loopStatus.index}].line3" id="c1_address1" size="30" maxlength="30" tabindex="10" />
+						    <form:input path="addresses[${loopStatus.index}].line3" id="c1_address1" size="30" maxlength="30" tabindex="10" />
 					    </div>
 
 					    <div class="row">
 						    <label for="c1_city"><spring:message code="city.label"/></label>
-						    <form:input path="addressList[${loopStatus.index}].city" id="c1_city" size="30" maxlength="30" tabindex="11" />
+						    <form:input path="addresses[${loopStatus.index}].city" id="c1_city" size="30" maxlength="30" tabindex="11" />
 
                             <label for="c1_state" class="state"><spring:message code="region.label"/></label>
-					        <form:input path="addressList[${loopStatus.index}].region" id="c1_state" size="10" maxlength="10" tabindex="12" />
+					        <form:input path="addresses[${loopStatus.index}].region" id="c1_state" size="10" maxlength="10" tabindex="12" />
 
 						    <label for="c1_zip" class="zip"><spring:message code="postalCode.label"/></label>
-						    <form:input path="addressList[${loopStatus.index}].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="13" />
+						    <form:input path="addresses[${loopStatus.index}].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="13" />
 					    </div>
                         <div class="row">
                             <label for="c1_country"><spring:message code="country.label"/></label>
                             <div class="select country">
-                            <form:select path="addressList[${loopStatus.index}].country" id="c1_country" items="${countryList}" itemLabel="name" size="1" tabindex="14" />
+                            <form:select path="addresses[${loopStatus.index}].country" id="c1_country" items="${countryList}" itemValue="id" itemLabel="name" size="1" tabindex="14" />
                         </div>
                 </div>
                     </c:forEach>

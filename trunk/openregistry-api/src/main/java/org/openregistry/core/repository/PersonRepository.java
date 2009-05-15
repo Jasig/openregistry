@@ -177,4 +177,11 @@ public interface PersonRepository {
      * @return a list of identifiers.
      */
     List<Identifier> findPersonIdentifiers(final Long personId);
+
+    /**
+     * Finds an SorPerson by person.personId
+     * @param personId
+     * @return the sorPerson
+     */
+    SorPerson findSorPersonByPersonId(final Long personId);
 }
