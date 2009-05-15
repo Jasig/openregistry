@@ -10,6 +10,7 @@ import org.javalid.core.ValidatorParams;
 import org.javalid.core.ValidationMessage;
 import org.javalid.core.resource.MessageCodeResourceBundleResolverImpl;
 import org.javalid.core.config.JvConfiguration;
+import org.javalid.annotations.core.JvGroup;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
@@ -29,7 +30,7 @@ public final class SearchCriteriaValidator implements Validator {
     private final AnnotationValidatorImpl v = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
 
     public final void validate(final Object o, final Errors errors) {
-        final List<ValidationMessage> validationMessageList = this.v.validateObject(o, "1", "", true, 2);
+        final List<ValidationMessage> validationMessageList = this.v.validateObject(o, JvGroup.DEFAULT_GROUP, "", true, -1);
         this.springMessageConverter.convertMessages(validationMessageList, errors);
     }
 
