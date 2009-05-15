@@ -25,8 +25,6 @@ public class NetidIdentifierAssigner implements IdentifierAssigner {
 
 	private final String identifierType = "NETID";
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
 	public void addIdentifierTo(SorPerson sorPerson, Person person) {
 		// TODO should we check to see if this identifier already exists?
         // TODO should be getting netid from iid which is coming from PDB in the first release.
@@ -35,7 +33,7 @@ public class NetidIdentifierAssigner implements IdentifierAssigner {
 		identifier.setValue(netIdGenerator.generateIdentifier(person));
 		identifier.setDeleted(false);
 		identifier.setPrimary(false);
-        logger.info("NetId assigner added NetID");
+
         //create activation key for new netid
         createActivationKey(identifier);
 	}
@@ -46,7 +44,6 @@ public class NetidIdentifierAssigner implements IdentifierAssigner {
 
     private void createActivationKey(Identifier identifier){
         netIdActivationKeyAssigner.addActivationKeyTo(identifier);
-        logger.info("NetId assigner added activationKey");
     }
 
 }

@@ -21,21 +21,15 @@ import java.util.Date;
 public class NetidActivationKeyAssigner implements ActivationKeyAssigner {
 
 	@Autowired(required = true)
-	private ReferenceRepository referenceRepository;
-
-	@Autowired(required = true)
 	private NetIdActivationKeyGenerator generator;
 
 	private final String identifierType = "NETID";
-
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     public void addActivationKeyTo(Identifier identifier){
         //TODO should verify that identifier is a NETID.
         ActivationKey activationKey = identifier.addActivationKey();
         activationKey.setValue(generator.generateNextString());
         activationKey.setExpirationDate(getExpirationDate());
-        logger.info("NetidActivationKeyAssigner: created activationKey: "+ activationKey.getValue());
     }
 
     public String getActivationKeyType(){
