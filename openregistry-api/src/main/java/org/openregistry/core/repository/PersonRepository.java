@@ -178,10 +178,4 @@ public interface PersonRepository {
      */
     List<Identifier> findPersonIdentifiers(final Long personId);
 
-    /**
-     * Finds an SorPerson by person.personId
-     * @param personId
-     * @return the sorPerson
-     */
-    SorPerson findSorPersonByPersonId(final Long personId);
 }

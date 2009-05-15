@@ -15,7 +15,7 @@
 
     <view-state id="updatePerson" model="sorPerson" view="openregistry.person.update.update">
         <on-entry>
-            <evaluate expression="personRepository.findSorPersonByPersonId(person.id)" result="flowScope.sorPerson"/>
+            <evaluate expression="personRepository.findByPersonIdAndSorIdentifier(person.id,'or-webapp')" result="flowScope.sorPerson"/>
             <evaluate expression="personRepository.findPersonIdentifiers(sorPerson.getPersonId())" result="flowScope.identifiers" />
             <set name="viewScope.command" value="'sorPerson'" />
             <set name="viewScope.identifiers" value="identifiers" />

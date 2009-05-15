@@ -99,10 +99,6 @@ public class JpaPersonRepository implements PersonRepository {
         return (SorPerson) this.entityManager.createQuery("select s from sorPerson s join s.roles r where r.roleId = :roleId and s.personId = :personId").setParameter("roleId", roleId).setParameter("personId", personId).getSingleResult();
     }
 
-    public SorPerson findSorPersonByPersonId(final Long personId) throws RepositoryAccessException {
-        return (SorPerson) this.entityManager.createQuery("select s from sorPerson s where s.personId = :personId").setParameter("personId", personId).getSingleResult();
-    }
-
     public SorPerson findBySorIdentifierAndSource(final String sorSourceIdentifier, final String sorId) {
         return (SorPerson) this.entityManager.createQuery("select s from sorPerson s where s.sourceSorIdentifier = :sorSourceIdentifier and s.sorId = :sorId").setParameter("sorSourceIdentifier", sorSourceIdentifier).setParameter("sorId", sorId).getSingleResult();
     }
