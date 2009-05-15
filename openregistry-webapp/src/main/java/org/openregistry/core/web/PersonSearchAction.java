@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.service.ServiceExecutionResult;
@@ -67,8 +68,8 @@ public class PersonSearchAction {
         return result;
     }
 
-    public boolean updateSorPerson(PersonSearch personSearch, MessageContext context) {
-        ServiceExecutionResult result = personService.updateSorPerson(personSearch);
+    public boolean updateSorPerson(SorPerson sorPerson, MessageContext context) {
+        ServiceExecutionResult result = personService.updateSorPerson(sorPerson);
         if (result.succeeded()) {
             return true;
         }

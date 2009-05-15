@@ -42,7 +42,7 @@ public final class NameReconciler implements Reconciler {
 		List<PersonMatch> exactMatches = new ArrayList<PersonMatch>();
 		List<PersonMatch> partialMatches = new ArrayList<PersonMatch>();
 		
-		Set<? extends Name> names = personSearch.getPerson().getNames();  // TODO deal with multiple names properly
+		List<? extends Name> names = personSearch.getPerson().getNames();  // TODO deal with multiple names properly
 		logger.info("Reconcile: found " + names.size() + " name(s)");
 		for(Name name: names) {
 			logger.info("Reconcile: checking name: " + name.getGiven() + " " + name.getFamily());

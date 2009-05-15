@@ -21,18 +21,18 @@
             <render fragments="searchResults" />
         </transition>
         <transition on="display" to="personSelected" validate="false">
-            <evaluate expression="flowScope.searchResults.get(requestParameters.searchId).person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
+            <evaluate expression="viewScope.searchResults.get(requestParameters.searchId).person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
         </transition>
     </view-state>
 
     <decision-state id="readResults">
         <if test="searchResults.size eq 0" then="noOneFound" />
-        <if test="searchResults.size eq 1" then="onePerson" else="personSearch" />
+        <if test="searchResults.size eq 1" then="onePerson" else="searchForPerson" />
     </decision-state>
 
     <action-state id="noOneFound">
         <set name="flashScope.errorMessage" value="resourceBundle.noMatchesFoundMessage" />
-        <transition to="personSearch" />
+        <transition to="searchForPerson" />
     </action-state>
 
     <action-state id="onePerson">

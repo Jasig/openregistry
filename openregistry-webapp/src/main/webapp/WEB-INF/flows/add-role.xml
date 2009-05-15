@@ -20,7 +20,7 @@
             <set name="viewScope.roleInfoList" value="roleInfoList" />
             <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
             <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
-            <evaluate expression="personService.findSorPersonById(person.id)" result="flowScope.person" />
+            <evaluate expression="personRepository.findSorPersonByPersonId(person.id)" result="flowScope.person" />
             <evaluate expression="roleAction.initSorRole(person, roleInfoList)" result="flowScope.role"/>
         </on-entry>
         <transition on="submitSelectRole" to="addRole" />

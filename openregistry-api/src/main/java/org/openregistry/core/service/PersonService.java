@@ -146,10 +146,10 @@ public interface PersonService {
     /**
      * Updates the SorPerson.
      *
-     * @param personSearch the Person to search for.
+     * @param sorPerson the Person to update.
      * @return Result of updating.  Validation errors if they occurred or the sorPerson.
      */
-    ServiceExecutionResult updateSorPerson(final PersonSearch personSearch);
+    ServiceExecutionResult updateSorPerson(final SorPerson sorPerson);
 
     /**
      * Updates the SorRole.

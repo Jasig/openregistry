@@ -267,6 +267,10 @@ public class DefaultPersonService implements PersonService {
             personMatches.add(p);
         }
 
+        for (int i=0; i<personMatches.size(); i++){
+            logger.info("PersonMatch: "+ i + personMatches.get(i).getPerson().getPreferredName());
+        }
+
         return personMatches;
     }
 
@@ -413,21 +417,19 @@ public class DefaultPersonService implements PersonService {
     /**
      * Persists an SorPerson on update.
      *
-     * @param personSearch the original search criteria.
+     * @param sorPerson the person to update.
      * @return serviceExecutionResult.
      */
     @Transactional
-    public ServiceExecutionResult updateSorPerson(final PersonSearch personSearch) {
+    public ServiceExecutionResult updateSorPerson(SorPerson sorPerson) {
         final String serviceName = "PersonService.updateSorPerson";
         logger.info("PersonService:updateSorPerson:");
-
-        SorPerson sorPerson = personSearch.getPerson();
 
         final List<ValidationError> validationErrors = validateAndConvert(sorPerson);
 
         if (!validationErrors.isEmpty()) {
             logger.info("PersonService:updateSorPerson: validation errors found");
-            return new GeneralServiceExecutionResult(serviceName, personSearch, validationErrors);
+            return new GeneralServiceExecutionResult(serviceName, sorPerson, validationErrors);
         }
 
         // Save Sor Person
