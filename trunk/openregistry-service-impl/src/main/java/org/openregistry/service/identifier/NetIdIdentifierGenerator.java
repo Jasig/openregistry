@@ -17,6 +17,7 @@ public final class NetIdIdentifierGenerator {
 
     private final int baseNumber = 1;
     private final int baseLength = 3;
+    private final String APPENDED_VALUE ="0";
 
     public String generateIdentifier(Person person) {
         StringBuffer netId = null;
@@ -38,7 +39,7 @@ public final class NetIdIdentifierGenerator {
             base.append(name.getFamily().substring(0,1));
 
         //append a 0 to the base so that the base has a length of 3
-        for (int i = base.length(); i< baseLength; i++)base.append('0');
+        for (int i = base.length(); i< baseLength; i++)base.append(APPENDED_VALUE);
 
         return base;
     }
