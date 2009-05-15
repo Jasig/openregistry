@@ -86,7 +86,7 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     private JpaTypeImpl personStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch=FetchType.EAGER, targetEntity = JpaSorLeaveImpl.class)
-    @ValidateList
+    //@ValidateList
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Leave> leaves = new ArrayList<Leave>();
 
