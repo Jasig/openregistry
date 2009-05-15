@@ -15,7 +15,7 @@
 						<label for="c1_prefix" class="prefix"><spring:message code="prefix.label"/></label>
                         <div class="select prefix">
                             <form:select path="person.names[0].prefix" id="c1_prefix" size="1" tabindex="1">
-                                <form:option value="Empty" label=""/>
+                                <form:option value="" label=""/>
 							    <form:option value="Mrs" label="Mrs."/>
                                 <form:option value="Miss" label="Miss"/>
                                 <form:option value="Ms" label="Ms."/>
