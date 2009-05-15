@@ -402,6 +402,7 @@ public class DefaultPersonService implements PersonService {
     	SorPerson sorPerson = personSearch.getPerson();
     	
     	// TODO if this is the same SOR, just update fields, don't save new SOR records
+        // TODO when this change is done it needs to be coordinated with the confirmation message constructed in PersonSearchAction.addSorPerson()
 
         if (!StringUtils.hasText(sorPerson.getSorId())) {
             sorPerson.setSorId(this.identifierGenerator.generateNextString());
