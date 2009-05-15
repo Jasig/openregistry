@@ -38,15 +38,15 @@ public final class NameReconciler implements Reconciler {
 	/* 
 	 * @see org.openregistry.core.service.reconciliation.Reconciler#reconcile(org.openregistry.core.domain.sor.PersonSearch)
 	 */
-	public ReconciliationResult reconcile(PersonSearch personSearch) {
-		List<PersonMatch> exactMatches = new ArrayList<PersonMatch>();
-		List<PersonMatch> partialMatches = new ArrayList<PersonMatch>();
+	public ReconciliationResult reconcile(final PersonSearch personSearch) {
+		final List<PersonMatch> exactMatches = new ArrayList<PersonMatch>();
+		final List<PersonMatch> partialMatches = new ArrayList<PersonMatch>();
 		
-		List<? extends Name> names = personSearch.getPerson().getNames();  // TODO deal with multiple names properly
+		final List<Name> names = personSearch.getPerson().getNames();  // TODO deal with multiple names properly
 		logger.info("Reconcile: found " + names.size() + " name(s)");
-		for(Name name: names) {
+		for(final Name name: names) {
 			logger.info("Reconcile: checking name: " + name.getGiven() + " " + name.getFamily());
-			List<Person> matches = this.personRepository.findByFamilyName(name.getFamily());
+			final List<Person> matches = this.personRepository.findByFamilyName(name.getFamily());
 			logger.info("Reconcile: found " + matches.size() + " possible match(es)");
 			for(Person match: matches) {
 				if (name.getGiven().equals(match.getOfficialName().getGiven())) {  // TODO use all names
@@ -63,7 +63,7 @@ public final class NameReconciler implements Reconciler {
 			logger.info("Reconcile: returning NONE; " + exactMatches.size() + "," + partialMatches.size() + " matches found");
 			return new ReconciliationResultImpl(ReconciliationType.NONE, Collections.<PersonMatch>emptyList());
 		} else if (! partialMatches.isEmpty()) {
-		    List<PersonMatch> matches = new ArrayList<PersonMatch>();
+		    final List<PersonMatch> matches = new ArrayList<PersonMatch>();
 			matches.addAll(exactMatches);
 			matches.addAll(partialMatches);
 			logger.info("Reconcile: returning MAYBE; " + exactMatches.size() + "," + partialMatches.size() + " matches found");
