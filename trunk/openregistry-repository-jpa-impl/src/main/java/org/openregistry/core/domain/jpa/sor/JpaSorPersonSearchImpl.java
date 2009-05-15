@@ -3,9 +3,7 @@ package org.openregistry.core.domain.jpa.sor;
 import org.openregistry.core.domain.sor.PersonSearch;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.IdentifierType;
-import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
-import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.core.ValidateDefinition;
 
 import java.util.Map;
@@ -22,7 +20,7 @@ import java.util.HashMap;
 public final class JpaSorPersonSearchImpl implements PersonSearch {
 
     @NotNull
-    private SorPerson sorPerson = new JpaSorPersonImpl();
+    private SorPerson person = new JpaSorPersonImpl();
 
     private Map<IdentifierType, String> identifiersByType = new HashMap<IdentifierType, String>();
 
@@ -57,11 +55,7 @@ public final class JpaSorPersonSearchImpl implements PersonSearch {
     }
 
     public SorPerson getPerson() {
-        return this.sorPerson;
-    }
-
-    public void setSorPerson(final SorPerson sorPerson) {
-        this.sorPerson = sorPerson;
+        return this.person;
     }
 
     public Map<IdentifierType, String> getIdentifiersByType() {

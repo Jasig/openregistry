@@ -7,6 +7,8 @@ import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.validation.NotEmpty;
@@ -59,24 +61,17 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     private String gender;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
-//    @ValidateList
-    // TODO we need to validate this
-    private Set<Name> names = new HashSet<Name>();
+    @ValidateList
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Name> names = new ArrayList<Name>();
 
     @Column(name="ssn",nullable=true)
     private String ssn;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)
     @ValidateList
+    @Fetch(value = FetchMode.SUBSELECT) 
     private List<SorRole> roles = new ArrayList<SorRole>();
-
-    // XXX work around to problems with binding to a set versus a list.
-    // TODO fix this
-    @Transient
-    private List<Name> nameList;
-
-    @Transient
-    private JpaSorNameImpl firstAddedName;
 
     public List<SorRole> getRoles(){
         return this.roles;
@@ -106,32 +101,13 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         this.sourceSorIdentifier = sorIdentifier;
     }
 
-    public Set<Name> getNames() {
+    public List<Name> getNames() {
         return this.names;
     }
 
-    public void setNames(Set<Name> names){
+    public void setNames(List<Name> names){
         this.names = names;
     }
-
-    public List<Name> getNameList() {
-        this.nameList = new ArrayList();
-
-        for (final Name name : this.names) {
-            this.nameList.add(name);
-        }
-            
-        return this.nameList;
-    }
-
-    public void setNameList(final List list){
-        this.nameList = list;
-    }
-
-    public JpaSorNameImpl getFirstAddedName(){
-        return firstAddedName;
-    }
-
 
     public void setSorId(final String id) {
         this.sorId = id;
@@ -156,9 +132,6 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     public Name addName() {
         final JpaSorNameImpl jpaSorName = new JpaSorNameImpl(this);
         this.names.add(jpaSorName);
-        // TODO fix this
-        if (names.size() == 1) firstAddedName = jpaSorName;
-        
         return jpaSorName;
     }
 

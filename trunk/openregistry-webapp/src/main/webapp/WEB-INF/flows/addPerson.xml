@@ -7,26 +7,16 @@
     <!-- By default, the first state is the start state. -->
     <var name="personSearch" class="org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl" />
 
+    <action-state id="createName">
+        <evaluate expression="personSearch.getPerson().addName()" />
+        <transition to="addPerson" />
+    </action-state>
+
     <view-state id="addPerson" model="personSearch" view="openregistry.person.add.insert">
-        <binder>
-            <binding property="person.dateOfBirth" converter="shortDate" required="true"/>
-            <binding property="person.firstAddedName.prefix" />
-            <binding property="person.firstAddedName.given" required="true" />
-            <binding property="person.firstAddedName.middle" />
-            <binding property="person.firstAddedName.family" required="true"/>
-            <binding property="person.firstAddedName.suffix" />
-            <binding property="person.gender" required="true" />
-            <binding property="person.ssn" />
-            <binding property="phoneNumber" />
-            <binding property="emailAddress" />
-        </binder>
-        <on-entry>
-            <evaluate expression="personSearch.getPerson().addName()" />
-        </on-entry>
         <on-render>
             <set name="viewScope.command" value="'personSearch'" />
         </on-render>
-        <transition on="submitAddPerson" to="checkForErrors" >
+        <transition on="submitAddPerson" to="checkForErrors" bind="true" validate="true">
             <evaluate expression="personSearchAction.addSorPerson(personSearch,null,messageContext)" result="flowScope.serviceExecutionResult" result-type="org.openregistry.core.service.ServiceExecutionResult"/>
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>  
