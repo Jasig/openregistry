@@ -14,7 +14,7 @@
 					<div class="row">
 						<label for="c1_prefix" class="prefix"><spring:message code="prefix.label"/></label>
                         <div class="select prefix">
-                            <form:select path="person.firstAddedName.prefix" id="c1_prefix" size="1" tabindex="1">
+                            <form:select path="person.names[0].prefix" id="c1_prefix" size="1" tabindex="1">
                                 <form:option value="Empty" label=""/>
 							    <form:option value="Mrs" label="Mrs."/>
                                 <form:option value="Miss" label="Miss"/>
@@ -26,16 +26,16 @@
 
 
 						<label for="c1_firstName" class="firstName"><spring:message code="firstName.label"/><em>*</em></label>
-						<form:input path="person.firstAddedName.given" id="c1_firstName" size="10" maxlength="30" tabindex="2" />
+						<form:input path="person.names[0].given" id="c1_firstName" size="10" maxlength="30" tabindex="2" />
 
                         <label for="c1_middleName" class="middleName"><spring:message code="middleName.label" /></label>
-                        <form:input path="person.firstAddedName.middle" id="c1_middleName" size="10" maxlength="30" tabindex="3" />
+                        <form:input path="person.names[0].middle" id="c1_middleName" size="10" maxlength="30" tabindex="3" />
 
                         <label for="c1_lastName" class="lastName"><spring:message code="lastName.label" /><em>*</em></label>
-                        <form:input path="person.firstAddedName.family" id="c1_lastName" size="10" maxlength="30" tabindex="4" />
+                        <form:input path="person.names[0].family" id="c1_lastName" size="10" maxlength="30" tabindex="4" />
 
                         <label for="c1_suffix" class="suffix"><spring:message code="suffix.label" /></label>
-                        <form:input path="person.firstAddedName.suffix" id="c1_suffix" size="5" maxlength="5" tabindex="5" />
+                        <form:input path="person.names[0].suffix" id="c1_suffix" size="5" maxlength="5" tabindex="5" />
                     </div>
 
                     <div class="row">

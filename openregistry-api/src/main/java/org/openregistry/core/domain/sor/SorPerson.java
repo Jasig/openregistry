@@ -52,7 +52,7 @@ public interface SorPerson {
      * There MUST be at least ONE name returned.
      * @return the names, minimum of one.  CANNOT be null.
      */
-    Set<Name> getNames();
+    List<Name> getNames();
 
     /**
      * The official date of birth that this System of Record is aware of.
