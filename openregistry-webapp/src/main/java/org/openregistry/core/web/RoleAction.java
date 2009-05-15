@@ -59,16 +59,16 @@ public class RoleAction {
         sorRole.setSorId("1");  // TODO Don't hardcode
         sorRole.setSourceSorIdentifier("or-webapp"); // TODO Don't hardcode
         logger.info("status: "+Type.DataTypes.STATUS.name());
-        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS.name(), ACTIVE_STATUS));
+        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, ACTIVE_STATUS));
         final EmailAddress emailAddress = sorRole.addEmailAddress();
-        emailAddress.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL.name(), CAMPUS));
+        emailAddress.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL, CAMPUS));
         final Phone phone = sorRole.addPhone();
-        phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE.name(), CAMPUS));
-        phone.setAddressType(referenceRepository.findType(Type.DataTypes.PHONE.name(), CAMPUS));
+        phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, CAMPUS));
+        phone.setAddressType(referenceRepository.findType(Type.DataTypes.PHONE, CAMPUS));
         final Address address = sorRole.addAddress();
-        address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS.name(), CAMPUS));
+        address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, CAMPUS));
         final SorSponsor sponsor = sorRole.setSponsor();
-        sponsor.setType(referenceRepository.findType(Type.DataTypes.SPONSOR.name(), PERSON));  // TODO handle other types
+        sponsor.setType(referenceRepository.findType(Type.DataTypes.SPONSOR, PERSON));  // TODO handle other types
 
         //provide default values for start and end date of role
         final Calendar cal = Calendar.getInstance();

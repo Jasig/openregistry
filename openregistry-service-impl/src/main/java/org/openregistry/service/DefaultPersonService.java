@@ -301,7 +301,7 @@ public class DefaultPersonService implements PersonService {
         sorPerson.getRoles().remove(sorRole);
         this.personRepository.deleteSorRole(sorPerson, sorRole);
         try {
-            final Type terminationType = this.referenceRepository.findType(Type.DataTypes.TERMINATION.name(), terminationReason);
+            final Type terminationType = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationReason);
 
             role.setEnd(new Date());
             role.setTerminationReason(terminationType);
