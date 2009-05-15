@@ -257,7 +257,7 @@ public final class PeopleResource {
         SorRole sorRole = person.addRole(roleInfo);
         sorRole.setSorId("1");  // TODO: what to set here?
         sorRole.setSourceSorIdentifier(person.getSourceSorIdentifier());
-        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS.name(), "active"));
+        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, "active"));
         sorRole.setStart(roleRepresentation.startDate);
         sorRole.setEnd(roleRepresentation.endDate);
 
@@ -265,15 +265,15 @@ public final class PeopleResource {
         for (RoleRepresentation.Email e : roleRepresentation.emails) {
             EmailAddress email = sorRole.addEmailAddress();
             email.setAddress(e.address);
-            email.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL.name(), e.type));
+            email.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL, e.type));
         }
 
         //Phones
         for (RoleRepresentation.Phone ph : roleRepresentation.phones) {
             Phone phone = sorRole.addPhone();
             phone.setNumber(ph.number);
-            phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS.name(), ph.addressType));
-            phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE.name(), ph.type));
+            phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, ph.addressType));
+            phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, ph.type));
             phone.setCountryCode(ph.countryCode);
             phone.setAreaCode(ph.areaCode);
             phone.setExtension(ph.extension);
@@ -282,7 +282,7 @@ public final class PeopleResource {
         //Addresses
         for (RoleRepresentation.Address a : roleRepresentation.addresses) {
             Address address = sorRole.addAddress();
-            address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS.name(), a.type));
+            address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, a.type));
             address.setLine1(a.line1);
             address.setLine2(a.line2);
             address.setLine3(a.line3);
