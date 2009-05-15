@@ -34,13 +34,8 @@ public class CountryConverter extends StringToObject {
     protected Object toObject(String string, Class targetClass) throws Exception {
         final String trimmedText = string.trim();
 
-        for (final Region region : referenceRepository.getRegions()) {
-            if (region.getCode().trim().equals(trimmedText) || region.getName().trim().equals(trimmedText)){
-                return region;
-            }
-        }
         Country country = referenceRepository.getCountryById(new Long(string));
-        return null;
+        return country;
     }
 
    @Override

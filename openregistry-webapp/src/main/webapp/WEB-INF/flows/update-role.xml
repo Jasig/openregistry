@@ -12,6 +12,7 @@
         <on-entry>
             <set name="viewScope.command" value="'role'" />
             <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
+            <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
         </on-entry>
         <transition on="submitUpdateRole" to="displayPage" >
             <evaluate expression="roleAction.updateSorRole(role, messageContext)"/>
