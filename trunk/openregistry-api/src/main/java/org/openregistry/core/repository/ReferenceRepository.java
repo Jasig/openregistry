@@ -39,7 +39,15 @@ public interface ReferenceRepository {
 
     Region getRegionById(Long id);
 
-    Type findType(String type, String value);  
+    /**
+     * Find a Type based on the original {@link org.openregistry.core.domain.Type.DataTypes} and the value we're
+     * looking for.  If the Type doesn't exist, an error should be thrown.
+     *
+     * @param type the data type (i.e. TERMINATION)
+     * @param value the value (i.e. Retired)
+     * @return the Type object.
+     */
+    Type findType(Type.DataTypes type, String value);
 
     List<Type> getEmailTypes();
 
