@@ -24,7 +24,6 @@
 							</form:select>
                         </div>
 
-
 						<label for="c1_firstName" class="firstName"><spring:message code="firstName.label"/><em>*</em></label>
 						<form:input path="person.names[0].given" id="c1_firstName" size="10" maxlength="30" tabindex="2" />
 
