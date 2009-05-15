@@ -13,6 +13,7 @@ import org.openregistry.core.domain.Url;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -71,23 +72,23 @@ public interface SorRole extends Serializable, DateRange {
 
     void setTerminationReason(Type reason);
     
-    Set<Address> getAddresses();
+    List<Address> getAddresses();
     
     Address addAddress();
 
-    Set<Phone> getPhones();
+    List<Phone> getPhones();
 
-    Set<EmailAddress> getEmailAddresses();
+    List<EmailAddress> getEmailAddresses();
 
     EmailAddress addEmailAddress();
 
     Phone addPhone();
     
-    Set<Url> getUrls();
+    List<Url> getUrls();
 
     Url addUrl();
 
-    Set<Leave> getLeaves();
+    List<Leave> getLeaves();
 
     String getTitle();
 
@@ -108,5 +109,4 @@ public interface SorRole extends Serializable, DateRange {
      * @return the role id, if a calculated role exists.  Otherwise, NULL.
      */
     Long getRoleId();
-
 }
