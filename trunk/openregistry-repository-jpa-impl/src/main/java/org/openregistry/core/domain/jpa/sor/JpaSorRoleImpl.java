@@ -17,6 +17,8 @@ import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Url;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -46,24 +48,24 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     private String sorId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorUrlImpl.class)
-//    @ValidateList
-    // TODO we need to validate this
-    private Set<Url> urls = new HashSet<Url>();
+    @ValidateList
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Url> urls = new ArrayList<Url>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorEmailAddressImpl.class)
-    // @ValidateList
-    // TODO we need to validate this
-    private Set<EmailAddress> emailAddresses = new HashSet<EmailAddress>();
+    @ValidateList
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorPhoneImpl.class)
-    // @ValidateList
-    // TODO we need to validate this
-    private Set<Phone> phones = new HashSet<Phone>();
+    @ValidateList
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Phone> phones = new ArrayList<Phone>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorAddressImpl.class)
-    // @ValidateList
-    // TODO we need to validate this
-    private Set<Address> addresses = new HashSet<Address>();
+    @ValidateList
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Address> addresses = new ArrayList<Address>();
 
     @Column(name="source_sor_id", nullable = false)
     @NotEmpty
@@ -85,7 +87,8 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch=FetchType.EAGER, targetEntity = JpaSorLeaveImpl.class)
     @ValidateList
-    private Set<Leave> leaves = new HashSet<Leave>();
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Leave> leaves = new ArrayList<Leave>();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id")
@@ -242,96 +245,19 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
 	    return jpaUrl;
 	}
 
-	public Set<Address> getAddresses() {
+	public List<Address> getAddresses() {
 		return this.addresses;
 	}
 
-    //TODO FIX THIS work around to problems with binding to a set versus a list.
-    @Transient
-    private List<Address> addressList;
-
-    public List<Address> getAddressList() {
-        addressList = new ArrayList();
-        Iterator iterator = getAddresses().iterator();
-        while (iterator.hasNext()){
-            Address address = (Address)iterator.next();
-            addressList.add(address);
-        }
-        return this.addressList;
-    }
-
-    public void setAddressList(List list){
-        this.addressList=list;
-    }
-
-	public Set<EmailAddress> getEmailAddresses() {
-		return this.emailAddresses;
-	}
-
-    //work around to problems with binding to a set versus a list.
-    @Transient
-    private List<EmailAddress> emailAddressList;
-
-    public List<EmailAddress> getEmailAddressList() {
-        emailAddressList = new ArrayList();
-        Iterator iterator = getEmailAddresses().iterator();
-        while (iterator.hasNext()){
-            EmailAddress emailAddress = (EmailAddress)iterator.next();
-            emailAddressList.add(emailAddress);
-        }
-        return this.emailAddressList;
-    }
-
-    public void setEmailAddressList(List list){
-        this.emailAddressList=list;
-    }
-
-    //work around to problems with binding to a set versus a list.
-    @Transient
-    private List<Url> urlList;
-
-    public List<Url> getUrlList() {
-        urlList = new ArrayList();
-        Iterator iterator = getUrls().iterator();
-        while (iterator.hasNext()){
-            Url url = (Url)iterator.next();
-            urlList.add(url);
-        }
-        return this.urlList;
-    }
-
-    public void setUrlList(List list){
-        this.urlList=list;
-    }
-
-	public Set<Leave> getLeaves() {
+	public List<Leave> getLeaves() {
 		return this.leaves;
 	}
 
-	public Set<Phone> getPhones() {
+	public List<Phone> getPhones() {
 		return this.phones;
 	}
 
-    //work around to problems with binding to a set versus a list.
-    @Transient
-    private List<Phone> phoneList;
-
-    public List<Phone> getPhoneList() {
-        phoneList = new ArrayList();
-        Iterator iterator = getPhones().iterator();
-        while (iterator.hasNext()){
-            Phone phone = (Phone)iterator.next();
-            phoneList.add(phone);
-        }
-        return this.phoneList;
-    }
-
-    public void setPhoneList(List list){
-        this.phoneList=list;
-    }
-
-
-	public Set<Url> getUrls() {
+	public List<Url> getUrls() {
 		return this.urls;
 	}
 
@@ -340,11 +266,14 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
 	}
 
 	public String getLocalCode() {
-		// TODO Auto-generated method stub
-		return null;
+        return this.roleInfo.getCode();
 	}
 
 	public OrganizationalUnit getOrganizationalUnit() {
 		return this.roleInfo.getOrganizationalUnit();
 	}
+
+    public List<EmailAddress> getEmailAddresses() {
+        return this.emailAddresses;
+    }
 }

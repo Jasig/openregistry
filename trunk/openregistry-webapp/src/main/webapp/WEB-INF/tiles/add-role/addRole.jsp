@@ -34,13 +34,13 @@
 
                     <label for="c1_sponsor" class="sponsor"><spring:message code="sponsor.label" /><em>*</em></label>
                     <div class="select sponsor">
-                        <form:select path="sponsor.sponsorId" id="c1_sponsor" items="${sponsorList}" itemValue="id" itemLabel= "formattedNameAndID" size="1" tabindex="3" />
+                        <form:select path="sponsor.sponsorId" id="c1_sponsor" items="${sponsorList}" itemValue="id" itemLabel="formattedNameAndID" size="1" tabindex="3" />
                     </div>
                 </div>
 
                 <div class="row">
                     <label for="c1_email"><spring:message code="email.label"/></label>
-                    <form:input path="emailAddressList[0].address" id="c1_email" size="20" maxlength="30" tabindex="6" />
+                    <form:input path="emailAddresses[0].address" id="c1_email" size="20" maxlength="30" tabindex="6" />
 
                     <label for="c1_pt" class="pt"><spring:message code="pt.label" /></label>
                     <div class="select pt">
@@ -61,48 +61,48 @@
 					
                 <div class="row">
                     <label for="c1_address1" class="address1"><spring:message code="addressLine1.label"/></label>
-                    <form:input path="addressList[0].line1" id="c1_address1" size="30" maxlength="30" tabindex="8" />
+                    <form:input path="addresses[0].line1" id="c1_address1" size="30" maxlength="30" tabindex="8" />
                 </div>
                 <div class="row">
                     <label for="c1_address1" class="address1"><spring:message code="addressLine2.label"/></label>
-                    <form:input path="addressList[0].line2" id="c1_address1" size="30" maxlength="30" tabindex="9" />
+                    <form:input path="addresses[0].line2" id="c1_address1" size="30" maxlength="30" tabindex="9" />
                 </div>
                 <div class="row">
                     <label for="c1_address1" class="address1"><spring:message code="addressLine3.label"/></label>
-                    <form:input path="addressList[0].line3" id="c1_address1" size="30" maxlength="30" tabindex="10" />
+                    <form:input path="addresses[0].line3" id="c1_address1" size="30" maxlength="30" tabindex="10" />
                 </div>
 					
                 <div class="row">
                     <label for="c1_city"><spring:message code="city.label"/></label>
-                    <form:input path="addressList[0].city" id="c1_city" size="30" maxlength="30" tabindex="11" />
+                    <form:input path="addresses[0].city" id="c1_city" size="30" maxlength="30" tabindex="11" />
 
                     <label for="c1_state" class="state"><spring:message code="region.label"/></label>
-                    <form:input path="addressList[0].region" id="c1_state" size="10" maxlength="10" tabindex="12" />
+                    <form:input path="addresses[0].region" id="c1_state" size="10" maxlength="10" tabindex="12" />
 
                     <label for="c1_zip" class="zip"><spring:message code="postalCode.label"/></label>
-                    <form:input path="addressList[0].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="13" />
+                    <form:input path="addresses[0].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="13" />
                 </div>
 
                 <div class="row">
                     <label for="c1_country"><spring:message code="country.label"/></label>
                     <div class="select country">
-                        <form:select path="addressList[0].country" id="c1_country" items="${countryList}" itemValue="id" itemLabel="name" size="1" tabindex="14" />
+                        <form:select path="addresses[0].country" id="c1_country" items="${countryList}" itemValue="id" itemLabel="name" size="1" tabindex="14" />
                     </div>
                 </div>
 
                 <div class="row">
 
                     <label for="c1_cccode" class="cccode"><spring:message code="ccCode.label"/></label>
-                    <form:input path="phoneList[0].countryCode" id="c1_cccode" size="5" maxlength="5" tabindex="15" />
+                    <form:input path="phones[0].countryCode" id="c1_cccode" size="5" maxlength="5" tabindex="15" />
 
                     <label for="c1_areacode" class="areacode"><spring:message code="areaCode.label"/></label>
-                    <form:input path="phoneList[0].areaCode" id="c1_areacode" size="5" maxlength="5" tabindex="16" />
+                    <form:input path="phones[0].areaCode" id="c1_areacode" size="5" maxlength="5" tabindex="16" />
 
                     <label for="c1_number" class="number"><spring:message code="number.label"/></label>
-                    <form:input path="phoneList[0].number" id="c1_number" size="10" maxlength="10" tabindex="17" />
+                    <form:input path="phones[0].number" id="c1_number" size="10" maxlength="10" tabindex="17" />
 
                     <label for="c1_ext" class="ext"><spring:message code="ext.label"/></label>
-                    <form:input path="phoneList[0].extension" id="c1_ext" size="10" maxlength="10" tabindex="18" />
+                    <form:input path="phones[0].extension" id="c1_ext" size="10" maxlength="10" tabindex="18" />
 
                 </div>
             </fieldset>
