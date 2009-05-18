@@ -3,7 +3,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
-    <var name="searchCriteria" class="org.openregistry.service.MutableSearchCriteriaImpl" />
+    <var name="searchCriteria" class="org.openregistry.core.service.MutableSearchCriteriaImpl" />
 
     <view-state id="personSearch" model="searchCriteria" view="openregistry.search">
         <on-entry>
