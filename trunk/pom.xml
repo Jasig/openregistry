@@ -172,6 +172,7 @@
     <properties>
         <aspectj.version>1.5.4</aspectj.version>
         <spring.version>3.0.0.M3</spring.version>
+        <spring.security.version>2.0.4</spring.security.version>
         <junit.version>4.5</junit.version>
         <servlet.version>2.5</servlet.version>
         <persistence.version>1.0</persistence.version>
