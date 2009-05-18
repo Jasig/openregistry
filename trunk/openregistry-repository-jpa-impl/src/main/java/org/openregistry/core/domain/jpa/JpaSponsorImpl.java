@@ -18,6 +18,7 @@ import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Sponsor;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
+import org.springframework.util.Assert;
 
 /**
  * @author Dave Steiner
@@ -50,7 +51,7 @@ public class JpaSponsorImpl extends Entity implements Sponsor {
 		// nothing to do
 	}
 	
-	public JpaSponsorImpl(Role role) {
+	public JpaSponsorImpl(final JpaRoleImpl role) {
 		this.roles.add(role);
 	}
 
@@ -72,21 +73,16 @@ public class JpaSponsorImpl extends Entity implements Sponsor {
 
 
 	public void setType(final Type type) {
-	    if (!(type instanceof JpaTypeImpl)) {
-	    	throw new IllegalArgumentException("Requires type JpaTypeImpl");
-	    }
+        Assert.isInstanceOf(JpaTypeImpl.class, type);
 	    this.sponsorType = (JpaTypeImpl)type;
 	}
 
 	public void addRole(final Role role) {
-		if (!(role instanceof JpaRoleImpl)) {
-			throw new IllegalArgumentException("role of type JpaRoleImpl required");
-		}
+        Assert.isInstanceOf(JpaRoleImpl.class, role);
 		this.roles.add(role);
 	}
 
 	public Set<Role> getRoles() {
 		return this.roles;
 	}
-	
 }
