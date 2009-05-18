@@ -40,6 +40,7 @@
                 <value>messages</value>
                 <value>uilabels</value>
                 <value>org/javalid/core/validator/jv_messages</value>
+                <value>org/openregistry/core/messages/log</value>
             </list>
         </property>
     </bean>
@@ -49,10 +50,10 @@
         <constructor-arg index="0" value="RCPID"/>
     </bean>
 
-    <!--
+    <bean id="openregistryMessageSourceAccessor" class="org.openregistry.aspect.OpenRegistryMessageSourceAccessor" />
+
    <bean id="rcpIdGenerator" class="org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer">
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="rcpid_generator_seq" />
    </bean>
-    -->
 </beans>

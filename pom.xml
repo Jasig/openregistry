@@ -103,6 +103,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <scope>compile</scope>
+            <version>${aspectj.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -141,12 +148,30 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
     <properties>
         <aspectj.version>1.5.4</aspectj.version>
-        <spring.version>3.0.0.M2</spring.version>
+        <spring.version>3.0.0.M3</spring.version>
         <junit.version>4.5</junit.version>
         <servlet.version>2.5</servlet.version>
         <persistence.version>1.0</persistence.version>
