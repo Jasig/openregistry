@@ -4,6 +4,7 @@ import org.openregistry.core.service.activation.ActivationKeyGenerator;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * NetId Activation Key Generator
@@ -11,23 +12,15 @@ import java.util.Random;
 @Component
 public final class NetIdActivationKeyGenerator implements ActivationKeyGenerator {
 
-    private Random random;
-
-    public NetIdActivationKeyGenerator(){
-        random = new Random();
-    }
-
     public String generateNextString(){
-        String hash = Long.toHexString(random.nextLong());
-        
-        // Filter out 0's, o's, 1's, l's
-        hash.replaceAll("0","a") ;
-        hash.replaceAll("o","b") ;
-        hash.replaceAll("O","c") ;
-        hash.replaceAll("1","d");
-        hash.replaceAll("l","e");
 
-        return hash.substring(0,8);
+        String key = UUID.randomUUID().toString().substring(0,8);
+
+        // Filter out 0's and 1's
+        key.replaceAll("0","m") ;
+        key.replaceAll("1","n");
+
+        return key;
     }
 
 }
