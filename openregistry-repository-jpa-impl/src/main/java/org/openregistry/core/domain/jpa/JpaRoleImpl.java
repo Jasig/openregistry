@@ -7,6 +7,7 @@ import org.hibernate.envers.Audited;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.validation.DateAfter;
 import org.javalid.annotations.validation.NotNull;
+import org.springframework.util.Assert;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -25,7 +26,7 @@ import javax.persistence.*;
 @Table(name = "prc_role_records")
 @ValidateDefinition
 @Audited
-public class JpaRoleImpl extends Entity implements Role {
+public final class JpaRoleImpl extends Entity implements Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_role_records_seq")
@@ -51,9 +52,6 @@ public class JpaRoleImpl extends Entity implements Role {
 
     @Column(name = "percent_time", nullable = false)
     private int percentage;
-
-    @Column(name = "code", nullable = true, updatable = false, insertable = false)
-    private String localCode;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "person_status_t")
@@ -87,7 +85,7 @@ public class JpaRoleImpl extends Entity implements Role {
         // nothing to do
     }
 
-    public JpaRoleImpl(JpaRoleInfoImpl roleInfo, JpaPersonImpl person) {
+    public JpaRoleImpl(final JpaRoleInfoImpl roleInfo, final JpaPersonImpl person) {
         this.roleInfo = roleInfo;
         this.person = person;
     }
@@ -186,6 +184,7 @@ public class JpaRoleImpl extends Entity implements Role {
         return this.roleInfo.getAffiliationType();
     }
 
+    // TODO calling this setSponsor sort of violates Bean specification
     public Sponsor setSponsor() {
         final JpaSponsorImpl sponsor = new JpaSponsorImpl(this);
         this.sponsor = sponsor;
@@ -218,10 +217,7 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public void setPersonStatus(final Type personStatus) {
-        if (!(personStatus instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
-
+        Assert.isInstanceOf(JpaTypeImpl.class, personStatus);
         this.personStatus = (JpaTypeImpl) personStatus;
     }
 
@@ -238,7 +234,7 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public String getLocalCode() {
-        return this.localCode;
+        return this.roleInfo.getCode();
     }
 
     public Type getTerminationReason() {
@@ -246,9 +242,7 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public void setTerminationReason(final Type reason) {
-        if (!(reason instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
+        Assert.isInstanceOf(JpaTypeImpl.class, reason);
         this.terminationReason = (JpaTypeImpl) reason;
     }
 
