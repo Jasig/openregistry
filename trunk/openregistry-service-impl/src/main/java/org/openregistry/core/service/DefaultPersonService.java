@@ -378,7 +378,6 @@ public class DefaultPersonService implements PersonService {
         name.setSuffix(sorName.getSuffix());
 
         // Assign identifiers, including SSN from the SoR Person
-        // TODO set SSN as an Identifier, it should be one of the IdentifierAssigners
         for (final IdentifierAssigner ia : this.identifierAssigners) {
             ia.addIdentifierTo(sorPerson, person);
         }
