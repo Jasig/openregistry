@@ -1,11 +1,9 @@
-package org.openregistry.service.reconciliation;
+package org.openregistry.core.service.reconciliation;
 
 import org.openregistry.core.service.reconciliation.Reconciler;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
-import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.PersonSearch;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Collections;

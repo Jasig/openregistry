@@ -1,6 +1,5 @@
-package org.openregistry.service;
+package org.openregistry.core.service;
 
-import org.openregistry.core.domain.Person;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.ValidationError;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;

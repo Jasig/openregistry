@@ -1,19 +1,11 @@
-package org.openregistry.service.activation;
+package org.openregistry.core.service.activation;
 
 import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.ActivationKey;
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.repository.ReferenceRepository;
-import org.openregistry.core.service.identifier.IdentifierAssigner;
 import org.openregistry.core.service.activation.ActivationKeyAssigner;
-import org.openregistry.service.identifier.NetIdIdentifierGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Random;
 import java.util.Calendar;
 import java.util.Date;
 

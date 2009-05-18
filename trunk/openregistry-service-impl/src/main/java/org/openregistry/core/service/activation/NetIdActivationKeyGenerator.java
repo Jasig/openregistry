@@ -1,18 +1,9 @@
-package org.openregistry.service.activation;
+package org.openregistry.core.service.activation;
 
-import org.openregistry.core.service.identifier.IdentifierGenerator;
 import org.openregistry.core.service.activation.ActivationKeyGenerator;
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Name;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.Random;
-import java.security.SecureRandom;
 
 /**
  * NetId Activation Key Generator
