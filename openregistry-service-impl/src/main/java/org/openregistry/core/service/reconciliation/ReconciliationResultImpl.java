@@ -1,4 +1,4 @@
-package org.openregistry.service.reconciliation;
+package org.openregistry.core.service.reconciliation;
 
 import java.util.List;
 

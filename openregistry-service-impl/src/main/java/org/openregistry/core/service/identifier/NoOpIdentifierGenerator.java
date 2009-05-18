@@ -1,4 +1,4 @@
-package org.openregistry.service.identifier;
+package org.openregistry.core.service.identifier;
 
 import org.openregistry.core.service.identifier.IdentifierGenerator;
 import org.springframework.stereotype.Component;

@@ -1,9 +1,8 @@
-package org.openregistry.service.reconciliation;
+package org.openregistry.core.service.reconciliation;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;

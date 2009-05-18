@@ -1,4 +1,4 @@
-package org.openregistry.service;
+package org.openregistry.core.service;
 
 import org.openregistry.core.service.ValidationError;
 import org.javalid.core.ValidationMessage;

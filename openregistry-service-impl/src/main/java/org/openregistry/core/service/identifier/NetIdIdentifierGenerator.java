@@ -1,13 +1,9 @@
-package org.openregistry.service.identifier;
+package org.openregistry.core.service.identifier;
 
-import org.openregistry.core.service.identifier.IdentifierGenerator;
-import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Name;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * NetId Identifier Generator

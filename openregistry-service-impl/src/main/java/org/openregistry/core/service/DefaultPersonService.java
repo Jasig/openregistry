@@ -1,6 +1,5 @@
-package org.openregistry.service;
+package org.openregistry.core.service;
 
-import org.openregistry.core.service.*;
 import org.openregistry.core.service.identifier.IdentifierAssigner;
 import org.openregistry.core.service.identifier.IdentifierGenerator;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
@@ -17,7 +16,7 @@ import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
-import org.openregistry.service.reconciliation.PersonMatchImpl;
+import org.openregistry.core.service.reconciliation.PersonMatchImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.ObjectFactory;

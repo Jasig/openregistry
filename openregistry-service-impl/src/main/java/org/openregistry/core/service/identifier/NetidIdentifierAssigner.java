@@ -1,15 +1,13 @@
-package org.openregistry.service.identifier;
+package org.openregistry.core.service.identifier;
 
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.identifier.IdentifierAssigner;
-import org.openregistry.service.activation.NetidActivationKeyAssigner;
+import org.openregistry.core.service.activation.NetidActivationKeyAssigner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Component
 public class NetidIdentifierAssigner implements IdentifierAssigner {
