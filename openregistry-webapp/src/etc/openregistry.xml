@@ -32,4 +32,40 @@
 		override="false"
 		type="java.lang.String"
 		value="org.hibernate.dialect.MySQL5Dialect" />
+
+    <Environment
+        description=""
+        name="conf/cas/serviceUrl"
+        value="https://localhost:8443/openregistry/j_spring_cas_security_check"
+        type="java.lang.String" />
+
+    <Environment
+        description=""
+        name="conf/cas/loginUrl"
+        value="https://test-cas.rutgers.edu/login"
+        type="java.lang.String" />
+
+    <Environment
+        description=""
+        name="conf/cas/proxyReceptorUrl"
+        value="https://localhost:8443/openregistry/secure/receptor"
+        type="java.lang.String" />
+
+    <Environment
+        description=""
+        name="conf/cas/serverHost"
+        value="https://test-cas.rutgers.edu"
+        type="java.lang.String" />
+
+    <Environment
+        description=""
+        name="conf/cas/renew"
+        value="false"
+        type="java.lang.String" />
+
+    <Environment
+        description=""
+        name="conf/cas/springSecurityAuthProviderKey"
+        value="hakunamatada"
+        type="java.lang.String" />      
 </Context>
