@@ -15,13 +15,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <scope>compile</scope>
-            <version>${aspectj.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.jasig.openregistry</groupId>
             <artifactId>openregistry-api</artifactId>
             <version>${project.version}</version>
