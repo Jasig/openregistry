@@ -92,8 +92,7 @@ public final class PeopleResource {
         }
         SorRole sorRole = buildSorRoleFrom(sorPerson, roleInfo, roleRepresentation);
         ServiceExecutionResult result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
-        if (result.getValidationErrors().size() > 0) {
-            //Need more elaborate response. How to pass validation errors in the response entity body???
+        if (result.getValidationErrors().size() > 0) {            
             throw new WebApplicationException(400);
         }
         //HTTP 201
