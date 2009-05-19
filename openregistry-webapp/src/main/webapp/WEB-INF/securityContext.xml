@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
+
+    <jee:jndi-lookup id="casServiceUrl" jndi-name="conf/cas/serviceUrl" expected-type="java.lang.String"/>
+    <jee:jndi-lookup id="casLoginUrl" jndi-name="conf/cas/loginUrl" expected-type="java.lang.String"/>
+    <jee:jndi-lookup id="casProxyReceptorUrl" jndi-name="conf/cas/proxyReceptorUrl" expected-type="java.lang.String"/>
+    <jee:jndi-lookup id="casServerHost" jndi-name="conf/cas/serverHost" expected-type="java.lang.String"/>
+    <jee:jndi-lookup id="casRenew" jndi-name="conf/cas/renew" expected-type="java.lang.String"/>
+    <jee:jndi-lookup id="casSpringSecurityAuthProviderKey" jndi-name="conf/cas/springSecurityAuthProviderKey" expected-type="java.lang.String"/>
+
+    <sec:http entry-point-ref="casProcessingFilterEntryPoint">
+        <sec:intercept-url pattern="/**/*.htm" access="ROLE_USER" />
+        <sec:logout logout-success-url="/cas-logout.jsp" />
+    </sec:http>
+
+    <bean id="casProcessingFilter" class="org.springframework.security.ui.cas.CasProcessingFilter">
+        <sec:custom-filter after="CAS_PROCESSING_FILTER"/>
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="authenticationFailureUrl" value="/casfailed.jsp"/>
+        <property name="defaultTargetUrl" value="/"/>
+        <property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage"/>
+        <property name="proxyReceptorUrl" value="/secure/receptor"/>
+    </bean>
+
+    <sec:authentication-manager alias="authenticationManager"/>
+
+    <bean id="casProcessingFilterEntryPoint" class="org.springframework.security.ui.cas.CasProcessingFilterEntryPoint">
+        <property name="loginUrl" ref="casLoginUrl" />
+        <property name="serviceProperties" ref="serviceProperties"/>
+    </bean>
+
+    <bean id="casAuthenticationProvider" class="org.springframework.security.providers.cas.CasAuthenticationProvider">
+        <sec:custom-authentication-provider/>
+        <property name="userDetailsService" ref="userService"/>
+        <property name="serviceProperties" ref="serviceProperties"/>
+        <property name="ticketValidator">
+            <bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+                <constructor-arg index="0" ref="casServerHost" />
+                <property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage"/>
+                <property name="proxyCallbackUrl" ref="casProxyReceptorUrl" />
+            </bean>
+        </property>
+        <property name="key" ref="casSpringSecurityAuthProviderKey"/>
+    </bean>
+
+    <bean id="proxyGrantingTicketStorage" class="org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl"/>
+
+    <bean id="serviceProperties" class="org.springframework.security.ui.cas.ServiceProperties">
+        <property name="service" ref="casServiceUrl" />
+        <property name="sendRenew" ref="casRenew" />
+    </bean>
+
+    <sec:user-service id="userService">
+        <sec:user name="steiner" password="steiner" authorities="ROLE_USER"/>
+        <sec:user name="nmond" password="rod" authorities="ROLE_USER"/>
+        <sec:user name="dkopylen" password="dianne" authorities="ROLE_USER"/>
+        <sec:user name="battags" password="scott" authorities="ROLE_USER"/>
+    </sec:user-service>
+</beans>

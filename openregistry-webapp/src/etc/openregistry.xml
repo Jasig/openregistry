@@ -36,7 +36,7 @@
     <Environment
         description=""
         name="conf/cas/serviceUrl"
-        value="https://localhost:8443/openregistry/j_spring_cas_security_check"
+        value="http://localhost:8080/openregistry/j_spring_cas_security_check"
         type="java.lang.String" />
 
     <Environment
@@ -48,7 +48,7 @@
     <Environment
         description=""
         name="conf/cas/proxyReceptorUrl"
-        value="https://localhost:8443/openregistry/secure/receptor"
+        value="http://localhost:8080/openregistry/secure/receptor"
         type="java.lang.String" />
 
     <Environment
