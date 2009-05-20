@@ -32,6 +32,10 @@
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web.servlet:3.0.0.M3" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web:3.0.0.M3" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.oxm:3.0.0.M3" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.jms:3.0.0.M3" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework.integration:org.springframework.integration:1.0.2.SR1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework.integration:org.springframework.integration.adapter:1.0.2.SR1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework.integration:org.springframework.integration.jms:1.0.2.SR1" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>

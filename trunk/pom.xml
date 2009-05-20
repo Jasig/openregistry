@@ -200,11 +200,19 @@
         </repository>
 
         <repository>
-            <id>spring</id>
+            <id>spring-milestone</id>
             <layout>default</layout>
             <name>Spring Milestone Repository</name>
             <snapshots><enabled>false</enabled></snapshots>
             <url>http://repository.springsource.com/maven/bundles/milestone</url>
+        </repository>
+
+        <repository>
+            <id>spring-release</id>
+            <layout>default</layout>
+            <name>Spring Release Repository</name>
+            <snapshots><enabled>false</enabled></snapshots>
+            <url>http://repository.springsource.com/maven/bundles/release</url> 
         </repository>
     </repositories>
 
