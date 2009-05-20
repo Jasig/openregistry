@@ -31,7 +31,7 @@ public class PersonSearchAction {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    //TODO don't hardcode.
+    //TODO don't hardcode. OR-55
     private final String SOR_INDENTIFIER = "or-webapp";
 
     private final String identifierType = "NETID";
