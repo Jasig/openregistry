@@ -56,8 +56,8 @@ public class RoleAction {
      */
     protected SorRole addRole(final SorPerson sorPerson, final RoleInfo roleInfo){
         final SorRole sorRole = sorPerson.addRole(roleInfo);
-        sorRole.setSorId("1");  // TODO Don't hardcode
-        sorRole.setSourceSorIdentifier("or-webapp"); // TODO Don't hardcode
+        sorRole.setSorId("1");  // TODO Don't hardcode OR-56
+        sorRole.setSourceSorIdentifier("or-webapp"); // TODO Don't hardcode OR-55
         logger.info("status: "+Type.DataTypes.STATUS.name());
         sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, ACTIVE_STATUS));
         final EmailAddress emailAddress = sorRole.addEmailAddress();
@@ -68,7 +68,7 @@ public class RoleAction {
         final Address address = sorRole.addAddress();
         address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, CAMPUS));
         final SorSponsor sponsor = sorRole.setSponsor();
-        sponsor.setType(referenceRepository.findType(Type.DataTypes.SPONSOR, PERSON));  // TODO handle other types
+        sponsor.setType(referenceRepository.findType(Type.DataTypes.SPONSOR, PERSON));  // TODO handle other types OR-57
 
         //provide default values for start and end date of role
         final Calendar cal = Calendar.getInstance();

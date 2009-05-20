@@ -437,7 +437,7 @@ public class DefaultPersonService implements PersonService {
 
         return new GeneralServiceExecutionResult(serviceName, sorPerson);
 
-        // TODO Need to update the calculated person. Need to establish rules to do this.
+        // TODO Need to update the calculated person. Need to establish rules to do this. OR-59
     }
 
     /**
@@ -464,7 +464,7 @@ public class DefaultPersonService implements PersonService {
 
         return new GeneralServiceExecutionResult(serviceName, role);
 
-        // TODO Need to update the calculated role. Need to establish rules to do this.
+        // TODO Need to update the calculated role. Need to establish rules to do this. OR-58
     }
 
 
