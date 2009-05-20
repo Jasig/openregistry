@@ -1,4 +1,4 @@
-package org.openregistry.service.identifier;
+package org.openregistry.core.service.identifier;
 
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.Person;
