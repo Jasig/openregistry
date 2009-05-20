@@ -25,7 +25,7 @@
             <class>org.openregistry.core.domain.jpa.sor.JpaSorLeaveImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorNameImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorPersonImpl</class>
-            <class>org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorPhoneImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorSponsorImpl</class>

@@ -11,7 +11,7 @@ import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
@@ -213,31 +213,31 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public ServiceExecutionResult addPerson(final PersonSearch personSearch, final ReconciliationResult oldReconciliationResult) {
+    public ServiceExecutionResult addPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult oldReconciliationResult) {
         logger.info("In personService.addPerson.");
-        logger.info("In personService.addPerson: entered following for gender: "+ personSearch.getPerson().getGender());
-        final List<ValidationError> validationErrors = validateAndConvert(personSearch);
+        logger.info("In personService.addPerson: entered following for gender: "+ reconciliationCriteria.getPerson().getGender());
+        final List<ValidationError> validationErrors = validateAndConvert(reconciliationCriteria);
         final String serviceName = "PersonService.addPerson";
 
         if (!validationErrors.isEmpty()) {
-            return new ReconciliationServiceExecutionResult(serviceName, personSearch, validationErrors);
+            return new ReconciliationServiceExecutionResult(serviceName, reconciliationCriteria, validationErrors);
         }
 
 
         if (oldReconciliationResult == null) {
-            final ReconciliationResult result = this.reconciler.reconcile(personSearch);
+            final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
 
             if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
-                return new ReconciliationServiceExecutionResult(serviceName, magic(personSearch), result);
+                return new ReconciliationServiceExecutionResult(serviceName, magic(reconciliationCriteria), result);
             } else if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
-            	return new ReconciliationServiceExecutionResult(serviceName, magicUpdate(personSearch, result), result);
+            	return new ReconciliationServiceExecutionResult(serviceName, magicUpdate(reconciliationCriteria, result), result);
             }
             logger.info("In personService.addPerson: reconciliation result: "+ result.getReconciliationType().toString());
             // ReconciliationResult.ReconciliationType.MAYBE
-            return new ReconciliationServiceExecutionResult(serviceName, personSearch, result);
+            return new ReconciliationServiceExecutionResult(serviceName, reconciliationCriteria, result);
         }
         // Here if we were called a second time.  This means even though we found partial matches, this is a new person.
-        return new ReconciliationServiceExecutionResult(serviceName, magic(personSearch));
+        return new ReconciliationServiceExecutionResult(serviceName, magic(reconciliationCriteria));
     }
 
 	@Transactional
@@ -345,11 +345,11 @@ public class DefaultPersonService implements PersonService {
     /**
      * Current workflow for converting an SorPerson into the actual Person.
      *
-     * @param personSearch the original search criteria.
+     * @param reconciliationCriteria the original search criteria.
      * @return the newly saved Person.
      */
-    protected Person magic(final PersonSearch personSearch) {
-        SorPerson sorPerson = personSearch.getPerson();
+    protected Person magic(final ReconciliationCriteria reconciliationCriteria) {
+        SorPerson sorPerson = reconciliationCriteria.getPerson();
 
         if (!StringUtils.hasText(sorPerson.getSorId())) {
             sorPerson.setSorId(this.identifierGenerator.generateNextString());
@@ -391,13 +391,13 @@ public class DefaultPersonService implements PersonService {
         return person;
     }
     
-    protected Person magicUpdate(final PersonSearch personSearch, final ReconciliationResult result) {
+    protected Person magicUpdate(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
     	if (result.getMatches().size() != 1) {
         	throw new IllegalStateException("ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
         }
         Person person = result.getMatches().iterator().next().getPerson();
         
-    	SorPerson sorPerson = personSearch.getPerson();
+    	SorPerson sorPerson = reconciliationCriteria.getPerson();
     	
     	// TODO if this is the same SOR, just update fields, don't save new SOR records
         // TODO when this change is done it needs to be coordinated with the confirmation message constructed in PersonSearchAction.addSorPerson()
