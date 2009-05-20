@@ -1,7 +1,6 @@
 package org.openregistry.core.service.reconciliation;
 
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.ReconciliationCriteria;
 
 import java.io.Serializable;
 
@@ -19,9 +18,9 @@ public interface Reconciler extends Serializable {
     /**
      * Executes the algorithm used to locate matches.
      *
-     * @param personSearch the person to attempt to match.
+     * @param reconciliationCriteria the person to attempt to match.
      * @return the result of the match attempt.  CANNOT be NULL.
      */
-    ReconciliationResult reconcile(PersonSearch personSearch);
+    ReconciliationResult reconcile(ReconciliationCriteria reconciliationCriteria);
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.service.reconciliation.FieldMatch;
 import org.openregistry.core.service.reconciliation.PersonMatch;
@@ -35,13 +35,13 @@ public final class NameReconciler implements Reconciler {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	/* 
-	 * @see org.openregistry.core.service.reconciliation.Reconciler#reconcile(org.openregistry.core.domain.sor.PersonSearch)
+	 * @see org.openregistry.core.service.reconciliation.Reconciler#reconcile(org.openregistry.core.domain.sor.ReconciliationCriteria)
 	 */
-	public ReconciliationResult reconcile(final PersonSearch personSearch) {
+	public ReconciliationResult reconcile(final ReconciliationCriteria reconciliationCriteria) {
 		final List<PersonMatch> exactMatches = new ArrayList<PersonMatch>();
 		final List<PersonMatch> partialMatches = new ArrayList<PersonMatch>();
 		
-		final List<Name> names = personSearch.getPerson().getNames();  // TODO deal with multiple names properly
+		final List<Name> names = reconciliationCriteria.getPerson().getNames();  // TODO deal with multiple names properly
 		logger.info("Reconcile: found " + names.size() + " name(s)");
 		for(final Name name: names) {
 			logger.info("Reconcile: checking name: " + name.getGiven() + " " + name.getFamily());

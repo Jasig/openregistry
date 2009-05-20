@@ -4,8 +4,7 @@ import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Identifier;
@@ -14,7 +13,6 @@ import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.binding.message.Message;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,9 +36,9 @@ public class PersonSearchAction {
 
     private final SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
 
-    public ServiceExecutionResult addSorPerson(PersonSearch personSearch, ReconciliationResult oldResult, MessageContext context) {
-        personSearch.getPerson().setSourceSorIdentifier(SOR_INDENTIFIER);
-        ServiceExecutionResult result = personService.addPerson(personSearch, oldResult);
+    public ServiceExecutionResult addSorPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult oldResult, MessageContext context) {
+        reconciliationCriteria.getPerson().setSourceSorIdentifier(SOR_INDENTIFIER);
+        ServiceExecutionResult result = personService.addPerson(reconciliationCriteria, oldResult);
 
         if (result.getValidationErrors() != null && !result.getValidationErrors().isEmpty()) {
             converter.convertValidationErrors(result.getValidationErrors(), context);

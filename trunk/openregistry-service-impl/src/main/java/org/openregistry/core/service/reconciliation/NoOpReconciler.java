@@ -3,7 +3,7 @@ package org.openregistry.core.service.reconciliation;
 import org.openregistry.core.service.reconciliation.Reconciler;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
-import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.ReconciliationCriteria;
 
 import java.util.List;
 import java.util.Collections;
@@ -17,7 +17,7 @@ import java.util.Collections;
  */
 public final class NoOpReconciler implements Reconciler {
 
-    public ReconciliationResult reconcile(final PersonSearch personSearch) {
+    public ReconciliationResult reconcile(final ReconciliationCriteria reconciliationCriteria) {
         return new ReconciliationResult() {
             public ReconciliationType getReconciliationType() {
                 return ReconciliationType.NONE;

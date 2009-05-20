@@ -2,7 +2,7 @@ package org.openregistry.core.service;
 
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
@@ -125,15 +125,15 @@ public interface PersonService {
      * <p>
      * This method should attempt to reconcile the person you are adding.
      *
-     * @param personSearch the person you are trying to add with their additional reconciliation data.
+     * @param reconciliationCriteria the person you are trying to add with their additional reconciliation data.
      * @param result the reconciliation result if they had already attempted to save this person. 
      * Let's the system know that we already looked through the list of possibilities.
      * CAN be null, but if it is null, reconciliation should execute.  Should be null the first time addPerson is called.
      * @return the result of the action.  If the action succeeded, the target object should be the new Person.
-     * Otherwise, it will be the {@link org.openregistry.core.domain.sor.PersonSearch} object.
+     * Otherwise, it will be the {@link org.openregistry.core.domain.sor.ReconciliationCriteria} object.
      * The @link org.openregistry.core.service.reconciliation.ReconciliationResult} will be returned as long as reconciliation was done.
      */
-    ServiceExecutionResult addPerson(PersonSearch personSearch, ReconciliationResult result);
+    ServiceExecutionResult addPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult result);
 
     /**
      * Searches for a Person by the criteria provided.

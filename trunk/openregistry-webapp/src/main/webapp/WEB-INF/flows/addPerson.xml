@@ -5,7 +5,7 @@
     http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
     <!-- By default, the first state is the start state. -->
-    <var name="personSearch" class="org.openregistry.core.domain.jpa.sor.JpaSorPersonSearchImpl" />
+    <var name="personSearch" class="org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl" />
 
     <action-state id="createName">
         <evaluate expression="personSearch.getPerson().addName()" />

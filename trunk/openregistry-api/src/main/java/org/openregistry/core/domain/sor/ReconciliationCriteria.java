@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface PersonSearch extends Serializable {
+public interface ReconciliationCriteria extends Serializable {
 
     SorPerson getPerson();
 

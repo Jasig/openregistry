@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.ObjectFactory;
-import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.*;
@@ -40,7 +40,7 @@ import com.sun.jersey.api.NotFoundException;
 @Path("/people")
 @Component
 @Scope("singleton")
-@Qualifier(value = "personSearch")
+@Qualifier(value = "reconciliationCriteria")
 public final class PeopleResource {
 
     //Jersey specific injection
@@ -54,8 +54,8 @@ public final class PeopleResource {
     private ReferenceRepository referenceRepository;
 
     @Autowired
-    @Qualifier(value = "personSearch")
-    private ObjectFactory<PersonSearch> personSearchObjectFactory;
+    @Qualifier(value = "reconciliationCriteria")
+    private ObjectFactory<ReconciliationCriteria> reconciliationCriteriaObjectFactory;
 
     //JSR-250 injection which is more appropriate here for 'autowiring by name' in the case of multiple types
     //are defined in the app ctx (Strings). The looked up bean name defaults to the property name which
@@ -135,14 +135,14 @@ public final class PeopleResource {
     public Response processIncomingPerson(PersonRequestRepresentation personRequestRepresentation) {
         Response response = null;
         URI uri = null;
-        PersonSearch personSearch = null;
+        ReconciliationCriteria reconciliationCriteria = null;
         if(!personRequestRepresentation.checkRequiredData()) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).entity("The person entity payload is incomplete.").build();
         }
-        personSearch = buildPersonSearchFrom(personRequestRepresentation);
+        reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
         logger.info("Trying to add incoming person...");
-        ServiceExecutionResult result = this.personService.addPerson(personSearch, null);
+        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
         //Now do the branching logic based on the result
         if (result.succeeded()) {
             if (result.getReconciliationResult().noPeopleFound()) {
@@ -292,8 +292,8 @@ public final class PeopleResource {
         return sorRole;
     }
 
-    private PersonSearch buildPersonSearchFrom(PersonRequestRepresentation request) {
-        PersonSearch ps = this.personSearchObjectFactory.getObject();
+    private ReconciliationCriteria buildReconciliationCriteriaFrom(PersonRequestRepresentation request) {
+        ReconciliationCriteria ps = this.reconciliationCriteriaObjectFactory.getObject();
         ps.getPerson().setSourceSorIdentifier(request.systemOfRecordId);
         ps.getPerson().setSorId(request.systemOfRecordPersonId);
         Name name = ps.getPerson().addName();

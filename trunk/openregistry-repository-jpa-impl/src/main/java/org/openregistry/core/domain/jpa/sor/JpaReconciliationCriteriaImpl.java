@@ -1,6 +1,6 @@
 package org.openregistry.core.domain.jpa.sor;
 
-import org.openregistry.core.domain.sor.PersonSearch;
+import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.IdentifierType;
 import org.javalid.annotations.validation.NotNull;
@@ -17,7 +17,7 @@ import java.util.HashMap;
  * @since 1.0.0
  */
 @ValidateDefinition
-public final class JpaSorPersonSearchImpl implements PersonSearch {
+public final class JpaReconciliationCriteriaImpl implements ReconciliationCriteria {
 
     @NotNull
     private SorPerson person = new JpaSorPersonImpl();
