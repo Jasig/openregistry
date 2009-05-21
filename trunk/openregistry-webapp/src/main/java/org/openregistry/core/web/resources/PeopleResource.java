@@ -73,7 +73,7 @@ public final class PeopleResource {
     @PUT
     @Path("camel")
     public void testingCamel() {
-        this.producerTemplate.sendBody("activemq:queue:hello", ExchangePattern.InOnly, "<hello>Hello World</hello>");    
+        this.producerTemplate.sendBody("activemq:topic:openregistry.identifier-change", ExchangePattern.InOnly, "<or>Id Change</or>");    
     }
 
 
