@@ -203,7 +203,9 @@
             <id>spring-milestone</id>
             <layout>default</layout>
             <name>Spring Milestone Repository</name>
-            <snapshots><enabled>false</enabled></snapshots>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
             <url>http://repository.springsource.com/maven/bundles/milestone</url>
         </repository>
 
@@ -211,9 +213,25 @@
             <id>spring-release</id>
             <layout>default</layout>
             <name>Spring Release Repository</name>
-            <snapshots><enabled>false</enabled></snapshots>
-            <url>http://repository.springsource.com/maven/bundles/release</url> 
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
         </repository>
+
+        <repository>
+            <id>apache.snapshots</id>
+            <name>Apache Development Snapshot Repository</name>
+            <url>https://repository.apache.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+
     </repositories>
 
     <distributionManagement>
@@ -233,8 +251,8 @@
                 <artifactId>jxr-maven-plugin</artifactId>
             </plugin>
             <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>changelog-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>changelog-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </reporting>
