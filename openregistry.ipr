@@ -1296,17 +1296,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.apache.activemq:activeio-core:3.1.0">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/apache/activemq/activeio-core/3.1.0/activeio-core-3.1.0.jar!/" />
@@ -1373,61 +1362,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-j2ee-management_1.0_spec/1.0/geronimo-j2ee-management_1.0_spec-1.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.camel:camel-spring:2.0-M1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-spring/2.0-M1/camel-spring-2.0-M1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-spring/2.0-M1/camel-spring-2.0-M1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-spring/2.0-M1/camel-spring-2.0-M1-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.apache.camel:camel-jms:2.0-M1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-jms/2.0-M1/camel-jms-2.0-M1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-jms/2.0-M1/camel-jms-2.0-M1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-jms/2.0-M1/camel-jms-2.0-M1-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: javax.xml.stream:stax-api:1.0-2">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/javax/xml/stream/stax-api/1.0-2/stax-api-1.0-2.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/javax/xml/stream/stax-api/1.0-2/stax-api-1.0-2-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/javax/xml/stream/stax-api/1.0-2/stax-api-1.0-2-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: com.sun.xml.bind:jaxb-impl:2.1.6">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-impl/2.1.6/jaxb-impl-2.1.6.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-impl/2.1.6/jaxb-impl-2.1.6-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-impl/2.1.6/jaxb-impl-2.1.6-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: javax.servlet:servlet-api:2.3">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/servlet-api/2.3/servlet-api-2.3.jar!/" />
@@ -1483,15 +1417,81 @@
         <root url="jar://$MAVEN_REPOSITORY$/commons-pool/commons-pool/1.4/commons-pool-1.4-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.camel:camel-core:2.0-M1">
+    <library name="Maven: org.apache.camel:camel-core:2.0-SNAPSHOT">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-core/2.0-M1/camel-core-2.0-M1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-core/2.0-SNAPSHOT/camel-core-2.0-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-core/2.0-M1/camel-core-2.0-M1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-core/2.0-SNAPSHOT/camel-core-2.0-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-core/2.0-M1/camel-core-2.0-M1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-core/2.0-SNAPSHOT/camel-core-2.0-SNAPSHOT-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: javax.xml.stream:stax-api:1.0-2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/xml/stream/stax-api/1.0-2/stax-api-1.0-2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/xml/stream/stax-api/1.0-2/stax-api-1.0-2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/xml/stream/stax-api/1.0-2/stax-api-1.0-2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.sun.xml.bind:jaxb-impl:2.1.6">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-impl/2.1.6/jaxb-impl-2.1.6.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-impl/2.1.6/jaxb-impl-2.1.6-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-impl/2.1.6/jaxb-impl-2.1.6-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.camel:camel-jms:2.0-SNAPSHOT">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-jms/2.0-SNAPSHOT/camel-jms-2.0-SNAPSHOT.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-jms/2.0-SNAPSHOT/camel-jms-2.0-SNAPSHOT-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-jms/2.0-SNAPSHOT/camel-jms-2.0-SNAPSHOT-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.camel:camel-spring:2.0-SNAPSHOT">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-spring/2.0-SNAPSHOT/camel-spring-2.0-SNAPSHOT.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-spring/2.0-SNAPSHOT/camel-spring-2.0-SNAPSHOT-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-spring/2.0-SNAPSHOT/camel-spring-2.0-SNAPSHOT-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
