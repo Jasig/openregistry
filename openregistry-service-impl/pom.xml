@@ -144,6 +144,7 @@
             </exclusions>
         </dependency>
 
+        <!-- Messaging infrastructure dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>org.springframework.jms</artifactId>
@@ -161,10 +162,149 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-core</artifactId>
-            <version>5.2.0</version>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
+            <version>2.0-M1</version>
+             <exclusions>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-aop</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-context</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-core</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-beans</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-jms</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-context-support</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-tx</artifactId>
+               </exclusion>
+           </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-camel</artifactId>
+            <version>5.2.0</version>
+            <exclusions>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-aop</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-context</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-core</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-beans</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-jms</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-context-support</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-tx</artifactId>
+               </exclusion>
+           </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-spring</artifactId>
+            <version>2.0-M1</version>
+             <exclusions>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-aop</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-context</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-core</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-beans</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-jms</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-context-support</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-tx</artifactId>
+               </exclusion>
+           </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jms</artifactId>
+            <version>2.0-M1</version>
+            <exclusions>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-aop</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-context</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-core</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-beans</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-jms</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-context-support</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-tx</artifactId>
+               </exclusion>
+           </exclusions>
+        </dependency>
+
 
         <!-- <dependency>
             <groupId>org.springframework.integration</groupId> 

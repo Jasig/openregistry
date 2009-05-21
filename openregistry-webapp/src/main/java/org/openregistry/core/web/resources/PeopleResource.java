@@ -19,6 +19,8 @@ import org.openregistry.core.web.resources.representations.RoleRepresentation;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.ExchangePattern;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -51,6 +53,9 @@ public final class PeopleResource {
     private PersonService personService;
 
     @Autowired
+    private ProducerTemplate producerTemplate;
+
+    @Autowired
     private ReferenceRepository referenceRepository;
 
     @Autowired
@@ -64,6 +69,13 @@ public final class PeopleResource {
     private String preferredPersonIdentifierType;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @PUT
+    @Path("camel")
+    public void testingCamel() {
+        this.producerTemplate.sendBody("activemq:queue:hello", ExchangePattern.InOnly, "<hello>Hello World</hello>");    
+    }
+
 
     @PUT
     @Path("{personIdType}/{personId}/roles/{roleCode}")
