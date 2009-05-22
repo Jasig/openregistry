@@ -17,6 +17,8 @@ import org.openregistry.core.web.resources.representations.PersonRequestRepresen
 import org.openregistry.core.web.resources.representations.PersonResponseRepresentation;
 import org.openregistry.core.web.resources.representations.RoleRepresentation;
 import org.openregistry.core.repository.ReferenceRepository;
+import org.openregistry.integration.IdentifierChangeEventSender;
+import org.openregistry.integration.IdentifierChangeEventNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.camel.ProducerTemplate;
@@ -53,9 +55,6 @@ public final class PeopleResource {
     private PersonService personService;
 
     @Autowired
-    private ProducerTemplate producerTemplate;
-
-    @Autowired
     private ReferenceRepository referenceRepository;
 
     @Autowired
@@ -68,14 +67,16 @@ public final class PeopleResource {
     @Resource
     private String preferredPersonIdentifierType;
 
+    @Autowired
+    private IdentifierChangeEventNotification idChangeNotification;
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @PUT
     @Path("camel")
     public void testingCamel() {
-        this.producerTemplate.asyncSendBody("activemq:topic:openregistry.identifier-change", "<or>Id Change</or>");    
+        this.idChangeNotification.createAndSendFor(null,null,null,null);
     }
-
 
     @PUT
     @Path("{personIdType}/{personId}/roles/{roleCode}")
