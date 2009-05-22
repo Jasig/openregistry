@@ -18,6 +18,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: junit:junit:4.5" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.5.4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.5.4" level="project" />
     <orderEntry type="module" module-name="openregistry-api" exported="" />
     <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-spring:1.2" level="project" />

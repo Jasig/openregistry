@@ -25,6 +25,10 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
+          <containerElement type="library" name="Maven: org.aspectj:aspectjweaver:1.5.4" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
+          </containerElement>
           <containerElement type="library" name="Maven: displaytag:displaytag:1.2" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
@@ -444,6 +448,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: junit:junit:4.5" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.5.4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.5.4" level="project" />
     <orderEntry type="library" exported="" name="Maven: displaytag:displaytag:1.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: commons-collections:commons-collections:3.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: commons-lang:commons-lang:2.3" level="project" />
