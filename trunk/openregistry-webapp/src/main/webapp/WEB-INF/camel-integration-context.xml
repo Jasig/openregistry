@@ -16,25 +16,34 @@
     limitations under the License.
 -->
 
-<!-- START SNIPPET: e1 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:lang="http://www.springframework.org/schema/lang"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
-<!-- END SNIPPET: e1 -->
 
-    <!-- START SNIPPET: e2 -->
+    <!-- Main Camel container -->
     <camel:camelContext id="camel"/>
-    <camel:template id="camelTemplate"/>
-    <!-- END SNIPPET: e2 -->
 
-    <!-- START SNIPPET: e3 -->
+    <!-- ProducerTemplate -->
+    <camel:template id="camelTemplate"/>
+
     <!-- Camel JMSProducer to be able to send messages to a remote Active MQ server -->
     <bean id="jms" class="org.apache.activemq.camel.component.ActiveMQComponent">
         <property name="brokerURL" value="tcp://localhost:61616"/>
     </bean>
-    <!-- END SNIPPET: e3 -->
+
+    <lang:groovy id="identifierChangeEventNotification"
+                 script-source="classpath:org/openregistry/integration/DefaultIdentifierChangeEventNotification.groovy">
+        <lang:property name="identifierChangeEventSender">
+            <bean class="org.openregistry.integration.CamelBasedIdentifierChangeEventSender">
+                <property name="camelTemplate" ref="camelTemplate"/>
+                <property name="identifierChangeEventDestinationUri" value="activemq:topic:openregistry.identifier-change.out"/>
+            </bean>
+        </lang:property>
+    </lang:groovy>
 
 </beans>
