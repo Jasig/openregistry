@@ -110,6 +110,14 @@
             <scope>compile</scope>
             <version>${aspectj.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <scope>compile</scope>
+            <version>${aspectj.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

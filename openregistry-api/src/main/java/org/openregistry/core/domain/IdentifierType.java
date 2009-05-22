@@ -12,5 +12,4 @@ public interface IdentifierType extends Serializable {
     Long getId();
 
     String getName();
-
 }

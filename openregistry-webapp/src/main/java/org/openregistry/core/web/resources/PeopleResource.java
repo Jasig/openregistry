@@ -11,6 +11,7 @@ import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
+import org.openregistry.core.service.IdentifierChangeService;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.web.resources.representations.LinkRepresentation;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
@@ -68,19 +69,79 @@ public final class PeopleResource {
     private String preferredPersonIdentifierType;
 
     @Autowired
-    private IdentifierChangeEventNotification idChangeNotification;
+    private IdentifierChangeService identifierChangeService;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    /*For testing only */
+    private static class NET_ID_TYPE implements IdentifierType {
+        public Long getId() {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        public String getName() {
+            return "NETID";
+        }
+    };
+
+    private static class RCP_ID_TYPE implements IdentifierType {
+        public Long getId() {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        public String getName() {
+            return "RCPID";
+        }
+    };
+
+    private static class ID implements Identifier {
+        public IdentifierType getType() {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        public String getValue() {
+            return "testing-testing-testing";
+        }
+
+        public Boolean isPrimary() {
+            return null;
+        }
+
+        public Boolean isDeleted() {
+            return null;
+        }
+
+        public void setType(IdentifierType type) {
+        }
+
+        public void setValue(String value) {
+        }
+
+        public void setPrimary(Boolean value) {
+        }
+
+        public void setDeleted(Boolean value) {
+        }
+
+        public ActivationKey addActivationKey() {
+            return null;
+        }
+
+        public ActivationKey getActivationKey() {
+            return null;
+        }
+    };
+
 
     @PUT
     @Path("camel")
     public void testingCamel() {
-        this.idChangeNotification.createAndSendFor(null,null,null,null);
+        this.identifierChangeService.change(new RCP_ID_TYPE(), new ID(),new NET_ID_TYPE(), new ID());
     }
 
     @PUT
     @Path("{personIdType}/{personId}/roles/{roleCode}")
-    @Consumes(MediaType.APPLICATION_XML)    
+    @Consumes(MediaType.APPLICATION_XML)
     public Response processIncomingRole(@PathParam("personIdType") String personIdType,
                                         @PathParam("personId") String personId,
                                         @PathParam("roleCode") String roleCode,
@@ -105,7 +166,7 @@ public final class PeopleResource {
         }
         SorRole sorRole = buildSorRoleFrom(sorPerson, roleInfo, roleRepresentation);
         ServiceExecutionResult result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
-        if (result.getValidationErrors().size() > 0) {            
+        if (result.getValidationErrors().size() > 0) {
             throw new WebApplicationException(400);
         }
         //HTTP 201
@@ -149,7 +210,7 @@ public final class PeopleResource {
         Response response = null;
         URI uri = null;
         ReconciliationCriteria reconciliationCriteria = null;
-        if(!personRequestRepresentation.checkRequiredData()) {
+        if (!personRequestRepresentation.checkRequiredData()) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).entity("The person entity payload is incomplete.").build();
         }
