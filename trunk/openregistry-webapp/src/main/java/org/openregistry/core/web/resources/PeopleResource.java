@@ -18,13 +18,8 @@ import org.openregistry.core.web.resources.representations.PersonRequestRepresen
 import org.openregistry.core.web.resources.representations.PersonResponseRepresentation;
 import org.openregistry.core.web.resources.representations.RoleRepresentation;
 import org.openregistry.core.repository.ReferenceRepository;
-import org.openregistry.integration.IdentifierChangeEventSender;
-import org.openregistry.integration.IdentifierChangeEventNotification;
-import org.openregistry.integration.support.IdentifierChangeAspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.camel.ProducerTemplate;
-import org.apache.camel.ExchangePattern;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
