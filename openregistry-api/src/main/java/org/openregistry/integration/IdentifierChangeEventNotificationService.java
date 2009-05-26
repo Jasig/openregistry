@@ -3,7 +3,7 @@ package org.openregistry.integration;
 /**
  * A component responsible for firing Open Registry messages related to an identifier change events.
  *
- * Typical implementation could send such event messages to a veriaty of dest
+ * Typical implementations could send such event messages to a veriaty of destinations
  *
  * @author Dmitriy kopylenko
  * @since 1.0
