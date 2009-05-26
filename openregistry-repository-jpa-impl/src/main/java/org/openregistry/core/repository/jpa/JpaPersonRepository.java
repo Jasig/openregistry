@@ -71,6 +71,11 @@ public class JpaPersonRepository implements PersonRepository {
     	.setParameter("name", family).getResultList();
     }
 
+    public List<Identifier> findNetIDBaseIdentifier(final String identifierType, final String netIDBase) throws RepositoryAccessException {
+    	return this.entityManager.createQuery("SELECT i FROM identifier i join i.type t WHERE t.name = :name and i.value like :value")
+    	.setParameter("name", identifierType).setParameter("value", netIDBase + "%").getResultList();
+    }
+
     public Person savePerson(final Person person) throws RepositoryAccessException {
         return this.entityManager.merge(person);
     }
