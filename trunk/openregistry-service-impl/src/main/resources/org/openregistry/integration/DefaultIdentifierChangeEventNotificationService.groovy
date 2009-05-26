@@ -24,7 +24,7 @@ public class DefaultIdentifierChangeEventNotificationService implements Identifi
                                            String internalIdentifierValue,
                                            String changedIdentifierType,
                                            String changedIdentifierValue) {
- 
+
     this.camelTemplate.asyncSendBody(
             this.identifierChangeEventDestinationUri,
             buildEventXmlMessage(internalIdentifierType,
@@ -34,7 +34,10 @@ public class DefaultIdentifierChangeEventNotificationService implements Identifi
   }
 
   private def buildEventXmlMessage(internalIdType, internalId, changedIdType, changedId) {
-    def xml = new StreamingMarkupBuilder().bind {
+    def xml = new StreamingMarkupBuilder()
+    xml.encoding = 'UTF-8'
+    xml.bind {
+      mkp.xmlDeclaration()
       "open-registry-person-identifier-change-event"(timestamp: df.format(new Date())) {
         identifier() {
           internal(type: internalIdType, value: internalId)
