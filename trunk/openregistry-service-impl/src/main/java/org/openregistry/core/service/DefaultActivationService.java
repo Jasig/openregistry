@@ -34,6 +34,7 @@ public class DefaultActivationService implements ActivationService {
     private PersonRepository personRepository;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
+    private final String NETID="NETID";
 
     public ServiceExecutionResult verifyActivationKey(final String type, final String identifierValue, final String activationKey){
         final String serviceName = "ActivationService.verifyActivationKey";
@@ -86,8 +87,11 @@ public class DefaultActivationService implements ActivationService {
 
         logger.info("DefaultActivationService: activateNetID: netid: " + identifier.getValue() + " password: " + password);
         // set date activated.
-        identifier.getActivationKey().setActivationDate(new Date());
         Person person = personRepository.findByIdentifier(type, identifier.getValue());
+
+        //TODO support more than one netid for a person.
+        Identifier personIdentifier = person.pickOutIdentifier(NETID);
+        personIdentifier.getActivationKey().setActivationDate(new Date());
         personRepository.savePerson(person);
 
         //TODO send netid and password to Kerberos.

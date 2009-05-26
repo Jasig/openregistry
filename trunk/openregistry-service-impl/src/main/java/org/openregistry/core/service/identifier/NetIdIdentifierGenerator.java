@@ -2,8 +2,13 @@ package org.openregistry.core.service.identifier;
 
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Name;
+import org.openregistry.core.domain.Identifier;
+import org.openregistry.core.repository.PersonRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * NetId Identifier Generator
@@ -11,18 +16,21 @@ import org.springframework.util.StringUtils;
 @Component
 public final class NetIdIdentifierGenerator {
 
-    private final int baseNumber = 1;
     private final int baseLength = 3;
     private final String APPENDED_VALUE ="0";
+    String NETID="NETID";
+
+    @Autowired(required=true)
+    private PersonRepository personRepository;
 
     public String generateIdentifier(Person person) {
-        StringBuffer netId = null;
+        String netId = null;
         Name name = person.getOfficialName();
         netId = appendNumber(constructBase(name));
-        return netId.toString();
+        return netId;
     }
 
-    private StringBuffer constructBase(Name name){
+    private String constructBase(Name name){
         StringBuffer base = new StringBuffer();
 
         if (StringUtils.hasText(name.getGiven()))
@@ -37,16 +45,30 @@ public final class NetIdIdentifierGenerator {
         //append a 0 to the base so that the base has a length of 3
         for (int i = base.length(); i< baseLength; i++)base.append(APPENDED_VALUE);
 
-        return base;
+        return base.toString();
     }
 
-    private StringBuffer appendNumber(StringBuffer base){
-        StringBuffer netId =base;
+    private String appendNumber(String base){
+        int baseNumber = 1;
 
-        //TODO look for base in registry with highest number and increment by 1.
-        netId.append(baseNumber);
+        List<Identifier> identifiers = personRepository.findNetIDBaseIdentifier(NETID,base);
+        if (identifiers.isEmpty())
+            return base+baseNumber;
 
-        return netId;
+        boolean netIDVerified = false;
+        while (!netIDVerified){
+            if (!isDuplicate(identifiers, base+baseNumber)) netIDVerified = true;
+            else baseNumber++;
+        }
+
+        return base+baseNumber;
+    }
+
+    private boolean isDuplicate(List<Identifier> identifiers, String netID){
+        for (final Identifier identifier : identifiers) {
+            if (identifier.getValue().equals(netID)) return true;
+        }
+        return false;
     }
 
 }

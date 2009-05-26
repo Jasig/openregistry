@@ -178,4 +178,14 @@ public interface PersonRepository {
      */
     List<Identifier> findPersonIdentifiers(final Long personId);
 
+    /**
+     * Finds the identifiers where the base of the netid is the same.
+     *
+     * @param identifierType
+     * @param netIDBase
+     *
+     * @return a list of identifiers.
+     */
+    List<Identifier> findNetIDBaseIdentifier(final String identifierType, final String netIDBase);
+
 }

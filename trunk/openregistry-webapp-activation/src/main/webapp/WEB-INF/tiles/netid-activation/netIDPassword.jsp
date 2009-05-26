@@ -21,7 +21,7 @@
             <label class="desc" ><spring:message code="password.heading"/><c:out value="${identifier.value}"/></label>
                 <div class="row">
                     <label class="password"><spring:message code="password.label"/><em>*</em></label>
-                    <input type="password" value="" name="password" size="10"/>
+                    <input type="password" value="" name="password" size="10" class="password"/>
                 </div>
 
         </fieldset>
