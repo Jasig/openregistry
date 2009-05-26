@@ -13,6 +13,8 @@ public interface IdentifierChangeEventNotificationService {
     /**
      * Create an event message and send it to a subsystem(s) that understands how to deal with such messages. The event message format
      * is implementation-dependent.
+     *
+     * Implementations are assumed to be sending messages asynchronously.
      * 
      * @param internalIdentifierType
      * @param internalIdentifierValue
