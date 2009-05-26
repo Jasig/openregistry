@@ -5,6 +5,7 @@ import org.openregistry.core.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.javalid.core.AnnotationValidator;
 import org.javalid.core.ValidationMessage;
 import org.javalid.core.AnnotationValidatorImpl;
@@ -30,9 +31,6 @@ public class DefaultActivationService implements ActivationService {
     private AnnotationValidator<Object> annotationValidator = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
 
     @Autowired(required=true)
-    private PersonService personService;
-
-    @Autowired(required=true)
     private PersonRepository personRepository;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -44,14 +42,16 @@ public class DefaultActivationService implements ActivationService {
 
         logger.info("DefaultActivationService1: verifyActivationKey: type: "+ type + "value: " + identifierValue + "activationKey: "+activationKey);
 
-        //check if netid and activiation key provided
-        if (identifierValue == null || activationKey == null)
-            validationErrors.add(new ORValidationError(type ,null, "netIDandActivationKey"));
-
-        logger.info("DefaultActivationService2: verifyActivationKey: type: "+ type + " value: " + identifierValue + " activationKey: "+activationKey);
-
         //check if netid belongs to a person in the registry
-        Person person = personService.findPersonByIdentifier(type, identifierValue.trim());
+        Person person = null;
+        try {
+            person = personRepository.findByIdentifier(type, identifierValue.trim());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            validationErrors.add(new ORValidationError(type ,null, "netIDActivationError"));
+            return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
+        }
+
         if (person == null){
             validationErrors.add(new ORValidationError(type, null, "netIDNotValid"));
             return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
@@ -66,7 +66,7 @@ public class DefaultActivationService implements ActivationService {
         }
 
         //check if activation key expired.
-        if (personIdentifier.getActivationKey().getExpirationDate().after(new Date())){
+        if (personIdentifier.getActivationKey().getExpirationDate().before(new Date())){
             validationErrors.add(new ORValidationError(type, null, "activationKeyExpired"));
             return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
         }
@@ -84,9 +84,10 @@ public class DefaultActivationService implements ActivationService {
     public ServiceExecutionResult activateNetID(String type, Identifier identifier, String password){
          final String serviceName = "ActivationService.activateNetID";
 
+        logger.info("DefaultActivationService: activateNetID: netid: " + identifier.getValue() + " password: " + password);
         // set date activated.
         identifier.getActivationKey().setActivationDate(new Date());
-        Person person = personService.findPersonByIdentifier(type, identifier.getValue());
+        Person person = personRepository.findByIdentifier(type, identifier.getValue());
         personRepository.savePerson(person);
 
         //TODO send netid and password to Kerberos.
