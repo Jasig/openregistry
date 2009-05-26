@@ -37,13 +37,9 @@
     </bean>
 
     <lang:groovy id="identifierChangeEventNotification"
-                 script-source="classpath:org/openregistry/integration/DefaultIdentifierChangeEventNotification.groovy">
-        <lang:property name="identifierChangeEventSender">
-            <bean class="org.openregistry.integration.CamelBasedIdentifierChangeEventSender">
-                <property name="camelTemplate" ref="camelTemplate"/>
-                <property name="identifierChangeEventDestinationUri" value="activemq:topic:openregistry.identifier-change.out"/>
-            </bean>
-        </lang:property>
+                 script-source="classpath:org/openregistry/integration/DefaultIdentifierChangeEventNotificationService.groovy">
+        <lang:property name="camelTemplate" ref="camelTemplate"/>
+        <lang:property name="identifierChangeEventDestinationUri" value="activemq:topic:openregistry.identifier-change.out"/>
     </lang:groovy>
 
 </beans>

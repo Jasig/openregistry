@@ -5,11 +5,9 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.openregistry.integration.IdentifierChangeEventNotification;
+import org.openregistry.integration.IdentifierChangeEventNotificationService;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.service.PersonService;
 
 /**
  * Aspect to intercept identifier change service invocations and fire identifier change event messages
@@ -21,7 +19,7 @@ import org.openregistry.core.service.PersonService;
 public class IdentifierChangeAspect {
 
     @Autowired
-    private IdentifierChangeEventNotification idChangeNotification;
+    private IdentifierChangeEventNotificationService idChangeNotificationService;
 
     @AfterReturning("(execution (* org.openregistry.core.service.IdentifierChangeService.change(..)))")
     public void fireIdentifierChangeEvent(final JoinPoint joinPoint) {
@@ -29,6 +27,6 @@ public class IdentifierChangeAspect {
         Identifier internalId = (Identifier)joinPoint.getArgs()[1];
         IdentifierType changedType = (IdentifierType)joinPoint.getArgs()[2];
         Identifier changedId = (Identifier)joinPoint.getArgs()[3];
-        this.idChangeNotification.createAndSendFor(internalType.getName(), internalId.getValue(), changedType.getName(), changedId.getValue());                
+        this.idChangeNotificationService.createAndSendEventMessageFor(internalType.getName(), internalId.getValue(), changedType.getName(), changedId.getValue());                
     }
 }
