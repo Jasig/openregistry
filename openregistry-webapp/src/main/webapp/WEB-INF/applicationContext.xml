@@ -9,15 +9,16 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-    <context:component-scan base-package="org.openregistry.core.service"/>
     <context:component-scan base-package="org.openregistry.core"/>
-    <context:component-scan base-package="org.openregistry.integration"/>
+    <context:component-scan base-package="org.openregistry.core.repository"/>
+    <context:component-scan base-package="org.openregistry.integration.support"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
     <jee:jndi-lookup id="hibernateDialect" jndi-name="conf/HibernateDialect" expected-type="java.lang.String"/>
 
-    <!-- <aop:aspectj-autoproxy/> -->
+    <!-- To create proxies for IdentifierChangeAspect which itself is being 'component-scaned' (for now; and others later) -->
+    <aop:aspectj-autoproxy/>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource">
@@ -59,4 +60,5 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="incrementerName" value="rcpid_generator_seq"/>
     </bean>
+
 </beans>
