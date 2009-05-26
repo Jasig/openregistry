@@ -16,22 +16,14 @@ import org.openregistry.core.service.PersonService;
  * to an external integration endpoint
  * @since 1.0
  */
-//@Aspect
+@Aspect
+@Component
 public class IdentifierChangeAspect {
 
+    @Autowired
     private IdentifierChangeEventNotification idChangeNotification;
 
-    private PersonService personService;
-
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
-    }
-
-    public void setIdChangeNotification(IdentifierChangeEventNotification idChangeNotification) {
-        this.idChangeNotification = idChangeNotification;
-    }
-
-    //@AfterReturning("(execution (* org.openregistry.core.service.IdentifierChangeService.change(..)))")
+    @AfterReturning("(execution (* org.openregistry.core.service.IdentifierChangeService.change(..)))")
     public void fireIdentifierChangeEvent(final JoinPoint joinPoint) {
         IdentifierType internalType = (IdentifierType)joinPoint.getArgs()[0];
         Identifier internalId = (Identifier)joinPoint.getArgs()[1];

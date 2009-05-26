@@ -20,6 +20,7 @@ import org.openregistry.core.web.resources.representations.RoleRepresentation;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.integration.IdentifierChangeEventSender;
 import org.openregistry.integration.IdentifierChangeEventNotification;
+import org.openregistry.integration.support.IdentifierChangeAspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.camel.ProducerTemplate;
@@ -52,7 +53,7 @@ public final class PeopleResource {
     @Context
     UriInfo uriInfo;
 
-    @Autowired
+    //@Autowired
     private PersonService personService;
 
     @Autowired
@@ -72,6 +73,10 @@ public final class PeopleResource {
     private IdentifierChangeService identifierChangeService;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    public void setIdentifierChangeService(IdentifierChangeService identifierChangeService) {
+        this.identifierChangeService = identifierChangeService;
+    }
 
     /*For testing only */
     private static class NET_ID_TYPE implements IdentifierType {
@@ -131,7 +136,6 @@ public final class PeopleResource {
             return null;
         }
     };
-
 
     @PUT
     @Path("camel")

@@ -18,7 +18,7 @@ public class DefaultIdentifierChangeService implements IdentifierChangeService {
 
     public boolean change(IdentifierType internalIdType, Identifier internalId, IdentifierType changedIdType, Identifier changedId) {
         //TODO: Implement the change logic
-        this.idChangeNotification.createAndSendFor(internalIdType.getName(), internalId.getValue(), changedIdType.getName(), changedId.getValue());
+        //this.idChangeNotification.createAndSendFor(internalIdType.getName(), internalId.getValue(), changedIdType.getName(), changedId.getValue());
 
         return true;
     }
