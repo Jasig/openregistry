@@ -1,0 +1,322 @@
+/* $Id: $ */
+/*    Table of Contents:
+
+ * Reset
+ * Miscellaneous
+ * Utilities
+ * Header
+ * Main Menu
+ * Content
+ * Footer
+ * Messages
+ * Forms
+ * Lists
+ * Tabbed Sections
+ * Tables
+
+*/
+
+
+
+/* RESET --------------------------------- */
+/* reset some properties for elements since defaults are not crossbrowser - http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/ */
+    html,body,div,span,iframe,h1,h2,h3,h4,h5,h6,p,pre,a,abbr,acronym,em,img,strong,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-style:inherit; font-size:100%; font-family:inherit; vertical-align:baseline;}
+    caption,em,strong,th {font-style:normal; font-weight:400;}
+    strong {font-weight:900;}
+    :focus {outline:0;}
+    ol,ul {list-style:none; padding:0 0 18px 40px;}
+    
+    p {margin:0 0 18px; padding:0 0 18px;}
+
+
+/* browser default font-size is 16px which is too big so we make it 16px x 62.5% = 10px */
+    body {margin-bottom:1.5em; min-width:960px; font:normal 400 62.5%/1.0 Verdana, sans-serif; background:#fff; color:#333;}
+
+
+/* MISCELLANEOUS --------------------------------- */
+/* links at the bottom of long pages for going back to the top */
+    a.top {float:right; margin:2em 10px 0 0; width:3em; text-decoration:none; text-align:center;}
+        a.top span {display:block; position:relative; top:0; font-weight:900; font-size:1.6em;}
+
+/* for table headings or cells whith abbreviated content - abbr not supported by IE so use acronym */
+    acronym, abbr {cursor:help; border-bottom:1px dashed;} /* REMOVED: letter-spacing:1px; DEPRECATED: .more */
+
+
+
+/* UTILITIES --------------------------------- */
+    .al {text-align:left !important;}
+    .ac {text-align:center !important;}
+    .ar {text-align:right !important;}
+    .aj {text-align:justify !important;}
+    
+    .cl {clear:left !important;}
+    .cr {clear:right !important;}
+    .cb {clear:both !important;}
+    .cn {clear:none !important;}
+    
+    .fn {float:none !important;}
+    .fl {float:left !important;}
+    .fr {float:right !important;}
+    
+    .vt {vertical-align:top !important;}
+    .vm {vertical-align:middle !important;}
+    .vb {vertical-align:bottom !important;}
+    .vbl {vertical-align:baseline !important;}
+
+/*
+ - used to clear or contain floats within a non-floated container
+ - this ruleset is used by UAs that handle :after - not IE - see ie.css for IE fix
+    http://www.positioniseverything.net/easyclearing.html and http://www.ejeliot.com/blog/59 */
+    #header:after,
+    #content:after,
+    #footer:after,
+    #login .fm-v:after,
+    div.row:after,
+    div.col:after,
+    #ecn1:after, 
+    #ecn2:after, 
+    #e_cell:after,
+    .clearfix:after {content:"."; clear:both; display:block; height:0; visibility:hidden;}
+
+
+
+/* HEADER --------------------------------- */
+	h1#app-name {min-height:25px; padding:26px 0 1px 185px; font:normal 400 18px/0 Georgia,"Times New Roman",serif; color:#fff; background:#d21033 url(../images/RU_banner.jpg) no-repeat;}
+
+	ul#nav-system {position:absolute; right:25px; top:0; z-index:10; padding:0;}
+		#nav-system li {float:left; line-height:18px;}
+		#nav-system li:after {content:"|"; color:#f33; font-size:12px;}
+		#nav-system li:last-child:after {content:"";}
+			#nav-system li a {float:left; margin:0; padding:4px; font:normal 11px/11px Verdana,sans-serif; text-decoration:none; color:#fff; white-space:nowrap;font-weight:900;}
+			#nav-system li a:hover,
+			#nav-system li a:focus,
+			#nav-system li a:active {xbackground-color:#d24a4a; color:#fff; text-decoration:underline;}
+			#nav-system li a.active {background:#d24a4a; color:#fff;}
+
+
+/* MAIN MENU --------------------------------- */
+    #nav-main {position:relative; margin:0 0 1.5em; width:100%; height:2.5em; background:#d21033; line-height:normal;}
+        #nav-main ul {position:absolute; bottom:0; left:25px; padding:0; list-style:none; line-height:1.4em;}
+            #nav-main li {display:inline;}
+                #nav-main a {float:left; margin:0 3px 0 0; padding:5px 0 1px; background:#c20f2f; text-decoration:none; border-top:3px solid #d21033; font-size:1.1em;}
+                #nav-main a:hover {background:#c20f2f; border-top:0; padding:5px 0 4px;}
+                    #nav-main a span {display:block; padding:2px 10px; color:#E47D7D;}
+                    #nav-main a:hover span {color:#ffcdc0;}
+
+                /* Highlight the current section - use body id + link class */
+                #page-id #link1 a {border-top:0; padding:5px 0 4px; background:#fff;}
+                #page-id #link1 a:hover {cursor:text; padding:5px 0 4px;}
+                    #page-id #link1 a span {background:#fff; color:#000; font-weight:900;}
+
+
+
+/* CONTENT --------------------------------- */
+    #content {clear:both; padding:1px 0; margin:0 25px 2em;}
+        #content h1 {margin:15px 0; font:normal 2.4em Georgia,"Times New Roman", serif; text-transform:capitalize; letter-spacing:-1px;}
+        #content h2 {margin:0 0 .5em 0; font-size:1.8em; font-weight:400; color:#000; padding:3px 0; font-family:Georgia, "Times New Roman", Times, serif; margin-top:1.5em;}
+        #content h3 {font-size:1.5em; font-weight:400; color:#333; font-family:Georgia, "Times New Roman", Times, serif; margin-top:1.5em;}
+        #content h4 {font-size:1.3em; font-weight:400; color:#555; font-family:Georgia, "Times New Roman", Times, serif; margin-top:1.8em;}
+        #content p {line-height:1.5; font-size:1.1em;}
+
+        #content ul {list-style-type:disc; padding-left:0; margin-left:0; margin:1em 0 1em 1.5em;}
+        #content ul ul {margin:0 0 0 1.3em; list-style-type:circle; padding:0;}
+        #content li {font-size:1.1em; line-height:1.5;}
+        #content li li {font-size:1em;}
+		
+		#content a:link, #footer a:link {padding:1px; color:#36c;}
+		#content a:visited, #footer a:visited {color:#93c}
+		#content a:hover, #footer a:hover {background /**/:#57c; color:#fff; text-decoration:none;} /* hide background change from IE6 */
+
+
+
+/* FOOTER --------------------------------- */
+    #footer {clear:both; position:relative; margin:0 25px 0; border-top:1px solid #ccc; padding:0 0 1px; background:transparent; color:#999;}
+   		#footer p {margin:1em 160px 0 5px; padding:0;}
+        #footer a#logo {display:block; position:absolute; right:5px; top:0; width:150px; height:40px; margin-top:10px; padding:0;}
+
+/* ---------------------------------
+    CONTENT FRAGMENTS
+    --------------------------------- */
+
+
+/* MESSAGES --------------------------------- */
+/* dynamic messages */
+    #content .info, #content .errors, #content .success {clear:both; margin:18px 0; padding:0 0 0 90px; font-size:10px; line-height:1.5;}
+    #content .info {border:1px dotted #008; background:#eff url(../images/info.gif) no-repeat 20px 18px; color:#008;}
+    #content .errors {border:1px dotted #d21033; background:#fed url(../images/error.gif) no-repeat 20px 18px; color:#d21033;}
+    #content .success {border:1px dotted #390; background:#dfa url(../images/confirm.gif) no-repeat 20px 18px; color:#390;}
+    
+    #content .info h2, #content .errors h2, #content .success h2 {font-family:Georgia,"Times New Roman",Times,serif; font-size:18px; line-height:48px; font-weight:400; margin:18px 0 0; padding:0;}
+    #content .info h2, #content .info h3 {color:#008;}
+    #content .errors h2, #content .errors h3 {color:#b00;}
+    #content .success h2, #content .success h3 {color:#060;}
+    
+    #content .info h3, #content .errors h3, #content .success h3 {margin-top:18px; line-height:1.0;}
+    
+    #content .info p, #content .errors p, #content .success p {margin:0; padding:0;}
+    #content .info p+p, #content .info h3+p {margin:0 0 18px 0;}
+    #content .info ul, #content .errors ul, #content .success ul {margin:0 0 18px; padding:0; xlist-style-type:none !important; list-style-position:inside;}
+    
+
+/* static messages */
+    #content p.info, #content p.help {padding:0 0 0 2em; border-color:#fff; background:#fff url(../images/info-s.gif) no-repeat 0 0; font-weight:400; color:#000; line-height:1.5;}
+    #content p.help {background:url(../images/help.gif) no-repeat 0 0;}
+
+
+
+/* FORMS --------------------------------- */
+    form {display:inline;}
+        fieldset {margin:2em 0; border:1px solid #ddd; border-width:1px 0 0; padding:10px;}
+            legend {margin:1em 0;}
+                legend span {display:block; font-size:1.3em; font-weight:900; color:#d21033; text-transform:uppercase;}
+    
+            fieldset fieldset {margin:1.5em 0; border-width:1px; padding:1em; background:#fafafa;}
+                fieldset fieldset legend {font-size:1.3em; margin:0 0 0 -5px; padding:0 5px;}
+                    fieldset fieldset legend span {font-size:1em; color:#000; text-transform:capitalize;}
+    
+        label {cursor:pointer; font-size:1.1em; color:#777;}
+            label em {color:#d21033;}
+        input[type="text"], xselect, textarea {border-width:1px; border-style:solid; border-color:#999 #eee #eee #999; font-family:Verdana,sans-serif; font-size:1.1em; color:#000;}
+        input, textarea, xoption {padding:1px 3px;}
+    
+    
+    
+        option {xfont-family:Verdana,sans-serif; xfont-size:1em; color:#000; xpadding:2px 0;}
+        input {min-height:1.5em;}
+    
+        * html select {font:normal 400 1.1em/1.0 Verdana,sans-serif; height:1.5em}
+            optgroup {font-weight:900; font-style:normal; color:#777;}
+                optgroup option {padding-left:1em;}
+    
+        textarea {line-height:1.5;}
+        input.btn-submit {border-width:2px;}
+        input.btn-cancel {border-width:2px;}
+    
+    
+/*    vertically aligned form
+    TODO: combine styles
+    DEPRECATED:
+    5/22/07 - fm-v div.row select, .fm-v div.row textarea {float:left; clear:both;}  can be combined with .fm-v div.row input ???
+*/
+    .fm-v div.row {float:left; margin:0; padding:.5em 0; width:100%;}
+        .fm-v div.row label {float:left; width:100%; line-height:1.5;}
+        .fm-v div.row input, .fm-v div.row select, .fm-v div.row textarea {float:left; clear:left;}
+
+        .fm-v div.row input.check {float:left; clear:left; margin:0 .5em 0 0; border:0; width:1.3em; height:1.3em; position:relative; top:.1em;}
+        .fm-v div.row label.check {float:left; width:auto;}
+
+        .fm-v div.row input.radio {float:left; clear:left; margin:0 .5em 0 0; border:0; width:1.3em; height:1.3em; position:relative; top:.1em;}
+        .fm-v div.row label.radio {float:left; width:auto;}
+
+        .fm-v div.row span.msg-error {float:left; display:block; position:relative; top:.2em; margin:0 0 0 1em; padding:0 0 0 2em; font-size:1.1em; line-height:1.55; background:url(../images/error-s.gif) left top no-repeat; color:#b00;}
+        .fm-v span.msg-error {float:left; display:block; xposition:relative; xtop:.2em; margin:1em 0; padding:0 0 0 2em; font-size:1.1em; line-height:1.55; background:url(../images/error-s.gif) left top no-repeat; color:#b00;}
+        .fm-v div.row input.btn-submit {display:block; margin:0;} /* float:left; clear:left; margin-bottom:0; or display:block */
+        .fm-v div.row input.btn-cancel {display:block; margin:0;} /* float:left; clear:left; margin-bottom:0; or display:block */
+
+/* horizontally aligned form */
+    .fm-h div.row {float:left; margin:0; padding:.5em 0; width:100%;}
+        .fm-h div.row label {float:left; clear:left; margin-right:.5em; width:15em; text-align:right; line-height:1.5;} /* display:block; */
+        .fm-h div.row input {float:left; clear:right;} /* margin-bottom:1em; */
+
+        .fm-h div.row.check label {clear:none; width:auto; margin-right:1.5em;}
+        .fm-h div.row.check input {position:relative; top:-2px;}
+        .fm-h div.row input.btn-submit {clear:both; display:block; text-align:center; xmargin:0 0 0 15.5em;} /* float:left; clear:left; margin-bottom:0; or display block */
+        .fm-h div.row input.btn-cancel {clear:both; display:block; text-align:center; xmargin:0 0 0 15.5em;} /* float:left; clear:left; margin-bottom:0; or display block */
+
+
+/* highlight errors */
+    input.error, select.error, textarea.error {background:#FFEFEF; color:#b00;} /* border-color:#b00; */
+
+/* mark as required */
+    .required {background:#ffd;}
+    acronym.required  {border:0; color:#b00; background:transparent;}
+    .error {background:#ffefef;}
+    input.required, select.required, textarea.required {border-width:1px;}
+
+
+/* LISTS --------------------------------- */
+    dl{margin:1em 0 1em 0;}
+        dt{margin:0; padding:0;}
+        dd{margin:.5em 0 .5em 2em;line-height:1.5;}
+
+
+
+/* TABS --------------------------------- */
+    .tabs {xfloat:left; overflow:hidden; margin:1.5em 0; padding:1px 0 0; width:100%; line-height:normal; border-bottom:1px solid #dfdfdf;}
+        .tabs ul {margin:0; padding:0; list-style:none;}
+            .tabs li {display:inline; margin:0; padding:0;}
+
+                .tabs a {float:left; margin:0 3px 0 0; border-top:3px solid #fff; padding:5px 0 1px 9px; background:#f2f2f2; text-decoration:none;}
+                    .tabs a span {display:block; padding:2px 15px 2px 6px; background:#f2f2f2; color:#999;}
+
+                .tabs a:hover {background-position:0 -300px; border-top:3px solid #f2f2f2; padding:3px 0 3px 9px;}
+                    .tabs a:hover span {background-position:100% 0; color:#333;}
+
+                .tabs #active-tab a {background-position:0 -300px; background:#dfdfdf; border-top:1px solid #dfdfdf; padding-bottom:1px;}
+                .tabs #active-tab a:hover {cursor:text; padding:5px 0 1px 9px;}
+                    .tabs #active-tab a span {padding-bottom:4px; background-position:100% 0; color:#333; font-weight:900; background:#dfdfdf}
+
+
+
+
+/* TABBED SECTION --------------------------------- */
+/* tab navigation */
+    #nav-tab {float:left; margin:1.5em 0 0; padding:1px 0 0; width:100%; line-height:normal;}
+        #content #nav-tab ul {margin:0; padding:0; list-style:none;}
+            #nav-tab li {display:inline; margin:0; padding:0;}
+                #nav-tab a {float:left; margin:0 3px 0 0; border-top:3px solid #fff; padding:5px 0 1px 9px; background:#f2f2f2; text-decoration:none;}
+                    #nav-tab a span {float:left; display:block; padding:3px 15px 3px 6px; background:#f2f2f2; color:#999;}
+
+                    /* Hide from IE5Mac only \*/
+                    #nav-tab a span {float:none;}
+                    /* End hack */
+                #nav-tab a:hover {background-position:0 -300px; border-top:3px solid #f2f2f2; padding:3px 0 3px 9px;}
+                    #nav-tab a:hover span {background-position:100% 0; color:#333;}
+
+                #nav-tab #active-tab a {background-position:0 -300px; background:#dfdfdf; border-top:1px solid #dfdfdf; padding-bottom:2px;}
+                #nav-tab #active-tab a:hover {cursor:text; padding:5px 0 2px 9px;}
+                    #nav-tab #active-tab a span {padding-bottom:5px; background-position:100% 0; color:#333; font-weight:900; background:#dfdfdf}
+
+
+/* tab panel */
+    #tab-panel {clear:both; margin:0 0 2em; padding:9px; background-color:#dfdfdf;}
+    * html #tab-panel {height:1px;}
+    * html #tab-content {height:200px;}
+
+/* min-height workaround http://www.mezzoblue.com/archives/2004/09/16/minheight_fi/ for Mozilla, Safari, Opera, IE5/Mac */
+    *>#tab-panel {
+    padding-top:209px; /* stretch the containing box to at least 209px tall; 9px of padding-top */
+    min-height:1px; /* needed to keep containing box open; lack of an explicit height value collapses container (padding included); keep container open by setting min-height to any value; for Opera */
+}
+
+/* cancel out the containing box's padding non-IE browsers */
+    *>#tab-panel div#tab-content {min-height:200px; margin-top:-200px;}
+    #tab-panel div#tab-content {padding:10px; background:#ffd; font-size:11px;}
+
+
+
+/* TABLES --------------------------------- */
+    table {margin:0 0 18px; border-collapse:collapse; border-spacing:0; empty-cells:show; font:normal 1.1em/1.0 Arial, Helvetica, sans-serif; background:#fff;} /* tables still need 'cellspacing="0"' in the HTML */
+        caption, th, td {text-align:left;}
+        caption {padding:5px 7px; font:900 1.2em/1.5 Verdana, Arial, Helvetica, sans-serif;}
+        th, td {padding:5px 7px;}
+        th {white-space:nowrap;}
+       
+    table.td-ar td, table.th-ar th, table.thead-ar thead th, table.tbody-th-ar tbody th, table.tfoot-th-ar tfoot th, table.tfoot-td-ar tfoot td {text-align:right;}
+    table.td-ac td, table.th-ac th, table.thead-ac thead th, table.tbody-th-ac tbody th, table.tfoot-th-ac tfoot th, table.tfoot-td-ac tfoot td {text-align:center;}
+    table.full {width:100%;}
+    table thead th {font-weight:900; border-bottom:1px solid #ccc;}
+
+    table tr.alt td, table tr.alt th {background:#fafafa;}
+    table tfoot th, table tfoot td {font-weight:900; border-top:1px solid #ccc;}
+
+/*     table row highlighting (does not work in IE - JavaScript workaround) */
+        table.highlight tr:hover td, table.highlight tr.over td {background:#ffc !important;}
+
+/*     data tables - search results, status, etc. */
+        table.data {margin-bottom:2em; margin-left:1px; /* :BUG: Firefox expands the width of table with border by an extra 1px and moves it that distance to the left */ border:1px solid #ccc; border-width:1px 0 0 1px;}
+        table.data caption {border:1px solid #999; text-align:left; background:#999; color:#fff;}
+        table.data th {background:#ddd; color:#666;}
+        table.data th,
+        table.data td {border:1px solid #ccc; border-width:0 1px 1px 0;}
+        table.data tr.alt td {background:#fafafa;} 

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context path="/openregistry-activation">
+	<!-- Turn off tomcat session persistance -->
+   	<Manager className="org.apache.catalina.session.PersistentManager" saveOnRestart="false">
+    	<Store className="org.apache.catalina.session.FileStore"/>
+   	</Manager>
+
+	<Resource
+   		name="jdbc/MyDataSource"
+   		auth="Container"
+   		type="com.mchange.v2.c3p0.ComboPooledDataSource"
+        description="BFL Database"
+        factory="org.apache.naming.factory.BeanFactory"
+        acquireIncrement="5"
+        minPoolSize="5"
+        maxPoolSize="256"
+        maxIdleTimeExcessConnections="900"
+        driverClass="com.mysql.jdbc.Driver"
+        jdbcUrl="jdbc:mysql://localhost/test"
+        user="@@USERNAME@@"
+        password="@@PASSWORD@@"
+        maxStatementsPerConnection="37"
+        numHelperThreads="5"
+        testConnectionOnCheckin="true"
+        idleConnectionTestPeriod="300" />
+
+	<!-- org.hibernate.dialect.Oracle10gDialect -->
+	<Environment
+		description=""
+		name="conf/HibernateDialect"
+		override="false"
+		type="java.lang.String"
+		value="org.hibernate.dialect.MySQL5Dialect" />
+
+    <Environment
+        description=""
+        name="conf/cas/serviceUrl"
+        value="http://localhost:8080/openregistry-activation/j_spring_cas_security_check"
+        type="java.lang.String" />
+
+    <Environment
+        description=""
+        name="conf/cas/loginUrl"
+        value="https://test-cas.rutgers.edu/login"
+        type="java.lang.String" />
+
+    <Environment
+        description=""
+        name="conf/cas/proxyReceptorUrl"
+        value="http://localhost:8080/openregistry-activation/secure/receptor"
+        type="java.lang.String" />
+
+    <Environment
+        description=""
+        name="conf/cas/serverHost"
+        value="https://test-cas.rutgers.edu"
+        type="java.lang.String" />
+
+    <Environment
+        description=""
+        name="conf/cas/renew"
+        value="false"
+        type="java.lang.String" />
+
+    <Environment
+        description=""
+        name="conf/cas/springSecurityAuthProviderKey"
+        value="hakunamatada"
+        type="java.lang.String" />      
+</Context>
