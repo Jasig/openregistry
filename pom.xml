@@ -157,7 +157,7 @@
                 </configuration>
             </plugin>
 
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <version>1.1</version>
@@ -171,8 +171,11 @@
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
+                    <excludes>
+                        <exclude>**/IdentifierChangeAspect.java</exclude>
+                    </excludes>
                 </configuration>
-            </plugin> -->
+            </plugin>
 
         </plugins>
     </build>
