@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form:form modelAttribute="serviceExecutionResult" >
 			<fieldset id="update">
-				<legend><span><spring:message code="personMatches.heading"/><span style="color:#000;"><c:out value="${personToAdd.firstAddedName.family}" />, <c:out value="${personToAdd.firstAddedName.given}" /></span></span></legend>
+				<legend><span><spring:message code="personMatches.heading"/><span style="color:#000;"><c:out value="${personToAdd.names[0].family}" />, <c:out value="${personToAdd.names[0].given}" /></span></span></legend>
 
                 <div class="row">
                     <label class="desc2" for="c1_startdate"><span style="color:#000; font-size:1.2em;"><spring:message code="personMatches.addAnyway"/></span></label>
