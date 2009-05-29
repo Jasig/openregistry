@@ -32,8 +32,8 @@
     <camel:template id="camelTemplate"/>
 
     <!-- Camel JMSProducer to be able to send messages to a remote Active MQ server -->
-    <bean id="jms" class="org.apache.activemq.camel.component.ActiveMQComponent">
-        <property name="brokerURL" value="tcp://localhost:61616"/>
+    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="brokerURL" value="tcp://dev-registry.rutgers.edu:61616"/>
     </bean>
 
     <lang:groovy id="identifierChangeEventNotification"
