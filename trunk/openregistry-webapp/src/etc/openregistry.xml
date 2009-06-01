@@ -67,5 +67,11 @@
         description=""
         name="conf/cas/springSecurityAuthProviderKey"
         value="hakunamatada"
-        type="java.lang.String" />      
+        type="java.lang.String" />
+
+    <Environment
+        description="Messing Integration URL"
+        name="conf/openregistry/messaging/endpointUrl"
+        value="tcp://dev-registry.rutgers.edu:61616"
+        type="java.lang.String" />
 </Context>
