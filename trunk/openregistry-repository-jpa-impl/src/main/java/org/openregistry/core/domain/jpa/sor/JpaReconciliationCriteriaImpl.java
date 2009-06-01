@@ -5,6 +5,7 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.IdentifierType;
 import org.javalid.annotations.validation.NotNull;
 import org.javalid.annotations.core.ValidateDefinition;
+import org.springframework.core.style.ToStringCreator;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -37,6 +38,20 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
     private String region;
 
     private String postalCode;
+
+    public String toString() {
+        final ToStringCreator toStringCreator = new ToStringCreator(this);
+        toStringCreator.append("person", this.person);
+        toStringCreator.append("emailAddress", this.emailAddress);
+        toStringCreator.append("phoneNumber", this.phoneNumber);
+        toStringCreator.append("addressLine1", this.addressLine1);
+        toStringCreator.append("addressLine2", this.addressLine2);
+        toStringCreator.append("city", this.city);
+        toStringCreator.append("region", this.region);
+        toStringCreator.append("postalCode", this.postalCode);
+
+        return toStringCreator.toString();
+    }
 
     public String getEmailAddress() {
         return this.emailAddress;
