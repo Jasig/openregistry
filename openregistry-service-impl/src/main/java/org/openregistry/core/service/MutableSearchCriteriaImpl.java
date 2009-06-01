@@ -1,6 +1,7 @@
 package org.openregistry.core.service;
 
 import org.openregistry.core.service.SearchCriteria;
+import org.springframework.core.style.ToStringCreator;
 
 import java.util.Date;
 
@@ -61,5 +62,15 @@ public class MutableSearchCriteriaImpl implements SearchCriteria {
 
     public void setIdentifierValue(final String identifierValue) {
         this.identifierValue = identifierValue;
+    }
+
+    public String toString() {
+        final ToStringCreator toStringCreator = new ToStringCreator(this);
+        toStringCreator.append("identifierType", this.identifierType);
+        toStringCreator.append("identifierValue", this.identifierValue);
+        toStringCreator.append("dateOfBirth", this.dateOfBirth);
+        toStringCreator.append("familyName", this.familyName);
+        toStringCreator.append("givenName", this.givenName);
+        return toStringCreator.toString();
     }
 }
