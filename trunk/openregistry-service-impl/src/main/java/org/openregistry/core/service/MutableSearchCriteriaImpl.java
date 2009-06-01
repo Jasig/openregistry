@@ -6,13 +6,11 @@ import org.springframework.core.style.ToStringCreator;
 import java.util.Date;
 
 /**
- * Created by IntelliJ IDEA.
- * User: battags
- * Date: Apr 9, 2009
- * Time: 4:27:03 PM
- * To change this template use File | Settings | File Templates.
+ * @author Scott Battaglia
+ * @version $Revision$ $Date$
+ * @since 1.0.0
  */
-public class MutableSearchCriteriaImpl implements SearchCriteria {
+public final class MutableSearchCriteriaImpl implements SearchCriteria {
 
     private String givenName;
 
