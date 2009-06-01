@@ -10,11 +10,11 @@ import org.aspectj.lang.JoinPoint;
 import java.util.Locale;
 
 /**
- * Applies TRACE logging
+ * Applies TRACE, INFO and ERROR logging.
  *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
- * @since 4.0.0
+ * @since 1.0.0
  */
 @Aspect
 public class LogAspect {
