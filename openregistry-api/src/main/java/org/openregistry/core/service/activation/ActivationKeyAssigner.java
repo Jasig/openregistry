@@ -1,9 +1,9 @@
 package org.openregistry.core.service.activation;
 
-import org.openregistry.core.domain.Identifier;
+import org.openregistry.core.domain.Person;
 
 /**
- * Assigns an activation key to an identifier.   The activation key is used to activate the identifier (i.e. netid)
+ * Assigns an activation key to a person.   The activation key is used to activate the person.
  * @author Nancy Mond
  * @version $Revision$ $Date$
  * @since 1.0.0
@@ -11,17 +11,10 @@ import org.openregistry.core.domain.Identifier;
 public interface ActivationKeyAssigner {
 
     /**
-     * Adds the identifier to the particular person.  This is not necessarily saved until an explicit save call is made
-     * so identifier creation systems should not rely on the identifier table in OR to check whether a value
-     * was used or not.
+     * Adds the activation key to the particular person.
      *
-     * @param identifier the activation key is used to activiate this identifier.
+     * @param person the activation key is used to activate this person.
      */
-    void addActivationKeyTo(Identifier identifier);
+    void addActivationKeyTo(Person person);
 
-    /**
-     * Returns the type of activation key. Activation keys are associated with a particular identifier.
-     * @return identifer type
-     */
-    String getActivationKeyType();
 }

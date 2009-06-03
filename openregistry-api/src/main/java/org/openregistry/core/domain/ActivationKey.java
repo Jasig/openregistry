@@ -16,11 +16,9 @@ public interface ActivationKey extends Serializable {
 
     void setValue(String value);
 
-    IdentifierType getType();
+    Person getPerson();
 
-    Identifier getIdentifier();
-
-    void setIdentifier(Identifier identifier);
+    void setPerson(Person person);
 
     Date getExpirationDate();
 

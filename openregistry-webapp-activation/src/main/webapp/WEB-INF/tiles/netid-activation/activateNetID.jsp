@@ -24,7 +24,7 @@
             </div>
             <div class="row">
                 <label for="c1_activationKey" class="activationKey"><spring:message code="activationKey.label"/><em>*</em></label>
-                <form:input path="activationKey.value" id="c1_activationKey" size="10" maxlength="10" tabindex="2" />
+                <input type="activatationKey" id="c1_activationKey" value="" name="activationKey" size="10" />
             </div>
         </fieldset>
     </fieldset>

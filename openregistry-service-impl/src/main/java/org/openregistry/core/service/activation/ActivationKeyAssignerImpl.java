@@ -1,7 +1,7 @@
 package org.openregistry.core.service.activation;
 
-import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.ActivationKey;
+import org.openregistry.core.domain.Person;
 import org.openregistry.core.service.activation.ActivationKeyAssigner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,22 +10,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Component
-public class NetidActivationKeyAssigner implements ActivationKeyAssigner {
+public class ActivationKeyAssignerImpl implements ActivationKeyAssigner {
 
 	@Autowired(required = true)
-	private NetIdActivationKeyGenerator generator;
+	private ActivationKeyGeneratorImpl generator;
 
-	private final String identifierType = "NETID";
-
-    public void addActivationKeyTo(Identifier identifier){
-        //TODO should verify that identifier is a NETID.
-        ActivationKey activationKey = identifier.addActivationKey();
+    public void addActivationKeyTo(Person person){
+        ActivationKey activationKey = person.addActivationKey();
         activationKey.setValue(generator.generateNextString());
         activationKey.setExpirationDate(getExpirationDate());
-    }
-
-    public String getActivationKeyType(){
-        return identifierType;
     }
 
     private Date getExpirationDate(){

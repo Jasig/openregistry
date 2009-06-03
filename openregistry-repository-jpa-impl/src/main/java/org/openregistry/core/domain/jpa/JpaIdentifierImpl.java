@@ -39,9 +39,6 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @Column(name="is_deleted", nullable=false)
     private Boolean deleted;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "identifier", fetch = FetchType.EAGER, targetEntity = JpaActivationKeyImpl.class, optional = true)
-    private JpaActivationKeyImpl activationKey;
-
     public JpaIdentifierImpl() {
         // nothing to do
     }
@@ -92,16 +89,6 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     
     public void setDeleted(Boolean value) {
     	this.deleted = value;
-    }
-
-    public ActivationKey addActivationKey(){
-        this.activationKey = new JpaActivationKeyImpl();
-        this.activationKey.setIdentifier(this);
-        return this.activationKey;
-    }
-
-    public ActivationKey getActivationKey(){
-        return this.activationKey;
     }
 
 }

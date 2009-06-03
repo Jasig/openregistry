@@ -52,6 +52,9 @@ public class JpaPersonImpl extends Entity implements Person {
     @NotEmpty(customCode="genderRequiredMsg")
     private String gender;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER, targetEntity = JpaActivationKeyImpl.class, optional = true)
+    private JpaActivationKeyImpl activationKey;
+    
     public Long getId() {
         return this.id;
     }
@@ -194,5 +197,15 @@ public class JpaPersonImpl extends Entity implements Person {
             }
         }
         return null;
+    }
+
+    public ActivationKey addActivationKey(){
+        this.activationKey = new JpaActivationKeyImpl();
+        this.activationKey.setPerson(this);
+        return this.activationKey;
+    }
+
+    public ActivationKey getActivationKey(){
+        return this.activationKey;
     }
 }

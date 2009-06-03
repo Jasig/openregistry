@@ -10,7 +10,7 @@ import java.util.UUID;
  * NetId Activation Key Generator
  */
 @Component
-public final class NetIdActivationKeyGenerator implements ActivationKeyGenerator {
+public final class ActivationKeyGeneratorImpl implements ActivationKeyGenerator {
 
     public String generateNextString(){
 

@@ -13,11 +13,11 @@
         </binder>
         <on-render>
             <set name="viewScope.command" value="'identifier'" />
-            <evaluate expression="identifier.addActivationKey()" />
         </on-render>
         <transition on="submitNetIDActivation" to="getPassword" bind="true" validate="true">
             <set name="flowScope.identifier" value="identifier" />
-            <evaluate expression="identifierAction.verifyActivationKey(identifier,messageContext)"/>
+            <set name="requestScope.activationKey" value="requestParameters.activationKey" />
+            <evaluate expression="identifierAction.verifyActivationKey(identifier,activationKey,messageContext)"/>
         </transition>
     </view-state>
 

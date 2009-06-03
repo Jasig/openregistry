@@ -58,22 +58,21 @@ public class DefaultActivationService implements ActivationService {
             return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
         }
 
-        //check if netid already activated.
+        //check if person already activated.
         //TODO need to support more than one NETID per person
-        Identifier personIdentifier = person.pickOutIdentifier(type);
-        if (personIdentifier.getActivationKey().getActivitationDate() != null){
+        if (person.getActivationKey().getActivitationDate() != null){
             validationErrors.add(new ORValidationError(type, null, "netIDAlreadyActivated"));
             return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
         }
 
         //check if activation key expired.
-        if (personIdentifier.getActivationKey().getExpirationDate().before(new Date())){
+        if (person.getActivationKey().getExpirationDate().before(new Date())){
             validationErrors.add(new ORValidationError(type, null, "activationKeyExpired"));
             return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
         }
 
         //check if activation key matches activation key entered.
-        if (!personIdentifier.getActivationKey().getValue().trim().equals(activationKey.trim())){
+        if (!person.getActivationKey().getValue().trim().equals(activationKey.trim())){
             validationErrors.add(new ORValidationError(type, null, "activationKeyNoMatch"));
             return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
         }
@@ -90,8 +89,7 @@ public class DefaultActivationService implements ActivationService {
         Person person = personRepository.findByIdentifier(type, identifier.getValue());
 
         //TODO support more than one netid for a person.
-        Identifier personIdentifier = person.pickOutIdentifier(NETID);
-        personIdentifier.getActivationKey().setActivationDate(new Date());
+        person.getActivationKey().setActivationDate(new Date());
         personRepository.savePerson(person);
 
         //TODO send netid and password to Kerberos.

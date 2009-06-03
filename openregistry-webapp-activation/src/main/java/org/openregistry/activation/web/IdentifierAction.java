@@ -34,11 +34,11 @@ public class IdentifierAction {
 
     private final String identifierType = "NETID";
 
-    public boolean verifyActivationKey(Identifier identifier, MessageContext context) {
+    public boolean verifyActivationKey(Identifier identifier, String activationKey, MessageContext context) {
         //verify parameters entered
-        logger.info("netid: "+ identifier.getValue() + "activationKey: "+ identifier.getActivationKey().getValue());
+        logger.info("netid: "+ identifier.getValue() + "activationKey: " + activationKey);
         //Verify activation key
-        ServiceExecutionResult result = activationService.verifyActivationKey(identifierType, identifier.getValue(), identifier.getActivationKey().getValue());
+        ServiceExecutionResult result = activationService.verifyActivationKey(identifierType, identifier.getValue(), activationKey);
 
         if (result.getValidationErrors() != null && !result.getValidationErrors().isEmpty()) {
             convertErrors(result.getValidationErrors(), context);

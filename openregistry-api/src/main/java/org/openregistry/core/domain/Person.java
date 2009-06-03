@@ -127,4 +127,8 @@ public interface Person extends Serializable {
      */
     Identifier pickOutIdentifier(String name);
 
+    ActivationKey addActivationKey();
+
+    ActivationKey getActivationKey();
+
 }
