@@ -53,11 +53,11 @@ public class PersonSearchAction {
             Identifier netId = person.pickOutIdentifier(identifierType);
 
             if (reconciliationResult == null){
-                context.addMessage(new MessageBuilder().info().code("personAdded").arg(netId.getValue()).arg(netId.getActivationKey().getValue()).build());
+                context.addMessage(new MessageBuilder().info().code("personAdded").arg(netId.getValue()).arg(person.getActivationKey().getValue()).build());
             } else {
                 ReconciliationResult.ReconciliationType resultType = reconciliationResult.getReconciliationType();
                 if (resultType == ReconciliationResult.ReconciliationType.NONE)
-                    context.addMessage(new MessageBuilder().info().code("personAdded").arg(netId.getValue()).arg(netId.getActivationKey().getValue()).build());
+                    context.addMessage(new MessageBuilder().info().code("personAdded").arg(netId.getValue()).arg(person.getActivationKey().getValue()).build());
                 else if (resultType == ReconciliationResult.ReconciliationType.EXACT)
                     context.addMessage(new MessageBuilder().info().code("sorPersonAdded").build());
             }

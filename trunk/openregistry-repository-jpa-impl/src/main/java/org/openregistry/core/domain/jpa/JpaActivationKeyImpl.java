@@ -5,6 +5,7 @@ import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.ActivationKey;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Identifier;
+import org.openregistry.core.domain.Person;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,14 +18,14 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 @javax.persistence.Entity(name="activationKey")
-@Table(name="pro_activation_keys")
+@Table(name="kr_activation_keys")
 @Audited
 public class JpaActivationKeyImpl extends Entity implements ActivationKey {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "pro_activation_keys_seq")
-    @SequenceGenerator(name="pro_activation_keys_seq",sequenceName="pro_activation_keys_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "kr_activation_keys_seq")
+    @SequenceGenerator(name="kr_activation_keys_seq",sequenceName="kr_activation_keys_seq",initialValue=1,allocationSize=50)
     private Long id;
 
     @Column(name = "activation_key", nullable = false)
@@ -39,8 +40,8 @@ public class JpaActivationKeyImpl extends Entity implements ActivationKey {
     private Date activationDate;
 
     @OneToOne(optional=false)
-    @JoinColumn(name="identifier")
-    private JpaIdentifierImpl identifier;
+    @JoinColumn(name="person_id")
+    private JpaPersonImpl person;
 
     protected Long getId() {
         return this.id;
@@ -54,16 +55,12 @@ public class JpaActivationKeyImpl extends Entity implements ActivationKey {
         this.activationKey = value;
     }
 
-    public IdentifierType getType(){
-        return this.identifier.getType();
+    public Person getPerson(){
+        return this.person;
     }
 
-    public Identifier getIdentifier(){
-        return this.identifier;
-    }
-
-    public void setIdentifier(Identifier identifier){
-        this.identifier = (JpaIdentifierImpl)identifier;
+    public void setPerson(Person person){
+        this.person = (JpaPersonImpl)person;
     }
 
     public Date getExpirationDate(){

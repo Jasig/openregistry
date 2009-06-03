@@ -5,7 +5,7 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.identifier.IdentifierAssigner;
-import org.openregistry.core.service.activation.NetidActivationKeyAssigner;
+import org.openregistry.core.service.activation.ActivationKeyAssignerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ public class NetidIdentifierAssigner implements IdentifierAssigner {
 	private NetIdIdentifierGenerator netIdGenerator;
 
     @Autowired(required = true)
-    private NetidActivationKeyAssigner netIdActivationKeyAssigner;
+    private ActivationKeyAssignerImpl netIdActivationKeyAssigner;
 
 	private final String identifierType = "NETID";
 
@@ -33,15 +33,15 @@ public class NetidIdentifierAssigner implements IdentifierAssigner {
 		identifier.setPrimary(false);
 
         //create activation key for new netid
-        createActivationKey(identifier);
+        createActivationKey(person);
 	}
 
 	public String getIdentifierType() {
 		return identifierType;
 	}
 
-    private void createActivationKey(Identifier identifier){
-        netIdActivationKeyAssigner.addActivationKeyTo(identifier);
+    private void createActivationKey(Person person){
+        netIdActivationKeyAssigner.addActivationKeyTo(person);
     }
 
 }
