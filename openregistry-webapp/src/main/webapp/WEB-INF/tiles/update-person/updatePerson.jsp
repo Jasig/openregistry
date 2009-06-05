@@ -96,6 +96,10 @@
                 </table>
             </div>
 
+            <div>
+                <input id="addRoleBtn" class="button" type="submit" name="_eventId_submitAddRole" value="Add Role" title="add a new role" />
+            </div>
+
             <label class="desc"><spring:message code="biodem.heading"/></label>
             <div>
                 <table class="data" cellspacing="0" width="50%">
