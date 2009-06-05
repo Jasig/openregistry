@@ -38,7 +38,7 @@
                     </table>
                 </div>
 
-                <label class="desc" for="c1_startdate"><spring:message code="specifyRoleInfo.heading"/></label>
+                <label class="desc" for="c1_startdate"><spring:message code="roleInformation.heading"/></label>
 
                 <div class="row">
                     <label for="c1_startdate" class="startdate"><spring:message code="startDate.label"/><em>*</em></label>

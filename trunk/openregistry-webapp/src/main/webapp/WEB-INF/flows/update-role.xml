@@ -14,16 +14,9 @@
             <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
             <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
         </on-entry>
-        <transition on="submitUpdateRole" to="displayPage" >
+        <transition on="submitUpdateRole" to="roleWasUpdated" >
             <evaluate expression="roleAction.updateSorRole(role, messageContext)"/>
         </transition>
-    </view-state>
-
-    <view-state id="displayPage" view="openregistry.role.update">
-        <on-entry>
-            <set name="flowScope.infoModel" value="'Role Updated'" />
-        </on-entry>
-        <transition to="roleWasUpdated"/>
     </view-state>
 
     <end-state id="roleWasUpdated" />

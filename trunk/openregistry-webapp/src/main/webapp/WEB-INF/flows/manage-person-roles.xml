@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <var name="sorName" class="org.openregistry.core.domain.jpa.sor.JpaSorNameImpl" />
+
+    <subflow-state id="searchForPerson" subflow="searchForPerson" >
+        <input name="taskTitleCode" value="'managePersonRoles.title'"/>
+        <output name="person" />
+        <transition to="managePersonRoles" />
+    </subflow-state>
+
+    <view-state id="managePersonRoles" model="sorPerson" view="openregistry.manage.person.roles">
+        <on-entry>
+            <evaluate expression="personRepository.findByPersonIdAndSorIdentifier(person.id,'or-webapp')" result="flowScope.sorPerson"/>
+            <evaluate expression="personRepository.findPersonIdentifiers(sorPerson.getPersonId())" result="flowScope.identifiers" />
+            <set name="viewScope.command" value="'sorPerson'" />
+            <set name="viewScope.identifiers" value="identifiers" />
+        </on-entry>
+
+        <transition on="submitAddRole" to="addRole" />
+
+        <transition on="submitUpdateRole" to="updateRole" >
+            <set name="requestScope.roleId" value="requestParameters.roleId" type="long" />
+            <evaluate expression="personRepository.findSorRoleByInternalId(roleId)" result="flowScope.role"/>
+        </transition>
+
+    </view-state>
+
+    <subflow-state id="addRole" subflow="addRole" >
+        <input name="sorPerson" value="flowScope.sorPerson"/>
+        <output name="role"/>
+        <transition on="roleWasAdded" to="managePersonRoles">
+             <set name="flowScope.infoModel" value="'Role Added'" />
+        </transition>
+    </subflow-state>
+
+    <subflow-state id="updateRole" subflow="updateRole" >
+        <input name="role" />
+        <input name="sorPerson" />
+        <transition on="roleWasUpdated" to="managePersonRoles">
+            <set name="flowScope.infoModel" value="'Role Updated'" />
+        </transition>
+    </subflow-state>
+
+    <end-state id="personRolesManaged" />
+</flow>
