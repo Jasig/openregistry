@@ -33,82 +33,6 @@ legend span span {color:#777; font-weight:400; font-size:1em; display:inline;}
 .openregistry#update div.row label.name {display:block; clear:both; line-height:1.5; padding-top:1em; width:100%; color:#777; font-size:1.2em; font-weight:900; left:11%; margin-left:5px;}
 .openregistry#update div.row label.id {display:block; clear:both; line-height:1.5; padding-top:1em; width:100%; color:#777; font-size:1.2em; font-weight:900;left:16%; margin-left:11px;}
 
-/****** Role Info */
-#c1_startdate {width:10%;}
-.openregistry#update div.row label.enddate {left:10%; margin-left:4px;}
-#c1_enddate {width:10%; margin-left:3px;}
-
-.openregistry#update div.row label.sponsor {left:20%; margin-left:10px;}
-.openregistry#update div.sponsor {float:left; margin-left:3px;}
-
-.openregistry#update div.row label.sponsortype {left:45%; margin-left:14px;}
-.openregistry#update div.sponsortype {float:left; margin-left:3px;}
-
-.openregistry#update div.row label.campus {left:15%;margin-left:3px;}
-.openregistry#update div.campus {float:left; margin-left:3px;}
-
-.openregistry#update div.row label.personStatus {left:25%;margin-left:3px;}
-.openregistry#update div.personStatus {float:left; margin-left:3px;}
-
-#c1_title {width:40%;}
-.openregistry#update div.row label.pt {left:40%; margin-left:4px;}
-.openregistry#update div.pt {float:left; margin-left:3px;}
-.openregistry#update div.row label.updateRolePt {left:34%; margin-left:7px;}
-
-#c1_address1 {width:30%;}
-.openregistry#update div.row label.address2 {left:31%; margin-left:5px;}
-#c1_address2 {width:30%;margin-left:3px;}
-
-#c1_city {width:25%;}
-
-.openregistry#update div.row label.state {left:25%; margin-left:5px;}
-#c1_state {width:20%; margin-left:3px;}
-
-.openregistry#update div.row label.zip {left:45%; margin-left:11px;}
-#c1_zip {width:15%; margin-left:3px;}
-
-#c1_phone,  #c1_ext,  #c1_cell {width:20%; margin-left:3px;}
-#c1_phone,  #cell_phone {margin-left:0;}
-.openregistry#update div.row label.cell {left:40%; margin-left:9px;}
-
-#c1_cccode, #c1_areacode, #c1_ext {width:10%; margin-left:3px;}
-#c1_number {width:20%; margin-left:3px;}
-.openregistry#update div.row label.areacode {left:11%; margin-left:3px;}
-.openregistry#update div.areacode {float:left; margin-left:3px;}
-
-.openregistry#update div.row label.number {left:21%; margin-left:4px;}
-.openregistry#update div.number {float:left; margin-left:3px;}
-.openregistry#update div.row label.ext {left:42%; margin-left:3px;}
-
-
-/*** add person  ***/
-
-.openregistry#update div.row label.firstName {left:6%; margin-left:3px;}
-#c1_firstName {width:15%; margin-left:3px;}
-.openregistry#update div.row label.middleName {left:22%; margin-left:2px;}
-#c1_middleName {width:10%; margin-left:3px;}
-.openregistry#update div.row label.lastName {left:32%; margin-left:4px;}
-#c1_lastName {width:15%; margin-left:3px;}
-.openregistry#update div.row label.suffix {left:48%; margin-left:2px;}
-#c1_suffix {width:3%; margin-left:3px;}
-
-/*
-.openregistry#update div.row label.dateOfBirth {left:8%;margin-left:2px;}
-*/
-#c1_dateOfBirth {width:16%;}
-#c1_preferredName {width:16%;}
-
-/*
-.openregistry#update div.row label.genderUpdate {left:16%; margin-left:4px;}
-#c1_genderUpdate {float:left; margin-left:5px;}
-*/
-
-#c1_ssn {width:16%;}
-#c1_ruid {width:16%;}
-
-#c1_email {width:40%;}
-#c1_hideDir {margin-left:3px;}
-#e_cell {clear:left; float:left; margin-top:0; width:80%;}
 
 input.btn-submit {margin-top:0;font-weight:900}
 input.btn-cancel {margin-top:0;font-weight:900;left:22%; margin-left:2px;}
@@ -116,15 +40,12 @@ input.btn-cancel {margin-top:0;font-weight:900;left:22%; margin-left:2px;}
 .openregistry#update p {padding-bottom:0;}
 .openregistry#update .success h2, #content .success h3 {margin-bottom:1em;}
 
+/* activation */
+
+#c1_activationKey  { padding-top:.01em; }
+#password { padding-top:.01em; }
+
 /* tables */
 .rowAltColor {
 	background-color: #eee;
 }
-
-/* Safari 2.x specific fixes */
-html[xmlns*=""] body:last-child div.select {border:0 !important;}
-html[xmlns*=""] body:last-child div.row label.state {margin-left:3px !important;}
-html[xmlns*=""] body:last-child div.row label.zip {margin-left:6px !important;}
-html[xmlns*=""] body:last-child div.row label.work {margin-left:3px !important;}
-html[xmlns*=""] body:last-child div.row label.cell {margin-left:6px !important;}
-html[xmlns*=""] body:last-child div.row label.phone {margin-left:12.3em !important;} 
