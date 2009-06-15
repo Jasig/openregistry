@@ -10,6 +10,7 @@
         <module>openregistry-service-impl</module>
         <module>openregistry-repository-jpa-impl</module>
         <module>openregistry-webapp</module>
+        <module>openregistry-webapp-activation</module>
     </modules>
     <name>Jasig OpenRegistry</name>
     <description>Registry System</description>
