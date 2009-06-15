@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public interface Address extends Serializable {
 
+    Long getId();
+
     Type getType();
 
     String getLine1();
@@ -40,4 +42,6 @@ public interface Address extends Serializable {
     void setCity(String city);
 
     void setPostalCode(String postalCode);
+
+    String getSingleLineAddress();
 }

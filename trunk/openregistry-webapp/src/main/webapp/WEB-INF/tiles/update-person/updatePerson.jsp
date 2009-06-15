@@ -62,7 +62,7 @@
 
                 <label class="desc"><spring:message code="roles.heading"/></label>
                 <div>
-                    <table class="data" cellspacing="0" width="50%">
+                    <table class="data" cellspacing="0" width="60%">
                         <thead>
                             <tr class="appHeadingRow">
                                 <th><spring:message code="affiliationTitle.label"/></th>
@@ -70,6 +70,7 @@
                                 <th><spring:message code="campus.label"/></th>
                                 <th><spring:message code="startDate.label"/></th>
                                 <th><spring:message code="endDate.label"/></th>
+                                <th><spring:message code="action.label"/></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -90,6 +91,7 @@
                                 <td>
                                     <fmt:formatDate pattern="MM/dd/yyyy" value="${role.end}"/>
                                 </td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveRole&roleId=${role.id}"><spring:message code="remove.label"/></a></td>
                             </tr>
                             </c:forEach>
                     </tbody>
@@ -112,7 +114,7 @@
                     <tbody>
                         <tr>
                             <td><spring:message code="dateOfBirth.label"/><em>*</em></td>
-                            <td><form:input path="dateOfBirth" size="10" maxlength="10"/></td>
+                            <td><form:input path="dateOfBirth" size="12" maxlength="10"/></td>
                         </tr>
                         <tr>
                             <td><spring:message code="gender.label" /> <em>*</em></td>
@@ -138,7 +140,7 @@
                             <tbody>
                             <tr>
                                 <td><spring:message code="ssn.label"/></td>
-                                <td><form:input path="ssn" size="9" maxlength="9" /></td>
+                                <td><form:input path="ssn" size="11" maxlength="9" /></td>
                             </tr>
                                 <c:forEach var="identifier" items="${identifiers}">
                                     <tr>

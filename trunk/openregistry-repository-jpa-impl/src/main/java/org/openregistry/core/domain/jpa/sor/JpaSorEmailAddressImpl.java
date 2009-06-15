@@ -52,7 +52,7 @@ public final class JpaSorEmailAddressImpl extends Entity implements EmailAddress
         this.sorRole = sorRole;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 

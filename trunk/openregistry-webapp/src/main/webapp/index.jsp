@@ -22,10 +22,9 @@
 		<div id="sidebar">
             <h2>Manage People</h2>
 			<ul>
-	            <li><a target="_blank" href="managePersonRoles.htm">Manage Person's Roles</a></li>
-	            <li><a target="_blank" href="addPerson.htm">Add Person</a></li>
-	            <li><a target="_blank" href="updatePerson.htm">Update Person</a></li>
-                <li><a target="_blank" href="deletePerson.htm">Delete Person</a></li>
+	            <li><a href="managePersonRoles.htm">Manage Person's Roles</a></li>
+	            <li><a href="addPerson.htm">Add Person</a></li>
+	            <li><a href="updatePerson.htm">Update Person</a></li>
             </ul>
 			<h2>Important Notices</h2>
 			<p>

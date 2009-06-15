@@ -17,7 +17,7 @@
 </head>
 <body class="openregistry" id="update">
 
-	<h1 id="app-name">Open Registry</h1>
+	<h1 id="app-name">OpenRegistry</h1>
     	<ul id="nav-system">
 		<li id="home"><a href="." title="home page"><spring:message code="home.label" /></a></li>
 		<li id="logout"><a href="logout.htm" title="log out of current session"><spring:message code="logout.label" /></a></li>

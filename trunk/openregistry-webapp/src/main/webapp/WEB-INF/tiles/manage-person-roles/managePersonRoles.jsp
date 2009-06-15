@@ -23,7 +23,7 @@
                 <c:choose>
                 <c:when test="${not empty sorPerson.roles}">
                 <div>
-                    <table class="data" cellspacing="0" width="50%">
+                    <table class="data" cellspacing="0" width="60%">
                         <thead>
                             <tr class="appHeadingRow">
                                 <th><spring:message code="affiliationTitle.label"/></th>
@@ -31,6 +31,7 @@
                                 <th><spring:message code="campus.label"/></th>
                                 <th><spring:message code="startDate.label"/></th>
                                 <th><spring:message code="endDate.label"/></th>
+                                <th><spring:message code="action.label"/></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -51,13 +52,14 @@
                                 <td>
                                     <fmt:formatDate pattern="MM/dd/yyyy" value="${role.end}"/>
                                 </td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveRole&roleId=${role.id}"><spring:message code="remove.label"/></a></td>
                             </tr>
                             </c:forEach>
                     </tbody>
                 </table>
             </div>
             </c:when>
-                <c:otherwise><spring:message code="noRolesDefined.label"/></c:otherwise>
+                <c:otherwise><spring:message code="noRolesDefined.label"/><br/><br/></c:otherwise>
             </c:choose>
 
             <div>

@@ -42,7 +42,7 @@ public class JpaEmailAddressImpl extends Entity implements EmailAddress {
         this.role = role;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 

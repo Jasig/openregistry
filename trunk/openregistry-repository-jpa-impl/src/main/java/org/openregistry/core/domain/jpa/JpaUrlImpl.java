@@ -62,7 +62,7 @@ public class JpaUrlImpl extends Entity implements Url {
         this.url = url;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 }

@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public interface Phone extends Serializable {
 
+    Long getId();
+    
     Type getAddressType();
 
     Type getPhoneType();

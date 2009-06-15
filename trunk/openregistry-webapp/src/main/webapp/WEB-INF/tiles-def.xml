@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
-    <definition name="openregistry.search" template="/WEB-INF/layouts/default.jsp">
+    <definition name="openregistry.search" template="/WEB-INF/layouts/default2.jsp">
         <put-attribute name="titleCode" value="delete.person.title" type="string" />
         <put-attribute name="head" value="/WEB-INF/tiles/search/searchHead.jsp" />
         <put-attribute name="content" value="openregistry.search.content" />
@@ -56,6 +56,11 @@
     <definition name="openregistry.role.add" template="/WEB-INF/layouts/rutgers.jsp">
         <put-attribute name="titleCode" value="addRole.title" type="string" />
         <put-attribute name="body" value="/WEB-INF/tiles/add-role/addRole.jsp" />
+    </definition>
+
+    <definition name="openregistry.role.address.update" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="updateAddress.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/update-role/updateAddress.jsp" />
     </definition>
 
     <definition name="openregistry.manage.person.roles" template="/WEB-INF/layouts/rutgers.jsp">

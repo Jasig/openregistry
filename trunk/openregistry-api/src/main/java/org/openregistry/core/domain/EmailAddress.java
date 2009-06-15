@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public interface EmailAddress extends Serializable {
 
+    Long getId();
+    
     Type getAddressType();
 
     String getAddress();

@@ -49,6 +49,8 @@ public interface ReferenceRepository {
      */
     Type findType(Type.DataTypes type, String value);
 
+    Type getTypesById(final Long id); 
+
     List<Type> getEmailTypes();
 
     List<Type> getAddressTypes();

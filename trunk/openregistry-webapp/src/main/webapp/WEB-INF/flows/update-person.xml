@@ -19,7 +19,7 @@
             <set name="viewScope.command" value="'sorPerson'" />
             <set name="viewScope.identifiers" value="identifiers" />
         </on-entry>
-        <transition on="submitAddName" to="addName" >
+        <transition on="submitAddName" to="updatePerson">
             <evaluate expression="sorPerson.addName()" result="flowScope.sorName"/>
         </transition>
 

@@ -53,7 +53,7 @@ legend span span {color:#777; font-weight:400; font-size:1em; display:inline;}
 #c1_title {width:40%;}
 .openregistry#update div.row label.pt {left:40%; margin-left:4px;}
 .openregistry#update div.pt {float:left; margin-left:3px;}
-.openregistry#update div.row label.updateRolePt {left:34%; margin-left:7px;}
+.openregistry#update div.row label.updateRolePt {left:40%; margin-left:8px;}
 
 #c1_address1 {width:30%;}
 .openregistry#update div.row label.address2 {left:31%; margin-left:5px;}
@@ -120,6 +120,8 @@ input.btn-cancel {margin-top:0;font-weight:900;left:22%; margin-left:2px;}
 .rowAltColor {
 	background-color: #eee;
 }
+
+div#searchheader {display:block; font-size:1.3em; font-weight:900; color:#d21033; text-transform:uppercase;}
 
 /* Safari 2.x specific fixes */
 html[xmlns*=""] body:last-child div.select {border:0 !important;}
