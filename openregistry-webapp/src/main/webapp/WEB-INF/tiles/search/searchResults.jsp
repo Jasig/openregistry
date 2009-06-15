@@ -6,7 +6,7 @@
         
     </c:when>
     <c:when test="${empty searchResults}">
-        <h2><spring:message code="delete.person.headers.results" /></h2>
+        <h2><strong></strong><spring:message code="delete.person.headers.results" /><strong></strong></h2>
         <p><strong>Your search returned no results.</strong></p>        
     </c:when>
     <c:otherwise>
