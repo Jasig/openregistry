@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public interface Url extends Serializable {
 
+    Long getId();
+    
     /**
      * Defines the type of URL this is, i.e. personal, research, etc.
      * @return the type.  CANNOT be null.

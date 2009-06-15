@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="row">
-                    <label for="c1_email"><spring:message code="email.label"/></label>
+                    <label for="c1_email"><spring:message code="campusEmail.label"/></label>
                     <form:input path="emailAddresses[0].address" id="c1_email" size="20" maxlength="30" tabindex="6" />
 
                     <label for="c1_pt" class="pt"><spring:message code="pt.label" /></label>

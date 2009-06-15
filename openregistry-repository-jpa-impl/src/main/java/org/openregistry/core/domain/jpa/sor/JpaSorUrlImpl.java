@@ -69,7 +69,7 @@ public final class JpaSorUrlImpl extends Entity implements Url {
         this.url = url;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 }

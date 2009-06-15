@@ -227,6 +227,15 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
 	    return jpaAddress;
 	}
 
+    public Address getAddress(long id){
+        for(Address a : this.addresses) {
+            if(a.getId() == id) {
+                return a;
+            }
+        }
+        return null;
+    }
+
 	public EmailAddress addEmailAddress() {
 	    final JpaSorEmailAddressImpl jpaEmailAddress = new JpaSorEmailAddressImpl(this);
 	    this.emailAddresses.add(jpaEmailAddress);

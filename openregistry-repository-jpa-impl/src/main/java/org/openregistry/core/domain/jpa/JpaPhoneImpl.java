@@ -54,7 +54,7 @@ public class JpaPhoneImpl extends Entity implements Phone {
         this.role = role;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 

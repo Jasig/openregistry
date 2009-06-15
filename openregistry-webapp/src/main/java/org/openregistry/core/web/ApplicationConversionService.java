@@ -44,6 +44,7 @@ public final class ApplicationConversionService extends DefaultConversionService
         addConverter(new CountryConverter(this.referenceRepository));
         addConverter(new CampusConverter(this.referenceRepository));
         addConverter("roleConverter", new RoleInfoConverter(this.referenceRepository));
+        addConverter(new TypeConverter(this.referenceRepository));
     } 
 
 }

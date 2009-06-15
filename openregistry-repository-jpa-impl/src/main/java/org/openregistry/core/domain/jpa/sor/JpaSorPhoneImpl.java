@@ -67,7 +67,7 @@ public final class JpaSorPhoneImpl extends Entity implements Phone {
         this.sorRole = sorRole;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 

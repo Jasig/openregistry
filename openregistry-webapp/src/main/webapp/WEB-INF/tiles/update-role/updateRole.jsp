@@ -70,17 +70,27 @@
                             <tr class="appHeadingRow">
                                 <th><spring:message code="type.label"/></th>
                                 <th><spring:message code="value.label"/></th>
+                                <th><spring:message code="action.label"/></th>
                             </tr>
                         </thead>
                         <tbody>
                             <c:forEach var="emailAddress" items="${role.emailAddresses}" varStatus="loopStatus">
                             <tr>
-                                <td><c:out value="${emailAddress.addressType.description}"/></td>
-                                <td><form:input path="emailAddresses[${loopStatus.index}].address" /></</td>
+                                <td valign="center" >
+                                    <div>
+                                        <form:select path="emailAddresses[${loopStatus.index}].addressType.id" id="c1_type" items="${emailAddressTypeList}" itemValue="id" itemLabel="description" />
+                                    </div>
+                                </td>
+                                <td><form:input size="60" path="emailAddresses[${loopStatus.index}].address" /></</td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveEmailAddress&emailId=${emailAddress.id}"><spring:message code="remove.label"/></a></td>
                             </tr>
                             </c:forEach>
                         </tbody>
                     </table>
+                </div>
+
+                <div>
+                    <input id="addEmailBtn" class="button" type="submit" name="_eventId_submitAddEmail" value="Add Email Address" title="add a new email address" />
                 </div>
 
                 <label class="desc"><spring:message code="phones.heading"/></label>
@@ -93,20 +103,30 @@
                                 <th><spring:message code="areaCode.label"/></th>
                                 <th><spring:message code="number.label"/></th>
                                 <th><spring:message code="ext.label"/></th>
+                                <th><spring:message code="action.label"/></th>
                             </tr>
                         </thead>
                         <tbody>
                             <c:forEach var="phone" items="${role.phones}" varStatus="loopStatus">
                             <tr>
-                                <td><c:out value="${phone.phoneType.description}"/></td>
+                                <td>
+                                    <div>
+                                        <form:select path="phones[${loopStatus.index}].phoneType.id" id="c1_type" items="${phoneTypeList}" itemValue="id" itemLabel="description" />
+                                </div>
+                                </td>
                                 <td><form:input path="phones[${loopStatus.index}].countryCode" /></</td>
                                 <td><form:input path="phones[${loopStatus.index}].areaCode" /></</td>
                                 <td><form:input path="phones[${loopStatus.index}].number" /></</td>
                                 <td><form:input path="phones[${loopStatus.index}].extension" /></</td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemovePhone&phoneId=${phone.id}"><spring:message code="remove.label"/></a></td>
                             </tr>
                             </c:forEach>
                         </tbody>
                     </table>
+                </div>
+
+                <div>
+                    <input id="addPhonesBtn" class="button" type="submit" name="_eventId_submitAddPhones" value="Add Phone Number" title="add a new phone number" />
                 </div>
 
                 <label class="desc"><spring:message code="urls.heading"/></label>
@@ -118,6 +138,7 @@
                             <tr class="appHeadingRow">
                                 <th><spring:message code="type.label"/></th>
                                 <th><spring:message code="value.label"/></th>
+                                <th><spring:message code="action.label"/></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,54 +146,55 @@
                             <tr>
                                 <td><c:out value="${url.type.description}"/></td>
                                 <td><form:input path="urls[${loopStatus.index}].url" /></</td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveURL&urlId=${url.id}"><spring:message code="remove.label"/></a></td>
                             </tr>
                             </c:forEach>
                         </tbody>
                     </table>
                 </div>
                 </c:when>
-                    <c:otherwise><spring:message code="noUrlsDefined.label"/></c:otherwise>
+                    <c:otherwise><spring:message code="noUrlsDefined.label"/><br/><br/></c:otherwise>
                 </c:choose>
+                <div>
+                    <input id="addURLBtn" class="button" type="submit" name="_eventId_submitAddURL" value="Add URL" title="add a new URL" />
+                </div>
 
 
                 <label class="desc"><spring:message code="addresses.heading"/></label>
+                <c:choose>
+                <c:when test="${not empty role.addresses}">
                 <div>
-                    <c:forEach var="address" items="${role.addresses}" varStatus="loopStatus">
-                        <div class="row">
-                            <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="addressType.heading"/></span><em2><c:out value="${address.type.description}"/></em2></label>  
-                        </div>
-                        <div class="row">
-						    <label for="c1_address1" class="address1"><spring:message code="addressLine1.label"/></label>
-						    <form:input path="addresses[${loopStatus.index}].line1" id="c1_address1" size="30" maxlength="30" tabindex="8" />
-					    </div>
-                        <div class="row">
-						    <label for="c1_address1" class="address1"><spring:message code="addressLine2.label"/></label>
-						    <form:input path="addresses[${loopStatus.index}].line2" id="c1_address1" size="30" maxlength="30" tabindex="9" />
-					    </div>
-                        <div class="row">
-						    <label for="c1_address1" class="address1"><spring:message code="addressLine3.label"/></label>
-						    <form:input path="addresses[${loopStatus.index}].line3" id="c1_address1" size="30" maxlength="30" tabindex="10" />
-					    </div>
-
-					    <div class="row">
-						    <label for="c1_city"><spring:message code="city.label"/></label>
-						    <form:input path="addresses[${loopStatus.index}].city" id="c1_city" size="30" maxlength="30" tabindex="11" />
-
-                            <label for="c1_state" class="state"><spring:message code="region.label"/></label>
-					        <form:input path="addresses[${loopStatus.index}].region" id="c1_state" size="10" maxlength="10" tabindex="12" />
-
-						    <label for="c1_zip" class="zip"><spring:message code="postalCode.label"/></label>
-						    <form:input path="addresses[${loopStatus.index}].postalCode" id="c1_zip" size="10" maxlength="10" tabindex="13" />
-					    </div>
-                        <div class="row">
-                            <label for="c1_country"><spring:message code="country.label"/></label>
-                            <div class="select country">
-                            <form:select path="addresses[${loopStatus.index}].country" id="c1_country" items="${countryList}" itemValue="id" itemLabel="name" size="1" tabindex="14" />
-                        </div>
+                    <table class="data" cellspacing="0" width="50%">
+                        <thead>
+                            <tr class="appHeadingRow">
+                                <th><spring:message code="type.label"/></th>
+                                <th><spring:message code="value.label"/></th>
+                                <th><spring:message code="action.label"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="address" items="${role.addresses}" varStatus="loopStatus">
+                            <tr>
+                                <td>
+                                    <div>
+                                        <form:select path="addresses[${loopStatus.index}].type.id" id="c1_type" items="${addressTypeList}" itemValue="id" itemLabel="description" />
+                                    </div>
+                                </td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitUpdateAddress&addressId=${address.id}">${address.singleLineAddress}</a></td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveAddress&addressId=${address.id}"><spring:message code="remove.label"/></a></td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
                 </div>
-                    </c:forEach>
-                    <br/><br/>
+                </c:when>
+                    <c:otherwise><spring:message code="noAddressesDefined.label"/><br/><br/></c:otherwise>
+                </c:choose>
+                <div>
+                    <input id="addAddressBtn" class="button" type="submit" name="_eventId_submitAddAddress" value="Add Address" title="add a new Address" />
                 </div>
+                <br/>
+    
 
 			</fieldset>
 			</fieldset>

@@ -93,23 +93,28 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
+    public Type getTypesById(final Long id) {
+        return this.entityManager.find(JpaTypeImpl.class, id);
+    }
+
+    @Transactional
     public List<Type> getTypesBy(final DataTypes type) {
         return (List<Type>) this.entityManager.createQuery("select r from type r where r.dataType = :dataType").setParameter("dataType", type.name()).getResultList();
     }
 
     @Transactional
     public List<Type> getEmailTypes() {
-        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='EmailAddress'").getResultList();
+        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='EMAIL'").getResultList();
     }
 
     @Transactional
     public List<Type> getAddressTypes() {
-        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='Address'").getResultList();
+        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='ADDRESS'").getResultList();
     }
 
     @Transactional
     public List<Type> getPhoneTypes() {
-        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='Phone'").getResultList();
+        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='PHONE'").getResultList();
     }
 
     @Transactional

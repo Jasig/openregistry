@@ -78,7 +78,7 @@ public final class JpaSorAddressImpl extends Entity implements Address {
         this.sorRole = sorRole;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 
@@ -147,5 +147,37 @@ public final class JpaSorAddressImpl extends Entity implements Address {
 
     public void setPostalCode(final String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public String getSingleLineAddress(){
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append(getLine1());
+        if (getLine2() != null && !getLine2().isEmpty()) {
+            builder.append(", ");
+            builder.append(getLine2());
+        }
+        if (getLine3() != null && !getLine3().isEmpty()) {
+            builder.append(", ");
+            builder.append(getLine3());
+        }
+        if (getCity() != null && !getCity().isEmpty()) {
+            builder.append(", ");
+            builder.append(getCity());
+        }
+        if (getRegion() != null) {
+            builder.append(", ");
+            builder.append(getRegion().getCode());
+        }
+        if (getPostalCode() != null && !getPostalCode().isEmpty()) {
+            builder.append(" ");
+            builder.append(getPostalCode());
+        }
+        if (getCountry() != null) {
+            builder.append(" ");
+            builder.append(getCountry().getName());
+        }
+
+        return builder.toString();
     }
 }
