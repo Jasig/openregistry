@@ -41,14 +41,13 @@ import com.sun.jersey.api.NotFoundException;
 @Path("/people")
 @Component
 @Scope("singleton")
-@Qualifier(value = "reconciliationCriteria")
 public final class PeopleResource {
 
     //Jersey specific injection
     @Context
     UriInfo uriInfo;
 
-    //@Autowired
+    @Autowired
     private PersonService personService;
 
     @Autowired
@@ -68,10 +67,6 @@ public final class PeopleResource {
     private IdentifierChangeService identifierChangeService;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    public void setIdentifierChangeService(IdentifierChangeService identifierChangeService) {
-        this.identifierChangeService = identifierChangeService;
-    }
 
     /*For testing only */
     private static class NET_ID_TYPE implements IdentifierType {
