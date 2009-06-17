@@ -10,7 +10,7 @@ package org.openregistry.integration;
  */
 public class IntegrationProcessingException extends RuntimeException {
 
-    public IntegrationProcessingException(Throwable throwable, Throwable nativeIntegrationException) {
+    public IntegrationProcessingException(Throwable throwable) {
         super(throwable);
     }
 }

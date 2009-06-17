@@ -15,11 +15,60 @@ import java.util.Map;
  */
 public interface IntegrationGateway {
 
-    void dispatch(String destinationId, Object body) throws IntegrationProcessingException;
+    /**
+     * Take the identity data and put into the 'integration processing pipeline' (asynchronously) for the 3rd party systems to consume.
+     * The typical implementation could use an ESB endpoint destination with a predifined message flow.
+     * </p>
+     * <p>Note: implementors should assume the asynchronous invocation semantics i.e. it should return immediately to the caller.
+     *
+     * @param destinationId an identifier for the destination - could be an ESB endpoint URI, web service URL, etc.
+     * @param messageBody   the body of the message to be send
+     * @throws IntegrationProcessingException in case the integration processing failure occurs
+     */
+    void dispatch(String destinationId, Object messageBody) throws IntegrationProcessingException;
 
-    void dispatch(String destinationId, Object body, Map<String, Object> metadata) throws IntegrationProcessingException;
+    /**
+     * Put the identity data into the 'integration processing pipeline' (asynchronously) for the 3rd party systems to consume.
+     * The typical implementation could use an ESB endpoint destination with a predifined message flow.
+     * </p>
+     * <p>Note: implementors should assume the asynchronous invocation semantics i.e. it should return immediately to the caller.
+     *
+     * @param destinationId an identifier for the destination - could be an ESB endpoint URI, web service URL, etc.
+     * @param messageBody   the body of the message to be send
+     * @param metadata      any metadata associated with the message body
+     * @throws IntegrationProcessingException in case the integration processing failure occurs
+     */
+    void dispatch(String destinationId, Object messageBody, Map<String, Object> metadata) throws IntegrationProcessingException;
 
-    <T> T sendAndReceiveResponse(String destinationId, Object body, Class<T> requiredType) throws IntegrationProcessingException;
+    /**
+     * Put the identity data into the 'integration processing pipeline' (asynchronously) for the 3rd party systems to consume.
+     * The typical implementation could use an ESB endpoint destination with a predifined message flow.
+     * </p>
+     * <p>Note: implementors should assume the synchronous invocation semantics i.e. it should block until the response is returned to the caller.
+     *
+     * @param destinationId an identifier for the destination - could be an ESB endpoint URI, web service URL, etc.
+     * @param messageBody   the body of the message to be send
+     * @param requiredType      the type of the response message
+     * @throws IntegrationProcessingException in case the integration processing failure occurs
+     * @throws IllegalArgumentException if the 'requiredType' argument does not denote the response message type
+     */
+    <T> T sendMessageAndReceiveResponse(String destinationId, Object messageBody, Class<T> requiredType) throws IntegrationProcessingException,
+            IllegalArgumentException;
 
-    <T> T sendAndReceiveResponse(String destinationId, Object body, Map<String, Object> metadata, Class<T> requiredType) throws IntegrationProcessingException;
+
+    /**
+     * Put the identity data into the 'integration processing pipeline' (asynchronously) for the 3rd party systems to consume.
+     * The typical implementation could use an ESB endpoint destination with a predifined message flow.
+     * </p>
+     * <p>Note: implementors should assume the synchronous invocation semantics i.e. it should block until the response is returned to the caller.
+     *
+     * @param destinationId an identifier for the destination - could be an ESB endpoint URI, web service URL, etc.
+     * @param messageBody   the body of the message to be send
+     * @param metadata      any metadata associated with the message body
+     * @param requiredType      the type of the response message
+     * @throws IntegrationProcessingException in case the integration processing failure occurs
+     * @throws IllegalArgumentException if the 'requiredType' argument does not denote the response message type
+     */
+    <T> T sendMessageAndReceiveResponse(String destinationId, Object messageBody, Map<String, Object> metadata, Class<T> requiredType)
+            throws IntegrationProcessingException, IllegalArgumentException;
 }
