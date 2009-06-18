@@ -14,6 +14,9 @@ import java.util.Map;
  * <code>IntegrationGateway</code> implementation based on Apache Camel integration framework.
  * <p>This implementation wraps Camel's <code>ProducerTemplate</code> API.
  *
+ * <p>This implementation exposes wrapped Camel's <code>ProducerTemplate</code> so the clients could cast to this class and get underlying
+ * native Camel component should such a need arise.
+ *
  * @author Dmitriy Kopylenko
  * @since 1.0
  */
@@ -23,6 +26,17 @@ public class CamelIntegrationGateway implements IntegrationGateway {
 
     @Autowired
     private ProducerTemplate camelTemplate;
+
+    public CamelIntegrationGateway() {
+    }
+
+    public CamelIntegrationGateway(ProducerTemplate producerTemplate) {
+        this.camelTemplate = producerTemplate;
+    }
+
+    public ProducerTemplate getCamelTemplate() {
+        return this.camelTemplate;
+    }
 
     public void dispatch(String destinationId, Object messageBody) throws IntegrationProcessingException {
         try {
