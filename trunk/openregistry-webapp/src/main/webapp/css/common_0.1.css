@@ -182,7 +182,7 @@
     
     
         option {xfont-family:Verdana,sans-serif; xfont-size:1em; color:#000; xpadding:2px 0;}
-        input {min-height:1.5em;}
+        /* input {min-height:1.5em;}     */
     
         * html select {font:normal 400 1.1em/1.0 Verdana,sans-serif; height:1.5em}
             optgroup {font-weight:900; font-style:normal; color:#777;}

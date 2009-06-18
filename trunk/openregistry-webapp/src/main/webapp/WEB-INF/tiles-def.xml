@@ -68,4 +68,7 @@
         <put-attribute name="body" value="/WEB-INF/tiles/manage-person-roles/managePersonRoles.jsp" />
     </definition>
 
+    <definition name="openregistry.main" template="index.jsp">
+    </definition>
+
 </tiles-definitions>

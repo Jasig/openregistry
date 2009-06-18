@@ -46,24 +46,20 @@ public class PersonSearchAction {
         }
 
         ReconciliationResult reconciliationResult = result.getReconciliationResult();
-
         if (result.succeeded()){
-            //provide netid and activation key in confirmation message.
-            Person person = (Person)result.getTargetObject();           
-            Identifier netId = person.pickOutIdentifier(identifierType);
-
-            if (reconciliationResult == null){
-                context.addMessage(new MessageBuilder().info().code("personAdded").arg(netId.getValue()).arg(person.getActivationKey().getValue()).build());
-            } else {
+            if (reconciliationResult != null){
                 ReconciliationResult.ReconciliationType resultType = reconciliationResult.getReconciliationType();
-                if (resultType == ReconciliationResult.ReconciliationType.NONE)
-                    context.addMessage(new MessageBuilder().info().code("personAdded").arg(netId.getValue()).arg(person.getActivationKey().getValue()).build());
-                else if (resultType == ReconciliationResult.ReconciliationType.EXACT)
-                    context.addMessage(new MessageBuilder().info().code("sorPersonAdded").build());
+                if (resultType == ReconciliationResult.ReconciliationType.EXACT)
+                    context.addMessage(new MessageBuilder().info().code("sorPersonFound").build());
             }
         }
 
         return result;
+    }
+
+    public void setConfirmationMessage(Person person, MessageContext context){
+        Identifier netId = person.pickOutIdentifier(identifierType);
+        context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg(person.getActivationKey().getValue()).build());
     }
 
     public boolean updateSorPerson(SorPerson sorPerson, MessageContext context) {

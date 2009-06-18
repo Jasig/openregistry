@@ -11,6 +11,7 @@ import org.openregistry.core.domain.*;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.repository.ReferenceRepository;
+import org.openregistry.core.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,9 @@ public class RoleAction {
 
     @Autowired(required=true)
     private ReferenceRepository referenceRepository;
+
+    @Autowired(required=true)
+    private PersonRepository personRepository;
 
     protected final String ACTIVE_STATUS = "Active";
     protected final String CAMPUS = "Campus";
@@ -78,7 +82,18 @@ public class RoleAction {
         return sorRole;
     }
 
+    public boolean isRoleNewForPerson(SorPerson sorPerson, SorRole sorRole, MessageContext context) {
+        //check if person already has the role to be added.
+        Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
+        if (person.pickOutRole(sorRole.getRoleInfo().getCode()) != null){
+            context.addMessage(new MessageBuilder().error().code("roleAlreadyExists").build());
+            return false;
+        }
+        return true;
+    }
+
     public boolean addSorRole(SorPerson sorPerson, SorRole sorRole, MessageContext context) {
+
         ServiceExecutionResult result = personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
         if (result.succeeded()) {
             return true;

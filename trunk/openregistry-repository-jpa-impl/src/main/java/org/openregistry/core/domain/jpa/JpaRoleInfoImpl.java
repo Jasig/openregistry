@@ -70,7 +70,7 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
     }
 
     public String getDisplayableName(){
-        return getAffiliationType().getDescription()+ "/"+ getTitle();
+        return getTitle() + "/"+ getOrganizationalUnit().getName()+ "/" + getCampus().getName();
     }
 
     public String toString(){

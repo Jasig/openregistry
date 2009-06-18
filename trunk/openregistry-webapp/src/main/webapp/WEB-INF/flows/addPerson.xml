@@ -18,6 +18,7 @@
         </on-render>
         <transition on="submitAddPerson" to="checkForErrors" bind="true" validate="true">
             <evaluate expression="personSearchAction.addSorPerson(personSearch,null,messageContext)" result="flowScope.serviceExecutionResult" result-type="org.openregistry.core.service.ServiceExecutionResult"/>
+            <evaluate expression="serviceExecutionResult.targetObject" result="flowScope.person" />
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>  
     </view-state>
@@ -27,7 +28,7 @@
     </decision-state>
 
     <decision-state id="checkPersonAdded">
-        <if test="flowScope.serviceExecutionResult.succeeded()" then="addNewSucceeded" else="viewMatches" />
+        <if test="flowScope.serviceExecutionResult.succeeded()" then="getSorPerson" else="viewMatches" />
     </decision-state>
 
     <view-state id="viewMatches" view="openregistry.person.add.matches" model="flowScope.serviceExecutionResult">
@@ -37,6 +38,10 @@
         </on-render>
         <transition on="submitAddPerson" to="checkForViewMatchAddErrors" >
             <evaluate expression="personSearchAction.addSorPerson(personSearch, serviceExecutionResult.getReconciliationResult(), messageContext)" result="flowScope.serviceExecutionResult"/>
+            <evaluate expression="serviceExecutionResult.targetObject" result="flowScope.person" />
+        </transition>
+        <transition on="submitAddRole" to="addRole">
+            <evaluate expression="personRepository.findByPersonIdAndSorIdentifier(requestParameters.sorPersonId,'or-webapp')" result="flowScope.sorPerson"/>    
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
@@ -46,13 +51,23 @@
     </decision-state>
 
     <decision-state id="checkAddPersonAnyway">
-        <if test="flowScope.serviceExecutionResult.succeeded()" then="addNewSucceeded" else="viewMatches" />
+        <if test="flowScope.serviceExecutionResult.succeeded()" then="getSorPerson" else="viewMatches" />
     </decision-state>
 
-    <view-state id="addNewSucceeded" view="openregistry.person.add.insert">
-        <on-render>
-            <set name="flowScope.addSucceeded" value="'addSucceeded'"/>
-        </on-render>
+    <action-state id="getSorPerson">
+        <evaluate expression="personRepository.findByPersonIdAndSorIdentifier(person.id,'or-webapp')" result="flowScope.sorPerson"/>
+        <transition to="addRole" />
+    </action-state>
+
+    <subflow-state id="addRole" subflow="addRole" >
+        <input name="sorPerson" value="flowScope.sorPerson"/>
+        <output name="role"/>
+        <transition on="roleWasAdded" to="roleAddedSucceeded">
+             <evaluate expression="personSearchAction.setConfirmationMessage(person,messageContext)" />     
+        </transition>
+    </subflow-state>
+
+    <view-state id="roleAddedSucceeded" view="openregistry.main">
         <transition to="personWasAdded" />
     </view-state>
 
