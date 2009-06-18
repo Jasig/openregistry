@@ -18,11 +18,13 @@
 </head>
 <body class="openregistry" id="update">
 	<h1 id="app-name">Open Registry</h1>
+    <div id="content">
+   		<jsp:directive.include file="/WEB-INF/jsp/includes/info.jsp" />
+	</div>
 	<div id="content">
 		<div id="sidebar">
             <h2>Manage People</h2>
 			<ul>
-	            <li><a href="managePersonRoles.htm">Manage Person's Roles</a></li>
 	            <li><a href="addPerson.htm">Add Person</a></li>
 	            <li><a href="updatePerson.htm">Update Person</a></li>
             </ul>

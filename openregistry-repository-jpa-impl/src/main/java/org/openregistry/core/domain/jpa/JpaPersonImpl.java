@@ -199,6 +199,15 @@ public class JpaPersonImpl extends Entity implements Person {
         return null;
     }
 
+    @Transient
+    private final String NETID = "NETID";
+
+    public String getNetId(){
+        Identifier netid = pickOutIdentifier(NETID);
+        if (netid == null) return "";
+        else return netid.getValue();
+    }
+
     public ActivationKey addActivationKey(){
         this.activationKey = new JpaActivationKeyImpl();
         this.activationKey.setPerson(this);

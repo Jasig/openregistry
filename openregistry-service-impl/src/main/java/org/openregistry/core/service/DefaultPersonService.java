@@ -398,17 +398,25 @@ public class DefaultPersonService implements PersonService {
         Person person = result.getMatches().iterator().next().getPerson();
         
     	SorPerson sorPerson = reconciliationCriteria.getPerson();
-    	
-    	// TODO if this is the same SOR, just update fields, don't save new SOR records
-        // TODO when this change is done it needs to be coordinated with the confirmation message constructed in PersonSearchAction.addSorPerson()
 
-        if (!StringUtils.hasText(sorPerson.getSorId())) {
-            sorPerson.setSorId(this.identifierGenerator.generateNextString());
+        String sorIdentifier = sorPerson.getSourceSorIdentifier();
+        SorPerson registrySorPerson = null;
+        try {
+            registrySorPerson = personRepository.findByPersonIdAndSorIdentifier(person.getId(),sorIdentifier);
+        } catch (Exception ex) {
         }
-        // Now connect the SorPerson to the actual person
-        sorPerson.setPersonId(person.getId());
-        // Save Sor Person
-        sorPerson = this.personRepository.saveSorPerson(sorPerson);
+        if (registrySorPerson != null) {
+            //TODO update the registry sor person record with the changes from sorPerson
+            sorPerson = this.personRepository.saveSorPerson(registrySorPerson);
+        } else {
+            if (!StringUtils.hasText(sorPerson.getSorId())) {
+                sorPerson.setSorId(this.identifierGenerator.generateNextString());
+            }
+            // Now connect the SorPerson to the actual person
+            sorPerson.setPersonId(person.getId());
+            // Save Sor Person
+            sorPerson = this.personRepository.saveSorPerson(sorPerson);
+        }
         
 		return person;
 	}

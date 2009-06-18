@@ -19,7 +19,7 @@
                 <br/>
 
                 <fieldset class="fm-h" id="ecn1">
-                    <label class="desc"><spring:message code="name.heading"/></label>
+                    <label class="desc"><spring:message code="name.heading"/><input id="addNameBtn" type="image" name="_eventId_submitAddName" src="images/add2.gif" title="add a name"/></label>
 
                     <div>
                         <table class="data" cellspacing="0" width="80%">
@@ -56,17 +56,12 @@
                 </table>
             </div>
 
-                <div>
-                    <input id="addNameBtn" class="button" type="submit" name="_eventId_submitAddName" value="Add Name" title="add a new name" />
-                </div>
-
-                <label class="desc"><spring:message code="roles.heading"/></label>
+                <label class="desc"><spring:message code="roles.heading"/><input id="addRoleBtn" type="image" name="_eventId_submitAddRole" src="images/add2.gif" title="add a role"/></label>
                 <div>
                     <table class="data" cellspacing="0" width="60%">
                         <thead>
                             <tr class="appHeadingRow">
-                                <th><spring:message code="affiliationTitle.label"/></th>
-                                <th><spring:message code="organization.label"/></th>
+                                <th><spring:message code="titleOrg.label"/></th>
                                 <th><spring:message code="campus.label"/></th>
                                 <th><spring:message code="startDate.label"/></th>
                                 <th><spring:message code="endDate.label"/></th>
@@ -76,30 +71,15 @@
                             <tbody>
                              <c:forEach var="role" items="${sorPerson.roles}">
                             <tr>
-                                <td>
-                                    <a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}">${role.affiliationType.description}/${role.title}</a>
-                                </td>
-                                <td>
-                                    ${role.organizationalUnit.name}
-                                </td>
-                                <td>
-                                    ${role.campus.name}
-                                </td>
-                                <td>
-                                    <fmt:formatDate pattern="MM/dd/yyyy" value="${role.start}"/>
-                                </td>
-                                <td>
-                                    <fmt:formatDate pattern="MM/dd/yyyy" value="${role.end}"/>
-                                </td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}">${role.title}/${role.organizationalUnit.name}</a></td>
+                                <td>${role.campus.name}</td>
+                                <td><fmt:formatDate pattern="MM/dd/yyyy" value="${role.start}"/></td>
+                                <td><fmt:formatDate pattern="MM/dd/yyyy" value="${role.end}"/></td>
                                 <td><a href="${flowExecutionUrl}&_eventId=submitRemoveRole&roleId=${role.id}"><spring:message code="remove.label"/></a></td>
                             </tr>
                             </c:forEach>
                     </tbody>
                 </table>
-            </div>
-
-            <div>
-                <input id="addRoleBtn" class="button" type="submit" name="_eventId_submitAddRole" value="Add Role" title="add a new role" />
             </div>
 
             <label class="desc"><spring:message code="biodem.heading"/></label>
