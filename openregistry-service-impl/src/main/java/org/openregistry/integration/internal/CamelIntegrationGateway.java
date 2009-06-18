@@ -47,7 +47,7 @@ public class CamelIntegrationGateway implements IntegrationGateway {
             IllegalArgumentException {
 
         try {
-            return (T) this.camelTemplate.sendBody(destinationId, ExchangePattern.InOut, messageBody);
+            return this.camelTemplate.requestBody(destinationId, messageBody, requiredType);
         }
         catch(ClassCastException ex) {
             throw new IllegalArgumentException("The response message body is of incompatible type with passed in argument");
@@ -62,7 +62,7 @@ public class CamelIntegrationGateway implements IntegrationGateway {
             throws IntegrationProcessingException, IllegalArgumentException {
 
         try {
-            return (T) this.camelTemplate.sendBodyAndHeaders(destinationId, ExchangePattern.InOut, messageBody, metadata);
+            return this.camelTemplate.requestBodyAndHeaders(destinationId, messageBody, metadata, requiredType);
         }
         catch(ClassCastException ex) {
             throw new IllegalArgumentException("The response message body is of incompatible type with passed in argument");
