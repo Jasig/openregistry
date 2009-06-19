@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public interface Name extends Serializable {
 
+    Long getId();
+
     String getPrefix();
 
     String getGiven();

@@ -141,7 +141,7 @@ public final class JpaRoleImpl extends Entity implements Role {
 
     public Url addUrl(Url sorUrl) {
         final JpaUrlImpl url = (JpaUrlImpl) this.addUrl();
-        url.setURL(sorUrl.getUrl());
+        url.setUrl(sorUrl.getUrl());
         url.setType(sorUrl.getType());
         return url;
     }

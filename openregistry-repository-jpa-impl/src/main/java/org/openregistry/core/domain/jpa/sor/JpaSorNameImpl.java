@@ -59,7 +59,7 @@ public final class JpaSorNameImpl extends Entity implements Name {
         this.person = person;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 

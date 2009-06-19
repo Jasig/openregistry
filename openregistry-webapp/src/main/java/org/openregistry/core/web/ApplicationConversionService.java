@@ -36,6 +36,7 @@ public final class ApplicationConversionService extends DefaultConversionService
 	    dateConverter.setPattern("MM/dd/yyyy");
 	    addConverter("shortDate", dateConverter);
         addConverter(dateConverter);
+        addConverter(new UrlConverter());
     }
 
     public void afterPropertiesSet() throws Exception {

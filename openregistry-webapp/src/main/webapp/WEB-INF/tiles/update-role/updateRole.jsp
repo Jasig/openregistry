@@ -64,7 +64,7 @@
                             <tr>
                                 <td valign="center" >
                                     <div>
-                                        <form:select path="emailAddresses[${loopStatus.index}].addressType.id" id="c1_type" items="${emailAddressTypeList}" itemValue="id" itemLabel="description" />
+                                        <form:select path="emailAddresses[${loopStatus.index}].addressType" id="c1_type" items="${emailAddressTypeList}" itemValue="id" itemLabel="description" />
                                     </div>
                                 </td>
                                 <td><form:input size="60" path="emailAddresses[${loopStatus.index}].address" /></</td>
@@ -76,12 +76,13 @@
                 </div>
 
 
-                <label class="desc"><spring:message code="phones.heading"/><input id="addPhoneBtn" type="image" name="_eventId_submitAddPhones" src="images/add2.gif" title="add a new phone number"/></label>
+                <label class="desc"><spring:message code="phones.heading"/><input id="addPhoneBtn" type="image" name="_eventId_submitAddPhone" src="images/add2.gif" title="add a new phone number"/></label>
                 <div>
                     <table class="data" cellspacing="0" width="50%">
                         <thead>
                             <tr class="appHeadingRow">
-                                <th><spring:message code="type.label"/></th>
+                                <th><spring:message code="addressType.label"/></th>
+                                <th><spring:message code="phoneType.label"/></th>
                                 <th><spring:message code="ccCode.label"/></th>
                                 <th><spring:message code="areaCode.label"/></th>
                                 <th><spring:message code="number.label"/></th>
@@ -94,7 +95,12 @@
                             <tr>
                                 <td>
                                     <div>
-                                        <form:select path="phones[${loopStatus.index}].phoneType.id" id="c1_type" items="${phoneTypeList}" itemValue="id" itemLabel="description" />
+                                        <form:select path="phones[${loopStatus.index}].addressType" id="c1_type" items="${addressTypeList}" itemValue="id" itemLabel="description" />
+                                </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <form:select path="phones[${loopStatus.index}].phoneType" id="c1_type" items="${phoneTypeList}" itemValue="id" itemLabel="description" />
                                 </div>
                                 </td>
                                 <td><form:input path="phones[${loopStatus.index}].countryCode" size="7"/></</td>
@@ -125,7 +131,7 @@
                             <tr>
                                 <td>
                                     <div>
-                                        <form:select path="addresses[${loopStatus.index}].type.id" id="c1_type" items="${addressTypeList}" itemValue="id" itemLabel="description" />
+                                        <form:select path="addresses[${loopStatus.index}].type" id="c1_type" items="${addressTypeList}" itemValue="id" itemLabel="description" />
                                     </div>
                                 </td>
                                 <td><a href="${flowExecutionUrl}&_eventId=submitUpdateAddress&addressId=${address.id}">${address.singleLineAddress}</a></td>
@@ -155,8 +161,12 @@
                         <tbody>
                             <c:forEach var="url" items="${role.urls}" varStatus="loopStatus">
                             <tr>
-                                <td><c:out value="${url.type.description}"/></td>
-                                <td><form:input path="urls[${loopStatus.index}].url" /></</td>
+                                <td valign="center" >
+                                    <div>
+                                        <form:select path="urls[${loopStatus.index}].type" id="c1_type" items="${urlTypeList}" itemValue="id" itemLabel="description" />
+                                    </div>
+                                </td>
+                                <td><form:input path="urls[${loopStatus.index}].url" size="60" /></</td>
                                 <td><a href="${flowExecutionUrl}&_eventId=submitRemoveURL&urlId=${url.id}"><spring:message code="remove.label"/></a></td>
                             </tr>
                             </c:forEach>

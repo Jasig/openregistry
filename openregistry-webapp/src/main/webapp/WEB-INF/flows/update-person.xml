@@ -19,7 +19,7 @@
             <set name="viewScope.command" value="'sorPerson'" />
             <set name="viewScope.identifiers" value="identifiers" />
         </on-entry>
-        <transition on="submitAddName" to="updatePerson">
+        <transition on="submitAddName" >
             <evaluate expression="sorPerson.addName()" result="flowScope.sorName"/>
         </transition>
 
@@ -36,23 +36,6 @@
 
     </view-state>
 
-    <view-state id="addName" model="sorName" view="openregistry.person.update.addName">
-        <binder>
-            <binding property="prefix" />
-            <binding property="given" required="true" />
-            <binding property="middle" />
-            <binding property="family" required="true"/>
-            <binding property="suffix" />
-        </binder>
-        <on-entry>
-            <set name="viewScope.command" value="'sorName'" />
-        </on-entry>
-        <transition on="submitPerformAddName" to="personWasUpdated" >
-            <evaluate expression="personService.updateSorPerson(sorPerson)" result="flowScope.serviceExecutionResult"/>
-        </transition>
-        <transition on="cancelUpdatePerson" to="cancelUpdatePerson"/>
-    </view-state>
-
     <subflow-state id="addRole" subflow="addRole" >
         <input name="sorPerson" value="flowScope.sorPerson"/>
         <output name="role"/>
@@ -62,7 +45,7 @@
     <subflow-state id="updateRole" subflow="updateRole" >
         <input name="role" />
         <input name="sorPerson" />
-        <transition to="roleWasUpdated" />
+        <transition to="updatePerson" />
     </subflow-state>
 
     <view-state id="updateSucceeded" view="openregistry.person.update.update">
@@ -73,5 +56,5 @@
     </view-state>
 
     <end-state id="personWasUpdated" />
-    <end-state id="roleWasUpdated" view="flowRedirect:updatePerson" />
+
 </flow>

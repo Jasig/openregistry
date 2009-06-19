@@ -118,6 +118,11 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
+    public List<Type> getUrlTypes(){
+        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='URL'").getResultList();    
+    }
+
+    @Transactional
     public List<Type> getAffiliationTypes() {
         return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='Affiliation'").getResultList();
     }
@@ -136,6 +141,11 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     public IdentifierType findIdentifierType(final String identifierName){
         final Query q = this.entityManager.createQuery("select distinct r from identifier_type r where name=:name").setParameter("name", identifierName);
         return (IdentifierType) q.getSingleResult();
+    }
+
+    @Transactional
+    public Url getUrlById(long id){
+        return this.entityManager.find(JpaUrlImpl.class, id);    
     }
 
 }

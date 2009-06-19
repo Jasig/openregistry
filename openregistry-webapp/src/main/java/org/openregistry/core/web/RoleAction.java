@@ -108,6 +108,7 @@ public class RoleAction {
     public boolean updateSorRole(SorRole role, MessageContext context) {
         ServiceExecutionResult result = personService.updateSorRole(role);
         if (result.succeeded()) {
+            context.addMessage(new MessageBuilder().info().code("roleUpdated").build());
             return true;
         }
         else {

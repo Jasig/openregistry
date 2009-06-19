@@ -31,6 +31,7 @@
                                     <th><spring:message code="lastName.label" /></th>
                                     <th><spring:message code="suffix.label" /></th>
                                     <th><spring:message code="type.label" /></th>
+                                    <th><spring:message code="action.label" /></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,6 +51,7 @@
                                 <td><form:input path="names[${loopStatus.index}].family" /></td>
                                 <td><form:input path="names[${loopStatus.index}].suffix" /></td>
                                 <td> </td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveName&namelId=${sorName.id}"><spring:message code="remove.label"/></a></td>  
                             </tr>
                             </c:forEach>
                     </tbody>
