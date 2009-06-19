@@ -16,6 +16,7 @@
             <evaluate expression="referenceRepository.getEmailTypes()" result="flowScope.emailAddressTypeList" />
             <evaluate expression="referenceRepository.getAddressTypes()" result="flowScope.addressTypeList" />
             <evaluate expression="referenceRepository.getPhoneTypes()" result="flowScope.phoneTypeList" />
+            <evaluate expression="referenceRepository.getUrlTypes()" result="flowScope.urlTypeList" />
         </on-entry>
         <transition on="submitUpdateRole" to="roleWasUpdated" >
             <evaluate expression="roleAction.updateSorRole(role, messageContext)"/>
@@ -23,6 +24,18 @@
         <transition on="submitUpdateAddress" to="updateAddress" >
             <set name="requestScope.addressId" value="requestParameters.addressId" type="long" />
             <evaluate expression="role.getAddress(addressId)" result="flowScope.address"/>
+        </transition>
+        <transition on="submitAddEmail" >
+            <evaluate expression="role.addEmailAddress()" />
+        </transition>
+        <transition on="submitAddPhone" >
+            <evaluate expression="role.addPhone()" />
+        </transition>
+        <transition on="submitAddAddress" >
+            <evaluate expression="role.addAddress()" />
+        </transition>
+        <transition on="submitAddURL" >
+            <evaluate expression="role.addUrl()" />
         </transition>
     </view-state>
 

@@ -38,5 +38,5 @@ public interface Url extends Serializable {
      * Sets the url value.
      * @param url the URL value.  CANNOT be null.
      */
-    void setURL(URL url);
+    void setUrl(URL url);
 }

@@ -57,6 +57,8 @@ public interface ReferenceRepository {
 
     List<Type> getPhoneTypes();
 
+    List<Type> getUrlTypes();
+
     List<Type> getAffiliationTypes();
 
     List<IdentifierType> getIdentifierTypes();
@@ -71,4 +73,6 @@ public interface ReferenceRepository {
      * @return the list of types.  CANNOT be NULL.  CAN be empty.
      */
     List<Type> getTypesBy(final Type.DataTypes type);
+
+    Url getUrlById(long id);
 }

@@ -65,7 +65,7 @@ public final class JpaSorUrlImpl extends Entity implements Url {
         this.type = (JpaTypeImpl) type;
     }
 
-    public void setURL(final URL url) {
+    public void setUrl(final URL url) {
         this.url = url;
     }
 

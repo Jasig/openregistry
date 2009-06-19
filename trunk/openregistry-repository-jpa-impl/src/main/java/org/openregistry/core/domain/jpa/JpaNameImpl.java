@@ -59,7 +59,7 @@ public class JpaNameImpl extends Entity implements Name {
     	this.person = person;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.id;
     }
 
