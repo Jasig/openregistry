@@ -5,7 +5,7 @@
 <c:if test="${success != null}"><div id="status" class="box"><p><strong><spring:message code="deleteSuccess" /></strong></p></div><script type="text/javascript">setTimeout("createFadeOutEffect()", 5000);</script></c:if>
 
 <div>
-   <h2><strong><spring:message code="delete.person.headers.find" /></strong></h2>
+   <h2><strong><span style="padding:10px;"/><spring:message code="delete.person.headers.find" /></strong></h2>
    <form:form commandName="searchCriteria" method="post" id="orForm">
        <form:errors path="*" element="p" id="globalErrors" />
        <ul>

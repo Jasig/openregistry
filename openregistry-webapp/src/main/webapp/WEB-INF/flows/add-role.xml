@@ -6,38 +6,39 @@
 
     <input name="sorPerson" />
 
-    <view-state id="selectRole" model="role" view="openregistry.person.update.selectRole">
+    <view-state id="selectRole" model="sorPerson" view="openregistry.person.update.selectRole">
         <binder>
             <binding property="roleInfo" converter="roleConverter" required="true" />
         </binder>
         <on-entry>
             <evaluate expression="referenceRepository.getRoleInfos()" result="flowScope.roleInfoList" />
-            <evaluate expression="referenceRepository.getRoleInfos()" result="flowScope.roleInfoList" />
-            <set name="viewScope.command" value="'role'" />
-            <set name="viewScope.person" value="sorPerson" />
+            <set name="viewScope.command" value="'sorPerson'" />
             <set name="viewScope.roleInfoList" value="roleInfoList" />
-            <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
-            <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
-            <evaluate expression="roleAction.initSorRole(sorPerson, roleInfoList)" result="flowScope.role"/>
         </on-entry>
         <transition on="submitUpdateRole" to="updateRole" >
             <set name="requestScope.roleId" value="requestParameters.roleId" type="long" />
             <evaluate expression="personRepository.findSorRoleByInternalId(roleId)" result="flowScope.role"/>
         </transition>
-        <transition on="submitSelectRole" to="checkUniqueRole" />
+        <transition on="submitSelectRole" to="checkUniqueRole" >
+            <set name="flowScope.roleInfoCode" value="requestParameters.roleInfoCode" />
+        </transition>
     </view-state>
 
     <decision-state id="checkUniqueRole">
-        <if test="roleAction.isRoleNewForPerson(sorPerson, role, messageContext)" then="addRole" else="selectRole" />
+        <if test="roleAction.isRoleNewForPerson(sorPerson, roleInfoCode, messageContext)" then="addRole" else="selectRole" />
     </decision-state>
 
     <view-state id="addRole" model="role" view="openregistry.role.add">
         <on-entry>
             <set name="viewScope.command" value="'role'" />
+            <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
+            <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
+            <evaluate expression="roleAction.initSorRole(sorPerson, roleInfoCode)" result="flowScope.role"/>            
         </on-entry>
         <transition on="submitAddRole" to="roleWasAdded" >
             <evaluate expression="roleAction.addSorRole(sorPerson, role, messageContext)"/>
         </transition>
+        <transition on="cancelAddRole" to="selectRole" />
     </view-state>
 
     <subflow-state id="updateRole" subflow="updateRole" >

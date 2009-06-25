@@ -37,6 +37,22 @@
         <transition on="submitAddURL" >
             <evaluate expression="role.addUrl()" />
         </transition>
+        <transition on="submitRemoveEmailAddress" >
+            <set name="requestScope.emailAddressId" value="requestParameters.emailId" type="long" />
+            <evaluate expression="role.removeEmailAddressById(emailAddressId)"/>
+        </transition>
+        <transition on="submitRemovePhone" >
+            <set name="requestScope.phoneId" value="requestParameters.phoneId" type="long" />
+            <evaluate expression="role.removePhoneById(phoneId)"/>
+        </transition>
+        <transition on="submitRemoveAddress" >
+            <set name="requestScope.addressId" value="requestParameters.addressId" type="long" />
+            <evaluate expression="role.removeAddressById(addressId)"/>
+        </transition>
+        <transition on="submitRemoveURL" >
+            <set name="requestScope.urlId" value="requestParameters.urlId" type="long" />
+            <evaluate expression="role.removeURLById(urlId)"/>
+        </transition>
     </view-state>
 
     <view-state id="updateAddress" model="address" view="openregistry.role.address.update">

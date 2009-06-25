@@ -40,14 +40,15 @@ public class RoleAction {
     protected final String ACTIVE_STATUS = "Active";
     protected final String CAMPUS = "Campus";
     protected final String PERSON = "Person";
+    protected final String CELL = "Cell";
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
 
-    public SorRole initSorRole(SorPerson sorPerson, java.util.List<RoleInfo> roleInfoList) {
+    public SorRole initSorRole(SorPerson sorPerson, String roleInfoCode) {
 
-        RoleInfo roleInfo = roleInfoList.get(0);
+        RoleInfo roleInfo = referenceRepository.getRoleInfoByCode(roleInfoCode);
         final SorRole sorRole = addRole(sorPerson, roleInfo);
         return sorRole;
     }
@@ -67,8 +68,8 @@ public class RoleAction {
         final EmailAddress emailAddress = sorRole.addEmailAddress();
         emailAddress.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL, CAMPUS));
         final Phone phone = sorRole.addPhone();
-        phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, CAMPUS));
-        phone.setAddressType(referenceRepository.findType(Type.DataTypes.PHONE, CAMPUS));
+        phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, CELL));
+        phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, CAMPUS));
         final Address address = sorRole.addAddress();
         address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, CAMPUS));
         final SorSponsor sponsor = sorRole.setSponsor();
@@ -82,10 +83,11 @@ public class RoleAction {
         return sorRole;
     }
 
-    public boolean isRoleNewForPerson(SorPerson sorPerson, SorRole sorRole, MessageContext context) {
+    public boolean isRoleNewForPerson(SorPerson sorPerson, String roleInfoCode, MessageContext context) {
         //check if person already has the role to be added.
+        logger.info("IsRoleNewForPerson: code:"+ roleInfoCode);
         Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
-        if (person.pickOutRole(sorRole.getRoleInfo().getCode()) != null){
+        if (person.pickOutRole(roleInfoCode) != null){
             context.addMessage(new MessageBuilder().error().code("roleAlreadyExists").build());
             return false;
         }

@@ -34,6 +34,8 @@ public class PersonSearchAction {
 
     private final String identifierType = "NETID";
 
+    private final String EXACT = "EXACT";
+
     private final SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
 
     public ServiceExecutionResult addSorPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult oldResult, MessageContext context) {
@@ -57,7 +59,14 @@ public class PersonSearchAction {
         return result;
     }
 
-    public void setConfirmationMessage(Person person, MessageContext context){
+    public void setConfirmationMessage(Person person, ReconciliationResult reconciliationResult, MessageContext context){
+        if (reconciliationResult != null){
+            if (reconciliationResult.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
+                context.addMessage(new MessageBuilder().info().code("roleAdded").build());
+                return;
+            }
+        }
+
         Identifier netId = person.pickOutIdentifier(identifierType);
         context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg(person.getActivationKey().getValue()).build());
     }

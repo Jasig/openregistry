@@ -18,6 +18,7 @@
         </on-render>
         <transition on="submitAddPerson" to="checkForErrors" bind="true" validate="true">
             <evaluate expression="personSearchAction.addSorPerson(personSearch,null,messageContext)" result="flowScope.serviceExecutionResult" result-type="org.openregistry.core.service.ServiceExecutionResult"/>
+            <evaluate expression="serviceExecutionResult.getReconciliationResult()" result="flowScope.reconciliationResult" />
             <evaluate expression="serviceExecutionResult.targetObject" result="flowScope.person" />
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>  
@@ -63,7 +64,7 @@
         <input name="sorPerson" value="flowScope.sorPerson"/>
         <output name="role"/>
         <transition on="roleWasAdded" to="roleAddedSucceeded">
-             <evaluate expression="personSearchAction.setConfirmationMessage(person,messageContext)" />     
+             <evaluate expression="personSearchAction.setConfirmationMessage(person, reconciliationResult,messageContext)" />
         </transition>
     </subflow-state>
 

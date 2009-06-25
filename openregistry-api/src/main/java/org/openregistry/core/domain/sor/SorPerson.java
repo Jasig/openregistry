@@ -87,6 +87,14 @@ public interface SorPerson {
     Name addName();
 
     /**
+     * Removes an SoR Name (and returns it) based on the Name Id provided.
+     *
+     * @param id the id of the name.
+     * @return the SorName, if found and remove, otherwise, null.
+     */
+    void removeNameByNameId(final Long id);
+
+    /**
      * The SSN of the person.   Can be null.
      * @return the SSN of the person.
      */

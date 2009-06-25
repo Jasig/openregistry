@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<form:form modelAttribute="role">
+<form:form modelAttribute="sorPerson">
 			<fieldset id="selectRole">
 				<legend><span><spring:message code="selectRoleToAddPage.heading"/></span></legend>
 				<p style="margin-bottom:0;">
@@ -15,7 +15,11 @@
 					<div class="row">
 						<label for="c1_affiliation" class="affiliation"><spring:message code="role.label"/><em>*</em></label>
                         <div class="select affiliation">
-                            <form:select path="roleInfo" id="c1_affiliation" items="${roleInfoList}" itemLabel="displayableName" size="1" tabindex="1" />
+                            <SELECT name="roleInfoCode">
+                                <c:forEach var="roleInfoItem" items="${roleInfoList}">
+                                    <OPTION value="${roleInfoItem.code}">${roleInfoItem.displayableName}</OPTION>
+                                </c:forEach>
+                            </SELECT>
                         </div>
                     </div>
 			</fieldset>

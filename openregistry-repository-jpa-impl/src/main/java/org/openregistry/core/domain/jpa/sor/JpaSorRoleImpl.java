@@ -227,6 +227,24 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
 	    return jpaAddress;
 	}
 
+    public synchronized Address removeAddressById(final Long id) {
+        Address addressToDelete = null;
+        for (final Address address : this.addresses) {
+            final Long addressId = address.getId();
+            if (addressId != null && addressId.equals(id)) {
+                addressToDelete = address;
+                break;
+            }
+        }
+
+        if (addressToDelete != null) {
+            this.addresses.remove(addressToDelete);
+            return addressToDelete;
+        }
+
+        return null;
+    }
+
     public Address getAddress(long id){
         for(Address a : this.addresses) {
             if(a.getId() == id) {
@@ -242,17 +260,71 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
 	    return jpaEmailAddress;
 	}
 
+    public synchronized EmailAddress removeEmailAddressById(final Long id) {
+        EmailAddress emailAddressToDelete = null;
+        for (final EmailAddress emailAddress : this.emailAddresses) {
+            final Long emailAddressId = emailAddress.getId();
+            if (emailAddressId != null && emailAddressId.equals(id)) {
+                emailAddressToDelete = emailAddress;
+                break;
+            }
+        }
+
+        if (emailAddressToDelete != null) {
+            this.emailAddresses.remove(emailAddressToDelete);
+            return emailAddressToDelete;
+        }
+
+        return null;
+    }
+
 	public Phone addPhone() {
 	    final JpaSorPhoneImpl jpaPhone = new JpaSorPhoneImpl(this);
 	    this.phones.add(jpaPhone);
 	    return jpaPhone;
 	}
 
+    public synchronized Phone removePhoneById(final Long id) {
+        Phone phoneToDelete = null;
+        for (final Phone phone : this.phones) {
+            final Long phoneId = phone.getId();
+            if (phoneId != null && phoneId.equals(id)) {
+                phoneToDelete = phone;
+                break;
+            }
+        }
+
+        if (phoneToDelete != null) {
+            this.phones.remove(phoneToDelete);
+            return phoneToDelete;
+        }
+
+        return null;
+    }
+
 	public Url addUrl() {
 	    final JpaSorUrlImpl jpaUrl = new JpaSorUrlImpl(this);
 	    this.urls.add(jpaUrl);
 	    return jpaUrl;
 	}
+
+    public synchronized Url removeURLById(final Long id) {
+        Url urlToDelete = null;
+        for (final Url url : this.urls) {
+            final Long urlId = url.getId();
+            if (urlId != null && urlId.equals(id)) {
+                urlToDelete = url;
+                break;
+            }
+        }
+
+        if (urlToDelete != null) {
+            this.urls.remove(urlToDelete);
+            return urlToDelete;
+        }
+
+        return null;
+    }
 
 	public List<Address> getAddresses() {
 		return this.addresses;

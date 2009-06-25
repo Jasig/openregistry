@@ -112,6 +112,7 @@
             <c:if test='${empty infoModel}'>
 			    <div class="row fm-v" style="clear:both;">
 				    <input style="float:left;" type="submit" id="fm-search-submit1" name="_eventId_submitAddRole" class="btn-submit" value="Add Role" tabindex="19"/>
+                    <input style="float:left;" type="submit" id="fm-search-cancel"  name="_eventId_cancelAddRole" class="btn-cancel" value="Cancel" tabindex="20"/>
                 </div>
             </c:if>
 
