@@ -16,6 +16,8 @@ import org.javalid.annotations.validation.NotNull;
 import org.javalid.annotations.validation.ValidateList;
 import org.javalid.annotations.validation.DateCheck;
 import org.springframework.util.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 
@@ -33,6 +35,9 @@ import java.util.*;
 @Audited
 @ValidateDefinition
 public class JpaSorPersonImpl extends Entity implements SorPerson {
+
+    @Transient
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Id
     @Column(name="record_id")
@@ -133,6 +138,24 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         final JpaSorNameImpl jpaSorName = new JpaSorNameImpl(this);
         this.names.add(jpaSorName);
         return jpaSorName;
+    }
+
+    public synchronized void removeNameByNameId(final Long id) {
+        Name nameToDelete = null;
+        for (final Name name : this.names) {
+            final Long nameId = name.getId();
+            if (nameId != null && nameId.equals(id)) {
+                nameToDelete = name;
+                break;
+            }
+        }
+
+        if (nameToDelete != null) {
+            this.names.remove(nameToDelete);
+            logger.info("Found name to delete. ");
+            nameToDelete = null;
+        }
+
     }
 
     // TODO not sure if this should be here

@@ -37,7 +37,7 @@
 
         <c:choose>
             <c:when test="${not empty taskTitleCode}">
-                <div id="searchheader"> <h2><span style="display:block; font-size:1.3em; font-weight:900; color:#d21033; text-transform:uppercase;" /><spring:message code="${taskTitleCode}" /></h2></div>
+                <div id="searchheader"> <h2><span style="display:block; font-size:1em; font-weight:800; color:#d21033; text-transform:uppercase;margin:1.5em 0; padding:10px;" /><spring:message code="${taskTitleCode}" /></h2></div>                
             </c:when>
             <c:otherwise>
                 <tiles:useAttribute id="key" name="titleCode"/>

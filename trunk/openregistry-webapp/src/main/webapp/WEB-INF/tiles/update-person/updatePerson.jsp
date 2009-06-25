@@ -51,7 +51,7 @@
                                 <td><form:input path="names[${loopStatus.index}].family" /></td>
                                 <td><form:input path="names[${loopStatus.index}].suffix" /></td>
                                 <td> </td>
-                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveName&namelId=${sorName.id}"><spring:message code="remove.label"/></a></td>  
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveName&nameId=${sorName.id}"><spring:message code="remove.label"/></a></td>
                             </tr>
                             </c:forEach>
                     </tbody>
@@ -67,17 +67,19 @@
                                 <th><spring:message code="campus.label"/></th>
                                 <th><spring:message code="startDate.label"/></th>
                                 <th><spring:message code="endDate.label"/></th>
-                                <th><spring:message code="action.label"/></th>
+                                <th><spring:message code="actions.label"/></th>
                             </tr>
                             </thead>
                             <tbody>
-                             <c:forEach var="role" items="${sorPerson.roles}">
+                             <c:forEach var="role" items="${sorPerson.roles}" >
                             <tr>
                                 <td><a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}">${role.title}/${role.organizationalUnit.name}</a></td>
                                 <td>${role.campus.name}</td>
                                 <td><fmt:formatDate pattern="MM/dd/yyyy" value="${role.start}"/></td>
                                 <td><fmt:formatDate pattern="MM/dd/yyyy" value="${role.end}"/></td>
-                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveRole&roleId=${role.id}"><spring:message code="remove.label"/></a></td>
+                                <td>
+                                    <a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}"><spring:message code="edit.label"/>
+                                </td>
                             </tr>
                             </c:forEach>
                     </tbody>
@@ -136,10 +138,10 @@
 
 			</fieldset>
 			</fieldset>
-            <c:if test='${empty infoModel}'>
-			    <div class="row fm-v" style="clear:both;">
-				    <input style="float:left;" type="submit" id="fm-search-submit1" name="_eventId_submitUpdatePerson" class="btn-submit" value="Update Person" tabindex="11"/>
-			    </div>
-            </c:if>
+
+			<div class="row fm-v" style="clear:both;">
+				<input style="float:left;" type="submit" id="fm-search-submit1" name="_eventId_submitUpdatePerson" class="btn-submit" value="Update Person" tabindex="11"/>
+			</div>
+
 
 		</form:form>

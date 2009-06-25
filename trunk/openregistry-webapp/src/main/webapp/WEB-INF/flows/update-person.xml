@@ -22,6 +22,10 @@
         <transition on="submitAddName" >
             <evaluate expression="sorPerson.addName()" result="flowScope.sorName"/>
         </transition>
+        <transition on="submitRemoveName" >
+            <set name="requestScope.nameId" value="requestParameters.nameId" type="long" />
+            <evaluate expression="sorPerson.removeNameByNameId(nameId)" result="requestScope.name"/>
+        </transition>
 
         <transition on="submitAddRole" to="addRole" />
 
@@ -48,7 +52,7 @@
         <transition to="updatePerson" />
     </subflow-state>
 
-    <view-state id="updateSucceeded" view="openregistry.person.update.update">
+    <view-state id="updateSucceeded" view="openregistry.main">
         <on-entry>
             <set name="flowScope.infoModel" value="'Person Updated'" />
         </on-entry>

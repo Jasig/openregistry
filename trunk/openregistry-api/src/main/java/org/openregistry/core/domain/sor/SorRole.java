@@ -76,19 +76,27 @@ public interface SorRole extends Serializable, DateRange {
     
     Address addAddress();
 
+    Address removeAddressById(final Long id);
+
     Address getAddress(long id);
 
     List<Phone> getPhones();
 
     List<EmailAddress> getEmailAddresses();
 
+    EmailAddress removeEmailAddressById(final Long id);
+
     EmailAddress addEmailAddress();
 
     Phone addPhone();
-    
+
+    Phone removePhoneById(final Long id);
+
     List<Url> getUrls();
 
     Url addUrl();
+
+    Url removeURLById(final Long id);
 
     List<Leave> getLeaves();
 

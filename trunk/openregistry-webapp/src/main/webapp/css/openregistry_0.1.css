@@ -122,7 +122,7 @@ input.btn-cancel {margin-top:0;font-weight:900;left:22%; margin-left:2px;}
 }
 
 div#searchheader {display:block; font-size:1.3em; font-weight:900; color:#d21033; text-transform:uppercase;}
-
+fieldset2 {margin:2em 0;  padding:10px;}
 /* Safari 2.x specific fixes */
 html[xmlns*=""] body:last-child div.select {border:0 !important;}
 html[xmlns*=""] body:last-child div.row label.state {margin-left:3px !important;}
