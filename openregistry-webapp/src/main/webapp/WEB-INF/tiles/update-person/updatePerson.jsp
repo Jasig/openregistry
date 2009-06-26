@@ -51,7 +51,7 @@
                                 <td><form:input path="names[${loopStatus.index}].family" /></td>
                                 <td><form:input path="names[${loopStatus.index}].suffix" /></td>
                                 <td> </td>
-                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveName&nameId=${sorName.id}"><spring:message code="remove.label"/></a></td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveName&nameId=${sorName.id}"><img src="images/trash.jpg" title="remove name"/></a></td>   
                             </tr>
                             </c:forEach>
                     </tbody>

@@ -68,7 +68,7 @@
                                     </div>
                                 </td>
                                 <td><form:input size="60" path="emailAddresses[${loopStatus.index}].address" /></</td>
-                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveEmailAddress&emailId=${emailAddress.id}"><spring:message code="remove.label"/></a></td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveEmailAddress&emailId=${emailAddress.id}"><img src="images/trash.jpg" title="remove email address"/></a></td>
                             </tr>
                             </c:forEach>
                         </tbody>
@@ -107,7 +107,7 @@
                                 <td><form:input path="phones[${loopStatus.index}].areaCode" size="9"/></</td>
                                 <td><form:input path="phones[${loopStatus.index}].number" size="20"/></</td>
                                 <td><form:input path="phones[${loopStatus.index}].extension" size="7"/></</td>
-                                <td><a href="${flowExecutionUrl}&_eventId=submitRemovePhone&phoneId=${phone.id}"><spring:message code="remove.label"/></a></td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemovePhone&phoneId=${phone.id}"><img src="images/trash.jpg" title="remove phone number"/></a></td>
                             </tr>
                             </c:forEach>
                         </tbody>
@@ -135,7 +135,7 @@
                                     </div>
                                 </td>
                                 <td><a href="${flowExecutionUrl}&_eventId=submitUpdateAddress&addressId=${address.id}">${address.singleLineAddress}</a></td>
-                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveAddress&addressId=${address.id}"><spring:message code="remove.label"/></a></td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveAddress&addressId=${address.id}"><img src="images/trash.jpg" title="remove address"/></a></td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -167,7 +167,7 @@
                                     </div>
                                 </td>
                                 <td><form:input path="urls[${loopStatus.index}].url" size="60" /></</td>
-                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveURL&urlId=${url.id}"><spring:message code="remove.label"/></a></td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitRemoveURL&urlId=${url.id}"><img src="images/trash.jpg" title="remove URL"/></a></td>
                             </tr>
                             </c:forEach>
                         </tbody>
