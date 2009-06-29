@@ -17,9 +17,9 @@ public interface IntegrationGateway {
 
     /**
      * Take the identity data and put into the 'integration processing pipeline' (asynchronously) for the 3rd party systems to consume.
-     * The typical implementation could use an ESB endpoint destination with a predifined message flow.
+     * The typical implementation could use an ESB endpoint destination with a predefined message flow.
      * </p>
-     * <p>Note: implementors should assume the asynchronous invocation semantics i.e. it should return immediately to the caller.
+     * <p>Note: implementers should assume the asynchronous invocation semantics i.e. it should return immediately to the caller.
      *
      * @param destinationId an identifier for the destination - could be an ESB endpoint URI for example
      * @param messageBody   the body of the message to be send
@@ -42,7 +42,7 @@ public interface IntegrationGateway {
 
     /**
      * Put the identity data into the 'integration processing pipeline' (synchronously) for the 3rd party systems to consume.
-     * The typical implementation could use an ESB endpoint destination with a predifined message flow.
+     * The typical implementation could use an ESB endpoint destination with a predefined message flow.
      * </p>
      * <p>Note: implementors should assume the synchronous invocation semantics i.e. it should block until the response is returned to the caller.
      *
@@ -58,7 +58,7 @@ public interface IntegrationGateway {
 
     /**
      * Put the identity data into the 'integration processing pipeline' (synchronously) for the 3rd party systems to consume.
-     * The typical implementation could use an ESB endpoint destination with a predifined message flow.
+     * The typical implementation could use an ESB endpoint destination with a predefined message flow.
      * </p>
      * <p>Note: implementors should assume the synchronous invocation semantics i.e. it should block until the response is returned to the caller.
      *
