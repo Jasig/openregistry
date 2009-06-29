@@ -68,6 +68,8 @@ public final class PeopleResource {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private static final String FORCE_ADD_FLAG = "y";
+
     /*For testing only */
     private static class NET_ID_TYPE implements IdentifierType {
         public Long getId() {
@@ -77,7 +79,9 @@ public final class PeopleResource {
         public String getName() {
             return "NETID";
         }
-    };
+    }
+
+    ;
 
     private static class RCP_ID_TYPE implements IdentifierType {
         public Long getId() {
@@ -87,7 +91,9 @@ public final class PeopleResource {
         public String getName() {
             return "RCPID";
         }
-    };
+    }
+
+    ;
 
     private static class ID implements Identifier {
         public IdentifierType getType() {
@@ -125,12 +131,14 @@ public final class PeopleResource {
         public ActivationKey getActivationKey() {
             return null;
         }
-    };
+    }
+
+    ;
 
     @PUT
     @Path("camel")
     public void testingCamel() {
-        this.identifierChangeService.change(new RCP_ID_TYPE(), new ID(),new NET_ID_TYPE(), new ID());
+        this.identifierChangeService.change(new RCP_ID_TYPE(), new ID(), new NET_ID_TYPE(), new ID());
     }
 
     @PUT
@@ -200,7 +208,7 @@ public final class PeopleResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_XML)
-    public Response processIncomingPerson(PersonRequestRepresentation personRequestRepresentation) {
+    public Response processIncomingPerson(PersonRequestRepresentation personRequestRepresentation, @QueryParam("force") String forceAdd) {
         Response response = null;
         URI uri = null;
         ReconciliationCriteria reconciliationCriteria = null;
@@ -231,10 +239,20 @@ public final class PeopleResource {
                 return Response.status(Response.Status.BAD_REQUEST).entity("The incoming request is malformed.").build();
             }
             else if (result.getReconciliationResult().multiplePeopleFound()) {
-                List<PersonMatch> conflictingPeopleFound = result.getReconciliationResult().getMatches();
-                response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound))
-                        .type(MediaType.APPLICATION_XHTML_XML).build();
-                logger.info("Multiple people found: " + response.getEntity());
+                //Force add scenario
+                if (FORCE_ADD_FLAG.equals(forceAdd)) {
+                    logger.warn("Multiple people found, but doing a 'force add'");
+                    result = this.personService.addPerson(reconciliationCriteria, result.getReconciliationResult());
+                    uri = buildPersonResourceUri((Person) result.getTargetObject());
+                    response = Response.created(uri).build();
+                    logger.info(String.format("Person successfuly created (with 'force add' option). The person resource URI is %s", uri.toString()));
+                }
+                else {
+                    List<PersonMatch> conflictingPeopleFound = result.getReconciliationResult().getMatches();
+                    response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound))
+                            .type(MediaType.APPLICATION_XHTML_XML).build();
+                    logger.info("Multiple people found: " + response.getEntity());
+                }
             }
         }
         return response;
