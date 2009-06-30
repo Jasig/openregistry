@@ -1,5 +1,7 @@
 package org.openregistry.security;
 
+import org.openregistry.core.domain.Person;
+
 import java.util.Set;
 import java.util.Date;
 
@@ -18,10 +20,16 @@ public interface User {
     String getNickName();
 
     /**
+     * Returns the Person this system represents, *if* there is one. CAN be NULL.
+     * @return the person, or NULL.
+     */
+    Person getPerson();
+
+    /**
      * Returns the set of systems of records that a user has access to.
      * @return the set of SoRs the user has access to.  CANNOT be NULL.  CAN be EMPTY.
      */
-    Set<SoRInterface> getSystemOfRecords();
+    Set<Permission> getPermissions();
 
     /**
      * Gets the last time the user logged in.  CAN be NULL.
@@ -40,4 +48,6 @@ public interface User {
      * @return the username of the user.  CANNOT be NULL.
      */
     String getUsername();
+
+
 }
