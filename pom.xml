@@ -11,6 +11,7 @@
         <module>openregistry-repository-jpa-impl</module>
         <module>openregistry-webapp</module>
         <module>openregistry-webapp-activation</module>
+        <module>openregistry-security-springsecurity</module>
     </modules>
     <name>Jasig OpenRegistry</name>
     <description>Registry System</description>
