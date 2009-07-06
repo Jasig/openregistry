@@ -5,62 +5,62 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
+import org.springframework.transaction.annotation.Transactional;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.domain.Person;
+import org.openregistry.security.Permission;
+import org.openregistry.security.PermissionRepository;
+import org.javalid.annotations.core.ValidateDefinition;
+import org.javalid.annotations.validation.NotEmpty;
+import org.javalid.annotations.validation.NotNull;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Implementation of a the Spring Security's {@link org.springframework.security.userdetails.UserDetailsService} that
  * loads an OR User from the database.
- * <p>
- * The or_users table looks similar to this (for MySQL):
- *
- * CREATE TABLE or_users (
- *    username VARCHAR(100) NOT NULL UNIQUE,
- *    nickname VARCHAR(100),
- *    last_logged_in DATETIME,
- *    last_logged_in_host VARCHAR(150),
- *    person_id NUMERIC(10),
- *    enabled BOOLEAN
- * )
  *
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
+@ValidateDefinition
 public class JpaUserDetailsServiceImpl implements UserDetailsService {
 
+    @NotEmpty
+    private String identifierType;
+
     @Autowired(required=true)
+    @NotNull
     private PersonRepository personRepository;
 
     @Autowired(required=true)
-    private SimpleJdbcTemplate jdbcTemplate;
+    @NotNull
+    private PermissionRepository permissionRepository;
 
-    private final String SQL_USER_QUERY = "Select nickname, last_logged_in, last_logged_in_host, person_id, enabled from or_users where username = ?";
-
+    @Transactional
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException, DataAccessException {
+        final Person person = findPersonById(username);
+        final List<Permission> permissions = this.permissionRepository.getPermissionsForUser(username, person);
+        return new SpringSecurityUserImpl(username, true, permissions);
+    }
 
-        return this.jdbcTemplate.queryForObject(SQL_USER_QUERY, new ParameterizedRowMapper<SpringSecurityUserImpl>() {
-            public SpringSecurityUserImpl mapRow(final ResultSet resultSet, final int i) throws SQLException {
-                final String nickname = resultSet.getString("nickname");
-                final Date last_logged_in = resultSet.getDate("last_logged_in");
-                final String lastLoggedInHost = resultSet.getString("last_logged_in_host");
-                final long personId = resultSet.getLong("person_id");
-                final boolean enabled = resultSet.getBoolean("enabled");
-                final Person person;
+    protected Person findPersonById(final String username) {
+        try {
+            return personRepository.findByIdentifier(this.identifierType, username);
+        } catch (final Exception e) {
+            return null;
+        }
+    }
 
-                if (personId != -1) {
-                    person = personRepository.findByInternalId(personId);
-                } else {
-                    person = null;
-                }
+    public void setPersonRepository(final PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
 
-                return new SpringSecurityUserImpl(username, nickname, person, null, last_logged_in, lastLoggedInHost, enabled);
-            }
-        }, username);
+    public void setPermissionRepository(final PermissionRepository permissionRepository) {
+        this.permissionRepository = permissionRepository;
+    }
+
+    public void setIdentifierType(final String identifierType) {
+        this.identifierType = identifierType;
     }
 }

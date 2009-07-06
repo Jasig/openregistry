@@ -30,6 +30,13 @@
 
         <dependency>
             <groupId>org.jasig.openregistry</groupId>
+            <artifactId>openregistry-security-springsecurity</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jasig.openregistry</groupId>
             <artifactId>openregistry-service-impl</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

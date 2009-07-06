@@ -16,7 +16,7 @@
     <jee:jndi-lookup id="casSpringSecurityAuthProviderKey" jndi-name="conf/cas/springSecurityAuthProviderKey" expected-type="java.lang.String"/>
 
     <sec:http entry-point-ref="casProcessingFilterEntryPoint">
-        <sec:intercept-url pattern="/**/*.htm" access="ROLE_USER" />
+        <sec:intercept-url pattern="/**/*.htm" access="IS_AUTHENTICATED_FULLY" />
         <sec:logout logout-success-url="/cas-logout.jsp" />
     </sec:http>
 
@@ -25,6 +25,7 @@
         <property name="authenticationManager" ref="authenticationManager"/>
         <property name="authenticationFailureUrl" value="/casfailed.jsp"/>
         <property name="defaultTargetUrl" value="/"/>
+        <property name="alwaysUseDefaultTargetUrl" value="false" />
         <property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage"/>
         <property name="proxyReceptorUrl" value="/secure/receptor"/>
     </bean>
@@ -57,10 +58,8 @@
         <property name="sendRenew" ref="casRenew" />
     </bean>
 
-    <sec:user-service id="userService">
-        <sec:user name="steiner" password="steiner" authorities="ROLE_USER"/>
-        <sec:user name="nmond" password="rod" authorities="ROLE_USER"/>
-        <sec:user name="dkopylen" password="dianne" authorities="ROLE_USER"/>
-        <sec:user name="battags" password="scott" authorities="ROLE_USER"/>
-    </sec:user-service>
+    <bean id="userService" class="org.jasig.openregistry.core.security.JpaUserDetailsServiceImpl">
+        <property name="identifierType" value="NETID">
+        </property>
+    </bean>
 </beans>
