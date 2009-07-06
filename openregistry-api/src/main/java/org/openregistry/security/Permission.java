@@ -6,7 +6,7 @@ package org.openregistry.security;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface Permission {
+public interface Permission extends Comparable<Permission> {
 
     enum PermissionType {AUTHENTICATED, EVERYONE, USER, EXPRESSION}
 
