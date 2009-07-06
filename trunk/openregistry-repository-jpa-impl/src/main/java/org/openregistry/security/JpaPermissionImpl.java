@@ -62,4 +62,9 @@ public final class JpaPermissionImpl implements Permission {
         }
         return null;
     }
+
+    // TODO implement
+    public int compareTo(Permission o) {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
