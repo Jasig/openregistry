@@ -3,78 +3,34 @@ package org.jasig.openregistry.core.security;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.GrantedAuthority;
 import org.openregistry.core.domain.Person;
-import org.openregistry.security.User;
 import org.openregistry.security.Permission;
 
-import java.util.Set;
-import java.util.Date;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.List;
 
 /**
- * Implementation of the {@link org.openregistry.security.User} interface as well as the Spring Security {@link org.springframework.security.userdetails.UserDetails}
+ * Implementation of the Spring Security {@link org.springframework.security.userdetails.UserDetails}
  * interface. This allows for the usage of Spring Security within the OR system.
  *
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public final class SpringSecurityUserImpl implements User, UserDetails {
-
-    private final String nickName;
-
-    private final Date lastLoggedIn;
-
-    private final String lastLoggedInHost;
+public final class SpringSecurityUserImpl implements UserDetails {
 
     private final String username;
 
     private final boolean enabled;
 
-    private final Set<SpringSecurityPermissionImpl> permissions;
+    private final List<Permission> permissions;
 
-    private final Set<Permission> origPermissions;
-
-    private final Person person;
-
-    public SpringSecurityUserImpl(final String username, final String nickname, final Person person, final Set<SpringSecurityPermissionImpl> permissions, final Date lastLoggedIn, final String lastLoggedInHost, final boolean enabled) {
+    public SpringSecurityUserImpl(final String username, final boolean enabled, final List<Permission> permissions) {
         this.username = username;
-        this.nickName = nickname;
-        this.permissions = Collections.unmodifiableSet(permissions);
-        this.lastLoggedIn = lastLoggedIn;
-        this.lastLoggedInHost = lastLoggedInHost;
         this.enabled = enabled;
-        this.person = person;
-
-        final Set<Permission> tempSet = new HashSet<Permission>();
-        for (final Permission p : this.permissions) {
-            tempSet.add(p);
-        }
-
-        this.origPermissions = Collections.unmodifiableSet(tempSet);
+        this.permissions = permissions;
     }
 
-    public Person getPerson() {
-        return this.person;
-    }
-
-    public String getNickName() {
-        return this.nickName;
-    }
-
-    public Date getLastLoggedIn() {
-        return this.lastLoggedIn;
-    }
-
-    public String getLastLoggedInHost() {
-        return this.lastLoggedInHost;
-    }
-
+    // TODO fix
     public GrantedAuthority[] getAuthorities() {
-        return this.permissions.toArray(new GrantedAuthority[this.permissions.size()]);
-    }
-
-    public Set<Permission> getPermissions() {
-        return this.origPermissions;
+        return new GrantedAuthority[0];
     }
 
     /**

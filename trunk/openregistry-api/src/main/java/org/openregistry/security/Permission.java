@@ -8,10 +8,28 @@ package org.openregistry.security;
  */
 public interface Permission {
 
+    enum PermissionType {AUTHENTICATED, EVERYONE, USER, EXPRESSION}
+
     /**
-     * The various ways to interact with the system.
+     * MUST be set if UserType == USER
+     * @return the user identifier, or null.
      */
-    enum Interface {REAL, BATCH, WEBUI}
+    String getUser();
+
+
+    /**
+     * Must be set if UserType = EXPRESSION.
+     * 
+     * @return the expression, or NULL.
+     */
+    String getExpression();
+
+    /**
+     * Returns the type of permission this is.  I.e. for a user, for everyone, etc.
+     *
+     * @return the type of permission. CANNOT be NULL.
+     */
+    PermissionType getPermissionType();
 
     /**
      * Represents the system of record.  A NULL SoR indicates this permission applies to 
@@ -20,16 +38,15 @@ public interface Permission {
     String getSystemOfRecord();
 
     /**
-     * The list of interfaces supported by this permission.  CANNOT be NULL.  CAN be EMPTY.  Empty implies the rule
-     * applies to the calculated information.
-     * @return the interfaces this permission applies to.
-     */
-    Interface[] getInterfaces();
-
-    /**
      * The actual permission.  TODO: detail more about permissions here
      * @return the permission, CANNOT be NULL.
      */
     String getPermission();
+
+    /**
+     * An optional textual description to provide more information to anyone looking at what the intention of the rule was.
+     * @return the description, or null.
+     */
+    String getDescription();
     
 }
