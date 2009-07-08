@@ -16,7 +16,7 @@ public interface ActivationKey extends DateRange, Comparable<ActivationKey>, Ser
     /**
      * Returns the Activation Key as a String.  Per the use case,
      * this MUST be returned as an 8 character String only consisting
-     * of characters [A-Za-z0-9].
+     * of characters [abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ2345679].
      * <p>
      * Whenever this method is called it MUST ALWAYS return the same value.
      * </p>
