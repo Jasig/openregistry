@@ -25,7 +25,7 @@ public interface ActivationService {
      * @return the newly constructed key.  CANNOT be NULL.  MUST be of the format: 8 characters, and consisting of
      * characters [A-Za-z0-9]
      */
-    ActivationKey generateActivationKey(Person person) throws PersonNotFoundException;
+    ActivationKey generateActivationKey(Person person);
 
     /**
      * Generates a new activation key for the specified person.  If there is already an existing activation key
