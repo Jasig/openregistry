@@ -2,6 +2,7 @@ package org.openregistry.activation.web;
 
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Identifier;
+import org.openregistry.core.domain.ActivationKey;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ActivationService;
@@ -38,16 +39,18 @@ public class IdentifierAction {
         //verify parameters entered
         logger.info("netid: "+ identifier.getValue() + "activationKey: " + activationKey);
         //Verify activation key
-        ServiceExecutionResult result = activationService.verifyActivationKey(identifierType, identifier.getValue(), activationKey);
+        final ActivationKey oActivationKey = this.activationService.getActivationKey(identifierType, identifier.getValue(), activationKey);
 
-        if (result.getValidationErrors() != null && !result.getValidationErrors().isEmpty()) {
-            convertErrors(result.getValidationErrors(), context);
-            return false;
+        if (oActivationKey.isValid()) {
+            return true;
         }
-        
-        return true;
+
+        // TODO we need to build the error messages, if any, from the ActivationKey 
+        return false;
     }
 
+    // TODO re-enable this when its fixed
+    /*
     public boolean activate(Identifier identifier, String password, MessageContext context){
         //TODO where is the password stored?
 
@@ -65,6 +68,7 @@ public class IdentifierAction {
         context.addMessage(new MessageBuilder().error().code("netIDActivationError").build());
         return false;
     }
+    */
 
     protected void convertErrors(List<ValidationError> validationErrors, MessageContext context){
         for (final ValidationError validationError : validationErrors) {
