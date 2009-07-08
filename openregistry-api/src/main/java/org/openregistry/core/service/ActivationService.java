@@ -25,7 +25,7 @@ public interface ActivationService {
      * @return the newly constructed key.  CANNOT be NULL.  MUST be of the format: 8 characters, and consisting of
      * characters [A-Za-z0-9]
      */
-    ActivationKey generateActivationKey(Person person);
+    ActivationKey generateActivationKey(Person person) throws PersonNotFoundException;
 
     /**
      * Generates a new activation key for the specified person.  If there is already an existing activation key
@@ -53,12 +53,10 @@ public interface ActivationService {
      *
      * @param person the person to invalidate the key for.  CANNOT be NULL.
      * @param activationKey the activation key to invalidate.  CANNOT be NULL.
-     * @throws PersonNotFoundException if the specified person is not found.  In this case, that means if a NULL person
-     * was passed in.
      * @throws IllegalArgumentException if the activation key does not exist for the person.
      * @throws IllegalStateException if the activation key exists but is not valid.
      */
-    void invalidateActivationKey(Person person, String activationKey) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException;
+    void invalidateActivationKey(Person person, String activationKey) throws IllegalArgumentException, IllegalStateException;
 
     /**
      * Invalidates an existing VALID activation key for a particular person.  This method EXPECTs that the key you are
@@ -108,8 +106,7 @@ public interface ActivationService {
      * @param person the person to retrieve the key for.  CANNOT be NULL.
      * @param activationKey the activation key String representation to retrieve.  CANNOT be NULL.
      * @return the activation key.  CANNOT be NULL.
-     * @throws PersonNotFoundException if the person passed in is NULL.
      * @throws IllegalArgumentException if the activation key does not exist for the person.
      */
-    ActivationKey getActivationKey(Person person, String activationKey) throws PersonNotFoundException, IllegalArgumentException;
+    ActivationKey getActivationKey(Person person, String activationKey) throws IllegalArgumentException;
 }
