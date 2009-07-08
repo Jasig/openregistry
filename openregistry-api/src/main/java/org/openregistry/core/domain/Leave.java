@@ -7,7 +7,7 @@ import java.util.Date;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface Leave extends DateRange {
+public interface Leave extends MutableDateRange {
 
     Type getReason();
 

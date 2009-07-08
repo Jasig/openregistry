@@ -12,7 +12,7 @@ import org.openregistry.core.domain.sor.SorSponsor;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public interface Role extends Serializable, DateRange {
+public interface Role extends Serializable, MutableDateRange {
 
     Long getId();
 

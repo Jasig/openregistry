@@ -17,8 +17,10 @@ public class ActivationKeyAssignerImpl implements ActivationKeyAssigner {
 
     public void addActivationKeyTo(Person person){
         ActivationKey activationKey = person.addActivationKey();
-        activationKey.setValue(generator.generateNextString());
-        activationKey.setExpirationDate(getExpirationDate());
+
+        // TODO fix
+//        activationKey.setValue(generator.generateNextString());
+//        activationKey.setExpirationDate(getExpirationDate());
     }
 
     private Date getExpirationDate(){

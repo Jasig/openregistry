@@ -24,18 +24,4 @@ public interface DateRange extends Serializable {
      * @return the end date, CAN be NULL.
      */
     Date getEnd();
-
-    /**
-     * Sets the start date.
-     * 
-     * @param date the start date.
-     */
-    void setStart(Date date);
-
-    /**
-     * Sets the end date.
-     *
-     * @param date the end date
-     */
-    void setEnd(Date date);
 }

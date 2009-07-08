@@ -35,7 +35,7 @@ public class DefaultActivationService implements ActivationService {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     private final String NETID="NETID";
-
+    /*
     public ServiceExecutionResult verifyActivationKey(final String type, final String identifierValue, final String activationKey){
         final String serviceName = "ActivationService.verifyActivationKey";
 
@@ -78,8 +78,8 @@ public class DefaultActivationService implements ActivationService {
         }
 
         return new GeneralServiceExecutionResult(serviceName, null);
-    }
-
+    } */
+    /*
     @Transactional
     public ServiceExecutionResult activateNetID(String type, Identifier identifier, String password){
          final String serviceName = "ActivationService.activateNetID";
@@ -95,6 +95,29 @@ public class DefaultActivationService implements ActivationService {
         //TODO send netid and password to Kerberos.
 
         return new GeneralServiceExecutionResult(serviceName, identifier);
+    } */
+
+    public ActivationKey generateActivationKey(Person person) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    public ActivationKey generateActivationKey(String identifierType, String identifierValue) throws PersonNotFoundException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void invalidateActivationKey(Person person, String activationKey) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void invalidateActivationKey(String identifierType, String identifierValue, String activationKey) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public ActivationKey getActivationKey(String identifierType, String identifierValue, String activationKey) throws PersonNotFoundException, IllegalArgumentException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public ActivationKey getActivationKey(Person person, String activationKey) throws PersonNotFoundException, IllegalArgumentException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
