@@ -1,15 +1,6 @@
 package org.openregistry.core.domain.sor;
 
-import org.openregistry.core.domain.Address;
-import org.openregistry.core.domain.Campus;
-import org.openregistry.core.domain.EmailAddress;
-import org.openregistry.core.domain.Leave;
-import org.openregistry.core.domain.OrganizationalUnit;
-import org.openregistry.core.domain.Phone;
-import org.openregistry.core.domain.RoleInfo;
-import org.openregistry.core.domain.Type;
-import org.openregistry.core.domain.DateRange;
-import org.openregistry.core.domain.Url;
+import org.openregistry.core.domain.*;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -22,7 +13,7 @@ import java.util.List;
  * Time: 11:00:47 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface SorRole extends Serializable, DateRange {
+public interface SorRole extends Serializable, MutableDateRange {
 
     Long getId();
     /**

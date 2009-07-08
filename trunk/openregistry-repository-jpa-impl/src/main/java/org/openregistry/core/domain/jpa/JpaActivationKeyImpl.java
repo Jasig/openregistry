@@ -78,4 +78,32 @@ public class JpaActivationKeyImpl extends Entity implements ActivationKey {
     public void setActivationDate(Date date){
         this.activationDate = date;
     }
+// TODO implement
+    public String getKeyAsString() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public boolean isNotYetValid() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public boolean isExpired() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public boolean isValid() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public Date getStart() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public Date getEnd() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public int compareTo(Object o) {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
