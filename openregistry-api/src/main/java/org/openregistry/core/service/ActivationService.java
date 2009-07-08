@@ -38,7 +38,7 @@ public interface ActivationService {
      * @param identifierType the identifier type to use to look up the person. CANNOT be NULL.
      * @param identifierValue the identifier value to use to look up the person.  CANNOT be NULL.
      * @return the newly constructed key.  CANNOT be NULL.  MUST be of the format: 8 characters, and consisting of
-     * characters [A-Za-z0-9]
+     * characters [abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ2345679]
      * @throws PersonNotFoundException if the person was not found, or if identifierType or identifierValue is NULL.
      */
     ActivationKey generateActivationKey(String identifierType, String identifierValue) throws PersonNotFoundException;

@@ -22,7 +22,7 @@ import java.security.SecureRandom;
 public final class JpaActivationKeyImpl implements ActivationKey {
 
     /** The array of printable characters to be used in our random string. */
-    private static final char[] PRINTABLE_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345679".toCharArray();
+    private static final char[] PRINTABLE_CHARACTERS = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ2345679".toCharArray();
 
     private static final SecureRandom secureRandom = new SecureRandom();
 
