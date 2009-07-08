@@ -28,7 +28,6 @@ public final class JpaActivationKeyImpl implements ActivationKey {
 
     private static final int ID_LENGTH = 8;
 
-
     @Id
     @Column(name = "id")
     private String id;
@@ -57,6 +56,10 @@ public final class JpaActivationKeyImpl implements ActivationKey {
         final byte[] random = new byte[ID_LENGTH];
         secureRandom.nextBytes(random);
         this.id = convertBytesToString(random);
+    }
+
+    public JpaActivationKeyImpl(final JpaPersonImpl person, final Date end) {
+        this(person, new Date(), end);
     }
 
     private String convertBytesToString(final byte[] random) {
