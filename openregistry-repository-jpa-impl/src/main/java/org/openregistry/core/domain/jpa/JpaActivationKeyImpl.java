@@ -1,109 +1,101 @@
 package org.openregistry.core.domain.jpa;
 
 import org.hibernate.envers.Audited;
-import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.ActivationKey;
-import org.openregistry.core.domain.IdentifierType;
-import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.domain.Person;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.security.SecureRandom;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Nancy Mond
- * Date: May 11, 2009
- * Time: 4:04:43 PM
- * To change this template use File | Settings | File Templates.
+ * Immutable implementation of the {@link org.openregistry.core.domain.ActivationKey} interface.
+ * <p>
+ * Note: its not TRULY immutable because of the JPA restrictions, but it exposes no setters to change values.
+ *
+ * @version $Revision$ $Date$
+ * @since 1.0.0
  */
-@javax.persistence.Entity(name="activationKey")
+@Entity(name="activationKey")
 @Table(name="kr_activation_keys")
 @Audited
-public class JpaActivationKeyImpl extends Entity implements ActivationKey {
+public final class JpaActivationKeyImpl implements ActivationKey {
+
+    /** The array of printable characters to be used in our random string. */
+    private static final char[] PRINTABLE_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345679".toCharArray();
+
+    private static final SecureRandom secureRandom = new SecureRandom();
+
+    private static final int ID_LENGTH = 8;
+
 
     @Id
-    @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "kr_activation_keys_seq")
-    @SequenceGenerator(name="kr_activation_keys_seq",sequenceName="kr_activation_keys_seq",initialValue=1,allocationSize=50)
-    private Long id;
+    @Column(name = "id")
+    private String id;
 
-    @Column(name = "activation_key", nullable = false)
-    private String activationKey;
-
-    @Column(name = "expiration_date", nullable = false)
+    @Column(name = "end_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date expirationDate;
+    private Date end;
 
-    @Column(name = "activation_date")
+    @Column(name = "start_date",nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date activationDate;
+    private Date start;
 
     @OneToOne(optional=false)
     @JoinColumn(name="person_id")
     private JpaPersonImpl person;
 
-    protected Long getId() {
+    public JpaActivationKeyImpl() {
+        // only used by JPA
+    }
+
+    public JpaActivationKeyImpl(final JpaPersonImpl person, final  Date start, final Date end) {
+        this.person = person;
+        this.start = new Date(start.getTime());
+        this.end = new Date(end.getTime());
+
+        final byte[] random = new byte[ID_LENGTH];
+        secureRandom.nextBytes(random);
+        this.id = convertBytesToString(random);
+    }
+
+    private String convertBytesToString(final byte[] random) {
+        final char[] output = new char[random.length];
+        for (int i = 0; i < random.length; i++) {
+            final int index = Math.abs(random[i] % PRINTABLE_CHARACTERS.length);
+            output[i] = PRINTABLE_CHARACTERS[index];
+        }
+
+        return new String(output);
+    }
+
+    public String getKeyAsString() {
         return this.id;
     }
 
-    public String getValue(){
-        return this.activationKey;
-    }
-
-    public void setValue(String value){
-        this.activationKey = value;
-    }
-
-    public Person getPerson(){
-        return this.person;
-    }
-
-    public void setPerson(Person person){
-        this.person = (JpaPersonImpl)person;
-    }
-
-    public Date getExpirationDate(){
-        return this.expirationDate;
-    }
-
-    public void setExpirationDate(Date date){
-        this.expirationDate = date;
-    }
-
-    public Date getActivitationDate(){
-        return this.activationDate;
-    }
-
-    public void setActivationDate(Date date){
-        this.activationDate = date;
-    }
-// TODO implement
-    public String getKeyAsString() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     public boolean isNotYetValid() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.start.compareTo(new Date()) > 0;
     }
 
     public boolean isExpired() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.end.compareTo(new Date()) < 0;
     }
 
     public boolean isValid() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return !isNotYetValid() && !isExpired();
     }
 
     public Date getStart() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new Date(this.start.getTime());
     }
 
     public Date getEnd() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new Date(this.end.getTime());
     }
 
-    public int compareTo(Object o) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    public int compareTo(final ActivationKey o) {
+        Assert.notNull(o);
+
+        return this.id.compareTo(o.getKeyAsString());
     }
 }

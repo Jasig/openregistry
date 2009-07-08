@@ -208,9 +208,9 @@ public class JpaPersonImpl extends Entity implements Person {
         else return netid.getValue();
     }
 
+    // TODO fix this.  The constructor needs to specify the start and end date.
     public ActivationKey addActivationKey(){
-        this.activationKey = new JpaActivationKeyImpl();
-        this.activationKey.setPerson(this);
+        this.activationKey = new JpaActivationKeyImpl(this, new Date(), new Date());
         return this.activationKey;
     }
 

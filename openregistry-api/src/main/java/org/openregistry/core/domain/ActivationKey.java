@@ -11,7 +11,7 @@ import java.util.Date;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface ActivationKey extends DateRange, Comparable, Serializable {
+public interface ActivationKey extends DateRange, Comparable<ActivationKey>, Serializable {
 
     /**
      * Returns the Activation Key as a String.  Per the use case,
