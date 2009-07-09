@@ -48,5 +48,37 @@ public interface Permission extends Comparable<Permission> {
      * @return the description, or null.
      */
     String getDescription();
+
+    /**
+     * Determines whether you can create for this permission.
+     * <p>
+     * NOTE: Applying a "CREATE" permission to anything other than major components (i.e. person.addresses) doesn't make any sense.
+     * </p>
+     * @return true, if yes, false otherwise.
+     */
+    boolean isCreate();
+
+    /**
+     * Determines whether you can read for this permission.
+     *
+     * @return true if yes, false otherwise.
+     */
+    boolean isRead();
+
+    /**
+     * Determines whether you can update for this permission.
+     *
+     * @return true, if yes, false otherwise.
+     */
+    boolean isUpdate();
+
+    /**
+     * Determines whether you can delete or not.
+     * <p>
+     * For instances of particular attributes, this means making them NULL???.   For addresses and such, it means deleting them.
+     *
+     * @return true, if yes, false otherwise.
+     */
+    boolean isDelete();
     
 }

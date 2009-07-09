@@ -4,12 +4,13 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
+ * Represents the {@link org.openregistry.security.SystemOfRecord} via JPA.
+ *
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @Entity(name = "systemOfRecord")
 @Table(name="or_sors")
-// TODO mapping
 public final class JpaSystemOfRecordImpl implements SystemOfRecord {
 
     @Id
