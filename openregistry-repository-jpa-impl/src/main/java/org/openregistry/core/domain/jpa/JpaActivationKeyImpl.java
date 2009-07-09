@@ -72,7 +72,7 @@ public final class JpaActivationKeyImpl implements ActivationKey {
         return new String(output);
     }
 
-    public String getKeyAsString() {
+    public String getId() {
         return this.id;
     }
 
@@ -99,7 +99,7 @@ public final class JpaActivationKeyImpl implements ActivationKey {
     public int compareTo(final ActivationKey o) {
         Assert.notNull(o);
 
-        return this.id.compareTo(o.getKeyAsString());
+        return this.id.compareTo(o.getId());
     }
 
     public boolean equals(final Object o) {
