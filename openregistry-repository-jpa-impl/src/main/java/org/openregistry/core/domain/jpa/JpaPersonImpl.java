@@ -200,11 +200,13 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     public synchronized ActivationKey generateNewActivationKey(final Date start, final Date end) {
-        return null;  //TODO implement this method
+        this.activationKey = new JpaActivationKeyImpl(this, start, end);
+        return this.activationKey;
     }
 
     public synchronized ActivationKey generateNewActivationKey(final Date end) {
-        return null;  //TODO implement this method
+        this.activationKey = new JpaActivationKeyImpl(this, end);
+        return this.activationKey;
     }
 
     public synchronized ActivationKey getCurrentActivationKey(){
