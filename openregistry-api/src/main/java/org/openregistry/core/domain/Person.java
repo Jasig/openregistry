@@ -156,4 +156,9 @@ public interface Person extends Serializable {
      */
     ActivationKey getCurrentActivationKey();
 
+    /**
+     * Removes any current activation key, regardless of whether its expired, or not yet valid.
+     */
+    void removeCurrentActivationKey();
+
 }
