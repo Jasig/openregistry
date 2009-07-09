@@ -213,7 +213,7 @@ public class JpaPersonImpl extends Entity implements Person {
         return this.activationKey;
     }
 
-    public synchronized void removeCurrentActivationkey() {
+    public synchronized void removeCurrentActivationKey() {
         this.activationKey = null;
     }
 }
