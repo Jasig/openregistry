@@ -24,4 +24,6 @@ public interface DateRange extends Serializable {
      * @return the end date, CAN be NULL.
      */
     Date getEnd();
+
+    // TODO it may be useful to add methods such as "isCurrentDateBeforeStartDate", "isCurrentDateAfterEndDate", "isCurrentDateInRange"
 }
