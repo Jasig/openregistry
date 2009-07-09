@@ -212,4 +212,8 @@ public class JpaPersonImpl extends Entity implements Person {
     public synchronized ActivationKey getCurrentActivationKey(){
         return this.activationKey;
     }
+
+    public synchronized void removeCurrentActivationkey() {
+        this.activationKey = null;
+    }
 }
