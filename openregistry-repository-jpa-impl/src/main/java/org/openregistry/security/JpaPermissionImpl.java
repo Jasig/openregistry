@@ -32,6 +32,18 @@ public final class JpaPermissionImpl implements Permission {
     @Column(name="description")
     private String description;
 
+    @Column(name="p_create")
+    private boolean create;
+
+    @Column(name="p_read")
+    private boolean read;
+
+    @Column(name="p_update")
+    private boolean update;
+
+    @Column(name="p_delete")
+    private boolean delete;
+
     public String getUser() {
         if (getPermissionType() == PermissionType.USER) {
             return this.value;
@@ -63,8 +75,24 @@ public final class JpaPermissionImpl implements Permission {
         return null;
     }
 
+    public boolean isCreate() {
+        return this.create;
+    }
+
+    public boolean isRead() {
+        return this.read;
+    }
+
+    public boolean isUpdate() {
+        return this.update;
+    }
+
+    public boolean isDelete() {
+        return this.delete;
+    }
+
     // TODO implement
-    public int compareTo(Permission o) {
+    public int compareTo(final Permission permission) {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
