@@ -68,7 +68,7 @@ public class PersonSearchAction {
         }
 
         Identifier netId = person.pickOutIdentifier(identifierType);
-        context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg(person.getActivationKey().getKeyAsString()).build());
+        context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg(person.getCurrentActivationKey().getId()).build());
     }
 
     public boolean updateSorPerson(SorPerson sorPerson, MessageContext context) {

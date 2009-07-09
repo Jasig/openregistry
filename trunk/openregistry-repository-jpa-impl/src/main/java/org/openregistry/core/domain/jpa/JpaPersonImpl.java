@@ -199,22 +199,15 @@ public class JpaPersonImpl extends Entity implements Person {
         return null;
     }
 
-    @Transient
-    private final String NETID = "NETID";
-
-    public String getNetId(){
-        Identifier netid = pickOutIdentifier(NETID);
-        if (netid == null) return "";
-        else return netid.getValue();
+    public synchronized ActivationKey generateNewActivationKey(final Date start, final Date end) {
+        return null;  //TODO implement this method
     }
 
-    // TODO fix this.  The constructor needs to specify the start and end date.
-    public ActivationKey addActivationKey(){
-        this.activationKey = new JpaActivationKeyImpl(this, new Date(), new Date());
-        return this.activationKey;
+    public synchronized ActivationKey generateNewActivationKey(final Date end) {
+        return null;  //TODO implement this method
     }
 
-    public ActivationKey getActivationKey(){
+    public synchronized ActivationKey getCurrentActivationKey(){
         return this.activationKey;
     }
 }

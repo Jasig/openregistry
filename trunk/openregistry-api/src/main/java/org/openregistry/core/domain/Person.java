@@ -127,10 +127,33 @@ public interface Person extends Serializable {
      */
     Identifier pickOutIdentifier(String name);
 
-    String getNetId();
+    /**
+     * Generates a new Activation Key.  If there are any current activation keys, they
+     * are removed and replaced with this new one.
+     *
+     * @param start the start date for the activation key
+     * @param end the end date for the acvitvation key
+     * @return the new activation key that was generated.  CANNOT be NULL.
+     */
+    ActivationKey generateNewActivationKey(Date start, Date end);
 
-    ActivationKey addActivationKey();
+    /**
+     * Generates a new activation key.  If there are any current activation keys, they
+     * are removed and replaced with this new one.
+     * <p>
+     * Note: as you don't specify a start date here, the CURRENT date/time is assumed
+     * to be the start date.
+     * </p>
+     * @param end the end date for the activation key
+     * @return the new activation key that was generated.  CANNOT be NULL.
+     */
+    ActivationKey generateNewActivationKey(Date end);
 
-    ActivationKey getActivationKey();
+    /**
+     * Returns any currently associated activation keys (even if expired).
+     *
+     * @return the currently associated activation key.  CAN be NULL.
+     */
+    ActivationKey getCurrentActivationKey();
 
 }

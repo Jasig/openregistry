@@ -10,7 +10,6 @@ import org.hibernate.envers.Audited;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.core.JvGroup;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
 import org.javalid.annotations.validation.ValidateList;
@@ -36,8 +35,7 @@ import java.util.*;
 @ValidateDefinition
 public class JpaSorPersonImpl extends Entity implements SorPerson {
 
-    @Transient
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected static final Logger logger = LoggerFactory.getLogger(JpaSorPersonImpl.class);
 
     @Id
     @Column(name="record_id")
