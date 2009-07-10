@@ -4,6 +4,7 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.GrantedAuthority;
 import org.openregistry.core.domain.Person;
 import org.openregistry.security.Permission;
+import org.openregistry.security.Rule;
 
 import java.util.List;
 
@@ -20,9 +21,9 @@ public final class SpringSecurityUserImpl implements UserDetails {
 
     private final boolean enabled;
 
-    private final List<Permission> permissions;
+    private final List<Rule> permissions;
 
-    public SpringSecurityUserImpl(final String username, final boolean enabled, final List<Permission> permissions) {
+    public SpringSecurityUserImpl(final String username, final boolean enabled, final List<Rule> permissions) {
         this.username = username;
         this.enabled = enabled;
         this.permissions = permissions;

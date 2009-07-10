@@ -10,6 +10,7 @@ import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.domain.Person;
 import org.openregistry.security.Permission;
 import org.openregistry.security.PermissionRepository;
+import org.openregistry.security.Rule;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
@@ -24,7 +25,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @ValidateDefinition
-public class JpaUserDetailsServiceImpl implements UserDetailsService {
+public final class JpaUserDetailsServiceImpl implements UserDetailsService {
 
     @NotEmpty
     private String identifierType;
@@ -40,8 +41,8 @@ public class JpaUserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException, DataAccessException {
         final Person person = findPersonById(username);
-        final List<Permission> permissions = this.permissionRepository.getPermissionsForUser(username, person);
-        return new SpringSecurityUserImpl(username, true, permissions);
+        final List<Rule> rules = this.permissionRepository.getRulesForUser(username, person);
+        return new SpringSecurityUserImpl(username, true, rules);
     }
 
     protected Person findPersonById(final String username) {
@@ -60,6 +61,13 @@ public class JpaUserDetailsServiceImpl implements UserDetailsService {
         this.permissionRepository = permissionRepository;
     }
 
+    /**
+     * Sets the identifier type.  The identifier type tells the system what type of identifier the passed in username is.
+     * <p>
+     * This allows the system to determine if there is a matching person in the system.
+     *
+     * @param identifierType the identifier type.  MUST be one of the ones specified in the identifiers table.
+     */
     public void setIdentifierType(final String identifierType) {
         this.identifierType = identifierType;
     }

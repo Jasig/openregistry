@@ -1,6 +1,7 @@
 package org.openregistry.security;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @version $Revision$ $Date$
@@ -16,18 +17,8 @@ public final class JpaPermissionImpl implements Permission {
     @SequenceGenerator(name="or_permissions_seq",sequenceName="or_permissions_seq",initialValue=1,allocationSize=50)
     private long id;
 
-    @Column(name="permission_type")
-    private PermissionType permissionType;
-
-    @Column(name="value")
-    private String value;
-
-    @ManyToOne(optional=false)
-    @JoinColumn(name="sor_id")
-    private JpaSystemOfRecordImpl systemOfRecord;
-
-    @Column(name="permission")
-    private String permission;
+    @Column(name="resource")
+    private String resource;
 
     @Column(name="description")
     private String description;
@@ -44,55 +35,30 @@ public final class JpaPermissionImpl implements Permission {
     @Column(name="p_delete")
     private boolean delete;
 
-    public String getUser() {
-        if (getPermissionType() == PermissionType.USER) {
-            return this.value;
-        }
+    @OneToMany(mappedBy = "permission",fetch = FetchType.LAZY)
+    private List<JpaRuleImpl> rules;
 
-        return null;
-    }
-
-    public PermissionType getPermissionType() {
-        return this.permissionType;
-    }
-
-    public String getSystemOfRecord() {
-        return this.systemOfRecord.getName();
-    }
-
-    public String getPermission() {
-        return this.permission;
+    public String getResource() {
+        return this.resource;
     }
 
     public String getDescription() {
         return this.description;
     }
 
-    public String getExpression() {
-        if (getPermissionType() == PermissionType.EXPRESSION) {
-            return this.value;
-        }
-        return null;
-    }
-
-    public boolean isCreate() {
+    public boolean canCreate() {
         return this.create;
     }
 
-    public boolean isRead() {
+    public boolean canRead() {
         return this.read;
     }
 
-    public boolean isUpdate() {
+    public boolean canUpdate() {
         return this.update;
     }
 
-    public boolean isDelete() {
+    public boolean canDelete() {
         return this.delete;
-    }
-
-    // TODO implement
-    public int compareTo(final Permission permission) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

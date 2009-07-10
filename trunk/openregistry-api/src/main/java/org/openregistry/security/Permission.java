@@ -1,47 +1,19 @@
 package org.openregistry.security;
 
 /**
- * Represents a permission applied to a particular SOR and Interface.
+ * Represents a permission applied to a resource.
  *
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface Permission extends Comparable<Permission> {
-
-    enum PermissionType {AUTHENTICATED, EVERYONE, USER, EXPRESSION}
+public interface Permission {
 
     /**
-     * MUST be set if UserType == USER
-     * @return the user identifier, or null.
-     */
-    String getUser();
-
-
-    /**
-     * Must be set if UserType = EXPRESSION.
-     * 
-     * @return the expression, or NULL.
-     */
-    String getExpression();
-
-    /**
-     * Returns the type of permission this is.  I.e. for a user, for everyone, etc.
-     *
-     * @return the type of permission. CANNOT be NULL.
-     */
-    PermissionType getPermissionType();
-
-    /**
-     * Represents the system of record.  A NULL SoR indicates this permission applies to 
-     * @return the system of record or NULL, if the permission applies to none.
-     */
-    String getSystemOfRecord();
-
-    /**
-     * The actual permission.  TODO: detail more about permissions here
+     * The actual resource we're working with.  In most cases this will be an expression.
+     * TODO: detail more about permissions here
      * @return the permission, CANNOT be NULL.
      */
-    String getPermission();
+    String getResource();
 
     /**
      * An optional textual description to provide more information to anyone looking at what the intention of the rule was.
@@ -56,21 +28,21 @@ public interface Permission extends Comparable<Permission> {
      * </p>
      * @return true, if yes, false otherwise.
      */
-    boolean isCreate();
+    boolean canCreate();
 
     /**
      * Determines whether you can read for this permission.
      *
      * @return true if yes, false otherwise.
      */
-    boolean isRead();
+    boolean canRead();
 
     /**
      * Determines whether you can update for this permission.
      *
      * @return true, if yes, false otherwise.
      */
-    boolean isUpdate();
+    boolean canUpdate();
 
     /**
      * Determines whether you can delete or not.
@@ -79,6 +51,6 @@ public interface Permission extends Comparable<Permission> {
      *
      * @return true, if yes, false otherwise.
      */
-    boolean isDelete();
+    boolean canDelete();
     
 }

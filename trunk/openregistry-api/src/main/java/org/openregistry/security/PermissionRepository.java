@@ -13,16 +13,16 @@ import java.util.List;
 public interface PermissionRepository {
 
     /**
-     * Returns various permissions for a particular permission type.  Doesn't really make sense to use for things such
+     * Returns various rules for a particular permission type.  Doesn't really make sense to use for things such
      * as USER or EXPRESSION.
      *
      * @param permissionType the permission type to retrieve permissions for.
      * @return the list.  CANNOT be NULL.  CAN be EMPTY.
      */
-    List<Permission> getPermissionsFor(Permission.PermissionType permissionType);
+    List<Rule> getRulesFor(Rule.PermissionType permissionType);
 
     /**
-     * Returns all of the permissions for a particular user.  This includes the following:
+     * Returns all of the rules for a particular user.  This includes the following:
      * <ul>
      * <li>All AUTHENTICATED permissions</li>
      * <li>All USERNAME permissions (for that user)
@@ -30,5 +30,5 @@ public interface PermissionRepository {
      * @param person the person, *iif* they exist.  CAN be NULL.
      * @return the list of permissions.  CANNOT be NULL.  CAN be EMPTY.
      */
-    List<Permission> getPermissionsForUser(final String username, final Person person);
+    List<Rule> getRulesForUser(final String username, final Person person);
 }
