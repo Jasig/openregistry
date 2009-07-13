@@ -26,9 +26,6 @@ public class PersonResponseRepresentation implements Serializable {
     @XmlAttribute(name = "activation-processor-uri")
     String activationProcessorUri;
 
-    @XmlAttribute(name = "activation-token")
-    String activationToken;
-
     @XmlElementWrapper(name = "identifiers")
     @XmlElement(name = "id")
     List<PersonIdentifierRepresentation> identifiers;
@@ -42,12 +39,10 @@ public class PersonResponseRepresentation implements Serializable {
 
     public PersonResponseRepresentation(String activationGeneratorUri,
                                  String activationProcessorUri,
-                                 String activationToken,
                                  List<PersonIdentifierRepresentation> ids) {
 
         this.activationGeneratorUri = activationGeneratorUri;
         this.activationProcessorUri = activationProcessorUri;
-        this.activationToken = activationToken;
         this.identifiers = ids;
     }
 

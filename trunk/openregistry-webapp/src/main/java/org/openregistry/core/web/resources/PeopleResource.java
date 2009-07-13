@@ -182,13 +182,6 @@ public final class PeopleResource {
     public PersonResponseRepresentation showPerson(@PathParam("personId") String personId,
                                                    @PathParam("personIdType") String personIdType) {
 
-        //Build activation generator URI
-        URI activationGeneratorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").build();
-
-        //Build activation proccess URI - there will need to be an activation token generator service. TBD.
-        URI activationProcessorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").path("proccess")
-                .queryParam("activation-token", "activation-token-skjfskjfhskjdfh").build();
-
         logger.info(String.format("Searching for a person with  {personIdType:%s, personId:%s} ...", personIdType, personId));
         Person person = this.personService.findPersonByIdentifier(personIdType, personId);
         if (person == null) {
@@ -199,10 +192,20 @@ public final class PeopleResource {
                             personIdType, personId));
         }
         logger.info("Person is found. Building a suitable representation...");
+        //Build activation generator URI
+        URI activationGeneratorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").build();
+
+        //HACK! TODO: done just for testing until the activation stuff is resolved i.e. at which point
+        //the key is created, etc.?
+        person.generateNewActivationKey(new Date());
+
+        //Build activation proccess URI - there will need to be an activation token generator service. TBD.
+        URI activationProcessorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").path(person.getCurrentActivationKey().getId())
+                .build();
+        
         return new PersonResponseRepresentation(
                 activationGeneratorUri.toString(),
-                activationProcessorUri.toString(),
-                "AT-153254325",
+                activationProcessorUri.toString(),                
                 buildPersonIdentifierRepresentations(person.getIdentifiers()));
     }
 
@@ -218,6 +221,7 @@ public final class PeopleResource {
         }
         reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
         logger.info("Trying to add incoming person...");
+        //TODO: OK, the activation key should be assigned by now (if new person)? I'd rather not rely on the ActivationService API here!
         ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
         //Now do the branching logic based on the result
         if (result.succeeded()) {
