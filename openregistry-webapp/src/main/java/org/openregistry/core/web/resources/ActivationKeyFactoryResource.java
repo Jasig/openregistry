@@ -6,13 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.openregistry.core.service.ActivationService;
 import org.openregistry.core.domain.PersonNotFoundException;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response;
+
 
 import com.sun.jersey.api.NotFoundException;
+
+import java.net.URI;
 
 /**
  * RESTful resource acting as a factory for activation keys for people in Open Registry
@@ -28,18 +31,27 @@ public final class ActivationKeyFactoryResource {
     @Autowired
     private ActivationService activationService;
 
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String generateNewActivationKey(@PathParam("personIdType") String personIdType,
+    //Jersey specific injection
+    @Context
+    UriInfo uriInfo;
+
+    @POST
+    public Response generateNewActivationKey(@PathParam("personIdType") String personIdType,
                                            @PathParam("personId") String personId) {
 
         try {
-            return this.activationService.generateActivationKey(personIdType, personId).getId();
+            String activationKey = this.activationService.generateActivationKey(personIdType, personId).getId();
+            //HTTP 201
+            return Response.created(buildActivationProcessorResourceUri(activationKey)).build();
         }
         catch (PersonNotFoundException ex) {
             throw new NotFoundException(
                     String.format("The person resource identified by /people/%s/%s URI does not exist",
                             personIdType, personId));
         }
+    }
+
+    private URI buildActivationProcessorResourceUri(String activationKey) {
+        return this.uriInfo.getAbsolutePathBuilder().path(activationKey).build();
     }
 }
