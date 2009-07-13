@@ -38,9 +38,9 @@ import com.sun.jersey.api.NotFoundException;
  * @author Dmitriy Kopylenko
  * @since 1.0
  */
-@Path("/people")
 @Component
 @Scope("singleton")
+@Path("/people")
 public final class PeopleResource {
 
     //Jersey specific injection
