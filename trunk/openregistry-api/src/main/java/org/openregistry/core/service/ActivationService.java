@@ -71,10 +71,9 @@ public interface ActivationService {
      * @param activationKey the activation key to invalidate.  CANNOT be NULL.
      * @throws PersonNotFoundException if the person was not found, or if identifierType or identifierValue is NULL.
      * @throws IllegalArgumentException if the activation key does not exist for the person.
-     * @throws IllegalStateException if the activation key exists but is expired.
      *
      */
-    void invalidateActivationKey(String identifierType, String identifierValue, String activationKey)  throws PersonNotFoundException, IllegalArgumentException, IllegalStateException;
+    void invalidateActivationKey(String identifierType, String identifierValue, String activationKey)  throws PersonNotFoundException, IllegalArgumentException;
 
     /**
      * Method for retrieving an activation key for "querying" purposes.   The most common querying will be to determine
