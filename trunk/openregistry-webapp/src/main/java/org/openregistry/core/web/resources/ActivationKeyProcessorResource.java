@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 import com.sun.jersey.api.NotFoundException;
 
 /**
- * RESTful resource exposing the activation key processing functions i.e. 'invalidation' and 'validation' of activation keys
+ * RESTful resource exposing the activation key processing functions i.e. 'invalidation' and 'verification' of activation keys
  * for people in Open Registry
  *
  * @author Dmitriy Kopylenko
