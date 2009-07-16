@@ -47,17 +47,13 @@ public final class ActivationKeyProcessorResource {
             throw new NotFoundException(
                     String.format("The person resource identified by /people/%s/%s URI does not exist",
                             personIdType, personId));
-        }
-        catch (IllegalStateException e) {
-            response = Response.status(409).entity(String.format("The activation key [%s] has expired", activationKey))
-                    .type(MediaType.TEXT_PLAIN).build();
-        }
+        }         
         //If response is null, that means HTTP 204
         return response;
     }
 
     @GET
-    public Response validateActivationKey(@PathParam("personIdType") String personIdType,
+    public Response verifyActivationKey(@PathParam("personIdType") String personIdType,
                                           @PathParam("personId") String personId,
                                           @PathParam("activationKey") String activationKey) {
         Response response = null;
