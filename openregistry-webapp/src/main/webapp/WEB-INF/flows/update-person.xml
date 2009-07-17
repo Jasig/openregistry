@@ -24,7 +24,7 @@
         </transition>
         <transition on="submitRemoveName" >
             <set name="requestScope.nameId" value="requestParameters.nameId" type="long" />
-            <evaluate expression="sorPerson.removeNameByNameId(nameId)" result="requestScope.name"/>
+            <evaluate expression="personService.removeSorName(sorPerson, nameId)" />
         </transition>
 
         <transition on="submitAddRole" to="addRole" />

@@ -476,4 +476,52 @@ public class DefaultPersonService implements PersonService {
     }
 
 
+    @Transactional
+    public boolean removeSorName(SorPerson sorPerson, Long nameId){
+        Name name = sorPerson.findNameByNameId(nameId);
+        if (name == null) return true;
+
+        //personRepository.deleteName(name);
+        sorPerson.removeName(name);
+
+        sorPerson = this.personRepository.saveSorPerson(sorPerson);
+        return true;
+    }
+
+    /**
+     * Move All Sor Records from one person to another.
+     *
+     * @param fromPerson person losing sor records.
+     * @param toPerson person receiving sor records.
+     * @return Result of move. Validation errors if they occurred or the Person receiving sor records.
+     */
+    public boolean moveSorRecords(final Person fromPerson, final Person toPerson){
+        //get the list of sor person records that will be moving.
+        List<SorPerson> sorPersonList =  personRepository.getSoRRecordsForPerson(fromPerson);
+        return true;
+    }
+
+    /**
+     * Move one Sor Record from one person to another.
+     *
+     * @param fromPerson person losing sor record.
+     * @param toPerson person receiving sor record.
+     * @return Result of move. Validation errors if they occurred or the to Person receiving sor records.
+     */
+    public boolean moveSorRecord(final Person fromPerson, final Person toPerson, final SorPerson sorPerson){
+        String sourceSorId = sorPerson.getSourceSorIdentifier();
+
+        //search through sor records of toPerson to see if they have sorPerson records for the same source sor id.
+        List<SorPerson> sorPersonList =  personRepository.getSoRRecordsForPerson(toPerson);
+        
+        //if toPerson has an sor record matching the source of the sor record being moved then:
+        //move the roles
+        //move the names
+        //delete the moving sorperson record
+
+        //if no matching sor record is found, then move the sorPerson record to point to the toPerson.
+        sorPerson.setPersonId(toPerson.getId());
+        return true;
+    }
+
 }

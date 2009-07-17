@@ -21,6 +21,8 @@ public interface Name extends Serializable {
 
     String getSuffix();
 
+    void preRemove();
+
     void setPrefix(String prefix);
 
     void setGiven(String given);
