@@ -122,6 +122,14 @@ public interface PersonRepository {
     void deleteSorRole(SorPerson person, SorRole role);
 
     /**
+     * Returns the SoR records for a particular person.
+     *
+     * @param person the person
+     * @return a list of sorPerson records.
+     */
+    List<SorPerson> getSoRRecordsForPerson(Person person);
+
+    /**
      * Returns the count of the number of SoR records for a particular person.
      *
      * @param person the person

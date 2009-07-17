@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa.sor;
 
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.Name;
+import org.openregistry.core.domain.Person;
 import org.hibernate.envers.Audited;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.core.ValidateDefinition;
@@ -102,6 +103,12 @@ public final class JpaSorNameImpl extends Entity implements Name {
     public void setSuffix(final String suffix) {
         this.suffix = suffix;
     }
+
+    @PreRemove
+	public void preRemove() {
+        //need to remove association when remove a name from a person.
+		this.person = null;
+	}
 
     public String getFormattedName(){
         final StringBuilder builder = new StringBuilder();

@@ -158,4 +158,30 @@ public interface PersonService {
      * @return Result of updating.  Validation errors if they occurred or the sorPerson.
      */
     ServiceExecutionResult updateSorRole(final SorRole role);
+
+    /**
+     * Removes an SorName.
+     *
+     * @param nameId id of name to delete from the person
+     * @return Result of the remove. 
+     */
+    boolean removeSorName(SorPerson sorPerson, Long nameId);
+
+    /**
+     * Move All Sor Records from one person to another.
+     *
+     * @param fromPerson person losing sor records.
+     * @param toPerson person receiving sor records.
+     * @return Result of move. Validation errors if they occurred or the Person receiving sor records.
+     */
+    boolean moveSorRecords(final Person fromPerson, final Person toPerson);
+
+    /**
+     * Move one Sor Record from one person to another.
+     *
+     * @param fromPerson person losing sor record.
+     * @param toPerson person receiving sor record.
+     * @return Result of move. Validation errors if they occurred or the to Person receiving sor records.
+     */
+    boolean moveSorRecord(final Person fromPerson, final Person toPerson, final SorPerson sorPerson);
 }

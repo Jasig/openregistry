@@ -113,6 +113,16 @@ public class JpaPersonRepository implements PersonRepository {
         this.entityManager.remove(person);
     }
 
+    /**
+     * Returns the SoR records for a particular person.
+     *
+     * @param person the person
+     * @return a list of sorPerson records.
+     */
+    public List<SorPerson> getSoRRecordsForPerson(Person person){
+        return (List<SorPerson>) this.entityManager.createQuery("select s from sorPerson s where s.personId = :personId").setParameter("personId", person.getId()).getResultList();
+    }
+
     public Number getCountOfSoRRecordsForPerson(final Person person) {
         return (Number) this.entityManager.createQuery("select count(s) from sorPerson s where s.personId = :personId").setParameter("personId", person.getId()).getSingleResult();
     }
@@ -126,8 +136,11 @@ public class JpaPersonRepository implements PersonRepository {
         return (List<Identifier>) this.entityManager.createQuery("select i from identifier i join i.person p where p.id = :personId and i.person = :personId").setParameter("personId", personId).getResultList();
     }
 
-    public void deleteName(Name name) {
-        //TODO: implement
+
+    public void deleteName(Name name){
+        this.entityManager.getReference(name.getClass(), name.getId());
+        this.entityManager.remove(name);
     }
+
 }
 

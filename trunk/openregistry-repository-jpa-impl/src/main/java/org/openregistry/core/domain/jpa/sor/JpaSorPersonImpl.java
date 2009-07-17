@@ -64,6 +64,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     private String gender;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @ValidateList
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Name> names = new ArrayList<Name>();
@@ -138,23 +139,22 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         return jpaSorName;
     }
 
-    public synchronized void removeNameByNameId(final Long id) {
-        Name nameToDelete = null;
+    public synchronized Name findNameByNameId(final Long id) {
+        Name nameToFind = null;
         for (final Name name : this.names) {
             final Long nameId = name.getId();
             if (nameId != null && nameId.equals(id)) {
-                nameToDelete = name;
+                nameToFind = name;
                 break;
             }
         }
-
-        if (nameToDelete != null) {
-            this.names.remove(nameToDelete);
-            logger.info("Found name to delete. ");
-            nameToDelete = null;
-        }
-
+        return nameToFind;
     }
+
+    public synchronized void removeName(Name name) {
+        this.names.remove(name);
+    }
+
 
     // TODO not sure if this should be here
     public String getFormattedNameAndID(){
