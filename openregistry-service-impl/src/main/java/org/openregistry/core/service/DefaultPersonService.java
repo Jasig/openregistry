@@ -479,7 +479,7 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public boolean removeSorName(SorPerson sorPerson, Long nameId){
         Name name = sorPerson.findNameByNameId(nameId);
-        if (name == null) return true;
+        if (name == null) return false;
 
         //personRepository.deleteName(name);
         sorPerson.removeName(name);
