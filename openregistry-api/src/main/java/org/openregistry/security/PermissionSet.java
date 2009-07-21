@@ -1,5 +1,7 @@
 package org.openregistry.security;
 
+import java.util.Set;
+
 /**
  * 
  *
@@ -7,4 +9,9 @@ package org.openregistry.security;
  * @since 1.0.0
  */
 public interface PermissionSet {
+
+    String getName();
+
+    Set<Permission> getPermissions();
+
 }

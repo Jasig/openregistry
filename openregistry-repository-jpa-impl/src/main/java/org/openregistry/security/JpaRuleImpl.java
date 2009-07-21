@@ -18,19 +18,30 @@ public final class JpaRuleImpl implements Rule {
     @SequenceGenerator(name="or_rules_seq",sequenceName="or_rules_seq",initialValue=1,allocationSize=50)
     private long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,targetEntity = JpaPermissionImpl.class)
     @JoinColumn(name = "permission_id")
-    private JpaPermissionImpl permission;
+    private Permission permission;
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=false,targetEntity = JpaSystemOfRecordImpl.class)
     @JoinColumn(name="sor_id")
-    private JpaSystemOfRecordImpl systemOfRecord;
+    private SystemOfRecord systemOfRecord;
 
     @Column(name="permission_type")
     private PermissionType permissionType;
 
     @Column(name="value")
     private String value;
+
+    public JpaRuleImpl() {
+        // nothing to do for JPA
+    }
+
+    public JpaRuleImpl(final PermissionType permissionType, final String value, final SystemOfRecord systemOfRecord, final Permission permission) {
+        this.permissionType = permissionType;
+        this.value = value;
+        this.systemOfRecord = systemOfRecord;
+        this.permission = permission;
+    }
 
     public String getUser() {
         if (getPermissionType() == PermissionType.USER) {

@@ -2,6 +2,7 @@ package org.openregistry.security;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @version $Revision$ $Date$
@@ -37,6 +38,9 @@ public final class JpaPermissionImpl implements Permission {
 
     @OneToMany(mappedBy = "permission",fetch = FetchType.LAZY)
     private List<JpaRuleImpl> rules;
+
+    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY,targetEntity = JpaPermissionSetImpl.class)
+    private Set<PermissionSet> permissionSets;
 
     public String getResource() {
         return this.resource;
