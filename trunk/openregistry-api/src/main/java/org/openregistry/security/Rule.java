@@ -34,6 +34,6 @@ public interface Rule extends Permission, Comparable<Rule> {
      * Represents the system of record.  A NULL SoR indicates this permission applies to
      * @return the system of record or NULL, if the permission applies to none.
      */
-    String getSystemOfRecord();
+    SystemOfRecord getSystemOfRecord();
 
 }

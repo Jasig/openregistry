@@ -5,8 +5,12 @@ import org.springframework.security.GrantedAuthority;
 import org.openregistry.core.domain.Person;
 import org.openregistry.security.Permission;
 import org.openregistry.security.Rule;
+import org.openregistry.security.User;
+import org.openregistry.security.SystemOfRecord;
 
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Implementation of the Spring Security {@link org.springframework.security.userdetails.UserDetails}
@@ -15,7 +19,7 @@ import java.util.List;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public final class SpringSecurityUserImpl implements UserDetails {
+public final class SpringSecurityUserImpl implements UserDetails, User {
 
     private final String username;
 
@@ -23,10 +27,20 @@ public final class SpringSecurityUserImpl implements UserDetails {
 
     private final List<Rule> permissions;
 
+    private final Set<SystemOfRecord> systemOfRecords = new HashSet<SystemOfRecord>();
+
     public SpringSecurityUserImpl(final String username, final boolean enabled, final List<Rule> permissions) {
         this.username = username;
         this.enabled = enabled;
         this.permissions = permissions;
+
+        for (final Rule r : permissions) {
+            this.systemOfRecords.add(r.getSystemOfRecord());
+        }
+    }
+
+    public Set<SystemOfRecord> getSystemOfRecords() {
+        return this.systemOfRecords;
     }
 
     // TODO fix
