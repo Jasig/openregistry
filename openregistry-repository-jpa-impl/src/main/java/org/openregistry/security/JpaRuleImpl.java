@@ -51,8 +51,8 @@ public final class JpaRuleImpl implements Rule {
         return this.permissionType;
     }
 
-    public String getSystemOfRecord() {
-        return this.systemOfRecord.getName();
+    public SystemOfRecord getSystemOfRecord() {
+        return this.systemOfRecord;
     }
 
     public String getResource() {

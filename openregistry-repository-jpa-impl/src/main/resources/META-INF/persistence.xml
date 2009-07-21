@@ -32,6 +32,7 @@
             <class>org.openregistry.core.domain.jpa.sor.JpaSorUrlImpl</class>
             <class>org.openregistry.security.JpaPermissionImpl</class>
             <class>org.openregistry.security.JpaSystemOfRecordImpl</class>
+            <class>org.openregistry.security.JpaRuleImpl</class>
             <properties>
                 <property name="hibernate.ejb.event.post-insert"
                           value="org.hibernate.envers.event.AuditEventListener" />

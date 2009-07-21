@@ -1,6 +1,8 @@
-package org.openregistry.security;
+package org.openregistry.core.repository.jpa;
 
 import org.openregistry.core.domain.Person;
+import org.openregistry.security.PermissionRepository;
+import org.openregistry.security.Rule;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
