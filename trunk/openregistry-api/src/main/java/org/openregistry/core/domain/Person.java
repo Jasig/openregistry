@@ -132,7 +132,7 @@ public interface Person extends Serializable {
      * are removed and replaced with this new one.
      *
      * @param start the start date for the activation key
-     * @param end the end date for the acvitvation key
+     * @param end the end date for the activation key
      * @return the new activation key that was generated.  CANNOT be NULL.
      */
     ActivationKey generateNewActivationKey(Date start, Date end);
