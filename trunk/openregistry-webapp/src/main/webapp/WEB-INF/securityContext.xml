@@ -43,7 +43,7 @@
         <property name="serviceProperties" ref="serviceProperties"/>
         <property name="ticketValidator">
             <bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
-                <constructor-arg index="0" ref="casServerHost" />
+                <constructor-arg index="0" ref="casServerHost" />                                                                                                                                                   
                 <property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage"/>
                 <property name="proxyCallbackUrl" ref="casProxyReceptorUrl" />
             </bean>
