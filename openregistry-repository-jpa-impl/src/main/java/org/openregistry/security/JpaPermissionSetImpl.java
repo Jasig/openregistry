@@ -4,20 +4,19 @@ import javax.persistence.*;
 import java.util.Set;
 
 /**
- * Created by IntelliJ IDEA.
- * User: battags
- * Date: Jul 21, 2009
- * Time: 11:38:09 AM
- * To change this template use File | Settings | File Templates.
+ * JPA-backed implementation of the {@link org.openregistry.security.PermissionSet} interface.
+ *
+ * @version $Revision$ $Date$
+ * @since 1.0.0
  */
 @Entity(name="permissionSet")
-@Table(name="or_security_permission_set")
+@Table(name="ctx_permission_sets")
 public class JpaPermissionSetImpl implements PermissionSet {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "or_permission_set_seq")
-    @SequenceGenerator(name="or_permission_set_seq",sequenceName="or_permission_set_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctx_permission_sets_seq")
+    @SequenceGenerator(name="ctx_permission_sets_seq",sequenceName="ctx_permission_sets_seq",initialValue=1,allocationSize=50)
     private long id;
 
     @Column(name="name", length = 100, nullable = false,unique = true)

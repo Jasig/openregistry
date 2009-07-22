@@ -10,18 +10,18 @@ import java.util.HashSet;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Entity(name="ruleSet")
-@Table(name="or_security_rule_set")
+@Entity(name="privilegeSet")
+@Table(name="ctx_privilege_sets")
 public final class JpaPrivilegeSetImpl implements PrivilegeSet {
 
    @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "or_ruleset_seq")
-    @SequenceGenerator(name="or_ruleset_seq",sequenceName="or_ruleset_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctx_privilege_sets_seq")
+    @SequenceGenerator(name="ctx_privilege_sets_seq",sequenceName="ctx_privilege_sets_seq",initialValue=1,allocationSize=50)
     private long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "ruleset_id")
+    @JoinColumn(name = "permissionset_id")
     private JpaPermissionSetImpl permissionSet;
 
     @ManyToOne(optional=false)
