@@ -10,20 +10,20 @@ import java.util.List;
  * @since 1.0.0
  */
 @Entity(name = "systemOfRecord")
-@Table(name="or_sors")
+@Table(name="ctx_sors")
 public final class JpaSystemOfRecordImpl implements SystemOfRecord {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "or_sors_seq")
-    @SequenceGenerator(name="or_sors_seq",sequenceName="or_sors_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctx_sors_seq")
+    @SequenceGenerator(name="ctx_sors_seq",sequenceName="ctx_sors_seq",initialValue=1,allocationSize=50)
     private long id;
 
     @Column(name="name",nullable = false,length = 100)
     private String name;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="systemOfRecord", fetch = FetchType.LAZY, targetEntity = JpaPrivilegeImpl.class)
-    private List<JpaPrivilegeImpl> permissions;
+    private List<JpaPrivilegeImpl> privileges;
 
     public String getName() {
         return this.name;

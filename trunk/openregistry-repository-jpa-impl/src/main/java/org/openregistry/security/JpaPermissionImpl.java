@@ -9,13 +9,13 @@ import java.util.Set;
  * @since 1.0.0
  */
 @Entity(name="permission")
-@Table(name="or_permissions")
+@Table(name="ctx_permissions")
 public final class JpaPermissionImpl implements Permission {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "or_permissions_seq")
-    @SequenceGenerator(name="or_permissions_seq",sequenceName="or_permissions_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctx_permissions_seq")
+    @SequenceGenerator(name="ctx_permissions_seq",sequenceName="ctx_permissions_seq",initialValue=1,allocationSize=50)
     private long id;
 
     @Column(name="resource")

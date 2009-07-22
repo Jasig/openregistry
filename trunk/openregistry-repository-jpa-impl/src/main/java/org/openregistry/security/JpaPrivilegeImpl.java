@@ -8,14 +8,14 @@ import javax.persistence.*;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Entity(name = "rule")
-@Table(name = "or_rules")
+@Entity(name = "privilege")
+@Table(name = "ctx_privileges")
 public final class JpaPrivilegeImpl implements Privilege {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "or_rules_seq")
-    @SequenceGenerator(name="or_rules_seq",sequenceName="or_rules_seq",initialValue=1,allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctx_privileges_seq")
+    @SequenceGenerator(name="ctx_privileges_seq",sequenceName="ctx_privileges_seq",initialValue=1,allocationSize=50)
     private long id;
 
     @ManyToOne(optional = false,targetEntity = JpaPermissionImpl.class)
