@@ -3,14 +3,14 @@ package org.openregistry.security;
 import javax.persistence.*;
 
 /**
- * Implementation of the {@link org.openregistry.security.Rule}.
+ * Implementation of the {@link Privilege}.
  *
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @Entity(name = "rule")
 @Table(name = "or_rules")
-public final class JpaRuleImpl implements Rule {
+public final class JpaPrivilegeImpl implements Privilege {
 
     @Id
     @Column(name="id")
@@ -32,11 +32,11 @@ public final class JpaRuleImpl implements Rule {
     @Column(name="value")
     private String value;
 
-    public JpaRuleImpl() {
+    public JpaPrivilegeImpl() {
         // nothing to do for JPA
     }
 
-    public JpaRuleImpl(final PermissionType permissionType, final String value, final SystemOfRecord systemOfRecord, final Permission permission) {
+    public JpaPrivilegeImpl(final PermissionType permissionType, final String value, final SystemOfRecord systemOfRecord, final Permission permission) {
         this.permissionType = permissionType;
         this.value = value;
         this.systemOfRecord = systemOfRecord;
@@ -91,7 +91,7 @@ public final class JpaRuleImpl implements Rule {
     }
 
     // TODO implement
-    public int compareTo(final Rule rule) {
+    public int compareTo(final Privilege privilege) {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

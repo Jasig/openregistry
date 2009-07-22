@@ -5,14 +5,14 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
- * JPA-backed implementation of the {@link org.openregistry.security.RuleSet} interface.
+ * JPA-backed implementation of the {@link PrivilegeSet} interface.
  *
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @Entity(name="ruleSet")
 @Table(name="or_security_rule_set")
-public class JpaRuleSetImpl implements RuleSet {
+public final class JpaPrivilegeSetImpl implements PrivilegeSet {
 
    @Id
     @Column(name="id")
@@ -65,13 +65,13 @@ public class JpaRuleSetImpl implements RuleSet {
         return this.systemOfRecord;
     }
 
-    public Set<Rule> getRules() {
-        final Set<Rule> rules = new HashSet<Rule>();
+    public Set<Privilege> getPrivileges() {
+        final Set<Privilege> privileges = new HashSet<Privilege>();
 
         for (final Permission p : this.getPermissions()) {
-            rules.add(new JpaRuleImpl(this.permissionType, this.value, this.systemOfRecord, p));
+            privileges.add(new JpaPrivilegeImpl(this.permissionType, this.value, this.systemOfRecord, p));
         }
 
-        return rules;
+        return privileges;
     }
 }

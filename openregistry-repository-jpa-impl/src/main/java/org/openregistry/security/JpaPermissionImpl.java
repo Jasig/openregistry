@@ -37,7 +37,7 @@ public final class JpaPermissionImpl implements Permission {
     private boolean delete;
 
     @OneToMany(mappedBy = "permission",fetch = FetchType.LAZY)
-    private List<JpaRuleImpl> rules;
+    private List<JpaPrivilegeImpl> rules;
 
     @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY,targetEntity = JpaPermissionSetImpl.class)
     private Set<PermissionSet> permissionSets;
