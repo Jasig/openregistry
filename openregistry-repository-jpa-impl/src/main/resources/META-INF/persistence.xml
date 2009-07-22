@@ -33,6 +33,9 @@
             <class>org.openregistry.security.JpaPermissionImpl</class>
             <class>org.openregistry.security.JpaSystemOfRecordImpl</class>
             <class>org.openregistry.security.JpaPrivilegeImpl</class>
+            <class>org.openregistry.security.JpaPermissionSetImpl</class>
+            <class>org.openregistry.security.JpaPrivilegeImpl</class>
+            <class>org.openregistry.security.JpaPrivilegeSetImpl</class>
             <properties>
                 <property name="hibernate.ejb.event.post-insert"
                           value="org.hibernate.envers.event.AuditEventListener" />
