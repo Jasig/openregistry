@@ -8,5 +8,10 @@ package org.openregistry.security;
  */
 public interface SystemOfRecord {
 
+    /**
+     * The name of the system of record.  Generally its unique identifier.
+     *
+     * @return the name. CANNOT be NULL.
+     */
     String getName();
 }

@@ -2,9 +2,7 @@ package org.jasig.openregistry.core.security;
 
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.GrantedAuthority;
-import org.openregistry.core.domain.Person;
-import org.openregistry.security.Permission;
-import org.openregistry.security.Rule;
+import org.openregistry.security.Privilege;
 import org.openregistry.security.User;
 import org.openregistry.security.SystemOfRecord;
 
@@ -25,16 +23,16 @@ public final class SpringSecurityUserImpl implements UserDetails, User {
 
     private final boolean enabled;
 
-    private final List<Rule> permissions;
+    private final List<Privilege> permissions;
 
     private final Set<SystemOfRecord> systemOfRecords = new HashSet<SystemOfRecord>();
 
-    public SpringSecurityUserImpl(final String username, final boolean enabled, final List<Rule> permissions) {
+    public SpringSecurityUserImpl(final String username, final boolean enabled, final List<Privilege> permissions) {
         this.username = username;
         this.enabled = enabled;
         this.permissions = permissions;
 
-        for (final Rule r : permissions) {
+        for (final Privilege r : permissions) {
             this.systemOfRecords.add(r.getSystemOfRecord());
         }
     }

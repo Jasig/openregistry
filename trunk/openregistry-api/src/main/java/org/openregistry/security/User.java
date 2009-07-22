@@ -3,11 +3,10 @@ package org.openregistry.security;
 import java.util.Set;
 
 /**
- * Created by IntelliJ IDEA.
- * User: scottbattaglia
- * Date: Jul 21, 2009
- * Time: 8:18:39 AM
- * To change this template use File | Settings | File Templates.
+ * Represents a user in the system.  Exposes information about the user that may be needed within the system.
+ *
+ * @version $Revision$ $Date$
+ * @since 1.0.0
  */
 public interface User {
 

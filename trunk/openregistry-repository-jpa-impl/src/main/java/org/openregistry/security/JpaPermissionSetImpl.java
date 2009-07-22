@@ -26,8 +26,8 @@ public class JpaPermissionSetImpl implements PermissionSet {
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = JpaPermissionImpl.class)
     private Set<Permission> permissions;
 
-    @OneToMany(mappedBy = "permissionSet",fetch = FetchType.LAZY,targetEntity = JpaRuleSetImpl.class)
-    private Set<RuleSet> ruleSets;
+    @OneToMany(mappedBy = "permissionSet",fetch = FetchType.LAZY,targetEntity = JpaPrivilegeSetImpl.class)
+    private Set<PrivilegeSet> privilegeSets;
 
     public String getName() {
         return this.name;

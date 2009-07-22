@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.domain.Person;
-import org.openregistry.security.Permission;
 import org.openregistry.security.PermissionRepository;
-import org.openregistry.security.Rule;
+import org.openregistry.security.Privilege;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
@@ -41,8 +40,8 @@ public final class JpaUserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException, DataAccessException {
         final Person person = findPersonById(username);
-        final List<Rule> rules = this.permissionRepository.getRulesForUser(username, person);
-        return new SpringSecurityUserImpl(username, true, rules);
+        final List<Privilege> privileges = this.permissionRepository.getPrivilegesForUser(username, person);
+        return new SpringSecurityUserImpl(username, true, privileges);
     }
 
     protected Person findPersonById(final String username) {

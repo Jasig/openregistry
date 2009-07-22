@@ -2,7 +2,7 @@ package org.openregistry.core.repository.jpa;
 
 import org.openregistry.core.domain.Person;
 import org.openregistry.security.PermissionRepository;
-import org.openregistry.security.Rule;
+import org.openregistry.security.Privilege;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -23,21 +23,21 @@ public final class JpaPermissionRepositoryImpl implements PermissionRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Rule> getRulesFor(final Rule.PermissionType userType) {
-        return (List<Rule>) this.entityManager.createQuery("select r from rule r where r.permissionType = :permissionType").setParameter("permissionType", userType).getResultList();
+    public List<Privilege> getPrivilegesFor(final Privilege.PermissionType userType) {
+        return (List<Privilege>) this.entityManager.createQuery("select r from rule r where r.permissionType = :permissionType").setParameter("permissionType", userType).getResultList();
     }
 
-    public List<Rule> getRulesForUser(String username, Person person) {
-        final List<Rule> permissionsForUserOrEveryone = (List<Rule>) this.entityManager.createQuery("select r from rule r where (r.value = :userName and r.permissionType = :userPermissionType) or r.permissionType = :authenticatedPermissionType or r.permissionType = :anonymousPermissionType").setParameter("userName", username)
-                .setParameter("userPermissionType", Rule.PermissionType.USER)
-                .setParameter("authenticatedPermissionType", Rule.PermissionType.AUTHENTICATED)
-                .setParameter("anonymousPermissionType", Rule.PermissionType.EVERYONE)
+    public List<Privilege> getPrivilegesForUser(String username, Person person) {
+        final List<Privilege> permissionsForUserOrEveryone = (List<Privilege>) this.entityManager.createQuery("select r from rule r where (r.value = :userName and r.permissionType = :userPermissionType) or r.permissionType = :authenticatedPermissionType or r.permissionType = :anonymousPermissionType").setParameter("userName", username)
+                .setParameter("userPermissionType", Privilege.PermissionType.USER)
+                .setParameter("authenticatedPermissionType", Privilege.PermissionType.AUTHENTICATED)
+                .setParameter("anonymousPermissionType", Privilege.PermissionType.EVERYONE)
                 .getResultList();
 
         // TODO retrieve these expressions and parse them
-        final List<Rule> permissionsByExpression = new ArrayList<Rule>();
+        final List<Privilege> permissionsByExpression = new ArrayList<Privilege>();
 
-        final List<Rule> permissions = new ArrayList<Rule>();
+        final List<Privilege> permissions = new ArrayList<Privilege>();
         permissions.addAll(permissionsByExpression);
         permissions.addAll(permissionsForUserOrEveryone);
 

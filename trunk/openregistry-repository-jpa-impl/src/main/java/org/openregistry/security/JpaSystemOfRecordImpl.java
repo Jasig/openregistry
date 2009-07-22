@@ -22,8 +22,8 @@ public final class JpaSystemOfRecordImpl implements SystemOfRecord {
     @Column(name="name",nullable = false,length = 100)
     private String name;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="systemOfRecord", fetch = FetchType.LAZY, targetEntity = JpaRuleImpl.class)
-    private List<JpaRuleImpl> permissions;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="systemOfRecord", fetch = FetchType.LAZY, targetEntity = JpaPrivilegeImpl.class)
+    private List<JpaPrivilegeImpl> permissions;
 
     public String getName() {
         return this.name;
