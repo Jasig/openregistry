@@ -17,7 +17,7 @@ import java.security.SecureRandom;
  * @since 1.0.0
  */
 @Entity(name="activationKey")
-@Table(name="kr_activation_keys")
+@Table(name="kro_activation_keys")
 @Audited
 public final class JpaActivationKeyImpl implements ActivationKey {
 
