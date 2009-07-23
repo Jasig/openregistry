@@ -59,6 +59,21 @@
         </dependency>
 
         <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>el-api</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>juel</groupId>
+            <artifactId>juel-impl</artifactId>
+            <version>${juel.version}</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>org.springframework.jdbc</artifactId>
             <version>${spring.version}</version>

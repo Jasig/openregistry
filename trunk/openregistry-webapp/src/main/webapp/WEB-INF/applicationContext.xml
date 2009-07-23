@@ -27,6 +27,7 @@
     <context:component-scan base-package="org.openregistry.core.repository"/>
     <context:component-scan base-package="org.openregistry.integration.support"/>
     <context:component-scan base-package="org.openregistry.security" />
+    <context:component-scan base-package="org.jasig.openregistry.core.security" />
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
