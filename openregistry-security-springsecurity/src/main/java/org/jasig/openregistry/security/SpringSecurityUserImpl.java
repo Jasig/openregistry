@@ -1,4 +1,4 @@
-package org.jasig.openregistry.core.security;
+package org.jasig.openregistry.security;
 
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.GrantedAuthority;
