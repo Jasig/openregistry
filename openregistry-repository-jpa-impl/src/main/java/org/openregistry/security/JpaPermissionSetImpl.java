@@ -23,6 +23,7 @@ public class JpaPermissionSetImpl implements PermissionSet {
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = JpaPermissionImpl.class)
+    @JoinTable(name = "ctx_permission_set_mapping")
     private Set<Permission> permissions;
 
     @OneToMany(mappedBy = "permissionSet",fetch = FetchType.LAZY,targetEntity = JpaPrivilegeSetImpl.class)
