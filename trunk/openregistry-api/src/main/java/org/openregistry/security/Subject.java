@@ -39,5 +39,4 @@ public interface Subject {
      * @return the system of record or NULL, if the permission applies to none.
      */
     SystemOfRecord getSystemOfRecord();
-
 }
