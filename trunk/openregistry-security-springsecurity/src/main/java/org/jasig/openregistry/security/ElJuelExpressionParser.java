@@ -27,4 +27,9 @@ public final class ElJuelExpressionParser implements ExpressionParser {
         final ValueExpression valueExpression = this.expressionFactory.createValueExpression(context, expression, boolean.class);
         return (Boolean) valueExpression.getValue(context);
     }
+
+    // TODO implement
+    public boolean matches(final String resource, final String resourceExpression) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

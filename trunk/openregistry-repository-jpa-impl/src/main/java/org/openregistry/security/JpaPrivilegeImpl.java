@@ -27,7 +27,7 @@ public final class JpaPrivilegeImpl implements Privilege {
     private SystemOfRecord systemOfRecord;
 
     @Column(name="permission_type")
-    private PermissionType permissionType;
+    private SubjectType subjectType;
 
     @Column(name="value")
     private String value;
@@ -36,15 +36,15 @@ public final class JpaPrivilegeImpl implements Privilege {
         // nothing to do for JPA
     }
 
-    public JpaPrivilegeImpl(final PermissionType permissionType, final String value, final SystemOfRecord systemOfRecord, final Permission permission) {
-        this.permissionType = permissionType;
+    public JpaPrivilegeImpl(final SubjectType subjectType, final String value, final SystemOfRecord systemOfRecord, final Permission permission) {
+        this.subjectType = subjectType;
         this.value = value;
         this.systemOfRecord = systemOfRecord;
         this.permission = permission;
     }
 
     public String getUser() {
-        if (getPermissionType() == PermissionType.USER) {
+        if (getSubjectType() == SubjectType.USER) {
             return this.value;
         }
 
@@ -52,14 +52,14 @@ public final class JpaPrivilegeImpl implements Privilege {
     }
 
     public String getExpression() {
-        if (getPermissionType() == PermissionType.EXPRESSION) {
+        if (getSubjectType() == SubjectType.EXPRESSION) {
             return this.value;
         }
         return null;
     }
 
-    public PermissionType getPermissionType() {
-        return this.permissionType;
+    public SubjectType getSubjectType() {
+        return this.subjectType;
     }
 
     public SystemOfRecord getSystemOfRecord() {
@@ -95,8 +95,8 @@ public final class JpaPrivilegeImpl implements Privilege {
             return 0;
         }
 
-        final int thisIndex = this.getPermissionType().ordinal();
-        final int otherIndex = privilege.getPermissionType().ordinal();
+        final int thisIndex = this.getSubjectType().ordinal();
+        final int otherIndex = privilege.getSubjectType().ordinal();
 
         return thisIndex - otherIndex;
     }

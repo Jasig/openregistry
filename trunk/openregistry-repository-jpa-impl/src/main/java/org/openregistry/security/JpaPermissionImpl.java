@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Implementation of the {@link org.openregistry.security.Permission} interface.
+ *
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
