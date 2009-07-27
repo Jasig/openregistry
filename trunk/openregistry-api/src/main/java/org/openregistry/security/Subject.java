@@ -1,11 +1,11 @@
 package org.openregistry.security;
 
 /**
- * Created by IntelliJ IDEA.
- * User: battags
- * Date: Jul 21, 2009
- * Time: 1:12:04 PM
- * To change this template use File | Settings | File Templates.
+ * Represents the person who the permission will be applied to.
+ *
+ * @version $Revision$ $Date$
+ * @since 1.0.0
+ *
  */
 public interface Subject {
 
