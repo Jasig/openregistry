@@ -90,8 +90,20 @@ public final class JpaPrivilegeImpl implements Privilege {
         return this.permission.canDelete();
     }
 
-    // TODO implement
     public int compareTo(final Privilege privilege) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        if (this.equals(privilege)) {
+            return 0;
+        }
+
+        if (this.getPermissionType() == privilege.getPermissionType()) {
+            return 0;
+            // TODO we may want to make this more fine-grained
+        }
+
+        // a n egative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object. 
+        final int thisIndex = this.getPermissionType().ordinal();
+        final int otherIndex = privilege.getPermissionType().ordinal();
+
+        return thisIndex - otherIndex;
     }
 }
