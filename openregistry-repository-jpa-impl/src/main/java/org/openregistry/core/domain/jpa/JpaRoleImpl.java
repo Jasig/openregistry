@@ -221,6 +221,11 @@ public final class JpaRoleImpl extends Entity implements Role {
         this.personStatus = (JpaTypeImpl) personStatus;
     }
 
+    public void moveRoleToPerson(Person person){
+        Assert.isInstanceOf(JpaPersonImpl.class, person);
+        this.person = (JpaPersonImpl) person;
+    }
+
     public Set<Leave> getLeaves() {
         return this.leaves;
     }
@@ -264,5 +269,9 @@ public final class JpaRoleImpl extends Entity implements Role {
 
     public boolean isTerminated() {
         return ((this.end != null) && (this.end.compareTo(new Date()) >= 0));
+    }
+
+    public void moveToPerson(JpaPersonImpl person){
+        this.person = person;
     }
 }

@@ -357,4 +357,8 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     public List<EmailAddress> getEmailAddresses() {
         return this.emailAddresses;
     }
+
+    public void moveToPerson(JpaSorPersonImpl person){
+        this.person = person;
+    }
 }

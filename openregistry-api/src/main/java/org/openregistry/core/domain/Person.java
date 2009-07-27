@@ -66,6 +66,18 @@ public interface Person extends Serializable {
     Role addRole(RoleInfo roleInfo, SorRole sorRole);
 
     /**
+     * Add a new role to a collection of roles this person holds when the role already exists, such as on a move.
+     *
+     * @param role
+     * @return role role added to this person instance.  NEVER returns null.
+     */
+    Role addRole(Role role);
+
+    void removeRole(Role role);
+
+    void removeAllRoles();
+
+    /**
      * Get identifiers associated with this person.
      *
      * @return PersonIdentifiers. Please note that this method should never return null.

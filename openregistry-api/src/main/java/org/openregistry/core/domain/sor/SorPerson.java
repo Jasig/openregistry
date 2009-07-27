@@ -87,11 +87,21 @@ public interface SorPerson {
     Name addName();
 
     /**
+     * Adds a name to the set of names.
+     */
+    void addName(Name name);
+
+    /**
      * Removes an SoR Name based on the Name provided.
      *
      * @param name the name to remove.
      */
     void removeName(Name name);
+
+    /**
+     * Removes all names from the Sor Person
+     */
+    void removeAllNames();
 
     /**
      * Finds an SoR Name (and returns it) based on the Name Id provided.
@@ -113,8 +123,21 @@ public interface SorPerson {
      * @param ssn the SSN of the person.
      */
     void setSsn(String ssn);
-    
+
+    /**
+     * Adds an SoR Role (and returns it) based on the roleInfo.
+     *
+     * @param roleInfo the type of role to add.
+     * @return the newly created SorRole.
+     */
 	SorRole addRole(RoleInfo roleInfo);
+
+    /**
+     * Adds an SoR Role (and returns it) role already exists it is being added to the person.
+     *
+     * @param role the role to add.
+     */
+    void addRole(SorRole role);
     
     /**
      * Retrieves the identifier of the Calculated Person associated with this System of Record person.  Portions of the
@@ -140,8 +163,21 @@ public interface SorPerson {
     SorRole removeRoleByRoleId(Long id);
 
     /**
+     * Removes the SoR Role.
+     *
+     * @param sorRole the role to remove.
+     */
+    void removeRole(SorRole sorRole);
+
+    /**
      * Retrieves the list of System of Record roles.
      * @return the list of roles, CANNOT be null.  CAN be empty.
      */
     List<SorRole> getRoles();
+
+    /**
+     * Removes all roles from the Sor Person
+     */
+    void removeAllRoles();
+
 }

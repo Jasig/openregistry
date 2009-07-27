@@ -158,4 +158,8 @@ public final class JpaSorNameImpl extends Entity implements Name {
 		// TODO Auto-generated method stub
 		
 	}
+
+    public void moveToPerson(JpaSorPersonImpl person){
+        this.person = person;
+    }
 }
