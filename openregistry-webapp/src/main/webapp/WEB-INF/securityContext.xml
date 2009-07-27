@@ -58,7 +58,7 @@
         <property name="sendRenew" ref="casRenew" />
     </bean>
 
-    <bean id="userService" class="org.jasig.openregistry.security.JpaUserDetailsServiceImpl">
+    <bean id="userService" class="org.jasig.openregistry.security.OpenRegistryUserDetailsServiceImpl">
         <property name="identifierType" value="NETID">
         </property>
     </bean>
