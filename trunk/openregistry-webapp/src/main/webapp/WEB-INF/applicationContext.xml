@@ -33,7 +33,7 @@
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
     <jee:jndi-lookup id="hibernateDialect" jndi-name="conf/HibernateDialect" expected-type="java.lang.String"/>
 
-    <!-- To create proxies for IdentifierChangeAspect which itself is being 'component-scaned' (for now; and others later) -->
+    <!-- To create proxies for IdentifierChangeAspect which itself is being 'component-scanned' (for now; and others later) -->
     <aop:aspectj-autoproxy/>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
