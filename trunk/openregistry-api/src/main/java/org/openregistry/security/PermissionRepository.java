@@ -14,7 +14,7 @@ public interface PermissionRepository {
 
     /**
      * Returns various privileges for a particular permission type.  Doesn't really make sense to use for things such
-     * as USER or EXPRESSION.
+     * as USER.  If you retrieve EXPRESSIONs, one needs to parse them after.
      *
      * @param permissionType the permission type to retrieve permissions for.
      * @return the list.  CANNOT be NULL.  CAN be EMPTY.
@@ -22,13 +22,26 @@ public interface PermissionRepository {
     List<Privilege> getPrivilegesFor(Privilege.PermissionType permissionType);
 
     /**
-     * Returns all of the privileges for a particular user.  This includes the following:
-     * <ul>
-     * <li>All AUTHENTICATED permissions</li>
-     * <li>All USERNAME permissions (for that user)
+     * Returns the various privilege sets for a particular permission type.  Doesn't really make sense for things like USER.
+     * If you retrieve EXPRESSIONs, one needs to parse them after.
+     * @param permissionType the permission type to retrieve permissions for.
+     * @return the list.  CANNOT be NULL.  CAN be EMPTY.
+     */
+    List<PrivilegeSet> getPrivilegeSetsFor(Subject.PermissionType permissionType);
+
+    /**
+     * Returns all of the privilege sets for a particular user that match PermissionType = USER.
+     *
      * @param username the username provided by the user. CANNOT be NULL.
-     * @param person the person, *iif* they exist.  CAN be NULL.
+     * @return the list of privilege sets.  CANNOT be NULL.  CAN be EMPTY.
+     */
+    List<PrivilegeSet> getPrivilegeSetsForUser(String username);
+
+    /**
+     * Returns all of the privileges for a particular user that match PermissionType = USER.
+     *
+     * @param username the username provided by the user. CANNOT be NULL.
      * @return the list of permissions.  CANNOT be NULL.  CAN be EMPTY.
      */
-    List<Privilege> getPrivilegesForUser(final String username, final Person person);
+    List<Privilege> getPrivilegesForUser(final String username);
 }

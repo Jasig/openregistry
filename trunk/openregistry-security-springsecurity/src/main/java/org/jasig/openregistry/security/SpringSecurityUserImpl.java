@@ -23,11 +23,11 @@ public final class SpringSecurityUserImpl implements UserDetails, User {
 
     private final boolean enabled;
 
-    private final List<Privilege> permissions;
+    private final Set<Privilege> permissions;
 
     private final Set<SystemOfRecord> systemOfRecords = new HashSet<SystemOfRecord>();
 
-    public SpringSecurityUserImpl(final String username, final boolean enabled, final List<Privilege> permissions) {
+    public SpringSecurityUserImpl(final String username, final boolean enabled, final Set<Privilege> permissions) {
         this.username = username;
         this.enabled = enabled;
         this.permissions = permissions;

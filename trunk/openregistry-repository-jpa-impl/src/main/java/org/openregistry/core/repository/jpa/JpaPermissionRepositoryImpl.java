@@ -23,51 +23,23 @@ public final class JpaPermissionRepositoryImpl implements PermissionRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired(required=true)
-    private ExpressionParser expressionParser;
-
-    public List<Privilege> getPrivilegesFor(final Privilege.PermissionType userType) {
+    public List<Privilege> getPrivilegesFor(final Subject.PermissionType userType) {
         return (List<Privilege>) this.entityManager.createQuery("select r from privilege r where r.permissionType = :permissionType").setParameter("permissionType", userType).getResultList();
     }
 
-    public List<Privilege> getPrivilegesForUser(String username, Person person) {
-        final List<Privilege> permissions = new ArrayList<Privilege>();
+    public List<PrivilegeSet> getPrivilegeSetsFor(final Subject.PermissionType userType) {
+        return (List<PrivilegeSet>) this.entityManager.createQuery("select p from privilegeSet p where p.permissionType = :permissionType").setParameter("permissionType", userType).getResultList();
+    }
 
-        final List<Privilege> permissionsForUserOrEveryone = (List<Privilege>) this.entityManager.createQuery("select r from privilege r where (r.value = :userName and r.permissionType = :userPermissionType) or r.permissionType = :authenticatedPermissionType or r.permissionType = :anonymousPermissionType").setParameter("userName", username)
+    public List<PrivilegeSet> getPrivilegeSetsForUser(final String username) {
+        return (List<PrivilegeSet>) this.entityManager.createQuery("select p from privilegeSet p where p.permissionType = :permissionType and p.value = :userName").setParameter("userName", username)
+                .setParameter("permissionType", Subject.PermissionType.USER)
+                .getResultList();       
+    }
+
+    public List<Privilege> getPrivilegesForUser(String username) {
+        return (List<Privilege>) this.entityManager.createQuery("select r from privilege r where r.value = :userName and r.permissionType = :userPermissionType").setParameter("userName", username)
                 .setParameter("userPermissionType", Privilege.PermissionType.USER)
-                .setParameter("authenticatedPermissionType", Privilege.PermissionType.AUTHENTICATED)
-                .setParameter("anonymousPermissionType", Privilege.PermissionType.EVERYONE)
                 .getResultList();
-
-        final List<PrivilegeSet> privilegeSets = (List<PrivilegeSet>) this.entityManager.createQuery("select p from privilegeSet p where  (p.value = :userName and p.permissionType = :userPermissionType) or p.permissionType = :authenticatedPermissionType or p.permissionType = :anonymousPermissionType").setParameter("userName", username)
-                .setParameter("userPermissionType", Privilege.PermissionType.USER)
-                .setParameter("authenticatedPermissionType", Privilege.PermissionType.AUTHENTICATED)
-                .setParameter("anonymousPermissionType", Privilege.PermissionType.EVERYONE)
-                .getResultList();
-
-        if (person != null) {
-            final List<Privilege> privilegesByExpression = (List<Privilege>) this.entityManager.createQuery("select p from privilege p where p.permissionType = :permissionType").setParameter("permissionType", Subject.PermissionType.EXPRESSION).getResultList();
-            final List<PrivilegeSet> privilegeSetsByExpression = (List<PrivilegeSet>) this.entityManager.createQuery("select p from privilegeSet p where p.permissionType = :permissionType").setParameter("permissionType", Subject.PermissionType.EXPRESSION).getResultList();
-
-            for (final Privilege p : privilegesByExpression) {
-                if (this.expressionParser.matches(person, p.getExpression())) {
-                    permissions.add(p);
-                }
-            }
-
-            for (final PrivilegeSet ps : privilegeSetsByExpression) {
-                if (this.expressionParser.matches(person, ps.getExpression())) {
-                    permissions.addAll(ps.getPrivileges());
-                }
-            }
-        }
-
-        permissions.addAll(permissionsForUserOrEveryone);
-
-        for (final PrivilegeSet p : privilegeSets) {
-            permissions.addAll(p.getPrivileges());
-        }
-
-        return permissions;
     }
 }
