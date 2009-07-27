@@ -38,6 +38,11 @@
         <put-attribute name="body" value="/WEB-INF/tiles/update-person/updatePerson.jsp" />
     </definition>
 
+    <definition name="openregistry.person.split" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="splitPerson.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/split-person/selectSorRecords.jsp" />
+    </definition>
+
     <definition name="openregistry.person.update.addName" template="/WEB-INF/layouts/rutgers.jsp">
         <put-attribute name="titleCode" value="addName.title" type="string" />
         <put-attribute name="body" value="/WEB-INF/tiles/update-person/addName.jsp" />
