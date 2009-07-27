@@ -85,6 +85,10 @@ public class JpaPersonRepository implements PersonRepository {
         return this.entityManager.merge(person);
     }
 
+    public Role saveRole(final Role role) throws RepositoryAccessException {
+        return this.entityManager.merge(role);
+    }
+
     public void addPerson(Person person) throws RepositoryAccessException {
         this.entityManager.persist(person);
     }
@@ -138,8 +142,8 @@ public class JpaPersonRepository implements PersonRepository {
 
 
     public void deleteName(Name name){
-        this.entityManager.getReference(name.getClass(), name.getId());
-        this.entityManager.remove(name);
+        Name nameToDelete = this.entityManager.getReference(name.getClass(), name.getId());
+        this.entityManager.remove(nameToDelete);
     }
 
 }
