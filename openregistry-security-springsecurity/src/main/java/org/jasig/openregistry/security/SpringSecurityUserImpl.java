@@ -2,9 +2,7 @@ package org.jasig.openregistry.security;
 
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.GrantedAuthority;
-import org.openregistry.security.Privilege;
-import org.openregistry.security.User;
-import org.openregistry.security.SystemOfRecord;
+import org.openregistry.security.*;
 
 import java.util.List;
 import java.util.Set;
@@ -27,7 +25,9 @@ public final class SpringSecurityUserImpl implements UserDetails, User {
 
     private final Set<SystemOfRecord> systemOfRecords = new HashSet<SystemOfRecord>();
 
-    public SpringSecurityUserImpl(final String username, final boolean enabled, final Set<Privilege> permissions) {
+    private final ExpressionParser expressionParser;
+
+    public SpringSecurityUserImpl(final String username, final boolean enabled, final Set<Privilege> permissions, final ExpressionParser expressionParser) {
         this.username = username;
         this.enabled = enabled;
         this.permissions = permissions;
@@ -35,6 +35,51 @@ public final class SpringSecurityUserImpl implements UserDetails, User {
         for (final Privilege r : permissions) {
             this.systemOfRecords.add(r.getSystemOfRecord());
         }
+
+        this.expressionParser = expressionParser;
+    }
+
+    /**
+     * Determines whether something has the privilege to do something or not.  We've consolidated this here so that in theory, everything can just call this and if we find a bug
+     * its fixable in one place.
+     *
+     * @param permissionType the type of thing we're trying to do.
+     * @param systemOfRecord the system of record this applies to (no system of record implies, we want to do something to a calculated role).
+     * @param resource the resource we're attempting to do something to.
+     * @return true if we can do it, false otherwise.
+     */
+    public boolean hasPrivilegeTo(final Permission.PermissionType permissionType, SystemOfRecord systemOfRecord, String resource) {
+
+        boolean hasPrivilege = false;
+
+        for (final Privilege privilege : this.permissions) {
+            if ((systemOfRecord == null && privilege.getSystemOfRecord() ==null) || (privilege.getSystemOfRecord() != null && privilege.getSystemOfRecord().equals(systemOfRecord))) {
+                // TODO how are we comparing resources?
+                final boolean resourceToCompare = this.expressionParser.matches(resource, privilege.getResource());
+                if (resourceToCompare) {
+                    switch (permissionType) {
+                        case CREATE:
+                            hasPrivilege = privilege.canCreate();
+                            break;
+
+                        case READ:
+                            hasPrivilege = privilege.canRead();
+                            break;
+
+                        case UPDATE:
+                            hasPrivilege = privilege.canUpdate();
+                            break;
+
+                        case DELETE:
+                            hasPrivilege = privilege.canDelete();
+                            break;
+                    }
+                }
+            }
+
+        }
+
+        return hasPrivilege;
     }
 
     public Set<SystemOfRecord> getSystemOfRecords() {

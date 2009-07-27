@@ -18,4 +18,14 @@ public interface ExpressionParser {
      * @return true if it matches, false otherwise.
      */
     boolean matches(Person person, String expression);
+
+    /**
+     * Returns true if the provided expression matches the provided resource.
+     *
+     * @param resource the resource to check (i.e. person[id=5].addresses[0])
+     * @param resourceExpression the expression to see if it matches.
+     *
+     * @return true if it matches, false otherwise.
+     */
+    boolean matches(String resource, String resourceExpression);
 }

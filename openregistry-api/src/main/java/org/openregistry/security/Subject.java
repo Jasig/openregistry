@@ -12,7 +12,7 @@ public interface Subject {
     /**
      * These should be in the proper order of specifity 
      */
-    enum PermissionType {EVERYONE, AUTHENTICATED, EXPRESSION, USER}
+    enum SubjectType {EVERYONE, AUTHENTICATED, EXPRESSION, USER}
 
     /**
      * MUST be set if UserType == USER
@@ -32,7 +32,7 @@ public interface Subject {
      *
      * @return the type of permission. CANNOT be NULL.
      */
-    PermissionType getPermissionType();
+    SubjectType getSubjectType();
 
     /**
      * Represents the system of record.  A NULL SoR indicates this permission applies to

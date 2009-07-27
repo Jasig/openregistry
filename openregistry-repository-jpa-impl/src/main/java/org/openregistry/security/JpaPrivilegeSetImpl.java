@@ -29,7 +29,7 @@ public final class JpaPrivilegeSetImpl implements PrivilegeSet {
     private JpaSystemOfRecordImpl systemOfRecord;
 
     @Column(name="permission_type")
-    private PermissionType permissionType;
+    private SubjectType subjectType;
 
     @Column(name="value")
     private String value;
@@ -43,7 +43,7 @@ public final class JpaPrivilegeSetImpl implements PrivilegeSet {
     }
 
     public String getUser() {
-        if (getPermissionType() == PermissionType.USER) {
+        if (getSubjectType() == SubjectType.USER) {
             return this.value;
         }
 
@@ -51,14 +51,14 @@ public final class JpaPrivilegeSetImpl implements PrivilegeSet {
     }
 
     public String getExpression() {
-        if (getPermissionType() == PermissionType.EXPRESSION) {
+        if (getSubjectType() == SubjectType.EXPRESSION) {
             return this.value;
         }
         return null;
     }
 
-    public PermissionType getPermissionType() {
-        return this.permissionType;
+    public SubjectType getSubjectType() {
+        return this.subjectType;
     }
 
     public SystemOfRecord getSystemOfRecord() {
@@ -69,7 +69,7 @@ public final class JpaPrivilegeSetImpl implements PrivilegeSet {
         final Set<Privilege> privileges = new HashSet<Privilege>();
 
         for (final Permission p : this.getPermissions()) {
-            privileges.add(new JpaPrivilegeImpl(this.permissionType, this.value, this.systemOfRecord, p));
+            privileges.add(new JpaPrivilegeImpl(this.subjectType, this.value, this.systemOfRecord, p));
         }
 
         return privileges;

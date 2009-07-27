@@ -45,15 +45,15 @@ public final class OpenRegistryUserDetailsServiceImpl implements UserDetailsServ
     @Transactional
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException, DataAccessException {
         final Person person = findPersonById(username);
-        final List<Privilege> authenticatedUserPrivileges = this.permissionRepository.getPrivilegesFor(Subject.PermissionType.AUTHENTICATED);
-        final List<Privilege> everyoneUserPrivileges = this.permissionRepository.getPrivilegesFor(Subject.PermissionType.EVERYONE);
+        final List<Privilege> authenticatedUserPrivileges = this.permissionRepository.getPrivilegesFor(Subject.SubjectType.AUTHENTICATED);
+        final List<Privilege> everyoneUserPrivileges = this.permissionRepository.getPrivilegesFor(Subject.SubjectType.EVERYONE);
         final List<Privilege> userPrivileges = this.permissionRepository.getPrivilegesForUser(username);
-        final List<Privilege> expressionPrivileges = this.permissionRepository.getPrivilegesFor(Subject.PermissionType.EXPRESSION);
+        final List<Privilege> expressionPrivileges = this.permissionRepository.getPrivilegesFor(Subject.SubjectType.EXPRESSION);
 
-        final List<PrivilegeSet> authenticatedPrivilegeSets = this.permissionRepository.getPrivilegeSetsFor(Subject.PermissionType.AUTHENTICATED);
-        final List<PrivilegeSet> everyonePrivilegeSets = this.permissionRepository.getPrivilegeSetsFor(Subject.PermissionType.EVERYONE);
+        final List<PrivilegeSet> authenticatedPrivilegeSets = this.permissionRepository.getPrivilegeSetsFor(Subject.SubjectType.AUTHENTICATED);
+        final List<PrivilegeSet> everyonePrivilegeSets = this.permissionRepository.getPrivilegeSetsFor(Subject.SubjectType.EVERYONE);
         final List<PrivilegeSet> userPrivilegeSets = this.permissionRepository.getPrivilegeSetsForUser(username);
-        final List<PrivilegeSet> expressionPrivilegeSets = this.permissionRepository.getPrivilegeSetsFor(Subject.PermissionType.EXPRESSION);
+        final List<PrivilegeSet> expressionPrivilegeSets = this.permissionRepository.getPrivilegeSetsFor(Subject.SubjectType.EXPRESSION);
 
         final Set<Privilege> privileges = new HashSet<Privilege>();
         privileges.addAll(authenticatedUserPrivileges);
@@ -70,7 +70,7 @@ public final class OpenRegistryUserDetailsServiceImpl implements UserDetailsServ
         privileges.addAll(parsedExpressionPrivileges);
         privileges.addAll(parsedExpressionPrivilegeSets);
         
-        return new SpringSecurityUserImpl(username, true, privileges);
+        return new SpringSecurityUserImpl(username, true, privileges, this.expressionParser);
     }
 
     protected void addPrivilegeSetsToListOfPrivileges(final Set<Privilege> privileges, final List<PrivilegeSet> privilegeSets) {

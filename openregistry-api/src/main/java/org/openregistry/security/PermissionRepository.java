@@ -1,7 +1,5 @@
 package org.openregistry.security;
 
-import org.openregistry.core.domain.Person;
-
 import java.util.List;
 
 /**
@@ -16,18 +14,18 @@ public interface PermissionRepository {
      * Returns various privileges for a particular permission type.  Doesn't really make sense to use for things such
      * as USER.  If you retrieve EXPRESSIONs, one needs to parse them after.
      *
-     * @param permissionType the permission type to retrieve permissions for.
+     * @param subjectType the permission type to retrieve permissions for.
      * @return the list.  CANNOT be NULL.  CAN be EMPTY.
      */
-    List<Privilege> getPrivilegesFor(Privilege.PermissionType permissionType);
+    List<Privilege> getPrivilegesFor(Subject.SubjectType subjectType);
 
     /**
      * Returns the various privilege sets for a particular permission type.  Doesn't really make sense for things like USER.
      * If you retrieve EXPRESSIONs, one needs to parse them after.
-     * @param permissionType the permission type to retrieve permissions for.
+     * @param subjectType the permission type to retrieve permissions for.
      * @return the list.  CANNOT be NULL.  CAN be EMPTY.
      */
-    List<PrivilegeSet> getPrivilegeSetsFor(Subject.PermissionType permissionType);
+    List<PrivilegeSet> getPrivilegeSetsFor(Subject.SubjectType subjectType);
 
     /**
      * Returns all of the privilege sets for a particular user that match PermissionType = USER.

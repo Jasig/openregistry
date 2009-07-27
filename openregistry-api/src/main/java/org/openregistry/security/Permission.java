@@ -8,6 +8,8 @@ package org.openregistry.security;
  */
 public interface Permission {
 
+    enum PermissionType {CREATE, READ, UPDATE, DELETE}
+
     /**
      * The actual resource we're working with.  In most cases this will be an expression.
      * TODO: detail more about permissions here
