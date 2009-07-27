@@ -68,7 +68,10 @@ public class PersonSearchAction {
         }
 
         Identifier netId = person.pickOutIdentifier(identifierType);
-        context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg(person.getCurrentActivationKey().getId()).build());
+        if (person.getCurrentActivationKey() != null)
+            context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg(person.getCurrentActivationKey().getId()).build());
+        else
+            context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg("TempKey").build());
     }
 
     public boolean updateSorPerson(SorPerson sorPerson, MessageContext context) {
