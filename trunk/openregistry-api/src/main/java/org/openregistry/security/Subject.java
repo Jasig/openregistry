@@ -9,6 +9,9 @@ package org.openregistry.security;
  */
 public interface Subject {
 
+    /**
+     * These should be in the proper order of specifity 
+     */
     enum PermissionType {EVERYONE, AUTHENTICATED, EXPRESSION, USER}
 
     /**
