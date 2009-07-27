@@ -59,6 +59,10 @@ public class JpaNameImpl extends Entity implements Name {
     	this.person = person;
     }
 
+    public void moveToPerson(JpaPersonImpl person){
+        this.person = person;
+    }
+
     public Long getId() {
         return this.id;
     }

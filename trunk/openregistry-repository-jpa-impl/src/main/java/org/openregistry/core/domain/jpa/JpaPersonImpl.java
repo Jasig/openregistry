@@ -7,6 +7,7 @@ import org.hibernate.envers.Audited;
 import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -164,6 +165,21 @@ public class JpaPersonImpl extends Entity implements Person {
         	jpaRole.addUrl(url);
         }
         return jpaRole;
+    }
+
+    public Role addRole(Role role){
+        this.roles.add(role);
+        Assert.isInstanceOf(JpaRoleImpl.class, role);
+        ((JpaRoleImpl)role).moveToPerson(this);
+        return role;
+    }
+
+    public void removeRole(Role role){
+        this.roles.remove(role);
+    }
+
+    public synchronized void removeAllRoles(){
+        this.roles.clear();    
     }
 
     public List<Role> getRoles() {

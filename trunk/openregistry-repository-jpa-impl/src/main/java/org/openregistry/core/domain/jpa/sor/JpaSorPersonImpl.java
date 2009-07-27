@@ -139,6 +139,12 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         return jpaSorName;
     }
 
+    public void addName(Name name) {
+        this.names.add(name);
+        Assert.isInstanceOf(JpaSorNameImpl.class, name);
+        ((JpaSorNameImpl)name).moveToPerson(this);
+    }
+
     public synchronized Name findNameByNameId(final Long id) {
         Name nameToFind = null;
         for (final Name name : this.names) {
@@ -155,6 +161,9 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         this.names.remove(name);
     }
 
+    public synchronized void removeAllNames(){
+        this.names.clear();
+    }
 
     // TODO not sure if this should be here
     public String getFormattedNameAndID(){
@@ -181,6 +190,12 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         return jpaRole;
     }
 
+    public void addRole(final SorRole role){
+        this.roles.add(role);
+        Assert.isInstanceOf(JpaSorRoleImpl.class, role);
+        ((JpaSorRoleImpl)role).moveToPerson(this);
+    }
+
     public synchronized SorRole removeRoleByRoleId(final Long id) {
         SorRole roleToDelete = null;
         for (final SorRole role : this.roles) {
@@ -198,4 +213,13 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         
         return null;
     }
+
+    public synchronized void removeRole(final SorRole role){
+        this.roles.remove(role);
+    }
+
+    public synchronized void removeAllRoles(){
+        this.roles.clear();
+    }
+
 }

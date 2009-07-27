@@ -174,14 +174,24 @@ public interface PersonService {
      * @param toPerson person receiving sor records.
      * @return Result of move. Validation errors if they occurred or the Person receiving sor records.
      */
-    boolean moveSorRecords(final Person fromPerson, final Person toPerson);
+    boolean moveAllSystemOfRecordPerson(Person fromPerson, Person toPerson);
 
     /**
      * Move one Sor Record from one person to another.
      *
      * @param fromPerson person losing sor record.
      * @param toPerson person receiving sor record.
+     * @param sorPerson record that is moving.
      * @return Result of move. Validation errors if they occurred or the to Person receiving sor records.
      */
-    boolean moveSorRecord(final Person fromPerson, final Person toPerson, final SorPerson sorPerson);
+    boolean moveSystemOfRecordPerson(Person fromPerson, Person toPerson, SorPerson sorPerson);
+
+    /**
+     * Move one Sor Record from one person to another where the to person is not in the registry
+     *
+     * @param fromPerson person losing sor record.
+     * @param sorPerson record that is moving.
+     * @return Result of move.
+     */
+    boolean moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson sorPerson);
 }
