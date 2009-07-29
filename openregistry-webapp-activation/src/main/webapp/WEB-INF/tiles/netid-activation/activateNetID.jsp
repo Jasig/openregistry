@@ -26,6 +26,10 @@
                 <label for="c1_activationKey" class="activationKey"><spring:message code="activationKey.label"/><em>*</em></label>
                 <input type="activatationKey" id="c1_activationKey" value="" name="activationKey" size="10" />
             </div>
+                <div class="row">
+                <label for="c1_password" class="password"><spring:message code="password.label"/><em>*</em></label>
+                <input type="password" id="c1_password"value="" name="password" size="10" class="password"/>
+            </div>
         </fieldset>
     </fieldset>
 

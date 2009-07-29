@@ -11,6 +11,8 @@ import org.javalid.core.config.JvConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Calendar;
+
 /**
  * Default implementation of the {@link org.openregistry.core.service.ActivationService}.
  *
@@ -27,90 +29,78 @@ public class DefaultActivationService implements ActivationService {
     private PersonRepository personRepository;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    private final String NETID="NETID";
-    /*
-    public ServiceExecutionResult verifyActivationKey(final String type, final String identifierValue, final String activationKey){
-        final String serviceName = "ActivationService.verifyActivationKey";
-
-        final List<ValidationError> validationErrors= new ArrayList<ValidationError>();
-
-        logger.info("DefaultActivationService1: verifyActivationKey: type: "+ type + "value: " + identifierValue + "activationKey: "+activationKey);
-
-        //check if netid belongs to a person in the registry
-        Person person = null;
-        try {
-            person = personRepository.findByIdentifier(type, identifierValue.trim());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            validationErrors.add(new ORValidationError(type ,null, "netIDActivationError"));
-            return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
-        }
-
-        if (person == null){
-            validationErrors.add(new ORValidationError(type, null, "netIDNotValid"));
-            return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
-        }
-
-        //check if person already activated.
-        //TODO need to support more than one NETID per person
-        if (person.getCurrentActivationKey().getActivitationDate() != null){
-            validationErrors.add(new ORValidationError(type, null, "netIDAlreadyActivated"));
-            return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
-        }
-
-        //check if activation key expired.
-        if (person.getCurrentActivationKey().getExpirationDate().before(new Date())){
-            validationErrors.add(new ORValidationError(type, null, "activationKeyExpired"));
-            return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
-        }
-
-        //check if activation key matches activation key entered.
-        if (!person.getCurrentActivationKey().getValue().trim().equals(activationKey.trim())){
-            validationErrors.add(new ORValidationError(type, null, "activationKeyNoMatch"));
-            return new GeneralServiceExecutionResult(serviceName, null, validationErrors);
-        }
-
-        return new GeneralServiceExecutionResult(serviceName, null);
-    } */
-    /*
-    @Transactional
-    public ServiceExecutionResult activateNetID(String type, Identifier identifier, String password){
-         final String serviceName = "ActivationService.activateNetID";
-
-        logger.info("DefaultActivationService: activateNetID: netid: " + identifier.getValue() + " password: " + password);
-        // set date activated.
-        Person person = personRepository.findByIdentifier(type, identifier.getValue());
-
-        //TODO support more than one netid for a person.
-        person.getCurrentActivationKey().setActivationDate(new Date());
-        personRepository.savePerson(person);
-
-        //TODO send netid and password to Kerberos.
-
-        return new GeneralServiceExecutionResult(serviceName, identifier);
-    } */
 
     public ActivationKey generateActivationKey(Person person) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        //is this enough or do we need to do entity.remove?
+        person.removeCurrentActivationKey();
+        ActivationKey key = person.generateNewActivationKey(this.getActivationKeyEndDate().getTime());
+        return key;
     }
 
-    public ActivationKey generateActivationKey(String identifierType, String identifierValue) throws PersonNotFoundException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public ActivationKey generateActivationKey(String identifierType, String identifierValue) throws PersonNotFoundException, IllegalArgumentException  {
+        if (identifierType == null || identifierValue ==null) throw new IllegalArgumentException();
+        try {
+            Person person = findPerson(identifierType, identifierValue);
+            return this.generateActivationKey(person);
+        } catch (PersonNotFoundException e){
+            throw e;
+        }
     }
 
     public void invalidateActivationKey(Person person, String activationKey) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException {
-        //To change body of implemented methods use File | Settings | File Templates.
+        ActivationKey currentKey = person.getCurrentActivationKey();
+        if (currentKey == null || !currentKey.getId().equals(activationKey)) throw new IllegalArgumentException();
+        if (!currentKey.isValid()) throw new IllegalStateException();
+        person.removeCurrentActivationKey();
     }
 
     public void invalidateActivationKey(String identifierType, String identifierValue, String activationKey) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if (identifierType == null || identifierValue == null) throw new IllegalArgumentException();
+        Person person = null;
+        try {
+            person = findPerson(identifierType, identifierValue);
+            this.invalidateActivationKey(person, activationKey);
+        } catch (PersonNotFoundException e){
+            throw e;
+        } catch (IllegalArgumentException e){
+            throw e;
+        } catch (IllegalStateException e){
+            throw e;
+        }
     }
 
     public ActivationKey getActivationKey(String identifierType, String identifierValue, String activationKey) throws PersonNotFoundException, IllegalArgumentException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (identifierType == null || identifierValue ==null) throw new IllegalArgumentException();
+        try {
+            Person person = findPerson(identifierType, identifierValue);
+            return this.getActivationKey(person, activationKey);
+        } catch (PersonNotFoundException e){
+            throw e;
+        } catch (IllegalArgumentException e){
+            throw e;
+        }
     }
 
     public ActivationKey getActivationKey(Person person, String activationKey) throws PersonNotFoundException, IllegalArgumentException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (person == null) throw new PersonNotFoundException();
+        ActivationKey key = person.getCurrentActivationKey();
+        if (key == null || !key.getId().equals(activationKey)) throw new IllegalArgumentException();
+        return key;
+    }
+
+    protected Calendar getActivationKeyEndDate(){
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR,48);
+        return cal;
+    }
+
+    protected Person findPerson(String identifierType, String identifierValue) throws PersonNotFoundException {
+        Person person = null;
+        try {
+            person = personRepository.findByIdentifier(identifierType, identifierValue);
+            return person;
+        } catch (Exception e){
+            throw new PersonNotFoundException();
+        }
     }
 }
