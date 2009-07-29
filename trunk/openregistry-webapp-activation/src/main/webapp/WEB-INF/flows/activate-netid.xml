@@ -23,7 +23,7 @@
         </transition>
     </view-state>
 
-    <view-state id="activatedNetID" view="openregistry.netid.activation.password">
+    <view-state id="activatedNetID" view="openregistry.netid.activation">
         <on-render>
             <set name="flowScope.addSucceeded" value="'addSucceeded'"/>
         </on-render>
