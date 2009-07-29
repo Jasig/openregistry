@@ -3,6 +3,7 @@ package org.openregistry.activation.web;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.ActivationKey;
+import org.openregistry.core.domain.PersonNotFoundException;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ActivationService;
@@ -35,49 +36,43 @@ public class IdentifierAction {
 
     private final String identifierType = "NETID";
 
-    public boolean verifyActivationKey(Identifier identifier, String activationKey, MessageContext context) {
-        //verify parameters entered
-        logger.info("netid: "+ identifier.getValue() + "activationKey: " + activationKey);
-        //Verify activation key
-        final ActivationKey oActivationKey = this.activationService.getActivationKey(identifierType, identifier.getValue(), activationKey);
+    public boolean verifyActivationKey(Identifier identifier, String activationKey, String password, MessageContext context) {
+        try {
+            final ActivationKey oActivationKey = this.activationService.getActivationKey(identifierType, identifier.getValue(), activationKey);
 
-        if (oActivationKey.isValid()) {
-            return true;
+            if (oActivationKey.isValid()) {
+                if (activate(identifier, password, context)){
+                    this.activationService.invalidateActivationKey(identifierType, identifier.getValue(), activationKey);
+                    return true;
+                }
+            }
+
+            if (oActivationKey.isNotYetValid()){
+                context.addMessage(new MessageBuilder().error().code("activationKeyNotYetValid").build());
+            }
+
+            if (oActivationKey.isExpired()){
+                context.addMessage(new MessageBuilder().error().code("activationKeyExpired").build());
+            }
+
+        }
+        catch(PersonNotFoundException e) {
+            context.addMessage(new MessageBuilder().error().code("personNotFound").build());
+        }
+        catch (IllegalArgumentException e) {
+            context.addMessage(new MessageBuilder().error().code("activationKeyNotFound").arg(activationKey).build());
+        }
+        catch (IllegalStateException e) {
+            context.addMessage(new MessageBuilder().error().code("activationKeyNotFound").arg(activationKey).build());
         }
 
-        // TODO we need to build the error messages, if any, from the ActivationKey 
         return false;
     }
 
-    // TODO re-enable this when its fixed
-    /*
-    public boolean activate(Identifier identifier, String password, MessageContext context){
+    protected boolean activate(Identifier identifier, String password, MessageContext context){
         //TODO where is the password stored?
 
-        logger.info("IdentifierAction: activateNetID: netid: " + identifier.getValue() + " password: " + password);
-        ServiceExecutionResult result = activationService.activateNetID(identifierType, identifier, password);
-
-        if (result.getValidationErrors() != null && !result.getValidationErrors().isEmpty()) {
-            convertErrors(result.getValidationErrors(), context);
-            return false;
-        }
-        if (result.succeeded()){
-            context.addMessage(new MessageBuilder().info().code("netIDActivationConfirmation").build());
-            return true;
-        }
-        context.addMessage(new MessageBuilder().error().code("netIDActivationError").build());
-        return false;
+        context.addMessage(new MessageBuilder().info().code("activationConfirmation").build());
+        return true;
     }
-    */
-
-    protected void convertErrors(List<ValidationError> validationErrors, MessageContext context){
-        for (final ValidationError validationError : validationErrors) {
-            if (validationError.getField() == null) {
-                context.addMessage(new MessageBuilder().error().args(validationError.getArguments()).code(validationError.getCode()).build());
-            } else {
-                context.addMessage(new MessageBuilder().error().args(validationError.getArguments()).source(validationError.getField()).code(validationError.getCode()).build());
-            }
-        }
-    }
-
 }

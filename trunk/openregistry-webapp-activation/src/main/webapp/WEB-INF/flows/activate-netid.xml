@@ -10,25 +10,16 @@
         <binder>
             <binding property="value" required="true"/>
             <binding property="activationKey.value" required="true"/>
+            <binding property="password.value" required="true"/>
         </binder>
         <on-render>
             <set name="viewScope.command" value="'identifier'" />
         </on-render>
-        <transition on="submitNetIDActivation" to="getPassword" bind="true" validate="true">
+        <transition on="submitNetIDActivation" to="activatedNetID" bind="true" validate="true">
             <set name="flowScope.identifier" value="identifier" />
             <set name="requestScope.activationKey" value="requestParameters.activationKey" />
-            <evaluate expression="identifierAction.verifyActivationKey(identifier,activationKey,messageContext)"/>
-        </transition>
-    </view-state>
-
-    <view-state id="getPassword" view="openregistry.netid.activation.password" model="identifier">
-        <on-render>
-            <set name="viewScope.command" value="'identifier'" />
-            <set name="identifier" value="flowScope.identifier" />
-        </on-render>
-        <transition on="submitNetIDPassword" to="activatedNetID" >
             <set name="requestScope.password" value="requestParameters.password" />
-            <evaluate expression="identifierAction.activate(flowScope.identifier, password, messageContext)" />
+            <evaluate expression="identifierAction.verifyActivationKey(identifier, activationKey, password, messageContext)"/>
         </transition>
     </view-state>
 
