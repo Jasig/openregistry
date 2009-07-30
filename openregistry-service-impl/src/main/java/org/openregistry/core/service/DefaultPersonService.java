@@ -52,6 +52,9 @@ public class DefaultPersonService implements PersonService {
     @Autowired(required = true)
     private ReferenceRepository referenceRepository;
 
+    @Autowired(required = true)
+    private ActivationService activationService;
+
     @Autowired(required = false)
     private AnnotationValidator<Object> annotationValidator = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
 
@@ -213,8 +216,7 @@ public class DefaultPersonService implements PersonService {
         sorRole.setRoleId(savedRole.getId());
 
         SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
-        Person savedPerson = this.personRepository.savePerson(person);
-        
+
         return new GeneralServiceExecutionResult(serviceName, sorRole);
     }
 
@@ -396,6 +398,8 @@ public class DefaultPersonService implements PersonService {
         for (final IdentifierAssigner ia : this.identifierAssigners) {
             ia.addIdentifierTo(sorPerson, person);
         }
+        
+        this.activationService.generateActivationKey(person);
 
         // Save into the repository
         person = this.personRepository.savePerson(person);
@@ -529,6 +533,7 @@ public class DefaultPersonService implements PersonService {
             moveSystemOfRecordPerson(fromPerson, toPerson, sorPerson);
         }
 
+        //TODO should from person be deleted?
         return true;
     }
 
@@ -537,7 +542,7 @@ public class DefaultPersonService implements PersonService {
      *
      * @param fromPerson person losing sor record.
      * @param toPerson person receiving sor record.
-     * @return Result of move. Validation errors if they occurred or the to Person receiving sor records.
+     * @return Success or failure.
      */
     @Transactional
     public boolean moveSystemOfRecordPerson(Person fromPerson, Person toPerson, SorPerson movingSorPerson){
@@ -573,21 +578,21 @@ public class DefaultPersonService implements PersonService {
      * Move one Sor Record from one person to another where the to person is not in the registry
      *
      * @param fromPerson person losing sor record.
-     * @param sorPerson record that is moving.
-     * @return Person created.
+     * @param movingSorPerson record that is moving.
+     * @return Success or failure.
      */
     @Transactional
-    public boolean moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson sorPerson){
+    public boolean moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson movingSorPerson){
         logger.info("MoveToNew Person: creating new person record");
         // create the new person in the registry
-        Person toPerson = constructPersonFromSorData(sorPerson);
+        Person toPerson = constructPersonFromSorData(movingSorPerson);
 
         // connect the SorPerson to the new person
-        sorPerson.setPersonId(toPerson.getId());
-        updateCalculatedPersonsOnMoveOfSor(toPerson, fromPerson, sorPerson);
+        movingSorPerson.setPersonId(toPerson.getId());
+        updateCalculatedPersonsOnMoveOfSor(toPerson, fromPerson, movingSorPerson);
 
-        this.personRepository.saveSorPerson(sorPerson);
-        toPerson = this.personRepository.savePerson(toPerson);
+        this.personRepository.saveSorPerson(movingSorPerson);
+        this.personRepository.savePerson(toPerson);
         this.personRepository.savePerson(fromPerson);
 
         return true;
@@ -615,6 +620,7 @@ public class DefaultPersonService implements PersonService {
         List<SorRole> sorRoles = new ArrayList<SorRole>(sorPerson.getRoles());
         for (SorRole sorRole : sorRoles) {
             for (Role role : fromPerson.getRoles()) {
+                //sorRole.getRoleId() returns the id of the prc role.
                 if (sorRole.getRoleId().equals(role.getId())) {
                     toPerson.addRole(role);
                     rolesToDelete.add(role);
@@ -630,7 +636,8 @@ public class DefaultPersonService implements PersonService {
     }
 
     /**
-     *  Search through sor records of Person to see if they have an sorPerson record with the same source sor id.
+     * Search through sor records of Person to see if they have an sorPerson record with the same source sor id.
+     *
      * @param sourceSorIdentifier identifier of system of record.
      * @param person to search.
      * @return SorPerson with matching sourceSorIdentifier.
@@ -649,6 +656,7 @@ public class DefaultPersonService implements PersonService {
 
     /**
      *  Move the roles and names associated with an sorPerson to another sorPerson with the same source sor id.
+     *
      * @param fromSorPerson the sor person record that will be merged into the toSorPerson record.
      * @param toSorPerson record receives the roles and names of the forSorPerson record.
      * @return SorPerson with matching sourceSorIdentifier.
