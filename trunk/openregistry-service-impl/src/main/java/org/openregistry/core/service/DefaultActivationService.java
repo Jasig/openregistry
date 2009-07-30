@@ -52,6 +52,7 @@ public class DefaultActivationService implements ActivationService {
         if (currentKey == null || !currentKey.getId().equals(activationKey)) throw new IllegalArgumentException();
         if (!currentKey.isValid()) throw new IllegalStateException();
         person.removeCurrentActivationKey();
+        this.personRepository.savePerson(person);
     }
 
     public void invalidateActivationKey(String identifierType, String identifierValue, String activationKey) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException {
