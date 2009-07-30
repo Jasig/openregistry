@@ -37,6 +37,19 @@ public class IdentifierAction {
     private final String identifierType = "NETID";
 
     public boolean verifyActivationKey(Identifier identifier, String activationKey, String password, MessageContext context) {
+        if (activationKey == null || activationKey.trim().equals("")){
+            context.addMessage(new MessageBuilder().error().code("activationKeyRequired").build());
+            return false;
+        }
+        if (password == null || password.trim().equals("")){
+            context.addMessage(new MessageBuilder().error().code("passwordRequired").build());
+            return false;
+        }
+        if (identifier.getValue() == null || identifier.getValue().trim().equals("")){
+            context.addMessage(new MessageBuilder().error().code("identifierValueRequired").build());
+            return false;
+        }
+
         try {
             final ActivationKey oActivationKey = this.activationService.getActivationKey(identifierType, identifier.getValue(), activationKey);
 
