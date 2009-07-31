@@ -34,15 +34,19 @@ public final class JpaRoleImpl extends Entity implements Role {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaUrlImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Url> urls = new HashSet<Url>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaEmailAddressImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<EmailAddress> emailAddresses = new HashSet<EmailAddress>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaPhoneImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Phone> phones = new HashSet<Phone>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaAddressImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Address> addresses = new HashSet<Address>();
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)

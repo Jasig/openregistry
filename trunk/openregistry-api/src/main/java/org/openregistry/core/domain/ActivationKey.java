@@ -23,7 +23,7 @@ public interface ActivationKey extends DateRange, Comparable<ActivationKey>, Ser
      *
      * @return the key as a String.  CANNOT be NULL.
      */
-    String getId();
+    String getValue();
 
     /**
      * Convenience method for determining if current date is before the start date.
