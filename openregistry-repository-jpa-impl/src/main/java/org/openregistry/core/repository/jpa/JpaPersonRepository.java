@@ -5,10 +5,7 @@ import java.util.Date;
 
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.domain.Name;
+import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.jpa.JpaPersonImpl;
@@ -113,8 +110,9 @@ public class JpaPersonRepository implements PersonRepository {
         return (SorPerson) this.entityManager.createQuery("select s from sorPerson s where s.sourceSorIdentifier = :sorSourceIdentifier and s.sorId = :sorId").setParameter("sorSourceIdentifier", sorSourceIdentifier).setParameter("sorId", sorId).getSingleResult();
     }
 
-    public void deleteSorPerson(final SorPerson person) {
-        this.entityManager.remove(person);
+    public void deleteSorPerson(final SorPerson sorPerson) {
+        SorPerson sorPersonToDelete = this.entityManager.getReference(sorPerson.getClass(), sorPerson.getId());
+        this.entityManager.remove(sorPersonToDelete);
     }
 
     /**
@@ -139,7 +137,6 @@ public class JpaPersonRepository implements PersonRepository {
         //return (List<Identifier>)this.entityManager.createQuery("SELECT i FROM identifier i WHERE i.id = :id").setParameter("id", personId).getResultList();
         return (List<Identifier>) this.entityManager.createQuery("select i from identifier i join i.person p where p.id = :personId and i.person = :personId").setParameter("personId", personId).getResultList();
     }
-
 
     public void deleteName(Name name){
         Name nameToDelete = this.entityManager.getReference(name.getClass(), name.getId());

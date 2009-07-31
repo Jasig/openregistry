@@ -398,11 +398,9 @@ public class DefaultPersonService implements PersonService {
         for (final IdentifierAssigner ia : this.identifierAssigners) {
             ia.addIdentifierTo(sorPerson, person);
         }
-        
-        this.activationService.generateActivationKey(person);
 
-        // Save into the repository
         person = this.personRepository.savePerson(person);
+        this.activationService.generateActivationKey(person);
 
         return person;        
     }

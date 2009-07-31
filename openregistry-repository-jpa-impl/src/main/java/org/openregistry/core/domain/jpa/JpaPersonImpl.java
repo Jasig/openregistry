@@ -36,9 +36,11 @@ public class JpaPersonImpl extends Entity implements Person {
     private Long id;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<JpaNameImpl> names = new HashSet<JpaNameImpl>();
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaRoleImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<Role> roles = new ArrayList<Role>();
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaIdentifierImpl.class)
@@ -53,9 +55,9 @@ public class JpaPersonImpl extends Entity implements Person {
     @NotEmpty(customCode="genderRequiredMsg")
     private String gender;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER, targetEntity = JpaActivationKeyImpl.class, optional = true)
-    private JpaActivationKeyImpl activationKey;
-    
+    @Embedded
+    private JpaActivationKeyImpl activationKey = new JpaActivationKeyImpl();
+
     public Long getId() {
         return this.id;
     }
@@ -216,12 +218,12 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     public synchronized ActivationKey generateNewActivationKey(final Date start, final Date end) {
-        this.activationKey = new JpaActivationKeyImpl(this, start, end);
+        activationKey.setActivationKeyValues(start, end);
         return this.activationKey;
     }
 
     public synchronized ActivationKey generateNewActivationKey(final Date end) {
-        this.activationKey = new JpaActivationKeyImpl(this, end);
+        activationKey.setActivationKeyValues(end);
         return this.activationKey;
     }
 
@@ -230,6 +232,7 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     public synchronized void removeCurrentActivationKey() {
-        this.activationKey = null;
+        //this.activationKey = null;
+        activationKey.removeKeyValues();
     }
 }

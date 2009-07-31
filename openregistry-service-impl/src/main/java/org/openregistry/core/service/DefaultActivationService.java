@@ -4,6 +4,7 @@ import org.openregistry.core.domain.*;
 import org.openregistry.core.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.javalid.core.AnnotationValidator;
 import org.javalid.core.AnnotationValidatorImpl;
 import org.javalid.core.config.JvConfiguration;
@@ -30,13 +31,16 @@ public class DefaultActivationService implements ActivationService {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Transactional
     public ActivationKey generateActivationKey(Person person) {
-        //is this enough or do we need to do entity.remove?
+        ActivationKey key = person.getCurrentActivationKey();
         person.removeCurrentActivationKey();
-        ActivationKey key = person.generateNewActivationKey(this.getActivationKeyEndDate().getTime());
+        key = person.generateNewActivationKey(this.getActivationKeyEndDate().getTime());
+        this.personRepository.savePerson(person);
         return key;
     }
 
+    @Transactional
     public ActivationKey generateActivationKey(String identifierType, String identifierValue) throws PersonNotFoundException, IllegalArgumentException  {
         if (identifierType == null || identifierValue ==null) throw new IllegalArgumentException();
         try {
@@ -47,14 +51,16 @@ public class DefaultActivationService implements ActivationService {
         }
     }
 
+    @Transactional
     public void invalidateActivationKey(Person person, String activationKey) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException {
         ActivationKey currentKey = person.getCurrentActivationKey();
-        if (currentKey == null || !currentKey.getId().equals(activationKey)) throw new IllegalArgumentException();
+        if (currentKey == null || currentKey.getValue() == null || !currentKey.getValue().equals(activationKey)) throw new IllegalArgumentException();
         if (!currentKey.isValid()) throw new IllegalStateException();
         person.removeCurrentActivationKey();
         this.personRepository.savePerson(person);
     }
 
+    @Transactional
     public void invalidateActivationKey(String identifierType, String identifierValue, String activationKey) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException {
         if (identifierType == null || identifierValue == null) throw new IllegalArgumentException();
         Person person = null;
@@ -70,8 +76,9 @@ public class DefaultActivationService implements ActivationService {
         }
     }
 
+    @Transactional
     public ActivationKey getActivationKey(String identifierType, String identifierValue, String activationKey) throws PersonNotFoundException, IllegalArgumentException {
-        if (identifierType == null || identifierValue ==null) throw new IllegalArgumentException();
+        if (identifierType == null || identifierValue == null) throw new IllegalArgumentException();
         try {
             Person person = findPerson(identifierType, identifierValue);
             return this.getActivationKey(person, activationKey);
@@ -85,7 +92,7 @@ public class DefaultActivationService implements ActivationService {
     public ActivationKey getActivationKey(Person person, String activationKey) throws PersonNotFoundException, IllegalArgumentException {
         if (person == null) throw new PersonNotFoundException();
         ActivationKey key = person.getCurrentActivationKey();
-        if (key == null || !key.getId().equals(activationKey)) throw new IllegalArgumentException();
+        if (key == null || key.getValue() == null || !key.getValue().equals(activationKey)) throw new IllegalArgumentException();
         return key;
     }
 
@@ -104,4 +111,5 @@ public class DefaultActivationService implements ActivationService {
             throw new PersonNotFoundException();
         }
     }
+
 }

@@ -16,10 +16,8 @@ import java.security.SecureRandom;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Entity(name="activationKey")
-@Table(name="kro_activation_keys")
-@Audited
-public final class JpaActivationKeyImpl implements ActivationKey {
+@Embeddable
+public class JpaActivationKeyImpl implements ActivationKey {
 
     /** The array of printable characters to be used in our random string. */
     private static final char[] PRINTABLE_CHARACTERS = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ2345679".toCharArray();
@@ -28,38 +26,32 @@ public final class JpaActivationKeyImpl implements ActivationKey {
 
     private static final int ID_LENGTH = 8;
 
-    @Id
-    @Column(name = "id")
-    private String id;
+    @Column(name = "activation_key")
+    private String value;
 
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "act_key_end_date")
     @Temporal(TemporalType.DATE)
     private Date end;
 
-    @Column(name = "start_date",nullable = false)
+    @Column(name = "act_key_start_date")
     @Temporal(TemporalType.DATE)
     private Date start;
 
-    @OneToOne(optional=false)
-    @JoinColumn(name="person_id")
-    private JpaPersonImpl person;
-
     public JpaActivationKeyImpl() {
-        // only used by JPA
+
     }
 
-    public JpaActivationKeyImpl(final JpaPersonImpl person, final  Date start, final Date end) {
-        this.person = person;
+    public void setActivationKeyValues(final Date start, final Date end){
         this.start = new Date(start.getTime());
         this.end = new Date(end.getTime());
 
         final byte[] random = new byte[ID_LENGTH];
         secureRandom.nextBytes(random);
-        this.id = convertBytesToString(random);
+        this.value = convertBytesToString(random);
     }
 
-    public JpaActivationKeyImpl(final JpaPersonImpl person, final Date end) {
-        this(person, new Date(), end);
+    public void setActivationKeyValues(final Date end){
+        setActivationKeyValues(new Date(), end);
     }
 
     private String convertBytesToString(final byte[] random) {
@@ -72,16 +64,16 @@ public final class JpaActivationKeyImpl implements ActivationKey {
         return new String(output);
     }
 
-    public String getId() {
-        return this.id;
+    public String getValue() {
+        return this.value;
     }
 
     public boolean isNotYetValid() {
-        return this.start.compareTo(new Date()) > 0;
+       return (this.start == null || this.start.compareTo(new Date()) > 0);
     }
 
     public boolean isExpired() {
-        return this.end.compareTo(new Date()) < 0;
+        return (this.end == null || this.end.compareTo(new Date()) < 0);
     }
 
     public boolean isValid() {
@@ -96,10 +88,16 @@ public final class JpaActivationKeyImpl implements ActivationKey {
         return new Date(this.end.getTime());
     }
 
+    public void removeKeyValues(){
+        this.value = null;
+        this.start = null;
+        this.end = null;
+    }
+
     public int compareTo(final ActivationKey o) {
         Assert.notNull(o);
 
-        return this.id.compareTo(o.getId());
+        return this.value.compareTo(o.getValue());
     }
 
     public boolean equals(final Object o) {
@@ -109,17 +107,17 @@ public final class JpaActivationKeyImpl implements ActivationKey {
         JpaActivationKeyImpl that = (JpaActivationKeyImpl) o;
 
         if (end != null ? !end.equals(that.end) : that.end != null) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (value != null ? !value.equals(that.value) : that.value != null) return false;
         if (start != null ? !start.equals(that.start) : that.start != null) return false;
 
         return true;
     }
 
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = value != null ? value.hashCode() : 0;
         result = 31 * result + (end != null ? end.hashCode() : 0);
         result = 31 * result + (start != null ? start.hashCode() : 0);
-        result = 31 * result + (person != null ? person.hashCode() : 0);
+        result = 31 * result;
         return result;
     }
 }

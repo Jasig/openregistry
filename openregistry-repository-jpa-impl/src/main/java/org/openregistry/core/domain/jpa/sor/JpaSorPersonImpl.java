@@ -73,6 +73,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     private String ssn;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @ValidateList
     @Fetch(value = FetchMode.SUBSELECT) 
     private List<SorRole> roles = new ArrayList<SorRole>();
@@ -89,7 +90,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         this.ssn = ssn;
     }
 
-    protected Long getId() {
+    public Long getId() {
         return this.recordId;
     }
 

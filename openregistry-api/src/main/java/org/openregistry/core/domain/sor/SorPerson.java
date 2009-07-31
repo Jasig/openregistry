@@ -27,6 +27,12 @@ public interface SorPerson {
     String getSorId();
 
     /**
+     * Identifier for Sor Person
+     * @return the identifier for the sor person record.
+     */
+    Long getId();
+
+    /**
      * Sets the Identifier for this Person WITHIN the system of record.
      * @param id the identifier. CANNOT be null, if setting.
      */

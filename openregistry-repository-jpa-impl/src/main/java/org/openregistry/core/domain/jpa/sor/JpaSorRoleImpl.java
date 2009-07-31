@@ -48,21 +48,25 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     private String sorId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorUrlImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @ValidateList
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Url> urls = new ArrayList<Url>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorEmailAddressImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @ValidateList
     @Fetch(value = FetchMode.SUBSELECT)
     private List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorPhoneImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @ValidateList
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Phone> phones = new ArrayList<Phone>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorAddressImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @ValidateList
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Address> addresses = new ArrayList<Address>();
