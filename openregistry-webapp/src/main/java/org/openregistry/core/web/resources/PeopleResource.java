@@ -200,7 +200,7 @@ public final class PeopleResource {
         person.generateNewActivationKey(new Date());
 
         //Build activation proccess URI - there will need to be an activation token generator service. TBD.
-        URI activationProcessorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").path(person.getCurrentActivationKey().getId())
+        URI activationProcessorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").path(person.getCurrentActivationKey().getValue())
                 .build();
         
         return new PersonResponseRepresentation(
