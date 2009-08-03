@@ -27,6 +27,8 @@ public final class SpringSecurityUserImpl implements UserDetails, User {
 
     private final ExpressionParser expressionParser;
 
+    private SystemOfRecord currentSystemOfRecord = null;
+
     public SpringSecurityUserImpl(final String username, final boolean enabled, final Set<Privilege> permissions, final ExpressionParser expressionParser) {
         this.username = username;
         this.enabled = enabled;
@@ -80,6 +82,14 @@ public final class SpringSecurityUserImpl implements UserDetails, User {
         }
 
         return hasPrivilege;
+    }
+
+    public SystemOfRecord getCurrentSystemOfRecord() {
+        return this.currentSystemOfRecord;
+    }
+
+    public void setCurrentSystemOfRecord(final SystemOfRecord systemOfRecord) {
+        this.currentSystemOfRecord = systemOfRecord;
     }
 
     public Set<SystemOfRecord> getSystemOfRecords() {

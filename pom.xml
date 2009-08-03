@@ -202,6 +202,7 @@
         <asm.version>2.2.3</asm.version>
         <ognl.version>2.7.3</ognl.version>
         <tiles.version>2.0.7</tiles.version>
+        <jsp.version>2.0</jsp.version>
     </properties>
 
     <repositories>
