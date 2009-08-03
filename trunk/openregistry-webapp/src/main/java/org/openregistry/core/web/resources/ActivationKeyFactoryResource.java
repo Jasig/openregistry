@@ -40,7 +40,7 @@ public final class ActivationKeyFactoryResource {
                                            @PathParam("personId") String personId) {
 
         try {
-            String activationKey = this.activationService.generateActivationKey(personIdType, personId).getId();
+            String activationKey = this.activationService.generateActivationKey(personIdType, personId).getValue();
             //HTTP 201
             return Response.created(buildActivationProcessorResourceUri(activationKey)).build();
         }
