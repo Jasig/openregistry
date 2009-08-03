@@ -20,7 +20,7 @@ public final class JpaPermissionImpl implements Permission {
     @SequenceGenerator(name="ctx_permissions_seq",sequenceName="ctx_permissions_seq",initialValue=1,allocationSize=50)
     private long id;
 
-    @Column(name="resource")
+    @Column(name="resource_ex")
     private String resource;
 
     @Column(name="description")
