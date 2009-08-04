@@ -36,6 +36,7 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
  * Default implementation of the {@link PersonService}.
  *
@@ -108,6 +109,16 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
+    public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier){
+        try {
+          SorPerson sorPerson = this.personRepository.findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
+          return sorPerson;
+        } catch (Exception e){
+          return null;
+        }
+    }
+
+    @Transactional
     public boolean deletePerson(final Person person) {
         try {
             final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
@@ -162,9 +173,10 @@ public class DefaultPersonService implements PersonService {
                 return false;
             }
 
-            final SorRole sorRole = sorPerson.removeRoleByRoleId(role.getId());
-
+            final SorRole sorRole = this.personRepository.findSorRoleByInternalId(role.getSorRoleId());
+            
             if (sorRole != null) {
+                sorPerson.removeRole(sorRole);
                 removeSorRoleFromDatabase(sorPerson, sorRole, person, role, terminationReason);
                 return true;
             }
@@ -184,7 +196,7 @@ public class DefaultPersonService implements PersonService {
             }
 
             for (final Role role : person.getRoles()) {
-                if (role.getId().equals(sorRole.getRoleId())) {
+                if (role.getSorRoleId().equals(sorRole.getId())) {
                     removeSorRoleFromDatabase(sorPerson, sorRole, person, role, terminationReason);
                     return true;
                 }
@@ -205,17 +217,18 @@ public class DefaultPersonService implements PersonService {
             return new ReconciliationServiceExecutionResult(serviceName, sorRole, validationErrors);
         }
 
-        logger.info("validateAndSaveRoleForSorPerson: sorPerson.getPersonId(): "+ sorPerson.getPersonId()) ;
-
+        logger.info("validateAndSaveRoleForSorPerson: sorPerson.getPersonId(): "+ sorPerson.getPersonId() + "role info code: " +sorRole.getRoleInfo().getCode()) ;
         //find the calculated person and create and add a calculated role
         Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
-        Role role = person.addRole(sorRole.getRoleInfo(), sorRole);
-        Role savedRole = this.personRepository.saveRole(role);
-
-        //point the sorRole to the prcRole
-        sorRole.setRoleId(savedRole.getId());
 
         SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
+        SorRole savedSorRole = savedSorPerson.pickOutRole(sorRole.getRoleInfo().getCode());
+
+        logger.info("validateAndSaveRoleForSorPerson: sorrole found: "+ savedSorRole.getId()) ;
+
+        person.addRole(savedSorRole.getRoleInfo(), savedSorRole);
+
+        Person savedPerson = this.personRepository.savePerson(person);
 
         return new GeneralServiceExecutionResult(serviceName, sorRole);
     }
@@ -289,7 +302,7 @@ public class DefaultPersonService implements PersonService {
         final List<SorRole> sorRoles = new ArrayList<SorRole>(sorPerson.getRoles());
         for (final SorRole sorRole : sorRoles) {
             for (final Role role : person.getRoles()) {
-                if (sorRole.getRoleId().equals(role.getId())) {
+                if (sorRole.getId().equals(role.getSorRoleId())) {
                     removeSorRoleFromDatabase(sorPerson, sorRole, person, role, "Fired");
                 }
             }
@@ -531,7 +544,7 @@ public class DefaultPersonService implements PersonService {
             moveSystemOfRecordPerson(fromPerson, toPerson, sorPerson);
         }
 
-        //TODO should from person be deleted?
+        //TODO Delete from person
         return true;
     }
 
@@ -544,31 +557,11 @@ public class DefaultPersonService implements PersonService {
      */
     @Transactional
     public boolean moveSystemOfRecordPerson(Person fromPerson, Person toPerson, SorPerson movingSorPerson){
-        SorPerson toSorPerson = null;
         logger.info("moveSystemOfRecordPerson: fromPerson: " + fromPerson.getId() + " toPerson: "+ toPerson.getId());
-        //see if the person receiving sor person record already has an sor person record with the same source sor id.
-        toSorPerson = findSystemOfRecordSorPerson(movingSorPerson.getSourceSorIdentifier(), toPerson);
-        
-        // if toPerson has an sor record matching the source of the sor record being moved then:
-        if (toSorPerson != null){
-             logger.info("Move: found matching sorperson record");
-            //move sorroles and sornames from selected SorPerson to the receiving persons sorperson record from the same source of record.
-            moveSorPersonDataToSorPerson(movingSorPerson, toSorPerson);
 
-            //adjust calculated roles
-            updateCalculatedPersonsOnMoveOfSor(toPerson, fromPerson, movingSorPerson);
-            this.personRepository.saveSorPerson(toSorPerson);
-            deleteSystemOfRecordPerson(movingSorPerson);
-        } else {
-            logger.info("Move: NO matching sorperson record");
-            // if no matching sor record is found, then move the sorPerson record to point to the toPerson.
-            movingSorPerson.setPersonId(toPerson.getId());
-            updateCalculatedPersonsOnMoveOfSor(toPerson, fromPerson, movingSorPerson);
-            this.personRepository.saveSorPerson(movingSorPerson);
-        }
-
-        this.personRepository.savePerson(fromPerson);
-        this.personRepository.savePerson(toPerson);
+        movingSorPerson.setPersonId(toPerson.getId());
+        updateCalculatedPersonsOnMoveOfSor(toPerson, fromPerson, movingSorPerson);
+        this.personRepository.saveSorPerson(movingSorPerson);
         return true;
     }
 
@@ -584,20 +577,12 @@ public class DefaultPersonService implements PersonService {
         logger.info("MoveToNew Person: creating new person record");
         // create the new person in the registry
         Person toPerson = constructPersonFromSorData(movingSorPerson);
-
-        // connect the SorPerson to the new person
-        movingSorPerson.setPersonId(toPerson.getId());
-        updateCalculatedPersonsOnMoveOfSor(toPerson, fromPerson, movingSorPerson);
-
-        this.personRepository.saveSorPerson(movingSorPerson);
-        this.personRepository.savePerson(toPerson);
-        this.personRepository.savePerson(fromPerson);
-
-        return true;
+        return moveSystemOfRecordPerson(fromPerson, toPerson, movingSorPerson);
     }
 
     /**
-     * Update the calcuated person data.
+     * Update the calcuated person data. This method and updateCalculatedPersonOnDeleteOfSor
+     * need to be generalized to handle recalcuations.
      *
      * @param toPerson
      * @param fromPerson
@@ -615,65 +600,24 @@ public class DefaultPersonService implements PersonService {
         }
 
         List<Role> rolesToDelete = new ArrayList<Role>();
+
         List<SorRole> sorRoles = new ArrayList<SorRole>(sorPerson.getRoles());
         for (SorRole sorRole : sorRoles) {
             for (Role role : fromPerson.getRoles()) {
-                //sorRole.getRoleId() returns the id of the prc role.
-                if (sorRole.getRoleId().equals(role.getId())) {
-                    toPerson.addRole(role);
+                if (sorRole.getId().equals(role.getSorRoleId())) {
+                    toPerson.addRole(sorRole.getRoleInfo(),sorRole);
                     rolesToDelete.add(role);
                 }
             }
         }
-        for (Role role : rolesToDelete) {
+        for (Role role : rolesToDelete){
             fromPerson.removeRole(role);
         }
 
-        // TODO recalculate names for person receiving role. Anything else?
-        // TODO recalculate names for person losing role. Anything else?
-    }
-
-    /**
-     * Search through sor records of Person to see if they have an sorPerson record with the same source sor id.
-     *
-     * @param sourceSorIdentifier identifier of system of record.
-     * @param person to search.
-     * @return SorPerson with matching sourceSorIdentifier.
-     */
-    protected SorPerson findSystemOfRecordSorPerson(String sourceSorIdentifier, Person person){
-        SorPerson matchingSorPerson = null;
-        List<SorPerson> sorPersons =  personRepository.getSoRRecordsForPerson(person);
-        for (final SorPerson sorPerson : sorPersons) {
-            if (sorPerson.getSourceSorIdentifier().equals(sourceSorIdentifier)) {
-                matchingSorPerson = sorPerson;
-                break;
-            }
-        }
-        return matchingSorPerson;
-    }
-
-    /**
-     *  Move the roles and names associated with an sorPerson to another sorPerson with the same source sor id.
-     *
-     * @param fromSorPerson the sor person record that will be merged into the toSorPerson record.
-     * @param toSorPerson record receives the roles and names of the forSorPerson record.
-     * @return SorPerson with matching sourceSorIdentifier.
-     */
-    protected void moveSorPersonDataToSorPerson(SorPerson fromSorPerson, SorPerson toSorPerson){
-        logger.info("MoveSorPersonDataToSorPerson: found matching sorperson record... moving sor roles and names");
-        // move the sor roles
-        List<SorRole> sorRoles =  fromSorPerson.getRoles();
-        for (SorRole sorRole : sorRoles) {
-            toSorPerson.addRole(sorRole);
-        }
-        fromSorPerson.removeAllRoles();
-
-        // move the names
-        List<Name> sorNames =  fromSorPerson.getNames();
-        for (Name sorName : sorNames) {
-            toSorPerson.addName(sorName);
-        }
-        fromSorPerson.removeAllNames();
+        // TODO recalculate names for person receiving role? Anything else?
+        // TODO recalculate names for person losing role? Anything else?
+        this.personRepository.savePerson(fromPerson);
+        this.personRepository.savePerson(toPerson);
     }
 
 }

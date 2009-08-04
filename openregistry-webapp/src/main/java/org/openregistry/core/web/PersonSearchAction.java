@@ -86,4 +86,10 @@ public class PersonSearchAction {
 
     }
 
+    public boolean hasSorPersonRecord(Person p, String sourceSorId){
+        SorPerson sp = personService.findByPersonIdAndSorIdentifier(p.getId(), sourceSorId);
+        if (sp != null) return true;
+        else return false;
+    }
+
 }

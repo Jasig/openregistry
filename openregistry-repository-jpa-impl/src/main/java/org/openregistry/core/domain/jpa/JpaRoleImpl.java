@@ -85,6 +85,9 @@ public final class JpaRoleImpl extends Entity implements Role {
     @JoinColumn(name = "termination_t")
     private JpaTypeImpl terminationReason;
 
+    @Column(name="prs_role_id",nullable = true)
+    private Long sorRoleId;
+
     public JpaRoleImpl() {
         // nothing to do
     }
@@ -100,6 +103,14 @@ public final class JpaRoleImpl extends Entity implements Role {
 
     public RoleInfo getRoleInfo() {
         return this.roleInfo;
+    }
+
+    public void setSorRoleId(final Long sorRoleId) {
+        this.sorRoleId = sorRoleId;
+    }
+
+    public Long getSorRoleId() {
+        return this.sorRoleId;
     }
 
     public Set<Address> getAddresses() {

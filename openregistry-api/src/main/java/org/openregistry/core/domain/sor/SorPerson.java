@@ -161,14 +161,6 @@ public interface SorPerson {
     void setPersonId(Long personId);
 
     /**
-     * Removes the SoR Role (and returns it) based on the Role Id provided (from the calculated role).
-     *
-     * @param id the id of the calculated role.
-     * @return the SorRole, if found and removed, otherwise, null.
-     */
-    SorRole removeRoleByRoleId(Long id);
-
-    /**
      * Removes the SoR Role.
      *
      * @param sorRole the role to remove.
@@ -185,5 +177,13 @@ public interface SorPerson {
      * Removes all roles from the Sor Person
      */
     void removeAllRoles();
+
+    /**
+     * Find the Sor Role for a given RoleInfo code.
+     * @param code  Role Info Code.
+     * @return
+     */
+    public SorRole pickOutRole(String code);
+
 
 }

@@ -117,8 +117,9 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     @JoinColumn(name="termination_t")
     private JpaTypeImpl terminationReason;
 
-    @Column(name="prc_role_id",nullable = true)
-    private Long roleId;
+    //pointing from the other direction
+    //@Column(name="prc_role_id",nullable = true)
+   //private Long roleId;
 
     public JpaSorRoleImpl() {
         // nothing to do
@@ -217,6 +218,7 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
         this.end = date;
     }
 
+    /** pointing from the other direction
     public void setRoleId(final Long roleId) {
         this.roleId = roleId;
     }
@@ -224,7 +226,8 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     public Long getRoleId() {
         return this.roleId;
     }
-
+    **/
+    
 	public Address addAddress() {
 	    final JpaSorAddressImpl jpaAddress = new JpaSorAddressImpl(this);
 	    this.addresses.add(jpaAddress);

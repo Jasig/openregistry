@@ -37,29 +37,20 @@
         <on-entry>
             <set name="flowScope.toPerson" value="person" />
         </on-entry>
-        <evaluate expression="personService.moveSystemOfRecordPerson(fromPerson, toPerson, sorPerson)" result="FlowScope.moveResult" />
-        <transition on="yes" to="splitSucceeded" />
-        <transition on="no" to="splitFailed" />
+        <evaluate expression="personAction.moveSystemOfRecordPerson(fromPerson, toPerson, sorPerson)" result="flowScope.resultMessage"/>
+        <transition to="splitFeedback" />
     </action-state>
 
     <action-state id="doSplitToNewPerson">
-        <evaluate expression="personService.moveSystemOfRecordPersonToNewPerson(fromPerson, sorPerson)" result="FlowScope.moveResult" />
-        <transition on="yes" to="splitSucceeded" />
-        <transition on="no" to="splitFailed" />
+        <evaluate expression="personAction.moveSystemOfRecordPersonToNewPerson(fromPerson, sorPerson)" result="flowScope.resultMessage"/>
+        <transition to="splitFeedback" />
     </action-state>
 
-    <view-state id="splitSucceeded" view="openregistry.main">
+    <view-state id="splitFeedback" view="openregistry.main">
         <on-entry>
-            <set name="flowScope.infoModel" value="'Sor Record Moved'" />
+            <set name="flowScope.infoModel" value="flowScope.resultMessage" />
         </on-entry>
-        <transition to="splitDone"/>
-    </view-state>
-
-    <view-state id="splitFailed" view="openregistry.main">
-        <on-entry>
-            <set name="flowScope.infoModel" value="'Sor Record Move Failed'" />
-        </on-entry>
-        <transition to="splitDone"/>
+        <transition to="splitDone" />
     </view-state>
 
     <end-state id="splitDone" />

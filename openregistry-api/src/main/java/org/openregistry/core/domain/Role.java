@@ -78,4 +78,17 @@ public interface Role extends Serializable, MutableDateRange {
      * @return true if the role is terminated, false otherwise, i.e. the role is active
      */
     boolean isTerminated();
+
+    /**
+     * Sets the sor role Id to create the link between the calculated role and the Sor Role.
+     * @param sorRoleId the role Id.  CANNOT be null.
+     */
+    void setSorRoleId(Long sorRoleId);
+
+    /**
+     * Returns the Sor role identifier, if one has been set.  If there is a calculated role, this MUST be set.
+     * @return the role id, of the Sor Role.
+     */
+    Long getSorRoleId();
+
 }
