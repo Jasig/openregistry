@@ -9,12 +9,18 @@
     <subflow-state id="searchForPerson" subflow="searchForPerson" >
         <input name="taskTitleCode" value="'updatePerson.title'"/>
         <output name="person" />
-        <transition to="updatePerson" />
+        <transition to="lookupSorPerson" />
     </subflow-state>
+
+    <action-state id="lookupSorPerson">
+        <evaluate expression="personSearchAction.hasSorPersonRecord(person,'or-webapp')"/>
+        <transition on="yes" to="updatePerson" />
+        <transition on="no"  to="noSorPersonRecords"/>
+    </action-state>
 
     <view-state id="updatePerson" model="sorPerson" view="openregistry.person.update.update">
         <on-entry>
-            <evaluate expression="personRepository.findByPersonIdAndSorIdentifier(person.id,'or-webapp')" result="flowScope.sorPerson"/>
+            <evaluate expression="personService.findByPersonIdAndSorIdentifier(person.id,'or-webapp')" result="flowScope.sorPerson"/>
             <evaluate expression="personRepository.findPersonIdentifiers(sorPerson.getPersonId())" result="flowScope.identifiers" />
             <set name="viewScope.command" value="'sorPerson'" />
             <set name="viewScope.identifiers" value="identifiers" />
@@ -59,6 +65,14 @@
         <transition to="personWasUpdated"/>
     </view-state>
 
+    <view-state id="noSorPersonRecords" view="openregistry.main">
+        <on-entry>
+            <set name="flowScope.infoModel" value="'System of Record or-webapp not found for this person.'" />
+        </on-entry>
+        <transition to="personNotUpdated"/>
+    </view-state>
+
     <end-state id="personWasUpdated" />
+    <end-state id="personNotUpdated" />
 
 </flow>

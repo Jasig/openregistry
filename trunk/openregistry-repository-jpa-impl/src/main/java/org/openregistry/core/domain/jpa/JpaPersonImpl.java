@@ -8,6 +8,8 @@ import org.javalid.annotations.core.ValidateDefinition;
 import org.javalid.annotations.validation.NotEmpty;
 import org.javalid.annotations.validation.NotNull;
 import org.springframework.util.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -28,6 +30,7 @@ import java.util.Set;
 @Audited
 @ValidateDefinition
 public class JpaPersonImpl extends Entity implements Person {
+    protected static final Logger logger = LoggerFactory.getLogger(JpaPersonImpl.class);
 
     @Id
     @Column(name="id")
@@ -166,6 +169,9 @@ public class JpaPersonImpl extends Entity implements Person {
         for (Url url: sorRole.getUrls()) {
         	jpaRole.addUrl(url);
         }
+        logger.info("setting prc role's sor role id: " + sorRole.getId());
+        jpaRole.setSorRoleId(sorRole.getId());
+
         return jpaRole;
     }
 

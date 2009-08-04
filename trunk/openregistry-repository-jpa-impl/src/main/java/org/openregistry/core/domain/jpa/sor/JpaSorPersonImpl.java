@@ -197,30 +197,22 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         ((JpaSorRoleImpl)role).moveToPerson(this);
     }
 
-    public synchronized SorRole removeRoleByRoleId(final Long id) {
-        SorRole roleToDelete = null;
-        for (final SorRole role : this.roles) {
-            final Long roleId = role.getRoleId();
-            if (roleId != null && roleId.equals(id)) {
-                roleToDelete = role;
-                break;
-            }
-        }
-
-        if (roleToDelete != null) {
-            this.roles.remove(roleToDelete);
-            return roleToDelete;
-        }
-        
-        return null;
-    }
-
     public synchronized void removeRole(final SorRole role){
         this.roles.remove(role);
     }
 
     public synchronized void removeAllRoles(){
         this.roles.clear();
+    }
+
+    public SorRole pickOutRole(String code) {
+        //TODO: Is this the correct assumption???
+        for(SorRole r : this.roles) {
+            if(r.getRoleInfo().getCode().equals(code)) {
+                return r;
+            }
+        }
+        return null;
     }
 
 }

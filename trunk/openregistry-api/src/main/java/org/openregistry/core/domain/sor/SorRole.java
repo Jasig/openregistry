@@ -99,15 +99,4 @@ public interface SorRole extends Serializable, MutableDateRange {
 
     String getLocalCode();
  
-    /**
-     * Sets the calculated role Id to create the link between the SoR Role and the calculated role.
-     * @param roleId the role Id.  CANNOT be null.
-     */
-    void setRoleId(Long roleId);
-
-    /**
-     * Returns the calculated role identifier, if one has been set.  If there is a calculated role, this MUST be set.
-     * @return the role id, if a calculated role exists.  Otherwise, NULL.
-     */
-    Long getRoleId();
 }
