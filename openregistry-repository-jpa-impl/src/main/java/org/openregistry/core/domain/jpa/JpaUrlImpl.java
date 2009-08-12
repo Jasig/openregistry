@@ -4,6 +4,7 @@ import org.openregistry.core.domain.Url;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.net.URL;
@@ -50,10 +51,14 @@ public class JpaUrlImpl extends Entity implements Url {
         return this.url;
     }
 
-    public void setType(final Type type) {
-        if (!(type instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
+    /**
+     * Sets the type for this Url.
+     *
+     * @param type the type of the URL.  Cannot be NULL.
+     * @throws IllegalArgumentException if the provided Type is not of class JpaTypeImpl.
+     */
+    public void setType(final Type type) throws IllegalArgumentException {
+        Assert.isInstanceOf(JpaTypeImpl.class, type, "Must be of type JpaTypeImpl");
 
         this.type = (JpaTypeImpl) type;
     }
