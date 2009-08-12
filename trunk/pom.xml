@@ -107,6 +107,20 @@
         </dependency>
 
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <scope>compile</scope>
@@ -186,14 +200,14 @@
         <aspectj.version>1.5.4</aspectj.version>
         <spring.version>3.0.0.M3</spring.version>
         <spring.security.version>2.0.4</spring.security.version>
-        <junit.version>4.5</junit.version>
+        <junit.version>4.6</junit.version>
         <servlet.version>2.5</servlet.version>
         <persistence.version>1.0</persistence.version>
         <jstl.version>1.1.2</jstl.version>
         <standard.version>1.1.2</standard.version>
         <javalid.version>1.2</javalid.version>
         <log4j.version>1.2.14</log4j.version>
-        <sl4j.version>1.5.6</sl4j.version>
+        <slf4j.version>1.5.8</slf4j.version>
         <spring.webflow.version>2.0.7.RELEASE</spring.webflow.version>
         <juel.version>2.1.1-rc4</juel.version>
         <displaytag.version>1.2</displaytag.version>
