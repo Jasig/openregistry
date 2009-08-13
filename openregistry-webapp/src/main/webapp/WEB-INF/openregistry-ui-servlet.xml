@@ -22,6 +22,7 @@
         <flow:flow-location path="/WEB-INF/flows/search-person.xml" id="searchForPerson" />
         <flow:flow-location path="/WEB-INF/flows/manage-person-roles.xml" id="managePersonRoles" />
         <flow:flow-location path="/WEB-INF/flows/split-person.xml" id="splitPerson" />
+        <flow:flow-location path="/WEB-INF/flows/join-person.xml" id="joinPerson" />
     </flow:flow-registry>
 
     <flow:flow-builder-services id="flowBuilderServices" conversion-service="conversionService" view-factory-creator="mvcViewFactoryCreator" />

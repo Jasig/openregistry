@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.List;
 import java.awt.*;
 
 /**
@@ -32,6 +33,9 @@ public class PersonAction {
 
     @Autowired(required=true)
     private PersonService personService;
+
+    @Autowired(required=true)
+    private PersonRepository personRepository;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -50,6 +54,39 @@ public class PersonAction {
 
     public String moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson sorPerson) {
         if (personService.moveSystemOfRecordPersonToNewPerson(fromPerson, sorPerson)){
+            return msa.getMessage("splitSuccess");
+        } else {
+            return msa.getMessage("splitFailure");
+        }
+    }
+
+    public String moveAllSystemOfRecordPerson(Person fromPerson, Person toPerson){
+
+        List<SorPerson> sorPersonListFrom =  personRepository.getSoRRecordsForPerson(fromPerson);
+        List<SorPerson> sorPersonListTo =  personRepository.getSoRRecordsForPerson(toPerson);
+
+        boolean matchFound = false;
+        // check each sorPerson record to make sure destination person does not already have an SOR record from the same source.
+        for (final SorPerson sorPersonFrom : sorPersonListFrom) {
+            for (final SorPerson sorPersonTo: sorPersonListTo) {
+                if (sorPersonFrom.getSourceSorIdentifier().equals(sorPersonTo.getSourceSorIdentifier())){
+                    matchFound = true;
+                    break;
+                }
+            }
+        }
+
+        if (matchFound) {
+             return msa.getMessage("matchingSorFound");
+        }
+
+        for (final SorPerson sorPersonFrom : sorPersonListFrom) {
+            if (personService.findByPersonIdAndSorIdentifier(toPerson.getId(), sorPersonFrom.getSourceSorIdentifier()) != null){
+                return msa.getMessage("matchingSorFound");
+            }
+        }
+
+        if (personService.moveAllSystemOfRecordPerson(fromPerson, toPerson)){
             return msa.getMessage("splitSuccess");
         } else {
             return msa.getMessage("splitFailure");

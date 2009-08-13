@@ -65,6 +65,14 @@ public interface PersonService {
     SorPerson findByPersonIdAndSorIdentifier(Long id, String sourceSorIdentifier);
 
     /**
+     * For a particular Sor Person record for the specified sourceSorIdentifier.
+     * @param fromPerson
+     * @param toPerson
+     * @return  SorPerson
+     */
+    SorPerson hasSorRecordFromSameSource(Person fromPerson, Person toPerson);
+
+    /**
      * Deletes a role.  Currently, this removes the record from the System of Record, and updates the "termination" date of the
      * calculated role.
      *
