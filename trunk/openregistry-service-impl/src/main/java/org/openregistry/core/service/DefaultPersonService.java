@@ -544,7 +544,8 @@ public class DefaultPersonService implements PersonService {
             moveSystemOfRecordPerson(fromPerson, toPerson, sorPerson);
         }
 
-        //TODO Delete from person
+        // Delete from person
+        this.personRepository.deletePerson(fromPerson);
         return true;
     }
 
@@ -618,6 +619,13 @@ public class DefaultPersonService implements PersonService {
         // TODO recalculate names for person losing role? Anything else?
         this.personRepository.savePerson(fromPerson);
         this.personRepository.savePerson(toPerson);
+    }
+
+    public SorPerson hasSorRecordFromSameSource(Person fromPerson, Person toPerson){
+        SorPerson sorPerson = null;
+
+        //TODO need to complete this.
+        return sorPerson;
     }
 
 }

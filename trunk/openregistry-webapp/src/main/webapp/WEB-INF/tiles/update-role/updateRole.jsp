@@ -32,9 +32,15 @@
                     <label for="c1_enddate" class="enddate"><spring:message code="endDate.label"/></label>
                     <form:input path="end" id="c1_enddate" size="10" maxlength="10" tabindex="2" />
 
-                    <label for="c1_sponsor" class="sponsor"><spring:message code="sponsor.label" /><em>*</em></label>
+                    <a href="${flowExecutionUrl}&_eventId=submitRemovePhone&phoneId=${phone.id}"><img src="images/renew2.jpg" title="Set Renewal Date"/></a>
+                    <a href="${flowExecutionUrl}&_eventId=submitRemovePhone&phoneId=${phone.id}"><img src="images/expire.jpg" title="Set Expiration Date"/></a>
+
+                </div>
+
+                <div class="row">
+                    <label for="c1_UpdateRoleSponsor" class="updateRoleSponsor"><spring:message code="sponsor.label" /><em>*</em></label>
                     <div class="select sponsor">
-					    <form:select path="sponsor.sponsorId" id="c1_sponsor" items="${sponsorList}" itemValue="id" itemLabel= "formattedNameAndID" size="1" tabindex="3" />
+					    <form:select path="sponsor.sponsorId" id="c1_UpdateRoleSponsor" items="${sponsorList}" itemValue="id" itemLabel= "formattedNameAndID" size="1" tabindex="3" />
                     </div>
 
                     <label for="c1_pt" class="updateRolePt"><spring:message code="pt.label" /></label>
@@ -46,6 +52,7 @@
                             <form:option value="25" label="25"/>
 							</form:select>
 					    </div>
+
                 </div>
 
              <label class="desc"><spring:message code="emailAddress.heading"/><input id="addEmailBtn" type="image" name="_eventId_submitAddEmail" src="images/add2.gif" title="add a new email address"/></label>
