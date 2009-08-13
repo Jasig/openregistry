@@ -45,6 +45,8 @@ public final class OpenRegistryUserDetailsServiceImpl implements UserDetailsServ
     @Transactional
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException, DataAccessException {
         final Person person = findPersonById(username);
+        final Set<Privilege> privileges = new HashSet<Privilege>();
+        /*
         final List<Privilege> authenticatedUserPrivileges = this.permissionRepository.getPrivilegesFor(Subject.SubjectType.AUTHENTICATED);
         final List<Privilege> everyoneUserPrivileges = this.permissionRepository.getPrivilegesFor(Subject.SubjectType.EVERYONE);
         final List<Privilege> userPrivileges = this.permissionRepository.getPrivilegesForUser(username);
@@ -55,7 +57,7 @@ public final class OpenRegistryUserDetailsServiceImpl implements UserDetailsServ
         final List<PrivilegeSet> userPrivilegeSets = this.permissionRepository.getPrivilegeSetsForUser(username);
         final List<PrivilegeSet> expressionPrivilegeSets = this.permissionRepository.getPrivilegeSetsFor(Subject.SubjectType.EXPRESSION);
 
-        final Set<Privilege> privileges = new HashSet<Privilege>();
+
         privileges.addAll(authenticatedUserPrivileges);
         privileges.addAll(everyoneUserPrivileges);
         privileges.addAll(userPrivileges);
@@ -69,7 +71,7 @@ public final class OpenRegistryUserDetailsServiceImpl implements UserDetailsServ
 
         privileges.addAll(parsedExpressionPrivileges);
         privileges.addAll(parsedExpressionPrivilegeSets);
-        
+        */
         return new SpringSecurityUserImpl(username, true, privileges, this.expressionParser);
     }
 
