@@ -159,6 +159,34 @@
             </plugin>
 
             <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>maven-clover2-plugin</artifactId>
+                <version>${clover.version}</version>
+				<configuration>
+                    <license><![CDATA[oPpoNpLipDQKHHXaIXJPCIsoqRpdAfeXwIImkDIRoTnriq
+mi2KuXZFGad>>Lz0ULLXhqIo2KPjARsdren1aP3vzebzkM
+qNNNUvQNpqopPoOQRqmTvqoPnOnMopRPqpSUtxrWTxOxTu
+pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
+97W9kZkUUnmm]]></license>
+					<jdk>1.5</jdk>
+					<generateXml>true</generateXml>
+					<generateHtml>true</generateHtml>
+					<includes>
+						<include>**/*.java</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>instrument</goal>
+							<goal>clover</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+            <plugin>
                 <inherited>false</inherited>
                 <groupId>com.google.code.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
@@ -198,6 +226,7 @@
 
     <properties>
         <aspectj.version>1.5.4</aspectj.version>
+        <clover.version>2.5.1</clover.version>
         <spring.version>3.0.0.M3</spring.version>
         <spring.security.version>2.0.4</spring.security.version>
         <junit.version>4.6</junit.version>
