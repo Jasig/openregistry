@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Calendar;
 import java.security.SecureRandom;
 
 /**
@@ -53,16 +54,26 @@ public class JpaActivationKeyImpl implements ActivationKey {
     private Date start;
 
     public JpaActivationKeyImpl() {
-
+        final Calendar calendar = Calendar.getInstance();
+        final Date startDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, 10);
+        final Date endDate = calendar.getTime();
+        this.start = startDate;
+        this.end = endDate;
+        this.value = constructNewValue();
     }
 
     public void setActivationKeyValues(final Date start, final Date end){
         this.start = new Date(start.getTime());
         this.end = new Date(end.getTime());
 
+        this.value = constructNewValue();
+    }
+
+    private String constructNewValue() {
         final byte[] random = new byte[ID_LENGTH];
         secureRandom.nextBytes(random);
-        this.value = convertBytesToString(random);
+        return convertBytesToString(random);
     }
 
     public void setActivationKeyValues(final Date end){
