@@ -54,13 +54,30 @@ public class JpaActivationKeyImpl implements ActivationKey {
     private Date start;
 
     public JpaActivationKeyImpl() {
-        final Calendar calendar = Calendar.getInstance();
-        final Date startDate = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_MONTH, 10);
-        final Date endDate = calendar.getTime();
-        this.start = startDate;
-        this.end = endDate;
-        this.value = constructNewValue();
+        this(null, null);
+    }
+
+    public JpaActivationKeyImpl(final Date endDate) {
+        this(new Date(), endDate);
+    }
+
+    public JpaActivationKeyImpl(final Date startDate, final Date endDate) {
+        Assert.isTrue((startDate != null && endDate != null) || (startDate == null && endDate == null), "Both start and end date must be specified, or they must both be null to use the default value.");
+
+        if (startDate == null && endDate == null) {
+            final Calendar calendar = Calendar.getInstance();
+            final Date localStartDate = calendar.getTime();
+            calendar.add(Calendar.DAY_OF_MONTH, 10);
+            final Date localEndDate = calendar.getTime();
+
+            this.start = localStartDate;
+            this.end = localEndDate;
+        } else {
+            Assert.isTrue(endDate.compareTo(startDate) > 0, "The End Date MUST be after the Start Date.");
+            this.start = new Date(startDate.getTime());
+            this.end = new Date(endDate.getTime());
+        }
+        this.value = constructNewValue();        
     }
 
     public void setActivationKeyValues(final Date start, final Date end){
