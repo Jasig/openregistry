@@ -113,4 +113,14 @@ public class JpaActivationKeyImplTests {
 
         final ActivationKey activationKey = new JpaActivationKeyImpl(startDate, newEndDate);
     }
+
+    @Test
+    public void testEqualsAndHashCode() {
+        final ActivationKey activationKey1 = new JpaActivationKeyImpl();
+        final ActivationKey activationKey2 = new JpaActivationKeyImpl();
+
+        assertFalse(activationKey1.equals(activationKey2));
+        assertFalse(activationKey2.equals(activationKey1));
+        assertFalse(activationKey1.hashCode() == activationKey2.hashCode());
+    }
 }
