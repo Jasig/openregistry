@@ -38,13 +38,15 @@ import java.util.Calendar;
 @Service("activationService")
 public class DefaultActivationService implements ActivationService {
 
-    @Autowired(required = false)
-    private AnnotationValidator<Object> annotationValidator = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
-
     @Autowired(required=true)
     private PersonRepository personRepository;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired(required=true)
+    public DefaultActivationService(final PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
 
     @Transactional
     public ActivationKey generateActivationKey(Person person) {
@@ -57,13 +59,14 @@ public class DefaultActivationService implements ActivationService {
 
     @Transactional
     public ActivationKey generateActivationKey(String identifierType, String identifierValue) throws PersonNotFoundException, IllegalArgumentException  {
-        if (identifierType == null || identifierValue ==null) throw new IllegalArgumentException();
-        try {
-            Person person = findPerson(identifierType, identifierValue);
-            return this.generateActivationKey(person);
-        } catch (PersonNotFoundException e){
-            throw e;
+        if (identifierType == null || identifierValue ==null) {
+            throw new IllegalArgumentException();
         }
+
+        final Person person = findPerson(identifierType, identifierValue);
+
+        // TODO is this okay because of Spring's transaction management?
+        return this.generateActivationKey(person);
     }
 
     @Transactional
