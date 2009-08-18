@@ -42,6 +42,9 @@ public class DefaultActivationServiceTests {
         assertNotSame(activationKey, newActivationKey);
     }
 
+    /**
+     * Tests whether the new key is generated for a person identified by type and value.
+     */
     @Test
     public void testNewKeyGeneratedForIdentifierTypeAndValue() {
         final Person person = this.person;
@@ -52,11 +55,17 @@ public class DefaultActivationServiceTests {
         assertNotSame(activationKey, newActivationKey);
     }
 
+    /**
+     * Tests the illegal argument exception.
+     */
     @Test(expected=IllegalArgumentException.class)
     public void testProperValuesProvidedWithTypeAndId() {
         this.activationService.generateActivationKey(null, null);
     }
 
+    /**
+     * Tests what happens if the person is not found.
+     */
     @Test(expected= PersonNotFoundException.class)
     public void testPersonNotFound() {
         this.activationService.generateActivationKey("foo", "bar");
