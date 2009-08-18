@@ -41,9 +41,6 @@ public class NetidIdentifierAssigner implements IdentifierAssigner {
 		identifier.setValue(netIdGenerator.generateIdentifier(person));
 		identifier.setDeleted(false);
 		identifier.setPrimary(false);
-
-        //create activation key for new netid
-        // TODO is this the appropriate place to generate the activation key?
 	}
 
 	public String getIdentifierType() {
