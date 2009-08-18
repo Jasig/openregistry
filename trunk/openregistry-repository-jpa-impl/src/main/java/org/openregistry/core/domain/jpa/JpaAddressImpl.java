@@ -21,6 +21,7 @@ import org.openregistry.core.domain.Region;
 import org.openregistry.core.domain.Country;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
@@ -157,19 +158,19 @@ public class JpaAddressImpl extends Entity implements Address {
         this.postalCode = postalCode;
     }
 
-public String getSingleLineAddress(){
+    public String getSingleLineAddress(){
         final StringBuilder builder = new StringBuilder();
 
         builder.append(getLine1());
-        if (getLine2() != null && !getLine2().isEmpty()) {
+        if (StringUtils.hasText(this.line2)) {
             builder.append(", ");
             builder.append(getLine2());
         }
-        if (getLine3() != null && !getLine3().isEmpty()) {
+        if (StringUtils.hasText(this.line3)) {
             builder.append(", ");
             builder.append(getLine3());
         }
-        if (getCity() != null && !getCity().isEmpty()) {
+        if (StringUtils.hasText(this.city)) {
             builder.append(", ");
             builder.append(getCity());
         }
@@ -177,7 +178,7 @@ public String getSingleLineAddress(){
             builder.append(", ");
             builder.append(getRegion().getCode());
         }
-        if (getPostalCode() != null && !getPostalCode().isEmpty()) {
+        if (StringUtils.hasText(this.postalCode)) {
             builder.append(" ");
             builder.append(getPostalCode());
         }

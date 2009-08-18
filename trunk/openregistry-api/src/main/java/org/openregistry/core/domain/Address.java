@@ -58,5 +58,6 @@ public interface Address extends Serializable {
 
     void setPostalCode(String postalCode);
 
+    // TODO what is this used for versus a proper toString function?
     String getSingleLineAddress();
 }
