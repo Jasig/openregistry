@@ -246,6 +246,8 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <ognl.version>2.7.3</ognl.version>
         <tiles.version>2.0.7</tiles.version>
         <jsp.version>2.0</jsp.version>
+        <hibernate.version>3.4.0-SNAPSHOT</hibernate.version>
+        <javassist.version>3.4.GA</javassist.version>
     </properties>
 
     <pluginRepositories>
