@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.openregistry.core.domain.ActivationKey;
 
 import java.util.Date;
 import java.util.Calendar;
@@ -59,5 +60,57 @@ public class JpaActivationKeyImplTests {
 
         assertNotSame(endDate1, endDate2);
         assertNotSame(startDate1, startDate2);
+    }
+
+    @Test
+    public void testValidity() {
+        final JpaActivationKeyImpl activationKey = new JpaActivationKeyImpl();
+        assertTrue(activationKey.isValid());
+    }
+
+    @Test
+    public void testNotValidYet() {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 10);
+        final Date newStartDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, 10);
+        final Date newEndDate = calendar.getTime();
+        final JpaActivationKeyImpl activationKey = new JpaActivationKeyImpl(newStartDate, newEndDate);
+
+        assertTrue(activationKey.isNotYetValid());
+    }
+
+    @Test
+    public void testExpired() {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        final Date newEndDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, -2);
+        final Date newStartDate = calendar.getTime();
+
+        final JpaActivationKeyImpl activationKey = new JpaActivationKeyImpl(newStartDate, newEndDate);
+
+        assertTrue(activationKey.isExpired());
+    }
+
+    @Test
+    public void testConstructorWithJustEndDate() {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, +1);
+        final Date newEndDate = calendar.getTime();
+        final ActivationKey activationKey = new JpaActivationKeyImpl(newEndDate);
+
+        assertEquals(newEndDate, activationKey.getEnd());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBadStartAndEndDates() {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, +1);
+        final Date newEndDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, +2);
+        final Date startDate = calendar.getTime();
+
+        final ActivationKey activationKey = new JpaActivationKeyImpl(startDate, newEndDate);
     }
 }
