@@ -22,6 +22,8 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.ActivationKey;
 import org.openregistry.core.domain.PersonNotFoundException;
 
+import java.util.Date;
+
 /**
  * Test cases for the {@link org.openregistry.core.service.DefaultIdentifierChangeService}.  Note this does not actually
  * test the database.
@@ -31,7 +33,7 @@ import org.openregistry.core.domain.PersonNotFoundException;
  */
 public class DefaultActivationServiceTests {
 
-    private ActivationService activationService;
+    private DefaultActivationService activationService;
 
     private Person person;
 
@@ -142,5 +144,36 @@ public class DefaultActivationServiceTests {
     @Test(expected = IllegalArgumentException.class)
     public void testGetActivationKeyWithPersonButWithNoMatchingActivationKey() {
         this.activationService.getActivationKey(this.person, "foo");
+    }
+
+    @Test
+    public void testCheckConfigurableDateSettings() {
+        final Date startDate = new Date();
+        final Date endDate = new Date(System.currentTimeMillis() + 10000);
+
+        this.activationService.setStartDateGenerator(new DateGenerator() {
+            public Date getNewDate() {
+                return startDate;
+            }
+
+            public Date getNewDate(final Date futureDate) {
+                return startDate;
+            }
+        });
+
+        this.activationService.setEndDateGenerator(new DateGenerator() {
+            public Date getNewDate() {
+                return endDate;
+            }
+
+            public Date getNewDate(final Date futureDate) {
+                return endDate;
+            }
+        });
+
+        final ActivationKey activationKey = this.activationService.generateActivationKey(this.person);
+
+        assertEquals(startDate, activationKey.getStart());
+        assertEquals(endDate, activationKey.getEnd());
     }
 }
