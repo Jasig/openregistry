@@ -239,13 +239,12 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     public synchronized ActivationKey generateNewActivationKey(final Date start, final Date end) {
-        activationKey.setActivationKeyValues(start, end);
+        this.activationKey = new JpaActivationKeyImpl(start, end);
         return this.activationKey;
     }
 
     public synchronized ActivationKey generateNewActivationKey(final Date end) {
-        activationKey.setActivationKeyValues(end);
-        return this.activationKey;
+        return generateNewActivationKey(new Date(), end);
     }
 
     public synchronized ActivationKey getCurrentActivationKey(){

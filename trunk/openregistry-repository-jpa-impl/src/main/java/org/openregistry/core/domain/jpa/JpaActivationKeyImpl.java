@@ -80,21 +80,10 @@ public class JpaActivationKeyImpl implements ActivationKey {
         this.value = constructNewValue();        
     }
 
-    public void setActivationKeyValues(final Date start, final Date end){
-        this.start = new Date(start.getTime());
-        this.end = new Date(end.getTime());
-
-        this.value = constructNewValue();
-    }
-
     private String constructNewValue() {
         final byte[] random = new byte[ID_LENGTH];
         secureRandom.nextBytes(random);
         return convertBytesToString(random);
-    }
-
-    public void setActivationKeyValues(final Date end){
-        setActivationKeyValues(new Date(), end);
     }
 
     private String convertBytesToString(final byte[] random) {
