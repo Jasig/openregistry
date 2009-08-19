@@ -20,6 +20,7 @@ import org.openregistry.core.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.javalid.core.AnnotationValidator;
 import org.javalid.core.AnnotationValidatorImpl;
 import org.javalid.core.config.JvConfiguration;
@@ -28,18 +29,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Default implementation of the {@link org.openregistry.core.service.ActivationService}.
  *
  * @author Nancy Mond
- * @since 1.0.0
+ * @version $Revision$ $Date$
+ * @since 0.1
  */
 @Service("activationService")
-public class DefaultActivationService implements ActivationService {
+public final class DefaultActivationService implements ActivationService {
 
     @Autowired(required=true)
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
+
+    private DateGenerator startDateGenerator = new CurrentDateTimeDateGenerator();
+
+    private DateGenerator endDateGenerator = new AdditiveDateTimeDateGenerator(Calendar.DAY_OF_MONTH, 10);
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -49,24 +56,19 @@ public class DefaultActivationService implements ActivationService {
     }
 
     @Transactional
-    public ActivationKey generateActivationKey(Person person) {
-        ActivationKey key = person.getCurrentActivationKey();
-        person.removeCurrentActivationKey();
-        key = person.generateNewActivationKey(this.getActivationKeyEndDate().getTime());
+    public ActivationKey generateActivationKey(final Person person) {
+        final Date startDate = this.startDateGenerator.getNewDate();
+        final ActivationKey key = person.generateNewActivationKey(startDate, this.endDateGenerator.getNewDate(startDate));
         this.personRepository.savePerson(person);
         return key;
     }
 
     @Transactional
     public ActivationKey generateActivationKey(String identifierType, String identifierValue) throws PersonNotFoundException, IllegalArgumentException  {
-        if (identifierType == null || identifierValue ==null) {
-            throw new IllegalArgumentException();
-        }
+        Assert.notNull(identifierType, "identifierType cannot be null.");
+        Assert.notNull(identifierValue, "identifierValue cannot be null.");
 
-        final Person person = findPerson(identifierType, identifierValue);
-
-        // TODO is this okay because of Spring's transaction management?
-        return this.generateActivationKey(person);
+        return this.generateActivationKey(findPerson(identifierType, identifierValue));
     }
 
     @Transactional
@@ -114,11 +116,6 @@ public class DefaultActivationService implements ActivationService {
         return key;
     }
 
-    protected Calendar getActivationKeyEndDate(){
-        final Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.HOUR,48);
-        return cal;
-    }
 
     protected Person findPerson(String identifierType, String identifierValue) throws PersonNotFoundException {
         Person person = null;
@@ -130,4 +127,11 @@ public class DefaultActivationService implements ActivationService {
         }
     }
 
+    public void setStartDateGenerator(final DateGenerator startDateGenerator) {
+        this.startDateGenerator = startDateGenerator;
+    }
+
+    public void setEndDateGenerator(final DateGenerator endDateGenerator) {
+        this.endDateGenerator = endDateGenerator;
+    }
 }
