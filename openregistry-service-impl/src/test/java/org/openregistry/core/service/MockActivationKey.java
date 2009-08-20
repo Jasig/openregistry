@@ -16,6 +16,7 @@
 package org.openregistry.core.service;
 
 import org.openregistry.core.domain.ActivationKey;
+import org.openregistry.core.domain.LockingException;
 
 import java.util.Date;
 
@@ -23,7 +24,7 @@ import java.util.Date;
  * @version $Revision$ $Date$
  * @since 0.1
  */
-public final class MockActivationKey  implements ActivationKey {
+public final class MockActivationKey implements ActivationKey {
 
     private final String value;
 
@@ -31,22 +32,24 @@ public final class MockActivationKey  implements ActivationKey {
 
     private final Date end;
 
+    private String lock;
+
     public MockActivationKey(final String value, final Date start, final Date end) {
         this.value = value;
         this.start = start;
         this.end = end;
     }
 
-    public String getValue() {
+    public String asString() {
         return this.value;
     }
 
     public boolean isNotYetValid() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+       return (this.start == null || this.start.compareTo(new Date()) > 0);
     }
 
     public boolean isExpired() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return (this.end == null || this.end.compareTo(new Date()) < 0);
     }
 
     public boolean isValid() {
@@ -62,6 +65,21 @@ public final class MockActivationKey  implements ActivationKey {
     }
 
     public int compareTo(final ActivationKey activationKey) {
-        return this.value.compareTo(activationKey.getValue());
+        return this.value.compareTo(activationKey.asString());
+    }
+
+    public void lock(final String lock) throws LockingException {
+        if (this.lock == null) {
+            this.lock = lock;
+            return;
+        }
+
+        if (!this.lock.equals(lock)) {
+            throw new LockingException();
+        }
+    }
+
+    public boolean hasLock(final String lock) {
+        return this.lock != null && this.lock.equals(lock);
     }
 }

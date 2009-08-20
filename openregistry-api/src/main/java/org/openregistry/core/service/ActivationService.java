@@ -18,6 +18,7 @@ package org.openregistry.core.service;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.ActivationKey;
 import org.openregistry.core.domain.PersonNotFoundException;
+import org.openregistry.core.domain.LockingException;
 
 /**
  * Service Layer for interacting with Activation Keys in the OpenRegistry System.  ActivationKeys are a method of
@@ -39,6 +40,7 @@ public interface ActivationService {
      * @param person the person to create the key for.  CANNOT be null.
      * @return the newly constructed key.  CANNOT be NULL.  MUST be of the format: 8 characters, and consisting of
      * characters [A-Za-z0-9]
+     * @throws IllegalArgumentException if person is null.
      */
     ActivationKey generateActivationKey(Person person);
 
@@ -54,7 +56,8 @@ public interface ActivationService {
      * @param identifierValue the identifier value to use to look up the person.  CANNOT be NULL.
      * @return the newly constructed key.  CANNOT be NULL.  MUST be of the format: 8 characters, and consisting of
      * characters [abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ2345679]
-     * @throws PersonNotFoundException if the person was not found, or if identifierType or identifierValue is NULL.
+     * @throws PersonNotFoundException if the person was not found
+     * @throws IllegalArgumentException if identifierType or identifierValue is NULL.
      */
     ActivationKey generateActivationKey(String identifierType, String identifierValue) throws PersonNotFoundException;
 
@@ -68,10 +71,12 @@ public interface ActivationService {
      *
      * @param person the person to invalidate the key for.  CANNOT be NULL.
      * @param activationKey the activation key to invalidate.  CANNOT be NULL.
-     * @throws IllegalArgumentException if the activation key does not exist for the person.
+     * @param lock the value to use to confirm your lock on the system.
+     * @throws IllegalArgumentException if the activation key does not exist for the person or if the person or activation key is NULL.
      * @throws IllegalStateException if the activation key exists but is not valid.
+     * @throws org.openregistry.core.domain.LockingException if you're not the one holding the lock.
      */
-    void invalidateActivationKey(Person person, String activationKey) throws IllegalArgumentException, IllegalStateException;
+    void invalidateActivationKey(Person person, String activationKey, String lock) throws IllegalArgumentException, IllegalStateException, LockingException;
 
     /**
      * Invalidates an existing VALID activation key for a particular person.  This method EXPECTs that the key you are
@@ -84,11 +89,14 @@ public interface ActivationService {
      * @param identifierType the identifier type to use to look up the person. CANNOT be NULL.
      * @param identifierValue the identifier value to use to look up the person.  CANNOT be NULL.
      * @param activationKey the activation key to invalidate.  CANNOT be NULL.
-     * @throws PersonNotFoundException if the person was not found, or if identifierType or identifierValue is NULL.
-     * @throws IllegalArgumentException if the activation key does not exist for the person.
+     * @param lock the value to use to confirm your lock on the system.
+     * @throws PersonNotFoundException if the person was not found
+     * @throws IllegalArgumentException if the identifier type or value is NULL or if the activation key does not exist for the person.
+     * @throws IllegalStateException if the activation key exists but is not valid.
+     * @throws org.openregistry.core.domain.LockingException if you're not the one holding the lock.
      *
      */
-    void invalidateActivationKey(String identifierType, String identifierValue, String activationKey)  throws PersonNotFoundException, IllegalArgumentException;
+    void invalidateActivationKey(String identifierType, String identifierValue, String activationKey, String lock) throws PersonNotFoundException, IllegalArgumentException, LockingException;
 
     /**
      * Method for retrieving an activation key for "querying" purposes.   The most common querying will be to determine
@@ -102,11 +110,13 @@ public interface ActivationService {
      * @param identifierType the identifier type to use to look up the person. CANNOT be NULL.
      * @param identifierValue the identifier value to use to look up the person.  CANNOT be NULL.
      * @param activationKey the activation key String representation to retrieve.  CANNOT be NULL.
-     * @return the activation key.  CANNOT be NULL.
-     * @throws PersonNotFoundException if the person was not found, or if identifierType or identifierValue is NULL.
-     * @throws IllegalArgumentException if the activation key does not exist for the person.
+     * @return the activation key or NULL if not found.
+     * @param lock the value to use to confirm your lock on the system.
+     * @throws PersonNotFoundException if the person was not found,
+     * @throws IllegalArgumentException if activation key, identifierType or identifierValue is NULL.
+     * @throws LockingException if someone already holds the lock on this.
      */
-    ActivationKey getActivationKey(String identifierType, String identifierValue, String activationKey) throws PersonNotFoundException, IllegalArgumentException;
+    ActivationKey getActivationKey(String identifierType, String identifierValue, String activationKey, String lock) throws PersonNotFoundException, IllegalArgumentException, LockingException;
 
     /**
      * Method for retrieving an activation key for "querying" purposes.   The most common querying will be to determine
@@ -119,8 +129,10 @@ public interface ActivationService {
      *
      * @param person the person to retrieve the key for.  CANNOT be NULL.
      * @param activationKey the activation key String representation to retrieve.  CANNOT be NULL.
-     * @return the activation key.  CANNOT be NULL.
-     * @throws IllegalArgumentException if the activation key does not exist for the person.
+     * @param lock the value to use to confirm your lock on the system.
+     * @return the activation key, or NULL if not found.
+     * @throws IllegalArgumentException if the person or activation key is NULL.
+     * @throws LockingException if someone already holds the lock on this.
      */
-    ActivationKey getActivationKey(Person person, String activationKey) throws IllegalArgumentException;
+    ActivationKey getActivationKey(Person person, String activationKey, String lock) throws IllegalArgumentException, LockingException;
 }

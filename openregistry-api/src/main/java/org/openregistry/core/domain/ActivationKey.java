@@ -22,6 +22,8 @@ import java.util.Date;
  * Represents a key used to remotely activate a person.  A Person
  * should not be allowed to be activated using this key if its
  * been expired.
+ * <p>
+ * An ActivationKey MUST be locked before used.  Locks MUST have a timeout of 20 minutes.
  *
  * @version $Revision$ $Date$
  * @since 1.0.0
@@ -38,7 +40,7 @@ public interface ActivationKey extends DateRange, Comparable<ActivationKey>, Ser
      *
      * @return the key as a String.  CANNOT be NULL.
      */
-    String getValue();
+    String asString();
 
     /**
      * Convenience method for determining if current date is before the start date.
@@ -59,4 +61,23 @@ public interface ActivationKey extends DateRange, Comparable<ActivationKey>, Ser
      * @return if the current date is in the range, false otherwise.
      */
     boolean isValid();
+
+    /**
+     * Attempts to acquire a lock on this object.  If someone else holds a lock on this, then an exception is thrown.
+     * <p>
+     * If the person locking is the same as the one who already holds the lock, the time is extended.
+     *
+     * @param lock the lock, cannot be null.
+     * @throws LockingException if someone has the lock and its not the current person requesting.
+     */
+    void lock(String lock) throws LockingException;
+
+    /**
+     * Determines if the supplied lock is the current lock on the system.
+     *
+     * @param lock the lock to check
+     * @return true if it is, false otherwise.
+     */
+    boolean hasLock(String lock);
+
 }
