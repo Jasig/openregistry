@@ -47,9 +47,13 @@ public class IdentifierAction {
     @Autowired(required=true)
     private ActivationService activationService;
 
+    @Autowired(required=true)
+    private PersonService personService;
+
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final String identifierType = "NETID";
+    private final String IDENTIFIER_TYPE = "NETID";
+    private final String LOCK = "ORWebAppLock";
 
     public boolean verifyActivationKey(Identifier identifier, String activationKey, String password, MessageContext context) {
         if (activationKey == null || activationKey.trim().equals("")){
@@ -66,11 +70,18 @@ public class IdentifierAction {
         }
 
         try {
-            final ActivationKey oActivationKey = this.activationService.getActivationKey(identifierType, identifier.getValue(), activationKey);
+
+            Person person = personService.findPersonByIdentifier(IDENTIFIER_TYPE, identifier.getValue());
+            if (person == null){
+                context.addMessage(new MessageBuilder().error().code("personNotFound").build());
+                return false;
+            }
+
+            final ActivationKey oActivationKey = this.activationService.getActivationKey(person, activationKey, LOCK);
 
             if (oActivationKey.isValid()) {
                 if (activate(identifier, password, context)){
-                    this.activationService.invalidateActivationKey(identifierType, identifier.getValue(), activationKey);
+                    this.activationService.invalidateActivationKey(person, activationKey, LOCK);
                     return true;
                 }
             }
