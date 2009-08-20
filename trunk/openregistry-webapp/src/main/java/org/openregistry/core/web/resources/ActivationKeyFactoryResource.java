@@ -25,6 +25,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
 
 
 import com.sun.jersey.api.NotFoundException;
@@ -50,18 +51,15 @@ public final class ActivationKeyFactoryResource {
     UriInfo uriInfo;
 
     @POST
-    public Response generateNewActivationKey(@PathParam("personIdType") String personIdType,
-                                           @PathParam("personId") String personId) {
-
+    public Response generateNewActivationKey(@PathParam("personIdType") final String personIdType, @PathParam("personId") final String personId) {
         try {
             String activationKey = this.activationService.generateActivationKey(personIdType, personId).asString();
             //HTTP 201
             return Response.created(buildActivationProcessorResourceUri(activationKey)).build();
-        }
-        catch (PersonNotFoundException ex) {
-            throw new NotFoundException(
-                    String.format("The person resource identified by /people/%s/%s URI does not exist",
-                            personIdType, personId));
+        } catch (final IllegalArgumentException e) {
+            return Response.status(400).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+        } catch (final PersonNotFoundException ex) {
+            throw new NotFoundException(String.format("The person resource identified by /people/%s/%s URI does not exist", personIdType, personId));
         }
     }
 
