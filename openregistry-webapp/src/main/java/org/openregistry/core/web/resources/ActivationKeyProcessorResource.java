@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.openregistry.core.service.ActivationService;
 import org.openregistry.core.domain.PersonNotFoundException;
 import org.openregistry.core.domain.ActivationKey;
+import org.openregistry.core.domain.LockingException;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -28,6 +29,8 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.Context;
 
 import com.sun.jersey.api.NotFoundException;
 
@@ -49,53 +52,53 @@ public final class ActivationKeyProcessorResource {
     @DELETE
     public Response invalidateActivationKey(@PathParam("personIdType") String personIdType,
                                             @PathParam("personId") String personId,
-                                            @PathParam("activationKey") String activationKey) {
-        Response response = null;
+                                            @PathParam("activationKey") String activationKey,
+                                            @Context SecurityContext securityContext) {
         try {
-            this.activationService.invalidateActivationKey(personIdType, personId, activationKey);
+            this.activationService.invalidateActivationKey(personIdType, personId, activationKey, securityContext.getUserPrincipal().getName());
+        } catch (final IllegalStateException e) {
+            return Response.status(409).entity(String.format("The activation key [%s] is not valid.", activationKey)).type(MediaType.TEXT_PLAIN).build();
+            
         }
-        catch (IllegalArgumentException e) {
-            throw new NotFoundException(
-                    String.format("The activation key [%s] does not exist", activationKey));
+        catch (final IllegalArgumentException e) {
+            return Response.status(400).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }
-        catch (PersonNotFoundException e) {
-            throw new NotFoundException(
-                    String.format("The person resource identified by /people/%s/%s URI does not exist",
-                            personIdType, personId));
+        catch (final PersonNotFoundException e) {
+            throw new NotFoundException(String.format("The person resource identified by /people/%s/%s URI does not exist", personIdType, personId));
+        } catch (final LockingException e) {
+            return Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }         
         //If response is null, that means HTTP 204
-        return response;
+        return null;
     }
 
     @GET
     public Response verifyActivationKey(@PathParam("personIdType") String personIdType,
                                           @PathParam("personId") String personId,
-                                          @PathParam("activationKey") String activationKey) {
-        Response response = null;
-        ActivationKey ak = null;
+                                          @PathParam("activationKey") String activationKey,
+                                          @Context SecurityContext securityContext) {
         try {
-            ak = this.activationService.getActivationKey(personIdType, personId, activationKey);
+            final ActivationKey ak = this.activationService.getActivationKey(personIdType, personId, activationKey, securityContext.getUserPrincipal().getName());
+
+            if (ak == null) {
+                throw new NotFoundException(String.format("The activation key [%s] does not exist", activationKey));
+            }
             if(ak.isNotYetValid()) {
                 //HTTP 409
-                response = Response.status(409).entity(String.format("The activation key [%s] is not yet valid for use", activationKey))
-                    .type(MediaType.TEXT_PLAIN).build();
+                return Response.status(409).entity(String.format("The activation key [%s] is not yet valid for use", activationKey)).type(MediaType.TEXT_PLAIN).build();
             }
             else if(ak.isExpired()) {
                 //HTTP 410
-                response = Response.status(410).entity(String.format("The activation key [%s] has expired", activationKey))
-                    .type(MediaType.TEXT_PLAIN).build();
+                return Response.status(410).entity(String.format("The activation key [%s] has expired", activationKey)).type(MediaType.TEXT_PLAIN).build();
             }
-        }
-        catch(PersonNotFoundException e) {
-            throw new NotFoundException(
-                    String.format("The person resource identified by /people/%s/%s URI does not exist",
-                            personIdType, personId));    
-        }
-        catch (IllegalArgumentException e) {
-            throw new NotFoundException(
-                    String.format("The activation key [%s] does not exist", activationKey));
+        } catch(final PersonNotFoundException e) {
+            throw new NotFoundException(String.format("The person resource identified by /people/%s/%s URI does not exist", personIdType, personId));    
+        } catch (final IllegalArgumentException e) {
+            return Response.status(400).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+        } catch (final LockingException e) {
+            return Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }
         //If response is null, that means HTTP 204
-        return response;
+        return null;
     }
 }
