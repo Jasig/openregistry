@@ -15,8 +15,8 @@
  */
 package org.openregistry.core.domain.jpa;
 
-import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.ActivationKey;
+import org.openregistry.core.domain.LockingException;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -28,6 +28,9 @@ import java.security.SecureRandom;
  * Immutable implementation of the {@link org.openregistry.core.domain.ActivationKey} interface.
  * <p>
  * Note: its not TRULY immutable because of the JPA restrictions, but it exposes no setters to change values.
+ * <p>
+ * Due to JPA limitations, providers may leave an embedded copy of this around, which is why JpaPersonImpl MUST check
+ * isInitialized.  If its false, it MUST NOT return the activation key.
  *
  * @version $Revision$ $Date$
  * @since 1.0.0
@@ -42,6 +45,8 @@ public class JpaActivationKeyImpl implements ActivationKey {
 
     private static final int ID_LENGTH = 8;
 
+    private static final int TWENTY_MINUTES_AS_MILLISECONDS = 20 * 60 * 1000;
+
     @Column(name = "activation_key")
     private String value;
 
@@ -52,6 +57,13 @@ public class JpaActivationKeyImpl implements ActivationKey {
     @Column(name = "act_key_start_date")
     @Temporal(TemporalType.DATE)
     private Date start;
+
+    @Column(name="act_key_lock")
+    private String lock;
+
+    @Column(name="act_key_lock_expiration")
+    @Temporal(TemporalType.DATE)
+    private Date lockExpirationDate;
 
     public JpaActivationKeyImpl() {
         this(null, null);
@@ -96,16 +108,16 @@ public class JpaActivationKeyImpl implements ActivationKey {
         return new String(output);
     }
 
-    public String getValue() {
+    public String asString() {
         return this.value;
     }
 
     public boolean isNotYetValid() {
-       return (this.start == null || this.start.compareTo(new Date()) > 0);
+       return this.start.compareTo(new Date()) > 0;
     }
 
     public boolean isExpired() {
-        return (this.end == null || this.end.compareTo(new Date()) < 0);
+        return this.end.compareTo(new Date()) < 0;
     }
 
     public boolean isValid() {
@@ -120,6 +132,10 @@ public class JpaActivationKeyImpl implements ActivationKey {
         return new Date(this.end.getTime());
     }
 
+    public boolean isInitialized() {
+        return this.value != null;
+    }
+
     public void removeKeyValues(){
         this.value = null;
         this.start = null;
@@ -129,7 +145,7 @@ public class JpaActivationKeyImpl implements ActivationKey {
     public int compareTo(final ActivationKey o) {
         Assert.notNull(o);
 
-        return this.value.compareTo(o.getValue());
+        return this.value.compareTo(o.asString());
     }
 
     public boolean equals(final Object o) {
@@ -151,5 +167,30 @@ public class JpaActivationKeyImpl implements ActivationKey {
         result = 31 * result + (start != null ? start.hashCode() : 0);
         result = 31 * result;
         return result;
+    }
+
+    public synchronized void lock(final String lock) throws LockingException {
+        if (this.lock == null) {
+            this.lock = lock;
+            this.lockExpirationDate = new Date(System.currentTimeMillis() + TWENTY_MINUTES_AS_MILLISECONDS);
+            return;
+        }
+
+        if (this.lock.equals(lock)) {
+            this.lockExpirationDate = new Date(System.currentTimeMillis() + TWENTY_MINUTES_AS_MILLISECONDS);
+            return;
+        }
+
+        if (this.lockExpirationDate.getTime() + TWENTY_MINUTES_AS_MILLISECONDS > System.currentTimeMillis()) {
+            this.lock = lock;
+            this.lockExpirationDate = new Date(System.currentTimeMillis() + TWENTY_MINUTES_AS_MILLISECONDS);
+            return;
+        }
+
+        throw new LockingException("Someone else currently holds the lock.");
+    }
+
+    public boolean hasLock(final String lock) {
+        return this.lock != null && this.lock.equals(lock) && (this.lockExpirationDate.getTime() + TWENTY_MINUTES_AS_MILLISECONDS < System.currentTimeMillis());
     }
 }

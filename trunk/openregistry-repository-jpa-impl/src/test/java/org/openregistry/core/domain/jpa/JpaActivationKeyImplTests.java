@@ -36,10 +36,10 @@ public class JpaActivationKeyImplTests {
     public void testProperKeyGenerationId() {
         final JpaActivationKeyImpl activationKey = new JpaActivationKeyImpl();
 
-        assertFalse(activationKey.getValue().contains("l")); // lowercase L
-        assertFalse(activationKey.getValue().contains("I")); // uppercase i
-        assertFalse(activationKey.getValue().contains("0")); // number zero
-        assertFalse(activationKey.getValue().contains("O")); // uppercase o
+        assertFalse(activationKey.asString().contains("l")); // lowercase L
+        assertFalse(activationKey.asString().contains("I")); // uppercase i
+        assertFalse(activationKey.asString().contains("0")); // number zero
+        assertFalse(activationKey.asString().contains("O")); // uppercase o
     }
 
     /**

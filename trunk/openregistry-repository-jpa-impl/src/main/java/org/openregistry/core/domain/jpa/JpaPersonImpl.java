@@ -38,7 +38,7 @@ import java.util.Set;
  *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
- * @since 1.0.0
+ * @since 0.1
  */
 @javax.persistence.Entity(name="person")
 @Table(name="prc_persons")
@@ -248,11 +248,10 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     public synchronized ActivationKey getCurrentActivationKey(){
-        return this.activationKey;
+        return this.activationKey != null && this.activationKey.isInitialized() ? this.activationKey : null;
     }
 
     public synchronized void removeCurrentActivationKey() {
-        //this.activationKey = null;
-        activationKey.removeKeyValues();
+        this.activationKey.removeKeyValues();
     }
 }

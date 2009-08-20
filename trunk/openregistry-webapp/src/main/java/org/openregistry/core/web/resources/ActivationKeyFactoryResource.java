@@ -22,7 +22,6 @@ import org.openregistry.core.service.ActivationService;
 import org.openregistry.core.domain.PersonNotFoundException;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response;
@@ -55,7 +54,7 @@ public final class ActivationKeyFactoryResource {
                                            @PathParam("personId") String personId) {
 
         try {
-            String activationKey = this.activationService.generateActivationKey(personIdType, personId).getValue();
+            String activationKey = this.activationService.generateActivationKey(personIdType, personId).asString();
             //HTTP 201
             return Response.created(buildActivationProcessorResourceUri(activationKey)).build();
         }

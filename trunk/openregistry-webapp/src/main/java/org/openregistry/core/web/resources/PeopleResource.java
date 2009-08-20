@@ -210,12 +210,9 @@ public final class PeopleResource {
         //Build activation generator URI
         URI activationGeneratorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").build();
 
-        //HACK! TODO: done just for testing until the activation stuff is resolved i.e. at which point
-        //the key is created, etc.?
-        person.generateNewActivationKey(new Date());
-
         //Build activation proccess URI - there will need to be an activation token generator service. TBD.
-        URI activationProcessorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").path(person.getCurrentActivationKey().getValue())
+        // TODO there may not be a key.
+        URI activationProcessorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").path(person.getCurrentActivationKey().asString())
                 .build();
         
         return new PersonResponseRepresentation(
@@ -236,7 +233,7 @@ public final class PeopleResource {
         }
         reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
         logger.info("Trying to add incoming person...");
-        //TODO: OK, the activation key should be assigned by now (if new person)? I'd rather not rely on the ActivationService API here!
+
         ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
         //Now do the branching logic based on the result
         if (result.succeeded()) {

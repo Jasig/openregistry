@@ -21,12 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.javalid.core.AnnotationValidator;
-import org.javalid.core.AnnotationValidatorImpl;
-import org.javalid.core.config.JvConfiguration;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -48,8 +42,6 @@ public final class DefaultActivationService implements ActivationService {
 
     private DateGenerator endDateGenerator = new AdditiveDateTimeDateGenerator(Calendar.DAY_OF_MONTH, 10);
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
     @Autowired(required=true)
     public DefaultActivationService(final PersonRepository personRepository) {
         this.personRepository = personRepository;
@@ -57,6 +49,7 @@ public final class DefaultActivationService implements ActivationService {
 
     @Transactional
     public ActivationKey generateActivationKey(final Person person) {
+        Assert.notNull(person, "person cannot be null.");
         final Date startDate = this.startDateGenerator.getNewDate();
         final ActivationKey key = person.generateNewActivationKey(startDate, this.endDateGenerator.getNewDate(startDate));
         this.personRepository.savePerson(person);
@@ -72,56 +65,73 @@ public final class DefaultActivationService implements ActivationService {
     }
 
     @Transactional
-    public void invalidateActivationKey(Person person, String activationKey) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException {
-        ActivationKey currentKey = person.getCurrentActivationKey();
-        if (currentKey == null || currentKey.getValue() == null || !currentKey.getValue().equals(activationKey)) throw new IllegalArgumentException();
-        if (!currentKey.isValid()) throw new IllegalStateException();
-        person.removeCurrentActivationKey();
-        this.personRepository.savePerson(person);
-    }
+    public void invalidateActivationKey(final Person person, final String activationKey, final String lock) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException {
+        Assert.notNull(person, "person cannot be null.");
+        Assert.notNull(activationKey, "activationKey cannot be null.");
+        Assert.notNull(lock, "lock cannot be null.");
 
-    @Transactional
-    public void invalidateActivationKey(String identifierType, String identifierValue, String activationKey) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException {
-        if (identifierType == null || identifierValue == null) throw new IllegalArgumentException();
-        Person person = null;
-        try {
-            person = findPerson(identifierType, identifierValue);
-            this.invalidateActivationKey(person, activationKey);
-        } catch (PersonNotFoundException e){
-            throw e;
-        } catch (IllegalArgumentException e){
-            throw e;
-        } catch (IllegalStateException e){
-            throw e;
+        final ActivationKey currentKey = person.getCurrentActivationKey();
+
+        if (currentKey == null || !currentKey.asString().equals(activationKey)) {
+            throw new IllegalArgumentException("No Activation Key matching [" + activationKey + "] found for that Person.");
+        }
+        
+        if (!currentKey.isValid()) {
+            throw new IllegalStateException("No valid activationKey found for activation key matching [" + activationKey + "]");
+        }
+
+        if (currentKey.hasLock(lock)) {
+            person.removeCurrentActivationKey();
+            this.personRepository.savePerson(person);
+        } else {
+            throw new LockingException("You do not hold the lock for this key.");
         }
     }
 
     @Transactional
-    public ActivationKey getActivationKey(String identifierType, String identifierValue, String activationKey) throws PersonNotFoundException, IllegalArgumentException {
-        if (identifierType == null || identifierValue == null) throw new IllegalArgumentException();
-        try {
-            Person person = findPerson(identifierType, identifierValue);
-            return this.getActivationKey(person, activationKey);
-        } catch (PersonNotFoundException e){
-            throw e;
-        } catch (IllegalArgumentException e){
-            throw e;
-        }
+    public void invalidateActivationKey(final String identifierType, final String identifierValue, final String activationKey, final String lock) throws PersonNotFoundException, IllegalArgumentException, IllegalStateException {
+        Assert.notNull(identifierType, "identifierType cannot be null.");
+        Assert.notNull(identifierValue, "identifierValue cannot be null.");
+        Assert.notNull(activationKey, "activationKey cannot be null.");
+        Assert.notNull(lock, "lock cannot be null.");
+
+        final Person person = findPerson(identifierType, identifierValue);
+        this.invalidateActivationKey(person, activationKey, lock);
     }
 
-    public ActivationKey getActivationKey(Person person, String activationKey) throws PersonNotFoundException, IllegalArgumentException {
-        if (person == null) throw new PersonNotFoundException();
+    @Transactional
+    public ActivationKey getActivationKey(final String identifierType, final String identifierValue, final String activationKey, final String lock) throws PersonNotFoundException, IllegalArgumentException, LockingException {
+        Assert.notNull(identifierType, "identifierType cannot be null.");
+        Assert.notNull(identifierValue, "identifierValue cannot be null.");
+        Assert.notNull(activationKey, "activationKey cannot be null.");
+        Assert.notNull(lock, "lock cannot be null.");
+
+        final Person person = findPerson(identifierType, identifierValue);
+        return this.getActivationKey(person, activationKey, lock);
+    }
+
+    @Transactional
+    public ActivationKey getActivationKey(final Person person, final String activationKey, final String lock) throws PersonNotFoundException, IllegalArgumentException, LockingException {
+        Assert.notNull(person, "person cannot be null.");
+        Assert.notNull(activationKey, "activationKey cannot be null.");
+        Assert.notNull(lock, "lock cannot be null.");
+
         ActivationKey key = person.getCurrentActivationKey();
-        if (key == null || key.getValue() == null || !key.getValue().equals(activationKey)) throw new IllegalArgumentException();
+
+        if (key == null || !key.asString().equals(activationKey)) {
+            return null;
+        }
+
+        key.lock(lock);
+        this.personRepository.savePerson(person);
+
         return key;
     }
 
 
-    protected Person findPerson(String identifierType, String identifierValue) throws PersonNotFoundException {
-        Person person = null;
+    protected Person findPerson(final String identifierType, final String identifierValue) throws PersonNotFoundException {
         try {
-            person = personRepository.findByIdentifier(identifierType, identifierValue);
-            return person;
+            return this.personRepository.findByIdentifier(identifierType, identifierValue);
         } catch (Exception e){
             throw new PersonNotFoundException();
         }

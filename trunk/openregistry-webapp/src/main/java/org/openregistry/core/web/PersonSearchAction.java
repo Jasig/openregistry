@@ -84,7 +84,7 @@ public class PersonSearchAction {
 
         Identifier netId = person.pickOutIdentifier(identifierType);
         if (person.getCurrentActivationKey() != null)
-            context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg(person.getCurrentActivationKey().getValue()).build());
+            context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg(person.getCurrentActivationKey().asString()).build());
         else
             context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg("TempKey").build());
     }

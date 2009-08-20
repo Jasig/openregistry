@@ -21,8 +21,10 @@ import static org.junit.Assert.*;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.ActivationKey;
 import org.openregistry.core.domain.PersonNotFoundException;
+import org.openregistry.core.domain.LockingException;
 
 import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Test cases for the {@link org.openregistry.core.service.DefaultIdentifierChangeService}.  Note this does not actually
@@ -55,7 +57,7 @@ public class DefaultActivationServiceTests {
 
         final ActivationKey newActivationKey = this.activationService.generateActivationKey(person);
 
-        assertFalse(activationKey.getValue().equals(newActivationKey.getValue()));
+        assertFalse(activationKey.asString().equals(newActivationKey.asString()));
         assertNotSame(activationKey, newActivationKey);
     }
 
@@ -68,7 +70,7 @@ public class DefaultActivationServiceTests {
         final ActivationKey activationKey = person.getCurrentActivationKey();
         final ActivationKey newActivationKey = this.activationService.generateActivationKey("NetId", "testId");
 
-        assertFalse(activationKey.getValue().equals(newActivationKey.getValue()));
+        assertFalse(activationKey.asString().equals(newActivationKey.asString()));
         assertNotSame(activationKey, newActivationKey);
     }
 
@@ -88,62 +90,87 @@ public class DefaultActivationServiceTests {
         this.activationService.generateActivationKey("foo", "bar");
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testPersonNotPassedGenerateActivationKey() {
         this.activationService.generateActivationKey(null);
     }
 
     @Test(expected=PersonNotFoundException.class)
     public void testGetActivationKeyPersonNotFoundIdentifierArgument() {
-        this.activationService.getActivationKey("foo", "foo", "duh");
+        this.activationService.getActivationKey("foo", "foo", "duh", "whocares");
     }
 
-    @Test(expected=PersonNotFoundException.class)
+    // TESTS FOR GET ACTIVATION KEY
+
+    @Test(expected=IllegalArgumentException.class)
     public void testGetActivationKeyArgumentsNotThere() {
         this.activationService.getActivationKey(null, null, "foo");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNoActivationKeyIdentifiers() {
-        this.activationService.getActivationKey("NetId", "testId", null);
+        this.activationService.getActivationKey("NetId", "testId", null, "whocares");
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testGetActivationKeyValueDoesntMatch() {
-        this.activationService.getActivationKey("NetId", "testId", "foo");
+   @Test(expected = IllegalArgumentException.class)
+    public void testNoActivationKeyLock() {
+        this.activationService.getActivationKey("NetId", "testId", "booyah", null);
     }
 
     @Test
-    public void testGetActivationKeyValueMatches() {
+    public void testGetActivationKeyValueDoesntMatch() {
+        assertNull(this.activationService.getActivationKey("NetId", "testId", "foo", "whocares"));
+    }
+
+    @Test
+    public void testGetActivationKeyValueMatchesWithCorrectLock() {
         final Person person = this.person;
         final ActivationKey activationKey = person.getCurrentActivationKey();
-
-        final ActivationKey actKey = this.activationService.getActivationKey("NetId", "testId", activationKey.getValue());
+        activationKey.lock("me");
+        final ActivationKey actKey = this.activationService.getActivationKey("NetId", "testId", activationKey.asString(), "me");
 
         assertSame(activationKey, actKey);
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected = LockingException.class)
+    public void testGetActivationKeyValueMatchesWithBadLock() {
+        final Person person = this.person;
+        final ActivationKey activationKey = person.getCurrentActivationKey();
+        activationKey.lock("me");
+
+        this.activationService.getActivationKey("NetId", "testId", activationKey.asString(), "notMe");
+    }
+
+
+    @Test(expected=IllegalArgumentException.class)
     public void testActivationKeyWithPersonNoPerson() {
-        this.activationService.getActivationKey(null, "foo");
+        this.activationService.getActivationKey(null, "foo", "who cares");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetActivationKeyWithPersonButNoActivationKey() {
-        this.activationService.getActivationKey(this.person, null);
+        this.activationService.getActivationKey(this.person, null, "who cares");
     }
 
     @Test
-    public void testGetActivationKeyWithPersonAndMatchingActivationKey() {
+    public void testGetActivationKeyWithPersonAndMatchingActivationKeyWithProperLock() {
         final ActivationKey activationKey = this.person.getCurrentActivationKey();
-        final ActivationKey newActivationKey = this.activationService.getActivationKey(this.person, activationKey.getValue());
+        activationKey.lock("foo");
+        final ActivationKey newActivationKey = this.activationService.getActivationKey(this.person, activationKey.asString(), "foo");
 
         assertSame(activationKey, newActivationKey);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = LockingException.class)
+    public void testGetActivationKeyWithPersonAndMatchingActivationKeyWithBadLock() {
+        final ActivationKey activationKey = this.person.getCurrentActivationKey();
+        activationKey.lock("foo");
+        this.activationService.getActivationKey(this.person, activationKey.asString(), "myLock");
+    }
+
+    @Test
     public void testGetActivationKeyWithPersonButWithNoMatchingActivationKey() {
-        this.activationService.getActivationKey(this.person, "foo");
+        assertNull(this.activationService.getActivationKey(this.person, "foo", "who cares"));
     }
 
     @Test
@@ -175,5 +202,100 @@ public class DefaultActivationServiceTests {
 
         assertEquals(startDate, activationKey.getStart());
         assertEquals(endDate, activationKey.getEnd());
+    }
+
+    // TESTS FOR INVALIDATE ACTIVATION KEY
+    @Test(expected=IllegalArgumentException.class)
+    public void testInvalidateActivationKeyForPersonNullPerson() {
+        this.activationService.invalidateActivationKey(null, "foo", "who cares");
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidateActivationKeyForPersonWithNullKey() {
+        this.activationService.invalidateActivationKey(this.person, null, "who cares");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidateActivationKeyForPersonWithInvalidKey() {
+        this.activationService.invalidateActivationKey(this.person, "foo", "who cares");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testInvalidateActivationKeyForPersonWithExpiredKey() {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -2);
+        final Date startDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, +1);
+        final Date endDate = calendar.getTime();
+        final ActivationKey activationKey = this.person.generateNewActivationKey(startDate, endDate);
+
+        this.activationService.invalidateActivationKey(this.person, activationKey.asString(), "who cares");
+    }
+
+    @Test
+    public void testInvalidateActivationKeyForPersonValidKeyWithValidLock() {
+        final ActivationKey activationKey = this.person.getCurrentActivationKey();
+        this.activationService.getActivationKey(this.person, this.person.getCurrentActivationKey().asString(), "myLock");
+        this.activationService.invalidateActivationKey(this.person, activationKey.asString(), "myLock");
+    }
+
+    @Test(expected = LockingException.class)
+    public void testInvalidateActivationKeyForPersonValidKeyWithBadLock() {
+        final ActivationKey activationKey = this.person.getCurrentActivationKey();
+        this.activationService.getActivationKey(this.person, this.person.getCurrentActivationKey().asString(), "myLock");
+        this.activationService.invalidateActivationKey(this.person, activationKey.asString(), "notMyLock");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidateActivationKeyNoIdentifierType() {
+        this.activationService.invalidateActivationKey(null, "foo", "foo");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidateActivationKeyNoIdentifierValue() {
+        this.activationService.invalidateActivationKey("foo", null, "foo", "who cares");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidateActivationKeyNoActivationKey() {
+        this.activationService.invalidateActivationKey("foo", "foo", null, "who cares");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidateActivationKeyNoPersonFound() {
+        this.activationService.invalidateActivationKey("foo", "foo", null, "who cares");
+    }
+
+    @Test
+    public void testInvalidateActivationKeyKeyFoundAndCorrectLock() {
+        this.activationService.getActivationKey(this.person, this.person.getCurrentActivationKey().asString(), "myLock");
+        this.activationService.invalidateActivationKey("NetId", "testId", this.person.getCurrentActivationKey().asString(), "myLock");
+    }
+
+    @Test(expected = LockingException.class)
+    public void testInvalidateActivationKeyKeyFoundAndIncorrectLock() {
+        this.activationService.getActivationKey(this.person, this.person.getCurrentActivationKey().asString(), "myLock");
+        this.activationService.invalidateActivationKey("NetId", "testId", this.person.getCurrentActivationKey().asString(), "notMyLock");
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidateActivationKeyKeyNotFound() {
+        this.activationService.invalidateActivationKey("NetId", "testId", "foo", "who cares");
+
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testInvalidateActivationKeyNotValidKey() {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -2);
+        final Date startDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, +1);
+        final Date endDate = calendar.getTime();
+        final ActivationKey activationKey = this.person.generateNewActivationKey(startDate, endDate);
+
+        this.activationService.invalidateActivationKey("NetId", "testId", activationKey.asString(), "who cares");
+
     }
 }
