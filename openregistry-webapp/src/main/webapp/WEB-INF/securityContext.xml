@@ -32,10 +32,68 @@
     <jee:jndi-lookup id="casRenew" jndi-name="conf/cas/renew" expected-type="java.lang.String"/>
     <jee:jndi-lookup id="casSpringSecurityAuthProviderKey" jndi-name="conf/cas/springSecurityAuthProviderKey" expected-type="java.lang.String"/>
 
-    <sec:http entry-point-ref="casProcessingFilterEntryPoint">
-        <sec:intercept-url pattern="/**/*.htm" access="IS_AUTHENTICATED_FULLY" />
-        <sec:logout logout-success-url="/cas-logout.jsp" />
-    </sec:http>
+    <bean id="springSecurityFilterChain" class="org.springframework.security.util.FilterChainProxy">
+        <sec:filter-chain-map path-type="ant">
+            <sec:filter-chain pattern="/images/**" filters="none" />
+            <sec:filter-chain pattern="/js/**" filters="none" />
+            <sec:filter-chain pattern="/css/**" filters="none" />
+            <sec:filter-chain pattern="/**/*.htm*" filters="httpSessionContextIntegrationFilter,logoutFilter,casProcessingFilter,securityContextHolderAwareRequestFilter,casExceptionTranslationFilter,filterInvocationInterceptor"/>
+            <sec:filter-chain pattern="/**/people/**/activation*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
+            <sec:filter-chain pattern="/**/people/**/activation/*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
+        </sec:filter-chain-map>
+    </bean>
+
+
+    <bean id="filterInvocationInterceptor" class="org.springframework.security.intercept.web.FilterSecurityInterceptor"
+        p:authenticationManager-ref="authenticationManager"
+        p:accessDecisionManager-ref="accessDecisionManager">
+        <property name="objectDefinitionSource">
+            <value>
+                PATTERN_TYPE_APACHE_ANT
+                /**=IS_AUTHENTICATED_FULLY
+            </value>
+        </property>
+    </bean>
+
+    <bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
+        <property name="allowIfAllAbstainDecisions" value="false"/>
+        <property name="decisionVoters">
+            <list>
+                <bean id="roleVoter" class="org.springframework.security.vote.RoleVoter"
+                    p:rolePrefix=""/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="httpSessionContextIntegrationFilter" class="org.springframework.security.context.HttpSessionContextIntegrationFilter" />
+
+    <bean id="securityContextHolderAwareRequestFilter" class="org.springframework.security.wrapper.SecurityContextHolderAwareRequestFilter" />
+
+    <bean id="logoutFilter" class="org.springframework.security.ui.logout.LogoutFilter">
+        <constructor-arg value="/cas-logout.jsp" />
+        <constructor-arg>
+            <list>
+                <bean class="org.springframework.security.ui.logout.SecurityContextLogoutHandler"
+                    p:invalidateHttpSession="false" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="authenticationManager" class="org.springframework.security.providers.ProviderManager">
+        <property name="providers">
+            <list>
+                <ref bean="daoAuthenticationProvider" />
+                <ref bean="casAuthenticationProvider" />
+
+            </list>
+        </property>
+    </bean>
+
+    <!-- #########################################################################################
+         # CAS AUTHENTICATION COMPONENTS                                                         #
+         ######################################################################################### -->
+    <bean id="casExceptionTranslationFilter" class="org.springframework.security.ui.ExceptionTranslationFilter"
+            p:authenticationEntryPoint-ref="casProcessingFilterEntryPoint" />
 
     <bean id="casProcessingFilter" class="org.springframework.security.ui.cas.CasProcessingFilter">
         <sec:custom-filter after="CAS_PROCESSING_FILTER"/>
@@ -47,8 +105,6 @@
         <property name="proxyReceptorUrl" value="/secure/receptor"/>
     </bean>
 
-    <sec:authentication-manager alias="authenticationManager"/>
-
     <bean id="casProcessingFilterEntryPoint" class="org.springframework.security.ui.cas.CasProcessingFilterEntryPoint">
         <property name="loginUrl" ref="casLoginUrl" />
         <property name="serviceProperties" ref="serviceProperties"/>
@@ -56,7 +112,7 @@
 
     <bean id="casAuthenticationProvider" class="org.springframework.security.providers.cas.CasAuthenticationProvider">
         <sec:custom-authentication-provider/>
-        <property name="userDetailsService" ref="userService"/>
+        <property name="userDetailsService" ref="casUserService"/>
         <property name="serviceProperties" ref="serviceProperties"/>
         <property name="ticketValidator">
             <bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
@@ -75,8 +131,30 @@
         <property name="sendRenew" ref="casRenew" />
     </bean>
 
-    <bean id="userService" class="org.jasig.openregistry.security.OpenRegistryUserDetailsServiceImpl">
-        <property name="identifierType" value="NETID">
-        </property>
-    </bean>
+    <sec:user-service id="casUserService">
+        <sec:user name="battags" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+        <sec:user name="nmond" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+        <sec:user name="dsteiner" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+    </sec:user-service>
+
+    <!-- #########################################################################################
+         # BASIC AUTH AUTHENTICATION COMPONENTS                                                  #
+         ######################################################################################### -->
+    <bean id="basicExceptionTranslationFilter" class="org.springframework.security.ui.ExceptionTranslationFilter"
+            p:authenticationEntryPoint-ref="authenticationEntryPoint" />
+
+    <bean id="basicProcessingFilter" class="org.springframework.security.ui.basicauth.BasicProcessingFilter"
+        p:authenticationManager-ref="authenticationManager"
+        p:authenticationEntryPoint-ref="authenticationEntryPoint"
+            p:ignoreFailure="false"/>
+
+    <bean id="authenticationEntryPoint" class="org.springframework.security.ui.basicauth.BasicProcessingFilterEntryPoint"
+        p:realmName="OpenRegistry RESTful API" />
+
+    <bean id="daoAuthenticationProvider" class="org.springframework.security.providers.dao.DaoAuthenticationProvider"
+        p:userDetailsService-ref="basicUserService" />
+
+    <sec:user-service id="basicUserService">
+        <sec:user name="rats" password="RAT1234" authorities="ROLE_ADMIN" />
+    </sec:user-service>
 </beans>
