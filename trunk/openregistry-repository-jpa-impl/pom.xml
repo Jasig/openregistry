@@ -160,6 +160,31 @@
         </dependency>
 
         <!-- END Hibernate Dependencies -->
+
+        <!-- TEST DEPENDENCIES -->
+        <dependency>
+            <groupId>org.jasig.openregistry</groupId>
+            <artifactId>openregistry-service-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>org.springframework.test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>org.springframework.orm</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>
