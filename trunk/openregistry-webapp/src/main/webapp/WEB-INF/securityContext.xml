@@ -59,8 +59,9 @@
         <property name="allowIfAllAbstainDecisions" value="false"/>
         <property name="decisionVoters">
             <list>
-                <bean id="roleVoter" class="org.springframework.security.vote.RoleVoter"
+                <bean class="org.springframework.security.vote.RoleVoter"
                     p:rolePrefix=""/>
+                <bean class="org.springframework.security.vote.AuthenticatedVoter" />
             </list>
         </property>
     </bean>
