@@ -21,6 +21,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Scott Battaglia
@@ -43,7 +44,16 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
     private String name;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="type")
-    private List<JpaIdentifierImpl> identifiers; 
+    private List<JpaIdentifierImpl> identifiers = new ArrayList<JpaIdentifierImpl>();
+
+    public JpaIdentifierTypeImpl() {
+
+    }
+
+    public JpaIdentifierTypeImpl(final JpaIdentifierImpl identifier, final String name) {
+        this.identifiers.add(identifier);
+        this.name = name;
+    }
 
     public Long getId() {
         return this.id;

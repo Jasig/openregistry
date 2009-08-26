@@ -60,9 +60,18 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
           p:entityManagerFactory-ref="entityManagerFactory"/>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-        <property name=""
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
+        p:password=""
+        p:url="jdbc:hsqldb:mem:openregistry"
+        p:username="sa"
+        p:driverClass="org.hsqldb.jdbcDriver" />
+
+    <bean id="activationService" class="org.openregistry.core.service.DefaultActivationService">
+        <constructor-arg index="0" ref="personRepository" />
     </bean>
 
+    <bean id="personRepository" class="org.openregistry.core.repository.jpa.JpaPersonRepository" />
+
+    <bean id="referenceRepository" class="org.openregistry.core.repository.jpa.JpaReferenceRepository" />
 
 </beans>
