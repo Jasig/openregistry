@@ -213,8 +213,15 @@ public class JpaPersonImpl extends Entity implements Person {
         return this.identifiers;
     }
 
-    public Identifier addIdentifier(){
+    public Identifier addIdentifier() {
         final JpaIdentifierImpl jpaIdentifier = new JpaIdentifierImpl(this);
+        this.identifiers.add(jpaIdentifier);
+        return jpaIdentifier;
+    }
+
+    public Identifier addIdentifier(final IdentifierType identifierType, final String value) {
+        Assert.isInstanceOf(JpaIdentifierTypeImpl.class, identifierType);
+        final JpaIdentifierImpl jpaIdentifier = new JpaIdentifierImpl(this, (JpaIdentifierTypeImpl) identifierType, value);
         this.identifiers.add(jpaIdentifier);
         return jpaIdentifier;
     }

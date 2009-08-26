@@ -40,7 +40,7 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
     @SequenceGenerator(name="prd_identifier_types_seq",sequenceName="prd_identifier_types_seq",initialValue=1,allocationSize=50)
     private Long id;
 
-    @Column(name="name",nullable = false,length = 100)
+    @Column(name="name",nullable = false, length = 100)
     private String name;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="type")
@@ -48,11 +48,6 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 
     public JpaIdentifierTypeImpl() {
 
-    }
-
-    public JpaIdentifierTypeImpl(final JpaIdentifierImpl identifier, final String name) {
-        this.identifiers.add(identifier);
-        this.name = name;
     }
 
     public Long getId() {
@@ -65,5 +60,9 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 
     public String toString() {
         return this.name;
+    }
+
+    public List<JpaIdentifierImpl> getIdentifiers() {
+        return this.identifiers;
     }
 }

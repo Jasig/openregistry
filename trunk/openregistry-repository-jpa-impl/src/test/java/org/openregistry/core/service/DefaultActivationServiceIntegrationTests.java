@@ -12,6 +12,7 @@ import org.openregistry.core.domain.jpa.JpaIdentifierImpl;
 import org.openregistry.core.domain.*;
 import org.junit.Test;
 import org.junit.Before;
+import org.junit.After;
 import static org.junit.Assert.*;
 
 import javax.persistence.EntityManager;
@@ -40,52 +41,53 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Test
-    public void testGenerateNewActivationKeyWithPerson() {
+    private Person person;
+
+    @Before
+    public void setUp() throws Exception {
         final Person person = new JpaPersonImpl();
         person.setDateOfBirth(new Date());
         person.setGender("M");
+        this.simpleJdbcTemplate.update("insert into prd_identifier_types(identifier_t, name) values(null, 'NetId')");
+        final IdentifierType identifierType = this.referenceRepository.findIdentifierType("NetId");
+        final Identifier identifier = person.addIdentifier(identifierType, "test");
+        identifier.setDeleted(false);
+        identifier.setPrimary(true);
         final Name name = person.addName();
         name.setGiven("Scott");
+        this.person = this.personRepository.savePerson(person);
+    }
 
+    @After
+    public void tearDown() throws Exception {
+        this.person = person;
+    }
 
-        final Person newPerson = this.personRepository.savePerson(person);
-        final ActivationKey currentActivationKey = newPerson.getCurrentActivationKey();
+    @Test
+    public void testGenerateNewActivationKeyWithPerson() {
+        final ActivationKey currentActivationKey = person.getCurrentActivationKey();
         assertEquals(1,countRowsInTable("prc_persons"));
-        final String oldActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, newPerson.getId());
+        final String oldActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, person.getId());
         assertEquals(currentActivationKey.asString(), oldActivationKeyString);
-        final ActivationKey newActivationKey = this.activationService.generateActivationKey(newPerson);
+        final ActivationKey newActivationKey = this.activationService.generateActivationKey(person);
         // TODO: figure out why we need to flush here.  Is it necessary?
         this.entityManager.flush();
-        final String newActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, newPerson.getId());
+        final String newActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, person.getId());
         assertEquals(newActivationKey.asString(), newActivationKeyString);
     }
 
 
     @Test
     public void testGenerateNewActivationKeyWithIdentifiers() {
-        final Person person = new JpaPersonImpl();
-        person.setDateOfBirth(new Date());
-        person.setGender("M");
-        executeSqlScript("insert into prd_identifier_types(identifier_t, name) values(null, 'NetId')", false);
-        final IdentifierType identifierType = this.referenceRepository.findIdentifierType("NetId");
-        final Identifier identifier = person.addIdentifier();
-        identifier.setValue("test");
-        identifier.setType(identifierType);
-        final Name name = person.addName();
-        name.setGiven("Scott");
-
-        final Person newPerson = this.personRepository.savePerson(person);
-        final ActivationKey currentActivationKey = newPerson.getCurrentActivationKey();
+        final ActivationKey currentActivationKey = person.getCurrentActivationKey();
         assertEquals(1,countRowsInTable("prc_persons"));
-        final String oldActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, newPerson.getId());
+        final String oldActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, person.getId());
         assertEquals(currentActivationKey.asString(), oldActivationKeyString);
         final ActivationKey newActivationKey = this.activationService.generateActivationKey("NetId", "test");
         // TODO: figure out why we need to flush here.  Is it necessary?
         this.entityManager.flush();
-        final String newActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, newPerson.getId());
+        final String newActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, person.getId());
         assertEquals(newActivationKey.asString(), newActivationKeyString);
-
     }
 
 

@@ -49,10 +49,10 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     private String value;
     
     @Column(name="is_primary", nullable=false)
-    private Boolean primary;
+    private Boolean primary = true;
     
     @Column(name="is_deleted", nullable=false)
-    private Boolean deleted;
+    private Boolean deleted = false;
 
     public JpaIdentifierImpl() {
         // nothing to do
@@ -60,6 +60,14 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
 
     public JpaIdentifierImpl(final JpaPersonImpl person) {
         this.person = person;
+    }
+
+    public JpaIdentifierImpl(final JpaPersonImpl person, final JpaIdentifierTypeImpl jpaIdentifierType, final String value) {
+        this(person);
+        this.type = jpaIdentifierType;
+        this.value = value;
+
+        this.type.getIdentifiers().add(this);
     }
 
     protected Long getId() {

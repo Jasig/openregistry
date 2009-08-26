@@ -133,6 +133,15 @@ public interface Person extends Serializable {
 
     Identifier addIdentifier();
 
+    /**
+     * Constructs a new Identifier based on the provided type and value.
+     *
+     * @param identifierType the identifier type
+     * @param value the value
+     * @return the new identifier.
+     */
+    Identifier addIdentifier(IdentifierType identifierType, String value);
+
     Name addOfficialName();
 
     Name addPreferredName();
