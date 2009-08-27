@@ -77,7 +77,7 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
 
     @After
     public void tearDown() throws Exception {
-        this.person = person;
+        this.person = null;
     }
 
     @Test
@@ -98,7 +98,6 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
         assertEquals(1,countRowsInTable("prc_persons"));
     }
 
-
     @Test
     public void testGenerateNewActivationKeyWithIdentifiers() {
         final ActivationKey currentActivationKey = person.getCurrentActivationKey();
@@ -116,15 +115,12 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
         assertEquals(1,countRowsInTable("prc_persons"));
     }
 
-
-
     @Test
     public void testVerifyActivationKeyWithPerson() {
         final ActivationKey activationKey = this.activationService.getActivationKey(person, person.getCurrentActivationKey().asString(), LOCK_VALUE);
         assertEquals(person.getCurrentActivationKey().asString(), activationKey.asString());
         this.entityManager.flush();
         final String lockValue = this.simpleJdbcTemplate.queryForObject("select act_key_lock from prc_persons where id = ?", String.class, this.person.getId());
-        final Date lockDate = this.simpleJdbcTemplate.queryForObject("select act_key_lock_expiration from prc_persons where id = ?", Date.class, this.person.getId());
         assertEquals(LOCK_VALUE, lockValue);
         // TODO how to test if lock expiration date was set correctly
         assertEquals(1,countRowsInTable("prc_persons"));
@@ -145,7 +141,6 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
         assertEquals(person.getCurrentActivationKey().asString(), activationKey.asString());
         this.entityManager.flush();
         final String lockValue = this.simpleJdbcTemplate.queryForObject("select act_key_lock from prc_persons where id = ?", String.class, this.person.getId());
-        final Date lockDate = this.simpleJdbcTemplate.queryForObject("select act_key_lock_expiration from prc_persons where id = ?", Date.class, this.person.getId());
         assertEquals(LOCK_VALUE, lockValue);
         // TODO how to test if lock was set correctly
         assertEquals(1,countRowsInTable("prc_persons"));
@@ -188,13 +183,11 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
         assertNull(startDate);
     }
 
-
     @Test(expected=LockingException.class)
     public void testInvalidateActivationKeyWithDifferentLock() {
         this.activationService.getActivationKey(person, person.getCurrentActivationKey().asString(), LOCK_VALUE);
         this.activationService.invalidateActivationKey(person, person.getCurrentActivationKey().asString(), "LOCK2");
     }
-
 
     public void setActivationService(final ActivationService activationService) {
         this.activationService = activationService;
