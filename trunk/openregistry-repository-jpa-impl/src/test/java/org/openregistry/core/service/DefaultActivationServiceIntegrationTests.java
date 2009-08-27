@@ -2,19 +2,15 @@ package org.openregistry.core.service;
 
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.domain.jpa.JpaPersonImpl;
-import org.openregistry.core.domain.jpa.JpaIdentifierTypeImpl;
-import org.openregistry.core.domain.jpa.JpaIdentifierImpl;
 import org.openregistry.core.domain.*;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.*;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
@@ -139,15 +135,51 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
         // TODO how to test if lock was set correctly
         assertEquals(1,countRowsInTable("prc_persons"));
     }
-    /*
+
     @Test
     public void testInvalidateActivationKeyWithPerson() {
+        this.activationService.getActivationKey(person, person.getCurrentActivationKey().asString(), LOCK_VALUE);
+        this.activationService.invalidateActivationKey(person, person.getCurrentActivationKey().asString(), LOCK_VALUE);
+        this.entityManager.flush();
+        assertEquals(1,countRowsInTable("prc_persons"));
+        final String lockValue = this.simpleJdbcTemplate.queryForObject("select act_key_lock from prc_persons where id = ?", String.class, this.person.getId());
+        final Date lockDate = this.simpleJdbcTemplate.queryForObject("select act_key_lock_expiration from prc_persons where id = ?", Date.class, this.person.getId());
+        final String newActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, person.getId());
+        final Date endDate = this.simpleJdbcTemplate.queryForObject("select act_key_end_date from prc_persons where id = ?", Date.class, person.getId());
+        final Date startDate = this.simpleJdbcTemplate.queryForObject("select act_key_start_date from prc_persons where id = ?", Date.class, person.getId());
 
+        assertNull(lockValue);
+        assertNull(lockDate);
+        assertNull(newActivationKeyString);
+        assertNull(endDate);
+        assertNull(startDate);
     }
 
+    @Test
     public void testInvalidateActivationKeyWithIdentifiers() {
+        this.activationService.getActivationKey(IDENTIFIER_TYPE, IDENTIFIER_VALUE, person.getCurrentActivationKey().asString(), LOCK_VALUE);
+        this.activationService.invalidateActivationKey(IDENTIFIER_TYPE, IDENTIFIER_VALUE, person.getCurrentActivationKey().asString(), LOCK_VALUE);
+        this.entityManager.flush();
+        assertEquals(1,countRowsInTable("prc_persons"));
+        final String lockValue = this.simpleJdbcTemplate.queryForObject("select act_key_lock from prc_persons where id = ?", String.class, this.person.getId());
+        final Date lockDate = this.simpleJdbcTemplate.queryForObject("select act_key_lock_expiration from prc_persons where id = ?", Date.class, this.person.getId());
+        final String newActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, person.getId());
+        final Date endDate = this.simpleJdbcTemplate.queryForObject("select act_key_end_date from prc_persons where id = ?", Date.class, person.getId());
+        final Date startDate = this.simpleJdbcTemplate.queryForObject("select act_key_start_date from prc_persons where id = ?", Date.class, person.getId());
+        assertNull(lockValue);
+        assertNull(lockDate);
+        assertNull(newActivationKeyString);
+        assertNull(endDate);
+        assertNull(startDate);
+    }
 
-    }  */
+
+    @Test(expected=LockingException.class)
+    public void testInvalidateActivationKeyWithDifferentLock() {
+        this.activationService.getActivationKey(person, person.getCurrentActivationKey().asString(), LOCK_VALUE);
+        this.activationService.invalidateActivationKey(person, person.getCurrentActivationKey().asString(), "LOCK2");
+    }
+
 
     public void setActivationService(final ActivationService activationService) {
         this.activationService = activationService;
