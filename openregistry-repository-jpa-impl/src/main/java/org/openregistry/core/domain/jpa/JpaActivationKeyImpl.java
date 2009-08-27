@@ -140,6 +140,8 @@ public class JpaActivationKeyImpl implements ActivationKey {
         this.value = null;
         this.start = null;
         this.end = null;
+        this.lock = null;
+        this.lockExpirationDate = null;
     }
 
     public int compareTo(final ActivationKey o) {
@@ -191,6 +193,6 @@ public class JpaActivationKeyImpl implements ActivationKey {
     }
 
     public boolean hasLock(final String lock) {
-        return this.lock != null && this.lock.equals(lock) && (this.lockExpirationDate.getTime() + TWENTY_MINUTES_AS_MILLISECONDS < System.currentTimeMillis());
+        return this.lock != null && this.lock.equals(lock) && (System.currentTimeMillis() <= this.lockExpirationDate.getTime());
     }
 }
