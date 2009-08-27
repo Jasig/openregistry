@@ -128,14 +128,6 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
         this.activationService.getActivationKey(person, person.getCurrentActivationKey().asString(), "LOCK2");
     }
 
-
-    // TODO implement
-    @Test
-    public void testVerifyActivationKeyWithDifferentLocksButPassedExpiration() {
-
-    }
-
-
     @Test
     public void testVerifyActivationKeyWithIdentifiers() {
         final ActivationKey activationKey = this.activationService.getActivationKey(IDENTIFIER_TYPE, IDENTIFIER_VALUE, person.getCurrentActivationKey().asString(), LOCK_VALUE);
