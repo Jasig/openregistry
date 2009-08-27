@@ -242,13 +242,14 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <displaytag.version>1.2</displaytag.version>
         <aopalliance.version>1.0</aopalliance.version>
         <antlr.version>3.0.1</antlr.version>
-        <asm.version>2.2.3</asm.version>
+        <asm.version>3.2</asm.version>
         <ognl.version>2.7.3</ognl.version>
         <tiles.version>2.0.7</tiles.version>
         <jsp.version>2.0</jsp.version>
         <hibernate.version>3.4.0-SNAPSHOT</hibernate.version>
         <javassist.version>3.4.GA</javassist.version>
         <hsqldb.version>1.8.0.7</hsqldb.version>
+        <jersey.version>1.1.2-ea</jersey.version>
     </properties>
 
     <pluginRepositories>
@@ -319,14 +320,6 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <plugins>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jxr-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>changelog-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </reporting>
