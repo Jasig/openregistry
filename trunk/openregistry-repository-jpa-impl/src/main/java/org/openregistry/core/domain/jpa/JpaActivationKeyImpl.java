@@ -51,18 +51,18 @@ public class JpaActivationKeyImpl implements ActivationKey {
     private String value;
 
     @Column(name = "act_key_end_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date end;
 
     @Column(name = "act_key_start_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date start;
 
     @Column(name="act_key_lock")
     private String lock;
 
     @Column(name="act_key_lock_expiration")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lockExpirationDate;
 
     public JpaActivationKeyImpl() {
