@@ -181,7 +181,7 @@ public class JpaActivationKeyImpl implements ActivationKey {
             return;
         }
 
-        if (this.lockExpirationDate.getTime() + TWENTY_MINUTES_AS_MILLISECONDS > System.currentTimeMillis()) {
+        if (System.currentTimeMillis() > this.lockExpirationDate.getTime()) {
             this.lock = lock;
             this.lockExpirationDate = new Date(System.currentTimeMillis() + TWENTY_MINUTES_AS_MILLISECONDS);
             return;
