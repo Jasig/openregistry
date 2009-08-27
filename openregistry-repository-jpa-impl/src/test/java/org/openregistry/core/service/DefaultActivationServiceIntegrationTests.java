@@ -115,8 +115,24 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
         final String lockValue = this.simpleJdbcTemplate.queryForObject("select act_key_lock from prc_persons where id = ?", String.class, this.person.getId());
         final Date lockDate = this.simpleJdbcTemplate.queryForObject("select act_key_lock_expiration from prc_persons where id = ?", Date.class, this.person.getId());
         assertEquals(LOCK_VALUE, lockValue);
-        // TODO how to test if lock was set correctly
+        // TODO how to test if lock expiration date was set correctly
         assertEquals(1,countRowsInTable("prc_persons"));
+    }
+
+    @Test(expected=LockingException.class)
+    public void testVerifyActivationKeyWithDifferentLock() {
+        final ActivationKey activationKey = this.activationService.getActivationKey(person, person.getCurrentActivationKey().asString(), LOCK_VALUE);
+        assertEquals(person.getCurrentActivationKey().asString(), activationKey.asString());
+        this.entityManager.flush();
+        assertEquals(1,countRowsInTable("prc_persons"));
+        this.activationService.getActivationKey(person, person.getCurrentActivationKey().asString(), "LOCK2");
+    }
+
+
+    // TODO implement
+    @Test
+    public void testVerifyActivationKeyWithDifferentLocksButPassedExpiration() {
+
     }
 
 
