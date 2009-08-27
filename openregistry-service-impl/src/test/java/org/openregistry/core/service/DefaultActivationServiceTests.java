@@ -18,10 +18,8 @@ package org.openregistry.core.service;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.ActivationKey;
-import org.openregistry.core.domain.PersonNotFoundException;
-import org.openregistry.core.domain.LockingException;
+import org.openregistry.core.domain.*;
+import org.openregistry.core.repository.MockPersonRepository;
 
 import java.util.Date;
 import java.util.Calendar;

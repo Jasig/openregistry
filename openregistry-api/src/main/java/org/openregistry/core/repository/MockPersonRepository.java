@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.service;
+package org.openregistry.core.repository;
 
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
@@ -23,6 +23,7 @@ import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
+import org.openregistry.core.service.SearchCriteria;
 
 import java.util.List;
 
