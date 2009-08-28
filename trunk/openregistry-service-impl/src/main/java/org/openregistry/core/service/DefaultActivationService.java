@@ -24,6 +24,7 @@ import org.springframework.util.Assert;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 /**
  * Default implementation of the {@link org.openregistry.core.service.ActivationService}.
@@ -73,7 +74,7 @@ public final class DefaultActivationService implements ActivationService {
         final ActivationKey currentKey = person.getCurrentActivationKey();
 
         if (currentKey == null || !currentKey.asString().equals(activationKey)) {
-            throw new IllegalArgumentException("No Activation Key matching [" + activationKey + "] found for that Person.");
+            throw new NoSuchElementException("No Activation Key matching [" + activationKey + "] found for that Person.");
         }
         
         if (!currentKey.isValid()) {
