@@ -121,7 +121,7 @@ public class ActivationKeyProcessorResourceTests extends JerseyTest {
     public void testInvalidatePersonNotFound() {
         final WebResource resource = resource().path("people/Net/testId/activation/whatKey");
         final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "GET");
+        final ClientRequest request = builder.build(resource.getURI(), "DELETE");
         final ClientResponse response = client().handle(request);
         assertEquals(404, response.getClientResponseStatus().getStatusCode());
     }
@@ -130,7 +130,7 @@ public class ActivationKeyProcessorResourceTests extends JerseyTest {
     public void testInvalidateActivationKeyNotFound() {
         final WebResource resource = resource().path("people/NetId/testId/activation/whatKey");
         final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "GET");
+        final ClientRequest request = builder.build(resource.getURI(), "DELETE");
         final ClientResponse response = client().handle(request);
         assertEquals(404, response.getClientResponseStatus().getStatusCode());
     }

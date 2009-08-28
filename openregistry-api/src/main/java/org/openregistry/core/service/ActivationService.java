@@ -20,6 +20,8 @@ import org.openregistry.core.domain.ActivationKey;
 import org.openregistry.core.domain.PersonNotFoundException;
 import org.openregistry.core.domain.LockingException;
 
+import java.util.NoSuchElementException;
+
 /**
  * Service Layer for interacting with Activation Keys in the OpenRegistry System.  ActivationKeys are a method of
  * remotely activating a person, generally to allow them to set up account information.
@@ -72,11 +74,11 @@ public interface ActivationService {
      * @param person the person to invalidate the key for.  CANNOT be NULL.
      * @param activationKey the activation key to invalidate.  CANNOT be NULL.
      * @param lock the value to use to confirm your lock on the system.
-     * @throws IllegalArgumentException if the activation key does not exist for the person or if the person or activation key is NULL.
+     * @throws java.util.NoSuchElementException if the activation key does not exist for the person or if the person or activation key is NULL.
      * @throws IllegalStateException if the activation key exists but is not valid.
      * @throws org.openregistry.core.domain.LockingException if you're not the one holding the lock.
      */
-    void invalidateActivationKey(Person person, String activationKey, String lock) throws IllegalArgumentException, IllegalStateException, LockingException;
+    void invalidateActivationKey(Person person, String activationKey, String lock) throws NoSuchElementException, IllegalStateException, LockingException;
 
     /**
      * Invalidates an existing VALID activation key for a particular person.  This method EXPECTs that the key you are
@@ -91,12 +93,13 @@ public interface ActivationService {
      * @param activationKey the activation key to invalidate.  CANNOT be NULL.
      * @param lock the value to use to confirm your lock on the system.
      * @throws PersonNotFoundException if the person was not found
-     * @throws IllegalArgumentException if the identifier type or value is NULL or if the activation key does not exist for the person.
+     * @throws java.util.NoSuchElementException if the activation key does not exist for the person or if the person or activation key is NULL.
+     * @throws IllegalArgumentException if the identifier type or value is NULL.
      * @throws IllegalStateException if the activation key exists but is not valid.
      * @throws org.openregistry.core.domain.LockingException if you're not the one holding the lock.
      *
      */
-    void invalidateActivationKey(String identifierType, String identifierValue, String activationKey, String lock) throws PersonNotFoundException, IllegalArgumentException, LockingException;
+    void invalidateActivationKey(String identifierType, String identifierValue, String activationKey, String lock) throws NoSuchElementException, PersonNotFoundException, IllegalArgumentException, LockingException;
 
     /**
      * Method for retrieving an activation key for "querying" purposes.   The most common querying will be to determine

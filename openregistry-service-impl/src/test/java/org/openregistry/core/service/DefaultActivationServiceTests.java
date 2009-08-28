@@ -23,6 +23,7 @@ import org.openregistry.core.repository.MockPersonRepository;
 
 import java.util.Date;
 import java.util.Calendar;
+import java.util.NoSuchElementException;
 
 /**
  * Test cases for the {@link org.openregistry.core.service.DefaultIdentifierChangeService}.  Note this does not actually
@@ -214,7 +215,7 @@ public class DefaultActivationServiceTests {
         this.activationService.invalidateActivationKey(this.person, null, "who cares");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NoSuchElementException.class)
     public void testInvalidateActivationKeyForPersonWithInvalidKey() {
         this.activationService.invalidateActivationKey(this.person, "foo", "who cares");
     }
@@ -278,7 +279,7 @@ public class DefaultActivationServiceTests {
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NoSuchElementException.class)
     public void testInvalidateActivationKeyKeyNotFound() {
         this.activationService.invalidateActivationKey("NetId", "testId", "foo", "who cares");
 

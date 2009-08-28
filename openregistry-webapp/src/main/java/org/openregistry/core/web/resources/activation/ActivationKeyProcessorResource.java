@@ -36,6 +36,8 @@ import javax.ws.rs.core.Context;
 
 import com.sun.jersey.api.NotFoundException;
 
+import java.util.NoSuchElementException;
+
 /**
  * RESTful resource exposing the activation key processing functions i.e. 'invalidation' and 'verification' of activation keys
  * for people in Open Registry
@@ -64,12 +66,12 @@ public final class ActivationKeyProcessorResource {
         } catch (final IllegalStateException e) {
             return Response.status(409).entity(String.format("The activation key [%s] is not valid.", activationKey)).type(MediaType.TEXT_PLAIN).build();
             
-        }
-        catch (final IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             return Response.status(400).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
-        }
-        catch (final PersonNotFoundException e) {
+        } catch (final PersonNotFoundException e) {
             throw new NotFoundException(String.format("The person resource identified by /people/%s/%s URI does not exist", personIdType, personId));
+        } catch (final NoSuchElementException e) {
+            throw new NotFoundException(String.format("The person resource identified by /people/%s/%s/%s URI does not exist", personIdType, personId, activationKey));
         } catch (final LockingException e) {
             return Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }         
@@ -83,7 +85,6 @@ public final class ActivationKeyProcessorResource {
                                           @PathParam("activationKey") String activationKey,
                                           @Context SecurityContext securityContext) {
         try {
-            System.out.println("USER PRINCIPAL: " + securityContext.getUserPrincipal());
             final ActivationKey ak = this.activationService.getActivationKey(personIdType, personId, activationKey, this.lockExtractor.extract(securityContext.getUserPrincipal(), null));
 
             if (ak == null) {
