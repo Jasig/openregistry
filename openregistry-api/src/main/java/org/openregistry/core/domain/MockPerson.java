@@ -28,6 +28,38 @@ public class MockPerson implements Person {
 
     private ActivationKey activationKey = new MockActivationKey(UUID.randomUUID().toString(), new Date(), new Date());
 
+    private final String identifierType = "NetId";
+
+    private final String identifierValue;
+
+    public MockPerson() {
+        this.identifierValue = "testId";
+    }
+
+    public MockPerson(final String identifierValue, final boolean notActive, final boolean expired) {
+        this.identifierValue = identifierValue;
+
+        if (notActive && expired) {
+            throw new IllegalArgumentException("You're crazy!");
+        }
+
+        final Date startDate;
+        final Date endDate;
+
+        if (notActive) {
+            startDate = new Date(System.currentTimeMillis() + 50000);
+            endDate = new Date(System.currentTimeMillis() + 50000000);
+        } else if (expired) {
+            startDate = new Date(System.currentTimeMillis() - 500000);
+            endDate = new Date(System.currentTimeMillis() - 50000);
+        } else {
+            startDate = new Date();
+            endDate = new Date(System.currentTimeMillis() + 50000000);
+        }
+
+        this.activationKey = new MockActivationKey("key", startDate, endDate);
+    }
+
     public Long getId() {
         return 1L;
     }
@@ -75,13 +107,13 @@ public class MockPerson implements Person {
                     }
 
                     public String getName() {
-                        return "NetId";
+                        return identifierType;
                     }
                 };
             }
 
             public String getValue() {
-                return "testId";
+                return identifierValue;
             }
 
             public Boolean isPrimary() {

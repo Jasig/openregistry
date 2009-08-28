@@ -22,6 +22,8 @@ import org.openregistry.core.service.ActivationService;
 import org.openregistry.core.domain.PersonNotFoundException;
 import org.openregistry.core.domain.ActivationKey;
 import org.openregistry.core.domain.LockingException;
+import org.openregistry.core.web.resources.config.LockExtractor;
+import org.openregistry.core.web.resources.config.DefaultLockExtractor;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -49,13 +51,16 @@ public final class ActivationKeyProcessorResource {
     @Autowired
     private ActivationService activationService;
 
+    @Autowired(required=false)
+    private LockExtractor lockExtractor = new DefaultLockExtractor();
+
     @DELETE
     public Response invalidateActivationKey(@PathParam("personIdType") String personIdType,
                                             @PathParam("personId") String personId,
                                             @PathParam("activationKey") String activationKey,
                                             @Context SecurityContext securityContext) {
         try {
-            this.activationService.invalidateActivationKey(personIdType, personId, activationKey, securityContext.getUserPrincipal().getName());
+            this.activationService.invalidateActivationKey(personIdType, personId, activationKey, this.lockExtractor.extract(securityContext.getUserPrincipal(), null));
         } catch (final IllegalStateException e) {
             return Response.status(409).entity(String.format("The activation key [%s] is not valid.", activationKey)).type(MediaType.TEXT_PLAIN).build();
             
@@ -78,7 +83,8 @@ public final class ActivationKeyProcessorResource {
                                           @PathParam("activationKey") String activationKey,
                                           @Context SecurityContext securityContext) {
         try {
-            final ActivationKey ak = this.activationService.getActivationKey(personIdType, personId, activationKey, securityContext.getUserPrincipal().getName());
+            System.out.println("USER PRINCIPAL: " + securityContext.getUserPrincipal());
+            final ActivationKey ak = this.activationService.getActivationKey(personIdType, personId, activationKey, this.lockExtractor.extract(securityContext.getUserPrincipal(), null));
 
             if (ak == null) {
                 throw new NotFoundException(String.format("The activation key [%s] does not exist", activationKey));
