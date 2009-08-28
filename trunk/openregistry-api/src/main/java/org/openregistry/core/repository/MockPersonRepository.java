@@ -33,15 +33,21 @@ import java.util.List;
  */
 public class MockPersonRepository implements PersonRepository {
 
-    private Person person;
+    private Person[] persons;
 
     public MockPersonRepository(final Person person) {
-        this.person = person;
+        this.persons = new Person[] {person};
+    }
+
+    public MockPersonRepository(final Person[] persons) {
+        this.persons = persons;
     }
 
     public Person findByInternalId(final Long id) throws RepositoryAccessException {
-        if (person.getId().equals(id)) {
-            return person;
+        for (final Person person : this.persons) {
+            if (person.getId().equals(id)) {
+                return person;
+            }
         }
         
         return null;
@@ -52,9 +58,11 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public Person findByIdentifier(final String identifierType, final String identifierValue) throws RepositoryAccessException {
-        for (final Identifier identifier : this.person.getIdentifiers()) {
-            if (identifier.getType().getName().equals(identifierType) && identifier.getValue().equals(identifierValue)) {
-                return this.person;
+        for (final Person person : this.persons) {
+            for (final Identifier identifier : person.getIdentifiers()) {
+                if (identifier.getType().getName().equals(identifierType) && identifier.getValue().equals(identifierValue)) {
+                    return person;
+                }
             }
         }
         throw new RepositoryAccessException();
