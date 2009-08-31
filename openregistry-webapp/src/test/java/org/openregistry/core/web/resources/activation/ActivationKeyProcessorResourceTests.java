@@ -35,12 +35,12 @@ import static org.junit.Assert.assertEquals;
 public class ActivationKeyProcessorResourceTests extends JerseyTest {
 
     public ActivationKeyProcessorResourceTests() {
-    super(new WebAppDescriptor.Builder("org.openregistry.core.web.resources.activation")
-        .contextPath("openregistry")
-        .contextParam("contextConfigLocation", "classpath:testApplicationContext.xml")
-        .servletClass(SpringServlet.class)
-        .contextListenerClass(ContextLoaderListener.class)
-        .build());
+        super(new WebAppDescriptor.Builder("org.openregistry.core.web.resources.activation")
+            .contextPath("openregistry")
+            .contextParam("contextConfigLocation", "classpath:testApplicationContext.xml")
+            .servletClass(SpringServlet.class)
+            .contextListenerClass(ContextLoaderListener.class)
+            .build());
     }
 
     @Test
