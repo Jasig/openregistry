@@ -559,8 +559,9 @@ public class DefaultPersonService implements PersonService {
             moveSystemOfRecordPerson(fromPerson, toPerson, sorPerson);
         }
 
-        // Delete from person
-        this.personRepository.deletePerson(fromPerson);
+        // TODO Delete from person - need to determine how to deal with names before this can work.
+        //this.personRepository.deletePerson(fromPerson);
+        logger.info("moveAllSystemOfRecordPerson: Deleted From Person");
         return true;
     }
 
