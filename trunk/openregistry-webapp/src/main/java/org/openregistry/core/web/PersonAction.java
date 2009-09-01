@@ -78,24 +78,6 @@ public class PersonAction {
     public String moveAllSystemOfRecordPerson(Person fromPerson, Person toPerson){
 
         List<SorPerson> sorPersonListFrom =  personRepository.getSoRRecordsForPerson(fromPerson);
-        //List<SorPerson> sorPersonListTo =  personRepository.getSoRRecordsForPerson(toPerson);
-
-        //boolean matchFound = false;
-        // check each sorPerson record to make sure destination person does not already have an SOR record from the same source.
-        /*
-        for (final SorPerson sorPersonFrom : sorPersonListFrom) {
-            for (final SorPerson sorPersonTo: sorPersonListTo) {
-                if (sorPersonFrom.getSourceSorIdentifier().equals(sorPersonTo.getSourceSorIdentifier())){
-                    matchFound = true;
-                    break;
-                }
-            }
-        }
-
-        if (matchFound) {
-             return msa.getMessage("matchingSorFound");
-        }
-        */
 
         for (final SorPerson sorPersonFrom : sorPersonListFrom) {
             if (personService.findByPersonIdAndSorIdentifier(toPerson.getId(), sorPersonFrom.getSourceSorIdentifier()) != null){
@@ -106,15 +88,11 @@ public class PersonAction {
 
         logger.info("PersonAction: MoveAllSystemOfRecordPersons: Proceeding to do moveAllSystemOfRecord");
 
-     /** comment out for now
         if (personService.moveAllSystemOfRecordPerson(fromPerson, toPerson)){
             return msa.getMessage("joinSuccess");
         } else {
             return msa.getMessage("joinFailure");
         }
       }
-    **/
-       return msa.getMessage("joinSuccess");
-    }
 
 }
