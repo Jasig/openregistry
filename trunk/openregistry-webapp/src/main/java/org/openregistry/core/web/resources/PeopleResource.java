@@ -198,7 +198,7 @@ public final class PeopleResource {
                                                    @PathParam("personIdType") String personIdType) {
 
         logger.info(String.format("Searching for a person with  {personIdType:%s, personId:%s} ...", personIdType, personId));
-        Person person = this.personService.findPersonByIdentifier(personIdType, personId);
+        final Person person = this.personService.findPersonByIdentifier(personIdType, personId);
         if (person == null) {
             //HTTP 404
             logger.info("Person is not found.");
@@ -208,16 +208,14 @@ public final class PeopleResource {
         }
         logger.info("Person is found. Building a suitable representation...");
         //Build activation generator URI
-        URI activationGeneratorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").build();
+        final URI activationGeneratorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").build();
 
-        //Build activation proccess URI - there will need to be an activation token generator service. TBD.
-        // TODO there may not be a key.
-        URI activationProcessorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").path(person.getCurrentActivationKey().asString())
-                .build();
-        
+        final ActivationKey activationKey = person.getCurrentActivationKey();
+        final URI activationProcessorUri = (activationKey == null) ? null : this.uriInfo.getAbsolutePathBuilder().path("activation").path(person.getCurrentActivationKey().asString()).build();;
+
         return new PersonResponseRepresentation(
                 activationGeneratorUri.toString(),
-                activationProcessorUri.toString(),                
+                activationProcessorUri == null ? null : activationProcessorUri.toString(),                
                 buildPersonIdentifierRepresentations(person.getIdentifiers()));
     }
 
