@@ -221,6 +221,16 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
+
+        <!--
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>11.2.0.1.0</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        -->
     </dependencies>
 
     <build>
@@ -235,7 +245,7 @@
                         <path location="target/classes"/>
                     </classpath>
                     <jpaconfiguration persistenceunit="OpenRegistryPersistence" propertyfile="src/test/resources/hibernate.properties" />
-                    <hbm2ddl export="false" update="false" drop="false" create="true" outputfilename="or_schema.ddl" delimiter=";" format="true" haltonerror="true" />
+                    <hbm2ddl export="false" update="true" drop="false" create="false" outputfilename="or_schema.ddl" delimiter=";" format="true" haltonerror="false" console="true" />
                   </hibernatetool>
               </configuration>
             </plugin>
