@@ -107,6 +107,9 @@ legend span span {color:#777; font-weight:400; font-size:1em; display:inline;}
 .openregistry#update div.row label.suffix {left:48%; margin-left:2px;}
 #c1_suffix {width:3%; margin-left:3px;}
 
+.openregistry#update div.row label.identifierValue {left:7%; margin-left:1px;}
+#c1_IdentifierValue {float:left; margin-left:3px;}
+
 /*
 .openregistry#update div.row label.dateOfBirth {left:8%;margin-left:2px;}
 */

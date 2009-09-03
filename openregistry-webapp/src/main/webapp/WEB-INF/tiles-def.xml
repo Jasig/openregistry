@@ -95,6 +95,11 @@
         <put-attribute name="body" value="/WEB-INF/tiles/manage-person-roles/managePersonRoles.jsp" />
     </definition>
 
+    <definition name="openregistry.generate.activationKey" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="generateActivationKey.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/new-activationKey/newActivationKey.jsp" />
+    </definition>
+
     <definition name="openregistry.main" template="index.jsp">
     </definition>
 
