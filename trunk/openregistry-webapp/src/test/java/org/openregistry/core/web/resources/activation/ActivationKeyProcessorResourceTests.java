@@ -21,74 +21,53 @@ import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import com.sun.grizzly.util.buf.Base64Utils;
 import org.springframework.web.context.ContextLoaderListener;
 import org.junit.Test;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
+import org.openregistry.core.web.resources.JerseyTestSupport;
 
 /**
  * @version $Revision$ $Date$
  * @since 0.1
  */
-public class ActivationKeyProcessorResourceTests extends JerseyTest {
+public class ActivationKeyProcessorResourceTests extends JerseyTestSupport {
 
     public ActivationKeyProcessorResourceTests() {
         super(new WebAppDescriptor.Builder("org.openregistry.core.web.resources.activation")
-            .contextPath("openregistry")
-            .contextParam("contextConfigLocation", "classpath:testApplicationContext.xml")
-            .servletClass(SpringServlet.class)
-            .contextListenerClass(ContextLoaderListener.class)
-            .build());
+                .contextPath("openregistry")
+                .contextParam("contextConfigLocation", "classpath:testApplicationContext.xml")
+                .servletClass(SpringServlet.class)
+                .contextListenerClass(ContextLoaderListener.class)
+                .build());
     }
 
     @Test
-    public void testVerifyPersonNotFound() {
-        final WebResource resource = resource().path("people/Net/testId/activation/whatKey");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "GET");
-
-        final ClientResponse response = client().handle(request);
+    public void testVerifyPersonNotFound() {                
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/Net/testId/activation/whatKey", "GET");
         final String locationHeader = response.getHeaders().getFirst("Location");
         assertNull(locationHeader);
         assertEquals(404, response.getClientResponseStatus().getStatusCode());
     }
 
     @Test
-    public void testVerifyKeyNotFound() {
-        final WebResource resource = resource().path("people/NetId/valid/activation/whatKey");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "GET");
-
-        final ClientResponse response = client().handle(request);
+    public void testVerifyKeyNotFound() {        
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/whatKey", "GET");
         assertEquals(404, response.getClientResponseStatus().getStatusCode());
     }
 
     @Test
     public void testVerifyEverythingOkay() {
-        final WebResource resource = resource().path("people/NetId/valid/activation/key");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "GET");
-
-        final ClientResponse response = client().handle(request);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
         assertEquals(204, response.getClientResponseStatus().getStatusCode());
     }
 
     @Test
     public void testDoubleVerifyWithGoodLockOnSecondAttempt() {
-        final WebResource resource = resource().path("people/NetId/valid/activation/key");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "GET");
-
-        final ClientResponse response = client().handle(request);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
         assertEquals(204, response.getClientResponseStatus().getStatusCode());
 
-        final WebResource resource2 = resource().path("people/NetId/valid/activation/key");
-        final ClientRequest.Builder builder2 = ClientRequest.create();
-        final ClientRequest request2 = builder2.build(resource2.getURI(), "GET");
-
-        final ClientResponse response2 = client().handle(request2);
+        final ClientResponse response2 = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
         assertEquals(204, response2.getClientResponseStatus().getStatusCode());
     }
 
