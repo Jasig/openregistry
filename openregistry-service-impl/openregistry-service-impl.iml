@@ -2,7 +2,7 @@
 <module relativePaths="true" MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Groovy" name="Groovy">
-      <configuration />
+      <configuration compile="true" />
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
@@ -16,9 +16,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: junit:junit:4.5" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.5.4" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.8" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-nop:1.5.8" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.6.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.6.2" level="project" />
     <orderEntry type="module" module-name="openregistry-api" exported="" />
     <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-spring:1.2" level="project" />
@@ -31,9 +33,8 @@
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.asm:3.0.0.M3" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.expression:3.0.0.M3" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.jdbc:3.0.0.M3" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.slf4j:jcl-over-slf4j:1.5.6" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.6" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-log4j12:1.5.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:jcl-over-slf4j:1.5.8" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-log4j12:1.5.8" level="project" />
     <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.14" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web.servlet:3.0.0.M3" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web:3.0.0.M3" level="project" />
