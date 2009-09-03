@@ -121,14 +121,14 @@
         </dependency>
 
         <dependency>
-            <groupId>aspectj</groupId>
+            <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <scope>compile</scope>
             <version>${aspectj.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>aspectj</groupId>
+            <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <scope>compile</scope>
             <version>${aspectj.version}</version>
@@ -225,7 +225,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
     </build>
 
     <properties>
-        <aspectj.version>1.5.4</aspectj.version>
+        <aspectj.version>1.6.2</aspectj.version>
         <clover.version>2.5.1</clover.version>
         <spring.version>3.0.0.M3</spring.version>
         <spring.security.version>2.0.4</spring.security.version>
