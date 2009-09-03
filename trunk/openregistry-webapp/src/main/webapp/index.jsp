@@ -46,6 +46,7 @@
 	            <li><a href="updatePerson.htm">Update Person</a></li>
                 <li><a href="splitPerson.htm">Move Sor Person Record</a></li>
                 <li><a href="joinPerson.htm">Move All Sor Person Records</a></li>
+                <li><a href="newActivationKey.htm">Request New Activation Key</a></li>
             </ul>
 			<h2>Important Notices</h2>
 			<p>
