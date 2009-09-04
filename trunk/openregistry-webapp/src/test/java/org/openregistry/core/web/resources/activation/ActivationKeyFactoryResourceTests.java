@@ -46,10 +46,8 @@ public final class ActivationKeyFactoryResourceTests extends JerseyTestSupport {
      */
     @Test
     public void testActivationKeyGeneration() {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/testId/activation", "POST");
-        final String locationHeader = response.getHeaders().getFirst("Location");
-        assertNotNull(locationHeader);
-        assertEquals(201, response.getClientResponseStatus().getStatusCode());
+        assertNotNull(assertStatusCodeEqualsForRequestUriAndHttpMethod(201, "people/NetId/testId/activation", "POST")
+                .getHeaders().getFirst("Location"));
     }
 
     /**
@@ -57,9 +55,7 @@ public final class ActivationKeyFactoryResourceTests extends JerseyTestSupport {
      */
     @Test
     public void testPersonNotFound() {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/Net/testId/activation", "POST");
-        final String locationHeader = response.getHeaders().getFirst("Location");
-        assertNull(locationHeader);
-        assertEquals(404, response.getClientResponseStatus().getStatusCode());
+        assertNull(assertStatusCodeEqualsForRequestUriAndHttpMethod(404, "people/Net/testId/activation", "POST")
+                .getHeaders().getFirst("Location"));
     }
 }

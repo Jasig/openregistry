@@ -44,60 +44,47 @@ public class ActivationKeyProcessorResourceTests extends JerseyTestSupport {
 
     @Test
     public void testVerifyPersonNotFound() {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/Net/testId/activation/whatKey", "GET");
-        final String locationHeader = response.getHeaders().getFirst("Location");
-        assertNull(locationHeader);
-        assertEquals(404, response.getClientResponseStatus().getStatusCode());
+        assertNull(assertStatusCodeEqualsForRequestUriAndHttpMethod(404, "people/Net/testId/activation/whatKey", "GET")
+                .getHeaders().getFirst("Location"));
     }
 
     @Test
     public void testVerifyKeyNotFound() {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/whatKey", "GET");
-        assertEquals(404, response.getClientResponseStatus().getStatusCode());
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(404, "people/NetId/valid/activation/whatKey", "GET");
     }
 
     @Test
     public void testVerifyEverythingOkay() {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
-        assertEquals(204, response.getClientResponseStatus().getStatusCode());
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "GET");
     }
 
     @Test
     public void testDoubleVerifyWithGoodLockOnSecondAttempt() {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
-        assertEquals(204, response.getClientResponseStatus().getStatusCode());
-
-        final ClientResponse response2 = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
-        assertEquals(204, response2.getClientResponseStatus().getStatusCode());
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "GET");
     }
 
     // we cheat on this one due to the way the test must be run.  Oops!
     @Test
     public void testDoubleVerifyWithBadLockOnSecondAttempt() {
-        final ClientResponse responseIgnore = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
-        assertEquals(204, response.getClientResponseStatus().getStatusCode());
-
-        final ClientResponse response2 = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
-        assertEquals(409, response2.getClientResponseStatus().getStatusCode());
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NetId/valid/activation/key", "GET");
     }
 
     @Test
     public void testVerifyBeforeActivationWindow() {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/notActive/activation/key", "GET");
-        assertEquals(409, response.getClientResponseStatus().getStatusCode());
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NetId/notActive/activation/key", "GET");
     }
 
     @Test
     public void testVerifyAfterActivationWindow() {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/expired/activation/key", "GET");
-        assertEquals(410, response.getClientResponseStatus().getStatusCode());
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(410, "people/NetId/expired/activation/key", "GET");
     }
 
     @Test
     public void testInvalidatePersonNotFound() {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/Net/testId/activation/whatKey", "DELETE");
-        assertEquals(404, response.getClientResponseStatus().getStatusCode());
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(404, "people/Net/testId/activation/whatKey", "DELETE");
     }
 
     @Test
@@ -110,8 +97,7 @@ public class ActivationKeyProcessorResourceTests extends JerseyTestSupport {
     public void testInvalidateWorked() {
         // lock it first
         handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "DELETE");
-        assertEquals(204, response.getClientResponseStatus().getStatusCode());
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "DELETE");
 
     }
 
@@ -120,13 +106,11 @@ public class ActivationKeyProcessorResourceTests extends JerseyTestSupport {
         // double lock it first
         handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
         handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "DELETE");
-        assertEquals(409, response.getClientResponseStatus().getStatusCode());
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NetId/valid/activation/key", "DELETE");
     }
 
     @Test
     public void testInvalidateNotLocked() {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "DELETE");
-        assertEquals(409, response.getClientResponseStatus().getStatusCode());
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NetId/valid/activation/key", "DELETE");
     }
 }
