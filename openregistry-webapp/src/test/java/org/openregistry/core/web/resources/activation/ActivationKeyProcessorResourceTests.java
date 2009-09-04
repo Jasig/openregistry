@@ -43,7 +43,7 @@ public class ActivationKeyProcessorResourceTests extends JerseyTestSupport {
     }
 
     @Test
-    public void testVerifyPersonNotFound() {                
+    public void testVerifyPersonNotFound() {
         final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/Net/testId/activation/whatKey", "GET");
         final String locationHeader = response.getHeaders().getFirst("Location");
         assertNull(locationHeader);
@@ -51,7 +51,7 @@ public class ActivationKeyProcessorResourceTests extends JerseyTestSupport {
     }
 
     @Test
-    public void testVerifyKeyNotFound() {        
+    public void testVerifyKeyNotFound() {
         final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/whatKey", "GET");
         assertEquals(404, response.getClientResponseStatus().getStatusCode());
     }
@@ -74,101 +74,59 @@ public class ActivationKeyProcessorResourceTests extends JerseyTestSupport {
     // we cheat on this one due to the way the test must be run.  Oops!
     @Test
     public void testDoubleVerifyWithBadLockOnSecondAttempt() {
-        final WebResource resource = resource().path("people/NetId/valid/activation/key");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "GET");
-
-        final ClientResponse responseIgnore = client().handle(request);
-        final ClientResponse response = client().handle(request);
-
+        final ClientResponse responseIgnore = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
         assertEquals(204, response.getClientResponseStatus().getStatusCode());
 
-        final WebResource resource2 = resource().path("people/NetId/valid/activation/key");
-        final ClientRequest.Builder builder2 = ClientRequest.create();
-        final ClientRequest request2 = builder2.build(resource2.getURI(), "GET");
-
-        final ClientResponse response2 = client().handle(request2);
+        final ClientResponse response2 = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
         assertEquals(409, response2.getClientResponseStatus().getStatusCode());
     }
 
     @Test
     public void testVerifyBeforeActivationWindow() {
-        final WebResource resource = resource().path("people/NetId/notActive/activation/key");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "GET");
-
-        final ClientResponse response = client().handle(request);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/notActive/activation/key", "GET");
         assertEquals(409, response.getClientResponseStatus().getStatusCode());
     }
 
     @Test
     public void testVerifyAfterActivationWindow() {
-        final WebResource resource = resource().path("people/NetId/expired/activation/key");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "GET");
-
-        final ClientResponse response = client().handle(request);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/expired/activation/key", "GET");
         assertEquals(410, response.getClientResponseStatus().getStatusCode());
     }
 
     @Test
     public void testInvalidatePersonNotFound() {
-        final WebResource resource = resource().path("people/Net/testId/activation/whatKey");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "DELETE");
-        final ClientResponse response = client().handle(request);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/Net/testId/activation/whatKey", "DELETE");
         assertEquals(404, response.getClientResponseStatus().getStatusCode());
     }
 
     @Test
     public void testInvalidateActivationKeyNotFound() {
-        final WebResource resource = resource().path("people/NetId/testId/activation/whatKey");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "DELETE");
-        final ClientResponse response = client().handle(request);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/testId/activation/whatKey", "DELETE");
         assertEquals(404, response.getClientResponseStatus().getStatusCode());
     }
 
     @Test
     public void testInvalidateWorked() {
         // lock it first
-        final WebResource resource = resource().path("people/NetId/valid/activation/key");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "GET");
-
-        client().handle(request);
-
-        final ClientRequest.Builder builder2 = ClientRequest.create();
-        final ClientRequest request2 = builder2.build(resource.getURI(), "DELETE");
-
-        final ClientResponse response = client().handle(request2);
+        handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "DELETE");
         assertEquals(204, response.getClientResponseStatus().getStatusCode());
+
     }
 
     @Test
     public void testInvalidateLockIssue() {
-        // lock it first
-        final WebResource resource = resource().path("people/NetId/valid/activation/key");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "GET");
-
-        client().handle(request);
-        client().handle(request);
-
-        final ClientRequest.Builder builder2 = ClientRequest.create();
-        final ClientRequest request2 = builder2.build(resource.getURI(), "DELETE");
-
-        final ClientResponse response = client().handle(request2);
+        // double lock it first
+        handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
+        handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "GET");
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "DELETE");
         assertEquals(409, response.getClientResponseStatus().getStatusCode());
     }
 
     @Test
     public void testInvalidateNotLocked() {
-        final WebResource resource = resource().path("people/NetId/valid/activation/key");
-        final ClientRequest.Builder builder2 = ClientRequest.create();
-        final ClientRequest request2 = builder2.build(resource.getURI(), "DELETE");
-
-        final ClientResponse response = client().handle(request2);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/valid/activation/key", "DELETE");
         assertEquals(409, response.getClientResponseStatus().getStatusCode());
     }
 }

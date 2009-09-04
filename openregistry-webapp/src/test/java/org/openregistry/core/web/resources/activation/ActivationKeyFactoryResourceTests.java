@@ -24,43 +24,40 @@ import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.springframework.web.context.ContextLoaderListener;
+import org.openregistry.core.web.resources.JerseyTestSupport;
 
 /**
  * @version $Revision$ $Date$
  * @since 0.1
  */
-public final class ActivationKeyFactoryResourceTests extends JerseyTest {
+public final class ActivationKeyFactoryResourceTests extends JerseyTestSupport {
 
     public ActivationKeyFactoryResourceTests() {
         super(new WebAppDescriptor.Builder("org.openregistry.core.web.resources.activation")
-            .contextPath("openregistry")
-            .contextParam("contextConfigLocation", "classpath:testApplicationContext.xml")
-            .servletClass(SpringServlet.class)
-            .contextListenerClass(ContextLoaderListener.class)
-            .build());      
+                .contextPath("openregistry")
+                .contextParam("contextConfigLocation", "classpath:testApplicationContext.xml")
+                .servletClass(SpringServlet.class)
+                .contextListenerClass(ContextLoaderListener.class)
+                .build());
     }
 
-    /** Create new activation key. */
+    /**
+     * Create new activation key.
+     */
     @Test
     public void testActivationKeyGeneration() {
-        final WebResource resource = resource().path("people/NetId/testId/activation");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "POST");
-
-        final ClientResponse response = client().handle(request);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/NetId/testId/activation", "POST");
         final String locationHeader = response.getHeaders().getFirst("Location");
         assertNotNull(locationHeader);
         assertEquals(201, response.getClientResponseStatus().getStatusCode());
     }
 
-    /** Person Not Found. */
+    /**
+     * Person Not Found.
+     */
     @Test
     public void testPersonNotFound() {
-        final WebResource resource = resource().path("people/Net/testId/activation");
-        final ClientRequest.Builder builder = ClientRequest.create();
-        final ClientRequest request = builder.build(resource.getURI(), "POST");
-
-        final ClientResponse response = client().handle(request);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod("people/Net/testId/activation", "POST");
         final String locationHeader = response.getHeaders().getFirst("Location");
         assertNull(locationHeader);
         assertEquals(404, response.getClientResponseStatus().getStatusCode());
