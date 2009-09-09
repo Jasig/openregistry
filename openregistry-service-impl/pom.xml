@@ -141,7 +141,13 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>1.6.3</version>
+            <version>${groovy.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.ant</groupId>
+                    <artifactId>ant</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Messaging infrastructure dependencies! -->
@@ -164,8 +170,12 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
-            <version>2.0-M2</version>
+            <version>${camel.version}</version>
              <exclusions>
+               <exclusion>
+                   <groupId>commons-logging</groupId>
+                   <artifactId>commons-logging-api</artifactId>
+               </exclusion>
                <exclusion>
                    <groupId>org.springframework</groupId>
                    <artifactId>spring-aop</artifactId>
@@ -203,6 +213,22 @@
             <version>5.2.0</version>
             <exclusions>
                <exclusion>
+                   <groupId>commons-logging</groupId>
+                   <artifactId>commons-logging</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>commons-logging</groupId>
+                   <artifactId>commons-logging-api</artifactId>
+               </exclusion>
+                <exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>logkit</groupId>
+                    <artifactId>logkit</artifactId>
+                </exclusion>
+               <exclusion>
                    <groupId>org.springframework</groupId>
                    <artifactId>spring-aop</artifactId>
                </exclusion>
@@ -236,7 +262,7 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-spring</artifactId>
-            <version>2.0-M2</version>
+            <version>${camel.version}</version>
              <exclusions>
                <exclusion>
                    <groupId>org.springframework</groupId>
@@ -272,8 +298,12 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jms</artifactId>
-            <version>2.0-M2</version>
+            <version>${camel.version}</version>
             <exclusions>
+                <exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-jta_1.1_spec</artifactId>
+                </exclusion>
                <exclusion>
                    <groupId>org.springframework</groupId>
                    <artifactId>spring-aop</artifactId>

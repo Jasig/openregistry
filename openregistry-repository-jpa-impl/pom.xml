@@ -61,7 +61,7 @@
 
         <dependency>
             <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
+            <artifactId>jpa-api</artifactId>
             <version>${persistence.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -114,6 +114,10 @@
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
+                    <groupId>javax.persistence</groupId>
+                    <artifactId>persistence-api</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>org.hibernate</groupId>
                     <artifactId>hibernate-annotations</artifactId>
                 </exclusion>
@@ -135,13 +139,6 @@
 
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
             <version>${hibernate.version}</version>
             <scope>compile</scope>
@@ -152,13 +149,20 @@
                 </exclusion>
             </exclusions>
         </dependency>
+<!--
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+            <scope>compile</scope>
+        </dependency>
 
+-->
         <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>${javassist.version}</version>
         </dependency>
-
         <!-- END Hibernate Dependencies -->
 
         <!-- TEST DEPENDENCIES -->

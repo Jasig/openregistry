@@ -232,12 +232,14 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
 
     <properties>
         <aspectj.version>1.6.2</aspectj.version>
+        <camel.version>2.0.0</camel.version>
         <clover.version>2.5.1</clover.version>
-        <spring.version>3.0.0.M3</spring.version>
+        <spring.version>3.0.0.M4</spring.version>
         <spring.security.version>2.0.4</spring.security.version>
         <junit.version>4.6</junit.version>
         <servlet.version>2.5</servlet.version>
-        <persistence.version>1.0</persistence.version>
+        <groovy.version>1.6.3</groovy.version>
+        <persistence.version>2.0.Beta1-SNAPSHOT</persistence.version>
         <jstl.version>1.1.2</jstl.version>
         <standard.version>1.1.2</standard.version>
         <javalid.version>1.2</javalid.version>
@@ -252,8 +254,8 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <ognl.version>2.7.3</ognl.version>
         <tiles.version>2.0.7</tiles.version>
         <jsp.version>2.0</jsp.version>
-        <hibernate.version>3.4.0-SNAPSHOT</hibernate.version>
-        <javassist.version>3.4.GA</javassist.version>
+        <hibernate.version>3.5.0-SNAPSHOT</hibernate.version>
+        <javassist.version>3.8.0.GA</javassist.version>
         <hsqldb.version>1.8.0.7</hsqldb.version>
         <jersey.version>1.1.2-ea</jersey.version>
         <el.api.version>1.0</el.api.version>
