@@ -177,11 +177,15 @@ public class MockPerson implements Person {
     }
 
     public Name addOfficialName() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        MockName name = new MockName();
+        name.setOfficialName();
+        return name;
     }
 
     public Name addPreferredName() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        MockName name = new MockName();
+        name.setPreferredName();
+        return name;
     }
 
     public void setPreferredName(Name name) {

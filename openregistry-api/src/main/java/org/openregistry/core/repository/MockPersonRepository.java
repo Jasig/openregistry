@@ -89,11 +89,11 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public Person savePerson(Person person) throws RepositoryAccessException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return person;
     }
 
-    public SorPerson saveSorPerson(SorPerson person) throws RepositoryAccessException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public SorPerson saveSorPerson(SorPerson sorPerson) throws RepositoryAccessException {
+        return sorPerson;
     }
 
     public void addPerson(Person person) throws RepositoryAccessException {
