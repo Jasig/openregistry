@@ -87,4 +87,24 @@ public class PersonRequestRepresentation {
                 && this.email != null
                 && this.phoneNumber != null);
     }
+
+    @Override
+    public String toString() {
+        return "PersonRequestRepresentation{" +
+                "systemOfRecordId='" + systemOfRecordId + '\'' +
+                ", systemOfRecordPersonId='" + systemOfRecordPersonId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", ssn='" + ssn + '\'' +
+                ", gender='" + gender + '\'' +
+                ", addressLine1='" + addressLine1 + '\'' +
+                ", addressLine2='" + addressLine2 + '\'' +
+                ", city='" + city + '\'' +
+                ", region='" + region + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
+    }
 }
