@@ -107,4 +107,33 @@ public class PersonRequestRepresentation {
                 ", postalCode='" + postalCode + '\'' +
                 '}';
     }
+
+    /**
+     * Factory method for use only for mocking purposes in tests
+     *
+     * @return
+     */
+    public static PersonRequestRepresentation forNewPerson() {
+        return newRepresentationWithRequiredDataAndSsn("new");
+    }
+
+    /**
+     * Factory method for use only for mocking purposes in tests
+     *
+     * @param ssn
+     * @return
+     */
+    private static PersonRequestRepresentation newRepresentationWithRequiredDataAndSsn(String ssn) {
+        //For test purposes, distinguish between 'new', 'exact match', or 'multiple people found'
+        // by setting the 'ssn' property
+        final PersonRequestRepresentation rep = new PersonRequestRepresentation();
+        rep.systemOfRecordId = "test";
+        rep.systemOfRecordPersonId = "test";
+        rep.firstName = "test";
+        rep.lastName = "test";
+        rep.email = "test";
+        rep.phoneNumber = "test";
+        rep.ssn = ssn;
+        return rep;
+    }
 }

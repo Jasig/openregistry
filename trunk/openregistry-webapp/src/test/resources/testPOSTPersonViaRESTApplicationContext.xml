@@ -46,7 +46,7 @@
     <bean id="peopleResource-underTest" class="org.openregistry.core.web.resources.PeopleResource" />
 
     <!-- All these beans will be autowired into 'PeopleResource' -->
-    <bean class="org.openregistry.core.service.NullPersonServiceFactoryBean" />
+    <bean class="org.openregistry.core.web.resources.AddNewPersonMockitoBasedPersonServiceFactoryBean" init-method="init"/>
     <bean class="org.openregistry.core.repository.NullReferenceRepositoryFactoryBean"/>
     <bean class="org.openregistry.core.service.NullIdentifierChangeServiceFactoryBean"/>
 

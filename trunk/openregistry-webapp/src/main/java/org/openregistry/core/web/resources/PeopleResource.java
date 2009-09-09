@@ -220,16 +220,6 @@ public final class PeopleResource {
                 buildPersonIdentifierRepresentations(person.getIdentifiers()));
     }
 
-    //Temporary proof of concempt! REMOVE WHEN DONE!
-    @POST
-    @Path("postXML")
-    @Consumes(MediaType.APPLICATION_XML)
-    public Response doProcessXML(PersonRequestRepresentation personRequestRepresentation) {
-        System.out.println("AAAAAAAAAAAAAAAAAAAA " + personRequestRepresentation.toString());
-        return null;
-    }
-
-
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public Response processIncomingPerson(PersonRequestRepresentation personRequestRepresentation, @QueryParam("force") String forceAdd) {

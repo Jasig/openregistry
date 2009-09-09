@@ -6,6 +6,8 @@ import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
 import org.springframework.web.context.ContextLoaderListener;
 import org.junit.Test;
+import static org.junit.Assert.*;
+
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
 
 /**
@@ -13,7 +15,7 @@ import org.openregistry.core.web.resources.representations.PersonRequestRepresen
  */
 public class PostNewPersonToPeopleResourceTests extends JerseyTestSupport {
 
-    private static final String RESOURCE_UNDER_TEST_URI = "/people";    
+    private static final String RESOURCE_UNDER_TEST_URI = "/people";
 
     public PostNewPersonToPeopleResourceTests() {
         super(new WebAppDescriptor.Builder("org.openregistry.core.web.resources")
@@ -34,5 +36,11 @@ public class PostNewPersonToPeopleResourceTests extends JerseyTestSupport {
     public void missingRequiredData() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(400, RESOURCE_UNDER_TEST_URI,
                 POST_HTTP_METHOD, new PersonRequestRepresentation());
+    }
+
+    @Test
+    public void addingNonExistentPerson() {
+        assertNotNull(assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(201, RESOURCE_UNDER_TEST_URI, POST_HTTP_METHOD,
+                PersonRequestRepresentation.forNewPerson()).getHeaders().getFirst("Location"));
     }
 }
