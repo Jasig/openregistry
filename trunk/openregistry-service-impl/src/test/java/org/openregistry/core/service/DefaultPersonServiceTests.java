@@ -72,6 +72,9 @@ public class DefaultPersonServiceTests {
         MockSorName name = new MockSorName();
         name.setGiven("Sam");
         name.setFamily("Malone");
+        name.setMiddle("B");
+        name.setPrefix("");
+        name.setSuffix("");
         SorPerson sorPerson = reconciliationCriteria.getPerson();
         sorPerson.addName(name);
         sorPerson.setGender("Male");
@@ -80,7 +83,7 @@ public class DefaultPersonServiceTests {
     }
 
     /**
-     * Tests the illegal argument exception.
+     * Tests passing null OldReconciliationResult.
      */
     @Test
     public void testNullOldReconciliationResult() {
