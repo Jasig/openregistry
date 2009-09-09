@@ -68,7 +68,7 @@
         <dependency>
             <groupId>javax.el</groupId>
             <artifactId>el-api</artifactId>
-            <version>1.0</version>
+            <version>${el.api.version}</version>
             <scope>provided</scope>
         </dependency>
 
