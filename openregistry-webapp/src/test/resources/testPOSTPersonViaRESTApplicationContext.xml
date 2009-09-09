@@ -48,7 +48,7 @@
     <!-- All these beans will be autowired into 'PeopleResource' -->
     <bean class="org.openregistry.core.service.NullPersonServiceFactoryBean" />
     <bean class="org.openregistry.core.repository.NullReferenceRepositoryFactoryBean"/>
-    <bean class="org.openregistry.core.NullIdentifierChangeServiceFactoryBean"/>
+    <bean class="org.openregistry.core.service.NullIdentifierChangeServiceFactoryBean"/>
 
     <bean id="preferredPersonIdentifierType" class="java.lang.String">
         <constructor-arg index="0" value="RCPID"/>
