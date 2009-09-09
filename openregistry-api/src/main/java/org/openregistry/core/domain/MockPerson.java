@@ -33,7 +33,7 @@ public class MockPerson implements Person {
     private final String identifierValue;
 
     public MockPerson() {
-        this.identifierValue = "testId";
+        this("testId", false, false);
     }
 
     public MockPerson(final String identifierValue, final boolean notActive, final boolean expired) {
