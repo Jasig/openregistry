@@ -90,7 +90,8 @@ public class DefaultPersonService implements PersonService {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public DefaultPersonService(final PersonRepository personRepository, ReferenceRepository referenceRepository, ActivationService activationService, IdentifierGenerator identifierGenerator, ObjectFactory personObjectFactory, Reconciler reconciler) {
+    @Autowired
+    public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final ActivationService activationService, final IdentifierGenerator identifierGenerator, @Qualifier("person") final ObjectFactory<Person> personObjectFactory, final Reconciler reconciler) {
         this.personRepository = personRepository;
         this.referenceRepository = referenceRepository;
         this.activationService = activationService;
