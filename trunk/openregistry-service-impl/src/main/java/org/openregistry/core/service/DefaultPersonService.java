@@ -89,6 +89,15 @@ public class DefaultPersonService implements PersonService {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
+    public DefaultPersonService(final PersonRepository personRepository, ReferenceRepository referenceRepository, ActivationService activationService, IdentifierGenerator identifierGenerator, ObjectFactory personObjectFactory, Reconciler reconciler) {
+        this.personRepository = personRepository;
+        this.referenceRepository = referenceRepository;
+        this.activationService = activationService;
+        this.identifierGenerator = identifierGenerator;
+        this.personObjectFactory = personObjectFactory;
+        this.reconciler = reconciler;
+    }
+
     @Transactional
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
@@ -250,7 +259,7 @@ public class DefaultPersonService implements PersonService {
 
     @Transactional
     public ServiceExecutionResult addPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult oldReconciliationResult) {
-        logger.info("In personService.addPerson: entered following for gender: "+ reconciliationCriteria.getPerson().getGender());
+        //logger.info("In personService.addPerson: entered following for gender: "+ reconciliationCriteria.getPerson().getGender());
         final List<ValidationError> validationErrors = validateAndConvert(reconciliationCriteria);
         final String serviceName = "PersonService.addPerson";
 
@@ -266,7 +275,7 @@ public class DefaultPersonService implements PersonService {
             } else if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
             	return new ReconciliationServiceExecutionResult(serviceName, magicUpdate(reconciliationCriteria, result), result);
             }
-            logger.info("In personService.addPerson: reconciliation result: "+ result.getReconciliationType().toString());
+            //logger.info("In personService.addPerson: reconciliation result: "+ result.getReconciliationType().toString());
             // ReconciliationResult.ReconciliationType.MAYBE
             return new ReconciliationServiceExecutionResult(serviceName, reconciliationCriteria, result);
         }
@@ -357,7 +366,7 @@ public class DefaultPersonService implements PersonService {
      */
     protected List<ValidationError> validateAndConvert(final Object object) {
         final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object, JvGroup.DEFAULT_GROUP, "", true, 5);
-        logger.info("In personService.validateAndConvert: size of messages: "+ validationMessages.size());
+        //logger.info("In personService.validateAndConvert: size of messages: "+ validationMessages.size());
         return convertToValidationErrors(validationMessages);
     }
 

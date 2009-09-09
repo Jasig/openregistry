@@ -164,7 +164,7 @@ public interface PersonService {
      * Otherwise, it will be the {@link org.openregistry.core.domain.sor.ReconciliationCriteria} object.
      * The @link org.openregistry.core.service.reconciliation.ReconciliationResult} will be returned as long as reconciliation was done.
      */
-    ServiceExecutionResult addPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult result);
+    ServiceExecutionResult addPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult result) throws IllegalArgumentException;
 
     /**
      * Searches for a Person by the criteria provided.
