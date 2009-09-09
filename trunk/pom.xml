@@ -107,6 +107,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
@@ -162,28 +168,28 @@
                 <groupId>com.atlassian.maven.plugins</groupId>
                 <artifactId>maven-clover2-plugin</artifactId>
                 <version>${clover.version}</version>
-				<configuration>
+                <configuration>
                     <license><![CDATA[oPpoNpLipDQKHHXaIXJPCIsoqRpdAfeXwIImkDIRoTnriq
 mi2KuXZFGad>>Lz0ULLXhqIo2KPjARsdren1aP3vzebzkM
 qNNNUvQNpqopPoOQRqmTvqoPnOnMopRPqpSUtxrWTxOxTu
 pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
 97W9kZkUUnmm]]></license>
-					<jdk>1.5</jdk>
-					<generateXml>true</generateXml>
-					<generateHtml>true</generateHtml>
-					<includes>
-						<include>**/*.java</include>
-					</includes>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>instrument</goal>
-							<goal>clover</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+                    <jdk>1.5</jdk>
+                    <generateXml>true</generateXml>
+                    <generateHtml>true</generateHtml>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>instrument</goal>
+                            <goal>clover</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 
             <plugin>

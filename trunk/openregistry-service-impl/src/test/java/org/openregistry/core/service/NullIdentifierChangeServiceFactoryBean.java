@@ -1,4 +1,4 @@
-package org.openregistry.core;
+package org.openregistry.core.service;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.openregistry.core.service.IdentifierChangeService;
