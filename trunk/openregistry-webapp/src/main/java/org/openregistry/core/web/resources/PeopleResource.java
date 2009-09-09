@@ -211,13 +211,24 @@ public final class PeopleResource {
         final URI activationGeneratorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").build();
 
         final ActivationKey activationKey = person.getCurrentActivationKey();
-        final URI activationProcessorUri = (activationKey == null) ? null : this.uriInfo.getAbsolutePathBuilder().path("activation").path(person.getCurrentActivationKey().asString()).build();;
+        final URI activationProcessorUri = (activationKey == null) ? null : this.uriInfo.getAbsolutePathBuilder().path("activation").path(person.getCurrentActivationKey().asString()).build();
+        ;
 
         return new PersonResponseRepresentation(
                 activationGeneratorUri.toString(),
-                activationProcessorUri == null ? null : activationProcessorUri.toString(),                
+                activationProcessorUri == null ? null : activationProcessorUri.toString(),
                 buildPersonIdentifierRepresentations(person.getIdentifiers()));
     }
+
+    //Temporary proof of concempt! REMOVE WHEN DONE!
+    @POST
+    @Path("postXML")
+    @Consumes(MediaType.APPLICATION_XML)
+    public Response doProcessXML(PersonRequestRepresentation personRequestRepresentation) {
+        System.out.println("AAAAAAAAAAAAAAAAAAAA " + personRequestRepresentation.toString());
+        return null;
+    }
+
 
     @POST
     @Consumes(MediaType.APPLICATION_XML)

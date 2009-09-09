@@ -41,36 +41,18 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-2.5.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.1.xsd">
 
-    <context:component-scan base-package="org.openregistry.core.web.resources"/>
+    <context:component-scan base-package="org.openregistry.core.factory.jpa"/>
 
-    <bean id="lockExtractor" class="org.openregistry.core.web.resources.config.MockLockExtractor" />
+    <bean id="peopleResource-underTest" class="org.openregistry.core.web.resources.PeopleResource" />
 
-    <bean id="personRepository" class="org.openregistry.core.repository.MockPersonRepository">
-        <constructor-arg index="0">
-            <list>
-                <bean class="org.openregistry.core.domain.MockPerson" />
-                <bean class="org.openregistry.core.domain.MockPerson">
-                    <constructor-arg index="0" value="valid" />
-                    <constructor-arg index="1" value="false" />
-                    <constructor-arg index="2" value="false" />
-                </bean>
-                <bean class="org.openregistry.core.domain.MockPerson">
-                    <constructor-arg index="0" value="notActive" />
-                    <constructor-arg index="1" value="true" />
-                    <constructor-arg index="2" value="false" />
-                </bean>
-                <bean class="org.openregistry.core.domain.MockPerson">
-                    <constructor-arg index="0" value="expired" />
-                    <constructor-arg index="1" value="false" />
-                    <constructor-arg index="2" value="true" />
-                </bean>
-            </list>
-        </constructor-arg>
+    <!-- All these beans will be autowired into 'PeopleResource' -->
+    <bean class="org.openregistry.core.service.NullPersonServiceFactoryBean" />
+    <bean class="org.openregistry.core.repository.NullReferenceRepositoryFactoryBean"/>
+    <bean class="org.openregistry.core.NullIdentifierChangeServiceFactoryBean"/>
+
+    <bean id="preferredPersonIdentifierType" class="java.lang.String">
+        <constructor-arg index="0" value="RCPID"/>
     </bean>
-
-    <bean id="activationService" class="org.openregistry.core.service.DefaultActivationService">
-        <constructor-arg index="0" ref="personRepository"/>
-    </bean>
-
+    
 
 </beans>
