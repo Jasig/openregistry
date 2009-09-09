@@ -38,6 +38,7 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.util.Assert;
 import org.javalid.core.AnnotationValidator;
 import org.javalid.core.ValidationMessage;
 import org.javalid.core.AnnotationValidatorImpl;
@@ -258,8 +259,9 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public ServiceExecutionResult addPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult oldReconciliationResult) {
+    public ServiceExecutionResult addPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult oldReconciliationResult) throws IllegalArgumentException {
         //logger.info("In personService.addPerson: entered following for gender: "+ reconciliationCriteria.getPerson().getGender());
+        Assert.notNull(reconciliationCriteria,"reconciliationCriteria cannot be null");
         final List<ValidationError> validationErrors = validateAndConvert(reconciliationCriteria);
         final String serviceName = "PersonService.addPerson";
 
@@ -424,7 +426,6 @@ public class DefaultPersonService implements PersonService {
         // There should only be one at this point.
         // TODO generalize this to all names
         final Name sorName = sorPerson.getNames().iterator().next();
-
         name.setFamily(sorName.getFamily());
         name.setGiven(sorName.getGiven());
         name.setMiddle(sorName.getMiddle());
