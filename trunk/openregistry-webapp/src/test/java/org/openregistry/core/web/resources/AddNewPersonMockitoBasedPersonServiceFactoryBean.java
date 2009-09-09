@@ -11,12 +11,10 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
 
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * FactoryBean to create Mockito-based mocks of <code>PersonService</code> and related collaborators needed to test
@@ -76,7 +74,7 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         Identifier mockRcpId = mock(Identifier.class);
         IdentifierType mockRcpIdType = mock(IdentifierType.class);
         when(mockNetIdType.getName()).thenReturn("RCPID");
-        when(mockNetId.getType()).thenReturn(mockNetIdType);
+        when(mockNetId.getType()).thenReturn(mockRcpIdType);
         when(mockNetId.getValue()).thenReturn("test-rcpid");
 
         return new HashSet<Identifier>(Arrays.asList(mockNetId, mockRcpId));
