@@ -41,7 +41,7 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-2.5.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.1.xsd">
 
-    <context:component-scan base-package="org.openregistry.core.web.resources"/>
+    <context:component-scan base-package="org.openregistry.core.web.resources.activation"/>
 
     <bean id="lockExtractor" class="org.openregistry.core.web.resources.config.MockLockExtractor" />
 
