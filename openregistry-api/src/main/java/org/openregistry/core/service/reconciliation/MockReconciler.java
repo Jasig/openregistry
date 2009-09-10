@@ -38,8 +38,14 @@ public final class MockReconciler implements Reconciler {
     private final String MATCH_TYPE_EXACT = "EXACT";
     private final String MATCH_TYPE_MAYBE = "MAYBE";
 
+    private String desiredResult = null;
+
+    public MockReconciler(String result){
+        this.desiredResult = result;
+    }
+
     public ReconciliationResult reconcile(ReconciliationCriteria reconciliationCriteria){
-        return reconcile(reconciliationCriteria, MATCH_TYPE_NONE);
+        return reconcile(reconciliationCriteria, desiredResult);
     }
 
     public ReconciliationResult reconcile(ReconciliationCriteria reconciliationCriteria, final String matchType){
@@ -72,15 +78,18 @@ public final class MockReconciler implements Reconciler {
             }
 
             public boolean noPeopleFound() {
-                return true;
+                if (desiredResult.equals(MATCH_TYPE_NONE)) return true;
+                else return false;
             }
 
             public boolean personAlreadyExists() {
-                return false;
+                if (desiredResult.equals(MATCH_TYPE_EXACT)) return true;
+                else return false;
             }
 
             public boolean multiplePeopleFound() {
-                return false;
+                if (desiredResult.equals(MATCH_TYPE_MAYBE)) return true;
+                else return false;
             }
         };
     }

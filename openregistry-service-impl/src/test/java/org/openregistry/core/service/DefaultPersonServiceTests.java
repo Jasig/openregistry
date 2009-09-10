@@ -30,8 +30,10 @@ import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
 import org.openregistry.core.service.reconciliation.MockReconciler;
 import org.openregistry.core.service.reconciliation.Reconciler;
+import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.util.Assert;
 
 import java.util.Date;
 import java.util.Calendar;
@@ -48,27 +50,26 @@ public class DefaultPersonServiceTests {
 
     private DefaultPersonService personService;
 
-    private Person person;
-
-    private ReconciliationCriteria reconciliationCriteria;
+    private ObjectFactory objectFactory;
 
     private PersonRepository personRepository;
 
-    private ReferenceRepository referenceRepository;
+    private ReconciliationCriteria reconciliationCriteria;
 
-    private ObjectFactory objectFactory;
-
-    private Reconciler reconciler;
+    private final String MATCH_TYPE_NONE = "NONE";
+    private final String MATCH_TYPE_EXACT = "EXACT";
+    private final String MATCH_TYPE_MAYBE = "MAYBE";
 
     @Before
     public void setUp() throws Exception {
-        this.person = new MockPerson();
+        this.personRepository = new MockPersonRepository(new MockPerson());
         this.objectFactory = new ObjectFactory(){ public Person getObject() { return new MockPerson();}};
-        this.referenceRepository = new MockReferenceRepository();
-        this.personRepository = new MockPersonRepository(this.person);
-        this.reconciler = new MockReconciler();
-        this.personService = new DefaultPersonService(new MockPersonRepository(this.person), new MockReferenceRepository(), new MockActivationService(personRepository), new NoOpIdentifierGenerator(), objectFactory, reconciler);
-        this.reconciliationCriteria = new MockReconciliationCriteria();
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockActivationService(personRepository), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_NONE));
+        reconciliationCriteria = new MockReconciliationCriteria();
+        setReconciliationCriteria(reconciliationCriteria);
+    }
+
+    void setReconciliationCriteria(ReconciliationCriteria reconciliationCriteria){
         MockSorName name = new MockSorName();
         name.setGiven("Sam");
         name.setFamily("Malone");
@@ -79,7 +80,6 @@ public class DefaultPersonServiceTests {
         sorPerson.addName(name);
         sorPerson.setGender("Male");
         sorPerson.setDateOfBirth(new Date());
-
     }
 
     /**
@@ -97,5 +97,88 @@ public class DefaultPersonServiceTests {
     public void testAddIllegalArgument() {
         this.personService.addPerson(null, null);
     }
+
+    /**
+     * Tests get a reconciliation result.
+     */
+    @Test
+    public void testReconciliationResult() {
+        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        Assert.notNull(result);
+        ReconciliationResult recResult = result.getReconciliationResult();
+        Assert.notNull(recResult);
+    }
+
+    /**
+     * Tests that reconciliationCriteria must provide Source Sor Id.
+
+    @Test
+    public void testSourceSorIdRequired() {
+        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        Assert.notEmpty(result.getValidationErrors());
+    }
+   */
+
+    /**
+     * Tests if reconciliation result is NONE that person is returned, activation key is returned, identifiers created.
+     */
+    @Test
+    public void testReconciliationResultNoneReturnsPerson() {
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockActivationService(personRepository), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_NONE));
+        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        Assert.notNull(result);
+        ReconciliationResult recResult = result.getReconciliationResult();
+        Assert.notNull(recResult);
+        if (recResult.noPeopleFound()){
+            Assert.notNull(result.getTargetObject(),"Reconciliation did not return a person.");
+            Assert.isInstanceOf(Person.class, result.getTargetObject(),"Reconciliation did not return a person.");
+            Assert.notNull(((Person)result.getTargetObject()).getCurrentActivationKey(),"No activation key found");
+            Assert.notEmpty(((Person)result.getTargetObject()).getIdentifiers(),"No identifiers found for Person.");
+        }
+    }
+
+    /**
+     * Tests if reconciliation result is EXACT that person is returned.
+     */
+    @Test
+    public void testReconciliationResultExactMatch() {
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockActivationService(personRepository), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_EXACT));
+        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        Assert.notNull(result);
+        Assert.notNull(result.getReconciliationResult());
+        Assert.notNull(result.getTargetObject(),"Reconciliation new person did not return a person.");
+        Assert.isInstanceOf(Person.class, result.getTargetObject(),"Reconciliation exact match did not return a person.");
+    }
+
+     /**
+     * Tests if reconciliation result is MAYBE that a person is not returned.
+     */
+    @Test
+    public void testReconciliationResultMaybeMatch() {
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockActivationService(personRepository), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_MAYBE));
+        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        Assert.notNull(result);
+        Assert.notNull(result.getReconciliationResult());
+        Assert.notNull(result.getTargetObject(),"Reconciliation did not return a target object.");
+        Assert.isInstanceOf(ReconciliationCriteria.class, result.getTargetObject(),"Reconciliation Maybe should return reconciliation criteria.");
+    }
+
+     /**
+     * Tests if old reconciliationResult provided that person is returned, activation key is returned, identifiers created.
+     */
+    @Test
+    public void testReconciliationResultOldReconciliationResultProvided() {
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockActivationService(personRepository), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_MAYBE));
+        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        Assert.notNull(result);
+        Assert.notNull(result.getReconciliationResult());
+        result = this.personService.addPerson(reconciliationCriteria, result.getReconciliationResult());
+        //check person was added.
+        Assert.notNull(result.getTargetObject(),"Reconciliation did not return a person.");
+        Assert.isInstanceOf(Person.class, result.getTargetObject(),"Reconciliation did not return a person.");
+        Assert.notNull(((Person)result.getTargetObject()).getCurrentActivationKey(),"No activation key found");
+        Assert.notEmpty(((Person)result.getTargetObject()).getIdentifiers(),"No identifiers found for Person.");
+    }
+
 
 }
