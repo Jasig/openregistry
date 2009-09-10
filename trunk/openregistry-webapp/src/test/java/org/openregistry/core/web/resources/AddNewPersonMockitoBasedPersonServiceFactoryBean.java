@@ -73,9 +73,9 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         //RcpId
         Identifier mockRcpId = mock(Identifier.class);
         IdentifierType mockRcpIdType = mock(IdentifierType.class);
-        when(mockNetIdType.getName()).thenReturn("RCPID");
-        when(mockNetId.getType()).thenReturn(mockRcpIdType);
-        when(mockNetId.getValue()).thenReturn("test-rcpid");
+        when(mockRcpIdType.getName()).thenReturn("RCPID");
+        when(mockRcpId.getType()).thenReturn(mockRcpIdType);
+        when(mockRcpId.getValue()).thenReturn("test-rcpid");
 
         return new HashSet<Identifier>(Arrays.asList(mockNetId, mockRcpId));
 
