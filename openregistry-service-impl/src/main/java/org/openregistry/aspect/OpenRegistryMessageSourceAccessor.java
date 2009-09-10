@@ -16,6 +16,7 @@
 package org.openregistry.aspect;
 
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.util.Assert;
@@ -30,14 +31,19 @@ import org.springframework.util.Assert;
 
 public final class OpenRegistryMessageSourceAccessor implements MessageSourceAware {
 
-private static MessageSourceAccessor MESSAGE_SOURCE_ACCESSOR;
+    private static MessageSourceAccessor MESSAGE_SOURCE_ACCESSOR;
+
+    static {
+        final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("org/openregistry/core/messages/log");
+        MESSAGE_SOURCE_ACCESSOR = new MessageSourceAccessor(messageSource);
+    }
 
     public void setMessageSource(final MessageSource messageSource) {
         MESSAGE_SOURCE_ACCESSOR = new MessageSourceAccessor(messageSource);
     }
 
     public static MessageSourceAccessor getMessageSourceAccessor() {
-        Assert.notNull(MESSAGE_SOURCE_ACCESSOR, "the OpenRegistryMessageSourceAccessor#MESSAGE_SOURCE_ACCESSOR is null.  This means one was not set.  Please call OpenRegistryMessageSourceAccessor.setMessageSource(...).");
         return MESSAGE_SOURCE_ACCESSOR;
     }
 }
