@@ -33,7 +33,6 @@ import org.openregistry.core.service.reconciliation.Reconciler;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.util.Assert;
 
 import java.util.Date;
 import java.util.Calendar;
@@ -104,9 +103,9 @@ public class DefaultPersonServiceTests {
     @Test
     public void testReconciliationResult() {
         ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
-        Assert.notNull(result);
+        assertNotNull(result);
         ReconciliationResult recResult = result.getReconciliationResult();
-        Assert.notNull(recResult);
+        assertNotNull(recResult);
     }
 
     /**
@@ -126,15 +125,13 @@ public class DefaultPersonServiceTests {
     public void testReconciliationResultNoneReturnsPerson() {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockActivationService(personRepository), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_NONE));
         ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
-        Assert.notNull(result);
+        assertNotNull(result);
         ReconciliationResult recResult = result.getReconciliationResult();
-        Assert.notNull(recResult);
-        if (recResult.noPeopleFound()){
-            Assert.notNull(result.getTargetObject(),"Reconciliation did not return a person.");
-            Assert.isInstanceOf(Person.class, result.getTargetObject(),"Reconciliation did not return a person.");
-            Assert.notNull(((Person)result.getTargetObject()).getCurrentActivationKey(),"No activation key found");
-            Assert.notEmpty(((Person)result.getTargetObject()).getIdentifiers(),"No identifiers found for Person.");
-        }
+        assertNotNull(recResult);
+        assertNotNull(result.getTargetObject());
+        assertSame(result.getTargetObject().getClass(),org.openregistry.core.domain.MockPerson.class);
+        assertNotNull(((Person)result.getTargetObject()).getCurrentActivationKey());
+        assertFalse(((Person)result.getTargetObject()).getIdentifiers().isEmpty());
     }
 
     /**
@@ -144,10 +141,10 @@ public class DefaultPersonServiceTests {
     public void testReconciliationResultExactMatch() {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockActivationService(personRepository), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_EXACT));
         ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
-        Assert.notNull(result);
-        Assert.notNull(result.getReconciliationResult());
-        Assert.notNull(result.getTargetObject(),"Reconciliation new person did not return a person.");
-        Assert.isInstanceOf(Person.class, result.getTargetObject(),"Reconciliation exact match did not return a person.");
+        assertNotNull(result);
+        assertNotNull(result.getReconciliationResult());
+        assertNotNull(result.getTargetObject());
+        assertSame(result.getTargetObject().getClass(),org.openregistry.core.domain.MockPerson.class);
     }
 
      /**
@@ -157,11 +154,11 @@ public class DefaultPersonServiceTests {
     public void testReconciliationResultMaybeMatch() {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockActivationService(personRepository), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_MAYBE));
         ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
-        Assert.notNull(result);
-        Assert.notNull(result.getReconciliationResult());
-        Assert.notNull(result.getTargetObject(),"Reconciliation did not return a target object.");
-        Assert.isInstanceOf(ReconciliationCriteria.class, result.getTargetObject(),"Reconciliation Maybe should return reconciliation criteria.");
-    }
+        assertNotNull(result);
+        assertNotNull(result.getReconciliationResult());
+        assertNotNull(result.getTargetObject());
+        assertSame(result.getTargetObject().getClass(),org.openregistry.core.domain.sor.MockReconciliationCriteria.class);
+     }
 
      /**
      * Tests if old reconciliationResult provided that person is returned, activation key is returned, identifiers created.
@@ -170,14 +167,14 @@ public class DefaultPersonServiceTests {
     public void testReconciliationResultOldReconciliationResultProvided() {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockActivationService(personRepository), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_MAYBE));
         ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
-        Assert.notNull(result);
-        Assert.notNull(result.getReconciliationResult());
+        assertNotNull(result);
+        assertNotNull(result.getReconciliationResult());
         result = this.personService.addPerson(reconciliationCriteria, result.getReconciliationResult());
         //check person was added.
-        Assert.notNull(result.getTargetObject(),"Reconciliation did not return a person.");
-        Assert.isInstanceOf(Person.class, result.getTargetObject(),"Reconciliation did not return a person.");
-        Assert.notNull(((Person)result.getTargetObject()).getCurrentActivationKey(),"No activation key found");
-        Assert.notEmpty(((Person)result.getTargetObject()).getIdentifiers(),"No identifiers found for Person.");
+        assertNotNull(result.getTargetObject());
+        assertSame(result.getTargetObject().getClass(),org.openregistry.core.domain.MockPerson.class);
+        assertNotNull(((Person)result.getTargetObject()).getCurrentActivationKey());
+        assertFalse(((Person)result.getTargetObject()).getIdentifiers().isEmpty());
     }
 
     //TODO need to add test cases for conditionally required fields.
