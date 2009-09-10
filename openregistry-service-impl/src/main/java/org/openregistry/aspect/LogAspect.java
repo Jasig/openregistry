@@ -48,7 +48,7 @@ public class LogAspect {
             if (log.isTraceEnabled()) {
                 final Object[] args = proceedingJoinPoint.getArgs();
                 if (args == null || args.length == 0) {
-                    if (msa != null) log.trace(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, ""}, Locale.getDefault()));
+                    log.trace(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, ""}, Locale.getDefault()));
                 } else {
                     final StringBuilder stringBuilder = new StringBuilder();
 
@@ -57,7 +57,7 @@ public class LogAspect {
                     }
 
                     final String argString = stringBuilder.substring(0, stringBuilder.length()-3);
-                    if (msa != null) log.trace(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, argString}, Locale.getDefault()));
+                    log.trace(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, argString}, Locale.getDefault()));
                 }
 
             }
@@ -65,7 +65,7 @@ public class LogAspect {
             return returnVal;
         } finally {
             if (log.isTraceEnabled()) {
-                if (msa != null) log.trace(msa.getMessage(TRACE_METHOD_END, new Object[] {methodName, (returnVal != null ? returnVal.toString() : "null")}, Locale.getDefault()));
+                log.trace(msa.getMessage(TRACE_METHOD_END, new Object[] {methodName, (returnVal != null ? returnVal.toString() : "null")}, Locale.getDefault()));
             }
         }
     }
@@ -81,13 +81,13 @@ public class LogAspect {
             if (log.isInfoEnabled()) {
                 final Object arg0  = proceedingJoinPoint.getArgs()[0];
                 final String argumentString = arg0 == null ? "null" : arg0.toString();
-                if (msa != null) log.info(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, argumentString}, Locale.getDefault()));
+                log.info(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, argumentString}, Locale.getDefault()));
             }
             retVal = proceedingJoinPoint.proceed();
             return retVal;
         } finally {
             if (log.isInfoEnabled()) {
-                if (msa != null) log.info(msa.getMessage(TRACE_METHOD_END, new Object[]{methodName, (retVal == null ? "null" : retVal.toString())}, Locale.getDefault()));
+                log.info(msa.getMessage(TRACE_METHOD_END, new Object[]{methodName, (retVal == null ? "null" : retVal.toString())}, Locale.getDefault()));
             }
         }
     }
