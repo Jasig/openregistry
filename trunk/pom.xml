@@ -120,6 +120,7 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- could change this to simple instead of nop -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
