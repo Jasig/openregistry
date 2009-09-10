@@ -48,7 +48,7 @@ public class LogAspect {
             if (log.isTraceEnabled()) {
                 final Object[] args = proceedingJoinPoint.getArgs();
                 if (args == null || args.length == 0) {
-                    log.trace(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, ""}, Locale.getDefault()));
+                    if (msa != null) log.trace(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, ""}, Locale.getDefault()));
                 } else {
                     final StringBuilder stringBuilder = new StringBuilder();
 
@@ -57,7 +57,7 @@ public class LogAspect {
                     }
 
                     final String argString = stringBuilder.substring(0, stringBuilder.length()-3);
-                    log.trace(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, argString}, Locale.getDefault()));
+                    if (msa != null) log.trace(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, argString}, Locale.getDefault()));
                 }
 
             }
@@ -65,7 +65,7 @@ public class LogAspect {
             return returnVal;
         } finally {
             if (log.isTraceEnabled()) {
-                log.trace(msa.getMessage(TRACE_METHOD_END, new Object[] {methodName, (returnVal != null ? returnVal.toString() : "null")}, Locale.getDefault()));
+                if (msa != null) log.trace(msa.getMessage(TRACE_METHOD_END, new Object[] {methodName, (returnVal != null ? returnVal.toString() : "null")}, Locale.getDefault()));
             }
         }
     }
