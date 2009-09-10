@@ -37,6 +37,7 @@
             <sec:filter-chain pattern="/images/**" filters="none" />
             <sec:filter-chain pattern="/js/**" filters="none" />
             <sec:filter-chain pattern="/css/**" filters="none" />
+            <sec:filter-chain pattern="/j_spring_cas_security_check" filters="httpSessionContextIntegrationFilter,logoutFilter,casProcessingFilter,securityContextHolderAwareRequestFilter,casExceptionTranslationFilter,filterInvocationInterceptor" />
             <sec:filter-chain pattern="/**/*.htm*" filters="httpSessionContextIntegrationFilter,logoutFilter,casProcessingFilter,securityContextHolderAwareRequestFilter,casExceptionTranslationFilter,filterInvocationInterceptor"/>
             <sec:filter-chain pattern="/**/people/**/activation*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
             <sec:filter-chain pattern="/**/people/**/activation/*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
@@ -135,7 +136,8 @@
     <sec:user-service id="casUserService">
         <sec:user name="battags" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
         <sec:user name="nmond" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-        <sec:user name="dsteiner" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+        <sec:user name="steiner" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+        <sec:user name="dkopylen" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
     </sec:user-service>
 
     <!-- #########################################################################################
