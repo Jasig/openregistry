@@ -70,6 +70,7 @@ public class LogAspect {
         }
     }
 
+
     @Around("(within(org.openregistry.core.service.PersonService+) && (execution (* *(..))))")
     public Object logInfoPersonService(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object retVal = null;
@@ -80,20 +81,22 @@ public class LogAspect {
             if (log.isInfoEnabled()) {
                 final Object arg0  = proceedingJoinPoint.getArgs()[0];
                 final String argumentString = arg0 == null ? "null" : arg0.toString();
-                log.info(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, argumentString}, Locale.getDefault()));
+                if (msa != null) log.info(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, argumentString}, Locale.getDefault()));
             }
             retVal = proceedingJoinPoint.proceed();
             return retVal;
         } finally {
             if (log.isInfoEnabled()) {
-                log.info(msa.getMessage(TRACE_METHOD_END, new Object[]{methodName, (retVal == null ? "null" : retVal.toString())}, Locale.getDefault()));
+                if (msa != null) log.info(msa.getMessage(TRACE_METHOD_END, new Object[]{methodName, (retVal == null ? "null" : retVal.toString())}, Locale.getDefault()));
             }
         }
     }
+
 
     @AfterThrowing(pointcut = "(execution (* org.openregistry.core..*.*(..)))", throwing="throwable")
     public void logErrorFromThrownException(final JoinPoint joinPoint, final Throwable throwable) {
         final Logger log = LoggerFactory.getLogger(joinPoint.getTarget().getClass());
         log.error(throwable.getMessage(),throwable);
     }
+
 }
