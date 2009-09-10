@@ -18,7 +18,7 @@ package org.openregistry.aspect;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 /**
  * Makes the message source accessor available to any class that requires it via a static getter.
@@ -37,6 +37,7 @@ private static MessageSourceAccessor MESSAGE_SOURCE_ACCESSOR;
     }
 
     public static MessageSourceAccessor getMessageSourceAccessor() {
+        Assert.notNull(MESSAGE_SOURCE_ACCESSOR, "the OpenRegistryMessageSourceAccessor#MESSAGE_SOURCE_ACCESSOR is null.  This means one was not set.  Please call OpenRegistryMessageSourceAccessor.setMessageSource(...).");
         return MESSAGE_SOURCE_ACCESSOR;
     }
 }
