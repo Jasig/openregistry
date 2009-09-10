@@ -106,9 +106,9 @@ public class MockSorPerson extends Entity implements SorPerson {
     }
 
     public Name addName() {
-        final MockSorName jpaSorName = new MockSorName(this);
-        this.names.add(jpaSorName);
-        return jpaSorName;
+        final MockSorName sorName = new MockSorName(this);
+        this.names.add(sorName);
+        return sorName;
     }
 
     public void addName(Name name) {
