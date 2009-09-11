@@ -20,6 +20,9 @@
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/test/resources/hibernate.cfg.xml" />
       </configuration>
     </facet>
+    <facet type="Spring" name="Spring">
+      <configuration />
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
@@ -53,15 +56,23 @@
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.expression:3.0.0.M4" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-envers:3.5.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-core:3.5.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: antlr:antlr:2.7.7" level="project" />
+    <orderEntry type="library" exported="" name="Maven: dom4j:dom4j:1.6.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: javax.transaction:jta:1.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-commons-annotations:3.5.0-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-entitymanager:3.5.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-tools:3.2.0.ga" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.beanshell:bsh:2.0b4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: freemarker:freemarker:2.3.8" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.hibernate:jtidy:r8-20060801" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.hibernate:hibernate-annotations:3.5.0-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: javassist:javassist:3.8.0.GA" level="project" />
     <orderEntry type="module" module-name="openregistry-service-impl" />
     <orderEntry type="library" name="Maven: org.javalid:javalid-spring:1.2" level="project" />
     <orderEntry type="library" name="Maven: juel:juel-impl:2.1.1-rc4" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:org.springframework.jdbc:3.0.0.M4" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.5.8" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-log4j12:1.5.8" level="project" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.14" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:org.springframework.web.servlet:3.0.0.M4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:org.springframework.web:3.0.0.M4" level="project" />
@@ -86,11 +97,11 @@
     <orderEntry type="library" name="Maven: commons-pool:commons-pool:1.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:org.springframework.test:3.0.0.M4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:org.springframework.orm:3.0.0.M4" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:org.springframework.jdbc:3.0.0.M4" level="project" />
     <orderEntry type="library" name="Maven: hsqldb:hsqldb:1.8.0.7" level="project" />
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:antlr:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:stringtemplate:3.1-b1" level="project" />
-    <orderEntry type="library" name="Maven: antlr:antlr:2.7.7" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>

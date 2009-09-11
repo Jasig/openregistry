@@ -48,19 +48,32 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         Set<Identifier> ids = buildMockIdentifiers();
         when(mockPerson.getIdentifiers()).thenReturn(ids);
 
-        //Stubbing no people found result
+        //Stubbing 'no people' found result
         final ReconciliationResult mockNoPeopleFoundReconciliationResult = mock(ReconciliationResult.class);
         when(mockNoPeopleFoundReconciliationResult.noPeopleFound()).thenReturn(true);
 
-        //Stubbing no people found service execution result
+        //Stubbing 'person exists' result
+        final ReconciliationResult mockPersonAlreadyExistsReconciliationResult = mock(ReconciliationResult.class);
+        when(mockPersonAlreadyExistsReconciliationResult.noPeopleFound()).thenReturn(false);
+        when(mockPersonAlreadyExistsReconciliationResult.personAlreadyExists()).thenReturn(true);
+
+        //Stubbing 'no people found' service execution result
         final ServiceExecutionResult mockNoPeopleFoundServiceExecutionResult = mock(ServiceExecutionResult.class);
         when(mockNoPeopleFoundServiceExecutionResult.succeeded()).thenReturn(true);
         when(mockNoPeopleFoundServiceExecutionResult.getReconciliationResult()).thenReturn(mockNoPeopleFoundReconciliationResult);
         when(mockNoPeopleFoundServiceExecutionResult.getTargetObject()).thenReturn(mockPerson);
 
+        //Stubbing 'person exists' service execution result
+        final ServiceExecutionResult mockPersonAlreadyExistsExecutionResult = mock(ServiceExecutionResult.class);
+        when(mockPersonAlreadyExistsExecutionResult.succeeded()).thenReturn(true);
+        when(mockPersonAlreadyExistsExecutionResult.getReconciliationResult()).thenReturn(mockPersonAlreadyExistsReconciliationResult);
+        when(mockPersonAlreadyExistsExecutionResult.getTargetObject()).thenReturn(mockPerson);
+
         //Stubbing PersonService
         final PersonService ps = mock(PersonService.class);
-        when(ps.addPerson(argThat(new IsNewPerson()), (ReconciliationResult) isNull())).thenReturn(mockNoPeopleFoundServiceExecutionResult);
+        //stubbing different reconciliation scenarios
+        when(ps.addPerson(argThat(new IsNewPersonMatch()), (ReconciliationResult) isNull())).thenReturn(mockNoPeopleFoundServiceExecutionResult);
+        when(ps.addPerson(argThat(new IsExistingPersonMatch()), (ReconciliationResult) isNull())).thenReturn(mockPersonAlreadyExistsExecutionResult);
         this.mockPersonService = ps;
     }
 
@@ -97,11 +110,27 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
     }
 
 
-    private static class IsNewPerson extends ArgumentMatcher<ReconciliationCriteria> {
+    private static class IsNewPersonMatch extends ArgumentMatcher<ReconciliationCriteria> {
 
         @Override
         public boolean matches(Object criteria) {
-            return "new".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
+            return (criteria == null) ? false : "new".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
+        }
+    }
+
+    private static class IsExistingPersonMatch extends ArgumentMatcher<ReconciliationCriteria> {
+
+        @Override
+        public boolean matches(Object criteria) {
+            return (criteria == null) ? false : "existing".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
+        }
+    }
+
+    private static class IsMultiplePeopleMatch extends ArgumentMatcher<ReconciliationCriteria> {
+
+        @Override
+        public boolean matches(Object criteria) {
+            return (criteria == null) ? false : "multiple".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
         }
     }
 }
