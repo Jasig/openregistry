@@ -182,6 +182,9 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
                     <includes>
                         <include>**/*.java</include>
                     </includes>
+                    <excludes>
+                        <exclude>**/Mock*.java</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
