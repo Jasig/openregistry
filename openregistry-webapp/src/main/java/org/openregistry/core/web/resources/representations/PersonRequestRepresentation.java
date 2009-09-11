@@ -120,6 +120,15 @@ public class PersonRequestRepresentation {
     /**
      * Factory method for use only for mocking purposes in tests
      *
+     * @return
+     */
+    public static PersonRequestRepresentation forExistingPerson() {
+        return newRepresentationWithRequiredDataAndSsn("existing");
+    }
+
+    /**
+     * Factory method for use only for mocking purposes in tests
+     *
      * @param ssn
      * @return
      */

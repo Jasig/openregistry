@@ -172,7 +172,8 @@ public final class PeopleResource {
             }
             else if (result.getReconciliationResult().personAlreadyExists()) {
                 uri = buildPersonResourceUri((Person) result.getTargetObject());
-                response = Response.temporaryRedirect(uri).build();
+                //HTTP 303 ("See other - with GET")
+                response = Response.seeOther(uri).build();
                 logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
             }
         }

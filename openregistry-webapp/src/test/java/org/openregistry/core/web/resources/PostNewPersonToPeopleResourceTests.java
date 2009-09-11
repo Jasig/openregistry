@@ -58,4 +58,12 @@ public class PostNewPersonToPeopleResourceTests extends JerseyTestSupport {
         assertNotNull(assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(201, RESOURCE_UNDER_TEST_URI, POST_HTTP_METHOD,
                 PersonRequestRepresentation.forNewPerson()).getHeaders().getFirst("Location"));
     }
+
+    @Test
+    public void addingExistingPerson() {
+        //Currently, in the existing person scenario, the 303 gets redirected (by Client.handle()) to the URI which does not exist in the test
+        //hence the 404, here.
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(404, RESOURCE_UNDER_TEST_URI, POST_HTTP_METHOD,
+                PersonRequestRepresentation.forExistingPerson());
+    }
 }

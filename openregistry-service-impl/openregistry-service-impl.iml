@@ -33,9 +33,7 @@
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.asm:3.0.0.M4" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.context:3.0.0.M4" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.expression:3.0.0.M4" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.jdbc:3.0.0.M4" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.slf4j:jcl-over-slf4j:1.5.8" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-log4j12:1.5.8" level="project" />
     <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.14" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web.servlet:3.0.0.M4" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web:3.0.0.M4" level="project" />
