@@ -135,10 +135,9 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier){
+    public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier) {
         try {
-          SorPerson sorPerson = this.personRepository.findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
-          return sorPerson;
+          return this.personRepository.findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
         } catch (Exception e){
           return null;
         }
@@ -164,8 +163,8 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson) {
         try {
-          updateCalculatedPersonOnDeleteOfSor(sorPerson);
-          this.personRepository.deleteSorPerson(sorPerson);
+            updateCalculatedPersonOnDeleteOfSor(sorPerson);
+            this.personRepository.deleteSorPerson(sorPerson);
             return true;
         } catch (final Exception e) {
             logger.error(e.getMessage(), e);
@@ -214,7 +213,7 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public boolean deleteSorRole(SorPerson sorPerson, SorRole sorRole, String terminationReason) throws IllegalArgumentException {
+    public boolean deleteSorRole(final SorPerson sorPerson, final SorRole sorRole, final String terminationReason) throws IllegalArgumentException {
         try {
             final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
             if (person == null) {
@@ -261,7 +260,6 @@ public class DefaultPersonService implements PersonService {
 
     @Transactional
     public ServiceExecutionResult addPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult oldReconciliationResult) throws IllegalArgumentException {
-        //logger.info("In personService.addPerson: entered following for gender: "+ reconciliationCriteria.getPerson().getGender());
         Assert.notNull(reconciliationCriteria,"reconciliationCriteria cannot be null");
         final List<ValidationError> validationErrors = validateAndConvert(reconciliationCriteria);
         final String serviceName = "PersonService.addPerson";
@@ -278,8 +276,7 @@ public class DefaultPersonService implements PersonService {
             } else if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
             	return new ReconciliationServiceExecutionResult(serviceName, magicUpdate(reconciliationCriteria, result), result);
             }
-            //logger.info("In personService.addPerson: reconciliation result: "+ result.getReconciliationType().toString());
-            // ReconciliationResult.ReconciliationType.MAYBE
+
             return new ReconciliationServiceExecutionResult(serviceName, reconciliationCriteria, result);
         }
         // Here if we were called a second time.  This means even though we found partial matches, this is a new person.
@@ -312,10 +309,6 @@ public class DefaultPersonService implements PersonService {
             personMatches.add(p);
         }
 
-        for (int i=0; i<personMatches.size(); i++){
-            logger.info("PersonMatch: "+ i + personMatches.get(i).getPerson().getPreferredName());
-        }
-
         return personMatches;
     }
 
@@ -323,7 +316,7 @@ public class DefaultPersonService implements PersonService {
         final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
 
         if (person == null) {
-            throw new IllegalStateException("No calculated preson for SorPerson");
+            throw new IllegalStateException("No calculated person for SorPerson");
         }
 
         final List<SorRole> sorRoles = new ArrayList<SorRole>(sorPerson.getRoles());
@@ -369,7 +362,6 @@ public class DefaultPersonService implements PersonService {
      */
     protected List<ValidationError> validateAndConvert(final Object object) {
         final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object, JvGroup.DEFAULT_GROUP, "", true, 5);
-        //logger.info("In personService.validateAndConvert: size of messages: "+ validationMessages.size());
         return convertToValidationErrors(validationMessages);
     }
 
