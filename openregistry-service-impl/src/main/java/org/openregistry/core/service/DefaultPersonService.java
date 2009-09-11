@@ -69,9 +69,6 @@ public class DefaultPersonService implements PersonService {
     @Autowired(required = true)
     private ReferenceRepository referenceRepository;
 
-    @Autowired(required = true)
-    private ActivationService activationService;
-
     @Autowired(required = false)
     private AnnotationValidator<Object> annotationValidator = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
 
@@ -91,10 +88,9 @@ public class DefaultPersonService implements PersonService {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final ActivationService activationService, final IdentifierGenerator identifierGenerator, @Qualifier("person") final ObjectFactory<Person> personObjectFactory, final Reconciler reconciler) {
+    public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, @Qualifier("person") final ObjectFactory<Person> personObjectFactory, final Reconciler reconciler) {
         this.personRepository = personRepository;
         this.referenceRepository = referenceRepository;
-        this.activationService = activationService;
         this.identifierGenerator = identifierGenerator;
         this.personObjectFactory = personObjectFactory;
         this.reconciler = reconciler;
@@ -314,10 +310,7 @@ public class DefaultPersonService implements PersonService {
 
     protected void updateCalculatedPersonOnDeleteOfSor(final SorPerson sorPerson) {
         final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
-
-        if (person == null) {
-            throw new IllegalStateException("No calculated person for SorPerson");
-        }
+        Assert.notNull(person, "Calculated Person expected for System of Record Person.  Expected Id: [" + sorPerson.getPersonId() + "]");
 
         final List<SorRole> sorRoles = new ArrayList<SorRole>(sorPerson.getRoles());
         for (final SorRole sorRole : sorRoles) {
@@ -388,17 +381,15 @@ public class DefaultPersonService implements PersonService {
      * @return the newly saved Person.
      */
     protected Person magic(final ReconciliationCriteria reconciliationCriteria) {
-        SorPerson sorPerson = reconciliationCriteria.getPerson();
-
-        if (!StringUtils.hasText(sorPerson.getSorId())) {
-            sorPerson.setSorId(this.identifierGenerator.generateNextString());
+        if (!StringUtils.hasText(reconciliationCriteria.getPerson().getSorId())) {
+            reconciliationCriteria.getPerson().setSorId(this.identifierGenerator.generateNextString());
         }
 
         // Save Sor Person
-        sorPerson = this.personRepository.saveSorPerson(sorPerson);
+        final SorPerson sorPerson = this.personRepository.saveSorPerson(reconciliationCriteria.getPerson());
 
         // Construct actual person from Sor Information
-        Person person = constructPersonFromSorData(sorPerson);
+        final Person person = constructPersonFromSorData(sorPerson);
 
         // Now connect the SorPerson to the actual person
         sorPerson.setPersonId(person.getId());
@@ -408,7 +399,7 @@ public class DefaultPersonService implements PersonService {
 
     protected Person constructPersonFromSorData(SorPerson sorPerson){
         // Construct actual person from Sor Information
-        Person person = personObjectFactory.getObject();
+        final Person person = personObjectFactory.getObject();
         person.setDateOfBirth(sorPerson.getDateOfBirth());
         person.setGender(sorPerson.getGender());
 
@@ -430,29 +421,22 @@ public class DefaultPersonService implements PersonService {
             ia.addIdentifierTo(sorPerson, person);
         }
 
-        person = this.personRepository.savePerson(person);
-        this.activationService.generateActivationKey(person);
-
-        return person;        
+        return this.personRepository.savePerson(person);
     }
     
     protected Person magicUpdate(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
-    	if (result.getMatches().size() != 1) {
-        	throw new IllegalStateException("ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
-        }
-        Person person = result.getMatches().iterator().next().getPerson();
-        
-    	SorPerson sorPerson = reconciliationCriteria.getPerson();
+        Assert.isTrue(result.getMatches().size() == 1, "ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
 
-        String sorIdentifier = sorPerson.getSourceSorIdentifier();
-        SorPerson registrySorPerson = null;
+        final Person person = result.getMatches().iterator().next().getPerson();
+        final SorPerson sorPerson = reconciliationCriteria.getPerson();
+        final String sorIdentifier = sorPerson.getSourceSorIdentifier();
+
         try {
-            registrySorPerson = personRepository.findByPersonIdAndSorIdentifier(person.getId(),sorIdentifier);
-        } catch (Exception ex) {
-        }
-        if (registrySorPerson != null) {
+            final SorPerson registrySorPerson = personRepository.findByPersonIdAndSorIdentifier(person.getId(),sorIdentifier);
+
+            if (registrySorPerson != null) {
             //TODO update the registry sor person record with the changes from sorPerson
-            sorPerson = this.personRepository.saveSorPerson(registrySorPerson);
+            this.personRepository.saveSorPerson(registrySorPerson);
         } else {
             if (!StringUtils.hasText(sorPerson.getSorId())) {
                 sorPerson.setSorId(this.identifierGenerator.generateNextString());
@@ -460,7 +444,9 @@ public class DefaultPersonService implements PersonService {
             // Now connect the SorPerson to the actual person
             sorPerson.setPersonId(person.getId());
             // Save Sor Person
-            sorPerson = this.personRepository.saveSorPerson(sorPerson);
+            this.personRepository.saveSorPerson(sorPerson);
+        }
+        } catch (Exception ex) {
         }
         
 		return person;
@@ -475,12 +461,10 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public ServiceExecutionResult updateSorPerson(SorPerson sorPerson) {
         final String serviceName = "PersonService.updateSorPerson";
-        logger.info("PersonService:updateSorPerson:");
 
         final List<ValidationError> validationErrors = validateAndConvert(sorPerson);
 
         if (!validationErrors.isEmpty()) {
-            logger.info("PersonService:updateSorPerson: validation errors found");
             return new GeneralServiceExecutionResult(serviceName, sorPerson, validationErrors);
         }
 
@@ -614,23 +598,22 @@ public class DefaultPersonService implements PersonService {
      * Remove role from prc person losing role
      */
     protected void updateCalculatedPersonsOnMoveOfSor(final Person toPerson, final Person fromPerson, final SorPerson sorPerson) {
+        Assert.notNull(toPerson, "toPerson cannot be null");
+        Assert.notNull(fromPerson, "fromPerson cannot be null");
         logger.info("UpdateCalculated: recalculating person data for move.");
-        if (toPerson == null || fromPerson == null) {
-            throw new IllegalStateException("No calculated person for SorPerson");
-        }
 
-        List<Role> rolesToDelete = new ArrayList<Role>();
+        final List<Role> rolesToDelete = new ArrayList<Role>();
 
-        List<SorRole> sorRoles = new ArrayList<SorRole>(sorPerson.getRoles());
-        for (SorRole sorRole : sorRoles) {
-            for (Role role : fromPerson.getRoles()) {
+        final List<SorRole> sorRoles = new ArrayList<SorRole>(sorPerson.getRoles());
+        for (final SorRole sorRole : sorRoles) {
+            for (final Role role : fromPerson.getRoles()) {
                 if (sorRole.getId().equals(role.getSorRoleId())) {
                     toPerson.addRole(sorRole.getRoleInfo(),sorRole);
                     rolesToDelete.add(role);
                 }
             }
         }
-        for (Role role : rolesToDelete){
+        for (final Role role : rolesToDelete){
             fromPerson.removeRole(role);
         }
 
