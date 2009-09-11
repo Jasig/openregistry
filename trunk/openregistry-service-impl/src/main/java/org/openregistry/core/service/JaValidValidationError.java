@@ -29,6 +29,11 @@ public class JaValidValidationError implements ValidationError {
 
     private final ValidationMessage validationMessage;
 
+    //Default ctor used solely for testing
+    public JaValidValidationError() {
+        this(null);
+    }
+
     public JaValidValidationError(final ValidationMessage validationMessage) {
         this.validationMessage = validationMessage;
     }

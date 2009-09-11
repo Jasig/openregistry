@@ -26,10 +26,13 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
+import org.openregistry.core.service.ValidationError;
+import org.openregistry.core.service.JaValidValidationError;
 
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * FactoryBean to create Mockito-based mocks of <code>PersonService</code> and related collaborators needed to test
@@ -69,11 +72,19 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         when(mockPersonAlreadyExistsExecutionResult.getReconciliationResult()).thenReturn(mockPersonAlreadyExistsReconciliationResult);
         when(mockPersonAlreadyExistsExecutionResult.getTargetObject()).thenReturn(mockPerson);
 
+        //Stubbing service execution result with validation errors
+        final ServiceExecutionResult mockValidationErrorsExecutionResult = mock(ServiceExecutionResult.class);
+        when(mockValidationErrorsExecutionResult.succeeded()).thenReturn(false);
+        when(mockValidationErrorsExecutionResult.getValidationErrors())
+                .thenReturn(new ArrayList<ValidationError>(Arrays.asList(new JaValidValidationError())));
+
         //Stubbing PersonService
         final PersonService ps = mock(PersonService.class);
         //stubbing different reconciliation scenarios
         when(ps.addPerson(argThat(new IsNewPersonMatch()), (ReconciliationResult) isNull())).thenReturn(mockNoPeopleFoundServiceExecutionResult);
         when(ps.addPerson(argThat(new IsExistingPersonMatch()), (ReconciliationResult) isNull())).thenReturn(mockPersonAlreadyExistsExecutionResult);
+        when(ps.addPerson(argThat(new HasValidationErrors()), (ReconciliationResult) isNull())).thenReturn(mockValidationErrorsExecutionResult);
+        
         this.mockPersonService = ps;
     }
 
@@ -131,6 +142,14 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         @Override
         public boolean matches(Object criteria) {
             return (criteria == null) ? false : "multiple".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
+        }
+    }
+
+    private static class HasValidationErrors extends ArgumentMatcher<ReconciliationCriteria> {
+
+        @Override
+        public boolean matches(Object criteria) {
+            return (criteria == null) ? false : "errors".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
         }
     }
 }
