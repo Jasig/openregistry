@@ -109,16 +109,6 @@ public class DefaultPersonServiceTests {
     }
 
     /**
-     * Tests that reconciliationCriteria must provide Source Sor Id.
-
-    @Test
-    public void testSourceSorIdRequired() {
-        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
-        Assert.notEmpty(result.getValidationErrors());
-    }
-   */
-
-    /**
      * Tests if reconciliation result is NONE that person is returned, activation key is returned, identifiers created.
      */
     @Test
@@ -181,5 +171,14 @@ public class DefaultPersonServiceTests {
 
     //TODO field level test cases need to be added to the integration tests since annotations are not available in Mocked classes at the api level.
 
+    /** TODO need to add this to integration tests
+     * Tests that reconciliationCriteria must provide Source Sor Id.
+
+    @Test
+    public void testSourceSorIdRequired() {
+        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        Assert.notEmpty(result.getValidationErrors());
+    }
+   */
 
 }
