@@ -129,6 +129,24 @@ public class PersonRequestRepresentation {
     /**
      * Factory method for use only for mocking purposes in tests
      *
+     * @return
+     */
+    public static PersonRequestRepresentation withValidationErrors() {
+        return newRepresentationWithRequiredDataAndSsn("errors");
+    }
+
+    /**
+     * Factory method for use only for mocking purposes in tests
+     *
+     * @return
+     */
+    public static PersonRequestRepresentation forMultiplePeople() {
+        return newRepresentationWithRequiredDataAndSsn("multiple");
+    }
+
+    /**
+     * Factory method for use only for mocking purposes in tests
+     *
      * @param ssn
      * @return
      */
