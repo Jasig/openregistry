@@ -60,6 +60,10 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         when(mockPersonAlreadyExistsReconciliationResult.noPeopleFound()).thenReturn(false);
         when(mockPersonAlreadyExistsReconciliationResult.personAlreadyExists()).thenReturn(true);
 
+        //Stubbing 'multiple people found' result
+        final ReconciliationResult mockMultiplePeopleFoundReconciliationResult = mock(ReconciliationResult.class);
+        when(mockMultiplePeopleFoundReconciliationResult.multiplePeopleFound()).thenReturn(true);
+
         //Stubbing 'no people found' service execution result
         final ServiceExecutionResult mockNoPeopleFoundServiceExecutionResult = mock(ServiceExecutionResult.class);
         when(mockNoPeopleFoundServiceExecutionResult.succeeded()).thenReturn(true);
@@ -78,12 +82,24 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         when(mockValidationErrorsExecutionResult.getValidationErrors())
                 .thenReturn(new ArrayList<ValidationError>(Arrays.asList(new JaValidValidationError())));
 
+        //Stubbing 'multiple people found' service execution result with validation errors
+        final ServiceExecutionResult mockMultiplePeopleFoundExecutionResult = mock(ServiceExecutionResult.class);
+        when(mockMultiplePeopleFoundExecutionResult.succeeded()).thenReturn(false);
+        //No validation errors - empty list
+        when(mockMultiplePeopleFoundExecutionResult.getValidationErrors())
+                .thenReturn(new ArrayList<ValidationError>());
+        when(mockMultiplePeopleFoundExecutionResult.getReconciliationResult()).thenReturn(mockMultiplePeopleFoundReconciliationResult);
+
         //Stubbing PersonService
         final PersonService ps = mock(PersonService.class);
         //stubbing different reconciliation scenarios
         when(ps.addPerson(argThat(new IsNewPersonMatch()), (ReconciliationResult) isNull())).thenReturn(mockNoPeopleFoundServiceExecutionResult);
         when(ps.addPerson(argThat(new IsExistingPersonMatch()), (ReconciliationResult) isNull())).thenReturn(mockPersonAlreadyExistsExecutionResult);
         when(ps.addPerson(argThat(new HasValidationErrors()), (ReconciliationResult) isNull())).thenReturn(mockValidationErrorsExecutionResult);
+        when(ps.addPerson(argThat(new IsMultiplePeopleMatch()), (ReconciliationResult) isNull())).thenReturn(mockMultiplePeopleFoundExecutionResult);
+        //Mocking 'force add' option
+        when(ps.addPerson(argThat(new IsMultiplePeopleMatch()), (ReconciliationResult) isNotNull())).thenReturn(mockNoPeopleFoundServiceExecutionResult);
+
                                                                                      
         this.mockPersonService = ps;
     }
