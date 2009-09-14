@@ -23,6 +23,8 @@ import com.sun.jersey.api.client.ClientResponse;
 
 import static org.junit.Assert.*;
 
+import java.net.URI;
+
 /**
  * A support abstract class containing common pieces of <code>JerseyClient</code> API boilerplate code that all
  * JerseyTest-based functional tests could take advantage of
@@ -43,12 +45,12 @@ public abstract class JerseyTestSupport extends JerseyTest {
         client().setFollowRedirects(false);
     }
 
-    protected final ClientResponse handleClientRequestForUriPathAndHttpMethod(String uriPath, String httpMethod) {
-        return client().handle(ClientRequest.create().build(resource().path(uriPath).getURI(), httpMethod));
+    protected final ClientResponse handleClientRequestForUriPathAndHttpMethod(URI uri, String httpMethod) {
+        return client().handle(ClientRequest.create().build(uri, httpMethod));
     }
 
-    protected final ClientResponse handleClientRequestForUriPathAndHttpMethodAndEntity(String uriPath, String httpMethod, Object entity) {
-        final ClientRequest req = ClientRequest.create().build(resource().path(uriPath).getURI(), httpMethod);
+    protected final ClientResponse handleClientRequestForUriPathAndHttpMethodAndEntity(URI uri, String httpMethod, Object entity) {
+        final ClientRequest req = ClientRequest.create().build(uri, httpMethod);
         req.setEntity(entity);
         return client().handle(req);
     }
@@ -56,14 +58,18 @@ public abstract class JerseyTestSupport extends JerseyTest {
     protected final ClientResponse assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(int statusCode, String uriPath,
                                                                                              String httpMethod, Object entity) {
 
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethodAndEntity(uriPath, httpMethod, entity);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethodAndEntity(pathToURI(uriPath), httpMethod, entity);
         assertEquals(statusCode, response.getStatus());
         return response;
     }
 
     protected final ClientResponse assertStatusCodeEqualsForRequestUriAndHttpMethod(int statusCode, String uriPath, String httpMethod) {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod(uriPath, httpMethod);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod(pathToURI(uriPath), httpMethod);
         assertEquals(statusCode, response.getStatus());
         return response;
+    }
+
+    protected final URI pathToURI(String uriPath) {
+        return resource().path(uriPath).getURI();
     }
 }
