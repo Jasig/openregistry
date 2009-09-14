@@ -63,6 +63,16 @@ public abstract class JerseyTestSupport extends JerseyTest {
         return response;
     }
 
+    protected final ClientResponse assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntityWithQueryParam(int statusCode, String uriPath,
+                                                                                                           String httpMethod, Object entity,
+                                                                                                           String paramKey, String paramValue) {
+
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethodAndEntity(pathToURIWithQueryParam(uriPath, paramKey, paramValue),
+                httpMethod, entity);
+        assertEquals(statusCode, response.getStatus());
+        return response;
+    }
+
     protected final ClientResponse assertStatusCodeEqualsForRequestUriAndHttpMethod(int statusCode, String uriPath, String httpMethod) {
         final ClientResponse response = handleClientRequestForUriPathAndHttpMethod(pathToURI(uriPath), httpMethod);
         assertEquals(statusCode, response.getStatus());
@@ -71,5 +81,9 @@ public abstract class JerseyTestSupport extends JerseyTest {
 
     protected final URI pathToURI(String uriPath) {
         return resource().path(uriPath).getURI();
+    }
+
+    protected final URI pathToURIWithQueryParam(String uriPath, String paramKey, String paramValue) {
+        return resource().path(uriPath).queryParam(paramKey, paramValue).getURI();
     }
 }
