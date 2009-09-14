@@ -24,15 +24,13 @@ import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
+import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.ValidationError;
 import org.openregistry.core.service.JaValidValidationError;
 
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Arrays;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * FactoryBean to create Mockito-based mocks of <code>PersonService</code> and related collaborators needed to test
@@ -48,7 +46,7 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
     public void init() {
         //Stubbing Person
         Person mockPerson = mock(Person.class);
-        Set<Identifier> ids = buildMockIdentifiers();
+        Set<Identifier> ids = buildMockIdentifiers("-p1");
         when(mockPerson.getIdentifiers()).thenReturn(ids);
 
         //Stubbing 'no people' found result
@@ -63,6 +61,8 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         //Stubbing 'multiple people found' result
         final ReconciliationResult mockMultiplePeopleFoundReconciliationResult = mock(ReconciliationResult.class);
         when(mockMultiplePeopleFoundReconciliationResult.multiplePeopleFound()).thenReturn(true);
+        List<PersonMatch> matches = buildMockPersonMatches();
+        when(mockMultiplePeopleFoundReconciliationResult.getMatches()).thenReturn(matches);
 
         //Stubbing 'no people found' service execution result
         final ServiceExecutionResult mockNoPeopleFoundServiceExecutionResult = mock(ServiceExecutionResult.class);
@@ -86,8 +86,7 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         final ServiceExecutionResult mockMultiplePeopleFoundExecutionResult = mock(ServiceExecutionResult.class);
         when(mockMultiplePeopleFoundExecutionResult.succeeded()).thenReturn(false);
         //No validation errors - empty list
-        when(mockMultiplePeopleFoundExecutionResult.getValidationErrors())
-                .thenReturn(new ArrayList<ValidationError>());
+        when(mockMultiplePeopleFoundExecutionResult.getValidationErrors()).thenReturn(Collections.<ValidationError>emptyList());
         when(mockMultiplePeopleFoundExecutionResult.getReconciliationResult()).thenReturn(mockMultiplePeopleFoundReconciliationResult);
 
         //Stubbing PersonService
@@ -100,7 +99,7 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         //Mocking 'force add' option
         when(ps.addPerson(argThat(new IsMultiplePeopleMatch()), (ReconciliationResult) isNotNull())).thenReturn(mockNoPeopleFoundServiceExecutionResult);
 
-                                                                                     
+
         this.mockPersonService = ps;
     }
 
@@ -116,26 +115,41 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         return true;
     }
 
-    private Set<Identifier> buildMockIdentifiers() {
+    private Set<Identifier> buildMockIdentifiers(String personSuffix) {
         //Mock it all up:
         //NetID
         Identifier mockNetId = mock(Identifier.class);
         IdentifierType mockNetIdType = mock(IdentifierType.class);
         when(mockNetIdType.getName()).thenReturn("NETID");
         when(mockNetId.getType()).thenReturn(mockNetIdType);
-        when(mockNetId.getValue()).thenReturn("test-netid");
+        when(mockNetId.getValue()).thenReturn("test-netid" + personSuffix);
 
         //RcpId
         Identifier mockRcpId = mock(Identifier.class);
         IdentifierType mockRcpIdType = mock(IdentifierType.class);
         when(mockRcpIdType.getName()).thenReturn("RCPID");
         when(mockRcpId.getType()).thenReturn(mockRcpIdType);
-        when(mockRcpId.getValue()).thenReturn("test-rcpid");
+        when(mockRcpId.getValue()).thenReturn("test-rcpid" + personSuffix);
 
         return new HashSet<Identifier>(Arrays.asList(mockNetId, mockRcpId));
-
     }
 
+    private List<PersonMatch> buildMockPersonMatches() {
+        Person mockPerson1 = mock(Person.class);
+        Set<Identifier> ids1 = buildMockIdentifiers("-p1");
+        when(mockPerson1.getIdentifiers()).thenReturn(ids1);
+
+        Person mockPerson2 = mock(Person.class);
+        Set<Identifier> ids2 = buildMockIdentifiers("-p2");
+        when(mockPerson2.getIdentifiers()).thenReturn(ids2);
+
+        PersonMatch mockMatch1 = mock(PersonMatch.class);
+        PersonMatch mockMatch2 = mock(PersonMatch.class);
+        when(mockMatch1.getPerson()).thenReturn(mockPerson1);
+        when(mockMatch2.getPerson()).thenReturn(mockPerson2);
+
+        return Arrays.asList(mockMatch1, mockMatch2);
+    }
 
     private static class IsNewPersonMatch extends ArgumentMatcher<ReconciliationCriteria> {
 
