@@ -76,4 +76,10 @@ public class PostNewPersonToPeopleResourceTests extends JerseyTestSupport {
         assertNotNull(assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntityWithQueryParam(201, RESOURCE_UNDER_TEST_URI, POST_HTTP_METHOD,
                 PersonRequestRepresentation.forMultiplePeople(), "force", "y").getHeaders().getFirst("Location"));
     }
+
+    @Test
+    public void addingPersonWithMultiplePeopleFound() {
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(409, RESOURCE_UNDER_TEST_URI, POST_HTTP_METHOD,
+                PersonRequestRepresentation.forMultiplePeople());
+    }
 }
