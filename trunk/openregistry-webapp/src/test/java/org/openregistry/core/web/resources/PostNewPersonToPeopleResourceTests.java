@@ -60,7 +60,7 @@ public class PostNewPersonToPeopleResourceTests extends JerseyTestSupport {
     }
 
     @Test
-    public void addingExistingPerson() {        
+    public void addingExistingPerson() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(303, RESOURCE_UNDER_TEST_URI, POST_HTTP_METHOD,
                 PersonRequestRepresentation.forExistingPerson());
     }
@@ -69,5 +69,11 @@ public class PostNewPersonToPeopleResourceTests extends JerseyTestSupport {
     public void addingPersonWithValidationErrors() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(400, RESOURCE_UNDER_TEST_URI, POST_HTTP_METHOD,
                 PersonRequestRepresentation.withValidationErrors());
+    }
+
+    @Test
+    public void forceAddingPersonWithMultiplePeopleFound() {
+        assertNotNull(assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntityWithQueryParam(201, RESOURCE_UNDER_TEST_URI, POST_HTTP_METHOD,
+                PersonRequestRepresentation.forMultiplePeople(), "force", "y").getHeaders().getFirst("Location"));
     }
 }
