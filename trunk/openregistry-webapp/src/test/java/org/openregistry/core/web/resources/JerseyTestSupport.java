@@ -39,6 +39,8 @@ public abstract class JerseyTestSupport extends JerseyTest {
 
     public JerseyTestSupport(WebAppDescriptor webAppDescriptor) {
         super(webAppDescriptor);
+        //Disable automatic redirects by this user-agent e.g. in cases of HTTP 303, 301, 307, etc.
+        client().setFollowRedirects(false);
     }
 
     protected final ClientResponse handleClientRequestForUriPathAndHttpMethod(String uriPath, String httpMethod) {
