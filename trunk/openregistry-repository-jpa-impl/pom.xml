@@ -218,6 +218,14 @@
             <type>jar</type>
         </dependency>
 
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>el-api</artifactId>
+            <version>${el.api.version}</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+
         <!--
         <dependency>
             <groupId>com.oracle</groupId>

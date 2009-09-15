@@ -74,10 +74,6 @@
       <constructor-arg index="4" ref="reconciler" />
     </bean>
 
-    <bean id="activationService" class="org.openregistry.core.service.DefaultActivationService">
-        <constructor-arg index="0" ref="personRepository" />
-    </bean>
-
     <bean id="personRepository" class="org.openregistry.core.repository.jpa.JpaPersonRepository" />
 
     <bean id="referenceRepository" class="org.openregistry.core.repository.jpa.JpaReferenceRepository" />
