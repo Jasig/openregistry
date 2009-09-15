@@ -140,6 +140,26 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
+    public SorPerson addSorPerson(SorPerson sorPerson, String sourceSoRID, Person person){
+
+        if (!StringUtils.hasText(sorPerson.getSorId())) {
+            sorPerson.setSorId(this.identifierGenerator.generateNextString());
+        }
+
+        //Do I need this?
+        sorPerson.setSourceSorIdentifier(sourceSoRID);
+
+        // Now connect the SorPerson to the actual person
+        sorPerson.setPersonId(person.getId());
+
+        // Save Sor Person
+        sorPerson = this.personRepository.saveSorPerson(sorPerson);
+
+        return sorPerson;
+
+    }
+
+    @Transactional
     public boolean deletePerson(final Person person) {
         try {
             final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
