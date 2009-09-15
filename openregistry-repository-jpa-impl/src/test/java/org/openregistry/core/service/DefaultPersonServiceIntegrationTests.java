@@ -49,13 +49,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 	private final String OR_WEBAPP_IDENTIFIER = "or-webapp";
 	private final String REGISTRAR_IDENTIFIER = "registrar";
 
-
-//    private static final String IDENTIFIER_TYPE ="NetId";
-
-//    private static final String IDENTIFIER_VALUE ="test";
-
-//    private static final String LOCK_VALUE = "LOCK";
-
 	private static final String EMAIL_ADDRESS = "test@test.edu";
 	private static final String PHONE_NUMBER = "555-555-5555";
 	private static final String RUDYARD = "Rudyard";
@@ -63,22 +56,11 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 	private static final String RUDY = "Rudy";
 	private static final String KIPSTEIN = "Kipstein";
 
-
-	private static Logger logger = Logger.getLogger(DefaultPersonServiceIntegrationTests.class);
-
     @Autowired
     private PersonService personService;
 
-    @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
-    private ReferenceRepository referenceRepository;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
 	private  Name name1, name2, name3;
+
 	private ReconciliationCriteria reconciliationCriteria1, reconciliationCriteria2, reconciliationCriteria3;
 
 	@Before
@@ -183,9 +165,5 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 		assertTrue("JpaPersonImpl not created properly",result3.getTargetObject() instanceof JpaPersonImpl);
 		Person person = (JpaPersonImpl)result3.getTargetObject();
 		assertEquals("names do not match",name3.getFormattedName(),person.getPreferredName().getFormattedName());
-
 	}
-
-
-
 }
