@@ -36,7 +36,8 @@
         <transition on="submitAddPerson" to="checkForErrors" bind="true" validate="true">
             <evaluate expression="personSearchAction.addSorPerson(personSearch,null,messageContext)" result="flowScope.serviceExecutionResult" result-type="org.openregistry.core.service.ServiceExecutionResult"/>
             <evaluate expression="serviceExecutionResult.getReconciliationResult()" result="flowScope.reconciliationResult" />
-            <evaluate expression="serviceExecutionResult.targetObject" result="flowScope.person" />
+            <evaluate expression="serviceExecutionResult" result="flowScope.serviceExecutionResult" />
+            <set name="flowScope.personToAdd" value="personSearch.getPerson()" />
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>  
     </view-state>
@@ -52,14 +53,13 @@
     <view-state id="viewMatches" view="openregistry.person.add.matches" model="flowScope.serviceExecutionResult">
         <on-render>
             <set name="viewScope.command" value="'personSearch'" />
-            <set name="viewScope.personToAdd" value="personSearch.getPerson()" />
         </on-render>
         <transition on="submitAddPerson" to="checkForViewMatchAddErrors" >
             <evaluate expression="personSearchAction.addSorPerson(personSearch, serviceExecutionResult.getReconciliationResult(), messageContext)" result="flowScope.serviceExecutionResult"/>
-            <evaluate expression="serviceExecutionResult.targetObject" result="flowScope.person" />
+            <evaluate expression="serviceExecutionResult" result="flowScope.serviceExecutionResult" />
         </transition>
         <transition on="submitAddRole" to="addRole">
-            <evaluate expression="personRepository.findByPersonIdAndSorIdentifier(requestParameters.sorPersonId,'or-webapp')" result="flowScope.sorPerson"/>    
+            <evaluate expression="personSearchAction.getSorPersonRecordByPersonId(requestParameters.personId, 'or-webapp', personToAdd)" result="flowScope.sorPerson" />
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
@@ -73,7 +73,7 @@
     </decision-state>
 
     <action-state id="getSorPerson">
-        <evaluate expression="personRepository.findByPersonIdAndSorIdentifier(person.id,'or-webapp')" result="flowScope.sorPerson"/>
+        <evaluate expression="personSearchAction.getSorPersonRecord(flowScope.serviceExecutionResult, 'or-webapp', flowScope.personToAdd)" result="flowScope.sorPerson" />
         <transition to="addRole" />
     </action-state>
 
@@ -81,7 +81,7 @@
         <input name="sorPerson" value="flowScope.sorPerson"/>
         <output name="role"/>
         <transition on="roleWasAdded" to="roleAddedSucceeded">
-             <evaluate expression="personSearchAction.setConfirmationMessage(person, reconciliationResult,messageContext)" />
+             <evaluate expression="personSearchAction.setConfirmationMessage(serviceExecutionResult, messageContext)" />
         </transition>
     </subflow-state>
 

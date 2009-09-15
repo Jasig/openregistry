@@ -29,7 +29,7 @@
                         </tr>
                             <c:forEach var="personMatch" items="${serviceExecutionResult.reconciliationResult.matches}">
                                 <tr>
-                                    <td valign="top"><a href="${flowExecutionUrl}&_eventId=submitAddRole&sorPersonId=${personMatch.person.id}">${personMatch.person.officialName.family},${personMatch.person.officialName.given}</a></td>
+                                    <td valign="top"><a href="${flowExecutionUrl}&_eventId=submitAddRole&personId=${personMatch.person.id}">${personMatch.person.officialName.family},${personMatch.person.officialName.given}</a></td>
                                     <td valign="top"><c:out value="${personMatch.person.gender}" /></td>
                                 </tr>
                             </c:forEach>
