@@ -23,6 +23,7 @@ import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.ActivationKey;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.PersonService;
@@ -47,7 +48,10 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         //Stubbing Person
         Person mockPerson = mock(Person.class);
         Set<Identifier> ids = buildMockIdentifiers("-p1");
+        ActivationKey key = mock(ActivationKey.class);
+        when(key.asString()).thenReturn("mock***activation###key");
         when(mockPerson.getIdentifiers()).thenReturn(ids);
+        when(mockPerson.getCurrentActivationKey()).thenReturn(key);
 
         //Stubbing 'no people' found result
         final ReconciliationResult mockNoPeopleFoundReconciliationResult = mock(ReconciliationResult.class);

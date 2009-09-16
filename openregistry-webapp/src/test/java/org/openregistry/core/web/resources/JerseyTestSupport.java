@@ -20,6 +20,7 @@ import com.sun.jersey.test.framework.WebAppDescriptor;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.representation.Form;
 
 import static org.junit.Assert.*;
 
@@ -59,6 +60,7 @@ public abstract class JerseyTestSupport extends JerseyTest {
                                                                                              String httpMethod, Object entity) {
 
         final ClientResponse response = handleClientRequestForUriPathAndHttpMethodAndEntity(pathToURI(uriPath), httpMethod, entity);
+        Form f = response.getEntity(Form.class);
         assertEquals(statusCode, response.getStatus());
         return response;
     }

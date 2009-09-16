@@ -43,6 +43,7 @@ import java.net.URI;
 import java.util.*;
 
 import com.sun.jersey.api.NotFoundException;
+import com.sun.jersey.api.representation.Form;
 
 /**
  * Root RESTful resource representing people in Open Registry.
@@ -163,15 +164,17 @@ public final class PeopleResource {
         logger.info("Trying to add incoming person...");
 
         ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        Person person = (Person) result.getTargetObject();
         //Now do the branching logic based on the result
         if (result.succeeded()) {
             if (result.getReconciliationResult().noPeopleFound()) {
-                uri = buildPersonResourceUri((Person) result.getTargetObject());
-                response = Response.created(uri).build();
+                uri = buildPersonResourceUri(person);
+                response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person))
+                        .type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
                 logger.info(String.format("Person successfuly created. The person resource URI is %s", uri.toString()));
             }
             else if (result.getReconciliationResult().personAlreadyExists()) {
-                uri = buildPersonResourceUri((Person) result.getTargetObject());
+                uri = buildPersonResourceUri(person);
                 //HTTP 303 ("See other with GET")
                 response = Response.seeOther(uri).build();
                 logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
@@ -188,8 +191,10 @@ public final class PeopleResource {
                 if (FORCE_ADD_FLAG.equals(forceAdd)) {
                     logger.warn("Multiple people found, but doing a 'force add'");
                     result = this.personService.addPerson(reconciliationCriteria, result.getReconciliationResult());
-                    uri = buildPersonResourceUri((Person) result.getTargetObject());
-                    response = Response.created(uri).build();
+                    Person forcefullyAddedPerson = (Person)result.getTargetObject();
+                    uri = buildPersonResourceUri(forcefullyAddedPerson);
+                    response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson))
+                        .type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
                     logger.info(String.format("Person successfuly created (with 'force add' option). The person resource URI is %s", uri.toString()));
                 }
                 else {
@@ -380,5 +385,12 @@ public final class PeopleResource {
             throw new IllegalStateException("Person identifiers cannot be empty");
         }
         return idsRep;
+    }
+
+    //Content-Type: application/x-www-form-urlencoded
+    private Form buildPersonActivationKeyRepresentation(Person person) {
+        Form f = new Form();
+        f.putSingle("activationKey", person.getCurrentActivationKey().asString());
+        return f;
     }
 }
