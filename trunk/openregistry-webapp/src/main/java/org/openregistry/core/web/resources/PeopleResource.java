@@ -137,17 +137,7 @@ public final class PeopleResource {
                             personIdType, personId));
         }
         logger.info("Person is found. Building a suitable representation...");
-        //Build activation generator URI
-        final URI activationGeneratorUri = this.uriInfo.getAbsolutePathBuilder().path("activation").build();
-
-        final ActivationKey activationKey = person.getCurrentActivationKey();
-        final URI activationProcessorUri = (activationKey == null) ? null : this.uriInfo.getAbsolutePathBuilder().path("activation").path(person.getCurrentActivationKey().asString()).build();
-        ;
-
-        return new PersonResponseRepresentation(
-                activationGeneratorUri.toString(),
-                activationProcessorUri == null ? null : activationProcessorUri.toString(),
-                buildPersonIdentifierRepresentations(person.getIdentifiers()));
+        return new PersonResponseRepresentation(buildPersonIdentifierRepresentations(person.getIdentifiers()));
     }
 
     @POST
@@ -191,10 +181,10 @@ public final class PeopleResource {
                 if (FORCE_ADD_FLAG.equals(forceAdd)) {
                     logger.warn("Multiple people found, but doing a 'force add'");
                     result = this.personService.addPerson(reconciliationCriteria, result.getReconciliationResult());
-                    Person forcefullyAddedPerson = (Person)result.getTargetObject();
+                    Person forcefullyAddedPerson = (Person) result.getTargetObject();
                     uri = buildPersonResourceUri(forcefullyAddedPerson);
                     response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson))
-                        .type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
+                            .type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
                     logger.info(String.format("Person successfuly created (with 'force add' option). The person resource URI is %s", uri.toString()));
                 }
                 else {

@@ -35,16 +35,9 @@ import java.util.List;
 @XmlRootElement(name = "open-registry-person-ref")
 public class PersonResponseRepresentation implements Serializable {
 
-    @XmlAttribute(name = "activation-generator-uri")
-    String activationGeneratorUri;
-
-    @XmlAttribute(name = "activation-processor-uri")
-    String activationProcessorUri;
-
     @XmlElementWrapper(name = "identifiers")
     @XmlElement(name = "id")
     List<PersonIdentifierRepresentation> identifiers;
-
 
     /**
      * Required by JAXB
@@ -52,12 +45,7 @@ public class PersonResponseRepresentation implements Serializable {
     public PersonResponseRepresentation() {
     }
 
-    public PersonResponseRepresentation(String activationGeneratorUri,
-                                 String activationProcessorUri,
-                                 List<PersonIdentifierRepresentation> ids) {
-
-        this.activationGeneratorUri = activationGeneratorUri;
-        this.activationProcessorUri = activationProcessorUri;
+    public PersonResponseRepresentation(List<PersonIdentifierRepresentation> ids) {
         this.identifiers = ids;
     }
 
