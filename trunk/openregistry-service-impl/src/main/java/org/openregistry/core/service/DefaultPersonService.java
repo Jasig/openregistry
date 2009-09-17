@@ -288,10 +288,10 @@ public class DefaultPersonService implements PersonService {
             final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
 
             if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
-                return new ReconciliationServiceExecutionResult(serviceName, magic(reconciliationCriteria));
+                return new ReconciliationServiceExecutionResult(serviceName, magic(reconciliationCriteria), result);
             } else if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
                 // TODO this method should not be doing this update
-            	return new ReconciliationServiceExecutionResult(serviceName, magicUpdate(reconciliationCriteria, result));
+            	return new ReconciliationServiceExecutionResult(serviceName, magicUpdate(reconciliationCriteria, result), result);
             }
 
             return new ReconciliationServiceExecutionResult(serviceName, reconciliationCriteria, result);
