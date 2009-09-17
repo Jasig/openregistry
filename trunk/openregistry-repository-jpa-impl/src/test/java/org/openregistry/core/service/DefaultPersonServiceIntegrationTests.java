@@ -108,7 +108,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria2, null);
 
         assertTrue(result.succeeded());
-        assertNull(result.getReconciliationResult());
+        assertNotNull(result.getReconciliationResult());
         assertEquals(2, countRowsInTable("prc_persons"));
         assertEquals(2, countRowsInTable("prc_names"));
         assertEquals(2, countRowsInTable("prs_names"));
@@ -151,7 +151,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria1, null);
 
         assertTrue(result.getTargetObject() instanceof Person);
-        assertNull(result.getReconciliationResult());
+        assertNotNull(result.getReconciliationResult());
         assertTrue(result.succeeded());
         assertEquals(1, countRowsInTable("prc_persons"));
         assertEquals(1, countRowsInTable("prc_names"));
