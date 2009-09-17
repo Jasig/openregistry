@@ -147,7 +147,7 @@ public class DefaultPersonService implements PersonService {
         }
 
         //Do I need this?
-        sorPerson.setSourceSorIdentifier(sourceSoRID);
+        sorPerson.setSourceSor(sourceSoRID);
 
         // Now connect the SorPerson to the actual person
         sorPerson.setPersonId(person.getId());
@@ -288,9 +288,10 @@ public class DefaultPersonService implements PersonService {
             final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
 
             if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
-                return new ReconciliationServiceExecutionResult(serviceName, magic(reconciliationCriteria), result);
+                return new ReconciliationServiceExecutionResult(serviceName, magic(reconciliationCriteria));
             } else if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
-            	return new ReconciliationServiceExecutionResult(serviceName, magicUpdate(reconciliationCriteria, result), result);
+                // TODO this method should not be doing this update
+            	return new ReconciliationServiceExecutionResult(serviceName, magicUpdate(reconciliationCriteria, result));
             }
 
             return new ReconciliationServiceExecutionResult(serviceName, reconciliationCriteria, result);
@@ -449,7 +450,7 @@ public class DefaultPersonService implements PersonService {
 
         final Person person = result.getMatches().iterator().next().getPerson();
         final SorPerson sorPerson = reconciliationCriteria.getPerson();
-        final String sorIdentifier = sorPerson.getSourceSorIdentifier();
+        final String sorIdentifier = sorPerson.getSourceSor();
 
         try {
             final SorPerson registrySorPerson = personRepository.findByPersonIdAndSorIdentifier(person.getId(),sorIdentifier);

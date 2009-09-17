@@ -58,7 +58,7 @@ public class PersonSearchAction {
     private final SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
 
     public ServiceExecutionResult addSorPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult oldResult, MessageContext context) {
-        reconciliationCriteria.getPerson().setSourceSorIdentifier(SOR_INDENTIFIER);
+        reconciliationCriteria.getPerson().setSourceSor(SOR_INDENTIFIER);
         ServiceExecutionResult result = personService.addPerson(reconciliationCriteria, oldResult);
 
         if (result.getValidationErrors() != null && !result.getValidationErrors().isEmpty()) {

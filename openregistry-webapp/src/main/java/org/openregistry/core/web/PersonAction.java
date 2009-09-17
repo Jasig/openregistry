@@ -15,26 +15,18 @@
  */
 package org.openregistry.core.web;
 
-import org.springframework.binding.message.MessageContext;
-import org.springframework.binding.message.MessageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.domain.*;
-import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.PersonService;
-import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.aspect.OpenRegistryMessageSourceAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
 import java.util.List;
-import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -57,7 +49,7 @@ public class PersonAction {
     protected final MessageSourceAccessor msa = OpenRegistryMessageSourceAccessor.getMessageSourceAccessor();
 
     public String moveSystemOfRecordPerson(Person fromPerson, Person toPerson, SorPerson sorPerson) {
-        if (personService.findByPersonIdAndSorIdentifier(toPerson.getId(), sorPerson.getSourceSorIdentifier()) != null){
+        if (personService.findByPersonIdAndSorIdentifier(toPerson.getId(), sorPerson.getSourceSor()) != null){
             return msa.getMessage("matchingSorFound");
         }
         if (personService.moveSystemOfRecordPerson(fromPerson, toPerson, sorPerson)){
@@ -80,8 +72,8 @@ public class PersonAction {
         List<SorPerson> sorPersonListFrom =  personRepository.getSoRRecordsForPerson(fromPerson);
 
         for (final SorPerson sorPersonFrom : sorPersonListFrom) {
-            if (personService.findByPersonIdAndSorIdentifier(toPerson.getId(), sorPersonFrom.getSourceSorIdentifier()) != null){
-                logger.info("PersonAction: MoveAllSystemOfRecordPersons: matchingSorFound"+ sorPersonFrom.getSourceSorIdentifier());
+            if (personService.findByPersonIdAndSorIdentifier(toPerson.getId(), sorPersonFrom.getSourceSor()) != null){
+                logger.info("PersonAction: MoveAllSystemOfRecordPersons: matchingSorFound"+ sorPersonFrom.getSourceSor());
                 return msa.getMessage("matchingSorFound");
             }
         }

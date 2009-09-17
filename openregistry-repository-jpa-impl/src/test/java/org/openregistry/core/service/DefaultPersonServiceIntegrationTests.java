@@ -18,8 +18,6 @@ package org.openregistry.core.service;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.openregistry.core.repository.PersonRepository;
-import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.domain.jpa.sor.*;
 import org.openregistry.core.domain.jpa.*;
 import org.openregistry.core.domain.*;
@@ -28,11 +26,8 @@ import org.openregistry.core.service.reconciliation.*;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
-import org.apache.log4j.*;
 import static org.junit.Assert.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.*;
 
 /**
@@ -41,6 +36,9 @@ import java.util.*;
  *
  * @version $Revision$ $Date$
  * @since 0.1
+ *
+ * TODO: add check for merged properties after business rules execution.
+ * TODO: The three fail() tests are update.
  */
 
 @ContextConfiguration(locations = {"classpath:test-personServices-context.xml"})
@@ -59,113 +57,204 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
     @Autowired
     private PersonService personService;
 
-	private  Name name1, name2, name3;
+    protected ReconciliationCriteria constructReconciliationCriteria(final String firstName, final String lastName, final String ssn, final String emailAddress, final String phoneNumber, Date birthDate, final String sor, final String sorId) {
+        final ReconciliationCriteria reconciliationCriteria = new JpaReconciliationCriteriaImpl();
+        reconciliationCriteria.setEmailAddress(emailAddress);
+        reconciliationCriteria.setPhoneNumber(phoneNumber);
 
-	private ReconciliationCriteria reconciliationCriteria1, reconciliationCriteria2, reconciliationCriteria3;
+        final SorPerson sorPerson = reconciliationCriteria.getPerson();
+        sorPerson.setDateOfBirth(birthDate);
+        sorPerson.setGender("M");
+        sorPerson.setSorId(sorId);
+        sorPerson.setSourceSor(sor);
+        sorPerson.setSsn(ssn);
 
-	@Before
-    public void setUp() throws Exception {
-		reconciliationCriteria1 = new JpaReconciliationCriteriaImpl();
-		reconciliationCriteria1.setEmailAddress(EMAIL_ADDRESS);
-		reconciliationCriteria1.setPhoneNumber(PHONE_NUMBER);
-		SorPerson sorPerson1 = reconciliationCriteria1.getPerson();
-		name1 = sorPerson1.addName();
-		name1.setGiven(RUDYARD);
-		name1.setFamily(KIPLING);
-		sorPerson1.setSourceSorIdentifier(OR_WEBAPP_IDENTIFIER);
-		sorPerson1.setDateOfBirth(new Date(0));
-		sorPerson1.setGender("M");
+        final Name name = sorPerson.addName();
+        name.setFamily(lastName);
+        name.setGiven(firstName);
+        name.setOfficialName();
 
-		reconciliationCriteria2 = new JpaReconciliationCriteriaImpl();
-		reconciliationCriteria2.setEmailAddress(EMAIL_ADDRESS);
-		reconciliationCriteria2.setPhoneNumber(PHONE_NUMBER);
-		SorPerson sorPerson2 = reconciliationCriteria2.getPerson();
-		name2 = sorPerson2.addName();
-		name2.setGiven(RUDYARD);
-		name2.setFamily(KIPLING);
-		sorPerson2.setSourceSorIdentifier(REGISTRAR_IDENTIFIER);
-		sorPerson2.setDateOfBirth(new Date(0));
-		sorPerson2.setGender("M");
-
-		reconciliationCriteria3 = new JpaReconciliationCriteriaImpl();
-		reconciliationCriteria3.setEmailAddress(EMAIL_ADDRESS);
-		reconciliationCriteria3.setPhoneNumber(PHONE_NUMBER);
-		SorPerson sorPerson3 = reconciliationCriteria3.getPerson();
-		name3 = sorPerson3.addName();
-		name3.setGiven(RUDY);
-		name3.setFamily(KIPSTEIN);
-		sorPerson3.setSourceSorIdentifier(OR_WEBAPP_IDENTIFIER);
-		sorPerson3.setDateOfBirth(new Date(0));
-		sorPerson3.setGender("M");
-
+        return reconciliationCriteria;
     }
 
-    @After
-    public void tearDown() throws Exception {
-		this.reconciliationCriteria1 = null;
-		this.reconciliationCriteria2 = null;
-		this.reconciliationCriteria3 = null;
+    /**
+     * Test 1: Test of adding a new SoR Person to an empty database:
+     * Expectations: 1 SoR Person row created
+     *               1 Calculated Person row created, one name, one identifier
+     */
+	@Test
+	public void testAddOnePerson(){
+        final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
 
+        assertTrue(result.succeeded());
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+// DO WE HAVE IDENTIFIERS CONFIGURED?
+//        assertEquals(1, countRowsInTable("prc_identifiers"));
+	}
+
+    /**
+     * Test 2: Test of adding two new SoR Persons to an empty database (with no matches):
+     * Expectations: 2 Sor Person rows
+     *               2 Calculated persons, two names, two identifiers
+     */
+    @Test
+    public void testAddTwoDifferentPeople() {
+        final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        this.personService.addPerson(reconciliationCriteria, null);
+
+        final ReconciliationCriteria reconciliationCriteria2 = constructReconciliationCriteria("Foo", "Bar", null, "la@lao.com", "9085550987", new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria2, null);
+
+        assertTrue(result.succeeded());
+        assertNull(result.getReconciliationResult());
+        assertEquals(2, countRowsInTable("prc_persons"));
+        assertEquals(2, countRowsInTable("prc_names"));
+        assertEquals(2, countRowsInTable("prs_names"));
+        assertEquals(2, countRowsInTable("prs_sor_persons"));
     }
 
-	@Test
-	public void testAddPerson(){
-		ServiceExecutionResult result = personService.addPerson(reconciliationCriteria1,null);
-		assertTrue(result.succeeded());
-		assertEquals(1,countRowsInTable("prc_persons"));
-		assertEquals(1,countRowsInTable("prc_names"));
-		assertTrue("personService.addPerson didn't return a ReconciliationServiceExecutionResult",result instanceof ReconciliationServiceExecutionResult);
-		assertTrue("JpaPersonImpl not created properly",result.getTargetObject() instanceof JpaPersonImpl);
-		Person person = (JpaPersonImpl)result.getTargetObject();
-		assertEquals("names do not match",name1.getFormattedName(),person.getPreferredName().getFormattedName());
-	}
+    /**
+     * Test 3: Test of adding two new Sor Persons where there is an exact match (same SoR)
+     * Expectations:
+     */
+    @Test
+    public void testAddExactPersonWithSameSoR() {
+        final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        this.personService.addPerson(reconciliationCriteria, null);
 
-	/**
-	 * adds one person, then adds a second with identical values and verifies that it doesn't add an additional person
-	 */
-	@Test
-	public void testAddIdenticalPerson(){
-		ServiceExecutionResult result1 = personService.addPerson(reconciliationCriteria1,null);
-		assertEquals(1,countRowsInTable("prc_persons"));
-		assertEquals(1,countRowsInTable("prc_names"));
-		assertEquals(1,countRowsInTable("prs_sor_persons"));
-		assertEquals(1,countRowsInTable("prs_names"));
+        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
 
-		ServiceExecutionResult result2 = personService.addPerson(reconciliationCriteria2,null);
-		assertTrue(result2.succeeded());
-		assertEquals(ReconciliationResult.ReconciliationType.EXACT,	result2.getReconciliationResult().getReconciliationType());
-		assertEquals(1,countRowsInTable("prc_persons"));
-		assertEquals(1,countRowsInTable("prc_names"));
-		assertTrue("personService.addPerson didn't return a ReconciliationServiceExecutionResult",result2 instanceof ReconciliationServiceExecutionResult);
-		assertTrue("JpaPersonImpl not created properly",result2.getTargetObject() instanceof JpaPersonImpl);
-		Person person = (JpaPersonImpl)result2.getTargetObject();
-		assertEquals("names do not match",name2.getFormattedName(),person.getPreferredName().getFormattedName());
 
-	}
+        assertNull(result.getReconciliationResult());
+        assertTrue(result.succeeded());
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
 
-    // TODO disabled for now in order to test Bamboo
-	/**
-	 * adds one person, then adds a second with different values, verifies an inexact match and adds the second person, then verifies that two entries exist
-	 */
-    /*
-	@Test
-	public void testAddSecondPerson(){
-		final ServiceExecutionResult result1 = personService.addPerson(reconciliationCriteria1,null);
-		assertEquals(1,countRowsInTable("prc_persons"));
-		assertEquals(1,countRowsInTable("prc_names"));
+        fail();
+    }
 
-		final ServiceExecutionResult result2 = personService.addPerson(reconciliationCriteria3,null);
-		assertNotNull("ReconciliationResult is null", result2.getReconciliationResult());
-		assertEquals(ReconciliationResult.ReconciliationType.NONE,	result2.getReconciliationResult().getReconciliationType());
+    /**
+     * Test 4: Test of adding two new SoR Persons where there is an exact match (different SoR)
+     * Expectations:
+     */
+    @Test
+    public void testAddExactPersonWithDifferentSoRs() {
+        final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "SOR2", null);
+        this.personService.addPerson(reconciliationCriteria, null);
 
-		ServiceExecutionResult result3 = personService.addPerson(reconciliationCriteria3,result2.getReconciliationResult());
-		assertTrue(result3.succeeded());
-		assertNull(result3.getReconciliationResult());
-		assertEquals(2,countRowsInTable("prc_persons"));
-		assertEquals(2,countRowsInTable("prc_names"));
-		assertTrue("personService.addPerson didn't return a ReconciliationServiceExecutionResult",result3 instanceof ReconciliationServiceExecutionResult);
-		assertTrue("JpaPersonImpl not created properly",result3.getTargetObject() instanceof JpaPersonImpl);
-		Person person = (JpaPersonImpl)result3.getTargetObject();
-		assertEquals("names do not match",name3.getFormattedName(),person.getPreferredName().getFormattedName());
-	}    */
+        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria1, null);
+
+        assertTrue(result.getTargetObject() instanceof Person);
+        assertNull(result.getReconciliationResult());
+        assertTrue(result.succeeded());
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(2, countRowsInTable("prs_names"));
+        assertEquals(2, countRowsInTable("prs_sor_persons"));
+    }
+
+    /**
+     * Test 5: Test of adding two new SoR Persons where there is a partial match (same SoRs).
+     * The test requires you to say its the same person.
+     *
+     * Expectation: kick us out this is an update!
+     */
+    @Test
+    public void testAddTwoSoRPersonsWithPartialMatchFromTheSameSoRWhereItsTheSamePerson() {
+        // this should flow to update
+        fail();
+    }
+
+    /**
+     * Test 6: Test of adding two new SoR Persons where there is a partial match (same SoRs).
+     * The test requires you to say its different people.
+     *
+     * Expectation: two SoR Records, and two Calculated People
+     */
+    @Test
+    public void testAddTwoSoRPersonsWithPartialMatchAndItsTwoDifferentPeopleFromSameSoR() {
+        final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+
+        this.personService.addPerson(reconciliationCriteria, null);
+
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+
+        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria1, null);
+
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+
+        assertNotNull(result.getReconciliationResult());
+        assertFalse(result.succeeded());
+        assertTrue(result.getTargetObject() instanceof ReconciliationCriteria);
+
+        final ServiceExecutionResult serviceExecutionResult = this.personService.addPerson(reconciliationCriteria1, result.getReconciliationResult());
+
+        assertNull(serviceExecutionResult.getReconciliationResult());
+        assertNotNull(serviceExecutionResult.getTargetObject());
+        assertTrue(serviceExecutionResult.getTargetObject() instanceof Person);
+
+        assertEquals(2, countRowsInTable("prc_persons"));
+        assertEquals(2, countRowsInTable("prc_names"));
+        assertEquals(2, countRowsInTable("prs_names"));
+        assertEquals(2, countRowsInTable("prs_sor_persons"));
+
+        
+    }
+
+    /**
+     * Test 7: Test of adding two new SoR Persons where there is a partial match (different SoRs)
+     * The test requires you to say its the same person.
+     *
+     * Expectation: we should add a new SoR Record and update existing calculated person.
+     */
+    @Test
+    public void testAddTwoSorPersonWithPartialMatchFromDifferentSoRsWhereItsTheSamePerson() {
+        final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "SOR2", null);
+
+        fail();
+    }
+
+    /**
+     * Test 8: Test of adding two new SoR Persons where there is a partial match (different SoRs).
+     * The test requires you to say its a different person.
+     *
+     * Expectation: a new SoR Person and Calculated Person will be created (2 of each).
+     */
+    @Test
+    public void testAddTwoNewSoRPersonsWithPartialMatchWhoAreDifferentPeople() {
+        final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "SOR2", null);
+
+        this.personService.addPerson(reconciliationCriteria, null);
+
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+
+        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria1, null);
+
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+
+        assertNotNull(result.getReconciliationResult());
+        assertFalse(result.succeeded());
+        assertTrue(result.getTargetObject() instanceof ReconciliationCriteria);
+
+        final ServiceExecutionResult serviceExecutionResult = this.personService.addPerson(reconciliationCriteria1, result.getReconciliationResult());
+
+        assertNull(serviceExecutionResult.getReconciliationResult());
+        assertNotNull(serviceExecutionResult.getTargetObject());
+        assertTrue(serviceExecutionResult.getTargetObject() instanceof Person);
+
+        assertEquals(2, countRowsInTable("prc_persons"));
+        assertEquals(2, countRowsInTable("prc_names"));
+        assertEquals(2, countRowsInTable("prs_names"));
+        assertEquals(2, countRowsInTable("prs_sor_persons"));
+    }
 }

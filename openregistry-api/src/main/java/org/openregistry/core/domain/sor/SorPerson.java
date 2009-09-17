@@ -48,7 +48,7 @@ public interface SorPerson {
     Long getId();
 
     /**
-     * Sets the Identifier for this Person WITHIN the system of record.
+     * Sets the Identifier for this Person WITHIN the system of record.  At Rutgers, this would be an RUID.
      * @param id the identifier. CANNOT be null, if setting.
      */
     void setSorId(String id);
@@ -58,14 +58,14 @@ public interface SorPerson {
      *
      * @return the identifier for the System of Record
      */
-    String getSourceSorIdentifier();
+    String getSourceSor();
 
     /**
      * Sets the identifier for the system of record.
      *
      * @param sorIdentifier the system of record identifier.
      */
-    void setSourceSorIdentifier(String sorIdentifier);
+    void setSourceSor(String sorIdentifier);
 
     /**
      * Returns the set of names the System of Record knows about the Person.

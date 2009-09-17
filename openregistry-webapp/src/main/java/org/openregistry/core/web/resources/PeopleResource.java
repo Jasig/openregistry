@@ -281,7 +281,7 @@ public final class PeopleResource {
     private SorRole buildSorRoleFrom(SorPerson person, RoleInfo roleInfo, RoleRepresentation roleRepresentation) {
         SorRole sorRole = person.addRole(roleInfo);
         sorRole.setSorId("1");  // TODO: what to set here?
-        sorRole.setSourceSorIdentifier(person.getSourceSorIdentifier());
+        sorRole.setSourceSorIdentifier(person.getSourceSor());
         sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, "active"));
         sorRole.setStart(roleRepresentation.startDate);
         sorRole.setEnd(roleRepresentation.endDate);
@@ -320,7 +320,7 @@ public final class PeopleResource {
 
     private ReconciliationCriteria buildReconciliationCriteriaFrom(PersonRequestRepresentation request) {
         ReconciliationCriteria ps = this.reconciliationCriteriaObjectFactory.getObject();
-        ps.getPerson().setSourceSorIdentifier(request.systemOfRecordId);
+        ps.getPerson().setSourceSor(request.systemOfRecordId);
         ps.getPerson().setSorId(request.systemOfRecordPersonId);
         Name name = ps.getPerson().addName();
         name.setGiven(request.firstName);

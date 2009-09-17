@@ -69,11 +69,11 @@ public class MockSorPerson extends Entity implements SorPerson {
         return this.sorId;
     }
 
-    public String getSourceSorIdentifier() {
+    public String getSourceSor() {
         return this.sourceSorIdentifier;
     }
 
-    public void setSourceSorIdentifier(final String sorIdentifier) {
+    public void setSourceSor(final String sorIdentifier) {
         this.sourceSorIdentifier = sorIdentifier;
     }
 
