@@ -92,8 +92,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         assertEquals(1, countRowsInTable("prc_names"));
         assertEquals(1, countRowsInTable("prs_names"));
         assertEquals(1, countRowsInTable("prs_sor_persons"));
-// DO WE HAVE IDENTIFIERS CONFIGURED?
-//        assertEquals(1, countRowsInTable("prc_identifiers"));
 	}
 
     /**
@@ -119,7 +117,8 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 
     /**
      * Test 3: Test of adding two new Sor Persons where there is an exact match (same SoR)
-     * Expectations:
+     *
+     * This is an update.
      */
     @Test
     public void testAddExactPersonWithSameSoR() {
