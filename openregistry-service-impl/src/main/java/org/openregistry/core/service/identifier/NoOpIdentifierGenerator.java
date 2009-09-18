@@ -23,7 +23,6 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Temp Class until we get real implementations
  */
-@Component
 public final class NoOpIdentifierGenerator implements IdentifierGenerator {
 
     private AtomicLong incrementalValue = new AtomicLong(0);

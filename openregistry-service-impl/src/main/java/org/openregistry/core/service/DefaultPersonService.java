@@ -17,6 +17,7 @@ package org.openregistry.core.service;
 
 import org.openregistry.core.service.identifier.IdentifierAssigner;
 import org.openregistry.core.service.identifier.IdentifierGenerator;
+import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.Reconciler;
 import org.openregistry.core.service.reconciliation.PersonMatch;
