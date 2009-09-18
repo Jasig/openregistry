@@ -307,20 +307,6 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
             </snapshots>
             <url>http://repository.springsource.com/maven/bundles/release</url>
         </repository>
-
-        <repository>
-            <id>apache.snapshots</id>
-            <name>Apache Development Snapshot Repository</name>
-            <url>https://repository.apache.org/content/repositories/snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-
-
     </repositories>
 
     <distributionManagement>
@@ -335,6 +321,13 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
             <name>Jasig Snapshot Repository</name>
             <url>http://developer.jasig.org/repo/content/repositories/m2-snapshot/</url>
         </snapshotRepository>
+
+        <repository>
+            <id>jasig.repo</id>
+            <layout>default</layout>
+            <name>Jasig Maven2 Repository</name>
+            <url>http://developer.jasig.org/repo/content/repositories/m2/</url>
+        </repository>
     </distributionManagement>
 
     <reporting>
