@@ -47,7 +47,7 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
     <jee:jndi-lookup id="hibernateDialect" jndi-name="conf/HibernateDialect" expected-type="java.lang.String"/>
-    <jee:jndi-lookup id="preferredPersonIdentifierType "jndi-name="conf/restapi/preferredPersonIdentifierType" expected-type="java.lang.String" />
+    <jee:jndi-lookup id="preferredPersonIdentifierType" jndi-name="conf/restapi/preferredPersonIdentifierType" expected-type="java.lang.String" />
 
     <!-- To create proxies for IdentifierChangeAspect which itself is being 'component-scanned' (for now; and others later) -->
     <aop:aspectj-autoproxy/>
