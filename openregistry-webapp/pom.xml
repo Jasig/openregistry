@@ -40,13 +40,6 @@
 
         <dependency>
             <groupId>org.jasig.openregistry</groupId>
-            <artifactId>openregistry-security-springsecurity</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jasig.openregistry</groupId>
             <artifactId>openregistry-service-impl</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -371,7 +364,7 @@
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>jsr250-api</artifactId>
-            <version>1.0</version>
+            <version>${jsr250.version}</version>
         </dependency>
 
         <!-- TEST DEPENDENCIES -->
