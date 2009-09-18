@@ -84,7 +84,7 @@
 
     <!-- REST API configuration -->
     <bean id="preferredPersonIdentifierType" class="java.lang.String">
-        <constructor-arg index="0" value="RCPID"/>
+        <constructor-arg index="0" value="NETID"/>
     </bean>
 
     <bean id="openregistryMessageSourceAccessor" class="org.openregistry.aspect.OpenRegistryMessageSourceAccessor"/>
