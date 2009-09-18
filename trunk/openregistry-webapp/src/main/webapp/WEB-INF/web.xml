@@ -27,7 +27,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>WEB-INF/applicationContext.xml WEB-INF/camel-integration-context.xml WEB-INF/securityContext.xml</param-value>
+        <param-value>WEB-INF/applicationContext.xml WEB-INF/camel-integration-context.xml WEB-INF/securityContext.xml WEB-INF/local-configuration/*.xml</param-value>
     </context-param>
 
     <filter>
