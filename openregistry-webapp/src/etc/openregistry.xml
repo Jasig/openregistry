@@ -91,4 +91,10 @@
         name="conf/openregistry/messaging/endpointUrl"
         value="tcp://dev-registry.rutgers.edu:61616"
         type="java.lang.String" />
+
+    <Environment
+        description="Preferred Identifier to use When sending Back Location Header for Add Person RESTful API Call"
+        name="conf/restapi/preferredPersonIdentifierType"
+        value="NETID"
+        type="java.lang.String" />
 </Context>

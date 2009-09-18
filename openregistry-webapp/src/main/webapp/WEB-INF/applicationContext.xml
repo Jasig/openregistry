@@ -43,12 +43,11 @@
     <context:component-scan base-package="org.openregistry.core"/>
     <context:component-scan base-package="org.openregistry.core.repository"/>
     <context:component-scan base-package="org.openregistry.integration.support"/>
-    <context:component-scan base-package="org.openregistry.security" />
-    <context:component-scan base-package="org.jasig.openregistry.security" />
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
     <jee:jndi-lookup id="hibernateDialect" jndi-name="conf/HibernateDialect" expected-type="java.lang.String"/>
+    <jee:jndi-lookup id="preferredPersonIdentifierType "jndi-name="conf/restapi/preferredPersonIdentifierType" expected-type="java.lang.String" />
 
     <!-- To create proxies for IdentifierChangeAspect which itself is being 'component-scanned' (for now; and others later) -->
     <aop:aspectj-autoproxy/>
@@ -82,17 +81,7 @@
         </property>
     </bean>
 
-    <!-- REST API configuration -->
-    <bean id="preferredPersonIdentifierType" class="java.lang.String">
-        <constructor-arg index="0" value="NETID"/>
-    </bean>
-
     <bean id="openregistryMessageSourceAccessor" class="org.openregistry.aspect.OpenRegistryMessageSourceAccessor"/>
-
-    <bean id="rcpIdGenerator" class="org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="incrementerName" value="rcpid_generator_seq"/>
-    </bean>
 
     <!-- Messaging integration configuration -->
     <bean id="integrationGateway" class="org.openregistry.integration.internal.CamelIntegrationGateway"/>        
