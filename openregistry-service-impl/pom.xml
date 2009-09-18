@@ -4,12 +4,12 @@
     <parent>
         <artifactId>openregistry</artifactId>
         <groupId>org.jasig.openregistry</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>0.1-M1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.openregistry</groupId>
     <artifactId>openregistry-service-impl</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.1-M1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>OpenRegistry Service Layer Implementation</name>
 
