@@ -24,6 +24,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * NetId Identifier Generator
@@ -66,7 +67,8 @@ public final class NetIdIdentifierGenerator {
     private String appendNumber(String base){
         int baseNumber = 1;
 
-        List<Identifier> identifiers = personRepository.findNetIDBaseIdentifier(NETID,base);
+        List<Identifier> identifiers = new ArrayList<Identifier>();
+        // personRepository.findNetIDBaseIdentifier(NETID,base);
         if (identifiers.isEmpty())
             return base+baseNumber;
 

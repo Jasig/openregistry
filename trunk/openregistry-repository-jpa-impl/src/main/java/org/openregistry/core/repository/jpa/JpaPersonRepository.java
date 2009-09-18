@@ -84,21 +84,12 @@ public class JpaPersonRepository implements PersonRepository {
     	.setParameter("name", family).getResultList();
     }
 
-    public List<Identifier> findNetIDBaseIdentifier(final String identifierType, final String netIDBase) throws RepositoryAccessException {
-    	return this.entityManager.createQuery("SELECT i FROM identifier i join i.type t WHERE t.name = :name and i.value like :value")
-    	.setParameter("name", identifierType).setParameter("value", netIDBase + "%").getResultList();
-    }
-
     public Person savePerson(final Person person) throws RepositoryAccessException {
         return this.entityManager.merge(person);
     }
 
     public SorPerson saveSorPerson(final SorPerson person) throws RepositoryAccessException {
         return this.entityManager.merge(person);
-    }
-
-    public Role saveRole(final Role role) throws RepositoryAccessException {
-        return this.entityManager.merge(role);
     }
 
     public void addPerson(Person person) throws RepositoryAccessException {
@@ -147,16 +138,5 @@ public class JpaPersonRepository implements PersonRepository {
     public void deletePerson(final Person person) {
         this.entityManager.createQuery("Delete from person p where p.id = :personId").setParameter("personId", person.getId()).executeUpdate();
     }
-
-    public List<Identifier> findPersonIdentifiers(final Long personId) throws RepositoryAccessException {
-        //return (List<Identifier>)this.entityManager.createQuery("SELECT i FROM identifier i WHERE i.id = :id").setParameter("id", personId).getResultList();
-        return (List<Identifier>) this.entityManager.createQuery("select i from identifier i join i.person p where p.id = :personId and i.person = :personId").setParameter("personId", personId).getResultList();
-    }
-
-    public void deleteName(Name name){
-        Name nameToDelete = this.entityManager.getReference(name.getClass(), name.getId());
-        this.entityManager.remove(nameToDelete);
-    }
-
 }
 

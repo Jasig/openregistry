@@ -22,7 +22,6 @@ import org.openregistry.core.repository.ReferenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
 public class NetidIdentifierAssigner implements IdentifierAssigner {
 
 	@Autowired(required = true)

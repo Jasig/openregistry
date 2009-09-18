@@ -29,7 +29,8 @@ import org.openregistry.core.service.SearchCriteria;
  * Repository abstraction to deal with persistence concerns for <code>Person</code> entities
  * and their related entities
  *
- * @since 1.0
+ * @version $Revision$ $Date$
+ * @since 0.1
  */
 public interface PersonRepository {
 
@@ -148,7 +149,7 @@ public interface PersonRepository {
      * Returns the count of the number of SoR records for a particular person.
      *
      * @param person the person
-     * @return the number of reords.  Must be >=0.
+     * @return the number of records.  Must be >=0.
      */
     Number getCountOfSoRRecordsForPerson(Person person);
 
@@ -179,17 +180,10 @@ public interface PersonRepository {
      * Updates the sor role in the database.
      *
      * @param role the sor role being updated.
+     * @return the updated SoR role.
      */
     SorRole saveSorRole(SorRole role);
-
-    /**
-     * Updates the role int the database.
-     * 
-     * @param role the role being updated.
-     * @return role being updated.
-     */
-    Role saveRole(Role role);
-    
+ 
     /**
      * Locates a System of Record for a Person based on their internal personId and the internal system of record
      * role identifier.
@@ -200,25 +194,4 @@ public interface PersonRepository {
      * @return the person if they exist.  In theory if you have both ids this should never return null.
      */
     SorPerson findSorPersonByPersonIdAndSorRoleId(Long personId, Long sorRoleId);
-
-    /**
-     * Finds the identifers for a person.
-     *
-     * @param personId the internal identifier for the person.
-     *
-     * @return a list of identifiers.
-     */
-    List<Identifier> findPersonIdentifiers(final Long personId);
-
-    /**
-     * Finds the identifiers where the base of the netid is the same.
-     *
-     * @param identifierType
-     * @param netIDBase
-     *
-     * @return a list of identifiers.
-     */
-    List<Identifier> findNetIDBaseIdentifier(final String identifierType, final String netIDBase);
-
-    void deleteName(final Name name);
 }
