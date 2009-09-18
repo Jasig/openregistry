@@ -235,6 +235,8 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
     </build>
 
     <properties>
+        <activemq.version>5.2.0</activemq.version>
+        <jsr250.version>1.0</jsr250.version>
         <aspectj.version>1.6.2</aspectj.version>
         <camel.version>2.0.0</camel.version>
         <clover.version>2.6.0</clover.version>
