@@ -167,15 +167,6 @@ public interface PersonService {
     ServiceExecutionResult addPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult result) throws IllegalArgumentException;
 
     /**
-     * Called when a new SoR is providing information to an existing person.
-     * @param sorPerson new sor data that needs to be persisted.
-     * @param sourceSoRID id of the source SoR.
-     * @param person existing person that will 
-     * @return
-     */
-    SorPerson addSorPerson(SorPerson sorPerson, String sourceSoRID, Person person);
-
-    /**
      * Searches for a Person by the criteria provided.
      *
      * @param searchCriteria the Person to search for.  CANNOT be null.
