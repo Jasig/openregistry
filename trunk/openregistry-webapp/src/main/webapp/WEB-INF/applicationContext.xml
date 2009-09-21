@@ -57,7 +57,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
                   p:generateDdl="true"
-                  p:showSql="true"/>
+                  p:showSql="false"/>
         </property>
         <property name="jpaPropertyMap">
             <map>

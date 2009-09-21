@@ -28,6 +28,8 @@ import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.IdentifierChangeService;
 import org.openregistry.core.service.reconciliation.PersonMatch;
+import org.openregistry.core.service.reconciliation.ReconciliationException;
+import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.web.resources.representations.LinkRepresentation;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
 import org.openregistry.core.web.resources.representations.PersonResponseRepresentation;
@@ -153,48 +155,48 @@ public final class PeopleResource {
         reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
         logger.info("Trying to add incoming person...");
 
-        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
-        Person person = (Person) result.getTargetObject();
-        //Now do the branching logic based on the result
-        if (result.succeeded()) {
-            if (result.getReconciliationResult().noPeopleFound()) {
-                uri = buildPersonResourceUri(person);
-                response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person))
-                        .type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
-                logger.info(String.format("Person successfuly created. The person resource URI is %s", uri.toString()));
-            }
-            else if (result.getReconciliationResult().personAlreadyExists()) {
-                uri = buildPersonResourceUri(person);
-                //HTTP 303 ("See other with GET")
-                response = Response.seeOther(uri).build();
-                logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
-            }
-        }
-        else {
-            if (result.getValidationErrors().size() > 0) {
-                logger.info("The incoming person payload did not pass validation. Validation errors: " +
-                        result.getValidationErrors());
+        try {
+            final ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
+
+            if (!result.succeeded()) {
+                logger.info("The incoming person payload did not pass validation. Validation errors: " + result.getValidationErrors());
                 return Response.status(Response.Status.BAD_REQUEST).entity("The incoming request is malformed.").build();
             }
-            else if (result.getReconciliationResult().multiplePeopleFound()) {
-                //Force add scenario
-                if (FORCE_ADD_FLAG.equals(forceAdd)) {
-                    logger.warn("Multiple people found, but doing a 'force add'");
-                    result = this.personService.addPerson(reconciliationCriteria, result.getReconciliationResult());
-                    Person forcefullyAddedPerson = (Person) result.getTargetObject();
-                    uri = buildPersonResourceUri(forcefullyAddedPerson);
-                    response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson))
-                            .type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
-                    logger.info(String.format("Person successfuly created (with 'force add' option). The person resource URI is %s", uri.toString()));
-                }
-                else {
-                    List<PersonMatch> conflictingPeopleFound = result.getReconciliationResult().getMatches();
-                    response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound))
-                            .type(MediaType.APPLICATION_XHTML_XML).build();
-                    logger.info("Multiple people found: " + response.getEntity());
-                }
+
+            final Person person = result.getTargetObject();
+            uri = buildPersonResourceUri(person);
+            response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
+            logger.info(String.format("Person successfully created. The person resource URI is %s", uri.toString()));
+        } catch (final ReconciliationException ex) {
+            final ReconciliationResult reconciliationResult = ex.getReconciliationResult();
+
+            switch (reconciliationResult.getReconciliationType()) {
+                case MAYBE:
+                    if (FORCE_ADD_FLAG.equals(forceAdd)) {
+                        logger.warn("Multiple people found, but doing a 'force add'");
+                        final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria, reconciliationResult);
+                        Person forcefullyAddedPerson =  result.getTargetObject();
+                        uri = buildPersonResourceUri(forcefullyAddedPerson);
+                        response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
+                        logger.info(String.format("Person successfuly created (with 'force add' option). The person resource URI is %s", uri.toString()));
+                    } else {
+                        List<PersonMatch> conflictingPeopleFound = reconciliationResult.getMatches();
+                        response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound)).type(MediaType.APPLICATION_XHTML_XML).build();
+                        logger.info("Multiple people found: " + response.getEntity());
+                    }
+                    break;
+
+                case EXACT:
+                    uri = buildPersonResourceUri(reconciliationResult.getMatches().get(0).getPerson());
+                    //HTTP 303 ("See other with GET")
+                    response = Response.seeOther(uri).build();
+                    logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
+                    break;
+
             }
+
         }
+
         return response;
     }
 

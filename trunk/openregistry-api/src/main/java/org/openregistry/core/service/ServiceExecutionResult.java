@@ -27,7 +27,7 @@ import java.io.Serializable;
  *
  * @since 1.0
  */
-public interface ServiceExecutionResult extends Serializable {
+public interface ServiceExecutionResult<T> extends Serializable {
 
     /**
      * Get an instant in time when a particular service, represented by this result, has been executed
@@ -53,7 +53,7 @@ public interface ServiceExecutionResult extends Serializable {
      *
      * @return the original object.  This CANNOT be null.
      */
-    Object getTargetObject();
+    T getTargetObject();
 
     /**
      * The list of field or object level validations.
@@ -61,10 +61,4 @@ public interface ServiceExecutionResult extends Serializable {
      * @return the list of validations.  CANNOT be null.  CAN be empty.
      */
     List<ValidationError> getValidationErrors();
-
-    /**
-     * The result of any reconciliation process.
-     * @return the result of any reconciliation.  CAN be NULL.
-     */
-    ReconciliationResult getReconciliationResult();
 }

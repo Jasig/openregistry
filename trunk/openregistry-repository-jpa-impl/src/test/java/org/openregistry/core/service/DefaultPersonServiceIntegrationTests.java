@@ -82,9 +82,9 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
      *               1 Calculated Person row created, one name, one identifier
      */
 	@Test
-	public void testAddOnePerson(){
+	public void testAddOnePerson() throws ReconciliationException {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
-        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        final ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
 
         assertTrue(result.succeeded());
         assertEquals(1, countRowsInTable("prc_persons"));
@@ -99,15 +99,14 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
      *               2 Calculated persons, two names, two identifiers
      */
     @Test
-    public void testAddTwoDifferentPeople() {
+    public void testAddTwoDifferentPeople() throws ReconciliationException {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
-        this.personService.addPerson(reconciliationCriteria, null);
+        this.personService.addPerson(reconciliationCriteria);
 
         final ReconciliationCriteria reconciliationCriteria2 = constructReconciliationCriteria("Foo", "Bar", null, "la@lao.com", "9085550987", new Date(0), OR_WEBAPP_IDENTIFIER, null);
-        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria2, null);
+        final ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria2);
 
         assertTrue(result.succeeded());
-        assertNotNull(result.getReconciliationResult());
         assertEquals(2, countRowsInTable("prc_persons"));
         assertEquals(2, countRowsInTable("prc_names"));
         assertEquals(2, countRowsInTable("prs_names"));
@@ -120,14 +119,12 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
      * This is an update.  TODO complete this test
      */
     @Test
-    public void testAddExactPersonWithSameSoR() {
+    public void testAddExactPersonWithSameSoR() throws ReconciliationException {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
-        this.personService.addPerson(reconciliationCriteria, null);
+        this.personService.addPerson(reconciliationCriteria);
 
-        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria);
 
-
-        assertNotNull(result.getReconciliationResult());
         assertTrue(result.succeeded());
         assertEquals(1, countRowsInTable("prc_persons"));
         assertEquals(1, countRowsInTable("prc_names"));
@@ -140,15 +137,14 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
      * // TODO re-enable this test.  Disabled because it fails.
      */
     @Test
-    public void testAddExactPersonWithDifferentSoRs() {
+    public void testAddExactPersonWithDifferentSoRs() throws ReconciliationException {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "SOR2", null);
-        this.personService.addPerson(reconciliationCriteria, null);
+        this.personService.addPerson(reconciliationCriteria);
 
-        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria1, null);
+        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria1);
 
         assertTrue(result.getTargetObject() instanceof Person);
-        assertNotNull(result.getReconciliationResult());
         assertTrue(result.succeeded());
         //assertEquals(1, countRowsInTable("prc_persons"));
         //assertEquals(1, countRowsInTable("prc_names"));
@@ -180,30 +176,24 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
 
-        this.personService.addPerson(reconciliationCriteria, null);
-
+        try {
+            this.personService.addPerson(reconciliationCriteria);
+        } catch (final ReconciliationException e) {
+            // nothing to do
+        }
         assertEquals(1, countRowsInTable("prs_sor_persons"));
 
-        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria1, null);
-
-        assertEquals(1, countRowsInTable("prs_sor_persons"));
-
-        assertNotNull(result.getReconciliationResult());
-        assertFalse(result.succeeded());
-        assertTrue(result.getTargetObject() instanceof ReconciliationCriteria);
-
-        final ServiceExecutionResult serviceExecutionResult = this.personService.addPerson(reconciliationCriteria1, result.getReconciliationResult());
-
-        assertNull(serviceExecutionResult.getReconciliationResult());
-        assertNotNull(serviceExecutionResult.getTargetObject());
-        assertTrue(serviceExecutionResult.getTargetObject() instanceof Person);
-
-        assertEquals(2, countRowsInTable("prc_persons"));
-        assertEquals(2, countRowsInTable("prc_names"));
-        assertEquals(2, countRowsInTable("prs_names"));
-        assertEquals(2, countRowsInTable("prs_sor_persons"));
-
-        
+        try {
+            this.personService.addPerson(reconciliationCriteria1);
+        } catch (final ReconciliationException e) {
+            assertEquals(1, countRowsInTable("prs_sor_persons"));
+            final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.forceAddPerson(reconciliationCriteria1, e.getReconciliationResult());
+            assertNotNull(serviceExecutionResult.getTargetObject());
+            assertEquals(2, countRowsInTable("prc_persons"));
+            assertEquals(2, countRowsInTable("prc_names"));
+            assertEquals(2, countRowsInTable("prs_names"));
+            assertEquals(2, countRowsInTable("prs_sor_persons"));
+        }
     }
 
     /**
@@ -231,27 +221,22 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "SOR2", null);
 
-        this.personService.addPerson(reconciliationCriteria, null);
+        try {
+            this.personService.addPerson(reconciliationCriteria);
+            assertEquals(1, countRowsInTable("prs_sor_persons"));
+        } catch (final ReconciliationException e) {
+            fail();
+        }
 
-        assertEquals(1, countRowsInTable("prs_sor_persons"));
-
-        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria1, null);
-
-        assertEquals(1, countRowsInTable("prs_sor_persons"));
-
-        assertNotNull(result.getReconciliationResult());
-        assertFalse(result.succeeded());
-        assertTrue(result.getTargetObject() instanceof ReconciliationCriteria);
-
-        final ServiceExecutionResult serviceExecutionResult = this.personService.addPerson(reconciliationCriteria1, result.getReconciliationResult());
-
-        assertNull(serviceExecutionResult.getReconciliationResult());
-        assertNotNull(serviceExecutionResult.getTargetObject());
-        assertTrue(serviceExecutionResult.getTargetObject() instanceof Person);
-
-        assertEquals(2, countRowsInTable("prc_persons"));
-        assertEquals(2, countRowsInTable("prc_names"));
-        assertEquals(2, countRowsInTable("prs_names"));
-        assertEquals(2, countRowsInTable("prs_sor_persons"));
+        try {
+            final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria1);
+        } catch (final ReconciliationException e) {
+            assertEquals(1, countRowsInTable("prs_sor_persons"));
+            final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.forceAddPerson(reconciliationCriteria1, e.getReconciliationResult());
+            assertEquals(2, countRowsInTable("prc_persons"));
+            assertEquals(2, countRowsInTable("prc_names"));
+            assertEquals(2, countRowsInTable("prs_names"));
+            assertEquals(2, countRowsInTable("prs_sor_persons"));
+        }
     }
 }
