@@ -32,32 +32,31 @@ import java.util.Collections;
  * @see org.openregistry.core.service.ServiceExecutionResult
  *
  */
-public class GeneralServiceExecutionResult implements ServiceExecutionResult {
+public class GeneralServiceExecutionResult<T> implements ServiceExecutionResult<T> {
 
     private final String serviceName;
 
     private final Date serviceExecutionDate = new Date();
 
-    private final Object targetObject;
+    private final T targetObject;
 
     private final List<ValidationError> validationErrors;
 
-    private boolean succeeded;
+    private boolean succeeded;  
 
-    public GeneralServiceExecutionResult(final String serviceName, final Object targetObject) {
+    public GeneralServiceExecutionResult(final String serviceName, final T targetObject) {
         this(serviceName, targetObject, null);
     }
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    public GeneralServiceExecutionResult(final String serviceName, final List<ValidationError> validationErrors) {
+        this(serviceName, null, validationErrors);
+    }
 
-    // protected GeneralServiceExecutionResult(final String serviceName, final Object targetObject, final List<ValidationError> validationErrors, final ReconciliationResult reconciliationResult) {
-    public GeneralServiceExecutionResult(final String serviceName, final Object targetObject, final List<ValidationError> validationErrors) {
+    public GeneralServiceExecutionResult(final String serviceName, final T targetObject, final List<ValidationError> validationErrors) {
         this.serviceName = serviceName;
         this.targetObject = targetObject;
         this.validationErrors = validationErrors != null ? Collections.unmodifiableList(validationErrors) : Collections.<ValidationError>emptyList();
         this.succeeded = this.validationErrors.isEmpty();
-        if (this.succeeded) logger.info("Returning succeeded");
-        else logger.info("Returning DID NOT succeed");
     }
 
     public Date getExecutionDate() {
@@ -68,7 +67,7 @@ public class GeneralServiceExecutionResult implements ServiceExecutionResult {
         return this.serviceName;
     }
 
-    public Object getTargetObject() {
+    public T getTargetObject() {
         return this.targetObject;
     }
 
@@ -77,16 +76,6 @@ public class GeneralServiceExecutionResult implements ServiceExecutionResult {
     }
 
     public boolean succeeded() {
-        return succeeded;
+        return this.succeeded;
     }
-
-    protected void setSucceeded(boolean succeeded){
-        this.succeeded = succeeded;
-    }
-
-    // TODO fix this
-    public ReconciliationResult getReconciliationResult() {
-        return null;
-    }
-
 }

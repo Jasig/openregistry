@@ -31,6 +31,7 @@ import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
 import org.openregistry.core.service.reconciliation.MockReconciler;
 import org.openregistry.core.service.reconciliation.Reconciler;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
+import org.openregistry.core.service.reconciliation.ReconciliationException;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.BeansException;
 
@@ -49,7 +50,7 @@ public class DefaultPersonServiceTests {
 
     private DefaultPersonService personService;
 
-    private ObjectFactory objectFactory;
+    private ObjectFactory<Person> objectFactory;
 
     private PersonRepository personRepository;
 
@@ -62,7 +63,11 @@ public class DefaultPersonServiceTests {
     @Before
     public void setUp() throws Exception {
         this.personRepository = new MockPersonRepository(new MockPerson());
-        this.objectFactory = new ObjectFactory(){ public Person getObject() { return new MockPerson();}};
+        this.objectFactory = new ObjectFactory<Person>() {
+            public Person getObject() {
+                return new MockPerson();
+            }
+        };
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_NONE));
         reconciliationCriteria = new MockReconciliationCriteria();
         setReconciliationCriteria(reconciliationCriteria);
@@ -81,73 +86,47 @@ public class DefaultPersonServiceTests {
         sorPerson.setDateOfBirth(new Date());
     }
 
-    /**
-     * Tests passing null OldReconciliationResult.
-     */
-    @Test
-    public void testNullOldReconciliationResult() {
-        this.personService.addPerson(reconciliationCriteria, null);
-    }
-
      /**
      * Tests the illegal argument exception.
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testAddIllegalArgument() {
-        this.personService.addPerson(null, null);
-    }
-
-    /**
-     * Tests get a reconciliation result.
-     */
-    @Test
-    public void testReconciliationResult() {
-        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
-        assertNotNull(result);
-        ReconciliationResult recResult = result.getReconciliationResult();
-        assertNotNull(recResult);
+    public void testAddIllegalArgument() throws ReconciliationException {
+        this.personService.addPerson(null);
     }
 
     /**
      * Tests if reconciliation result is NONE that person is returned, activation key is returned, identifiers created.
      */
     @Test
-    public void testReconciliationResultNoneReturnsPerson() {
+    public void testReconciliationResultNoneReturnsPerson() throws ReconciliationException {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_NONE));
-        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
         assertNotNull(result);
-        ReconciliationResult recResult = result.getReconciliationResult();
-        assertNotNull(recResult);
         assertNotNull(result.getTargetObject());
-        assertSame(result.getTargetObject().getClass(),org.openregistry.core.domain.MockPerson.class);
-        assertNotNull(((Person)result.getTargetObject()).getCurrentActivationKey());
-        assertFalse(((Person)result.getTargetObject()).getIdentifiers().isEmpty());
+        assertNotNull((result.getTargetObject()).getCurrentActivationKey());
+        assertFalse((result.getTargetObject()).getIdentifiers().isEmpty());
     }
 
     /**
      * Tests if reconciliation result is EXACT that person is returned.
+     *
+     * // TODO: this test is actually technically incorrect.
      */
     @Test
-    public void testReconciliationResultExactMatch() {
+    public void testReconciliationResultExactMatch() throws ReconciliationException {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_EXACT));
-        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
+        ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
         assertNotNull(result);
-        assertNotNull(result.getReconciliationResult());
         assertNotNull(result.getTargetObject());
-        assertSame(result.getTargetObject().getClass(),org.openregistry.core.domain.MockPerson.class);
     }
 
      /**
      * Tests if reconciliation result is MAYBE that a person is not returned.
      */
-    @Test
-    public void testReconciliationResultMaybeMatch() {
+    @Test(expected = ReconciliationException.class)
+    public void testReconciliationResultMaybeMatch() throws ReconciliationException {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_MAYBE));
-        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
-        assertNotNull(result);
-        assertNotNull(result.getReconciliationResult());
-        assertNotNull(result.getTargetObject());
-        assertSame(result.getTargetObject().getClass(),org.openregistry.core.domain.sor.MockReconciliationCriteria.class);
+        this.personService.addPerson(reconciliationCriteria);
      }
 
      /**
@@ -155,16 +134,17 @@ public class DefaultPersonServiceTests {
      */
     @Test
     public void testReconciliationResultOldReconciliationResultProvided() {
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_MAYBE));
-        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
-        assertNotNull(result);
-        assertNotNull(result.getReconciliationResult());
-        result = this.personService.addPerson(reconciliationCriteria, result.getReconciliationResult());
-        //check person was added.
-        assertNotNull(result.getTargetObject());
-        assertSame(result.getTargetObject().getClass(),org.openregistry.core.domain.MockPerson.class);
-        assertNotNull(((Person)result.getTargetObject()).getCurrentActivationKey());
-        assertFalse(((Person)result.getTargetObject()).getIdentifiers().isEmpty());
+         ServiceExecutionResult<Person> result = null;
+         try {
+            this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_MAYBE));
+            result = this.personService.addPerson(reconciliationCriteria);
+            assertNotNull(result);
+         } catch (final ReconciliationException ex) {
+            result = this.personService.forceAddPerson(reconciliationCriteria, ex.getReconciliationResult());
+             assertNotNull(result.getTargetObject().getCurrentActivationKey());
+             assertFalse(result.getTargetObject().getIdentifiers().isEmpty());
+
+         }
     }
 
     //TODO need to add test cases for conditionally required fields.

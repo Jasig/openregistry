@@ -18,10 +18,6 @@ package org.openregistry.core.service;
 import org.openregistry.core.service.identifier.IdentifierAssigner;
 import org.openregistry.core.service.identifier.IdentifierGenerator;
 import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
-import org.openregistry.core.service.reconciliation.Reconciler;
-import org.openregistry.core.service.reconciliation.PersonMatch;
-import org.openregistry.core.service.reconciliation.FieldMatch;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Name;
@@ -32,7 +28,7 @@ import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
-import org.openregistry.core.service.reconciliation.PersonMatchImpl;
+import org.openregistry.core.service.reconciliation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.ObjectFactory;
@@ -231,12 +227,12 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public ServiceExecutionResult validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
+    public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
         final String serviceName = "PersonService.validateAndSaveRoleForSorPerson";
         final List<ValidationError> validationErrors = validateAndConvert(sorRole);
 
         if (!validationErrors.isEmpty()) {
-            return new ReconciliationServiceExecutionResult(serviceName, sorRole, validationErrors);
+            return new GeneralServiceExecutionResult<SorRole>(serviceName, sorRole, validationErrors);
         }
 
         logger.info("validateAndSaveRoleForSorPerson: sorPerson.getPersonId(): "+ sorPerson.getPersonId() + "role info code: " +sorRole.getRoleInfo().getCode()) ;
@@ -252,36 +248,40 @@ public class DefaultPersonService implements PersonService {
 
         Person savedPerson = this.personRepository.savePerson(person);
 
-        return new GeneralServiceExecutionResult(serviceName, sorRole);
+        return new GeneralServiceExecutionResult<SorRole>(serviceName, sorRole);
     }
 
     @Transactional
-    public ServiceExecutionResult addPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult oldReconciliationResult) throws IllegalArgumentException {
+    public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException {
         Assert.notNull(reconciliationCriteria,"reconciliationCriteria cannot be null");
         final List<ValidationError> validationErrors = validateAndConvert(reconciliationCriteria);
         final String serviceName = "PersonService.addPerson";
 
         if (!validationErrors.isEmpty()) {
-            return new ReconciliationServiceExecutionResult(serviceName, reconciliationCriteria, validationErrors);
+            return new GeneralServiceExecutionResult<Person>(serviceName, validationErrors);
         }
 
-        if (oldReconciliationResult == null) {
-            final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
+        final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
 
-            if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
-                return new ReconciliationServiceExecutionResult(serviceName, magic(reconciliationCriteria), result);
-            } else if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
-                // TODO this method should not be doing this update
-            	return new ReconciliationServiceExecutionResult(serviceName, magicUpdate(reconciliationCriteria, result), result);
-            }
-
-            return new ReconciliationServiceExecutionResult(serviceName, reconciliationCriteria, result);
+        if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
+            return new GeneralServiceExecutionResult<Person>(serviceName, magic(reconciliationCriteria));
+        } else if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
+            // TODO this method should not be doing this update
+            return new GeneralServiceExecutionResult<Person>(serviceName, magicUpdate(reconciliationCriteria, result));
         }
-        // Here if we were called a second time.  This means even though we found partial matches, this is a new person.
-        return new ReconciliationServiceExecutionResult(serviceName, magic(reconciliationCriteria));
+
+        throw new ReconciliationException(result);
     }
 
-	@Transactional
+    @Transactional
+    public ServiceExecutionResult<Person> forceAddPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult reconciliationResult) throws IllegalArgumentException {
+        Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null.");
+        Assert.notNull(reconciliationResult, "reconciliationResult cannot be null.");
+        final String serviceName = "PersonService.addPerson";
+        return new GeneralServiceExecutionResult<Person>(serviceName, magic(reconciliationCriteria));
+    }
+
+    @Transactional
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
         final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
 
@@ -457,20 +457,20 @@ public class DefaultPersonService implements PersonService {
      * @return serviceExecutionResult.
      */
     @Transactional
-    public ServiceExecutionResult updateSorPerson(SorPerson sorPerson) {
+    public ServiceExecutionResult<SorPerson> updateSorPerson(SorPerson sorPerson) {
         final String serviceName = "PersonService.updateSorPerson";
 
         final List<ValidationError> validationErrors = validateAndConvert(sorPerson);
 
         if (!validationErrors.isEmpty()) {
-            return new GeneralServiceExecutionResult(serviceName, sorPerson, validationErrors);
+            return new GeneralServiceExecutionResult<SorPerson>(serviceName, sorPerson, validationErrors);
         }
 
         // Save Sor Person
         logger.info("PersonService:updateSorPerson: updating person...");
         sorPerson = this.personRepository.saveSorPerson(sorPerson);
 
-        return new GeneralServiceExecutionResult(serviceName, sorPerson);
+        return new GeneralServiceExecutionResult<SorPerson>(serviceName, sorPerson);
 
         // TODO Need to update the calculated person. Need to establish rules to do this. OR-59
     }

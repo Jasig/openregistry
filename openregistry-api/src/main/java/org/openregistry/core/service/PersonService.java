@@ -22,6 +22,7 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
+import org.openregistry.core.service.reconciliation.ReconciliationException;
 
 import java.util.List;
 
@@ -149,7 +150,7 @@ public interface PersonService {
      * @return an instance of a <code>ServiceExecutionResult</code> containing details
      *         of whether this operation succeeded or failed.
      */
-    ServiceExecutionResult validateAndSaveRoleForSorPerson(SorPerson sorPerson, SorRole sorRole);
+    ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(SorPerson sorPerson, SorRole sorRole);
 
     /**
      * Validate, add, and persist a person in the OpenRegistry system.
@@ -157,14 +158,23 @@ public interface PersonService {
      * This method should attempt to reconcile the person you are adding.
      *
      * @param reconciliationCriteria the person you are trying to add with their additional reconciliation data.
-     * @param result the reconciliation result if they had already attempted to save this person. 
-     * Let's the system know that we already looked through the list of possibilities.
-     * CAN be null, but if it is null, reconciliation should execute.  Should be null the first time addPerson is called.
-     * @return the result of the action.  If the action succeeded, the target object should be the new Person.
-     * Otherwise, it will be the {@link org.openregistry.core.domain.sor.ReconciliationCriteria} object.
-     * The @link org.openregistry.core.service.reconciliation.ReconciliationResult} will be returned as long as reconciliation was done.
+     * @return the result of the action.  If the action succeeded, the target object should be the new Person.  If it failed, there should be > 0 validation errors
+     * @throws IllegalArgumentException
+     * @throws ReconciliationException if the person could not be added due to reconciliation.
      */
-    ServiceExecutionResult addPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult result) throws IllegalArgumentException;
+    ServiceExecutionResult<Person> addPerson(ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException;
+
+    /**
+     * Forces the addition of a person despite there being an issue with Reconciliation.  Note, that implementations may STILL re-run reconciliation
+     * to ensure that no one has changed the data in the ReconciliationCriteria.
+     *
+     * @param reconciliationCriteria the person you are trying to add with their additional reconciliation data.
+     * @param reconciliationResult the reconciliation result if they had already attempted to save this person.
+     * Let's the system know that we already looked through the list of possibilities.   CANNOT be NULL.
+     * @return the result of the action, most likely the newly added Person.
+     * @throws IllegalArgumentException if one of the arguments is missing.
+    */
+    ServiceExecutionResult<Person> forceAddPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult reconciliationResult) throws IllegalArgumentException;
 
     /**
      * Searches for a Person by the criteria provided.
@@ -180,7 +190,7 @@ public interface PersonService {
      * @param sorPerson the Person to update.
      * @return Result of updating.  Validation errors if they occurred or the sorPerson.
      */
-    ServiceExecutionResult updateSorPerson(final SorPerson sorPerson);
+    ServiceExecutionResult<SorPerson> updateSorPerson(final SorPerson sorPerson);
 
     /**
      * Updates the SorRole.
@@ -193,6 +203,7 @@ public interface PersonService {
     /**
      * Removes an SorName.
      *
+     * @param sorPerson the person who's name to remove.
      * @param nameId id of name to delete from the person
      * @return Result of the remove. 
      */
