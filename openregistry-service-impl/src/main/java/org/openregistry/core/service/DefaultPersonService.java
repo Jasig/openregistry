@@ -141,26 +141,6 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public SorPerson addSorPerson(SorPerson sorPerson, String sourceSoRID, Person person){
-
-        if (!StringUtils.hasText(sorPerson.getSorId())) {
-            sorPerson.setSorId(this.identifierGenerator.generateNextString());
-        }
-
-        //Do I need this?
-        sorPerson.setSourceSor(sourceSoRID);
-
-        // Now connect the SorPerson to the actual person
-        sorPerson.setPersonId(person.getId());
-
-        // Save Sor Person
-        sorPerson = this.personRepository.saveSorPerson(sorPerson);
-
-        return sorPerson;
-
-    }
-
-    @Transactional
     public boolean deletePerson(final Person person) {
         try {
             final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
@@ -451,12 +431,10 @@ public class DefaultPersonService implements PersonService {
 
         final Person person = result.getMatches().iterator().next().getPerson();
         final SorPerson sorPerson = reconciliationCriteria.getPerson();
-        final String sorIdentifier = sorPerson.getSourceSor();
 
-        try {
-            final SorPerson registrySorPerson = personRepository.findByPersonIdAndSorIdentifier(person.getId(),sorIdentifier);
+        final SorPerson registrySorPerson = this.findByPersonIdAndSorIdentifier(person.getId(), sorPerson.getSourceSor());
 
-            if (registrySorPerson != null) {
+        if (registrySorPerson != null) {
             //TODO update the registry sor person record with the changes from sorPerson
             this.personRepository.saveSorPerson(registrySorPerson);
         } else {
@@ -467,8 +445,6 @@ public class DefaultPersonService implements PersonService {
             sorPerson.setPersonId(person.getId());
             // Save Sor Person
             this.personRepository.saveSorPerson(sorPerson);
-        }
-        } catch (Exception ex) {
         }
         
 		return person;

@@ -116,26 +116,4 @@ public class PersonSearchAction {
         else return false;
     }
 
-    public SorPerson getSorPersonRecord(ServiceExecutionResult serviceExecutionResult, String sourceSoRID, SorPerson sorPersonToAdd){
-        Person person = (Person)serviceExecutionResult.getTargetObject();
-
-        SorPerson sorPerson = personService.findByPersonIdAndSorIdentifier(person.getId(), sourceSoRID);
-        // New SoR providing data for an existing person.
-        if (sorPerson == null){
-            sorPerson = personService.addSorPerson(sorPersonToAdd, sourceSoRID, person);
-        }
-        return sorPerson;
-    }
-
-    public SorPerson getSorPersonRecordByPersonId(long personId, String sourceSoRID, SorPerson sorPersonToAdd){
-
-        SorPerson sorPerson = personService.findByPersonIdAndSorIdentifier(personId, sourceSoRID);
-        // New SoR providing data for an existing person.
-        if (sorPerson == null){
-            Person person = personService.findPersonById(personId);
-            sorPerson = personService.addSorPerson(sorPersonToAdd, sourceSoRID, person);
-        }
-        return sorPerson;
-    }
-
 }
