@@ -35,7 +35,7 @@
     <fieldset class="fm-h" id="ecn1">
         <label class="desc">${person.officialName.formattedName}</label>
         <c:forEach var="sorPerson" items="${sorPersons}" varStatus="loopStatus">
-            <label class="desc"><spring:message code="sor.heading"/> <c:out value="${sorPerson.sourceSorIdentifier}" /> <a href="${flowExecutionUrl}&_eventId=move&sorPersonSorId=${sorPerson.sourceSorIdentifier}"><img src="images/move.jpg" title="move SoR record"/></a>  <a href="${flowExecutionUrl}&_eventId=moveToNewPerson&sorPersonSorId=${sorPerson.sourceSorIdentifier}"><img src="images/moveplus.jpg" title="move SoR record to new person"/></a></label>
+            <label class="desc"><spring:message code="sor.heading"/> <c:out value="${sorPerson.sourceSor}" /> <a href="${flowExecutionUrl}&_eventId=move&sorPersonSorId=${sorPerson.sourceSor}"><img src="images/move.jpg" title="move SoR record"/></a>  <a href="${flowExecutionUrl}&_eventId=moveToNewPerson&sorPersonSorId=${sorPerson.sourceSor}"><img src="images/moveplus.jpg" title="move SoR record to new person"/></a></label>
                 <div>
                     <table class="data" cellspacing="0" width="80%">
                         <thead>
