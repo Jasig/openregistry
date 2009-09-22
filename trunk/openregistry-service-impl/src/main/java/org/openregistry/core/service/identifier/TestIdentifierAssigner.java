@@ -29,7 +29,7 @@ import java.security.SecureRandom;
  * Test identifier assigner that generates identifiers purely randomly.  Its PERFECT for demonstrations, but not
  * for any form of actual testing or production usage.
  *
- * @version $Revsion$ $Date$
+ * @version $Revision$ $Date$
  * @since 0.1
  */
 public class TestIdentifierAssigner implements IdentifierAssigner {
