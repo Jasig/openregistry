@@ -41,6 +41,7 @@
         <flow:flow-location path="/WEB-INF/flows/split-person.xml" id="splitPerson" />
         <flow:flow-location path="/WEB-INF/flows/join-person.xml" id="joinPerson" />
         <flow:flow-location path="/WEB-INF/flows/new-activationKey.xml" id="newActivationKey" />
+        <flow:flow-location path="/WEB-INF/flows/view-complete-person.xml" id="viewCompletePerson" />
     </flow:flow-registry>
 
     <flow:flow-builder-services id="flowBuilderServices" conversion-service="conversionService" view-factory-creator="mvcViewFactoryCreator" />

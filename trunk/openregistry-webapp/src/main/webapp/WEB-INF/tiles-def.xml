@@ -100,6 +100,16 @@
         <put-attribute name="body" value="/WEB-INF/tiles/new-activationKey/newActivationKey.jsp" />
     </definition>
 
+    <definition name="openregistry.view.complete.person" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="viewCompletePerson.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/view-complete-person/viewCompletePerson.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.view.role" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="viewRole.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/view-complete-person/viewRole.jsp" />
+    </definition>
+
     <definition name="openregistry.main" template="index.jsp">
     </definition>
 
