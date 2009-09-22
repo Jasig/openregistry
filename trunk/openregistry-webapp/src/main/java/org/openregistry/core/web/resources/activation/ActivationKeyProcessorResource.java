@@ -65,9 +65,6 @@ public final class ActivationKeyProcessorResource {
             this.activationService.invalidateActivationKey(personIdType, personId, activationKey, this.lockExtractor.extract(securityContext.getUserPrincipal(), null));
         } catch (final IllegalStateException e) {
             return Response.status(409).entity(String.format("The activation key [%s] is not valid.", activationKey)).type(MediaType.TEXT_PLAIN).build();
-            
-        } catch (final IllegalArgumentException e) {
-            return Response.status(400).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         } catch (final PersonNotFoundException e) {
             throw new NotFoundException(String.format("The person resource identified by /people/%s/%s URI does not exist", personIdType, personId));
         } catch (final NoSuchElementException e) {
@@ -100,8 +97,6 @@ public final class ActivationKeyProcessorResource {
             }
         } catch(final PersonNotFoundException e) {
             throw new NotFoundException(String.format("The person resource identified by /people/%s/%s URI does not exist", personIdType, personId));    
-        } catch (final IllegalArgumentException e) {
-            return Response.status(400).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         } catch (final LockingException e) {
             return Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }

@@ -56,8 +56,6 @@ public final class ActivationKeyFactoryResource {
             String activationKey = this.activationService.generateActivationKey(personIdType, personId).asString();
             //HTTP 201
             return Response.created(buildActivationProcessorResourceUri(activationKey)).build();
-        } catch (final IllegalArgumentException e) {
-            return Response.status(400).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         } catch (final PersonNotFoundException ex) {
             throw new NotFoundException(String.format("The person resource identified by /people/%s/%s URI does not exist", personIdType, personId));
         }
