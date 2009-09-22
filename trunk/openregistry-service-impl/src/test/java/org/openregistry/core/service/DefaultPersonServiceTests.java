@@ -26,18 +26,13 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.MockPersonRepository;
 import org.openregistry.core.repository.MockReferenceRepository;
 import org.openregistry.core.repository.PersonRepository;
-import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
 import org.openregistry.core.service.reconciliation.MockReconciler;
-import org.openregistry.core.service.reconciliation.Reconciler;
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
+import org.openregistry.core.service.reconciliation.ReconciliationResult.*;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.BeansException;
 
 import java.util.Date;
-import java.util.Calendar;
-import java.util.NoSuchElementException;
 
 /**
  * Test cases for the {@link DefaultIdentifierChangeService}.  Note this does not actually
@@ -56,10 +51,6 @@ public class DefaultPersonServiceTests {
 
     private ReconciliationCriteria reconciliationCriteria;
 
-    private final String MATCH_TYPE_NONE = "NONE";
-    private final String MATCH_TYPE_EXACT = "EXACT";
-    private final String MATCH_TYPE_MAYBE = "MAYBE";
-
     @Before
     public void setUp() throws Exception {
         this.personRepository = new MockPersonRepository(new MockPerson());
@@ -68,7 +59,7 @@ public class DefaultPersonServiceTests {
                 return new MockPerson();
             }
         };
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_NONE));
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(ReconciliationType.NONE));
         reconciliationCriteria = new MockReconciliationCriteria();
         setReconciliationCriteria(reconciliationCriteria);
     }
@@ -99,7 +90,7 @@ public class DefaultPersonServiceTests {
      */
     @Test
     public void testReconciliationResultNoneReturnsPerson() throws ReconciliationException {
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_NONE));
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(ReconciliationType.NONE));
         ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
         assertNotNull(result);
         assertNotNull(result.getTargetObject());
@@ -114,7 +105,7 @@ public class DefaultPersonServiceTests {
      */
     @Test
     public void testReconciliationResultExactMatch() throws ReconciliationException {
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_EXACT));
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(ReconciliationType.EXACT));
         ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
         assertNotNull(result);
         assertNotNull(result.getTargetObject());
@@ -125,7 +116,7 @@ public class DefaultPersonServiceTests {
      */
     @Test(expected = ReconciliationException.class)
     public void testReconciliationResultMaybeMatch() throws ReconciliationException {
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_MAYBE));
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(ReconciliationType.MAYBE));
         this.personService.addPerson(reconciliationCriteria);
      }
 
@@ -136,11 +127,11 @@ public class DefaultPersonServiceTests {
     public void testReconciliationResultOldReconciliationResultProvided() {
          ServiceExecutionResult<Person> result = null;
          try {
-            this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(MATCH_TYPE_MAYBE));
+            this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), objectFactory, new MockReconciler(ReconciliationType.MAYBE));
             result = this.personService.addPerson(reconciliationCriteria);
             assertNotNull(result);
          } catch (final ReconciliationException ex) {
-            result = this.personService.forceAddPerson(reconciliationCriteria, ex.getReconciliationResult());
+            result = this.personService.forceAddPerson(reconciliationCriteria, ex);
              assertNotNull(result.getTargetObject().getCurrentActivationKey());
              assertFalse(result.getTargetObject().getIdentifiers().isEmpty());
 
