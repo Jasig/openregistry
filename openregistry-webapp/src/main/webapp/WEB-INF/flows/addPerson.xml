@@ -76,7 +76,7 @@
         <input name="sorPerson" value="flowScope.sorPerson"/>
         <output name="role"/>
         <transition on="roleWasAdded" to="roleAddedSucceeded">
-             <evaluate expression="personSearchAction.setConfirmationMessage(serviceExecutionResult, flowScope.reconciliationResult, messageContext)" />
+             <evaluate expression="personSearchAction.setConfirmationMessage(flowScope.serviceExecutionResult, flowScope.reconciliationResult, messageContext)" />
         </transition>
     </subflow-state>
 
