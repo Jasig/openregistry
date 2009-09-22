@@ -40,29 +40,19 @@ import org.slf4j.LoggerFactory;
  * To change this template use File | Settings | File Templates.
  */
 @Component
-public final class PersonSearchAction {
-
-    @Autowired(required=true)
-    private PersonService personService;
-
-    @Autowired(required=true)
-    private PersonRepository personRepository;
-
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+public final class PersonSearchAction extends AbstractPersonServiceAction {
 
     //TODO don't hardcode. OR-55
     private final String SOR_INDENTIFIER = "or-webapp";
 
     private final String identifierType = "NETID";
 
-    private final SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
-
     public String addSorPerson(final ReconciliationCriteria reconciliationCriteria, final RequestContext context) {
         reconciliationCriteria.getPerson().setSourceSor(SOR_INDENTIFIER);
         try {
-            final ServiceExecutionResult<Person> result = personService.addPerson(reconciliationCriteria);
+            final ServiceExecutionResult<Person> result = getPersonService().addPerson(reconciliationCriteria);
             if (!result.getValidationErrors().isEmpty()) {
-                this.converter.convertValidationErrors(result.getValidationErrors(), context.getMessageContext());
+                getSpringErrorValidationErrorConverter().convertValidationErrors(result.getValidationErrors(), context.getMessageContext());
                 return "validationError";
             }
 
@@ -77,10 +67,10 @@ public final class PersonSearchAction {
 
      public ServiceExecutionResult addSorPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult oldResult, final MessageContext context) {
         reconciliationCriteria.getPerson().setSourceSor(SOR_INDENTIFIER);
-        final ServiceExecutionResult<Person> result = personService.forceAddPerson(reconciliationCriteria, oldResult);
+        final ServiceExecutionResult<Person> result = getPersonService().forceAddPerson(reconciliationCriteria, oldResult);
 
         if (!result.getValidationErrors().isEmpty()) {
-            this.converter.convertValidationErrors(result.getValidationErrors(), context);
+            getSpringErrorValidationErrorConverter().convertValidationErrors(result.getValidationErrors(), context);
             return result;
         }
 
@@ -110,17 +100,11 @@ public final class PersonSearchAction {
     }
     
     public boolean updateSorPerson(SorPerson sorPerson, MessageContext context) {
-        ServiceExecutionResult<SorPerson> result = this.personService.updateSorPerson(sorPerson);
-        if (result.succeeded()) {
-            return true;
-        }
-        else {
-            converter.convertValidationErrors(result.getValidationErrors(), context);
-            return false;
-        }
+        ServiceExecutionResult<SorPerson> result = getPersonService().updateSorPerson(sorPerson);
+        return convertAndReturnStatus(result, context, null);
     }
 
     public boolean hasSorPersonRecord(final Person p, final String sourceSorId) {
-        return this.personService.findByPersonIdAndSorIdentifier(p.getId(), sourceSorId) != null;
+        return getPersonService().findByPersonIdAndSorIdentifier(p.getId(), sourceSorId) != null;
     }
 }
