@@ -100,7 +100,7 @@ public final class PeopleResource {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
                     .entity("The 'sor' query parameter is missing").build());
         }
-        SorPerson sorPerson = this.personService.findSorPersonByIdentifierAndSourceIDentifier(personIdType, personId, sorSourceId);
+        SorPerson sorPerson = this.personService.findSorPersonByIdentifierAndSourceIdentifier(personIdType, personId, sorSourceId);
         if (sorPerson == null) {
             //HTTP 404
             throw new NotFoundException(
@@ -256,7 +256,7 @@ public final class PeopleResource {
                 "{sorSourceId:%s, personIdType:%s, personId:%s}", sorSourceId, personIdType, personId));
 
         logger.info("Searching for SOR Person...");
-        SorPerson person = this.personService.findSorPersonByIdentifierAndSourceIDentifier(personIdType,
+        SorPerson person = this.personService.findSorPersonByIdentifierAndSourceIdentifier(personIdType,
                 personId, sorSourceId);
         if (person == null) {
             logger.info("SOR Person is not found");

@@ -60,29 +60,24 @@ import org.slf4j.LoggerFactory;
 @Service("personService")
 public class DefaultPersonService implements PersonService {
 
-    @Autowired(required = true)
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
-    @Autowired(required = true)
-    private ReferenceRepository referenceRepository;
+    private final ReferenceRepository referenceRepository;
 
-    @Autowired(required = false)
-    private AnnotationValidator<Object> annotationValidator = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
 
-    @Autowired(required=true)
-    private Reconciler reconciler;
+    private final Reconciler reconciler;
 
-    @Autowired(required=true)
-    @Qualifier(value = "person")
-    private ObjectFactory<Person> personObjectFactory;
+    private final ObjectFactory<Person> personObjectFactory;
+
+    private final IdentifierGenerator identifierGenerator;
+
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired(required=false)
     private List<IdentifierAssigner> identifierAssigners = new ArrayList<IdentifierAssigner>();
 
-    @Autowired(required=true)
-    private IdentifierGenerator identifierGenerator;
-
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired(required = false)
+    private AnnotationValidator<Object> annotationValidator = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
 
     @Autowired
     public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, @Qualifier("person") final ObjectFactory<Person> personObjectFactory, final Reconciler reconciler) {
@@ -113,7 +108,7 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public SorPerson findSorPersonByIdentifierAndSourceIDentifier(final String identifierType, final String identifierValue, final String sorSourceId) {
+    public SorPerson findSorPersonByIdentifierAndSourceIdentifier(final String identifierType, final String identifierValue, final String sorSourceId) {
         try {
             final Person person = this.personRepository.findByIdentifier(identifierType, identifierValue);
 
@@ -482,22 +477,21 @@ public class DefaultPersonService implements PersonService {
      * @return serviceExecutionResult.
      */
     @Transactional
-    public ServiceExecutionResult updateSorRole(SorRole role) {
+    public ServiceExecutionResult<SorRole> updateSorRole(SorRole role) {
         final String serviceName = "PersonService.updateSorRole";
         logger.info("PersonService:updateSorRole:");
 
         final List<ValidationError> validationErrors = validateAndConvert(role);
         
         if (!validationErrors.isEmpty()) {
-            logger.info("PersonService:updateSorRole: validation errors found");
-            return new GeneralServiceExecutionResult(serviceName, role, validationErrors);
+            return new GeneralServiceExecutionResult<SorRole>(serviceName, role, validationErrors);
         }
 
         logger.info("PersonService:updateSorPerson: updating role...");
         // Save Sor Person
         role = this.personRepository.saveSorRole(role);
 
-        return new GeneralServiceExecutionResult(serviceName, role);
+        return new GeneralServiceExecutionResult<SorRole>(serviceName, role);
 
         // TODO Need to update the calculated role. Need to establish rules to do this. OR-58
     }
@@ -511,7 +505,7 @@ public class DefaultPersonService implements PersonService {
         sorPerson.removeName(name);
 
         // save changes
-        sorPerson = this.personRepository.saveSorPerson(sorPerson);
+        this.personRepository.saveSorPerson(sorPerson);
         return true;
     }
 

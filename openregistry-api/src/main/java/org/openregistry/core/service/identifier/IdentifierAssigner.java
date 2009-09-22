@@ -40,7 +40,7 @@ public interface IdentifierAssigner {
 
     /**
      * Returns the type of identifier that this assigner can assign.
-     * @return identifer type
+     * @return identifier type
      */
     String getIdentifierType();
 }
