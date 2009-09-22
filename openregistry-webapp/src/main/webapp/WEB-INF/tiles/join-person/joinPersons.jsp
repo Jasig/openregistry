@@ -35,7 +35,7 @@
     <fieldset class="fm-h" id="ecn1">
         <label class="desc">${person.officialName.formattedName}</label>
         <c:forEach var="sorPerson" items="${sorPersons}" varStatus="loopStatus">
-            <label class="desc"><spring:message code="sor.heading"/> <c:out value="${sorPerson.sourceSorIdentifier}" /></label>
+            <label class="desc"><spring:message code="sor.heading"/> <c:out value="${sorPerson.sourceSor}" /></label>
                 <div>
                     <table class="data" cellspacing="0" width="80%">
                         <thead>
