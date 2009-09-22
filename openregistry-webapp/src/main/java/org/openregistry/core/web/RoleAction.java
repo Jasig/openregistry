@@ -24,14 +24,9 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.PersonService;
 import org.openregistry.core.repository.ReferenceRepository;
-import org.openregistry.core.repository.PersonRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,31 +36,19 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 @Component
-public class RoleAction {
-
-    @Autowired(required=true)
-    private PersonService personService;
+public final class RoleAction extends AbstractPersonServiceAction {
 
     @Autowired(required=true)
     private ReferenceRepository referenceRepository;
-
-    @Autowired(required=true)
-    private PersonRepository personRepository;
 
     protected final String ACTIVE_STATUS = "Active";
     protected final String CAMPUS = "Campus";
     protected final String PERSON = "Person";
     protected final String CELL = "Cell";
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private final SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
-
-    public SorRole initSorRole(SorPerson sorPerson, String roleInfoCode) {
-
-        RoleInfo roleInfo = referenceRepository.getRoleInfoByCode(roleInfoCode);
-        final SorRole sorRole = addRole(sorPerson, roleInfo);
-        return sorRole;
+    public SorRole initSorRole(final SorPerson sorPerson, final String roleInfoCode) {
+        final RoleInfo roleInfo = referenceRepository.getRoleInfoByCode(roleInfoCode);
+        return addRole(sorPerson, roleInfo);
     }
 
      /**
@@ -101,7 +84,7 @@ public class RoleAction {
     public boolean isRoleNewForPerson(SorPerson sorPerson, String roleInfoCode, MessageContext context) {
         //check if person already has the role to be added.
         logger.info("IsRoleNewForPerson: code:"+ roleInfoCode);
-        Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
+        final Person person = getPersonService().findPersonById(sorPerson.getPersonId());
         if (person.pickOutRole(roleInfoCode) != null){
             context.addMessage(new MessageBuilder().error().code("roleAlreadyExists").build());
             return false;
@@ -109,30 +92,13 @@ public class RoleAction {
         return true;
     }
 
-    public boolean addSorRole(SorPerson sorPerson, SorRole sorRole, MessageContext context) {
-
-        ServiceExecutionResult result = personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
-        if (result.succeeded()) {
-            return true;
-        }
-        else {
-            converter.convertValidationErrors(result.getValidationErrors(), context);
-            return false;
-        }
-
+    public boolean addSorRole(final SorPerson sorPerson, final SorRole sorRole, final MessageContext context) {
+        final ServiceExecutionResult<SorRole> result = getPersonService().validateAndSaveRoleForSorPerson(sorPerson, sorRole);
+        return convertAndReturnStatus(result, context, null);
     }
 
-    public boolean updateSorRole(SorRole role, MessageContext context) {
-        ServiceExecutionResult result = personService.updateSorRole(role);
-        if (result.succeeded()) {
-            context.addMessage(new MessageBuilder().info().code("roleUpdated").build());
-            return true;
-        }
-        else {
-            converter.convertValidationErrors(result.getValidationErrors(), context);
-            return false;
-        }
-
+    public boolean updateSorRole(final SorRole role, final MessageContext context) {
+        final ServiceExecutionResult<SorRole> result = getPersonService().updateSorRole(role);
+        return convertAndReturnStatus(result, context, "roleUpdated");
     }
-
 }

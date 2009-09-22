@@ -20,11 +20,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.*;
-import org.openregistry.core.service.PersonService;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.aspect.OpenRegistryMessageSourceAccessor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -36,23 +33,19 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Component
-public class PersonAction {
-
-    @Autowired(required=true)
-    private PersonService personService;
+public final class PersonAction extends AbstractPersonServiceAction {
 
     @Autowired(required=true)
     private PersonRepository personRepository;
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
+    // TODO this should not be used
     protected final MessageSourceAccessor msa = OpenRegistryMessageSourceAccessor.getMessageSourceAccessor();
 
     public String moveSystemOfRecordPerson(Person fromPerson, Person toPerson, SorPerson sorPerson) {
-        if (personService.findByPersonIdAndSorIdentifier(toPerson.getId(), sorPerson.getSourceSor()) != null){
+        if (getPersonService().findByPersonIdAndSorIdentifier(toPerson.getId(), sorPerson.getSourceSor()) != null){
             return msa.getMessage("matchingSorFound");
         }
-        if (personService.moveSystemOfRecordPerson(fromPerson, toPerson, sorPerson)){
+        if (getPersonService().moveSystemOfRecordPerson(fromPerson, toPerson, sorPerson)){
             return msa.getMessage("splitSuccess");
         } else {
             return msa.getMessage("splitFailure");
@@ -60,7 +53,7 @@ public class PersonAction {
     }
 
     public String moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson sorPerson) {
-        if (personService.moveSystemOfRecordPersonToNewPerson(fromPerson, sorPerson)){
+        if (getPersonService().moveSystemOfRecordPersonToNewPerson(fromPerson, sorPerson)){
             return msa.getMessage("splitSuccess");
         } else {
             return msa.getMessage("splitFailure");
@@ -68,11 +61,10 @@ public class PersonAction {
     }
 
     public String moveAllSystemOfRecordPerson(Person fromPerson, Person toPerson){
-
         List<SorPerson> sorPersonListFrom =  personRepository.getSoRRecordsForPerson(fromPerson);
 
         for (final SorPerson sorPersonFrom : sorPersonListFrom) {
-            if (personService.findByPersonIdAndSorIdentifier(toPerson.getId(), sorPersonFrom.getSourceSor()) != null){
+            if (getPersonService().findByPersonIdAndSorIdentifier(toPerson.getId(), sorPersonFrom.getSourceSor()) != null){
                 logger.info("PersonAction: MoveAllSystemOfRecordPersons: matchingSorFound"+ sorPersonFrom.getSourceSor());
                 return msa.getMessage("matchingSorFound");
             }
@@ -80,11 +72,10 @@ public class PersonAction {
 
         logger.info("PersonAction: MoveAllSystemOfRecordPersons: Proceeding to do moveAllSystemOfRecord");
 
-        if (personService.moveAllSystemOfRecordPerson(fromPerson, toPerson)){
+        if (getPersonService().moveAllSystemOfRecordPerson(fromPerson, toPerson)){
             return msa.getMessage("joinSuccess");
         } else {
             return msa.getMessage("joinFailure");
         }
       }
-
 }
