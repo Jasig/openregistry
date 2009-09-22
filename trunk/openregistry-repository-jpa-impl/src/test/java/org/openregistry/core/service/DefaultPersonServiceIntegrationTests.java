@@ -29,6 +29,7 @@ import org.junit.After;
 import static org.junit.Assert.*;
 
 import java.util.*;
+import java.text.*;
 
 /**
  * Integration test for {@link DefaultPersonService} that links up with the JPA
@@ -124,12 +125,40 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         this.personService.addPerson(reconciliationCriteria);
 
         final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria);
+		Person person = (Person)result.getTargetObject();
+		SorPerson sorPerson = reconciliationCriteria.getPerson();
+		Name name = person.getPreferredName();
 
         assertTrue(result.succeeded());
+
         assertEquals(1, countRowsInTable("prc_persons"));
         assertEquals(1, countRowsInTable("prc_names"));
         assertEquals(1, countRowsInTable("prs_names"));
         assertEquals(1, countRowsInTable("prs_sor_persons"));
+
+		// check birthdate is set correctly
+		Date birthDate = this.simpleJdbcTemplate.queryForObject("select date_of_birth from prc_persons where id = ?", Date.class, person.getId());
+		DateFormat formatter = DateFormat.getDateInstance(DateFormat.SHORT);
+		assertEquals(formatter.format(birthDate),formatter.format(person.getDateOfBirth()));
+
+		// check SOR source is set correctly
+		String sourceSor = this.simpleJdbcTemplate.queryForObject("select source_sor_id from prs_sor_persons where person_id = ?", String.class, person.getId());
+		assertEquals(sourceSor,sorPerson.getSourceSor());
+
+		// check names in prc_names
+		String familyName = this.simpleJdbcTemplate.queryForObject("select family_name from prc_names where person_id = ?", String.class, person.getId());
+		assertEquals(familyName,KIPLING);
+
+		String givenName = this.simpleJdbcTemplate.queryForObject("select given_name from prc_names where person_id = ?", String.class, person.getId());
+		assertEquals(givenName,RUDYARD);
+
+		// check names in prs_names
+		String prsFamilyName = this.simpleJdbcTemplate.queryForObject("select family_name from prs_names where sor_person_id = ?", String.class, 1);
+		assertEquals(prsFamilyName,KIPLING);
+
+		String prsGivenName = this.simpleJdbcTemplate.queryForObject("select given_name from prs_names where sor_person_id = ?", String.class, 1);
+		assertEquals(prsGivenName,RUDYARD);
+
     }
 
     /**
