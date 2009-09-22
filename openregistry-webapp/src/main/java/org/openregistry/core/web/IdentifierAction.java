@@ -31,6 +31,7 @@ import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -40,6 +41,8 @@ import java.util.List;
  * Date: May 4, 2009
  * Time: 10:52:01 AM
  * To change this template use File | Settings | File Templates.
+ *
+ * // TODO would this benefit from a validator?
  */
 @Component
 public class IdentifierAction {
@@ -47,16 +50,11 @@ public class IdentifierAction {
     @Autowired(required=true)
     private ActivationService activationService;
 
-    @Autowired(required=true)
-    private PersonService personService;
-
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    //private final String IDENTIFIER_TYPE = "NETID";
+    public boolean generateActivationKey(final Identifier identifier, final MessageContext context) {
 
-    public boolean generateActivationKey(Identifier identifier, MessageContext context) {
-
-        if (identifier.getValue() == null || identifier.getValue().trim().equals("")){
+        if (!StringUtils.hasText(identifier.getValue())) {
             context.addMessage(new MessageBuilder().error().code("identifierValueRequired").build());
             return false;
         }
@@ -69,15 +67,12 @@ public class IdentifierAction {
         }
 
         try {
-            //ActivationKey key = activationService.generateActivationKey(IDENTIFIER_TYPE, identifier.getValue());
             ActivationKey key = activationService.generateActivationKey(identifier.getType().getName(), identifier.getValue());
             context.addMessage(new MessageBuilder().info().code("newActivationKey").arg(key.asString()).build());
-        }
-        catch(PersonNotFoundException e) {
+        } catch(final PersonNotFoundException e) {
             context.addMessage(new MessageBuilder().error().code("personNotFound").build());
             return false;
-        }
-        catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             context.addMessage(new MessageBuilder().error().code("generateActivationKeyError").build());
             return false;
         }

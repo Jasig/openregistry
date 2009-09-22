@@ -516,18 +516,6 @@ public class DefaultPersonService implements PersonService {
     }
 
     /**
-    @Transactional
-    public boolean removeSorName(SorPerson sorPerson, Long nameId){
-        Name name = sorPerson.findNameByNameId(nameId);
-        if (name == null) return false;
-
-        sorPerson.removeName(name);
-        personRepository.deleteName(name);
-        return true;
-    }
-    **/
-
-    /**
      * Move All Sor Records from one person to another.
      *
      * @param fromPerson person losing sor records.
