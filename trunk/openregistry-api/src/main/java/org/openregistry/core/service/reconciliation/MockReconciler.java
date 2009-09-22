@@ -15,9 +15,7 @@
  */
 package org.openregistry.core.service.reconciliation;
 
-import org.openregistry.core.service.reconciliation.Reconciler;
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
-import org.openregistry.core.service.reconciliation.PersonMatch;
+import org.openregistry.core.service.reconciliation.ReconciliationResult.*;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.MockPerson;
@@ -34,13 +32,9 @@ import java.util.ArrayList;
  */
 public final class MockReconciler implements Reconciler {
 
-    private final String MATCH_TYPE_NONE = "NONE";
-    private final String MATCH_TYPE_EXACT = "EXACT";
-    private final String MATCH_TYPE_MAYBE = "MAYBE";
+    private ReconciliationType desiredResult = null;
 
-    private String desiredResult = null;
-
-    public MockReconciler(String result){
+    public MockReconciler(final ReconciliationType result) {
         this.desiredResult = result;
     }
 
@@ -48,14 +42,12 @@ public final class MockReconciler implements Reconciler {
         return reconcile(reconciliationCriteria, desiredResult);
     }
 
-    public ReconciliationResult reconcile(ReconciliationCriteria reconciliationCriteria, final String matchType){
+    public ReconciliationResult reconcile(ReconciliationCriteria reconciliationCriteria, final ReconciliationType matchType){
 
         return new ReconciliationResult() {
 
             public ReconciliationType getReconciliationType() {
-                if (matchType.equals(MATCH_TYPE_MAYBE)) return ReconciliationType.MAYBE;
-                else if (matchType.equals(MATCH_TYPE_EXACT)) return ReconciliationType.EXACT;
-                else return ReconciliationType.NONE;
+                return desiredResult;
             }
 
             public List<PersonMatch> getMatches() {
@@ -63,7 +55,7 @@ public final class MockReconciler implements Reconciler {
                 List<PersonMatch> severalMatch = new ArrayList<PersonMatch>();
                 PersonMatch personMatch = new PersonMatch(){
                     public List<FieldMatch> getFieldMatches(){
-                        return Collections.EMPTY_LIST;
+                        return Collections.emptyList();
                     }
                     public int getConfidenceLevel() { return 0; }
                     public Person getPerson() { return new MockPerson();}
@@ -72,24 +64,21 @@ public final class MockReconciler implements Reconciler {
                 severalMatch.add(personMatch);
                 severalMatch.add(personMatch);
 
-                if (matchType.equals(MATCH_TYPE_EXACT)) return exactMatch;
-                else if (matchType.equals(MATCH_TYPE_MAYBE)) return severalMatch;
-                return Collections.EMPTY_LIST;
+                if (matchType.equals(ReconciliationType.EXACT)) return exactMatch;
+                else if (matchType.equals(ReconciliationType.MAYBE)) return severalMatch;
+                return Collections.emptyList();
             }
 
             public boolean noPeopleFound() {
-                if (desiredResult.equals(MATCH_TYPE_NONE)) return true;
-                else return false;
+                return desiredResult.equals(ReconciliationType.NONE);
             }
 
             public boolean personAlreadyExists() {
-                if (desiredResult.equals(MATCH_TYPE_EXACT)) return true;
-                else return false;
+                return desiredResult.equals(ReconciliationType.EXACT);
             }
 
             public boolean multiplePeopleFound() {
-                if (desiredResult.equals(MATCH_TYPE_MAYBE)) return true;
-                else return false;
+                return desiredResult.equals(ReconciliationType.MAYBE);
             }
         };
     }

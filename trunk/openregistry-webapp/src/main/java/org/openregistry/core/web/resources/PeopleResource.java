@@ -29,7 +29,6 @@ import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.IdentifierChangeService;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.web.resources.representations.LinkRepresentation;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
 import org.openregistry.core.web.resources.representations.PersonResponseRepresentation;
@@ -168,31 +167,29 @@ public final class PeopleResource {
             response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
             logger.info(String.format("Person successfully created. The person resource URI is %s", uri.toString()));
         } catch (final ReconciliationException ex) {
-            final ReconciliationResult reconciliationResult = ex.getReconciliationResult();
 
-            switch (reconciliationResult.getReconciliationType()) {
+            switch (ex.getReconciliationType()) {
                 case MAYBE:
                     if (FORCE_ADD_FLAG.equals(forceAdd)) {
                         logger.warn("Multiple people found, but doing a 'force add'");
-                        final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria, reconciliationResult);
-                        Person forcefullyAddedPerson =  result.getTargetObject();
+                        final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria, ex);
+                        final Person forcefullyAddedPerson =  result.getTargetObject();
                         uri = buildPersonResourceUri(forcefullyAddedPerson);
                         response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
-                        logger.info(String.format("Person successfuly created (with 'force add' option). The person resource URI is %s", uri.toString()));
+                        logger.info(String.format("Person successfully created (with 'force add' option). The person resource URI is %s", uri.toString()));
                     } else {
-                        List<PersonMatch> conflictingPeopleFound = reconciliationResult.getMatches();
+                        final List<PersonMatch> conflictingPeopleFound = ex.getMatches();
                         response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound)).type(MediaType.APPLICATION_XHTML_XML).build();
                         logger.info("Multiple people found: " + response.getEntity());
                     }
                     break;
 
                 case EXACT:
-                    uri = buildPersonResourceUri(reconciliationResult.getMatches().get(0).getPerson());
+                    uri = buildPersonResourceUri(ex.getMatches().get(0).getPerson());
                     //HTTP 303 ("See other with GET")
                     response = Response.seeOther(uri).build();
                     logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
                     break;
-
             }
 
         }

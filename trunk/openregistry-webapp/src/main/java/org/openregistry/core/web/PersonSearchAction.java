@@ -69,7 +69,7 @@ public final class PersonSearchAction {
             context.getFlowScope().put("serviceExecutionResult", result);
             return "success";
         } catch (final ReconciliationException e) {
-            context.getFlowScope().put("reconciliationResult", e.getReconciliationResult());
+            context.getFlowScope().put("reconciliationResult", e);
             // TODO just a test
             return "reconciliation";
         }
