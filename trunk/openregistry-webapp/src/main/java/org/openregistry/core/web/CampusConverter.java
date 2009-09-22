@@ -34,30 +34,19 @@ import java.util.Iterator;
  * Time: 3:33:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CampusConverter extends StringToObject {
+public final class CampusConverter extends AbstractConverter {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private ReferenceRepository referenceRepository=null;
-
-    public CampusConverter(ReferenceRepository referenceRepository) {
-       super(Campus.class);
-       this.referenceRepository = referenceRepository;
+    public CampusConverter(final ReferenceRepository referenceRepository) {
+       super(Campus.class, referenceRepository);
    }
 
     @Override
-    protected Object toObject(String string, Class targetClass) throws Exception {
-        final String trimmedText = string.trim();
-
-        Campus campus = referenceRepository.getCampusById(new Long(string));
-        return campus;
+    protected Object toObject(final String string, final Class targetClass) throws Exception {
+        return getReferenceRepository().getCampusById(new Long(string));
     }
 
-   @Override
-   protected String toString(Object object) throws Exception {
-       Campus campus = (Campus) object;
-       logger.info("CampusConverter: converting to string"+ campus.getId());
-       return campus != null ? String.valueOf(campus.getId()) : " ";
-   }
-
+    @Override
+    protected String getToStringInternal(final Object o) {
+        return Long.toString(((Campus) o).getId());
+    }
 }

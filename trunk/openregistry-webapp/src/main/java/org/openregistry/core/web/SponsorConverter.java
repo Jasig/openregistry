@@ -29,11 +29,9 @@ import org.openregistry.core.repository.PersonRepository;
  * Time: 3:33:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SponsorConverter extends StringToObject {
+public final class SponsorConverter extends StringToObject {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private PersonRepository personRepository=null;
+    private final PersonRepository personRepository;
 
     public SponsorConverter(PersonRepository personRepository) {
        super(Person.class);
@@ -41,14 +39,14 @@ public class SponsorConverter extends StringToObject {
    }
 
     @Override
-    protected Object toObject(String string, Class targetClass) throws Exception {
+    protected Object toObject(final String string, final Class targetClass) throws Exception {
         return personRepository.findByInternalId(new Long(string));
     }
 
    @Override
    protected String toString(Object object) throws Exception {
-       Person person = (Person) object;
-       return toString(person.getId());
-   }
+       final Person person = (Person) object;
 
+       return person == null ? " " : Long.toString(person.getId());
+   }
 }

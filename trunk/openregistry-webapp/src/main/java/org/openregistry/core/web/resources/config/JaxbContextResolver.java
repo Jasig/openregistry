@@ -46,11 +46,11 @@ public final class JaxbContextResolver implements ContextResolver<JAXBContext> {
     private final Class[] cTypes = {PersonResponseRepresentation.class};
 
     public JaxbContextResolver() throws Exception {
-        this.types = new HashSet(Arrays.asList(cTypes));
+        this.types = new HashSet<Class>(Arrays.asList(cTypes));
         this.context = new JSONJAXBContext(JSONConfiguration.natural().build(), cTypes);
     }
 
-    public JAXBContext getContext(Class<?> objectType) {
+    public JAXBContext getContext(final Class<?> objectType) {
         return (types.contains(objectType)) ? context : null;
     }
 }

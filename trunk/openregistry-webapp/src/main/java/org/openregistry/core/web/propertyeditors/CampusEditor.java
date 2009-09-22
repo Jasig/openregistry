@@ -41,5 +41,4 @@ public final class CampusEditor extends AbstractReferenceRepositoryPropertyEdito
     protected void setAsTextInternal(final String s) {
         setValue(getReferenceRepository().getCampusById(new Long(s)));
     }
-
 }

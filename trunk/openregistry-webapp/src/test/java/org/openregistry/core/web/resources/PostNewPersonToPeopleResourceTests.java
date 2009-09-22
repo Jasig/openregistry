@@ -44,7 +44,7 @@ public class PostNewPersonToPeopleResourceTests extends JerseyTestSupport {
     @Test
     public void incorrectIncomingMediaType() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(415, RESOURCE_UNDER_TEST_URI,
-                POST_HTTP_METHOD, new String("incorrect incoming data"));
+                POST_HTTP_METHOD, "incorrect incoming data");
     }
 
     @Test

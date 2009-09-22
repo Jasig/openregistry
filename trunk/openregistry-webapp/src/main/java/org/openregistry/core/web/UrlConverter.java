@@ -33,30 +33,19 @@ import java.net.URL;
  * Time: 3:33:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class UrlConverter extends StringToObject {
-
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+public final class UrlConverter extends StringToObject {
 
     public UrlConverter() {
        super(URL.class);
    }
 
     @Override
-    protected Object toObject(String string, Class targetClass) throws Exception {
-        final String trimmedText = string.trim();
-
-        URL url = new URL(string);
-        logger.info("URLConverter: trying to convert to object: string value: "+ string);
-        logger.info("URLConverter: trying to convert to object: "+ url.toString());
-
-        return url;
+    protected Object toObject(final String string, final Class targetClass) throws Exception {
+        return new URL(string);
     }
 
    @Override
-   protected String toString(Object object) throws Exception {
-       URL url = (URL) object;
-       logger.info("URLConverter: converting to string");
-       return url != null ? url.toString() : " ";
+   protected String toString(final Object object) throws Exception {
+       return object == null ? " " : object.toString();
    }
-
 }
