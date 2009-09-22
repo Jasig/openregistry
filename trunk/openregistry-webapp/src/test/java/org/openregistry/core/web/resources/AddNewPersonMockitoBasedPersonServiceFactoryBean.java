@@ -54,21 +54,14 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         when(mockPerson.getIdentifiers()).thenReturn(ids);
         when(mockPerson.getCurrentActivationKey()).thenReturn(key);
 
-        //Stubbing 'no people' found result
-        final ReconciliationResult mockNoPeopleFoundReconciliationResult = mock(ReconciliationResult.class);
-        when(mockNoPeopleFoundReconciliationResult.noPeopleFound()).thenReturn(true);
-
         //Stubbing 'person exists' result
         final ReconciliationResult mockPersonAlreadyExistsReconciliationResult = mock(ReconciliationResult.class);
         when(mockPersonAlreadyExistsReconciliationResult.getReconciliationType()).thenReturn(ReconciliationResult.ReconciliationType.EXACT);
-        when(mockPersonAlreadyExistsReconciliationResult.noPeopleFound()).thenReturn(false);
-        when(mockPersonAlreadyExistsReconciliationResult.personAlreadyExists()).thenReturn(true);
         List<PersonMatch> match = buildMockPersonMatchesWithOneMatch();
         when(mockPersonAlreadyExistsReconciliationResult.getMatches()).thenReturn(match);
 
         //Stubbing 'multiple people found' result
         final ReconciliationResult mockMultiplePeopleFoundReconciliationResult = mock(ReconciliationResult.class);
-        when(mockMultiplePeopleFoundReconciliationResult.multiplePeopleFound()).thenReturn(true);
         when(mockMultiplePeopleFoundReconciliationResult.getReconciliationType()).thenReturn(ReconciliationResult.ReconciliationType.MAYBE);
         List<PersonMatch> matches = buildMockPersonMatches();
         when(mockMultiplePeopleFoundReconciliationResult.getMatches()).thenReturn(matches);
@@ -85,15 +78,8 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
 
         //Stubbing service execution result with validation errors
         final ServiceExecutionResult<Person> mockValidationErrorsExecutionResult = mock(ServiceExecutionResult.class);
-        when(mockValidationErrorsExecutionResult.succeeded()).thenReturn(false);
         when(mockValidationErrorsExecutionResult.getValidationErrors())
                 .thenReturn(new ArrayList<ValidationError>(Arrays.asList(new JaValidValidationError())));
-
-        //Stubbing 'multiple people found' service execution result with validation errors
-        final ServiceExecutionResult mockMultiplePeopleFoundExecutionResult = mock(ServiceExecutionResult.class);
-        when(mockMultiplePeopleFoundExecutionResult.succeeded()).thenReturn(false);
-        //No validation errors - empty list
-        when(mockMultiplePeopleFoundExecutionResult.getValidationErrors()).thenReturn(Collections.<ValidationError>emptyList());
 
         //Stubbing PersonService
         final PersonService ps = mock(PersonService.class);
@@ -104,7 +90,6 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         when(ps.addPerson(argThat(new IsMultiplePeopleMatch()))).thenThrow(new ReconciliationException(mockMultiplePeopleFoundReconciliationResult));
         //Mocking 'force add' option
         when(ps.forceAddPerson(argThat(new IsMultiplePeopleMatch()), (ReconciliationResult) isNotNull())).thenReturn(mockNoPeopleFoundServiceExecutionResult);
-
 
         this.mockPersonService = ps;
     }
