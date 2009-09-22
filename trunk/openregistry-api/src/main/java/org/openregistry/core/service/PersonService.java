@@ -70,7 +70,7 @@ public interface PersonService {
      * @param sorSourceId the source
      * @return the SorPerson, if found.  Otherwise, NULL.
      */
-    SorPerson findSorPersonByIdentifierAndSourceIDentifier(String identifierType, String identifierValue, String sorSourceId);
+    SorPerson findSorPersonByIdentifierAndSourceIdentifier(String identifierType, String identifierValue, String sorSourceId);
 
     /**
      * For a particular Sor Person record for the specified sourceSorIdentifier.
@@ -115,7 +115,7 @@ public interface PersonService {
     /**
      * Removes the System of Record person from the repository.  A system may wish to do this when it no longer asserts the person
      * (i.e. they aren't taking classes anymore).  While its more likely, they would just leave the person, its possible some do
-     * periodic clean ups of their datasources.  Having this information will allow us to more accurately "calculate" the actual
+     * periodic clean ups of their data sources.  Having this information will allow us to more accurately "calculate" the actual
      * person the system knows about by discounting out-of-date information from systems of records.
      *
      * @param sorPerson the person to remove from the system of record.
@@ -129,7 +129,7 @@ public interface PersonService {
      *
      * @param sorSourceIdentifier the source name for the system of record (i.e or-webapp)
      * @param sorId the identifier.
-     * @return true if it succeded, false otherwise.
+     * @return true if it succeeded, false otherwise.
      */
     boolean deleteSystemOfRecordPerson(String sorSourceIdentifier, String sorId);
 
@@ -159,7 +159,7 @@ public interface PersonService {
      *
      * @param reconciliationCriteria the person you are trying to add with their additional reconciliation data.
      * @return the result of the action.  If the action succeeded, the target object should be the new Person.  If it failed, there should be > 0 validation errors
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if the reconciliationCriteria is not provided.
      * @throws ReconciliationException if the person could not be added due to reconciliation.
      */
     ServiceExecutionResult<Person> addPerson(ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException;
@@ -198,7 +198,7 @@ public interface PersonService {
      * @param role to update
      * @return Result of updating.  Validation errors if they occurred or the sorPerson.
      */
-    ServiceExecutionResult updateSorRole(final SorRole role);
+    ServiceExecutionResult<SorRole> updateSorRole(final SorRole role);
 
     /**
      * Removes an SorName.
