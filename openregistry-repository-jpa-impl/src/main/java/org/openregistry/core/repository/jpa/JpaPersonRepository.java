@@ -127,7 +127,7 @@ public class JpaPersonRepository implements PersonRepository {
      * @param person the person
      * @return a list of sorPerson records.
      */
-    public List<SorPerson> getSoRRecordsForPerson(Person person){
+    public List<SorPerson> getSoRRecordsForPerson(final Person person){
         return (List<SorPerson>) this.entityManager.createQuery("select s from sorPerson s where s.personId = :personId").setParameter("personId", person.getId()).getResultList();
     }
 

@@ -34,30 +34,19 @@ import java.util.Iterator;
  * Time: 3:33:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CountryConverter extends StringToObject {
+public final class CountryConverter extends AbstractConverter {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private ReferenceRepository referenceRepository=null;
-
-    public CountryConverter(ReferenceRepository referenceRepository) {
-       super(Country.class);
-       this.referenceRepository = referenceRepository;
+    public CountryConverter(final ReferenceRepository referenceRepository) {
+       super(Country.class, referenceRepository);
    }
 
     @Override
-    protected Object toObject(String string, Class targetClass) throws Exception {
-        final String trimmedText = string.trim();
-
-        Country country = referenceRepository.getCountryById(new Long(string));
-        return country;
+    protected Object toObject(final String string, final Class targetClass) throws Exception {
+        return getReferenceRepository().getCountryById(new Long(string));
     }
 
-   @Override
-   protected String toString(Object object) throws Exception {
-       Country country = (Country) object;
-       logger.info("CountryConverter: converting to string"+ country.getName());
-       return country != null ? country.getName() : " ";
-   }
-
+    @Override
+    protected String getToStringInternal(final Object o) {
+        return ((Country) o).getName();
+    }
 }

@@ -32,29 +32,20 @@ import java.util.Iterator;
  * Time: 3:33:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class IdentifierTypeConverter extends StringToObject {
+public final class IdentifierTypeConverter extends AbstractConverter {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private ReferenceRepository referenceRepository=null;
-
-    public IdentifierTypeConverter(ReferenceRepository referenceRepository) {
-       super(IdentifierType.class);
-       this.referenceRepository = referenceRepository;
+    public IdentifierTypeConverter(final ReferenceRepository referenceRepository) {
+       super(IdentifierType.class, referenceRepository);
    }
 
     @Override
-    protected Object toObject(String string, Class targetClass) throws Exception {
-        final String trimmedText = string.trim();
-
-        IdentifierType type = referenceRepository.findIdentifierType(string);
-        return type;
+    protected Object toObject(final String string, final Class targetClass) throws Exception {
+        return getReferenceRepository().findIdentifierType(string);
     }
 
-   @Override
-   protected String toString(Object object) throws Exception {
-       IdentifierType type = (IdentifierType) object;
-       return type != null ? type.getName() : " ";
-   }
+    @Override
+    protected String getToStringInternal(final Object o) {
+        return ((IdentifierType) o).getName();
+    }
 
 }

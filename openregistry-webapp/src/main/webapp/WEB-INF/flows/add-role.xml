@@ -55,7 +55,7 @@
         <transition on="submitAddRole" to="roleWasAdded" >
             <evaluate expression="roleAction.addSorRole(sorPerson, role, messageContext)"/>
         </transition>
-        <transition on="cancelAddRole" to="selectRole" />
+        <transition on="cancelAddRole" to="selectRole" validate="false" bind="false" />
     </view-state>
 
     <subflow-state id="updateRole" subflow="updateRole" >

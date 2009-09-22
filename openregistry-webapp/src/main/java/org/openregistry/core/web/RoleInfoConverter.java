@@ -35,31 +35,25 @@ import java.util.Iterator;
  * Time: 3:33:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RoleInfoConverter extends StringToObject {
+public final class RoleInfoConverter extends AbstractConverter {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private ReferenceRepository referenceRepository=null;
-
-    public RoleInfoConverter(ReferenceRepository referenceRepository) {
-       super(RoleInfo.class);
-       this.referenceRepository = referenceRepository;
+    public RoleInfoConverter(final ReferenceRepository referenceRepository) {
+       super(RoleInfo.class, referenceRepository);
    }
 
     @Override
-    protected Object toObject(String string, Class targetClass) throws Exception {
-        final String trimmedText = string.trim();
+    protected Object toObject(final String string, final Class targetClass) throws Exception {
+        final RoleInfo roleInfo = getReferenceRepository().getRoleInfoById(Long.valueOf(string));
 
-        RoleInfo roleInfo = referenceRepository.getRoleInfoById(new Long(string));
-        logger.info("RoleInfoConverter: trying to convert to object: roleInfoID: "+ roleInfo.getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("RoleInfoConverter: trying to convert to object: roleInfoID: "+ roleInfo.getId());
+        }
+        
         return roleInfo;
     }
 
-   @Override
-   protected String toString(Object object) throws Exception {
-       RoleInfo roleInfo = (RoleInfo) object;
-       logger.info("RoleInfoConverter: converting to string: roleInfoID: "+ roleInfo.getId());
-       return roleInfo != null ? String.valueOf(roleInfo.getId()) : " ";
-   }
-
+    @Override
+    protected String getToStringInternal(final Object o) {
+        return ((RoleInfo) o).getId().toString();
+    }
 }

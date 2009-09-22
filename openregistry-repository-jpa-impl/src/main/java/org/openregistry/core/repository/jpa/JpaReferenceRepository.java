@@ -43,7 +43,7 @@ public final class JpaReferenceRepository implements ReferenceRepository {
 
     @Transactional
     public Person getPersonById(final Long id) {
-        return (Person) this.entityManager.find(JpaPersonImpl.class, id);
+        return this.entityManager.find(JpaPersonImpl.class, id);
     }
 
     @Transactional
@@ -96,7 +96,6 @@ public final class JpaReferenceRepository implements ReferenceRepository {
        	return (RoleInfo)this.entityManager.createQuery("select r from roleInfo r where r.organizationalUnit = :ou and r.title = :title order by r.title").setParameter("ou", ou).setParameter("title", title).getSingleResult();
     }
 
-
     @Transactional
     public List<Region> getRegions() {
         return (List<Region>) this.entityManager.createQuery("select r from region r").getResultList();
@@ -108,38 +107,13 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
-    public Type getTypesById(final Long id) {
+    public Type getTypeById(final Long id) {
         return this.entityManager.find(JpaTypeImpl.class, id);
     }
 
     @Transactional
     public List<Type> getTypesBy(final DataTypes type) {
         return (List<Type>) this.entityManager.createQuery("select r from type r where r.dataType = :dataType").setParameter("dataType", type.name()).getResultList();
-    }
-
-    @Transactional
-    public List<Type> getEmailTypes() {
-        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='EMAIL'").getResultList();
-    }
-
-    @Transactional
-    public List<Type> getAddressTypes() {
-        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='ADDRESS'").getResultList();
-    }
-
-    @Transactional
-    public List<Type> getPhoneTypes() {
-        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='PHONE'").getResultList();
-    }
-
-    @Transactional
-    public List<Type> getUrlTypes(){
-        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='URL'").getResultList();    
-    }
-
-    @Transactional
-    public List<Type> getAffiliationTypes() {
-        return (List<Type>) this.entityManager.createQuery("select r from type r where dataType='Affiliation'").getResultList();
     }
 
     @Transactional
@@ -154,13 +128,6 @@ public final class JpaReferenceRepository implements ReferenceRepository {
 
     @Transactional
     public IdentifierType findIdentifierType(final String identifierName){
-        final Query q = this.entityManager.createQuery("select distinct r from identifier_type r where name=:name").setParameter("name", identifierName);
-        return (IdentifierType) q.getSingleResult();
+        return (IdentifierType) this.entityManager.createQuery("select distinct r from identifier_type r where name=:name").setParameter("name", identifierName).getSingleResult();
     }
-
-    @Transactional
-    public Url getUrlById(long id){
-        return this.entityManager.find(JpaUrlImpl.class, id);    
-    }
-
 }

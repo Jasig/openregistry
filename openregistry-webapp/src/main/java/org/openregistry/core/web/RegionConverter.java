@@ -33,22 +33,18 @@ import java.util.Iterator;
  * Time: 3:33:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RegionConverter extends StringToObject {
+// TODO: do we need another method of ReferenceRepository
+public final class RegionConverter extends AbstractConverter {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private ReferenceRepository referenceRepository=null;
-
-    public RegionConverter(ReferenceRepository referenceRepository) {
-       super(Region.class);
-       this.referenceRepository = referenceRepository;
+    public RegionConverter(final ReferenceRepository referenceRepository) {
+       super(Region.class, referenceRepository);
    }
 
     @Override
     protected Object toObject(String string, Class targetClass) throws Exception {
         final String trimmedText = string.trim();
 
-        for (final Region region : referenceRepository.getRegions()) {
+        for (final Region region : getReferenceRepository().getRegions()) {
             if (region.getCode().trim().equals(trimmedText) || region.getName().trim().equals(trimmedText)){
                 return region;
             }
@@ -56,11 +52,8 @@ public class RegionConverter extends StringToObject {
         return null;
     }
 
-   @Override
-   protected String toString(Object object) throws Exception {
-       Region region = (Region) object;
-       logger.info("RegionConverter: converting to string"+ region.getName() + " " +region.getCode());
-       return region != null ? region.getCode() : " ";
-   }
-
+    @Override
+    protected String getToStringInternal(final Object o) {
+        return ((Region) o).getCode();
+    }
 }

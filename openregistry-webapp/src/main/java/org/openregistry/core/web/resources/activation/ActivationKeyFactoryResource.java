@@ -61,7 +61,7 @@ public final class ActivationKeyFactoryResource {
         }
     }
 
-    private URI buildActivationProcessorResourceUri(String activationKey) {
+    private URI buildActivationProcessorResourceUri(final String activationKey) {
         return this.uriInfo.getAbsolutePathBuilder().path(activationKey).build();
     }
 }

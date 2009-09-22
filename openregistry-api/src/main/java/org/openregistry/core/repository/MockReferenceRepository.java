@@ -83,7 +83,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
         return null;
     }
 
-    public Type getTypesById(final Long id) {
+    public Type getTypeById(final Long id) {
         return null;
     }
 

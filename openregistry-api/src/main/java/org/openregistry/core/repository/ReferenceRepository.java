@@ -64,17 +64,7 @@ public interface ReferenceRepository {
      */
     Type findType(Type.DataTypes type, String value);
 
-    Type getTypesById(final Long id); 
-
-    List<Type> getEmailTypes();
-
-    List<Type> getAddressTypes();
-
-    List<Type> getPhoneTypes();
-
-    List<Type> getUrlTypes();
-
-    List<Type> getAffiliationTypes();
+    Type getTypeById(final Long id); 
 
     List<IdentifierType> getIdentifierTypes();
 
@@ -88,6 +78,4 @@ public interface ReferenceRepository {
      * @return the list of types.  CANNOT be NULL.  CAN be empty.
      */
     List<Type> getTypesBy(final Type.DataTypes type);
-
-    Url getUrlById(long id);
 }
