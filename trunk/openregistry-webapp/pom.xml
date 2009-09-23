@@ -4,12 +4,11 @@
     <parent>
         <artifactId>openregistry</artifactId>
         <groupId>org.jasig.openregistry</groupId>
-        <version>0.1-M1-SNAPSHOT</version>
+        <version>0.1-M1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.openregistry</groupId>
     <artifactId>openregistry-webapp</artifactId>
-    <version>0.1-M1-SNAPSHOT</version>
     <name>OpenRegistry Demonstration Web Application</name>
     <packaging>war</packaging>
 

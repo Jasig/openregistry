@@ -90,27 +90,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
     public List<Type> getTypesBy(final DataTypes type) {
         return null;
     }
-
-    public List<Type> getEmailTypes() {
-        return null;
-    }
-
-    public List<Type> getAddressTypes() {
-        return null;
-    }
-
-    public List<Type> getPhoneTypes() {
-        return null;
-    }
-
-    public List<Type> getUrlTypes(){
-        return null;
-    }
-
-    public List<Type> getAffiliationTypes() {
-        return null;
-    }
-
+    
     public Type findType(final DataTypes type, final String value) {
         return null;
     }
@@ -122,9 +102,4 @@ public final class MockReferenceRepository implements ReferenceRepository {
     public IdentifierType findIdentifierType(final String identifierName){
         return null;
     }
-
-    public Url getUrlById(long id){
-        return null;
-    }
-
 }
