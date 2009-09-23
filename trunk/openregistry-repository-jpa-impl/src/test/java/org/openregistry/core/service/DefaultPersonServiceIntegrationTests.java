@@ -124,9 +124,10 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         this.personService.addPerson(reconciliationCriteria);
 
-        final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria);
-		Person person = (Person)result.getTargetObject();
+        final ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
+		final Person person = result.getTargetObject();
 		SorPerson sorPerson = reconciliationCriteria.getPerson();
+        sorPerson.setSorId("1");
 		Name name = person.getPreferredName();
 
         assertTrue(result.succeeded());
@@ -153,10 +154,10 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 		assertEquals(givenName,RUDYARD);
 
 		// check names in prs_names
-		String prsFamilyName = this.simpleJdbcTemplate.queryForObject("select family_name from prs_names where sor_person_id = ?", String.class, 1);
+		String prsFamilyName = this.simpleJdbcTemplate.queryForObject("select family_name from prs_names where sor_person_id = ?", String.class, person.getId());
 		assertEquals(prsFamilyName,KIPLING);
 
-		String prsGivenName = this.simpleJdbcTemplate.queryForObject("select given_name from prs_names where sor_person_id = ?", String.class, 1);
+		String prsGivenName = this.simpleJdbcTemplate.queryForObject("select given_name from prs_names where sor_person_id = ?", String.class, person.getId());
 		assertEquals(prsGivenName,RUDYARD);
 
     }
