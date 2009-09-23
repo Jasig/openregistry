@@ -19,8 +19,6 @@ import java.util.List;
 
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.service.SearchCriteria;
