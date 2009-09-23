@@ -1,0 +1,1429 @@
+/*
+ * Version: $Revision: 1.3 $
+ * Date: $Date: 2008/10/21 03:00:21 $
+ */
+
+digraph ORDATAMODEL {
+  graph [label="Draft OpenRegistry Data Model (3/09)", labelloc="t", labeljust="l", rankdir="LR"]
+  node [shape=plaintext, labeljust="l"]
+
+  /*
+   * Person Registry cluster
+   */
+
+  subgraph cluster_PR {
+    label = "(PR) Person Registry";
+    color = "blue";
+
+    /*
+	 * Addresses (Calculated)
+	 */
+
+    prc_addresses [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_addresses</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Calculated addresses processed from standardized records.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Address</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">address_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this Address (ctx_data_types:data_type=address)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Role record this Address is associated with (prc_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">line1</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Address Line 1</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">line2</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Address Line 2</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">line3</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Address Line 3</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">city</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">City</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">region_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Address's region (ctd_regions:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">country_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Address's country (ctd_countries:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">postal_code</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(9)</font></td>
+ <td align="left">Postal Code (ZIP or similar)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];	 
+
+    /*
+     * Addresses (Standardized)
+	 */
+
+    prs_addresses [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_addresses</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized addresses processed from raw SOR records.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Address</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">address_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this Address (ctx_data_types:data_type=address)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Role record this Address is associated with (prs_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">line1</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Address Line 1</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">line2</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Address Line 2</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">line3</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Address Line 3</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">city</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">City</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">region_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Address's region (ctd_regions:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">country_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Address's country (ctd_countries:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">postal_code</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(9)</font></td>
+ <td align="left">Postal Code (ZIP or similar)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+   
+    /*
+     * Campuses
+	 */
+
+    prd_campuses [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prd_campuses</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">List of instantiated campuses.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">code</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(5)</font></td>
+ <td align="left">Local code for this Campus</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Name of this Campus</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+   
+    /*
+     * Email Addresses (Calculated)
+     */
+
+    prc_emails [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_emails</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Calculated email addresses.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Email Address</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">address_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this Email Address (ctx_data_types:type=address)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Role record this Address is associated with (prc_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">address</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">The Email Address</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+   
+    /*
+     * Email Addresses (Standardized)
+     */
+
+    prs_emails [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_emails</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized email addresses.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Email Address</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">address_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this Email Address (ctx_data_types:type=address)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Role record this Address is associated with (prs_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">address</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">The Email Address</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Emergency Contacts - broken out separately to allow > 1
+     */
+
+    prc_emergency_contacts [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_emergency_contacts</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Calculated emergency contact information for a person.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this emergency contact record</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">person_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the Person for whom this emergency contact information is attached (prc_persons:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">contact_person_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the Person to contact, could be same as person_id (prc_persons:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">contact_type</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Type of this Contact: Address, Email, Phone, URL</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">contact_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this entity's Contact (prs_TYPEs:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Identifier Types
+     */
+
+    prd_identifier_types [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prd_identifier_types</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Pre(defined) types and formats of identifiers.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">identifier_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Identifier Type</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Name of this Identifier Type</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">description</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Description of this Identifier Type</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">format</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Expected format (eg: ###00####) for Identifiers of this Identifier Type</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">algorithm</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Name of function for generating Identifiers of this Identifier Type</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">private</font></td>
+ <td align="left"><font face="Courier" point-size="10">bool</font></td>
+ <td align="left">If true, do not publish Identifiers of this Type</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">changeable</font></td>
+ <td align="left"><font face="Courier" point-size="10">bool</font></td>
+ <td align="left">If true, Identifiers of this Type can be changed for reasons other than data correction</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">deleted</font></td>
+ <td align="left"><font face="Courier" point-size="10">bool</font></td>
+ <td align="left">If true, this entry is no longer available for new records</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ct_change_log:id)</td>
+</tr>
+   </table>>];
+   
+    /*
+     * Identifiers
+     */
+
+    prc_identifiers [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_identifiers</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized and calculated identifiers.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Identifier :)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">identifier_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this Identifier (prd_identifier_types:identifier_t)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">person_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">The Person this Identifier belongs to (prc_persons:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">identifier</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">The actual Identifier</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">primary</font></td>
+ <td align="left"><font face="Courier" point-size="10">bool</font></td>
+ <td align="left">If true, this entry is primary when person_id has multiple</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">deleted</font></td>
+ <td align="left"><font face="Courier" point-size="10">bool</font></td>
+ <td align="left">If true, this entry is no longer in use</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+	 * Leaves of Absense (Standardized)
+	 */
+	 
+	prs_leaves_of_absence [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_leaves_of_absence</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized leave of absence information.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Leave of Absence</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">leave_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Leave Type (ctx_data_types:data_type=leave)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">start_date</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Date this leave becomes effective</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">end_date</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Last effective date of this leave</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the associated SOR Role Record (prs_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+	 * Leaves of Absense (Calculated)
+	 */
+	 
+	prc_leaves_of_absence [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_leaves_of_absence</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Calculated leave of absence information.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Leave of Absence</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">leave_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Leave Type (ctx_data_types:data_type=leave)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">start_date</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Date this leave becomes effective</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">end_date</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Last effective date of this leave</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the associated Role Record (prc_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Names (Calculated)
+	 */
+
+    prc_names [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_names</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Calculated names.  A person_id may have only one name official and preferred name.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">name_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Name Type (ctx_data_types:data_type=name)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">person_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Person this Name belongs to (prc_persons:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">prefix</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(5)</font></td>
+ <td align="left">Name Prefix (Mrs, Mr, Dr, etc)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">given_name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">First Name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">middle_name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Middle Name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">family_name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Last/Surname</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">suffix</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(5)</font></td>
+ <td align="left">Name Suffix (Jr, III, etc)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Names (Standardized)
+	 */
+
+    prs_names [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_names</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized names.  A person_id may have only one name official and preferred name per SOR.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">name_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Name Type (ctx_data_types:data_type=name)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sor_person_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Person this Name belongs to (prs_sor_persons:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">prefix</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Name Prefix (Mrs, Mr, Dr, etc)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">given_name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">First Name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">middle_name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Middle Name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">family_name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Last/Surname</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">suffix</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Name Suffix (Jr, III, etc)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of name</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Persons
+     */
+
+    prc_persons [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_persons</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Calculated "best" data for each Person.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Person</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">official_name_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Person's Official (Legal) Name (prc_names:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">preferred_name_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Person's Preferred Name (prc_names:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">date_of_birth</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Birthday of the associated Person</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">gender</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(1)</font></td>
+ <td align="left">Gender of the associated Person (M/F)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">test_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">If entry is a test record, type of test record (ctx_data_types:data_type=test)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Phones (Calculated)
+     */
+
+    prc_phones [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_phones</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Calculated phone numbers.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Phone</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the associated Role Record (prc_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">address_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Address Type of this Phone (ctx_data_types:data_type=address)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">phone_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this Phone (ctx_data_types:data_type=phone)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">country_code</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(5)</font></td>
+ <td align="left">Country code for this Phone</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">area_code</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(3)</font></td>
+ <td align="left">Area code for this Phone</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">phone_number</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(10)</font></td>
+ <td align="left">Number for this Phone, excluding country code, area code, and extension</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">extension</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(5)</font></td>
+ <td align="left">Extension for this Phone</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+   
+    /*
+     * Phones (Standardized)
+     */
+
+    prs_phones [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_phones</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized phone numbers.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Phone</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the associated SOR Role Record (prs_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">address_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Address Type of this Phone (ctx_data_types:data_type=address)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">phone_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this Phone (ctx_data_types:data_type=phone)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">country_code</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(5)</font></td>
+ <td align="left">Country code for this Phone</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">area_code</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(3)</font></td>
+ <td align="left">Area code for this Phone</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">phone_number</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(10)</font></td>
+ <td align="left">Number for this Phone, excluding country code, area code, and extension</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">extension</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(5)</font></td>
+ <td align="left">Extension for this Phone</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+   
+    /*
+     * SOR Role Records: >= 1 per sorid
+     */
+
+    prs_role_records [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_role_records</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized per-role SOR data.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this SOR Role Record</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">source_sor_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">SOR asserting this record (prx_source_sors:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sor_person_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">SOR Person this record belongs to (prs_sor_persons:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">affiliation_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Affiliation of Person for this Role (ctx_data_types:data_type=person)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">percent_time</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Percentage of Full Time (100=Full Time, 50=Half/Part Time)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">person_status_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Status of Person for this Role (ctx_data_types:data_type=person_status)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Record's Role (prd_roles:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sponsor_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Record's Sponsor (prs_sponsors:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">affiliation_date</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Date of effective affiliation (hire, matriculation, graduation, etc; need not be same as validity)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">termination_date</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Date of effective termination (fire, graduation, withdrawal, etc; need not be same as validity)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">termination_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Reason for Termination (ctx_data_types:data_type=termination)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">validity_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Record's Validity period (ctc_validities:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">test_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">If entry is a test record, type of test record (ctx_data_types:data_type=test)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+   
+    /*
+     * SOR Alumni Records
+     */
+
+    prs_role_records_alumni [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_role_records_alumni</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized Alumni specific role data.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the associated SOR Role Record (prs_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">organizational_unit_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">School Student graduated from (drd_organizational_units:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * SOR Employee Records
+     */
+
+    prs_role_records_employee [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_role_records_employee</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized Employee specific role data.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the associated SOR Role Record (prs_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">supervisor_person_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Reporting Manager of Employee (prc_persons:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * SOR Student Records
+     */
+
+    prs_role_records_student [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_role_records_student</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized Student specific role data.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the associated SOR Role Record (prs_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">organizational_unit_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">School Student enrolled in (drd_organizational_units:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+   
+    /*
+     * Role Records (Calculated)
+     */
+
+    prc_role_records [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_role_records</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Calculated per-role data.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Role Record</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">person_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Person this entry data belongs to (prc_persons:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">affiliation_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Affiliation of Person for this Role (ctx_data_types:data_type=person)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">percent_time</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Percentage of Full Time (100=Full Time, 50=Half/Part Time)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">person_status_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Status of Person for this Role (ctx_data_types:data_type=person_status)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Record's Role (prd_roles:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sponsor_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Record's Sponsor (prc_sponsors:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">affiliation_date</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Date of effective affiliation (hire, matriculation, graduation, etc; need not be same as validity)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">termination_date</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Date of effective termination (fire, graduation, withdrawal, etc; need not be same as validity)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">termination_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Reason for Termination (ctx_data_types:data_type=termination)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">validity_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Record's Validity period (ctc_validities:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">test_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">If entry is a test record, type of test record (ctx_data_types:data_type=test)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+   
+    /*
+     * Roles
+	 */
+
+    prd_roles [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prd_roles</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized role definitions.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Role</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">organizational_unit_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Record's Organizational Unit (drd_organizational_units:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">title</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Title for this Record's Role (free form, from SOR)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">affiliation_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Affiliation of Person for this Role (ctx_data_types:data_type=person)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">code</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(3)</font></td>
+ <td align="left">Local code or class for this Role</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of title</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * SOR Persons
+	 */
+	 
+    prs_sor_persons [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_sor_persons</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized unique person-per-SOR data.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this sor person data (NOT SORID)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">source_sor_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Source SOR for this entry (prx_source_sors:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">person_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Person this entry data belongs to once reconciled (prc_persons:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">date_of_birth</font></td>
+ <td align="left"><font face="Courier" point-size="10">date</font></td>
+ <td align="left">Birthday of the associated Person, according to SOR</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">gender</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Gender of the associated Person (M/F), according to SOR</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">test_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">If entry is a test record, type of test record (ctx_data_types:data_type=test)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+   
+   /*
+    * Source Systems of Record
+	*/
+   
+   prx_source_sors [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prx_source_sors</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Defined Systems of Record.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this System of Record</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">description</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(100)</font></td>
+ <td align="left">Description of this System of Record</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">interface_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of Interface with this SOR (ctx_data_types:data_type=interface)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">interface_version</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(10)</font></td>
+ <td align="left">Version string of Interface with SOR</td>
+</tr>
+   </table>>];
+
+    /*
+     * Sponsors (Calculated)
+	 */
+
+    prc_sponsors [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_sponsors</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Calculated sponsors for each of a person's roles.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Sponsor Record</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sponsor_type</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Type of Sponsor: person, department, role</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sponsor_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">ID (eg: person_id) of the Sponsor (prs_TYPEs:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Sponsors (Standardized)
+	 */
+
+    prs_sponsors [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_sponsors</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized sponsors for each of a person's roles.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Sponsor Record</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sponsor_type</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Type of Sponsor: person, department, role</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sponsor_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">ID (eg: person_id) of the Sponsor (prs_TYPEs:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * URLs (Calculated)
+	 */
+
+    prc_urls [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prc_urls</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Calculated URLs.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this URL</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Role Record (prc_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">address_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this URL (ctx_data_types:type=address)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">url</font></td>
+ <td align="left"><font face="Courier" point-size="10">char(500)</font></td>
+ <td align="left">The URL</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+   
+    /*
+     * URLs (Standardized)
+	 */
+
+    prs_urls [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">prs_urls</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Standardized URLs.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this URL</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Role Record (prs_role_records:id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">address_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Type of this URL (ctx_data_types:type=address)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">url</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">The URL</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:id)</td>
+</tr>
+   </table>>];
+} /* cluster_PR */
+
+  /*
+   * relations
+   *
+   * 0/1: odottee
+   * 1: teetee
+   * 0+: crowodot
+   * 1+: crowotee
+   *
+   * x->y each x has arrowtail y's, each y has arrowhead x's
+   *
+   */
+  
+  aro_clusters -> prs_sponsors [arrowhead="crowodot", arrowtail="odottee"];
+  aro_nodes -> prs_sponsors [arrowhead="crowodot", arrowtail="odottee"];
+  aro_users -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
+  aro_users -> prs_sponsors [arrowhead="crowodot", arrowtail="odottee"];
+  bro_derived_attribute_overrides -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
+  bro_derived_attribute_rules -> prs_sponsors [arrowhead="crowodot", arrowtail="odottee"];
+  bro_preferred_attribute_overrides -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_overrides -> prd_roles [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_rules -> prd_roles [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_rules -> prs_sponsors [arrowhead="crowodot", arrowtail="odottee"];
+  ctx_registry_permissions -> prc_persons [arrowhead="odottee", arrowtail="teetee"];
+  gro_group_members -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
+  gro_group_owners -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
+  prc_addresses -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_addresses -> ctd_countries [arrowhead="crowodot", arrowtail="teetee"];
+  prc_addresses -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_addresses -> ctd_regions [arrowhead="crowodot", arrowtail="teetee"];
+  prc_addresses -> prc_role_records [arrowhead="crowodot", arrowtail="teetee"];
+  prs_addresses -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_addresses -> ctd_countries [arrowhead="crowodot", arrowtail="teetee"];
+  prs_addresses -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_addresses -> ctd_regions [arrowhead="crowodot", arrowtail="teetee"];
+  prc_addresses -> prs_role_records [arrowhead="crowodot", arrowtail="teetee"];
+  prd_campuses -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prd_campuses -> drd_organizational_units [arrowhead="teetee", arrowtail="crowodot"];
+  drd_organizational_units -> prd_roles [arrowhead="teetee", arrowtail="crowodot"];
+  drs_organizational_unit_contact_records -> prs_addresses [arrowhead="crowodot", arrowtail="teetee"];
+  drs_organizational_unit_contact_records -> prs_emails [arrowhead="crowodot", arrowtail="teetee"];
+  drs_organizational_unit_contact_records -> prs_phones [arrowhead="crowodot", arrowtail="teetee"];
+  drs_organizational_unit_contact_records -> prs_urls [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emails -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_emails -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emails -> prc_role_records [arrowhead="crowodot", arrowtail="teetee"];
+  prs_emails -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_emails -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emails -> prs_role_records [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emergency_contacts -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_emergency_contacts -> prc_persons [arrowhead="crowotee", arrowtail="crowodot"];
+  prc_emergency_contacts -> prs_addresses [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emergency_contacts -> prs_emails [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emergency_contacts -> prs_phones [arrowhead="crowodot", arrowtail="teetee"];
+  prc_emergency_contacts -> prs_urls [arrowhead="crowodot", arrowtail="teetee"];
+  prd_identifier_types -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_identifiers -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_identifiers -> prd_identifier_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_identifiers -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
+  prc_leaves_of_absence -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_leaves_of_absence -> prc_role_records [arrowhead="crowodot", arrowtail="teetee"];
+  prc_leaves_of_absence -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_leaves_of_absence -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_leaves_of_absence -> prs_role_records [arrowhead="crowodot", arrowtail="teetee"];
+  prs_leaves_of_absence -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_names -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_names -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_names -> prc_persons [arrowhead="crowotee", arrowtail="teetee"];
+  prs_names -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_names -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_names -> prs_sor_persons [arrowhead="crowotee", arrowtail="teetee"];
+  prc_persons -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_persons -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_phones -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_phones -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_phones -> prc_role_records [arrowhead="crowodot", arrowtail="teetee"];
+  prs_phones -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_phones -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_phones -> prs_role_records [arrowhead="crowodot", arrowtail="teetee"];
+  prc_role_records -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_role_records -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_role_records -> ctc_validities [arrowhead="crowodot", arrowtail="teetee"];
+  prc_role_records -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
+  prc_role_records -> prc_sponsors [arrowhead="crowodot", arrowtail="odottee"];
+  prd_roles -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_role_records_alumni -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_role_records_alumni -> drd_organizational_units [arrowhead="crowodot", arrowtail="teetee"];
+  prs_role_records_alumni -> prs_role_records [arrowhead="odottee", arrowtail="teetee"];
+  prs_role_records_employee -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_role_records_employee -> prc_persons [arrowhead="crowodot", arrowtail="odottee"];
+  prs_role_records_employee -> prs_role_records [arrowhead="odottee", arrowtail="teetee"];
+  prs_sor_persons -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_sor_persons -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_sor_persons -> prc_persons [arrowhead="crowodot", arrowtail="odottee"];
+  prs_sor_persons -> prx_source_sors [arrowhead="crowodot", arrowtail="teetee"];
+  prs_role_records_student -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_role_records_student -> drd_organizational_units [arrowhead="crowodot", arrowtail="teetee"];
+  prs_role_records_student -> prs_role_records [arrowhead="odottee", arrowtail="teetee"];
+  prs_role_records -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_role_records -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prs_role_records -> ctc_validities [arrowhead="crowodot", arrowtail="teetee"];
+  prs_role_records -> prs_sor_persons [arrowhead="crowodot", arrowtail="teetee"];
+  prs_role_records -> prx_source_sors [arrowhead="crowodot", arrowtail="teetee"];
+  prs_role_records -> prs_sponsors [arrowhead="crowodot", arrowtail="odottee"];
+  prx_source_sors -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  prc_sponsors -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_sponsors -> prc_persons [arrowhead="odottee", arrowtail="odottee"];
+  prc_sponsors -> prd_roles [arrowhead="odottee", arrowtail="odottee"];
+  prs_sponsors -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_sponsors -> prc_persons [arrowhead="odottee", arrowtail="odottee"];
+  prs_sponsors -> prd_roles [arrowhead="odottee", arrowtail="odottee"];
+  prc_urls -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prc_urls -> prc_role_records [arrowhead="crowodot", arrowtail="teetee"];
+  prs_urls -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  prs_urls -> prs_role_records [arrowhead="crowodot", arrowtail="teetee"];
+}

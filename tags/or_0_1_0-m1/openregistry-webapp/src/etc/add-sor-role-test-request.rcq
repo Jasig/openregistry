@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rest-client version="2.3">
+    <request>
+        <http-version>1.1</http-version>
+        <URL>http://localhost:8080/openregistry/api/v1/people/RCPID/22/roles/SAK?sor=123</URL>
+        <method>PUT</method>
+        <body content-type="application/xml" charset="UTF-8">&lt;?xml version="1.0"?&gt;
+            &lt;open-registry-role start-date="2008-02-01" end-date="2011-02-01" percentage="50"&gt;
+
+            &lt;addresses&gt;
+            &lt;address type="Home"&gt;
+            &lt;line1&gt;225 Main st.&lt;/line1&gt;
+            &lt;line2&gt;distr.&lt;/line2&gt;
+            &lt;line3&gt;xxx&lt;/line3&gt;
+            &lt;city&gt;Main City&lt;/city&gt;
+            &lt;postal-code&gt;70097&lt;/postal-code&gt;
+            &lt;country-code&gt;US&lt;/country-code&gt;
+            &lt;region-code&gt;NJ&lt;/region-code&gt;
+            &lt;/address&gt;
+            &lt;address type="Campus"&gt;
+            &lt;line1&gt;5 Main ave&lt;/line1&gt;
+            &lt;city&gt;New Brunswick&lt;/city&gt;
+            &lt;postal-code&gt;08887&lt;/postal-code&gt;
+            &lt;country-code&gt;US&lt;/country-code&gt;
+            &lt;region-code&gt;NJ&lt;/region-code&gt;
+            &lt;/address&gt;
+            &lt;/addresses&gt;
+
+            &lt;emails&gt;
+            &lt;email type="Personal" address="jd@gmail.com"/&gt;
+            &lt;email type="Office" address="jd@example.com"/&gt;
+            &lt;/emails&gt;
+
+            &lt;urls&gt;
+            &lt;url type="Home page" address="http://example.com/mypage"/&gt;
+            &lt;url type="Twitter profile" address="http://twitter.com/myprofile"/&gt;
+            &lt;/urls&gt;
+
+            &lt;phones&gt;
+            &lt;phone type="Home" address-type="Home"&gt;
+            &lt;country-code&gt;1&lt;/country-code&gt;
+            &lt;area-code&gt;908&lt;/area-code&gt;
+            &lt;number&gt;787765434&lt;/number&gt;
+            &lt;/phone&gt;
+            &lt;phone type="Office" address-type="Office"&gt;
+            &lt;country-code&gt;1&lt;/country-code&gt;
+            &lt;area-code&gt;908&lt;/area-code&gt;
+            &lt;number&gt;123456789&lt;/number&gt;
+            &lt;extension&gt;556&lt;/extension&gt;
+            &lt;/phone&gt;
+            &lt;/phones&gt;
+
+            &lt;/open-registry-role&gt;
+        </body>
+    </request>
+</rest-client>

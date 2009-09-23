@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2009 Jasig, Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <!-- By default, the first state is the start state. -->
+    <input name="role" />
+    <input name="sorPerson" />
+
+    <view-state id="updateRole" model="role" view="openregistry.role.update">
+        <on-entry>
+            <set name="viewScope.command" value="'role'" />
+            <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
+            <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@EMAIL)" result="flowScope.emailAddressTypeList" />
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@ADDRESS)" result="flowScope.addressTypeList" />
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@PHONE)" result="flowScope.phoneTypeList" />
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@URL)" result="flowScope.urlTypeList" />
+        </on-entry>
+        <transition on="submitUpdateRole" to="roleWasUpdated" >
+            <evaluate expression="roleAction.updateSorRole(role, messageContext)"/>
+        </transition>
+        <transition on="submitUpdateAddress" to="updateAddress" >
+            <set name="requestScope.addressId" value="requestParameters.addressId" type="long" />
+            <evaluate expression="role.getAddress(addressId)" result="flowScope.address"/>
+        </transition>
+        <transition on="submitAddEmail" >
+            <evaluate expression="role.addEmailAddress()" />
+        </transition>
+        <transition on="submitAddPhone" >
+            <evaluate expression="role.addPhone()" />
+        </transition>
+        <transition on="submitAddAddress" >
+            <evaluate expression="role.addAddress()" />
+        </transition>
+        <transition on="submitAddURL" >
+            <evaluate expression="role.addUrl()" />
+        </transition>
+        <transition on="submitRemoveEmailAddress" >
+            <set name="requestScope.emailAddressId" value="requestParameters.emailId" type="long" />
+            <evaluate expression="role.removeEmailAddressById(emailAddressId)"/>
+        </transition>
+        <transition on="submitRemovePhone" >
+            <set name="requestScope.phoneId" value="requestParameters.phoneId" type="long" />
+            <evaluate expression="role.removePhoneById(phoneId)"/>
+        </transition>
+        <transition on="submitRemoveAddress" >
+            <set name="requestScope.addressId" value="requestParameters.addressId" type="long" />
+            <evaluate expression="role.removeAddressById(addressId)"/>
+        </transition>
+        <transition on="submitRemoveURL" >
+            <set name="requestScope.urlId" value="requestParameters.urlId" type="long" />
+            <evaluate expression="role.removeURLById(urlId)"/>
+        </transition>
+    </view-state>
+
+    <view-state id="updateAddress" model="address" view="openregistry.role.address.update">
+        <on-entry>
+            <set name="viewScope.command" value="'address'" />
+            <set name="viewScope.address" value="flowScope.address" />
+            <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
+        </on-entry>
+        <transition on="submitUpdateAddressInfo" to="roleWasUpdated" >
+            <evaluate expression="roleAction.updateSorRole(role, messageContext)"/>
+        </transition>
+    </view-state>
+
+    <end-state id="roleWasUpdated" />
+
+</flow>
