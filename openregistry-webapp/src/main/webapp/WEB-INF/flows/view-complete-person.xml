@@ -36,7 +36,7 @@
         <transition on="submitViewRole" to="viewRole" >
             <set name="requestScope.roleId" value="requestParameters.roleId" type="long" />
             <evaluate expression="personRepository.findSorRoleByInternalId(roleId)" result="flowScope.role"/>
-            <evaluate expression="personRepository.findByInternalId(role.sponsor.sponsorId)" result="flowScope.sponsorPerson" />
+            <evaluate expression="personService.findPersonById(role.sponsor.sponsorId)" result="flowScope.sponsorPerson" />
         </transition>
         <transition on="cancel" to="moveCancelled" />
     </view-state>
