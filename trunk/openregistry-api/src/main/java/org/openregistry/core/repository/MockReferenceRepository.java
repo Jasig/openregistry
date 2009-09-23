@@ -15,7 +15,6 @@
  */
 package org.openregistry.core.repository;
 
-import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.Type.DataTypes;
 
