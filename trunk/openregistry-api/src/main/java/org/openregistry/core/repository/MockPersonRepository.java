@@ -15,8 +15,6 @@
  */
 package org.openregistry.core.repository;
 
-import org.openregistry.core.repository.PersonRepository;
-import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
