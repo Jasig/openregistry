@@ -32,7 +32,7 @@
     <view-state id="managePersonRoles" model="sorPerson" view="openregistry.manage.person.roles">
         <on-entry>
             <evaluate expression="personRepository.findByPersonIdAndSorIdentifier(person.id,'or-webapp')" result="flowScope.sorPerson"/>
-            <evaluate expression="personRepository.findPersonIdentifiers(sorPerson.getPersonId())" result="flowScope.identifiers" />
+            <evaluate expression="person.identifiers" result="flowScope.identifiers" />
             <set name="viewScope.command" value="'sorPerson'" />
             <set name="viewScope.identifiers" value="identifiers" />
         </on-entry>
