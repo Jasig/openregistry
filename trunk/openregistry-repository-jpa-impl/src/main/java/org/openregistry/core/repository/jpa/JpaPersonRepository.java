@@ -92,10 +92,6 @@ public class JpaPersonRepository implements PersonRepository {
         return this.entityManager.merge(person);
     }
 
-    public void addPerson(Person person) throws RepositoryAccessException {
-        this.entityManager.persist(person);
-    }
-
     public void deleteSorRole(final SorPerson person, final SorRole role) {
         this.entityManager.merge(person);
     }

@@ -96,10 +96,6 @@ public class MockPersonRepository implements PersonRepository {
         return sorPerson;
     }
 
-    public void addPerson(Person person) throws RepositoryAccessException {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     public void deleteSorRole(SorPerson person, SorRole role) {
         //To change body of implemented methods use File | Settings | File Templates.
     }

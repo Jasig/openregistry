@@ -126,8 +126,6 @@ public interface PersonRepository {
      */
     SorPerson saveSorPerson(SorPerson person) throws RepositoryAccessException;
 
-    void addPerson(Person person) throws RepositoryAccessException;
-
     /**
      * Removes the SoR Role from the database.  This method ASSUMES your code is handling the removal from the person's
      * role from the person object BEFORE calling deleteSorRole.
