@@ -226,10 +226,10 @@ public class JpaPersonImpl extends Entity implements Person {
         return jpaIdentifier;
     }
 
-    public Role pickOutRole(String code) {
+    public Role pickOutRole(final String code) {
         //TODO: Is this the correct assumption???
-        for(Role r : this.roles) {
-            if(r.getRoleInfo().getCode().equals(code)) {
+        for(final Role r : this.roles) {
+            if(r.getCode().equals(code)) {
                 return r;
             }
         }

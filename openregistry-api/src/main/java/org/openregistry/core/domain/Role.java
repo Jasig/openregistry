@@ -46,8 +46,6 @@ public interface Role extends RoleInfo, Serializable, MutableDateRange {
     Type getPersonStatus();
 
     void setPersonStatus(Type personStatus);
-    
-    RoleInfo getRoleInfo();
 
     Set<Phone> getPhones();
 
