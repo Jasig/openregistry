@@ -88,6 +88,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         final ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
 
         assertTrue(result.succeeded());
+        assertNotNull(result.getTargetObject().getId());
         assertEquals(1, countRowsInTable("prc_persons"));
         assertEquals(1, countRowsInTable("prc_names"));
         assertEquals(1, countRowsInTable("prs_names"));
@@ -108,6 +109,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         final ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria2);
 
         assertTrue(result.succeeded());
+        assertNotNull(result.getTargetObject().getId());
         assertEquals(2, countRowsInTable("prc_persons"));
         assertEquals(2, countRowsInTable("prc_names"));
         assertEquals(2, countRowsInTable("prs_names"));
@@ -131,7 +133,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 		Name name = person.getPreferredName();
 
         assertTrue(result.succeeded());
-
+        assertNotNull(result.getTargetObject().getId());
         assertEquals(1, countRowsInTable("prc_persons"));
         assertEquals(1, countRowsInTable("prc_names"));
         assertEquals(1, countRowsInTable("prs_names"));
@@ -219,6 +221,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
             assertEquals(1, countRowsInTable("prs_sor_persons"));
             final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.forceAddPerson(reconciliationCriteria1, e);
             assertNotNull(serviceExecutionResult.getTargetObject());
+            assertNotNull(serviceExecutionResult.getTargetObject().getId());
             assertEquals(2, countRowsInTable("prc_persons"));
             assertEquals(2, countRowsInTable("prc_names"));
             assertEquals(2, countRowsInTable("prs_names"));
@@ -259,10 +262,11 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         }
 
         try {
-            final ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria1);
+            this.personService.addPerson(reconciliationCriteria1);
         } catch (final ReconciliationException e) {
             assertEquals(1, countRowsInTable("prs_sor_persons"));
             final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.forceAddPerson(reconciliationCriteria1, e);
+            assertNotNull(serviceExecutionResult.getTargetObject().getId());
             assertEquals(2, countRowsInTable("prc_persons"));
             assertEquals(2, countRowsInTable("prc_names"));
             assertEquals(2, countRowsInTable("prs_names"));
