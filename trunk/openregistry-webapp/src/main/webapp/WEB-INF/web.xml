@@ -62,6 +62,11 @@
         <servlet-class>org.springframework.js.resource.ResourceServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>SimplePing Servlet</servlet-name>
+        <servlet-class>edu.rutgers.enterprise.commons.helpers.web.SimplePingServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>Resource Servlet</servlet-name>
         <url-pattern>/resources/*</url-pattern>
@@ -75,6 +80,11 @@
     <servlet-mapping>
         <servlet-name>openregistry-rest</servlet-name>
         <url-pattern>/api/v1/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SimplePing Servlet</servlet-name>
+        <url-pattern>/getstatus</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
