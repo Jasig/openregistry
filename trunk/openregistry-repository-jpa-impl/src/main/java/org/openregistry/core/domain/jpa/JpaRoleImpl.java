@@ -304,4 +304,12 @@ public final class JpaRoleImpl extends Entity implements Role {
     public void moveToPerson(JpaPersonImpl person){
         this.person = person;
     }
+
+    public String getCode() {
+        return this.roleInfo.getCode();
+    }
+
+    public String getDisplayableName() {
+        return this.roleInfo.getDisplayableName();
+    }
 }
