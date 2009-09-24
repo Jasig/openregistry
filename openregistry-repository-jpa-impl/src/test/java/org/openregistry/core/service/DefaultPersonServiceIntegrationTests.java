@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.*;
 
+import javax.persistence.*;
 import java.util.*;
 import java.text.*;
 
@@ -56,6 +57,10 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 
     @Autowired
     private PersonService personService;
+
+	@PersistenceContext
+	private EntityManager entityManager;
+
 
     protected ReconciliationCriteria constructReconciliationCriteria(final String firstName, final String lastName, final String ssn, final String emailAddress, final String phoneNumber, Date birthDate, final String sor, final String sorId) {
         final ReconciliationCriteria reconciliationCriteria = new JpaReconciliationCriteriaImpl();
@@ -102,18 +107,75 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
      */
     @Test
     public void testAddTwoDifferentPeople() throws ReconciliationException {
-        final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
-        this.personService.addPerson(reconciliationCriteria);
+        final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        final ServiceExecutionResult<Person> result1 = this.personService.addPerson(reconciliationCriteria1);
 
         final ReconciliationCriteria reconciliationCriteria2 = constructReconciliationCriteria("Foo", "Bar", null, "la@lao.com", "9085550987", new Date(0), OR_WEBAPP_IDENTIFIER, null);
-        final ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria2);
+        final ServiceExecutionResult<Person> result2 = this.personService.addPerson(reconciliationCriteria2);
 
-        assertTrue(result.succeeded());
-        assertNotNull(result.getTargetObject().getId());
+        assertTrue(result2.succeeded());
+        assertNotNull(result2.getTargetObject().getId());
         assertEquals(2, countRowsInTable("prc_persons"));
         assertEquals(2, countRowsInTable("prc_names"));
         assertEquals(2, countRowsInTable("prs_names"));
         assertEquals(2, countRowsInTable("prs_sor_persons"));
+
+		entityManager.flush();
+
+		final Person person2 = result2.getTargetObject();
+		SorPerson sorPerson2 = reconciliationCriteria2.getPerson();
+        sorPerson2.setSorId("2");
+
+		final Person person1 = result1.getTargetObject();
+		SorPerson sorPerson1 = reconciliationCriteria1.getPerson();
+        sorPerson1.setSorId("1");
+
+//		logger.info("sourceSor2= " + this.simpleJdbcTemplate.queryForList("select * from prs_sor_persons "));
+
+
+		// check birthdate is set correctly
+		Date birthDate1 = this.simpleJdbcTemplate.queryForObject("select date_of_birth from prc_persons where id = ?", Date.class, person1.getId());
+		DateFormat formatter = DateFormat.getDateInstance(DateFormat.SHORT);
+		assertEquals(formatter.format(birthDate1),formatter.format(person1.getDateOfBirth()));
+
+		Date birthDate2 = this.simpleJdbcTemplate.queryForObject("select date_of_birth from prc_persons where id = ?", Date.class, person2.getId());
+		assertEquals(formatter.format(birthDate2),formatter.format(person2.getDateOfBirth()));
+
+		// check SOR source is set correctly
+		String sourceSor1 = this.simpleJdbcTemplate.queryForObject("select source_sor_id from prs_sor_persons where person_id = ?", String.class, person1.getId());
+		assertEquals(sourceSor1,sorPerson1.getSourceSor());
+
+		String sourceSor2 = this.simpleJdbcTemplate.queryForObject("select source_sor_id from prs_sor_persons where person_id = ?", String.class, person2.getId());
+		assertEquals(sourceSor2,sorPerson2.getSourceSor());
+
+
+		// check names in prc_names
+		String familyName1 = this.simpleJdbcTemplate.queryForObject("select family_name from prc_names where person_id = ?", String.class, person1.getId());
+		assertEquals(familyName1,KIPLING);
+
+		String familyName2 = this.simpleJdbcTemplate.queryForObject("select family_name from prc_names where person_id = ?", String.class, person2.getId());
+		assertEquals(familyName2,"Bar");
+
+		String givenName1 = this.simpleJdbcTemplate.queryForObject("select given_name from prc_names where person_id = ?", String.class, person1.getId());
+		assertEquals(givenName1,RUDYARD);
+
+		String givenName2 = this.simpleJdbcTemplate.queryForObject("select given_name from prc_names where person_id = ?", String.class, person2.getId());
+		assertEquals(givenName2,"Foo");
+
+
+		// check names in prs_names
+		String prsFamilyName1 = this.simpleJdbcTemplate.queryForObject("select family_name from prs_names where sor_person_id = ?", String.class, sorPerson1.getSorId());
+		assertEquals(prsFamilyName1,KIPLING);
+
+		String prsGivenName1 = this.simpleJdbcTemplate.queryForObject("select given_name from prs_names where sor_person_id = ?", String.class, sorPerson1.getSorId());
+		assertEquals(prsGivenName1,RUDYARD);
+
+		String prsFamilyName2 = this.simpleJdbcTemplate.queryForObject("select family_name from prs_names where sor_person_id = ?", String.class, sorPerson2.getSorId());
+		assertEquals(prsFamilyName2,"Bar");
+
+		String prsGivenName2 = this.simpleJdbcTemplate.queryForObject("select given_name from prs_names where sor_person_id = ?", String.class, sorPerson2.getSorId());
+		assertEquals(prsGivenName2,"Foo");
+
     }
 
     /**
@@ -130,7 +192,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 		final Person person = result.getTargetObject();
 		SorPerson sorPerson = reconciliationCriteria.getPerson();
         sorPerson.setSorId("1");
-		Name name = person.getPreferredName();
 
         assertTrue(result.succeeded());
         assertNotNull(result.getTargetObject().getId());
@@ -156,10 +217,10 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 		assertEquals(givenName,RUDYARD);
 
 		// check names in prs_names
-		String prsFamilyName = this.simpleJdbcTemplate.queryForObject("select family_name from prs_names where sor_person_id = ?", String.class, person.getId());
+		String prsFamilyName = this.simpleJdbcTemplate.queryForObject("select family_name from prs_names where sor_person_id = ?", String.class, sorPerson.getSorId());
 		assertEquals(prsFamilyName,KIPLING);
 
-		String prsGivenName = this.simpleJdbcTemplate.queryForObject("select given_name from prs_names where sor_person_id = ?", String.class, person.getId());
+		String prsGivenName = this.simpleJdbcTemplate.queryForObject("select given_name from prs_names where sor_person_id = ?", String.class, sorPerson.getSorId());
 		assertEquals(prsGivenName,RUDYARD);
 
     }
