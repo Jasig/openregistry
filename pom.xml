@@ -309,6 +309,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <hsqldb.version>1.8.0.7</hsqldb.version>
         <jersey.version>1.1.2-ea</jersey.version>
         <el.api.version>1.0</el.api.version>
+        <ess.commons.version>3.7</ess.commons.version>
     </properties>
 
     <pluginRepositories>
