@@ -374,12 +374,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-           <groupId>ess</groupId>
-           <artifactId>ess-commons</artifactId>
-           <version>${ess.commons.version}</version>
-           <type>jar</type>
-       </dependency>
     </dependencies>
 
     <repositories>
@@ -389,11 +383,7 @@
             <url>http://download.java.net/maven/2/</url>
             <layout>default</layout>
         </repository>
-       <repository>
-           <id>local-repository</id>
-           <name>Rutgers Maven2 Repository</name>
-           <url>http://gofish:8080/proximity/repository/inhouse</url>
-       </repository>
+
     </repositories>
 
     <build>
