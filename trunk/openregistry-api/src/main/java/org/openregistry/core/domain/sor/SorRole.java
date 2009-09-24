@@ -18,7 +18,6 @@ package org.openregistry.core.domain.sor;
 import org.openregistry.core.domain.*;
 
 import java.io.Serializable;
-import java.util.Set;
 import java.util.List;
 
 /**
