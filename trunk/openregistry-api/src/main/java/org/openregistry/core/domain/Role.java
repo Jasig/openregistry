@@ -27,11 +27,9 @@ import org.openregistry.core.domain.sor.SorSponsor;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public interface Role extends Serializable, MutableDateRange {
+public interface Role extends RoleInfo, Serializable, MutableDateRange {
 
     Long getId();
-
-    Type getAffiliationType();
 
     Set<Address> getAddresses();
 
@@ -74,12 +72,6 @@ public interface Role extends Serializable, MutableDateRange {
     Phone addPhone(Phone sorPhone);
 
     Set<Leave> getLeaves();
-
-    String getTitle();
-
-    OrganizationalUnit getOrganizationalUnit();
-
-    Campus getCampus();
 
     String getLocalCode();
 
