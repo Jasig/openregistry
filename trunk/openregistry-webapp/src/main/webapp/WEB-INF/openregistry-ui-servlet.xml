@@ -59,11 +59,19 @@
 
     <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter" p:flowExecutor-ref="flowExecutor"/>
 
+    <bean class="org.openregistry.core.web.ReferenceRepositoryHandlerInterceptor" id="referenceRepositoryHandlerInterceptor">
+        <constructor-arg index="0" ref="referenceRepository" />
+    </bean>
+
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" p:order="0"/>
 
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 
-    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping" p:flowRegistry-ref="flowRegistry" p:order="1"/>
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping" p:flowRegistry-ref="flowRegistry" p:order="1">
+        <property name="interceptors">
+            <ref local="referenceRepositoryHandlerInterceptor" />
+        </property>
+    </bean>
 
     <bean id="urlResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"
             p:prefix="/WEB-INF/jsp/"
