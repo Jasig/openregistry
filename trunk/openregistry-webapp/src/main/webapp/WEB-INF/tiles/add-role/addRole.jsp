@@ -103,7 +103,7 @@
                 <div class="row">
                     <label for="c1_country"><spring:message code="country.label"/></label>
                     <div class="select country">
-                        <form:select path="addresses[0].country" id="c1_country" items="${countryList}" itemValue="id" itemLabel="name" size="1" tabindex="14" />
+                        <form:select path="addresses[0].country" id="c1_country" items="${countries}" itemValue="id" itemLabel="name" size="1" tabindex="14" />
                     </div>
                 </div>
 

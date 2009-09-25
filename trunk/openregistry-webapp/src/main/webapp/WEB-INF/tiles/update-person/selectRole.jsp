@@ -33,7 +33,7 @@
 						<label for="c1_affiliation" class="affiliation"><spring:message code="role.label"/><em>*</em></label>
                         <div class="select affiliation">
                             <SELECT name="roleInfoCode">
-                                <c:forEach var="roleInfoItem" items="${roleInfoList}">
+                                <c:forEach var="roleInfoItem" items="${roleInfos}">
                                     <OPTION value="${roleInfoItem.code}">${roleInfoItem.displayableName}</OPTION>
                                 </c:forEach>
                             </SELECT>

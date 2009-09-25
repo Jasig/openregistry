@@ -28,9 +28,7 @@
             <binding property="roleInfo" converter="roleConverter" required="true" />
         </binder>
         <on-entry>
-            <evaluate expression="referenceRepository.getRoleInfos()" result="flowScope.roleInfoList" />
             <set name="viewScope.command" value="'sorPerson'" />
-            <set name="viewScope.roleInfoList" value="roleInfoList" />
         </on-entry>
         <transition on="submitUpdateRole" to="updateRole" >
             <set name="requestScope.roleId" value="requestParameters.roleId" type="long" />
@@ -49,8 +47,7 @@
         <on-entry>
             <set name="viewScope.command" value="'role'" />
             <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
-            <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
-            <evaluate expression="roleAction.initSorRole(sorPerson, roleInfoCode)" result="flowScope.role"/>            
+            <evaluate expression="roleAction.initSorRole(sorPerson, roleInfoCode)" result="flowScope.role"/>
         </on-entry>
         <transition on="submitAddRole" to="roleWasAdded" >
             <evaluate expression="roleAction.addSorRole(sorPerson, role, messageContext)"/>
@@ -71,5 +68,4 @@
     </end-state>
 
     <end-state id="managePersonRoles" />
-
 </flow>
