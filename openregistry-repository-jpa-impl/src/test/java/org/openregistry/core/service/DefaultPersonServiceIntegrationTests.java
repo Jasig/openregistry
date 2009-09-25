@@ -19,16 +19,12 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.openregistry.core.domain.jpa.sor.*;
-import org.openregistry.core.domain.jpa.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.service.reconciliation.*;
 import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
 import static org.junit.Assert.*;
 
-import javax.persistence.*;
 import java.util.*;
 import java.text.*;
 
@@ -57,10 +53,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 
     @Autowired
     private PersonService personService;
-
-	@PersistenceContext
-	private EntityManager entityManager;
-
 
     protected ReconciliationCriteria constructReconciliationCriteria(final String firstName, final String lastName, final String ssn, final String emailAddress, final String phoneNumber, Date birthDate, final String sor, final String sorId) {
         final ReconciliationCriteria reconciliationCriteria = new JpaReconciliationCriteriaImpl();
@@ -120,17 +112,11 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         assertEquals(2, countRowsInTable("prs_names"));
         assertEquals(2, countRowsInTable("prs_sor_persons"));
 
-		entityManager.flush();
-
 		final Person person2 = result2.getTargetObject();
         final SorPerson sorPerson2 = this.personService.findByPersonIdAndSorIdentifier(person2.getId(), OR_WEBAPP_IDENTIFIER);
 
 		final Person person1 = result1.getTargetObject();
         final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(person1.getId(), OR_WEBAPP_IDENTIFIER);
-
-
-//		logger.info("sourceSor2= " + this.simpleJdbcTemplate.queryForList("select * from prs_sor_persons "));
-
 
 		// check birthdate is set correctly
 		Date birthDate1 = this.simpleJdbcTemplate.queryForObject("select date_of_birth from prc_persons where id = ?", Date.class, person1.getId());
@@ -160,7 +146,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 
 		String givenName2 = this.simpleJdbcTemplate.queryForObject("select given_name from prc_names where person_id = ?", String.class, person2.getId());
 		assertEquals(givenName2,"Foo");
-
 
 		// check names in prs_names
 		String prsFamilyName1 = this.simpleJdbcTemplate.queryForObject("select family_name from prs_names where sor_person_id = ?", String.class, sorPerson1.getId());

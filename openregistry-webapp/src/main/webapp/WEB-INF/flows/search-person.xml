@@ -30,7 +30,6 @@
             <set name="viewScope.errorMessage" value="flashScope.errorMessage" />
             <set name="viewScope.searchResults" value="flowScope.searchResults" />
             <set name="flowScope.taskTitleCode" value="taskTitleCode" />
-            <evaluate expression="referenceRepository.identifierTypes" result-type="java.util.List" result="viewScope.identifierTypes" />
         </on-entry>
         <transition on="submit" bind="true" validate="true">
             <evaluate expression="personService.searchForPersonBy(searchCriteria)" result-type="java.util.List" result="flowScope.searchResults" />
