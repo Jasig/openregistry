@@ -34,7 +34,7 @@
         </dependency>
 
         <dependency>
-            <groupId>juel</groupId>
+            <groupId>de.odysseus.juel</groupId>
             <artifactId>juel-impl</artifactId>
             <version>${juel.version}</version>
             <scope>runtime</scope>
@@ -328,4 +328,14 @@
         </dependency>
 
     </dependencies>
+
+    <repositories>
+        <!-- currently needed for JaValid -->
+        <repository>
+            <id>jasig</id>
+            <name>JASIG Maven2 Repository</name>
+            <layout>default</layout>
+            <url>http://developer.ja-sig.org/maven2</url>
+        </repository>
+    </repositories>
 </project>
