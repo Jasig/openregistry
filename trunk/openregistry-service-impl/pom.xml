@@ -38,6 +38,12 @@
             <artifactId>juel-impl</artifactId>
             <version>${juel.version}</version>
             <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>de.odysseus.juel</groupId>
+                    <artifactId>juel-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
