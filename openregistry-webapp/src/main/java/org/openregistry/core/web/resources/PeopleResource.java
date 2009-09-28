@@ -253,7 +253,9 @@ public final class PeopleResource {
                                                @QueryParam("mistake") @DefaultValue("false") boolean mistake) {
         try {
             if (!this.personService.deleteSystemOfRecordPerson(sorSource, sorId, mistake)) {
-                throw new WebApplicationException(new RuntimeException("Unable to Delete SorPerson for SoR [" + sorSource + "] with ID [" + sorId + "]"), 500);
+                throw new WebApplicationException(
+                        new RuntimeException(
+                                String.format("Unable to Delete SorPerson for SoR [ %s ] with ID [ %s ]", sorSource, sorId)), 500);
             }
             //HTTP 204
             logger.debug("The SOR Person resource has been successfully DELETEd");
