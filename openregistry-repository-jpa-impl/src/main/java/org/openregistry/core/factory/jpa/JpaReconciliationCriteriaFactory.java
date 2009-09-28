@@ -29,8 +29,8 @@ import org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Component
-@Qualifier(value = "reconciliationCriteria")
+@Component("reconciliationCriteriaFactory")
+@Qualifier("reconciliationCriteria")
 public final class JpaReconciliationCriteriaFactory implements ObjectFactory<ReconciliationCriteria> {
 
     public ReconciliationCriteria getObject() throws BeansException {

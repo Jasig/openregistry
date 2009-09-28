@@ -64,14 +64,14 @@ public final class PeopleResource {
     @Context
     UriInfo uriInfo;
 
-    @Autowired
+    @Autowired(required=true)
     private PersonService personService;
 
-    @Autowired
+    @Autowired(required=true)
     private ReferenceRepository referenceRepository;
 
-    @Autowired
-    @Qualifier(value = "reconciliationCriteria")
+    @Autowired(required=true)
+    @Qualifier("reconciliationCriteria")
     private ObjectFactory<ReconciliationCriteria> reconciliationCriteriaObjectFactory;
 
     //JSR-250 injection which is more appropriate here for 'autowiring by name' in the case of multiple types

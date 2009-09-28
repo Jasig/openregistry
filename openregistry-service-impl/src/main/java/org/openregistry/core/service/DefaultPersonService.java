@@ -64,7 +64,6 @@ public class DefaultPersonService implements PersonService {
 
     private final ReferenceRepository referenceRepository;
 
-
     private final Reconciler reconciler;
 
     private final ObjectFactory<Person> personObjectFactory;
