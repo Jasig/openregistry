@@ -26,7 +26,7 @@ withActivationResource {
            println 'The activation key is valid!'
            break;
        default:
-           println "$status.data"
+           println "$response.data"
    }
    
    //Now invalidate (and print the status, right inline using powerful Groovy GString) - HTTP DELETE

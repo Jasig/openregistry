@@ -1194,83 +1194,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/javalid/javalid-spring/1.2/javalid-spring-1.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.springframework:org.springframework.transaction:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.transaction/3.0.0.M4/org.springframework.transaction-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.transaction/3.0.0.M4/org.springframework.transaction-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.transaction/3.0.0.M4/org.springframework.transaction-3.0.0.M4-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework:org.springframework.aop:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.aop/3.0.0.M4/org.springframework.aop-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.aop/3.0.0.M4/org.springframework.aop-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.aop/3.0.0.M4/org.springframework.aop-3.0.0.M4-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework:org.springframework.beans:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.beans/3.0.0.M4/org.springframework.beans-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.beans/3.0.0.M4/org.springframework.beans-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.beans/3.0.0.M4/org.springframework.beans-3.0.0.M4-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework:org.springframework.core:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.core/3.0.0.M4/org.springframework.core-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.core/3.0.0.M4/org.springframework.core-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.core/3.0.0.M4/org.springframework.core-3.0.0.M4-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework:org.springframework.asm:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.asm/3.0.0.M4/org.springframework.asm-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.asm/3.0.0.M4/org.springframework.asm-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.asm/3.0.0.M4/org.springframework.asm-3.0.0.M4-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework:org.springframework.context:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.context/3.0.0.M4/org.springframework.context-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.context/3.0.0.M4/org.springframework.context-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.context/3.0.0.M4/org.springframework.context-3.0.0.M4-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework:org.springframework.expression:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.expression/3.0.0.M4/org.springframework.expression-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.expression/3.0.0.M4/org.springframework.expression-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.expression/3.0.0.M4/org.springframework.expression-3.0.0.M4-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.slf4j:jcl-over-slf4j:1.5.8">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/jcl-over-slf4j/1.5.8/jcl-over-slf4j-1.5.8.jar!/" />
@@ -1280,28 +1203,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/jcl-over-slf4j/1.5.8/jcl-over-slf4j-1.5.8-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework:org.springframework.web.servlet:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web.servlet/3.0.0.M4/org.springframework.web.servlet-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web.servlet/3.0.0.M4/org.springframework.web.servlet-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web.servlet/3.0.0.M4/org.springframework.web.servlet-3.0.0.M4-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework:org.springframework.web:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web/3.0.0.M4/org.springframework.web-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web/3.0.0.M4/org.springframework.web-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web/3.0.0.M4/org.springframework.web-3.0.0.M4-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.codehaus.groovy:groovy-all:1.6.3">
@@ -1335,17 +1236,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/jline/jline/0.9.94/jline-0.9.94-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework:org.springframework.jms:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jms/3.0.0.M4/org.springframework.jms-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jms/3.0.0.M4/org.springframework.jms-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jms/3.0.0.M4/org.springframework.jms-3.0.0.M4-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.apache.camel:camel-core:2.0.0">
@@ -1531,6 +1421,10 @@
         <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
         <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-javadoc.jar!/" />
@@ -1549,8 +1443,16 @@
         <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/jpa-api/2.0.Beta1-SNAPSHOT/jpa-api-2.0.Beta1-SNAPSHOT-sources.jar!/" />
@@ -1587,6 +1489,10 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-javadoc.jar!/" />
@@ -1605,8 +1511,16 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-envers/3.5.0-SNAPSHOT/hibernate-envers-3.5.0-SNAPSHOT-sources.jar!/" />
@@ -1643,6 +1557,10 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-javadoc.jar!/" />
@@ -1661,8 +1579,16 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.5.0-SNAPSHOT/hibernate-core-3.5.0-SNAPSHOT-sources.jar!/" />
@@ -1743,6 +1669,10 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
@@ -1761,8 +1691,16 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-commons-annotations/3.5.0-SNAPSHOT/hibernate-commons-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
@@ -1799,6 +1737,10 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-javadoc.jar!/" />
@@ -1817,8 +1759,16 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-entitymanager/3.5.0-SNAPSHOT/hibernate-entitymanager-3.5.0-SNAPSHOT-sources.jar!/" />
@@ -1899,6 +1849,10 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
@@ -1917,8 +1871,16 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-annotations/3.5.0-SNAPSHOT/hibernate-annotations-3.5.0-SNAPSHOT-sources.jar!/" />
@@ -2067,28 +2029,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/antlr/stringtemplate/3.1-b1/stringtemplate-3.1-b1-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework:org.springframework.orm:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.orm/3.0.0.M4/org.springframework.orm-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.orm/3.0.0.M4/org.springframework.orm-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.orm/3.0.0.M4/org.springframework.orm-3.0.0.M4-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.springframework:org.springframework.jdbc:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jdbc/3.0.0.M4/org.springframework.jdbc-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jdbc/3.0.0.M4/org.springframework.jdbc-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jdbc/3.0.0.M4/org.springframework.jdbc-3.0.0.M4-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: asm:asm:3.2">
@@ -2421,17 +2361,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/sun/net/httpserver/http/20070405/http-20070405-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.springframework:org.springframework.test:3.0.0.M4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.test/3.0.0.M4/org.springframework.test-3.0.0.M4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.test/3.0.0.M4/org.springframework.test-3.0.0.M4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.test/3.0.0.M4/org.springframework.test-3.0.0.M4-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: hsqldb:hsqldb:1.8.0.7">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/hsqldb/hsqldb/1.8.0.7/hsqldb-1.8.0.7.jar!/" />
@@ -2527,6 +2456,149 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/webflow/spring-js/2.0.8.RELEASE/spring-js-2.0.8.RELEASE-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.transaction:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.transaction/3.0.0.RC1/org.springframework.transaction-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.transaction/3.0.0.RC1/org.springframework.transaction-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.transaction/3.0.0.RC1/org.springframework.transaction-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.aop:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.aop/3.0.0.RC1/org.springframework.aop-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.aop/3.0.0.RC1/org.springframework.aop-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.aop/3.0.0.RC1/org.springframework.aop-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.beans:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.beans/3.0.0.RC1/org.springframework.beans-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.beans/3.0.0.RC1/org.springframework.beans-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.beans/3.0.0.RC1/org.springframework.beans-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.core:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.core/3.0.0.RC1/org.springframework.core-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.core/3.0.0.RC1/org.springframework.core-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.core/3.0.0.RC1/org.springframework.core-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.asm:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.asm/3.0.0.RC1/org.springframework.asm-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.asm/3.0.0.RC1/org.springframework.asm-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.asm/3.0.0.RC1/org.springframework.asm-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.context:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.context/3.0.0.RC1/org.springframework.context-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.context/3.0.0.RC1/org.springframework.context-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.context/3.0.0.RC1/org.springframework.context-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.expression:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.expression/3.0.0.RC1/org.springframework.expression-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.expression/3.0.0.RC1/org.springframework.expression-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.expression/3.0.0.RC1/org.springframework.expression-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.web.servlet:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web.servlet/3.0.0.RC1/org.springframework.web.servlet-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web.servlet/3.0.0.RC1/org.springframework.web.servlet-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web.servlet/3.0.0.RC1/org.springframework.web.servlet-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.web:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web/3.0.0.RC1/org.springframework.web-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web/3.0.0.RC1/org.springframework.web-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.web/3.0.0.RC1/org.springframework.web-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.jms:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jms/3.0.0.RC1/org.springframework.jms-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jms/3.0.0.RC1/org.springframework.jms-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jms/3.0.0.RC1/org.springframework.jms-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.orm:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.orm/3.0.0.RC1/org.springframework.orm-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.orm/3.0.0.RC1/org.springframework.orm-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.orm/3.0.0.RC1/org.springframework.orm-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.jdbc:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jdbc/3.0.0.RC1/org.springframework.jdbc-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jdbc/3.0.0.RC1/org.springframework.jdbc-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jdbc/3.0.0.RC1/org.springframework.jdbc-3.0.0.RC1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.springframework:org.springframework.test:3.0.0.RC1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.test/3.0.0.RC1/org.springframework.test-3.0.0.RC1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.test/3.0.0.RC1/org.springframework.test-3.0.0.RC1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.test/3.0.0.RC1/org.springframework.test-3.0.0.RC1-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
