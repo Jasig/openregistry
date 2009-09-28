@@ -248,7 +248,7 @@ public final class PeopleResource {
     @Path("{sorSource}/{sorId}")
     public Response deleteSystemOfRecordPerson(@PathParam("sorSource") String sorSource,
                                                @PathParam("sorId") String sorId,
-                                               @QueryParam("mistake") boolean mistake) {
+                                               @QueryParam("mistake") @DefaultValue("false") boolean mistake) {
         try {
         if (!this.personService.deleteSystemOfRecordPerson(sorSource, sorId, mistake)) {
             throw new WebApplicationException(new RuntimeException("Unable to Delete SorPerson for SoR [" + sorSource + "] with ID [" + sorId + "]"), 500);
