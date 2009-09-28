@@ -117,21 +117,26 @@ public interface PersonService {
      * (i.e. they aren't taking classes anymore).  While its more likely, they would just leave the person, its possible some do
      * periodic clean ups of their data sources.  Having this information will allow us to more accurately "calculate" the actual
      * person the system knows about by discounting out-of-date information from systems of records.
+     * <p>
+     * Its recommended, but not required, that individuals roles we expired or deleted first.  Otherwise, they will be closed or deleted
+     * without a proper reason.
      *
      * @param sorPerson the person to remove from the system of record.
+     * @param mistake whether the person should have existed or not. This MAY affect recalculation of information about the person.
      * @return true if it succeeded, false otherwise.
      */
-    boolean deleteSystemOfRecordPerson(SorPerson sorPerson);
+    boolean deleteSystemOfRecordPerson(SorPerson sorPerson, boolean mistake);
 
     /**
-     * See {@link PersonService#deleteSystemOfRecordPerson(org.openregistry.core.domain.sor.SorPerson)}.  This is a convenience
+     * See {@link PersonService#deleteSystemOfRecordPerson(org.openregistry.core.domain.sor.SorPerson, boolean)}.  This is a convenience
      * method on top of that.
      *
-     * @param sorSourceIdentifier the source name for the system of record (i.e or-webapp)
+     * @param sorSource the source name for the system of record (i.e or-webapp)
      * @param sorId the identifier.
+     * @param mistake whether this person should have existed or not.
      * @return true if it succeeded, false otherwise.
      */
-    boolean deleteSystemOfRecordPerson(String sorSourceIdentifier, String sorId);
+    boolean deleteSystemOfRecordPerson(String sorSource, String sorId, boolean mistake);
 
     /**
      * Removes a person from the repository. A person CAN only be removed IF there are no System of Record people associated
