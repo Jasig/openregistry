@@ -64,10 +64,10 @@ public final class PeopleResource {
     @Context
     UriInfo uriInfo;
 
-    @Autowired(required=true)
+    @Autowired(required = true)
     private PersonService personService;
 
-    @Autowired(required=true)
+    @Autowired(required = true)
     private ReferenceRepository referenceRepository;
 
     @Resource(name = "reconciliationCriteriaFactory")
@@ -165,18 +165,20 @@ public final class PeopleResource {
             uri = buildPersonResourceUri(person);
             response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
             logger.info(String.format("Person successfully created. The person resource URI is %s", uri.toString()));
-        } catch (final ReconciliationException ex) {
+        }
+        catch (final ReconciliationException ex) {
 
             switch (ex.getReconciliationType()) {
                 case MAYBE:
                     if (FORCE_ADD_FLAG.equals(forceAdd)) {
                         logger.warn("Multiple people found, but doing a 'force add'");
                         final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria, ex);
-                        final Person forcefullyAddedPerson =  result.getTargetObject();
+                        final Person forcefullyAddedPerson = result.getTargetObject();
                         uri = buildPersonResourceUri(forcefullyAddedPerson);
                         response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
                         logger.info(String.format("Person successfully created (with 'force add' option). The person resource URI is %s", uri.toString()));
-                    } else {
+                    }
+                    else {
                         final List<PersonMatch> conflictingPeopleFound = ex.getMatches();
                         response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound)).type(MediaType.APPLICATION_XHTML_XML).build();
                         logger.info("Multiple people found: " + response.getEntity());
@@ -250,15 +252,17 @@ public final class PeopleResource {
                                                @PathParam("sorId") String sorId,
                                                @QueryParam("mistake") @DefaultValue("false") boolean mistake) {
         try {
-        if (!this.personService.deleteSystemOfRecordPerson(sorSource, sorId, mistake)) {
-            throw new WebApplicationException(new RuntimeException("Unable to Delete SorPerson for SoR [" + sorSource + "] with ID [" + sorId + "]"), 500);
+            if (!this.personService.deleteSystemOfRecordPerson(sorSource, sorId, mistake)) {
+                throw new WebApplicationException(new RuntimeException("Unable to Delete SorPerson for SoR [" + sorSource + "] with ID [" + sorId + "]"), 500);
+            }
+            //HTTP 204
+            logger.debug("The SOR Person resource has been successfully DELETEd");
+            return null;
         }
-        //HTTP 204
-        logger.debug("The SOR Person resource has been successfully DELETEd");
-        return null;
-        } catch (final IllegalArgumentException e) {
+        catch (final IllegalArgumentException e) {
             throw new WebApplicationException(e, 400);
-        } catch (final PersonNotFoundException e) {
+        }
+        catch (final PersonNotFoundException e) {
             throw new NotFoundException(String.format("The person resource identified by /people/%s/%s URI does not exist", sorSource, sorId));
         }
     }
