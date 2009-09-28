@@ -30,8 +30,7 @@ import org.springframework.stereotype.Component;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Component
-@Qualifier(value = "person")
+@Component("personFactory")
 public final class JpaPersonFactory implements ObjectFactory<Person> {
 
     public Person getObject() throws BeansException {

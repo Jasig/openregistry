@@ -70,8 +70,7 @@ public final class PeopleResource {
     @Autowired(required=true)
     private ReferenceRepository referenceRepository;
 
-    @Autowired(required=true)
-    @Qualifier("reconciliationCriteria")
+    @Resource(name = "reconciliationCriteriaFactory")
     private ObjectFactory<ReconciliationCriteria> reconciliationCriteriaObjectFactory;
 
     //JSR-250 injection which is more appropriate here for 'autowiring by name' in the case of multiple types

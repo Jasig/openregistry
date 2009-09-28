@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * To change this template use File | Settings | File Templates.
  */
 
-@Service("conversionService")
+@Service("applicationConversionService")
 public final class ApplicationConversionService extends DefaultConversionService implements InitializingBean {
 
     @Autowired(required = true)
