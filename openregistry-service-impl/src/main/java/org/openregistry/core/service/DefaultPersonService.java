@@ -42,6 +42,7 @@ import org.javalid.core.AnnotationValidatorImpl;
 import org.javalid.core.config.JvConfiguration;
 import org.javalid.annotations.core.JvGroup;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -154,76 +155,56 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson) {
-        try {
-            updateCalculatedPersonOnDeleteOfSor(sorPerson);
-            this.personRepository.deleteSorPerson(sorPerson);
-            return true;
-        } catch (final Exception e) {
-            logger.error(e.getMessage(), e);
-            return false;
-        }
-    }
-
-    @Transactional
-    public boolean deleteSystemOfRecordPerson(final String sorSourceIdentifier, final String sorId) {
-        try {
-          final SorPerson sorPerson = this.personRepository.findBySorIdentifierAndSource(sorSourceIdentifier, sorId);
-
-            if (sorPerson == null) {
-                return false;
-            }
-
-            updateCalculatedPersonOnDeleteOfSor(sorPerson);
-            this.personRepository.deleteSorPerson(sorPerson);
-            return true;
-        } catch (final Exception e) {
-            logger.error(e.getMessage(), e);
-            return false;
-        }
-    }
-
-    @Transactional
-    public boolean deleteSorRole(final Person person, final Role role, final String terminationReason) {
-        try {
-            final SorPerson sorPerson = this.personRepository.findSorPersonByPersonIdAndSorRoleId(person.getId(), role.getId());
-            if (sorPerson == null) {
-                return false;
-            }
-
-            final SorRole sorRole = this.personRepository.findSorRoleByInternalId(role.getSorRoleId());
-            
-            if (sorRole != null) {
-                sorPerson.removeRole(sorRole);
-                removeSorRoleFromDatabase(sorPerson, sorRole, person, role, terminationReason);
-                return true;
-            }
-            return false;
-        } catch (final RepositoryAccessException e) {
-            logger.error(e.getMessage(), e);
-            return false;
-        }
-    }
-
-    @Transactional
-    public boolean deleteSorRole(final SorPerson sorPerson, final SorRole sorRole, final String terminationReason) throws IllegalArgumentException {
+    public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson, final boolean mistake) {
+        Assert.notNull(sorPerson, "sorPerson cannot be null.");
         try {
             final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
-            if (person == null) {
-                return false;
-            }
+            Assert.notNull(person, "person cannot be null.");
 
-            for (final Role role : person.getRoles()) {
-                if (role.getSorRoleId().equals(sorRole.getId())) {
-                    removeSorRoleFromDatabase(sorPerson, sorRole, person, role, terminationReason);
-                    return true;
+            if (mistake) {
+                for (final SorRole sorRole : sorPerson.getRoles()) {
+                    for (final Iterator<Role> iter  = person.getRoles().iterator(); iter.hasNext();) {
+                        final Role role = iter.next();
+                        if (role.getSorRoleId().equals(sorRole.getId())) {
+                            iter.remove();
+                        }
+                    }
+                }
+
+                for (final Name sorName : sorPerson.getNames()) {
+                    for (final Iterator<? extends Name> iter = person.getNames().iterator(); iter.hasNext();) {
+                        final Name name = iter.next();
+                        // TODO remove the names!!  We currently have no mapping between the two!
+                    }
+                }
+            } else {
+                final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, Type.TerminationTypes.UNSPECIFIED.name());
+                for (final SorRole sorRole : sorPerson.getRoles()) {
+                    for (final Role role : person.getRoles()) {
+                        if (!role.isTerminated()) {
+                            role.setEnd(new Date());
+                            role.setTerminationReason(terminationReason);
+                        }
+                    }
                 }
             }
 
-            return false;
-        } catch (final RepositoryAccessException e) {
+            this.personRepository.deleteSorPerson(sorPerson);
+            // TODO recalculate the calculated person
+            return true;
+        } catch (final Exception e) {
+            logger.error(e.getMessage(), e);
             return false;
         }
+    }
+
+    @Transactional
+    public boolean deleteSystemOfRecordPerson(final String sorSource, final String sorId, final boolean mistake) {
+        Assert.notNull(sorSource, "sorSource cannot be null.");
+        Assert.notNull(sorId, "sorId cannot be null.");
+        final SorPerson sorPerson = this.personRepository.findBySorIdentifierAndSource(sorSource, sorId);
+
+        return sorPerson != null && deleteSystemOfRecordPerson(sorPerson, mistake);
     }
 
     @Transactional
@@ -308,45 +289,6 @@ public class DefaultPersonService implements PersonService {
         }
 
         return personMatches;
-    }
-
-    protected void updateCalculatedPersonOnDeleteOfSor(final SorPerson sorPerson) {
-        final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
-        Assert.notNull(person, "Calculated Person expected for System of Record Person.  Expected Id: [" + sorPerson.getPersonId() + "]");
-
-        final List<SorRole> sorRoles = new ArrayList<SorRole>(sorPerson.getRoles());
-        for (final SorRole sorRole : sorRoles) {
-            for (final Role role : person.getRoles()) {
-                if (sorRole.getId().equals(role.getSorRoleId())) {
-                    removeSorRoleFromDatabase(sorPerson, sorRole, person, role, "Fired");
-                }
-            }
-        }
-        // TODO what do we need to recalculate, if anything?
-    }
-
-
-    /**
-     * Removes the SoR record from the database as well as updates the calculated role.
-     *
-     * @param sorPerson the system of record person
-     * @param sorRole the system of record role
-     * @param person the calculated person
-     * @param role the calculated role
-     * @param terminationReason the reason for termination
-     */
-    protected void removeSorRoleFromDatabase(final SorPerson sorPerson, final SorRole sorRole, final Person person, final Role role, final String terminationReason) {
-        sorPerson.getRoles().remove(sorRole);
-        this.personRepository.deleteSorRole(sorPerson, sorRole);
-        try {
-            final Type terminationType = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationReason);
-
-            role.setEnd(new Date());
-            role.setTerminationReason(terminationType);
-            this.personRepository.updateRole(person, role);
-        } catch (final Exception e) {
-            throw new IllegalArgumentException(e);
-        }
     }
 
     /**
@@ -599,7 +541,7 @@ public class DefaultPersonService implements PersonService {
             }
         }
         for (final Role role : rolesToDelete){
-            fromPerson.removeRole(role);
+            fromPerson.getRoles().remove(role);
         }
 
         // TODO recalculate names for person receiving role? Anything else?

@@ -36,6 +36,8 @@ public interface Type extends Serializable {
     enum DataTypes {ADDRESS, AFFILIATION, CAMPUS, EMAIL, LEAVE, NAME, ORGANIZATIONAL_UNIT, PERSON, PERSON_STATUS, 
     	PHONE, SPONSOR, STATUS, TERMINATION, URL}
 
+    enum TerminationTypes {FIRED, EXPIRED, UNSPECIFIED}
+
     /**
      * The internal identifier of the type.
      *

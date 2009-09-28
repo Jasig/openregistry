@@ -88,10 +88,6 @@ public interface Person extends Serializable {
      */
     Role addRole(Role role);
 
-    void removeRole(Role role);
-
-    void removeAllRoles();
-
     /**
      * Get identifiers associated with this person.
      *
