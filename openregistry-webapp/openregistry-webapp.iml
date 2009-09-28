@@ -77,31 +77,31 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.transaction:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.transaction:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.aop:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.aop:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.beans:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.beans:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.core:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.core:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.asm:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.asm:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.context:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.context:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.expression:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.expression:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
@@ -109,11 +109,11 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.web.servlet:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.web.servlet:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.web:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.web:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
@@ -129,7 +129,7 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.jms:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.jms:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
@@ -305,11 +305,11 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.orm:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.orm:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="Maven: org.springframework:org.springframework.jdbc:3.0.0.M4" level="project">
+          <containerElement type="library" name="Maven: org.springframework:org.springframework.jdbc:3.0.0.RC1" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
@@ -421,21 +421,21 @@
     <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-spring:1.2" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: de.odysseus.juel:juel-impl:2.1.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.transaction:3.0.0.M4" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.springframework:org.springframework.aop:3.0.0.M4" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.beans:3.0.0.M4" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.core:3.0.0.M4" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.asm:3.0.0.M4" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.context:3.0.0.M4" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.expression:3.0.0.M4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.transaction:3.0.0.RC1" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.springframework:org.springframework.aop:3.0.0.RC1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.beans:3.0.0.RC1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.core:3.0.0.RC1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.asm:3.0.0.RC1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.context:3.0.0.RC1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.expression:3.0.0.RC1" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.slf4j:jcl-over-slf4j:1.5.8" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web.servlet:3.0.0.M4" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web:3.0.0.M4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web.servlet:3.0.0.RC1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.web:3.0.0.RC1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.codehaus.groovy:groovy-all:1.6.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.6" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.apache.ant:ant-launcher:1.7.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: jline:jline:0.9.94" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.jms:3.0.0.M4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.jms:3.0.0.RC1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.apache.camel:camel-core:2.0.0" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.xml.bind:jaxb-api:2.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.xml.stream:stax-api:1.0-2" level="project" />
@@ -481,8 +481,8 @@
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.antlr:antlr:3.0.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.antlr:stringtemplate:3.1-b1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.springframework:org.springframework.orm:3.0.0.M4" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.springframework:org.springframework.jdbc:3.0.0.M4" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.springframework:org.springframework.orm:3.0.0.RC1" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.springframework:org.springframework.jdbc:3.0.0.RC1" level="project" />
     <orderEntry type="library" exported="" name="Maven: asm:asm:3.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: asm:asm-commons:3.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: asm:asm-tree:3.2" level="project" />
