@@ -88,7 +88,7 @@
                             <tr>
                                 <td valign="center" >
                                     <div>
-                                        <form:select path="emailAddresses[${loopStatus.index}].addressType" id="c1_type" items="${emailAddressTypeList}" itemValue="id" itemLabel="description" />
+                                        <form:select path="emailAddresses[${loopStatus.index}].addressType" id="c1_type" items="${emailTypes}" itemValue="id" itemLabel="description" />
                                     </div>
                                 </td>
                                 <td><form:input size="60" path="emailAddresses[${loopStatus.index}].address" /></</td>
@@ -119,12 +119,12 @@
                             <tr>
                                 <td>
                                     <div>
-                                        <form:select path="phones[${loopStatus.index}].addressType" id="c1_type" items="${addressTypeList}" itemValue="id" itemLabel="description" />
+                                        <form:select path="phones[${loopStatus.index}].addressType" id="c1_type" items="${addressTypes}" itemValue="id" itemLabel="description" />
                                 </div>
                                 </td>
                                 <td>
                                     <div>
-                                        <form:select path="phones[${loopStatus.index}].phoneType" id="c1_type" items="${phoneTypeList}" itemValue="id" itemLabel="description" />
+                                        <form:select path="phones[${loopStatus.index}].phoneType" id="c1_type" items="${phoneTypes}" itemValue="id" itemLabel="description" />
                                 </div>
                                 </td>
                                 <td><form:input path="phones[${loopStatus.index}].countryCode" size="7"/></</td>
@@ -155,7 +155,7 @@
                             <tr>
                                 <td>
                                     <div>
-                                        <form:select path="addresses[${loopStatus.index}].type" id="c1_type" items="${addressTypeList}" itemValue="id" itemLabel="description" />
+                                        <form:select path="addresses[${loopStatus.index}].type" id="c1_type" items="${addressTypes}" itemValue="id" itemLabel="description" />
                                     </div>
                                 </td>
                                 <td><a href="${flowExecutionUrl}&_eventId=submitUpdateAddress&addressId=${address.id}">${address.singleLineAddress}</a></td>
@@ -187,10 +187,10 @@
                             <tr>
                                 <td valign="center" >
                                     <div>
-                                        <form:select path="urls[${loopStatus.index}].type" id="c1_type" items="${urlTypeList}" itemValue="id" itemLabel="description" />
+                                        <form:select path="urls[${loopStatus.index}].type" id="c1_type" items="${urlTypes}" itemValue="id" itemLabel="description" />
                                     </div>
                                 </td>
-                                <td><form:input path="urls[${loopStatus.index}].url" size="60" /></</td>
+                                <td><form:input path="urls[${loopStatus.index}].url" size="60" /></td>
                                 <td><a href="${flowExecutionUrl}&_eventId=submitRemoveURL&urlId=${url.id}"><img src="images/trash.jpg" title="remove URL"/></a></td>
                             </tr>
                             </c:forEach>

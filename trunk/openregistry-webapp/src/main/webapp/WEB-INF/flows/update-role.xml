@@ -29,11 +29,6 @@
         <on-entry>
             <set name="viewScope.command" value="'role'" />
             <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
-            <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
-            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@EMAIL)" result="flowScope.emailAddressTypeList" />
-            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@ADDRESS)" result="flowScope.addressTypeList" />
-            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@PHONE)" result="flowScope.phoneTypeList" />
-            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@URL)" result="flowScope.urlTypeList" />
         </on-entry>
         <transition on="submitUpdateRole" to="roleWasUpdated" >
             <evaluate expression="roleAction.updateSorRole(role, messageContext)"/>
@@ -76,7 +71,6 @@
         <on-entry>
             <set name="viewScope.command" value="'address'" />
             <set name="viewScope.address" value="flowScope.address" />
-            <evaluate expression="referenceRepository.getCountries()" result="flowScope.countryList" />
         </on-entry>
         <transition on="submitUpdateAddressInfo" to="roleWasUpdated" >
             <evaluate expression="roleAction.updateSorRole(role, messageContext)"/>

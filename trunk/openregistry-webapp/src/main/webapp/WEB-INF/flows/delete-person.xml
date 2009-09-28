@@ -28,7 +28,6 @@
             <set name="viewScope.cancelled" value="externalContext.requestParameterMap['cancel']" />
             <set name="viewScope.errorMessage" value="flashScope.errorMessage" />
             <set name="viewScope.searchResults" value="flowScope.searchResults" />
-            <evaluate expression="referenceRepository.identifierTypes" result-type="java.util.List" result="viewScope.identifierTypes" />
         </on-entry>
         <transition on="submit" bind="true" validate="true">
             <evaluate expression="personService.searchForPersonBy(searchCriteria)" result-type="java.util.List" result="flowScope.searchResults" />
@@ -56,9 +55,6 @@
     </action-state>
 
     <view-state id="displayPerson" view="openregistry.search.displayPerson">
-        <on-entry>                                                
-            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@TERMINATION)" result-type="java.util.List" result="viewScope.terminationTypes" />
-        </on-entry>
         <transition on="deletePerson" to="deletePerson" />
         <transition on="delete" to="deleteRole" />
         <transition on="cancel" to="cancelled" />
