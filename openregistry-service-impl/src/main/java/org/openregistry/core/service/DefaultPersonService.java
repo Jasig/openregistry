@@ -49,6 +49,8 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Resource;
+
 
 /**
  * Default implementation of the {@link PersonService}.
@@ -66,8 +68,6 @@ public class DefaultPersonService implements PersonService {
 
     private final Reconciler reconciler;
 
-    private final ObjectFactory<Person> personObjectFactory;
-
     private final IdentifierGenerator identifierGenerator;
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -78,13 +78,19 @@ public class DefaultPersonService implements PersonService {
     @Autowired(required = false)
     private AnnotationValidator<Object> annotationValidator = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
 
+    @Resource(name = "personFactory")
+    private ObjectFactory<Person> personObjectFactory;
+
     @Autowired
-    public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, @Qualifier("person") final ObjectFactory<Person> personObjectFactory, final Reconciler reconciler) {
+    public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler) {
         this.personRepository = personRepository;
         this.referenceRepository = referenceRepository;
         this.identifierGenerator = identifierGenerator;
-        this.personObjectFactory = personObjectFactory;
         this.reconciler = reconciler;
+    }
+
+    public void setPersonObjectFactory(final ObjectFactory<Person> objectFactory) {
+        this.personObjectFactory = objectFactory;
     }
 
     @Transactional
@@ -395,7 +401,7 @@ public class DefaultPersonService implements PersonService {
 
     protected Person constructPersonFromSorData(SorPerson sorPerson){
         // Construct actual person from Sor Information
-        final Person person = personObjectFactory.getObject();
+        final Person person = this.personObjectFactory.getObject();
         person.setDateOfBirth(sorPerson.getDateOfBirth());
         person.setGender(sorPerson.getGender());
 

@@ -44,7 +44,7 @@
         <flow:flow-location path="/WEB-INF/flows/view-complete-person.xml" id="viewCompletePerson" />
     </flow:flow-registry>
 
-    <flow:flow-builder-services id="flowBuilderServices" conversion-service="conversionService" view-factory-creator="mvcViewFactoryCreator" />
+    <flow:flow-builder-services id="flowBuilderServices" conversion-service="applicationConversionService" view-factory-creator="mvcViewFactoryCreator" />
 
     <bean id="mvcViewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
         <property name="viewResolvers">

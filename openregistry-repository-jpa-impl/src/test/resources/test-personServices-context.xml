@@ -42,6 +42,8 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
+    <context:component-scan base-package="org.openregistry.core.factory.jpa"/>
+
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource">
         <property name="jpaVendorAdapter">
@@ -70,8 +72,7 @@
       <constructor-arg index="0" ref="personRepository" />
       <constructor-arg index="1" ref="referenceRepository" />
       <constructor-arg index="2" ref="identifierGenerator" />
-      <constructor-arg index="3" ref="personObjectFactory" />
-      <constructor-arg index="4" ref="reconciler" />
+      <constructor-arg index="3" ref="reconciler" />
     </bean>
 
     <bean id="personRepository" class="org.openregistry.core.repository.jpa.JpaPersonRepository" />
@@ -80,9 +81,5 @@
 
     <bean id="reconciler" class="org.openregistry.core.service.reconciliation.NameReconciler" />
 
-    <bean id="personObjectFactory" class="org.openregistry.core.factory.jpa.JpaPersonFactory" />
-
     <bean id="identifierGenerator" class="org.openregistry.core.service.identifier.NoOpIdentifierGenerator" />
-
-
 </beans>
