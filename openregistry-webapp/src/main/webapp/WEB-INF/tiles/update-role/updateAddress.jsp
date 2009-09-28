@@ -42,7 +42,7 @@
                 <div class="row">
                     <label for="c1_type"><spring:message code="addressType.label"/></label>
                     <div class="select addressType">
-                        <form:select path="type" id="c1_type" items="${addressTypeList}" itemValue="id" itemLabel="description" size="1" tabindex="7" />
+                        <form:select path="type" id="c1_type" items="${addressTypes}" itemValue="id" itemLabel="description" size="1" tabindex="7" />
                     </div>
                 </div>
                 <div class="row">
@@ -71,7 +71,7 @@
                 <div class="row">
                     <label for="c1_country"><spring:message code="country.label"/></label>
                     <div class="select country">
-                        <form:select path="country" id="c1_country" items="${countryList}" itemValue="id" itemLabel="name" size="1" tabindex="14" />
+                        <form:select path="country" id="c1_country" items="${countries}" itemValue="id" itemLabel="name" size="1" tabindex="14" />
                     </div>
                 </div>
                 <br/><br/>

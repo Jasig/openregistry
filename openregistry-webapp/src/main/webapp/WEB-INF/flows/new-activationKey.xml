@@ -30,7 +30,6 @@
         </binder>
         <on-render>
             <set name="viewScope.command" value="'identifier'" />
-            <evaluate expression="referenceRepository.identifierTypes" result-type="java.util.List" result="viewScope.identifierTypes" />
         </on-render>
         <transition on="submitNewActivationKey" to="generateActivationKey" bind="true" validate="true">
             <set name="flowScope.identifier" value="identifier" />
