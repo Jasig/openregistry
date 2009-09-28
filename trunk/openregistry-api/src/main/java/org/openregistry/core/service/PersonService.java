@@ -16,6 +16,7 @@
 package org.openregistry.core.service;
 
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.PersonNotFoundException;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
@@ -89,30 +90,6 @@ public interface PersonService {
     SorPerson hasSorRecordFromSameSource(Person fromPerson, Person toPerson);
 
     /**
-     * Deletes a role.  Currently, this removes the record from the System of Record, and updates the "termination" date of the
-     * calculated role.
-     *
-     * @param person the person who's role is to be deleted. CANNOT be null.
-     * @param role the portions of the person to delete.  CANNOT be null.
-     * @param terminationReason the reason that this role is being deleted.
-     * @return true, if the action succeeded, false otherwise.
-     * @throws IllegalArgumentException if an invalid parameter is passed in (i.e. an invalid termination reason).
-     */
-    boolean deleteSorRole(Person person, Role role, String terminationReason) throws IllegalArgumentException;
-
-    /**
-     * Deletes the system of record role.  Currently, this removes the record from the System of Record and updates the "termination" date of the
-     * calculated role.
-     *
-     * @param person the person who's role is to be deleted. CANNOT be null.
-     * @param role the portions of the person to delete.  CANNOT be null.
-     * @param terminationReason the reason that this role is being deleted.
-     * @return true, if the action succeeded, false otherwise.
-     * @throws IllegalArgumentException if an invalid parameter is passed in (i.e. an invalid termination reason).
-     */
-    boolean deleteSorRole(SorPerson person, SorRole role, String terminationReason) throws IllegalArgumentException;
-
-    /**
      * Removes the System of Record person from the repository.  A system may wish to do this when it no longer asserts the person
      * (i.e. they aren't taking classes anymore).  While its more likely, they would just leave the person, its possible some do
      * periodic clean ups of their data sources.  Having this information will allow us to more accurately "calculate" the actual
@@ -124,8 +101,9 @@ public interface PersonService {
      * @param sorPerson the person to remove from the system of record.
      * @param mistake whether the person should have existed or not. This MAY affect recalculation of information about the person.
      * @return true if it succeeded, false otherwise.
+     * @throws IllegalArgumentException if the sorPerson is null.
      */
-    boolean deleteSystemOfRecordPerson(SorPerson sorPerson, boolean mistake);
+    boolean deleteSystemOfRecordPerson(SorPerson sorPerson, boolean mistake) throws IllegalArgumentException;
 
     /**
      * See {@link PersonService#deleteSystemOfRecordPerson(org.openregistry.core.domain.sor.SorPerson, boolean)}.  This is a convenience
@@ -135,8 +113,10 @@ public interface PersonService {
      * @param sorId the identifier.
      * @param mistake whether this person should have existed or not.
      * @return true if it succeeded, false otherwise.
+     * @throws IllegalArgumentException if the sorSource or sorId is null
+     * @throws PersonNotFoundException if the person could not be found from the sorSource and sorId
      */
-    boolean deleteSystemOfRecordPerson(String sorSource, String sorId, boolean mistake);
+    boolean deleteSystemOfRecordPerson(String sorSource, String sorId, boolean mistake) throws PersonNotFoundException, IllegalArgumentException;
 
     /**
      * Removes a person from the repository. A person CAN only be removed IF there are no System of Record people associated

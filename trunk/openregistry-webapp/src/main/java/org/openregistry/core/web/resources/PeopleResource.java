@@ -226,12 +226,14 @@ public final class PeopleResource {
             return null;
         }
         try {
-            if (!this.personService.deleteSorRole(person, role, terminationReason)) {
+            // TODO re-implement this
+
+/*            if (!this.personService.deleteSorRole(person, role, terminationReason)) {
                 //HTTP 500. Is this OK?
                 logger.info("The call to PersonService.deleteSorRole returned <false>. Assuming it's an internal error.");
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("The operation resulted in an internal error")
                         .build();
-            }
+            }*/
         }
         catch (IllegalArgumentException ex) {
             logger.info("The 'terminationReason' did not pass the validation");
@@ -243,35 +245,22 @@ public final class PeopleResource {
     }
 
     @DELETE
-    @Path("{personIdType}/{personId}")
-    public Response deleteSystemOfRecordPerson(@PathParam("personIdType") String personIdType,
-                                               @PathParam("personId") String personId,
-                                               @QueryParam("sor") String sorSourceId) {
-        if (sorSourceId == null) {
-            throw new WebApplicationException(new IllegalArgumentException("'sor' query parameter must be provided"), 400);
-        }
-
-        logger.info(String.format("Received a request to delete a system of record person with the following params: " +
-                "{sorSourceId:%s, personIdType:%s, personId:%s}", sorSourceId, personIdType, personId));
-
-        logger.info("Searching for SOR Person...");
-        SorPerson person = this.personService.findSorPersonByIdentifierAndSourceIdentifier(personIdType,
-                personId, sorSourceId);
-        if (person == null) {
-            logger.info("SOR Person is not found");
-            //HTTP 404
-            throw new NotFoundException(
-                    String.format("The person resource identified by /people/%s/%s/sor/%s URI does not exist",
-                            personIdType, personId, sorSourceId));
-        }
-        logger.info("SOR Person is found. Trying do delete...");
-        if (!this.personService.deleteSystemOfRecordPerson(person)) {
-            logger.info("PersonService.deleteSystemOfRecordPerson call has returned <false>. Assuming an internal error.");
-            throw new WebApplicationException(500);
+    @Path("{sorSource}/{sorId}")
+    public Response deleteSystemOfRecordPerson(@PathParam("sorSource") String sorSource,
+                                               @PathParam("sorId") String sorId,
+                                               @QueryParam("mistake") boolean mistake) {
+        try {
+        if (!this.personService.deleteSystemOfRecordPerson(sorSource, sorId, mistake)) {
+            throw new WebApplicationException(new RuntimeException("Unable to Delete SorPerson for SoR [" + sorSource + "] with ID [" + sorId + "]"), 500);
         }
         //HTTP 204
-        logger.info("The SOR Person resource has been successfully DELETEd");
+        logger.debug("The SOR Person resource has been successfully DELETEd");
         return null;
+        } catch (final IllegalArgumentException e) {
+            throw new WebApplicationException(e, 400);
+        } catch (final PersonNotFoundException e) {
+            throw new NotFoundException(String.format("The person resource identified by /people/%s/%s URI does not exist", sorSource, sorId));
+        }
     }
 
     //TODO: what happens if the role (identified by RoleInfo) has been added already?

@@ -197,14 +197,6 @@ public class JpaPersonImpl extends Entity implements Person {
         return role;
     }
 
-    public void removeRole(Role role){
-        this.roles.remove(role);
-    }
-
-    public synchronized void removeAllRoles(){
-        this.roles.clear();    
-    }
-
     public List<Role> getRoles() {
         return this.roles;
     }
