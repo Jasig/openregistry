@@ -165,8 +165,7 @@ public final class PeopleResource {
             uri = buildPersonResourceUri(person);
             response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
             logger.info(String.format("Person successfully created. The person resource URI is %s", uri.toString()));
-        }
-        catch (final ReconciliationException ex) {
+        } catch (final ReconciliationException ex) {
 
             switch (ex.getReconciliationType()) {
                 case MAYBE:
@@ -177,8 +176,7 @@ public final class PeopleResource {
                         uri = buildPersonResourceUri(forcefullyAddedPerson);
                         response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
                         logger.info(String.format("Person successfully created (with 'force add' option). The person resource URI is %s", uri.toString()));
-                    }
-                    else {
+                    } else {
                         final List<PersonMatch> conflictingPeopleFound = ex.getMatches();
                         response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound)).type(MediaType.APPLICATION_XHTML_XML).build();
                         logger.info("Multiple people found: " + response.getEntity());
@@ -236,8 +234,7 @@ public final class PeopleResource {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("The operation resulted in an internal error")
                         .build();
             }*/
-        }
-        catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             logger.info("The 'terminationReason' did not pass the validation");
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
@@ -260,18 +257,16 @@ public final class PeopleResource {
             //HTTP 204
             logger.debug("The SOR Person resource has been successfully DELETEd");
             return null;
-        }
-        catch (final IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             throw new WebApplicationException(e, 400);
-        }
-        catch (final PersonNotFoundException e) {
+        } catch (final PersonNotFoundException e) {
             throw new NotFoundException(String.format("The person resource identified by /people/%s/%s URI does not exist", sorSource, sorId));
         }
     }
 
     //TODO: what happens if the role (identified by RoleInfo) has been added already?
     //NOTE: the sponsor is not set (remains null) as it was not defined in the XML payload as was discussed
-    private SorRole buildSorRoleFrom(SorPerson person, RoleInfo roleInfo, RoleRepresentation roleRepresentation) {
+    private SorRole buildSorRoleFrom(final SorPerson person, final RoleInfo roleInfo, final RoleRepresentation roleRepresentation) {
         SorRole sorRole = person.addRole(roleInfo);
         sorRole.setSorId("1");  // TODO: what to set here?
         sorRole.setSourceSorIdentifier(person.getSourceSor());
@@ -280,15 +275,15 @@ public final class PeopleResource {
         sorRole.setEnd(roleRepresentation.endDate);
 
         //Emails
-        for (RoleRepresentation.Email e : roleRepresentation.emails) {
-            EmailAddress email = sorRole.addEmailAddress();
+        for (final RoleRepresentation.Email e : roleRepresentation.emails) {
+            final EmailAddress email = sorRole.addEmailAddress();
             email.setAddress(e.address);
             email.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL, e.type));
         }
 
         //Phones
-        for (RoleRepresentation.Phone ph : roleRepresentation.phones) {
-            Phone phone = sorRole.addPhone();
+        for (final RoleRepresentation.Phone ph : roleRepresentation.phones) {
+            final Phone phone = sorRole.addPhone();
             phone.setNumber(ph.number);
             phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, ph.addressType));
             phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, ph.type));
@@ -298,8 +293,8 @@ public final class PeopleResource {
         }
 
         //Addresses
-        for (RoleRepresentation.Address a : roleRepresentation.addresses) {
-            Address address = sorRole.addAddress();
+        for (final RoleRepresentation.Address a : roleRepresentation.addresses) {
+            final Address address = sorRole.addAddress();
             address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, a.type));
             address.setLine1(a.line1);
             address.setLine2(a.line2);
@@ -311,7 +306,7 @@ public final class PeopleResource {
         return sorRole;
     }
 
-    private ReconciliationCriteria buildReconciliationCriteriaFrom(PersonRequestRepresentation request) {
+    private ReconciliationCriteria buildReconciliationCriteriaFrom(final PersonRequestRepresentation request) {
         ReconciliationCriteria ps = this.reconciliationCriteriaObjectFactory.getObject();
         ps.getPerson().setSourceSor(request.systemOfRecordId);
         ps.getPerson().setSorId(request.systemOfRecordPersonId);
@@ -331,8 +326,8 @@ public final class PeopleResource {
         return ps;
     }
 
-    private URI buildPersonResourceUri(Person person) {
-        for (Identifier id : person.getIdentifiers()) {
+    private URI buildPersonResourceUri(final Person person) {
+        for (final Identifier id : person.getIdentifiers()) {
             if (this.preferredPersonIdentifierType.equals(id.getType().getName())) {
                 return this.uriInfo.getAbsolutePathBuilder().path(this.preferredPersonIdentifierType)
                         .path(id.getValue()).build();
@@ -345,25 +340,24 @@ public final class PeopleResource {
 
     private LinkRepresentation buildLinksToConflictingPeopleFound(List<PersonMatch> matches) {
         //A little defensive stuff. Will result in HTTP 500
-        if (matches.size() == 0) {
+        if (matches.isEmpty()) {
             throw new IllegalStateException("Person matches cannot be empty if reconciliation result is <MAYBE>");
         }
-        List<LinkRepresentation.Link> links = new ArrayList<LinkRepresentation.Link>();
-        for (PersonMatch match : matches) {
+        final List<LinkRepresentation.Link> links = new ArrayList<LinkRepresentation.Link>();
+        for (final PersonMatch match : matches) {
             links.add(new LinkRepresentation.Link("person", buildPersonResourceUri(match.getPerson()).toString()));
         }
         return new LinkRepresentation(links);
     }
 
-    private List<PersonResponseRepresentation.PersonIdentifierRepresentation>
-    buildPersonIdentifierRepresentations(Set<Identifier> identifiers) {
+    private List<PersonResponseRepresentation.PersonIdentifierRepresentation> buildPersonIdentifierRepresentations(final Set<Identifier> identifiers) {
 
-        List<PersonResponseRepresentation.PersonIdentifierRepresentation> idsRep =
-                new ArrayList<PersonResponseRepresentation.PersonIdentifierRepresentation>();
+        final List<PersonResponseRepresentation.PersonIdentifierRepresentation> idsRep = new ArrayList<PersonResponseRepresentation.PersonIdentifierRepresentation>();
 
-        for (Identifier id : identifiers) {
+        for (final Identifier id : identifiers) {
             idsRep.add(new PersonResponseRepresentation.PersonIdentifierRepresentation(id.getType().getName(), id.getValue()));
         }
+
         if (idsRep.isEmpty()) {
             throw new IllegalStateException("Person identifiers cannot be empty");
         }
@@ -371,7 +365,7 @@ public final class PeopleResource {
     }
 
     //Content-Type: application/x-www-form-urlencoded
-    private Form buildPersonActivationKeyRepresentation(Person person) {
+    private Form buildPersonActivationKeyRepresentation(final Person person) {
         Form f = new Form();
         f.putSingle("activationKey", person.getCurrentActivationKey().asString());
         return f;

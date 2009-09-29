@@ -165,7 +165,7 @@ public class DefaultPersonService implements PersonService {
                 for (final SorRole sorRole : sorPerson.getRoles()) {
                     for (final Iterator<Role> iter  = person.getRoles().iterator(); iter.hasNext();) {
                         final Role role = iter.next();
-                        if (role.getSorRoleId().equals(sorRole.getId())) {
+                        if (sorRole.getId().equals(role.getSorRoleId())) {
                             iter.remove();
                         }
                     }
@@ -177,13 +177,20 @@ public class DefaultPersonService implements PersonService {
                         // TODO remove the names!!  We currently have no mapping between the two!
                     }
                 }
+
+                final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
+
+                if (number.intValue() <= 1) {
+                    this.personRepository.deletePerson(person);
+                }
             } else {
                 final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, Type.TerminationTypes.UNSPECIFIED.name());
                 for (final SorRole sorRole : sorPerson.getRoles()) {
                     for (final Role role : person.getRoles()) {
-                        if (!role.isTerminated()) {
+                        if (!role.isTerminated() && sorRole.getId().equals(role.getSorRoleId())) {
                             role.setEnd(new Date());
                             role.setTerminationReason(terminationReason);
+                            role.setSorRoleId(null);
                         }
                     }
                 }
@@ -193,6 +200,7 @@ public class DefaultPersonService implements PersonService {
             // TODO recalculate the calculated person
             return true;
         } catch (final Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage(), e);
             return false;
         }

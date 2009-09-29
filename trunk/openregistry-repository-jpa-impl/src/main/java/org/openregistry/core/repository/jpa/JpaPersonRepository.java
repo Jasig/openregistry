@@ -132,7 +132,7 @@ public class JpaPersonRepository implements PersonRepository {
     }
 
     public void deletePerson(final Person person) {
-        this.entityManager.createQuery("Delete from person p where p.id = :personId").setParameter("personId", person.getId()).executeUpdate();
+        this.entityManager.remove(person);
     }
 }
 
