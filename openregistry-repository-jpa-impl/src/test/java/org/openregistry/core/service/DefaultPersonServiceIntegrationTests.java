@@ -25,6 +25,8 @@ import org.openregistry.core.service.reconciliation.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
 import java.text.*;
 
@@ -53,6 +55,9 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 
     @Autowired
     private PersonService personService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     protected ReconciliationCriteria constructReconciliationCriteria(final String firstName, final String lastName, final String ssn, final String emailAddress, final String phoneNumber, Date birthDate, final String sor, final String sorId) {
         final ReconciliationCriteria reconciliationCriteria = new JpaReconciliationCriteriaImpl();
@@ -317,4 +322,88 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
             assertEquals(2, countRowsInTable("prs_sor_persons"));
         }
     }
+
+    // TODO: Note, all of these tests below should be updated to use a role and check its expiration date.
+
+    // test delete SoR Person with it being a mistake (and only one SoR) (i.e. were the appropriate roles, and names removed? from the calculated person?)
+    @Test
+    public void testDeleteSoRPersonAsAMistakeWithOnlyOneSoR() throws ReconciliationException {
+        final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+
+        final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.addPerson(criteria);
+        final SorPerson sorPerson = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult.getTargetObject().getId(), OR_WEBAPP_IDENTIFIER);
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+
+        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson, true));
+
+        this.entityManager.flush();
+
+        assertEquals(0, countRowsInTable("prs_sor_persons"));
+        assertEquals(0, countRowsInTable("prs_names"));
+        assertEquals(0, countRowsInTable("prc_persons"));
+        assertEquals(0, countRowsInTable("prc_names"));
+    }
+
+    // test delete SoR Person with it being a mistake (and there being two SORs)
+    @Test
+    public void testDeleteSoRPersonAsMistakeWIthTwoSoRs() throws ReconciliationException {
+        final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.addPerson(criteria);
+        final SorPerson sorPerson = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult.getTargetObject().getId(), OR_WEBAPP_IDENTIFIER);
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+
+        final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
+
+        final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
+        final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(2, countRowsInTable("prs_sor_persons"));
+        assertEquals(2, countRowsInTable("prs_names"));
+
+        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson1, true));
+
+        this.entityManager.flush();
+
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+    }
+
+    // test delete SoR Person no mistake
+     @Test
+     public void testDeleteSoRPersonNoMistakeOneSoR() throws ReconciliationException {
+
+        this.simpleJdbcTemplate.update("insert into ctx_data_types (data_type, description) values('TERMINATION', 'UNSPECIFIED')", new HashMap());
+
+
+        final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.addPerson(criteria);
+        final SorPerson sorPerson = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult.getTargetObject().getId(), OR_WEBAPP_IDENTIFIER);
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+
+        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson, false));
+
+        this.entityManager.flush();
+
+        assertEquals(0, countRowsInTable("prs_sor_persons"));
+        assertEquals(0, countRowsInTable("prs_names"));
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+     }
+
+    // test delete SoR Person with no mistake (2 sors)
 }
