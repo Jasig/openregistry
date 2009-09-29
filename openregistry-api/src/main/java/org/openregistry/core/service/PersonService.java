@@ -46,15 +46,6 @@ public interface PersonService {
     Person findPersonById(Long id);
     
     /**
-     * Find canonical <code>SorPerson</code> entity in the Open Registry.
-     *
-     * @param id a primary key internal identifier for a sorPerson in Open Registry.
-     * @return sorPerson found in the Open Registry's person repository or null if no person
-     *         exist in Open Registry for a given internal id.
-     */
-    SorPerson findSorPersonById(Long id);
-
-    /**
      * Finds the canonical <code>Person</code> by one of the unique identifiers that the system is aware of.
      *
      * @param identifierType the type of identifier
@@ -192,6 +183,7 @@ public interface PersonService {
      * @param nameId id of name to delete from the person
      * @return Result of the remove. 
      */
+    // TODO this should be replace with a proper call to sorPerson.getNames().remove(index)
     boolean removeSorName(SorPerson sorPerson, Long nameId);
 
     /**

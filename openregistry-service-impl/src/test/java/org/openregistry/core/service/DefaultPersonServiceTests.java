@@ -129,14 +129,13 @@ public class DefaultPersonServiceTests {
      */
     @Test
     public void testReconciliationResultOldReconciliationResultProvided() {
-         ServiceExecutionResult<Person> result = null;
+         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+         this.personService.setPersonObjectFactory(this.objectFactory);
+
          try {
-            this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
-             this.personService.setPersonObjectFactory(this.objectFactory);
-            result = this.personService.addPerson(reconciliationCriteria);
-            assertNotNull(result);
+            this.personService.addPerson(reconciliationCriteria);
          } catch (final ReconciliationException ex) {
-            result = this.personService.forceAddPerson(reconciliationCriteria, ex);
+            final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria, ex);
              assertNotNull(result.getTargetObject().getCurrentActivationKey());
              assertFalse(result.getTargetObject().getIdentifiers().isEmpty());
 

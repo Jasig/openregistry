@@ -188,12 +188,4 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
         this.activationService.getActivationKey(person, person.getCurrentActivationKey().asString(), LOCK_VALUE);
         this.activationService.invalidateActivationKey(person, person.getCurrentActivationKey().asString(), "LOCK2");
     }
-
-    public void setActivationService(final ActivationService activationService) {
-        this.activationService = activationService;
-    }
-
-    public void setPersonRepository(final PersonRepository personRepository) {
-        this.personRepository = personRepository;
-    }
 }

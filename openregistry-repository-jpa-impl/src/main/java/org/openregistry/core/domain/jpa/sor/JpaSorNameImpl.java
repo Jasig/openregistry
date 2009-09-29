@@ -119,12 +119,6 @@ public final class JpaSorNameImpl extends Entity implements Name {
         this.suffix = suffix;
     }
 
-    @PreRemove
-	public void preRemove() {
-        //need to remove association when remove a name from a person.
-		this.person = null;
-	}
-
     public String getFormattedName(){
         final StringBuilder builder = new StringBuilder();
 

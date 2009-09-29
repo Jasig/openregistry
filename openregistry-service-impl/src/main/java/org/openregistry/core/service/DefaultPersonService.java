@@ -100,11 +100,6 @@ public class DefaultPersonService implements PersonService {
     }
     
     @Transactional
-    public SorPerson findSorPersonById(final Long id) {
-        return this.personRepository.findSorByInternalId(id);
-    }
-    
-    @Transactional
     public Person findPersonByIdentifier(final String identifierType, final String identifierValue) {
         try {
             return this.personRepository.findByIdentifier(identifierType,identifierValue);
@@ -197,10 +192,9 @@ public class DefaultPersonService implements PersonService {
             }
 
             this.personRepository.deleteSorPerson(sorPerson);
-            // TODO recalculate the calculated person
+            recalculateCalculatedPerson(person);
             return true;
         } catch (final Exception e) {
-            e.printStackTrace();
             logger.error(e.getMessage(), e);
             return false;
         }
@@ -235,7 +229,7 @@ public class DefaultPersonService implements PersonService {
 
         person.addRole(savedSorRole.getRoleInfo(), savedSorRole);
 
-        Person savedPerson = this.personRepository.savePerson(person);
+        this.personRepository.savePerson(person);
 
         return new GeneralServiceExecutionResult<SorRole>(serviceName, sorRole);
     }
@@ -252,11 +246,12 @@ public class DefaultPersonService implements PersonService {
 
         final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
 
-        if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.NONE) {
-            return new GeneralServiceExecutionResult<Person>(serviceName, magic(reconciliationCriteria));
-        } else if (result.getReconciliationType() == ReconciliationResult.ReconciliationType.EXACT) {
-            // TODO this method should not be doing this update
-            return new GeneralServiceExecutionResult<Person>(serviceName, magicUpdate(reconciliationCriteria, result));
+        switch (result.getReconciliationType()) {
+            case NONE:
+                return new GeneralServiceExecutionResult<Person>(serviceName, magic(reconciliationCriteria));
+
+            case EXACT:
+                return new GeneralServiceExecutionResult<Person>(serviceName, magicUpdate(reconciliationCriteria, result));
         }
 
         throw new ReconciliationException(result);
@@ -297,6 +292,23 @@ public class DefaultPersonService implements PersonService {
         }
 
         return personMatches;
+    }
+
+    /**
+     * Method to call for recalculating a calculated person.
+     *
+     * @param person the person to recalculate.
+     */
+    protected void recalculateCalculatedPerson(final Person person) {
+        /*
+         * Nothing to do here yet, but this work flow should include:
+         * 1. Choosing the appropriate names
+         * 2. Transitioning SorPerson information to Calculated Person (i.e. choosing)
+         * 3. Transitioning SorRoles to Calculated Roles (and associated information)
+         * 4. Calculating additional attributes.
+         *
+         * It should be smart enough to handle initial calculation AND recalculation.
+         */
     }
 
     /**
@@ -496,8 +508,6 @@ public class DefaultPersonService implements PersonService {
      */
     @Transactional
     public boolean moveSystemOfRecordPerson(Person fromPerson, Person toPerson, SorPerson movingSorPerson){
-        logger.info("moveSystemOfRecordPerson: fromPerson: " + fromPerson.getId() + " toPerson: "+ toPerson.getId());
-
         movingSorPerson.setPersonId(toPerson.getId());
         updateCalculatedPersonsOnMoveOfSor(toPerson, fromPerson, movingSorPerson);
         this.personRepository.saveSorPerson(movingSorPerson);
@@ -513,15 +523,14 @@ public class DefaultPersonService implements PersonService {
      */
     @Transactional
     public boolean moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson movingSorPerson){
-        logger.info("MoveToNew Person: creating new person record");
         // create the new person in the registry
         Person toPerson = constructPersonFromSorData(movingSorPerson);
         return moveSystemOfRecordPerson(fromPerson, toPerson, movingSorPerson);
     }
 
     /**
-     * Update the calcuated person data. This method and updateCalculatedPersonOnDeleteOfSor
-     * need to be generalized to handle recalcuations.
+     * Update the calculated person data. This method and updateCalculatedPersonOnDeleteOfSor
+     * need to be generalized to handle recalculations.
      *
      * @param toPerson
      * @param fromPerson
