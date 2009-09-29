@@ -406,4 +406,36 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
      }
 
     // test delete SoR Person with no mistake (2 sors)
+     @Test
+     public void testDeleteSoRPersonNoMistakeTwoSoRs() throws ReconciliationException {
+
+        this.simpleJdbcTemplate.update("insert into ctx_data_types (data_type, description) values('TERMINATION', 'UNSPECIFIED')", new HashMap());
+
+        final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.addPerson(criteria);
+        final SorPerson sorPerson = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult.getTargetObject().getId(), OR_WEBAPP_IDENTIFIER);
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+
+        final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
+        final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
+        final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(2, countRowsInTable("prs_sor_persons"));
+        assertEquals(2, countRowsInTable("prs_names"));
+
+        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson, false));
+
+        this.entityManager.flush();
+
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+     }
 }
