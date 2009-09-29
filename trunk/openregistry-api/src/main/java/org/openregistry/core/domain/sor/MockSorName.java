@@ -76,9 +76,6 @@ public final class MockSorName implements Name {
         return this.suffix;
     }
 
-    public void preRemove(){    
-    }
-
     public void setPrefix(final String prefix) {
         this.prefix = prefix;
     }

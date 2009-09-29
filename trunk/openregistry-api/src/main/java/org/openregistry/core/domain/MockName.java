@@ -56,11 +56,6 @@ public class MockName extends Entity implements Name {
         return this.id;
     }
 
-	public void preRemove() {
-        //need to remove association when remove a name from a person.
-		this.person = null;
-	}
-
     public String getPrefix() {
         return this.prefix;
     }

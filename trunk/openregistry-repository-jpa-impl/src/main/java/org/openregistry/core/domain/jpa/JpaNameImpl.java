@@ -82,12 +82,6 @@ public class JpaNameImpl extends Entity implements Name {
         return this.id;
     }
 
-    @PreRemove
-	public void preRemove() {
-        //need to remove association when remove a name from a person.
-		this.person = null;
-	}
-
     public String getPrefix() {
         return this.prefix;
     }

@@ -299,16 +299,12 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
      * Expectation: a new SoR Person and Calculated Person will be created (2 of each).
      */
     @Test
-    public void testAddTwoNewSoRPersonsWithPartialMatchWhoAreDifferentPeople() {
+    public void testAddTwoNewSoRPersonsWithPartialMatchWhoAreDifferentPeople() throws ReconciliationException {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "SOR2", null);
 
-        try {
-            this.personService.addPerson(reconciliationCriteria);
-            assertEquals(1, countRowsInTable("prs_sor_persons"));
-        } catch (final ReconciliationException e) {
-            fail();
-        }
+        this.personService.addPerson(reconciliationCriteria);
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
 
         try {
             this.personService.addPerson(reconciliationCriteria1);
