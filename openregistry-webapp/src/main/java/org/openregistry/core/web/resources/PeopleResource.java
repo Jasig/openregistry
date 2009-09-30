@@ -165,7 +165,8 @@ public final class PeopleResource {
             uri = buildPersonResourceUri(person);
             response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
             logger.info(String.format("Person successfully created. The person resource URI is %s", uri.toString()));
-        } catch (final ReconciliationException ex) {
+        }
+        catch (final ReconciliationException ex) {
 
             switch (ex.getReconciliationType()) {
                 case MAYBE:
@@ -176,7 +177,8 @@ public final class PeopleResource {
                         uri = buildPersonResourceUri(forcefullyAddedPerson);
                         response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
                         logger.info(String.format("Person successfully created (with 'force add' option). The person resource URI is %s", uri.toString()));
-                    } else {
+                    }
+                    else {
                         final List<PersonMatch> conflictingPeopleFound = ex.getMatches();
                         response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound)).type(MediaType.APPLICATION_XHTML_XML).build();
                         logger.info("Multiple people found: " + response.getEntity());
@@ -234,7 +236,8 @@ public final class PeopleResource {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("The operation resulted in an internal error")
                         .build();
             }*/
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex) {
             logger.info("The 'terminationReason' did not pass the validation");
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
@@ -257,10 +260,10 @@ public final class PeopleResource {
             //HTTP 204
             logger.debug("The SOR Person resource has been successfully DELETEd");
             return null;
-        } catch (final IllegalArgumentException e) {
-            throw new WebApplicationException(e, 400);
-        } catch (final PersonNotFoundException e) {
-            throw new NotFoundException(String.format("The person resource identified by /people/%s/%s URI does not exist", sorSource, sorId));
+        }
+        catch (final PersonNotFoundException e) {
+            throw new NotFoundException(String.format("The system of record person resource identified by /people/sor/%s/%s URI does not exist", 
+                    sorSource, sorId));
         }
     }
 
