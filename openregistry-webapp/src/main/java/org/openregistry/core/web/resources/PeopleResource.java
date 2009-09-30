@@ -99,20 +99,20 @@ public final class PeopleResource {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
                     .entity("The 'sor' query parameter is missing").build());
         }
-        SorPerson sorPerson = this.personService.findSorPersonByIdentifierAndSourceIdentifier(personIdType, personId, sorSourceId);
+        final SorPerson sorPerson = this.personService.findSorPersonByIdentifierAndSourceIdentifier(personIdType, personId, sorSourceId);
         if (sorPerson == null) {
             //HTTP 404
             throw new NotFoundException(
                     String.format("The person resource identified by [%s/%s] URI does not exist for the given [%s] sor id",
                             personIdType, personId, sorSourceId));
         }
-        RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(roleCode);
+        final RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(roleCode);
         if (roleInfo == null) {
             throw new NotFoundException(
                     String.format("The role identified by [%s] does not exist", roleCode));
         }
-        SorRole sorRole = buildSorRoleFrom(sorPerson, roleInfo, roleRepresentation);
-        ServiceExecutionResult result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
+        final SorRole sorRole = buildSorRoleFrom(sorPerson, roleInfo, roleRepresentation);
+        final ServiceExecutionResult result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
         if (result.getValidationErrors().size() > 0) {
             throw new WebApplicationException(400);
         }
@@ -144,13 +144,11 @@ public final class PeopleResource {
     @Consumes(MediaType.APPLICATION_XML)
     public Response processIncomingPerson(PersonRequestRepresentation personRequestRepresentation, @QueryParam("force") String forceAdd) {
         Response response = null;
-        URI uri = null;
-        ReconciliationCriteria reconciliationCriteria = null;
         if (!personRequestRepresentation.checkRequiredData()) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).entity("The person entity payload is incomplete.").build();
         }
-        reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
+        final ReconciliationCriteria reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
         logger.info("Trying to add incoming person...");
 
         try {
@@ -162,11 +160,10 @@ public final class PeopleResource {
             }
 
             final Person person = result.getTargetObject();
-            uri = buildPersonResourceUri(person);
+            final URI uri = buildPersonResourceUri(person);
             response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
             logger.info(String.format("Person successfully created. The person resource URI is %s", uri.toString()));
-        }
-        catch (final ReconciliationException ex) {
+        } catch (final ReconciliationException ex) {
 
             switch (ex.getReconciliationType()) {
                 case MAYBE:
@@ -174,11 +171,10 @@ public final class PeopleResource {
                         logger.warn("Multiple people found, but doing a 'force add'");
                         final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria, ex);
                         final Person forcefullyAddedPerson = result.getTargetObject();
-                        uri = buildPersonResourceUri(forcefullyAddedPerson);
+                        final URI uri = buildPersonResourceUri(forcefullyAddedPerson);
                         response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
                         logger.info(String.format("Person successfully created (with 'force add' option). The person resource URI is %s", uri.toString()));
-                    }
-                    else {
+                    } else {
                         final List<PersonMatch> conflictingPeopleFound = ex.getMatches();
                         response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound)).type(MediaType.APPLICATION_XHTML_XML).build();
                         logger.info("Multiple people found: " + response.getEntity());
@@ -186,7 +182,7 @@ public final class PeopleResource {
                     break;
 
                 case EXACT:
-                    uri = buildPersonResourceUri(ex.getMatches().get(0).getPerson());
+                    final URI uri = buildPersonResourceUri(ex.getMatches().get(0).getPerson());
                     //HTTP 303 ("See other with GET")
                     response = Response.seeOther(uri).build();
                     logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
@@ -210,13 +206,13 @@ public final class PeopleResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please specify the <reason> for termination.").build();
         }
         logger.info("Searching for a person...");
-        Person person = this.personService.findPersonByIdentifier(personIdType, personId);
+        final Person person = this.personService.findPersonByIdentifier(personIdType, personId);
         if (person == null) {
             logger.info("Person is not found...");
             return Response.status(Response.Status.NOT_FOUND).entity("The specified person is not found in the system").build();
         }
         logger.info("Person is found. Picking out the role for a provided 'roleId'...");
-        Role role = person.pickOutRole(roleCode);
+        final Role role = person.pickOutRole(roleCode);
         if (role == null) {
             logger.info("The Role with the specified 'roleId' is not found in the collection of Person Roles");
             return Response.status(Response.Status.NOT_FOUND).entity("The specified role is not found for this person").build();
@@ -236,8 +232,7 @@ public final class PeopleResource {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("The operation resulted in an internal error")
                         .build();
             }*/
-        }
-        catch (IllegalArgumentException ex) {
+        } catch (final IllegalArgumentException ex) {
             logger.info("The 'terminationReason' did not pass the validation");
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
@@ -253,15 +248,12 @@ public final class PeopleResource {
                                                @QueryParam("mistake") @DefaultValue("false") boolean mistake) {
         try {
             if (!this.personService.deleteSystemOfRecordPerson(sorSource, sorId, mistake)) {
-                throw new WebApplicationException(
-                        new RuntimeException(
-                                String.format("Unable to Delete SorPerson for SoR [ %s ] with ID [ %s ]", sorSource, sorId)), 500);
+                throw new WebApplicationException(new RuntimeException(String.format("Unable to Delete SorPerson for SoR [ %s ] with ID [ %s ]", sorSource, sorId)), 500);
             }
             //HTTP 204
             logger.debug("The SOR Person resource has been successfully DELETEd");
             return null;
-        }
-        catch (final PersonNotFoundException e) {
+        } catch (final PersonNotFoundException e) {
             throw new NotFoundException(String.format("The system of record person resource identified by /people/sor/%s/%s URI does not exist", 
                     sorSource, sorId));
         }
@@ -270,7 +262,7 @@ public final class PeopleResource {
     //TODO: what happens if the role (identified by RoleInfo) has been added already?
     //NOTE: the sponsor is not set (remains null) as it was not defined in the XML payload as was discussed
     private SorRole buildSorRoleFrom(final SorPerson person, final RoleInfo roleInfo, final RoleRepresentation roleRepresentation) {
-        SorRole sorRole = person.addRole(roleInfo);
+        final SorRole sorRole = person.addRole(roleInfo);
         sorRole.setSorId("1");  // TODO: what to set here?
         sorRole.setSourceSorIdentifier(person.getSourceSor());
         sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, "active"));
@@ -310,7 +302,7 @@ public final class PeopleResource {
     }
 
     private ReconciliationCriteria buildReconciliationCriteriaFrom(final PersonRequestRepresentation request) {
-        ReconciliationCriteria ps = this.reconciliationCriteriaObjectFactory.getObject();
+        final ReconciliationCriteria ps = this.reconciliationCriteriaObjectFactory.getObject();
         ps.getPerson().setSourceSor(request.systemOfRecordId);
         ps.getPerson().setSorId(request.systemOfRecordPersonId);
         Name name = ps.getPerson().addName();
@@ -369,7 +361,7 @@ public final class PeopleResource {
 
     //Content-Type: application/x-www-form-urlencoded
     private Form buildPersonActivationKeyRepresentation(final Person person) {
-        Form f = new Form();
+        final Form f = new Form();
         f.putSingle("activationKey", person.getCurrentActivationKey().asString());
         return f;
     }
