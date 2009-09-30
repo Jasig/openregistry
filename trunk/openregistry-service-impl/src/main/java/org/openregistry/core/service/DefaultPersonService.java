@@ -166,19 +166,13 @@ public class DefaultPersonService implements PersonService {
                     }
                 }
 
-                for (final Name sorName : sorPerson.getNames()) {
-                    for (final Iterator<? extends Name> iter = person.getNames().iterator(); iter.hasNext();) {
-                        final Name name = iter.next();
-                        // TODO remove the names!!  We currently have no mapping between the two!
-                    }
-                }
-
                 final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
 
                 if (number.intValue() <= 1) {
                     this.personRepository.deletePerson(person);
                 }
             } else {
+                //we do this explicitly here because once they're gone we can't re-calculate?  We might move to this to the recalculateCalculatedPerson method.
                 final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, Type.TerminationTypes.UNSPECIFIED.name());
                 for (final SorRole sorRole : sorPerson.getRoles()) {
                     for (final Role role : person.getRoles()) {
@@ -225,7 +219,7 @@ public class DefaultPersonService implements PersonService {
         SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
         SorRole savedSorRole = savedSorPerson.pickOutRole(sorRole.getRoleInfo().getCode());
 
-        logger.info("validateAndSaveRoleForSorPerson: sorrole found: "+ savedSorRole.getId()) ;
+        logger.info("validateAndSaveRoleForSorPerson: sor role found: "+ savedSorRole.getId()) ;
 
         person.addRole(savedSorRole.getRoleInfo(), savedSorRole);
 
@@ -302,7 +296,7 @@ public class DefaultPersonService implements PersonService {
     protected void recalculateCalculatedPerson(final Person person) {
         /*
          * Nothing to do here yet, but this work flow should include:
-         * 1. Choosing the appropriate names
+         * 1. Choosing the appropriate names (and removing any unused names)
          * 2. Transitioning SorPerson information to Calculated Person (i.e. choosing)
          * 3. Transitioning SorRoles to Calculated Roles (and associated information)
          * 4. Calculating additional attributes.
