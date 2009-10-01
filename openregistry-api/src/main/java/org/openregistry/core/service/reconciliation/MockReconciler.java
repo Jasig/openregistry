@@ -32,18 +32,16 @@ import java.util.ArrayList;
  */
 public final class MockReconciler implements Reconciler {
 
-    private ReconciliationType desiredResult = null;
+    private final ReconciliationType desiredResult;
 
     public MockReconciler(final ReconciliationType result) {
+        if (result == null) {
+            throw new IllegalArgumentException("result cannot be null.");
+        }
         this.desiredResult = result;
     }
 
-    public ReconciliationResult reconcile(ReconciliationCriteria reconciliationCriteria){
-        return reconcile(reconciliationCriteria, desiredResult);
-    }
-
-    public ReconciliationResult reconcile(ReconciliationCriteria reconciliationCriteria, final ReconciliationType matchType){
-
+    public ReconciliationResult reconcile(final ReconciliationCriteria reconciliationCriteria) {
         return new ReconciliationResult() {
 
             public ReconciliationType getReconciliationType() {
@@ -64,8 +62,8 @@ public final class MockReconciler implements Reconciler {
                 severalMatch.add(personMatch);
                 severalMatch.add(personMatch);
 
-                if (matchType.equals(ReconciliationType.EXACT)) return exactMatch;
-                else if (matchType.equals(ReconciliationType.MAYBE)) return severalMatch;
+                if (desiredResult.equals(ReconciliationType.EXACT)) return exactMatch;
+                else if (desiredResult.equals(ReconciliationType.MAYBE)) return severalMatch;
                 return Collections.emptyList();
             }
 
