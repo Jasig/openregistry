@@ -213,7 +213,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.1</version>
+                <version>1.2</version>
                 <executions>
                     <execution>
                         <goals>
@@ -228,7 +228,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
                         <exclude>**/IdentifierChangeAspect.java</exclude>
                     </excludes>
                 </configuration>
-            </plugin>
+            </plugin>  
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -281,7 +281,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
     <properties>
         <activemq.version>5.2.0</activemq.version>
         <jsr250.version>1.0</jsr250.version>
-        <aspectj.version>1.6.2</aspectj.version>
+        <aspectj.version>1.6.5</aspectj.version>
         <camel.version>2.0.0</camel.version>
         <clover.version>2.6.0</clover.version>
         <spring.version>3.0.0.RC1</spring.version>
