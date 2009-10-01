@@ -16,7 +16,7 @@
     limitations under the License.
 
 -->
-<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
     <definition name="openregistry.search" template="/WEB-INF/layouts/default2.jsp">
         <put-attribute name="titleCode" value="delete.person.title" type="string" />
@@ -106,6 +106,18 @@
     </definition>
 
     <definition name="openregistry.main" template="index.jsp">
+    </definition>
+
+    <definition name="errors/404" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="errors.404.title" type="string" cascade="true" />
+        <put-attribute name="bodyValue" value="errors.404.body" type="string" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/tiles/errors.jsp" />
+    </definition>
+
+    <definition name="errors/500" template="/WEB-INF/layouts/rutgers.jsp">
+        <put-attribute name="titleCode" value="errors.500.title" type="string" cascade="true" />
+        <put-attribute name="bodyValue" value="errors.500.body" type="string" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/tiles/errors.jsp"/>
     </definition>
 
 </tiles-definitions>
