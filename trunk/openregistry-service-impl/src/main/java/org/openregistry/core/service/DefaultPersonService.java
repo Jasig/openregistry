@@ -17,7 +17,6 @@ package org.openregistry.core.service;
 
 import org.openregistry.core.service.identifier.IdentifierAssigner;
 import org.openregistry.core.service.identifier.IdentifierGenerator;
-import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Name;
@@ -27,10 +26,8 @@ import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
-import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.service.reconciliation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
