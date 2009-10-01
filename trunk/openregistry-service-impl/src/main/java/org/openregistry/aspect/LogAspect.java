@@ -15,6 +15,7 @@
  */
 package org.openregistry.aspect;
 
+import org.aspectj.lang.Signature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -37,56 +38,66 @@ public class LogAspect {
     private static final String TRACE_METHOD_BEGIN = "trace.enter.method";
 
     private static final String TRACE_METHOD_END = "trace.leave.method";
-
-    @Around("(execution (* org.openregistry.core..*.*(..))) && !(execution( * org.openregistry.core..*.set*(..)))")
+ 
+    @Around("(execution (public * org.openregistry.core..*.*(..))) && !(execution( * org.openregistry.core..*.set*(..)))")
     public Object traceMethod(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object returnVal = null;
-        final Logger log = LoggerFactory.getLogger(proceedingJoinPoint.getTarget().getClass());
+        final Logger log = getLog(proceedingJoinPoint);
         final String methodName = proceedingJoinPoint.getSignature().getName();
+
         final MessageSourceAccessor msa = OpenRegistryMessageSourceAccessor.getMessageSourceAccessor();
         try {
-            if (log.isTraceEnabled()) {
+            if (log != null && log.isTraceEnabled()) {
                 final Object[] args = proceedingJoinPoint.getArgs();
                 if (args == null || args.length == 0) {
                     log.trace(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, ""}, Locale.getDefault()));
                 } else {
                     final StringBuilder stringBuilder = new StringBuilder();
-
                     for (final Object o : args) {
                         stringBuilder.append(o != null ? o.toString() : null).append(", ");
                     }
-
                     final String argString = stringBuilder.substring(0, stringBuilder.length()-3);
                     log.trace(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, argString}, Locale.getDefault()));
                 }
-
             }
             returnVal = proceedingJoinPoint.proceed();
             return returnVal;
         } finally {
-            if (log.isTraceEnabled()) {
+            if (log != null && log.isTraceEnabled()) {
                 log.trace(msa.getMessage(TRACE_METHOD_END, new Object[] {methodName, (returnVal != null ? returnVal.toString() : "null")}, Locale.getDefault()));
             }
         }
     }
 
+    protected Logger getLog(final JoinPoint joinPoint) {
+        final Object target = joinPoint.getTarget();
+
+        if (target != null) {
+            return LoggerFactory.getLogger(target.getClass());
+        }
+        
+        return null;
+    }
 
     @Around("(within(org.openregistry.core.service.PersonService+) && (execution (* *(..))))")
     public Object logInfoPersonService(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object retVal = null;
         final String methodName = proceedingJoinPoint.getSignature().getName();
-        final Logger log = LoggerFactory.getLogger(proceedingJoinPoint.getTarget().getClass());
+        final Logger log = getLog(proceedingJoinPoint);
         final MessageSourceAccessor msa = OpenRegistryMessageSourceAccessor.getMessageSourceAccessor();
         try {
-            if (log.isInfoEnabled()) {
+
+            if (log != null && log.isInfoEnabled()) {
                 final Object arg0  = proceedingJoinPoint.getArgs()[0];
                 final String argumentString = arg0 == null ? "null" : arg0.toString();
                 log.info(msa.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, argumentString}, Locale.getDefault()));
             }
+
             retVal = proceedingJoinPoint.proceed();
             return retVal;
         } finally {
-            if (log.isInfoEnabled()) {
+
+            if (log != null && log.isInfoEnabled()) {
                 log.info(msa.getMessage(TRACE_METHOD_END, new Object[]{methodName, (retVal == null ? "null" : retVal.toString())}, Locale.getDefault()));
             }
         }
@@ -95,8 +106,9 @@ public class LogAspect {
 
     @AfterThrowing(pointcut = "(execution (* org.openregistry.core..*.*(..)))", throwing="throwable")
     public void logErrorFromThrownException(final JoinPoint joinPoint, final Throwable throwable) {
-        final Logger log = LoggerFactory.getLogger(joinPoint.getTarget().getClass());
-        log.error(throwable.getMessage(),throwable);
+        final Logger log = getLog(joinPoint);
+        if (log != null) {
+            log.error(throwable.getMessage(),throwable);
+        }
     }
-
 }
