@@ -39,10 +39,7 @@ import org.javalid.core.AnnotationValidatorImpl;
 import org.javalid.core.config.JvConfiguration;
 import org.javalid.annotations.core.JvGroup;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +57,8 @@ import javax.annotation.Resource;
 @Service("personService")
 public class DefaultPersonService implements PersonService {
 
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+
     private final PersonRepository personRepository;
 
     private final ReferenceRepository referenceRepository;
@@ -68,7 +67,8 @@ public class DefaultPersonService implements PersonService {
 
     private final IdentifierGenerator identifierGenerator;
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired(required=false)
+    private Map<ReconciliationCriteria,ReconciliationResult> criteriaCache = new EhCacheBackedMapImpl<ReconciliationCriteria, ReconciliationResult>();
 
     @Autowired(required=false)
     private List<IdentifierAssigner> identifierAssigners = new ArrayList<IdentifierAssigner>();
@@ -89,6 +89,14 @@ public class DefaultPersonService implements PersonService {
 
     public void setPersonObjectFactory(final ObjectFactory<Person> objectFactory) {
         this.personObjectFactory = objectFactory;
+    }
+
+    public void setCriteriaCache(final Map<ReconciliationCriteria,ReconciliationResult> criteriaCache) {
+        this.criteriaCache = criteriaCache;
+    }
+
+    public void setIdentifierAssigners(final List<IdentifierAssigner> identifierAssigners) {
+        this.identifierAssigners = identifierAssigners;
     }
 
     @Transactional
@@ -245,13 +253,21 @@ public class DefaultPersonService implements PersonService {
                 return new GeneralServiceExecutionResult<Person>(serviceName, magicUpdate(reconciliationCriteria, result));
         }
 
+        this.criteriaCache.put(reconciliationCriteria, result);
         throw new ReconciliationException(result);
     }
 
     @Transactional
-    public ServiceExecutionResult<Person> forceAddPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult reconciliationResult) throws IllegalArgumentException {
+    public ServiceExecutionResult<Person> forceAddPerson(ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException, IllegalStateException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null.");
-        Assert.notNull(reconciliationResult, "reconciliationResult cannot be null.");
+        final ReconciliationResult result = this.criteriaCache.get(reconciliationCriteria);
+
+        if (result == null) {
+            throw new IllegalStateException("No ReconciliationResult found for provided criteria.");
+        }
+
+        this.criteriaCache.remove(reconciliationCriteria);
+
         final String serviceName = "PersonService.addPerson";
         return new GeneralServiceExecutionResult<Person>(serviceName, magic(reconciliationCriteria));
     }

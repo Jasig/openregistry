@@ -40,47 +40,4 @@ public abstract class Entity implements Serializable {
     public String toString() {
         return getClass() + ": id=" + getId();
     }
-
-    /**
-     * Attempt to establish identity based on id if exists. If id
-     * does not exist use Object.equals().
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-        if (other == null) {
-            return false;
-        }
-        if (!(other instanceof Entity)) {
-            return false;
-        }
-        Entity entity = (Entity) other;
-        if (getId() == null || entity.getId() == null) {
-            return false;
-        }
-        return getId().equals(entity.getId());
-    }
-
-    /**
-     * Use ID if it exists to establish hash code, otherwise fall back to
-     * Object.hashCode(). Based on the same information as equals, so if that
-     * changes, this will. N.B. this follows the contract of Object.hashCode(),
-     * but will cause problems for anyone adding an unsaved {@link Entity} to a
-     * Set because Set.contains() will almost certainly return false for the
-     * {@link Entity} after it is saved.
-     * Any entities that need to be added to hash-based collections would need to
-     * override a pair of equals and hashCode.
-     *
-     * @see java.lang.Object#hashCode()
-     */
-    public int hashCode() {
-        if (getId() == null) {
-            return super.hashCode();
-        }
-        return 39 + 87 * getId().hashCode();
-	}
 }

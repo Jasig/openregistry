@@ -145,12 +145,11 @@ public interface PersonService {
      * to ensure that no one has changed the data in the ReconciliationCriteria.
      *
      * @param reconciliationCriteria the person you are trying to add with their additional reconciliation data.
-     * @param reconciliationResult the reconciliation result if they had already attempted to save this person.
-     * Let's the system know that we already looked through the list of possibilities.   CANNOT be NULL.
      * @return the result of the action, most likely the newly added Person.
-     * @throws IllegalArgumentException if one of the arguments is missing.
+     * @throws IllegalArgumentException if reconciliationCriteria is missing.
+     * @throws IllegalStateException if the reconciliationCriteria has not been seen before.
     */
-    ServiceExecutionResult<Person> forceAddPerson(ReconciliationCriteria reconciliationCriteria, ReconciliationResult reconciliationResult) throws IllegalArgumentException;
+    ServiceExecutionResult<Person> forceAddPerson(ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException, IllegalStateException;
 
     /**
      * Searches for a Person by the criteria provided.
