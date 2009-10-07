@@ -96,7 +96,7 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
         return addressLine1;
     }
 
-    public void setAddressLine1(String addressLine1) {
+    public void setAddressLine1(final String addressLine1) {
         this.addressLine1 = addressLine1;
     }
 
@@ -104,7 +104,7 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
         return addressLine2;
     }
 
-    public void setAddressLine2(String addressLine2) {
+    public void setAddressLine2(final String addressLine2) {
         this.addressLine2 = addressLine2;
     }
 
@@ -112,7 +112,7 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(final String city) {
         this.city = city;
     }
 
@@ -120,7 +120,7 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
         return region;
     }
 
-    public void setRegion(String region) {
+    public void setRegion(final String region) {
         this.region = region;
     }
 
@@ -128,7 +128,42 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
         return postalCode;
     }
 
-    public void setPostalCode(String postalCode) {
+    public void setPostalCode(final String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JpaReconciliationCriteriaImpl)) return false;
+
+        JpaReconciliationCriteriaImpl that = (JpaReconciliationCriteriaImpl) o;
+
+        if (addressLine1 != null ? !addressLine1.equals(that.addressLine1) : that.addressLine1 != null) return false;
+        if (addressLine2 != null ? !addressLine2.equals(that.addressLine2) : that.addressLine2 != null) return false;
+        if (city != null ? !city.equals(that.city) : that.city != null) return false;
+        if (emailAddress != null ? !emailAddress.equals(that.emailAddress) : that.emailAddress != null) return false;
+        if (identifiersByType != null ? !identifiersByType.equals(that.identifiersByType) : that.identifiersByType != null)
+            return false;
+        if (person != null ? !person.equals(that.person) : that.person != null) return false;
+        if (phoneNumber != null ? !phoneNumber.equals(that.phoneNumber) : that.phoneNumber != null) return false;
+        if (postalCode != null ? !postalCode.equals(that.postalCode) : that.postalCode != null) return false;
+        if (region != null ? !region.equals(that.region) : that.region != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = person != null ? person.hashCode() : 0;
+        result = 31 * result + (identifiersByType != null ? identifiersByType.hashCode() : 0);
+        result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (addressLine1 != null ? addressLine1.hashCode() : 0);
+        result = 31 * result + (addressLine2 != null ? addressLine2.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (region != null ? region.hashCode() : 0);
+        result = 31 * result + (postalCode != null ? postalCode.hashCode() : 0);
+        return result;
     }
 }

@@ -140,6 +140,34 @@ public final class JpaSorNameImpl extends Entity implements Name {
         return builder.toString();
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JpaSorNameImpl)) return false;
+
+        final JpaSorNameImpl that = (JpaSorNameImpl) o;
+
+        if (family != null ? !family.equals(that.family) : that.family != null) return false;
+        if (given != null ? !given.equals(that.given) : that.given != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (middle != null ? !middle.equals(that.middle) : that.middle != null) return false;
+        if (prefix != null ? !prefix.equals(that.prefix) : that.prefix != null) return false;
+        if (suffix != null ? !suffix.equals(that.suffix) : that.suffix != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (prefix != null ? prefix.hashCode() : 0);
+        result = 31 * result + (given != null ? given.hashCode() : 0);
+        result = 31 * result + (middle != null ? middle.hashCode() : 0);
+        result = 31 * result + (family != null ? family.hashCode() : 0);
+        result = 31 * result + (suffix != null ? suffix.hashCode() : 0);
+        return result;
+    }
+
     protected void construct(final StringBuilder builder, final String prefix, final String string, final String delimiter) {
         if (string != null) {
             builder.append(prefix);

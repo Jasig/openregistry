@@ -17,7 +17,6 @@ package org.openregistry.core.web;
 
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.webflow.execution.RequestContext;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
@@ -25,12 +24,8 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
-import org.openregistry.core.repository.PersonRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by IntelliJ IDEA.
@@ -60,19 +55,14 @@ public final class PersonSearchAction extends AbstractPersonServiceAction {
             return "success";
         } catch (final ReconciliationException e) {
             context.getFlowScope().put("reconciliationResult", e);
-            // TODO just a test
             return "reconciliation";
         }
     }
 
-     public ServiceExecutionResult addSorPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult oldResult, final MessageContext context) {
+     public ServiceExecutionResult addSorPerson(final ReconciliationCriteria reconciliationCriteria, final MessageContext context) {
         reconciliationCriteria.getPerson().setSourceSor(SOR_INDENTIFIER);
-        final ServiceExecutionResult<Person> result = getPersonService().forceAddPerson(reconciliationCriteria, oldResult);
-
-        if (!result.getValidationErrors().isEmpty()) {
-            getSpringErrorValidationErrorConverter().convertValidationErrors(result.getValidationErrors(), context);
-            return result;
-        }
+        final ServiceExecutionResult<Person> result = getPersonService().forceAddPerson(reconciliationCriteria);
+        getSpringErrorValidationErrorConverter().convertValidationErrors(result.getValidationErrors(), context);
 
         return result;
     }

@@ -89,7 +89,8 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         when(ps.addPerson(argThat(new HasValidationErrors()))).thenReturn(mockValidationErrorsExecutionResult);
         when(ps.addPerson(argThat(new IsMultiplePeopleMatch()))).thenThrow(new ReconciliationException(mockMultiplePeopleFoundReconciliationResult));
         //Mocking 'force add' option
-        when(ps.forceAddPerson(argThat(new IsMultiplePeopleMatch()), (ReconciliationResult) isNotNull())).thenReturn(mockNoPeopleFoundServiceExecutionResult);
+        // TODO this fix may have broken something
+        when(ps.forceAddPerson(argThat(new IsMultiplePeopleMatch()))).thenReturn(mockNoPeopleFoundServiceExecutionResult);
 
         this.mockPersonService = ps;
     }

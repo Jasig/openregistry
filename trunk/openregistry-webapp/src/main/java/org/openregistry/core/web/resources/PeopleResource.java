@@ -151,6 +151,17 @@ public final class PeopleResource {
         final ReconciliationCriteria reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
         logger.info("Trying to add incoming person...");
 
+        // TODO catch illegal state and warning
+        if (FORCE_ADD_FLAG.equals(forceAdd)) {
+            logger.warn("Multiple people found, but doing a 'force add'");
+            final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria);
+            final Person forcefullyAddedPerson = result.getTargetObject();
+            final URI uri = buildPersonResourceUri(forcefullyAddedPerson);
+            response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
+            logger.info(String.format("Person successfully created (with 'force add' option). The person resource URI is %s", uri.toString()));
+            return response;
+        }
+
         try {
             final ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
 
@@ -164,21 +175,11 @@ public final class PeopleResource {
             response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
             logger.info(String.format("Person successfully created. The person resource URI is %s", uri.toString()));
         } catch (final ReconciliationException ex) {
-
             switch (ex.getReconciliationType()) {
                 case MAYBE:
-                    if (FORCE_ADD_FLAG.equals(forceAdd)) {
-                        logger.warn("Multiple people found, but doing a 'force add'");
-                        final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria, ex);
-                        final Person forcefullyAddedPerson = result.getTargetObject();
-                        final URI uri = buildPersonResourceUri(forcefullyAddedPerson);
-                        response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
-                        logger.info(String.format("Person successfully created (with 'force add' option). The person resource URI is %s", uri.toString()));
-                    } else {
-                        final List<PersonMatch> conflictingPeopleFound = ex.getMatches();
-                        response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound)).type(MediaType.APPLICATION_XHTML_XML).build();
-                        logger.info("Multiple people found: " + response.getEntity());
-                    }
+                    final List<PersonMatch> conflictingPeopleFound = ex.getMatches();
+                    response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound)).type(MediaType.APPLICATION_XHTML_XML).build();
+                    logger.info("Multiple people found: " + response.getEntity());
                     break;
 
                 case EXACT:

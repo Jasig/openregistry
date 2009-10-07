@@ -135,7 +135,7 @@ public class DefaultPersonServiceTests {
          try {
             this.personService.addPerson(reconciliationCriteria);
          } catch (final ReconciliationException ex) {
-            final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria, ex);
+            final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria);
              assertNotNull(result.getTargetObject().getCurrentActivationKey());
              assertFalse(result.getTargetObject().getIdentifiers().isEmpty());
 
