@@ -258,7 +258,7 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public ServiceExecutionResult<Person> forceAddPerson(ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException, IllegalStateException {
+    public ServiceExecutionResult<Person> forceAddPerson(final ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException, IllegalStateException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null.");
         final ReconciliationResult result = this.criteriaCache.get(reconciliationCriteria);
 
@@ -270,6 +270,28 @@ public class DefaultPersonService implements PersonService {
 
         final String serviceName = "PersonService.addPerson";
         return new GeneralServiceExecutionResult<Person>(serviceName, magic(reconciliationCriteria));
+    }
+
+    public ServiceExecutionResult<Person> addPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) throws IllegalArgumentException, IllegalStateException {
+        Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null.");
+        Assert.notNull(person, "person cannot be null.");
+
+        final ReconciliationResult result = this.criteriaCache.get(reconciliationCriteria);
+
+        if (result == null) {
+            throw new IllegalStateException("No ReconciliationResult found for provided criteria.");
+        }
+
+        for (final PersonMatch personMatch : result.getMatches()) {
+            if (personMatch.getPerson().equals(person)) {
+                addPersonAndLink(reconciliationCriteria, person);
+                final Person savedPerson = this.personRepository.findByInternalId(person.getId());
+                recalculateCalculatedPerson(savedPerson);
+                return new GeneralServiceExecutionResult<Person>("PersonService.addPersonAndLink", savedPerson);
+            }
+        }
+
+        throw new IllegalStateException("Person not found in ReconciliationResult.");
     }
 
     @Transactional
@@ -394,29 +416,31 @@ public class DefaultPersonService implements PersonService {
 
         return this.personRepository.savePerson(person);
     }
+
+    protected Person addSorPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) {
+        final SorPerson sorPerson = reconciliationCriteria.getPerson();
+        final SorPerson registrySorPerson = this.findByPersonIdAndSorIdentifier(person.getId(), sorPerson.getSourceSor());
+
+        if (registrySorPerson != null) {
+            // TODO: replace this with what should happen
+            throw new IllegalStateException("THIS SHOULD NOT HAPPEN.");
+        }
+
+        if (!StringUtils.hasText(sorPerson.getSorId())) {
+            sorPerson.setSorId(this.identifierGenerator.generateNextString());
+        }
+
+        sorPerson.setPersonId(person.getId());
+        this.personRepository.saveSorPerson(sorPerson);
+
+		return person;        
+    }
     
     protected Person magicUpdate(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
         Assert.isTrue(result.getMatches().size() == 1, "ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
 
         final Person person = result.getMatches().iterator().next().getPerson();
-        final SorPerson sorPerson = reconciliationCriteria.getPerson();
-
-        final SorPerson registrySorPerson = this.findByPersonIdAndSorIdentifier(person.getId(), sorPerson.getSourceSor());
-
-        if (registrySorPerson != null) {
-            //TODO update the registry sor person record with the changes from sorPerson
-            this.personRepository.saveSorPerson(registrySorPerson);
-        } else {
-            if (!StringUtils.hasText(sorPerson.getSorId())) {
-                sorPerson.setSorId(this.identifierGenerator.generateNextString());
-            }
-            // Now connect the SorPerson to the actual person
-            sorPerson.setPersonId(person.getId());
-            // Save Sor Person
-            this.personRepository.saveSorPerson(sorPerson);
-        }
-        
-		return person;
+        return addSorPersonAndLink(reconciliationCriteria, person);
 	}
 
     /**
