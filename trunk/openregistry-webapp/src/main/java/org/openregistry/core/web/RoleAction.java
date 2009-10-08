@@ -101,4 +101,14 @@ public final class RoleAction extends AbstractPersonServiceAction {
         final ServiceExecutionResult<SorRole> result = getPersonService().updateSorRole(role);
         return convertAndReturnStatus(result, context, "roleUpdated");
     }
+
+    public boolean expireRole(final SorRole role, final MessageContext context) {
+        boolean result = this.getPersonService().expireRole(role);
+        return true;
+    }
+
+    public boolean renewRole(final SorRole role, final MessageContext context) {
+        boolean result = this.getPersonService().renewRole(role);
+        return true;
+    }
 }

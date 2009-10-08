@@ -49,8 +49,8 @@
                     <label for="c1_enddate" class="enddate"><spring:message code="endDate.label"/></label>
                     <form:input path="end" id="c1_enddate" size="10" maxlength="10" tabindex="2" />
 
-                    <a href="${flowExecutionUrl}&_eventId=submitRemovePhone&phoneId=${phone.id}"><img src="images/renew2.jpg" title="Set Renewal Date"/></a>
-                    <a href="${flowExecutionUrl}&_eventId=submitRemovePhone&phoneId=${phone.id}"><img src="images/expire.jpg" title="Set Expiration Date"/></a>
+                    <a href="${flowExecutionUrl}&_eventId=submitRenewRoleStandardRenewal"><img src="images/renew2.jpg" title="Renew for standard renewal period."/></a>
+                    <a href="${flowExecutionUrl}&_eventId=submitExpireRoleToday"><img src="images/expire.jpg" title="Expire today."/></a>
 
                 </div>
 

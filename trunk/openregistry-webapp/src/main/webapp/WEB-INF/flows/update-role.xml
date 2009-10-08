@@ -65,6 +65,12 @@
             <set name="requestScope.urlId" value="requestParameters.urlId" type="long" />
             <evaluate expression="role.removeURLById(urlId)"/>
         </transition>
+       <transition on="submitRenewRoleStandardRenewal" >
+            <evaluate expression="roleAction.renewRole(role, messageContext)"/>
+       </transition>
+       <transition on="submitExpireRoleToday" >
+            <evaluate expression="roleAction.expireRole(role, messageContext)"/>
+       </transition>
     </view-state>
 
     <view-state id="updateAddress" model="address" view="openregistry.role.address.update">
