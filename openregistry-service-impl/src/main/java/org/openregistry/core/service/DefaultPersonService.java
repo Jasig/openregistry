@@ -581,4 +581,19 @@ public class DefaultPersonService implements PersonService {
         return sorPerson;
     }
 
+    public boolean expireRole(SorRole role){
+        role.setEnd(new Date());
+        return true;
+    }
+
+    public boolean renewRole(SorRole role){
+        final Calendar cal = Calendar.getInstance();
+
+        //TODO need to read configuration data for setting the default renewal date for this role type.
+        //hard code to 6 months for now.
+        cal.add(Calendar.MONTH, 6);
+        role.setEnd(cal.getTime());
+        return true;
+    }
+
 }

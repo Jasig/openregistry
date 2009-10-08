@@ -212,4 +212,20 @@ public interface PersonService {
      * @return Result of move.
      */
     boolean moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson sorPerson);
+
+    /**
+     * Expire role immediately.
+     *
+     * @param role to expire.
+     * @return Result.
+     */
+    boolean expireRole(SorRole role);
+
+     /**
+     * Renew a role for the standard renewal.
+     *
+     * @param role to renew.
+     * @return Result.
+     */
+    boolean renewRole(SorRole role);
 }
