@@ -19,10 +19,7 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
 import org.openregistry.core.domain.*;
-import org.openregistry.core.domain.sor.ReconciliationCriteria;
-import org.openregistry.core.domain.sor.MockReconciliationCriteria;
-import org.openregistry.core.domain.sor.MockSorName;
-import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.repository.MockPersonRepository;
 import org.openregistry.core.repository.MockReferenceRepository;
 import org.openregistry.core.repository.PersonRepository;
@@ -141,6 +138,87 @@ public class DefaultPersonServiceTests {
 
          }
     }
+
+    /*
+     * DELETE SOR PERSON TESTS
+     */
+
+
+    // test delete SoR Person with no mistake (2 sors)
+    @Test
+    public void testDeleteSoRPersonNoMistakeTwoSoRs() throws ReconciliationException {
+        final MockPerson mockPerson = new MockPerson();
+
+        final SorPerson sorPerson = new MockSorPerson();
+        sorPerson.setPersonId(1L);
+
+        final SorPerson sorPerson1 = new MockSorPerson();
+        sorPerson1.setPersonId(1L);
+
+        final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson, sorPerson1});
+
+
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+        this.personService.deleteSystemOfRecordPerson(sorPerson, false, null);
+
+        assertNotNull(personRepository.findByInternalId(1L));
+    }
+
+    // test delete SoR Person no mistake
+    @Test
+    public void testDeleteSoRPersonNoMistakeOneSoR() throws ReconciliationException {
+        final MockPerson mockPerson = new MockPerson();
+
+        final SorPerson sorPerson = new MockSorPerson();
+        sorPerson.setPersonId(1L);
+
+        final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
+
+
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+        this.personService.deleteSystemOfRecordPerson(sorPerson, false, null);
+
+        assertNotNull(personRepository.findByInternalId(1L));
+    }
+
+    // test delete SoR Person with it being a mistake (and there being two SORs)
+    @Test
+    public void testDeleteSoRPersonAsMistakeWIthTwoSoRs() throws ReconciliationException {
+        final MockPerson mockPerson = new MockPerson();
+
+        final SorPerson sorPerson = new MockSorPerson();
+        sorPerson.setPersonId(1L);
+
+        final SorPerson sorPerson1 = new MockSorPerson();
+        sorPerson1.setPersonId(1L);
+
+        final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson, sorPerson1});
+
+
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+        this.personService.deleteSystemOfRecordPerson(sorPerson, true, null);
+
+        assertNotNull(personRepository.findByInternalId(1L));
+    }
+
+    // test delete SoR Person with it being a mistake (and only one SoR) (i.e. were the appropriate roles, and names removed? from the calculated person?)
+    @Test
+    public void testDeleteSoRPersonAsAMistakeWithOnlyOneSoR() throws ReconciliationException {
+        final MockPerson mockPerson = new MockPerson();
+
+        final SorPerson sorPerson = new MockSorPerson();
+        sorPerson.setPersonId(1L);
+
+        final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
+
+
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+        this.personService.deleteSystemOfRecordPerson(sorPerson, true, null);
+
+        assertNull(personRepository.findByInternalId(1L));
+    }
+
+
 
     //TODO need to add test cases for conditionally required fields.
 

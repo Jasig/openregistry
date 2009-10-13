@@ -23,6 +23,8 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.service.SearchCriteria;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,14 +33,26 @@ import java.util.List;
  */
 public class MockPersonRepository implements PersonRepository {
 
-    private Person[] persons;
+    private final List<Person> persons = new ArrayList<Person>();
+
+    private final List<SorPerson> sorPersons = new ArrayList<SorPerson>();
 
     public MockPersonRepository(final Person person) {
-        this.persons = new Person[] {person};
+        this(new Person[] {person});
     }
 
-    public MockPersonRepository(final Person[] persons) {
-        this.persons = persons;
+    public MockPersonRepository(final Person... persons) {
+        this(persons, new SorPerson[] {});
+    }
+
+    public MockPersonRepository(final Person[] persons, final SorPerson[] sorPersons) {
+        for (final Person person : persons) {
+            this.persons.add(person);
+        }
+
+        for (final SorPerson sorPerson : sorPersons) {
+            this.sorPersons.add(sorPerson);
+        }        
     }
 
     public Person findByInternalId(final Long id) throws RepositoryAccessException {
@@ -98,20 +112,28 @@ public class MockPersonRepository implements PersonRepository {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public List<SorPerson> getSoRRecordsForPerson(Person person) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<SorPerson> getSoRRecordsForPerson(final Person person) {
+        final List<SorPerson> sorPersons = new ArrayList<SorPerson>();
+
+        for (final SorPerson sorPerson : this.sorPersons) {
+            if (sorPerson.getPersonId().equals(person.getId())) {
+                sorPersons.add(sorPerson);
+            }
+        }
+
+        return sorPersons;
     }
 
-    public Number getCountOfSoRRecordsForPerson(Person person) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Number getCountOfSoRRecordsForPerson(final Person person) {
+        return getSoRRecordsForPerson(person).size();
     }
 
-    public void deleteSorPerson(SorPerson person) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void deleteSorPerson(final SorPerson person) {
+        this.sorPersons.remove(person);
     }
 
-    public void deletePerson(Person person) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void deletePerson(final Person person) {
+        this.persons.remove(person);
     }
 
     public void updateRole(Person person, Role role) {
@@ -122,23 +144,11 @@ public class MockPersonRepository implements PersonRepository {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public Role saveRole(Role role) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     public SorPerson findSorPersonByPersonIdAndSorRoleId(Long personId, Long sorRoleId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public List<Identifier> findPersonIdentifiers(Long personId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public List<Identifier> findNetIDBaseIdentifier(String identifierType, String netIDBase) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public void deleteName(Name name) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
