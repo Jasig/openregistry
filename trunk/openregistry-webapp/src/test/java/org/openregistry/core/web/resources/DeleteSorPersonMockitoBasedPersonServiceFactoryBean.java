@@ -45,8 +45,8 @@ public class DeleteSorPersonMockitoBasedPersonServiceFactoryBean implements Fact
         //Stubbing PersonService
         final PersonService ps = mock(PersonService.class);
         //stubbing different deletion scenarios
-        when(ps.deleteSystemOfRecordPerson(eq("TEST-SOR"), eq("NON-EXISTING-PERSON"), eq(false))).thenThrow(new PersonNotFoundException());
-        when(ps.deleteSystemOfRecordPerson(eq("TEST-SOR"), eq("EXISTING-PERSON"), eq(false))).thenReturn(true);
+        when(ps.deleteSystemOfRecordPerson(eq("TEST-SOR"), eq("NON-EXISTING-PERSON"), eq(false), eq(Type.TerminationTypes.UNSPECIFIED))).thenThrow(new PersonNotFoundException());
+        when(ps.deleteSystemOfRecordPerson(eq("TEST-SOR"), eq("EXISTING-PERSON"), eq(false), eq(Type.TerminationTypes.UNSPECIFIED))).thenReturn(true);
         this.mockPersonService = ps;
     }
 

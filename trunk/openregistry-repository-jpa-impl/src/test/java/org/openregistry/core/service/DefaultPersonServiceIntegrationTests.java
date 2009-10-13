@@ -334,7 +334,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         assertEquals(1, countRowsInTable("prs_sor_persons"));
         assertEquals(1, countRowsInTable("prs_names"));
 
-        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson, true));
+        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson, true, null));
 
         this.entityManager.flush();
 
@@ -366,7 +366,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         assertEquals(2, countRowsInTable("prs_sor_persons"));
         assertEquals(2, countRowsInTable("prs_names"));
 
-        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson1, true));
+        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson1, true, null));
 
         this.entityManager.flush();
 
@@ -392,7 +392,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         assertEquals(1, countRowsInTable("prs_sor_persons"));
         assertEquals(1, countRowsInTable("prs_names"));
 
-        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson, false));
+        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson, false, null));
 
         this.entityManager.flush();
 
@@ -407,6 +407,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
      public void testDeleteSoRPersonNoMistakeTwoSoRs() throws ReconciliationException {
 
         this.simpleJdbcTemplate.update("insert into ctx_data_types (data_type, description) values('TERMINATION', 'UNSPECIFIED')", new HashMap());
+        this.simpleJdbcTemplate.update("insert into ctx_data_types (data_type, description) values('TERMINATION', 'FIRED')", new HashMap());
 
         final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.addPerson(criteria);
@@ -426,7 +427,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         assertEquals(2, countRowsInTable("prs_sor_persons"));
         assertEquals(2, countRowsInTable("prs_names"));
 
-        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson, false));
+        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson, false, Type.TerminationTypes.FIRED));
 
         this.entityManager.flush();
 
