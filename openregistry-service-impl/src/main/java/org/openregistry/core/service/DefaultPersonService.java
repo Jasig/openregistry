@@ -138,67 +138,45 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public boolean deletePerson(final Person person) {
-        try {
-            final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
-
-            if (number.intValue() == 0) {
-                this.personRepository.deletePerson(person);
-                return true;
-            }
-            
-            return false;
-        } catch (final Exception e) {
-            logger.error(e.getMessage(), e);
-            return false;
-        }
-    }
-
-    @Transactional
     public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson, final boolean mistake, final Type.TerminationTypes terminationTypes) {
         Assert.notNull(sorPerson, "sorPerson cannot be null.");
         final Type.TerminationTypes terminationTypeToUse = terminationTypes != null ? terminationTypes : Type.TerminationTypes.UNSPECIFIED;
         
-        try {
-            final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
-            Assert.notNull(person, "person cannot be null.");
+        final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
+        Assert.notNull(person, "person cannot be null.");
 
-            if (mistake) {
-                for (final SorRole sorRole : sorPerson.getRoles()) {
-                    for (final Iterator<Role> iter  = person.getRoles().iterator(); iter.hasNext();) {
-                        final Role role = iter.next();
-                        if (sorRole.getId().equals(role.getSorRoleId())) {
-                            iter.remove();
-                        }
-                    }
-                }
-
-                final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
-
-                if (number.intValue() <= 1) {
-                    this.personRepository.deletePerson(person);
-                }
-            } else {
-                //we do this explicitly here because once they're gone we can't re-calculate?  We might move to this to the recalculateCalculatedPerson method.
-                final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationTypeToUse.name());
-                for (final SorRole sorRole : sorPerson.getRoles()) {
-                    for (final Role role : person.getRoles()) {
-                        if (!role.isTerminated() && sorRole.getId().equals(role.getSorRoleId())) {
-                            role.setEnd(new Date());
-                            role.setTerminationReason(terminationReason);
-                            role.setSorRoleId(null);
-                        }
+        if (mistake) {
+            for (final SorRole sorRole : sorPerson.getRoles()) {
+                for (final Iterator<Role> iter  = person.getRoles().iterator(); iter.hasNext();) {
+                    final Role role = iter.next();
+                    if (sorRole.getId().equals(role.getSorRoleId())) {
+                        iter.remove();
                     }
                 }
             }
 
-            this.personRepository.deleteSorPerson(sorPerson);
-            recalculateCalculatedPerson(person);
-            return true;
-        } catch (final Exception e) {
-            logger.error(e.getMessage(), e);
-            return false;
+            final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
+
+            if (number.intValue() == 1) {
+                this.personRepository.deletePerson(person);
+            }
+        } else {
+            //we do this explicitly here because once they're gone we can't re-calculate?  We might move to this to the recalculateCalculatedPerson method.
+            final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationTypeToUse.name());
+            for (final SorRole sorRole : sorPerson.getRoles()) {
+                for (final Role role : person.getRoles()) {
+                    if (!role.isTerminated() && sorRole.getId().equals(role.getSorRoleId())) {
+                        role.setEnd(new Date());
+                        role.setTerminationReason(terminationReason);
+                        role.setSorRoleId(null);
+                    }
+                }
+            }
         }
+
+        this.personRepository.deleteSorPerson(sorPerson);
+        recalculateCalculatedPerson(person);
+        return true;
     }
 
     @Transactional

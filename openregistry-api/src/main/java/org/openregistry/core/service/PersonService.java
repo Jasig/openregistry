@@ -113,16 +113,6 @@ public interface PersonService {
     boolean deleteSystemOfRecordPerson(String sorSource, String sorId, boolean mistake, Type.TerminationTypes terminationTypes) throws PersonNotFoundException, IllegalArgumentException;
 
     /**
-     * Removes a person from the repository. A person CAN only be removed IF there are no System of Record people associated
-     * with the person, otherwise they would just come back!
-     *
-     * @param person the person to remove
-     * @return true if it succeeded, false otherwise.
-     */
-    // TODO I'm not sure we need or want this.
-    boolean deletePerson(Person person);
-
-    /**
      * Validate, add and persist in the Open Registry a given Role for a given Person
      *
      * @param sorPerson a person to add a role to.
