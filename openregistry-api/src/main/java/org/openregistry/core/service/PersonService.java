@@ -18,6 +18,7 @@ package org.openregistry.core.service;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.PersonNotFoundException;
 import org.openregistry.core.domain.Role;
+import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
@@ -91,23 +92,25 @@ public interface PersonService {
      *
      * @param sorPerson the person to remove from the system of record.
      * @param mistake whether the person should have existed or not. This MAY affect recalculation of information about the person.
+     * @param terminationTypes the optional termination type for removed role records.  Unused when mistake=true.
      * @return true if it succeeded, false otherwise.
      * @throws IllegalArgumentException if the sorPerson is null.
      */
-    boolean deleteSystemOfRecordPerson(SorPerson sorPerson, boolean mistake) throws IllegalArgumentException;
+    boolean deleteSystemOfRecordPerson(SorPerson sorPerson, boolean mistake, Type.TerminationTypes terminationTypes) throws IllegalArgumentException;
 
     /**
-     * See {@link PersonService#deleteSystemOfRecordPerson(org.openregistry.core.domain.sor.SorPerson, boolean)}.  This is a convenience
+     * See {@link PersonService#deleteSystemOfRecordPerson(org.openregistry.core.domain.sor.SorPerson, boolean, org.openregistry.core.domain.Type.TerminationTypes)}.  This is a convenience
      * method on top of that.
      *
      * @param sorSource the source name for the system of record (i.e or-webapp)
      * @param sorId the identifier.
      * @param mistake whether this person should have existed or not.
+     * @param terminationTypes the optional termination type for removed role records.  Unused when mistake=true.
      * @return true if it succeeded, false otherwise.
      * @throws IllegalArgumentException if the sorSource or sorId is null
      * @throws PersonNotFoundException if the person could not be found from the sorSource and sorId
      */
-    boolean deleteSystemOfRecordPerson(String sorSource, String sorId, boolean mistake) throws PersonNotFoundException, IllegalArgumentException;
+    boolean deleteSystemOfRecordPerson(String sorSource, String sorId, boolean mistake, Type.TerminationTypes terminationTypes) throws PersonNotFoundException, IllegalArgumentException;
 
     /**
      * Removes a person from the repository. A person CAN only be removed IF there are no System of Record people associated
@@ -116,6 +119,7 @@ public interface PersonService {
      * @param person the person to remove
      * @return true if it succeeded, false otherwise.
      */
+    // TODO I'm not sure we need or want this.
     boolean deletePerson(Person person);
 
     /**
@@ -219,6 +223,7 @@ public interface PersonService {
      * @param role to expire.
      * @return Result.
      */
+    // TODO should these be on the domain object?
     boolean expireRole(SorRole role);
 
      /**
@@ -227,5 +232,6 @@ public interface PersonService {
      * @param role to renew.
      * @return Result.
      */
+     // TODO should these be on the domain object?
     boolean renewRole(SorRole role);
 }

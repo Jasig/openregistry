@@ -155,8 +155,10 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson, final boolean mistake) {
+    public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson, final boolean mistake, final Type.TerminationTypes terminationTypes) {
         Assert.notNull(sorPerson, "sorPerson cannot be null.");
+        final Type.TerminationTypes terminationTypeToUse = terminationTypes != null ? terminationTypes : Type.TerminationTypes.UNSPECIFIED;
+        
         try {
             final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
             Assert.notNull(person, "person cannot be null.");
@@ -178,7 +180,7 @@ public class DefaultPersonService implements PersonService {
                 }
             } else {
                 //we do this explicitly here because once they're gone we can't re-calculate?  We might move to this to the recalculateCalculatedPerson method.
-                final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, Type.TerminationTypes.UNSPECIFIED.name());
+                final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationTypeToUse.name());
                 for (final SorRole sorRole : sorPerson.getRoles()) {
                     for (final Role role : person.getRoles()) {
                         if (!role.isTerminated() && sorRole.getId().equals(role.getSorRoleId())) {
@@ -200,12 +202,12 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public boolean deleteSystemOfRecordPerson(final String sorSource, final String sorId, final boolean mistake) {
+    public boolean deleteSystemOfRecordPerson(final String sorSource, final String sorId, final boolean mistake, final Type.TerminationTypes terminationTypes) {
         Assert.notNull(sorSource, "sorSource cannot be null.");
         Assert.notNull(sorId, "sorId cannot be null.");
         final SorPerson sorPerson = this.personRepository.findBySorIdentifierAndSource(sorSource, sorId);
 
-        return sorPerson != null && deleteSystemOfRecordPerson(sorPerson, mistake);
+        return sorPerson != null && deleteSystemOfRecordPerson(sorPerson, mistake, terminationTypes);
     }
 
     @Transactional
