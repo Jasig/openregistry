@@ -18,15 +18,7 @@ package org.openregistry.core.domain.jpa;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.Role;
@@ -36,12 +28,16 @@ import org.openregistry.core.domain.internal.Entity;
 import org.springframework.util.Assert;
 
 /**
+ * Unique constraint assumes that a given sponsor has only one type entry
+ *
  * @author Dave Steiner
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="sponsor")
-@Table(name="prc_sponsors")
+@Table(name="prc_sponsors",
+		uniqueConstraints = @UniqueConstraint(columnNames = {"sponsor_t","sponsor_id"})
+)
 @Audited
 public class JpaSponsorImpl extends Entity implements Sponsor {
 
@@ -51,21 +47,21 @@ public class JpaSponsorImpl extends Entity implements Sponsor {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_sponsors_seq")
     @SequenceGenerator(name="prc_sponsors_seq",sequenceName="prc_sponsors_seq",initialValue=1,allocationSize=50)
     private Long id;
-    
+
     @ManyToOne(optional = false)
     @JoinColumn(name="sponsor_t")
     private JpaTypeImpl sponsorType;
 
     @Column(name="sponsor_id")
     private Long sponsorId;
-    
+
     @OneToMany(mappedBy = "sponsor", targetEntity = JpaRoleImpl.class)
     private Set<Role> roles = new HashSet<Role>();
 
 	public JpaSponsorImpl() {
 		// nothing to do
 	}
-	
+
 	public JpaSponsorImpl(final JpaRoleImpl role) {
 		this.roles.add(role);
 	}

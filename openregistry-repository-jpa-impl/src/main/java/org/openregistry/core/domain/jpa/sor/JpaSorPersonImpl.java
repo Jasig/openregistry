@@ -39,13 +39,15 @@ import java.util.*;
 
 /**
  * Implementation of the SoR Person.
- *
+ * Unique constraints assumes each person can have only one sorPerson from any given SOR
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="sorPerson")
-@Table(name="prs_sor_persons")
+@Table(name="prs_sor_persons",
+	uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id","person_id"})
+)
 @Audited
 @ValidateDefinition
 public class JpaSorPersonImpl extends Entity implements SorPerson {
@@ -90,7 +92,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @ValidateList
-    @Fetch(value = FetchMode.SUBSELECT) 
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<SorRole> roles = new ArrayList<SorRole>();
 
     public List<SorRole> getRoles(){

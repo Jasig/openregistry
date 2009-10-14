@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * 
+ *
  *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
@@ -83,7 +83,7 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
     public void setPhoneNumber(final String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
+// TODO this method name is confusing, can it be changed to getSorPerson?
     public SorPerson getPerson() {
         return this.person;
     }

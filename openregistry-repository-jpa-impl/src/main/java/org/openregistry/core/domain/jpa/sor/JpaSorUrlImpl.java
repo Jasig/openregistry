@@ -29,6 +29,8 @@ import javax.persistence.*;
 import java.net.URL;
 
 /**
+ * Unique constraints assumes that each role can have only one URL per type
+ * 
  * Created by IntelliJ IDEA.
  * User: Nancy Mond
  * Date: Apr 7, 2009
@@ -36,7 +38,8 @@ import java.net.URL;
  * To change this template use File | Settings | File Templates.
  */
 @javax.persistence.Entity(name="sorUrl")
-@Table(name="prs_urls")
+@Table(name="prs_urls",
+	uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"}))
 @Audited
 @ValidateDefinition
 public final class JpaSorUrlImpl extends Entity implements Url {

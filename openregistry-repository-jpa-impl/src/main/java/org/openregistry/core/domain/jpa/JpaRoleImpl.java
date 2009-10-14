@@ -33,12 +33,15 @@ import javax.persistence.*;
 /**
  * Role entity mapped to a persistence store with JPA annotations.
  *
+ * Unique constraints assume that each person can have only one record of each role
+ *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
+// TODO should a person be able to have multiple entries for the same role?  Perhaps if the affiliation date is unique?
 @javax.persistence.Entity(name = "role")
-@Table(name = "prc_role_records")
+@Table(name = "prc_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"person_id","role_id"}))
 @ValidateDefinition
 @Audited
 public final class JpaRoleImpl extends Entity implements Role {

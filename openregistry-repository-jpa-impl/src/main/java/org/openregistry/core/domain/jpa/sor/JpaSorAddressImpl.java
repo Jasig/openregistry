@@ -33,6 +33,8 @@ import org.springframework.util.StringUtils;
 import javax.persistence.*;
 
 /**
+ * Unique constraints assumes that each role record has only one address of a given type
+ *
  * Created by IntelliJ IDEA.
  * User: Nancy Mond
  * Date: Apr 7, 2009
@@ -40,7 +42,7 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @javax.persistence.Entity(name="sorAddress")
-@Table(name="prs_addresses")
+@Table(name="prs_addresses", uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
 @ValidateDefinition
 public final class JpaSorAddressImpl extends Entity implements Address {

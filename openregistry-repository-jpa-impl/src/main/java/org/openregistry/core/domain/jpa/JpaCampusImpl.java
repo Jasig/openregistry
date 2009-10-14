@@ -23,12 +23,16 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * @author Scott Battaglia
+ * UniqueConstraint assumes that there is only one entry for each campus code/name combination
+ *
+ *  @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="campus")
-@Table(name="prd_campuses")
+
+@Table(name="prd_campuses",
+		uniqueConstraints= @UniqueConstraint(columnNames={"code", "name"}))
 @Audited
 public class JpaCampusImpl extends Entity implements Campus {
 

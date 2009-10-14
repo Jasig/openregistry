@@ -25,12 +25,17 @@ import javax.persistence.*;
 import java.net.URL;
 
 /**
+ * Unique constraints assumes that each role can have only one URL per type
+ *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="url")
-@Table(name="prc_urls")
+@Table(name="prc_urls",
+	uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"})
+
+)
 @Audited
 public class JpaUrlImpl extends Entity implements Url {
 
