@@ -264,7 +264,7 @@ public class DefaultPersonService implements PersonService {
 
         for (final PersonMatch personMatch : result.getMatches()) {
             if (personMatch.getPerson().equals(person)) {
-                addPersonAndLink(reconciliationCriteria, person);
+                addSorPersonAndLink(reconciliationCriteria, person);
                 final Person savedPerson = this.personRepository.findByInternalId(person.getId());
                 recalculateCalculatedPerson(savedPerson);
                 return new GeneralServiceExecutionResult<Person>("PersonService.addPersonAndLink", savedPerson);

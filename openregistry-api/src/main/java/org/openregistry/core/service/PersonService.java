@@ -146,6 +146,18 @@ public interface PersonService {
     ServiceExecutionResult<Person> forceAddPerson(ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException, IllegalStateException;
 
     /**
+     * Creates a new person for this SoR and links them to the calculated person that is provided, assuming they were in the original reconciliation
+     * result.
+     *
+     * @param reconciliationCriteria the criteria of the person to add.
+     * @param person the calculated person to link to.
+     * @return the calculated person.
+     * @throws IllegalArgumentException if any of the parameters are null.
+     * @throws IllegalStateException if the reconciliation criteria/result combination could not be located.
+     */
+    ServiceExecutionResult<Person> addPersonAndLink(ReconciliationCriteria reconciliationCriteria, Person person) throws IllegalArgumentException, IllegalStateException;
+
+    /**
      * Searches for a Person by the criteria provided.
      *
      * @param searchCriteria the Person to search for.  CANNOT be null.
