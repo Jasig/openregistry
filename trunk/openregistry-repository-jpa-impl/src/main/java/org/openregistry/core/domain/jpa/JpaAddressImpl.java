@@ -26,13 +26,17 @@ import org.springframework.util.StringUtils;
 import javax.persistence.*;
 
 /**
+ * UniqueConstraint assumes that there is only one entry for a given address type for each role
+ *
+ *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  *
  */
 @javax.persistence.Entity(name="address")
-@Table(name="prc_addresses")
+@Table(	name="prc_addresses",
+		uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
 public class JpaAddressImpl extends Entity implements Address {
 

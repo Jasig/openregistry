@@ -22,12 +22,18 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 
 /**
+ * Unique Constraints assumes each calculated person can have only one entry for each identifier type
+ * For example, a person can't have multiple SSN or NetIDs
+ *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="identifier")
-@Table(name="prc_identifiers")
+
+// TODO should a user be able to have multiple NetIDs?
+@Table(name="prc_identifiers",
+		uniqueConstraints= @UniqueConstraint(columnNames={"identifier_t", "identifier"}))
 @Audited
 public class JpaIdentifierImpl extends Entity implements Identifier {
 
@@ -47,10 +53,10 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
 
     @Column(name="identifier", length=100, nullable=false)
     private String value;
-    
+
     @Column(name="is_primary", nullable=false)
     private Boolean primary = true;
-    
+
     @Column(name="is_deleted", nullable=false)
     private Boolean deleted = false;
 
@@ -85,11 +91,11 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     public Person getPerson() {
         return this.person;
     }
-    
+
     public Boolean isPrimary() {
     	return this.primary;
     }
-    
+
     public Boolean isDeleted() {
     	return this.deleted;
     }
@@ -105,11 +111,11 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     public void setValue(String value) {
         this.value = value;
     }
-    
+
     public void setPrimary(Boolean value) {
     	this.primary = value;
     }
-    
+
     public void setDeleted(Boolean value) {
     	this.deleted = value;
     }

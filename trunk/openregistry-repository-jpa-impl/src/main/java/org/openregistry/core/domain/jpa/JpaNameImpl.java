@@ -24,12 +24,17 @@ import org.javalid.annotations.core.ValidateDefinition;
 import javax.persistence.*;
 
 /**
+ * Unique Contraints assumes that only one official name and one preferred name per person id may exist
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="name")
-@Table(name="prc_names")
+@Table(name="prc_names",
+	   uniqueConstraints = {
+			   @UniqueConstraint(columnNames = {"person_id","is_preferred_name"}),
+			   @UniqueConstraint(columnNames={"person_id","is_official_name"})
+	   })
 @Audited
 @ValidateDefinition
 public class JpaNameImpl extends Entity implements Name {
@@ -55,21 +60,21 @@ public class JpaNameImpl extends Entity implements Name {
 
     @Column(name="suffix",nullable=true,length=5)
     private String suffix;
-    
+
     @ManyToOne(optional=false)
     @JoinColumn(name="person_id", nullable=false)
     private JpaPersonImpl person;
 
     @Column(name="is_official_name", nullable=false)
     private Boolean officialName = false;
-    
+
     @Column(name="is_preferred_name", nullable=false)
     private Boolean preferredName = false;
- 
+
     public JpaNameImpl() {
     	// nothing else to do
     }
-    
+
     public JpaNameImpl(final JpaPersonImpl person) {
     	this.person = person;
     }
@@ -125,7 +130,7 @@ public class JpaNameImpl extends Entity implements Name {
     public void setOfficialName() {
         this.officialName = true;
     }
-    
+
     public boolean isOfficialName() {
     	return this.officialName;
     }
@@ -133,7 +138,7 @@ public class JpaNameImpl extends Entity implements Name {
     public void setPreferredName() {
         this.preferredName = true;
     }
-    
+
     public boolean isPreferredName() {
     	return this.preferredName;
     }

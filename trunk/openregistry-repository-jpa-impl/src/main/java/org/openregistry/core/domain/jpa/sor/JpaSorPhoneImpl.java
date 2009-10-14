@@ -28,6 +28,9 @@ import org.springframework.util.Assert;
 import javax.persistence.*;
 
 /**
+ * Unique constraints also assumes that one full phone number should not appear twice
+ * Unique constraints assumes that each role has only one phone type per address
+ *
  * Created by IntelliJ IDEA.
  * User: Nancy Mond
  * Date: Apr 7, 2009
@@ -35,7 +38,11 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @javax.persistence.Entity(name="sorPhone")
-@Table(name="prs_phones")
+@Table(name="prs_phones",
+		uniqueConstraints= {
+				@UniqueConstraint(columnNames={"country_code", "area_code", "phone_number"}),
+				@UniqueConstraint(columnNames={"phone_t", "address_t", "role_record_id"})
+		})
 @Audited
 @ValidateDefinition
 public final class JpaSorPhoneImpl extends Entity implements Phone {

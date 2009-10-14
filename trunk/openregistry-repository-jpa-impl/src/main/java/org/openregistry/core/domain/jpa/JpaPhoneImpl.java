@@ -23,12 +23,21 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 
 /**
+ * Unique constraints also assumes that one full phone number should not appear twice
+ * Unique constraints assumes that each role has only one phone type per address
+ *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="phone")
-@Table(name="prc_phones")
+
+// TODO should a phone number be able to appear twice?  Can someone choose to use their cell number as "mobile" and "office"?
+@Table(name="prc_phones",
+		uniqueConstraints= {
+				@UniqueConstraint(columnNames={"country_code", "area_code", "phone_number"}),
+				@UniqueConstraint(columnNames={"phone_t", "address_t", "role_record_id"})
+		})
 @Audited
 public class JpaPhoneImpl extends Entity implements Phone {
 
@@ -36,7 +45,7 @@ public class JpaPhoneImpl extends Entity implements Phone {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_phones_seq")
     @SequenceGenerator(name="prc_phones_seq",sequenceName="prc_phones_seq",initialValue=1,allocationSize=50)
     private Long id;
-    
+
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
     private JpaTypeImpl addressType;

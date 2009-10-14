@@ -23,12 +23,16 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
+ * Unique constraints assumes that each data type/description combination only appears once
+ *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="type")
-@Table(name="ctx_data_types")
+@Table(name="ctx_data_types",
+	uniqueConstraints = @UniqueConstraint(columnNames = {"data_type","description"})
+)
 @Audited
 public class JpaTypeImpl extends Entity implements Type {
 
@@ -73,7 +77,7 @@ public class JpaTypeImpl extends Entity implements Type {
     @OneToMany(fetch=FetchType.LAZY,mappedBy="terminationReason")
     private List<JpaRoleImpl> roleTerminationTypes;
 
-    
+
     public Long getId() {
         return this.id;
     }
@@ -86,5 +90,5 @@ public class JpaTypeImpl extends Entity implements Type {
         return this.description;
     }
 
-    
+
 }

@@ -40,6 +40,7 @@ import javax.persistence.*;
 import java.util.*;
 
 /**
+ * Unique constraint assumes each sorPerson can have only one entry for a given role, meaning one Sor can represent multiple roles
  * Created by IntelliJ IDEA.
  * User: Nancy Mond
  * Date: Apr 7, 2009
@@ -47,7 +48,7 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 @javax.persistence.Entity(name="sorRole")
-@Table(name="prs_role_records")
+@Table(name="prs_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"sor_person_id","role_id"}))
 @Audited
 @ValidateDefinition
 public final class JpaSorRoleImpl extends Entity implements SorRole {
@@ -139,7 +140,7 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     public JpaSorRoleImpl() {
         // nothing to do
     }
-    
+
     public JpaSorRoleImpl(final JpaRoleInfoImpl roleInfo, final JpaSorPersonImpl sorPerson) {
         this.roleInfo = roleInfo;
         this.person = sorPerson;
@@ -164,7 +165,7 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     public void setSourceSorIdentifier(final String sorIdentifier) {
         this.sourceSorIdentifier = sorIdentifier;
     }
-    
+
     public RoleInfo getRoleInfo() {
     	return this.roleInfo;
     }
@@ -242,7 +243,7 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
         return this.roleId;
     }
     **/
-    
+
 	public Address addAddress() {
 	    final JpaSorAddressImpl jpaAddress = new JpaSorAddressImpl(this);
 	    this.addresses.add(jpaAddress);

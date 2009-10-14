@@ -24,13 +24,16 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
+ * Unique Contraints assumes that the identifier type name must be unique
+ *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  *
  */
 @javax.persistence.Entity(name="identifier_type")
-@Table(name="prd_identifier_types")
+@Table(name="prd_identifier_types",
+		uniqueConstraints= @UniqueConstraint(columnNames={"name"}))
 @Audited
 public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 

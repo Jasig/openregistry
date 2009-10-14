@@ -18,15 +18,7 @@ package org.openregistry.core.domain.jpa.sor;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.Type;
@@ -39,12 +31,14 @@ import org.javalid.annotations.core.ValidateDefinition;
 import org.springframework.util.Assert;
 
 /**
+ * Unique constraints assumes each sponsor and type combination only needs to appear once
+ *
  * @author Dave Steiner
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="sorSponsor")
-@Table(name="prs_sponsors")
+@Table(name="prs_sponsors",uniqueConstraints = @UniqueConstraint(columnNames = {"sponsor_t","sponsor_id"}))
 @Audited
 @ValidateDefinition
 public class JpaSorSponsorImpl extends Entity implements SorSponsor {
@@ -55,7 +49,7 @@ public class JpaSorSponsorImpl extends Entity implements SorSponsor {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_sponsors_seq")
     @SequenceGenerator(name="prs_sponsors_seq",sequenceName="prs_sponsors_seq",initialValue=1,allocationSize=50)
     private Long id;
-    
+
     @ManyToOne(optional = false)
     @JoinColumn(name="sponsor_t")
     @NotNull
@@ -64,14 +58,14 @@ public class JpaSorSponsorImpl extends Entity implements SorSponsor {
     @Column(name="sponsor_id")
     @NotNull
     private Long sponsorId;
-    
+
     @OneToMany(mappedBy = "sponsor", targetEntity = JpaSorRoleImpl.class)
     private Set<SorRole> roles = new HashSet<SorRole>();
 
 	public JpaSorSponsorImpl() {
 		// nothing to do
 	}
-	
+
 	public JpaSorSponsorImpl(final JpaSorRoleImpl role) {
 		this.roles.add(role);
 	}

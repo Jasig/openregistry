@@ -23,13 +23,15 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 
 /**
+ * Unique constraint assumes that each role only has one entry per address type
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
 
 @javax.persistence.Entity(name="emailAddress")
-@Table(name="prc_emails")
+@Table(name="prc_emails",
+		uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
 public class JpaEmailAddressImpl extends Entity implements EmailAddress {
 
@@ -44,7 +46,7 @@ public class JpaEmailAddressImpl extends Entity implements EmailAddress {
 
     @Column(name="address",nullable=false,length=100)
     private String address;
-    
+
     @ManyToOne(optional=false)
     @JoinColumn(name="role_record_id")
     private JpaRoleImpl role;

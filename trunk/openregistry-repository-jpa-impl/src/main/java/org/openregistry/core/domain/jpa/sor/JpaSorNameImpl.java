@@ -30,6 +30,7 @@ import javax.persistence.*;
  * TODO: Add Type field.
  * TODO: fix stubs
  * TODO: we want a type and not "is..." since those are our names
+ * TODO: add unique constraints with new type
  *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
@@ -188,12 +189,12 @@ public final class JpaSorNameImpl extends Entity implements Name {
 
 	public void setOfficialName() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setPreferredName() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
     public void moveToPerson(JpaSorPersonImpl person){
