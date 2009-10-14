@@ -216,7 +216,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 
     /**
      * Test 4: Test of adding two new SoR Persons where there is an exact match (different SoR)
-     * // TODO re-enable this test.  Disabled because it fails.
      */
     @Test
     public void testAddExactPersonWithDifferentSoRs() throws ReconciliationException {
@@ -228,10 +227,10 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 
         assertTrue(result.getTargetObject() instanceof Person);
         assertTrue(result.succeeded());
-        //assertEquals(1, countRowsInTable("prc_persons"));
-        //assertEquals(1, countRowsInTable("prc_names"));
-        //assertEquals(2, countRowsInTable("prs_names"));
-        //assertEquals(2, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(2, countRowsInTable("prs_names"));
+        assertEquals(2, countRowsInTable("prs_sor_persons"));
     }
 
     /**
@@ -240,11 +239,19 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
      *
      * Expectation: kick us out this is an update!
      *
-     * TODO: complete test
      */
-    @Test
+    @Test(expected=IllegalStateException.class)
     public void testAddTwoSoRPersonsWithPartialMatchFromTheSameSoRWhereItsTheSamePerson() {
-        // this should flow to update
+        final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+        final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
+
+        ServiceExecutionResult<Person> serviceExecutionResult = null;
+        try {
+            serviceExecutionResult =  this.personService.addPerson(reconciliationCriteria);
+            this.personService.addPerson(reconciliationCriteria1);
+        } catch (final ReconciliationException e) {
+            this.personService.addPersonAndLink(reconciliationCriteria1, serviceExecutionResult.getTargetObject());
+        }
     }
 
     /**
@@ -284,13 +291,24 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
      * The test requires you to say its the same person.
      *
      * Expectation: we should add a new SoR Record and update existing calculated person.
-     *
-     * TODO: complete this test.
      */
     @Test
     public void testAddTwoSorPersonWithPartialMatchFromDifferentSoRsWhereItsTheSamePerson() {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "SOR2", null);
+
+        ServiceExecutionResult<Person> serviceExecutionResult = null;
+        try {
+            serviceExecutionResult =  this.personService.addPerson(reconciliationCriteria);
+            this.personService.addPerson(reconciliationCriteria1);
+        } catch (final ReconciliationException e) {
+            final ServiceExecutionResult<Person> ser = this.personService.addPersonAndLink(reconciliationCriteria1, serviceExecutionResult.getTargetObject());
+            assertNotNull(ser.getTargetObject());
+            entityManager.flush();
+            assertEquals(1, countRowsInTable("prc_persons"));
+            assertEquals(2, countRowsInTable("prs_names"));
+            assertEquals(2, countRowsInTable("prs_sor_persons"));
+        }
     }
 
     /**

@@ -15,43 +15,33 @@
  */
 package org.openregistry.core.web;
 
-import org.junit.Test;
-import org.junit.Before;
 import static org.junit.Assert.*;
+import org.openregistry.core.domain.IdentifierType;
+import org.openregistry.core.domain.sor.MockSorPerson;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.springframework.webflow.test.execution.AbstractXmlFlowExecutionTests;
 import org.springframework.webflow.test.MockExternalContext;
 import org.springframework.webflow.test.MockFlowBuilderContext;
-import org.springframework.webflow.test.MockRequestContext;
-import org.springframework.webflow.test.MockFlowExecutionContext;
 import org.springframework.webflow.config.FlowDefinitionResourceFactory;
 import org.springframework.webflow.config.FlowDefinitionResource;
-import org.springframework.webflow.execution.View;
-import org.springframework.webflow.execution.FlowExecution;
-import org.springframework.webflow.execution.FlowExecutionContext;
 import org.springframework.webflow.context.ExternalContext;
 import org.springframework.webflow.core.collection.MutableAttributeMap;
 import org.springframework.webflow.core.collection.LocalAttributeMap;
 import org.springframework.beans.factory.ObjectFactory;
-import org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.MockPerson;
-import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.DefaultPersonService;
 import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
-import org.openregistry.core.service.reconciliation.ReconciliationException;
 import org.openregistry.core.service.reconciliation.MockReconciler;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.repository.MockPersonRepository;
 import org.openregistry.core.repository.MockReferenceRepository;
 import org.openregistry.core.repository.PersonRepository;
-import org.openregistry.aspect.OpenRegistryMessageSourceAccessor;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.binding.message.DefaultMessageContext;
+
+import java.util.Map;
 
 /**
  * @author Nancy Mond
@@ -103,9 +93,75 @@ public class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         builderContext.registerBean("personSearchAction", personSearchAction);
     }
     protected ReconciliationCriteria constructReconciliationCriteria(){
-        ReconciliationCriteria criteria = new JpaReconciliationCriteriaImpl();
-        criteria.getPerson().addName();
-        return criteria;
+        final ReconciliationCriteria reconiliationCriteria = new ReconciliationCriteria() {
+
+            private MockSorPerson mockSorPerson = new MockSorPerson();
+            public SorPerson getPerson() {
+                return mockSorPerson;
+            }
+
+            public String getRegion() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getAddressLine2() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getEmailAddress() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public void setAddressLine1(String addressLine1) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getAddressLine1() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getPostalCode() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public void setRegion(String region) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public void setCity(String city) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public Map<IdentifierType, String> getIdentifiersByType() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public void setEmailAddress(String emailAddress) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public void setPhoneNumber(String phoneNumber) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public void setPostalCode(String postalCode) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getCity() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public void setAddressLine2(String addressLine2) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getPhoneNumber() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        };
+        reconiliationCriteria.getPerson().addName();
+        return reconiliationCriteria;
     }
 
     public void testStartFlow() {

@@ -18,6 +18,7 @@ package org.openregistry.core.domain.jpa;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
@@ -87,11 +88,7 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     public String getValue() {
         return this.value;
     }
-
-    public Person getPerson() {
-        return this.person;
-    }
-
+    
     public Boolean isPrimary() {
     	return this.primary;
     }
@@ -101,10 +98,7 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     }
 
     public void setType(final IdentifierType type) {
-        if (!(type instanceof JpaIdentifierTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaIdentifierTypeImpl");
-        }
-
+        Assert.isInstanceOf(JpaIdentifierTypeImpl.class, type, "Requires type JpaIdentifierTypeImpl.");
         this.type = (JpaIdentifierTypeImpl) type;
     }
 
