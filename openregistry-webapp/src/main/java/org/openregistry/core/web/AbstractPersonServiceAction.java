@@ -56,4 +56,12 @@ public abstract class AbstractPersonServiceAction {
         }
         return serviceExecutionResult.succeeded();
     }
+
+    public void setPersonService(PersonService personService){
+        this.personService = personService;
+    }
+
+    public void setSpringErrorValidationErrorConverter(SpringErrorValidationErrorConverter converter){
+        this.converter = converter;
+    }
 }
