@@ -18,6 +18,7 @@ package org.openregistry.core.domain.sor;
 import org.openregistry.core.domain.*;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ import java.util.List;
  * Time: 11:00:47 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface SorRole extends Serializable, MutableDateRange {
+public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
 
     Long getId();
     /**
@@ -57,7 +58,21 @@ public interface SorRole extends Serializable, MutableDateRange {
      */
     void setSourceSorIdentifier(String sorIdentifier);
 
-    Type getAffiliationType();
+    /**
+     * Expires the System of Record Role NOW with the provided reason.
+     *
+     * @param terminationReason the reason for termination.
+     */
+    void expireNow(final Type terminationReason);
+
+    /**
+     * Expires the System of Record role with the provided reason on the provided date.
+     *
+     * @param terminationReason the reason for termination.
+     * @param expirationDate the date the expiration is effective.
+     */
+    void expire(final Type terminationReason, Date expirationDate);
+
 
     int getPercentage();
 
@@ -104,8 +119,6 @@ public interface SorRole extends Serializable, MutableDateRange {
     Url removeURLById(final Long id);
 
     List<Leave> getLeaves();
-
-    String getTitle();
 
     OrganizationalUnit getOrganizationalUnit();
 

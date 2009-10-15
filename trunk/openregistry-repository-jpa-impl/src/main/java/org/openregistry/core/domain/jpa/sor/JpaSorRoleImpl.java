@@ -40,12 +40,10 @@ import javax.persistence.*;
 import java.util.*;
 
 /**
- * Unique constraint assumes each sorPerson can have only one entry for a given role, meaning one Sor can represent multiple roles
- * Created by IntelliJ IDEA.
- * User: Nancy Mond
- * Date: Apr 7, 2009
- * Time: 11:15:09 AM
- * To change this template use File | Settings | File Templates.
+ * JPA-backed implementation of the System of Record role.
+ *
+ * @version $Revision$ $Date$
+ * @since 0.1
  */
 @javax.persistence.Entity(name="sorRole")
 @Table(name="prs_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"sor_person_id","role_id"}))
@@ -133,10 +131,6 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     @JoinColumn(name="termination_t")
     private JpaTypeImpl terminationReason;
 
-    //pointing from the other direction
-    //@Column(name="prc_role_id",nullable = true)
-   //private Long roleId;
-
     public JpaSorRoleImpl() {
         // nothing to do
     }
@@ -144,6 +138,24 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     public JpaSorRoleImpl(final JpaRoleInfoImpl roleInfo, final JpaSorPersonImpl sorPerson) {
         this.roleInfo = roleInfo;
         this.person = sorPerson;
+    }
+
+    public String getCode() {
+        return this.roleInfo.getCode();
+    }
+
+    public void expireNow(final Type terminationReason) {
+        expire(terminationReason, new Date());
+    }
+
+    public void expire(final Type terminationReason, final Date expirationDate) {
+        Assert.isInstanceOf(JpaTypeImpl.class, terminationReason);
+        this.end = expirationDate;
+        this.terminationReason = (JpaTypeImpl) terminationReason;
+    }
+
+    public String getDisplayableName() {
+        return this.roleInfo.getDisplayableName();
     }
 
     public Long getId() {
@@ -168,10 +180,6 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
 
     public RoleInfo getRoleInfo() {
     	return this.roleInfo;
-    }
-
-    public void setRoleInfo(RoleInfo roleInfo) {
-    	this.roleInfo = (JpaRoleInfoImpl) roleInfo;
     }
 
     public String getTitle() {
@@ -233,16 +241,6 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     public void setEnd(final Date date) {
         this.end = date;
     }
-
-    /** pointing from the other direction
-    public void setRoleId(final Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public Long getRoleId() {
-        return this.roleId;
-    }
-    **/
 
 	public Address addAddress() {
 	    final JpaSorAddressImpl jpaAddress = new JpaSorAddressImpl(this);
