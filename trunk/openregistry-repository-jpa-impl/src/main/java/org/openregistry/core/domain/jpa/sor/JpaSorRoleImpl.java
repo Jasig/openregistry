@@ -46,7 +46,7 @@ import java.util.*;
  * @since 0.1
  */
 @javax.persistence.Entity(name="sorRole")
-@Table(name="prs_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"sor_person_id","role_id"}))
+@Table(name="prs_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"sor_source_id","id"}))
 @Audited
 @ValidateDefinition
 public final class JpaSorRoleImpl extends Entity implements SorRole {
