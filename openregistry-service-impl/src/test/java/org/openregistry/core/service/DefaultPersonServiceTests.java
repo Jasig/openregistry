@@ -20,14 +20,13 @@ import org.junit.Before;
 import static org.junit.Assert.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;
-import org.openregistry.core.repository.MockPersonRepository;
-import org.openregistry.core.repository.MockReferenceRepository;
-import org.openregistry.core.repository.PersonRepository;
+import org.openregistry.core.repository.*;
 import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
 import org.openregistry.core.service.reconciliation.MockReconciler;
 import org.openregistry.core.service.reconciliation.ReconciliationResult.*;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
 import org.springframework.beans.factory.ObjectFactory;
+import org.apache.log4j.*;
 
 import java.util.Date;
 
@@ -149,19 +148,45 @@ public class DefaultPersonServiceTests {
     public void testDeleteSoRPersonNoMistakeTwoSoRs() throws ReconciliationException {
         final MockPerson mockPerson = new MockPerson();
 
-        final SorPerson sorPerson = new MockSorPerson();
-        sorPerson.setPersonId(1L);
+		final SorPerson sorPerson = new MockSorPerson();
+		sorPerson.setPersonId(1L);
+		MockSorRole sorRole = new MockSorRole(1L);
+		sorPerson.addRole(sorRole);
 
-        final SorPerson sorPerson1 = new MockSorPerson();
-        sorPerson1.setPersonId(1L);
+		MockRole mockRole = new MockRole(1L);
+		mockRole.setSorRoleId(sorRole.getId());
+		mockPerson.addRole(mockRole);
+
+
+		final SorPerson sorPerson1 = new MockSorPerson();
+		sorPerson1.setPersonId(1L);
+		MockSorRole sorRole1 = new MockSorRole(2L);
+		sorPerson1.addRole(sorRole1);
+
+		MockRole mockRole1 = new MockRole(2L);
+		mockRole1.setSorRoleId(sorRole1.getId());
+		mockPerson.addRole(mockRole1);
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson, sorPerson1});
-
 
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
         this.personService.deleteSystemOfRecordPerson(sorPerson, false, null);
 
-        assertNotNull(personRepository.findByInternalId(1L));
+		Person person = personRepository.findByInternalId(1L);
+
+		assertNotNull(person);
+
+		Type terminationReason = person.getRoles().get(0).getTerminationReason();
+
+		// verify that since there was no mistake, the role remains but a termination reason is set
+		assertEquals(terminationReason.getDataType(),Type.DataTypes.TERMINATION.name());
+		assertEquals(terminationReason.getDescription(),Type.TerminationTypes.UNSPECIFIED.name());
+
+		// verify that the second role does not have a termination reason
+		assertNull(person.getRoles().get(1).getTerminationReason());
+
+		// verify that the sorPerson is gone
+		assertNull(personRepository.findSorByInternalId(1L));
     }
 
     // test delete SoR Person no mistake
@@ -171,14 +196,30 @@ public class DefaultPersonServiceTests {
 
         final SorPerson sorPerson = new MockSorPerson();
         sorPerson.setPersonId(1L);
+		MockSorRole sorRole = new MockSorRole(1L);
+		sorPerson.addRole(sorRole);
+
+		MockRole mockRole = new MockRole(1L);
+		mockRole.setSorRoleId(sorRole.getId());
+		mockPerson.addRole(mockRole);
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
-
 
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
         this.personService.deleteSystemOfRecordPerson(sorPerson, false, null);
 
-        assertNotNull(personRepository.findByInternalId(1L));
+		Person person = personRepository.findByInternalId(1L);
+
+		assertNotNull(person);
+
+		Type terminationReason = person.getRoles().get(0).getTerminationReason();
+
+		// verify that since there was no mistake, the role remains but a termination reason is set
+		assertEquals(terminationReason.getDataType(),Type.DataTypes.TERMINATION.name());
+		assertEquals(terminationReason.getDescription(),Type.TerminationTypes.UNSPECIFIED.name());
+
+		// verify that the sorPerson is gone
+		assertNull(personRepository.findSorByInternalId(1L));
     }
 
     // test delete SoR Person with it being a mistake (and there being two SORs)
@@ -188,33 +229,68 @@ public class DefaultPersonServiceTests {
 
         final SorPerson sorPerson = new MockSorPerson();
         sorPerson.setPersonId(1L);
+		MockSorRole sorRole = new MockSorRole(1L);
+		sorPerson.addRole(sorRole);
+
+		MockRole mockRole = new MockRole(1L);
+		mockRole.setSorRoleId(sorRole.getId());
+		mockPerson.addRole(mockRole);
+
 
         final SorPerson sorPerson1 = new MockSorPerson();
         sorPerson1.setPersonId(1L);
+		MockSorRole sorRole1 = new MockSorRole(2L);
+		sorPerson1.addRole(sorRole1);
+
+		MockRole mockRole1 = new MockRole(2L);
+		mockRole1.setSorRoleId(sorRole1.getId());
+		mockPerson.addRole(mockRole1);
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson, sorPerson1});
-
 
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
         this.personService.deleteSystemOfRecordPerson(sorPerson, true, null);
 
-        assertNotNull(personRepository.findByInternalId(1L));
+
+		Person person = personRepository.findByIdentifier("NetId","testId");
+		assertNotNull(person);
+		assertEquals("Not just one role left",person.getRoles().size(),1);
+		assertEquals((long)person.getRoles().get(0).getId(),2);
     }
 
     // test delete SoR Person with it being a mistake (and only one SoR) (i.e. were the appropriate roles, and names removed? from the calculated person?)
     @Test
     public void testDeleteSoRPersonAsAMistakeWithOnlyOneSoR() throws ReconciliationException {
-        final MockPerson mockPerson = new MockPerson();
 
         final SorPerson sorPerson = new MockSorPerson();
         sorPerson.setPersonId(1L);
+		MockSorRole sorRole = new MockSorRole(1L);
+		sorPerson.addRole(sorRole);
+
+		final MockPerson mockPerson = new MockPerson();
+		MockRole mockRole = new MockRole(1L);
+		mockRole.setSorRoleId(sorRole.getId());
+		mockPerson.addRole(mockRole);
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
 
-
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+		MockReferenceRepository referenceRepository = new MockReferenceRepository();
+        this.personService = new DefaultPersonService(personRepository, referenceRepository, new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
         this.personService.deleteSystemOfRecordPerson(sorPerson, true, null);
 
+		Exception repositoryAccessException = null;
+
+		try {
+			personRepository.findByIdentifier("NetId","testId");
+		} catch (RepositoryAccessException e) {
+			repositoryAccessException = e;
+		}
+
+		// should be unable to find the original person object since it should have been removed from the personRepository
+		assertNotNull(repositoryAccessException);
+
+		// using the local mockPerson variable we should be able to confirm that the roles for the person were removed before the person was purged from the personRepository
+		assertEquals(mockPerson.getRoles().size(),0);
         assertNull(personRepository.findByInternalId(1L));
     }
 

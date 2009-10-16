@@ -153,6 +153,7 @@ public class MockSorPerson extends Entity implements SorPerson {
     }
 
     public void addRole(final SorRole role){
+		roles.add(role);
     }
 
     public synchronized void removeRole(final SorRole role){

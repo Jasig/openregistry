@@ -32,6 +32,8 @@ public class MockPerson implements Person {
 
     private final String identifierValue;
 
+	private List<Role> roles = new ArrayList<Role>();
+
     public MockPerson() {
         this("testId", false, false);
     }
@@ -73,7 +75,7 @@ public class MockPerson implements Person {
     }
 
     public List<Role> getRoles() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return roles;
     }
 
     public Role addRole(RoleInfo roleInfo) {
@@ -85,11 +87,12 @@ public class MockPerson implements Person {
     }
 
     public Role addRole(Role role) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        roles.add(role);
+		return role;
     }
 
     public void removeRole(Role role) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        roles.remove(role);
     }
 
     public void removeAllRoles() {

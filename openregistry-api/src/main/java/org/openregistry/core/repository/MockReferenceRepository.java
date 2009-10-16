@@ -89,9 +89,26 @@ public final class MockReferenceRepository implements ReferenceRepository {
     public List<Type> getTypesBy(final DataTypes type) {
         return null;
     }
-    
+
     public Type findType(final DataTypes type, final String value) {
-        return null;
+        return new Type(){
+
+			public Long getId() {
+				return 1L;
+			}
+
+			public String getDataType() {
+				return type.name();
+			}
+
+			public String getDescription() {
+				return value;
+			}
+
+			public String toString(){
+				return String.format("%s - %s", getDataType(), getDescription());
+			}
+		};
     }
 
     public List<IdentifierType> getIdentifierTypes(){
