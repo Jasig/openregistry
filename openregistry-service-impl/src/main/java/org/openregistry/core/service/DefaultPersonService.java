@@ -166,8 +166,7 @@ public class DefaultPersonService implements PersonService {
             for (final SorRole sorRole : sorPerson.getRoles()) {
                 for (final Role role : person.getRoles()) {
                     if (!role.isTerminated() && sorRole.getId().equals(role.getSorRoleId())) {
-                        role.setEnd(new Date());
-                        role.setTerminationReason(terminationReason);
+                        role.expireNow(terminationReason);
                         role.setSorRoleId(null);
                     }
                 }

@@ -16,6 +16,7 @@
 package org.openregistry.core.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import org.openregistry.core.domain.sor.SorSponsor;
@@ -95,5 +96,20 @@ public interface Role extends RoleInfo, Serializable, MutableDateRange {
      * @return the role id, of the Sor Role.
      */
     Long getSorRoleId();
+
+    /**
+     * Expires the System of Record Role NOW with the provided reason.
+     *
+     * @param terminationReason the reason for termination.
+     */
+    void expireNow(Type terminationReason);
+
+    /**
+     * Expires the System of Record role with the provided reason on the provided date.
+     *
+     * @param terminationReason the reason for termination.
+     * @param expirationDate the date the expiration is effective.
+     */
+    void expire(Type terminationReason, Date expirationDate);
 
 }
