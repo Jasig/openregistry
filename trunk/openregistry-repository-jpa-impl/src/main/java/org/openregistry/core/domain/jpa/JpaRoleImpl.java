@@ -315,4 +315,15 @@ public final class JpaRoleImpl extends Entity implements Role {
     public String getDisplayableName() {
         return this.roleInfo.getDisplayableName();
     }
+
+    public void expireNow(final Type terminationReason) {
+        expire(terminationReason, new Date());
+    }
+
+    // TODO should we check if its expired already?
+    public void expire(final Type terminationReason, final Date expirationDate) {
+        Assert.isInstanceOf(JpaTypeImpl.class, terminationReason);
+        this.end = expirationDate;
+        this.terminationReason = (JpaTypeImpl) terminationReason;
+    }
 }

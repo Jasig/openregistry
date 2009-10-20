@@ -63,7 +63,7 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
      *
      * @param terminationReason the reason for termination.
      */
-    void expireNow(final Type terminationReason);
+    void expireNow(Type terminationReason);
 
     /**
      * Expires the System of Record role with the provided reason on the provided date.
@@ -71,7 +71,7 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
      * @param terminationReason the reason for termination.
      * @param expirationDate the date the expiration is effective.
      */
-    void expire(final Type terminationReason, Date expirationDate);
+    void expire(Type terminationReason, Date expirationDate);
 
 
     int getPercentage();
