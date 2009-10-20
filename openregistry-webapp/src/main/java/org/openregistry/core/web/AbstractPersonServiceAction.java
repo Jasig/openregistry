@@ -61,7 +61,4 @@ public abstract class AbstractPersonServiceAction {
         this.personService = personService;
     }
 
-    public void setSpringErrorValidationErrorConverter(SpringErrorValidationErrorConverter converter){
-        this.converter = converter;
-    }
 }
