@@ -13,13 +13,15 @@ import java.util.*;
  * Time: 1:47:09 PM
  */
 
-public class MockRole extends Entity implements Role{
+public class MockRole extends Entity implements Role {
 
 	private Long id;
 
 	private Type terminationReason;
 
 	private Long sorRoleId;
+
+    private Date end;
 
 	public MockRole(Long id) {
 		this.id = id;
@@ -162,7 +164,8 @@ public class MockRole extends Entity implements Role{
 	public void setStart(Date date) {
 	}
 
-	public void setEnd(Date date) {
+	public void setEnd(final Date date) {
+        this.end = date;
 	}
 
 	public Date getStart() {
@@ -170,6 +173,15 @@ public class MockRole extends Entity implements Role{
 	}
 
 	public Date getEnd() {
-		return null;
+		return this.end;
 	}
+
+    public void expireNow(final Type terminationReason) {
+        expire(terminationReason, new Date());
+    }
+
+    public void expire(final Type terminationReason, final Date expirationDate) {
+        this.terminationReason = terminationReason;
+        this.end = expirationDate;
+    }
 }
