@@ -15,10 +15,9 @@
  */
 package org.openregistry.core.web;
 
+import org.junit.Test;
+import org.junit.Before;
 import static org.junit.Assert.*;
-import org.openregistry.core.domain.IdentifierType;
-import org.openregistry.core.domain.sor.MockSorPerson;
-import org.openregistry.core.domain.sor.SorPerson;
 import org.springframework.webflow.test.execution.AbstractXmlFlowExecutionTests;
 import org.springframework.webflow.test.MockExternalContext;
 import org.springframework.webflow.test.MockFlowBuilderContext;
@@ -27,21 +26,21 @@ import org.springframework.webflow.config.FlowDefinitionResource;
 import org.springframework.webflow.context.ExternalContext;
 import org.springframework.webflow.core.collection.MutableAttributeMap;
 import org.springframework.webflow.core.collection.LocalAttributeMap;
-import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.webflow.core.collection.AttributeMap;
+import org.springframework.webflow.engine.Flow;
+import org.springframework.webflow.engine.EndState;
+import org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
-import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.MockPerson;
-import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.DefaultPersonService;
-import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
-import org.openregistry.core.service.reconciliation.MockReconciler;
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
+import org.openregistry.core.domain.Name;
 import org.openregistry.core.repository.MockPersonRepository;
-import org.openregistry.core.repository.MockReferenceRepository;
 import org.openregistry.core.repository.PersonRepository;
-import org.springframework.context.ApplicationContext;
+import org.springframework.binding.mapping.MappingResults;
+import org.springframework.binding.mapping.Mapper;
 
-import java.util.Map;
+
+import java.util.Date;
 
 /**
  * @author Nancy Mond
@@ -50,37 +49,17 @@ import java.util.Map;
 public class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
     private final String OR_WEBAPP_IDENTIFIER = "or-webapp";
-	private final String REGISTRAR_IDENTIFIER = "registrar";
-
 	private static final String EMAIL_ADDRESS = "test@test.edu";
 	private static final String PHONE_NUMBER = "555-555-5555";
 	private static final String RUDYARD = "Rudyard";
 	private static final String KIPLING = "Kipling";
-	private static final String RUDY = "Rudy";
-	private static final String KIPSTEIN = "Kipstein";
 
-    private PersonSearchAction personSearchAction;
+    private MockPersonSearchAction personSearchAction;
     private PersonRepository personRepository;
-    private DefaultPersonService personService;
-    private ObjectFactory<Person> objectFactory;
-    private ServiceExecutionResult serviceExecutionResult;
-    private SpringErrorValidationErrorConverter converter;
-    private ApplicationContext applicationContext;
 
     protected void setUp(){
-        //personService = EasyMock.createMock(PersonService.class);
         this.personRepository = new MockPersonRepository(new MockPerson());
-        this.objectFactory = new ObjectFactory<Person>() {
-            public Person getObject() {
-                return new MockPerson();
-            }
-        };
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationResult.ReconciliationType.NONE));
-        this.personService.setPersonObjectFactory(this.objectFactory);
-        this.converter = new SpringErrorValidationErrorConverter();
-        personSearchAction = new PersonSearchAction();
-        personSearchAction.setPersonService(this.personService);
-        personSearchAction.setSpringErrorValidationErrorConverter(converter);
+        personSearchAction = new MockPersonSearchAction();
     }
 
     @Override
@@ -92,80 +71,27 @@ public class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     protected void configureFlowBuilderContext(MockFlowBuilderContext builderContext) {
         builderContext.registerBean("personSearchAction", personSearchAction);
     }
-    protected ReconciliationCriteria constructReconciliationCriteria(){
-        final ReconciliationCriteria reconiliationCriteria = new ReconciliationCriteria() {
+    
+    protected ReconciliationCriteria constructReconciliationCriteria(final String firstName, final String lastName, final String ssn, final String emailAddress, final String phoneNumber, Date birthDate, final String sor){
+        final ReconciliationCriteria reconciliationCriteria = new JpaReconciliationCriteriaImpl();
+        reconciliationCriteria.setEmailAddress(emailAddress);
+        reconciliationCriteria.setPhoneNumber(phoneNumber);
 
-            private MockSorPerson mockSorPerson = new MockSorPerson();
-            public SorPerson getPerson() {
-                return mockSorPerson;
-            }
+        final SorPerson sorPerson = reconciliationCriteria.getPerson();
+        sorPerson.setDateOfBirth(birthDate);
+        sorPerson.setSourceSor(sor);
+        sorPerson.setSsn(ssn);
 
-            public String getRegion() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public String getAddressLine2() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public String getEmailAddress() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public void setAddressLine1(String addressLine1) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public String getAddressLine1() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public String getPostalCode() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public void setRegion(String region) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public void setCity(String city) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public Map<IdentifierType, String> getIdentifiersByType() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public void setEmailAddress(String emailAddress) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public void setPhoneNumber(String phoneNumber) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public void setPostalCode(String postalCode) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public String getCity() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public void setAddressLine2(String addressLine2) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public String getPhoneNumber() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-        };
-        reconiliationCriteria.getPerson().addName();
-        return reconiliationCriteria;
+        final Name name = sorPerson.addName();
+        name.setFamily(lastName);
+        name.setGiven(firstName);
+        name.setOfficialName();
+       
+        return reconciliationCriteria;
     }
 
     public void testStartFlow() {
-        ReconciliationCriteria criteria = constructReconciliationCriteria();
+        ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
         MutableAttributeMap input = new LocalAttributeMap();
 	    input.put("personSearch", criteria);
         ExternalContext context = new MockExternalContext();
@@ -174,18 +100,98 @@ public class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         assertCurrentStateEquals("addPerson");
     }
 
+    //validation errors found
     public void testCriteriaSubmitError() {
-        ReconciliationCriteria criteria = constructReconciliationCriteria();
+        ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, RUDYARD, "INVALID_SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
         setCurrentState("addPerson");
         getFlowScope().put("personSearch", criteria);
 
         MockExternalContext context = new MockExternalContext();
 
-        //submit with no input
-        //context.setEventId("submitAddPerson");
-        //resumeFlow(context);
-        //assertCurrentStateEquals("addPerson");
+        //submit with invalid input
+        context.setEventId("submitAddPerson");
+        resumeFlow(context);
+        assertCurrentStateEquals("addPerson");
     }
 
+    //reconciliation returns NONE.  Adds the new person.  Adds the role.
+    public void testAddNewPerson() {
+        ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "UNIQUE_SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
+ 
+        setCurrentState("addPerson");
+        getFlowScope().put("personSearch", criteria);
 
+        getFlowDefinitionRegistry().registerFlowDefinition(createMockAddRoleSubflow());
+
+        MockExternalContext context = new MockExternalContext();
+
+        context.setEventId("submitAddPerson");
+        resumeFlow(context);
+        assertCurrentStateEquals("roleAddedSucceeded");
+    }
+
+    //reconciliation returns reconciliation (view matches)
+    public void testAddPersonMatchesFound() {
+        ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
+
+        setCurrentState("addPerson");
+        getFlowScope().put("personSearch", criteria);
+
+        MockExternalContext context = new MockExternalContext();
+
+        context.setEventId("submitAddPerson");
+        resumeFlow(context);
+        assertCurrentStateEquals("viewMatches");
+    }
+
+    //test case to start at viewMatches and continue to force add
+    public void testForceAdd() {
+        ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
+
+        setCurrentState("addPerson");
+        getFlowScope().put("personSearch", criteria);
+
+        getFlowDefinitionRegistry().registerFlowDefinition(createMockAddRoleSubflow());
+        MockExternalContext context = new MockExternalContext();
+
+        context.setEventId("submitAddPerson");
+        resumeFlow(context);
+        assertCurrentStateEquals("viewMatches");
+        context.setEventId("submitAddPerson");
+        resumeFlow(context);
+        assertCurrentStateEquals("roleAddedSucceeded");        
+    }
+    
+
+    // test case to start at viewMatches and continue to selecting a match and ending at addRole.
+     public void testSelectMatchAddRole() {
+        ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
+
+        setCurrentState("addPerson");
+        getFlowScope().put("personSearch", criteria);
+
+        getFlowDefinitionRegistry().registerFlowDefinition(createMockAddRoleSubflow());
+        MockExternalContext context = new MockExternalContext();
+
+        context.setEventId("submitAddPerson");
+        resumeFlow(context);
+        assertCurrentStateEquals("viewMatches");
+        context.setEventId("submitAddRole");
+        context.putRequestParameter("personId","1");
+        resumeFlow(context);
+        assertCurrentStateEquals("roleAddedSucceeded"); 
+    }
+
+    // mock add role subflow
+    public Flow createMockAddRoleSubflow(){
+        Flow mockAddRoleFlow = new Flow("addRole");
+        mockAddRoleFlow.setInputMapper(new Mapper() {
+            public MappingResults map(Object source, Object target)  {
+                assertNotNull(((AttributeMap)source).get("sorPerson"));
+                return null;
+            }
+        });
+        new EndState(mockAddRoleFlow, "roleWasAdded");
+        return mockAddRoleFlow;
+    }
 }
