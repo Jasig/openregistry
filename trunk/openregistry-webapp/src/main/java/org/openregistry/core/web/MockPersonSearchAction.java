@@ -15,22 +15,18 @@
  */
 package org.openregistry.core.web;
 
+import org.openregistry.core.service.GeneralServiceExecutionResult;
 import org.springframework.binding.message.MessageContext;
-import org.springframework.binding.message.MessageBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.webflow.execution.RequestContext;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.MockSorPerson;
 import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.MockPerson;
 import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.MockServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.MockMaybeReconciliationResult;
-import org.openregistry.aspect.OpenRegistryMessageSourceAccessor;
 
 /**
  * Created by IntelliJ IDEA.
@@ -50,7 +46,7 @@ public final class MockPersonSearchAction extends AbstractPersonServiceAction {
             return "validationError";
         }
 
-        ServiceExecutionResult<Person> result = new MockServiceExecutionResult(AddServiceName,new MockPerson());
+        ServiceExecutionResult<Person> result = new GeneralServiceExecutionResult<Person>(AddServiceName,new MockPerson());
 
         if (reconciliationCriteria.getPerson().getSsn().equals("UNIQUE_SSN")){
             context.getFlowScope().put("serviceExecutionResult", result);
@@ -64,7 +60,7 @@ public final class MockPersonSearchAction extends AbstractPersonServiceAction {
     }
 
      public ServiceExecutionResult addSorPerson(final ReconciliationCriteria reconciliationCriteria, final MessageContext context) {
-        ServiceExecutionResult<Person> result = new MockServiceExecutionResult(AddServiceName,new MockPerson());
+        ServiceExecutionResult<Person> result = new GeneralServiceExecutionResult<Person>(AddServiceName,new MockPerson());
         return result;
     }
 
