@@ -46,7 +46,7 @@ public final class MockPersonSearchAction extends AbstractPersonServiceAction {
             return "validationError";
         }
 
-        ServiceExecutionResult<Person> result = new GeneralServiceExecutionResult<Person>(AddServiceName,new MockPerson());
+        ServiceExecutionResult<Person> result = new GeneralServiceExecutionResult<Person>(new MockPerson());
 
         if (reconciliationCriteria.getPerson().getSsn().equals("UNIQUE_SSN")){
             context.getFlowScope().put("serviceExecutionResult", result);
@@ -60,7 +60,7 @@ public final class MockPersonSearchAction extends AbstractPersonServiceAction {
     }
 
      public ServiceExecutionResult addSorPerson(final ReconciliationCriteria reconciliationCriteria, final MessageContext context) {
-        ServiceExecutionResult<Person> result = new GeneralServiceExecutionResult<Person>(AddServiceName,new MockPerson());
+        ServiceExecutionResult<Person> result = new GeneralServiceExecutionResult<Person>(new MockPerson());
         return result;
     }
 
