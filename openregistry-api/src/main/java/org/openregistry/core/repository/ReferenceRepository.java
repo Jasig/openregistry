@@ -61,6 +61,8 @@ public interface ReferenceRepository {
      * @param type the data type (i.e. TERMINATION)
      * @param value the value (i.e. Retired)
      * @return the Type object.
+     *
+     * // TODO add an error to this javadoc and implementation
      */
     Type findType(Type.DataTypes type, String value);
 

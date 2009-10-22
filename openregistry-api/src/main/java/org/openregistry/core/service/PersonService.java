@@ -96,10 +96,10 @@ public interface PersonService {
      * @return true if it succeeded, false otherwise.
      * @throws IllegalArgumentException if the sorPerson is null.
      */
-    boolean deleteSystemOfRecordPerson(SorPerson sorPerson, boolean mistake, Type.TerminationTypes terminationTypes) throws IllegalArgumentException;
+    boolean deleteSystemOfRecordPerson(SorPerson sorPerson, boolean mistake, String terminationTypes) throws IllegalArgumentException;
 
     /**
-     * See {@link PersonService#deleteSystemOfRecordPerson(org.openregistry.core.domain.sor.SorPerson, boolean, org.openregistry.core.domain.Type.TerminationTypes)}.  This is a convenience
+     * See {@link PersonService#deleteSystemOfRecordPerson(org.openregistry.core.domain.sor.SorPerson, boolean, String)}.  This is a convenience
      * method on top of that.
      *
      * @param sorSource the source name for the system of record (i.e or-webapp)
@@ -110,7 +110,7 @@ public interface PersonService {
      * @throws IllegalArgumentException if the sorSource or sorId is null
      * @throws PersonNotFoundException if the person could not be found from the sorSource and sorId
      */
-    boolean deleteSystemOfRecordPerson(String sorSource, String sorId, boolean mistake, Type.TerminationTypes terminationTypes) throws PersonNotFoundException, IllegalArgumentException;
+    boolean deleteSystemOfRecordPerson(String sorSource, String sorId, boolean mistake, String terminationTypes) throws PersonNotFoundException, IllegalArgumentException;
 
     /**
      * Validate, add and persist in the Open Registry a given Role for a given Person
