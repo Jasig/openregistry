@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * Component defining the main public API for interacting with Open Registry Persons subsystem.
- * It acts as the main orginazing application service layer component
+ * It acts as the main organizing application service layer component
  * for the Persons subsystem of the Open Registry.
  *
  * @since 1.0
