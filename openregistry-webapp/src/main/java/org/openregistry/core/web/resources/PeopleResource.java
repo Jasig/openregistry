@@ -249,7 +249,7 @@ public final class PeopleResource {
                                                @QueryParam("mistake") @DefaultValue("false") final boolean mistake ,
                                                @QueryParam("terminationType") @DefaultValue("UNSPECIFIED") final String terminationType) {
         try {
-            if (!this.personService.deleteSystemOfRecordPerson(sorSource, sorId, mistake, Type.TerminationTypes.valueOf(terminationType))) {
+            if (!this.personService.deleteSystemOfRecordPerson(sorSource, sorId, mistake, terminationType)) {
                 throw new WebApplicationException(new RuntimeException(String.format("Unable to Delete SorPerson for SoR [ %s ] with ID [ %s ]", sorSource, sorId)), 500);
             }
             //HTTP 204

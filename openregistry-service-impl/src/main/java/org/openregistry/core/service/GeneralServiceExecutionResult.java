@@ -34,8 +34,6 @@ import java.util.Collections;
  */
 public class GeneralServiceExecutionResult<T> implements ServiceExecutionResult<T> {
 
-    private final String serviceName;
-
     private final Date serviceExecutionDate = new Date();
 
     private final T targetObject;
@@ -44,16 +42,15 @@ public class GeneralServiceExecutionResult<T> implements ServiceExecutionResult<
 
     private boolean succeeded;  
 
-    public GeneralServiceExecutionResult(final String serviceName, final T targetObject) {
-        this(serviceName, targetObject, null);
+    public GeneralServiceExecutionResult(final T targetObject) {
+        this(targetObject, null);
     }
 
-    public GeneralServiceExecutionResult(final String serviceName, final List<ValidationError> validationErrors) {
-        this(serviceName, null, validationErrors);
+    public GeneralServiceExecutionResult(final List<ValidationError> validationErrors) {
+        this(null, validationErrors);
     }
 
-    public GeneralServiceExecutionResult(final String serviceName, final T targetObject, final List<ValidationError> validationErrors) {
-        this.serviceName = serviceName;
+    public GeneralServiceExecutionResult(final T targetObject, final List<ValidationError> validationErrors) {
         this.targetObject = targetObject;
         this.validationErrors = validationErrors != null ? Collections.unmodifiableList(validationErrors) : Collections.<ValidationError>emptyList();
         this.succeeded = this.validationErrors.isEmpty();
@@ -61,10 +58,6 @@ public class GeneralServiceExecutionResult<T> implements ServiceExecutionResult<
 
     public Date getExecutionDate() {
         return new Date(this.serviceExecutionDate.getTime());
-    }
-
-    public String getServiceName() {
-        return this.serviceName;
     }
 
     public T getTargetObject() {

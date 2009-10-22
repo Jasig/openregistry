@@ -445,7 +445,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         assertEquals(2, countRowsInTable("prs_sor_persons"));
         assertEquals(2, countRowsInTable("prs_names"));
 
-        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson, false, Type.TerminationTypes.FIRED));
+        assertTrue(this.personService.deleteSystemOfRecordPerson(sorPerson, false, "FIRED"));
 
         this.entityManager.flush();
 

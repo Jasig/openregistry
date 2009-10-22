@@ -196,11 +196,10 @@ public class DefaultPersonService implements PersonService {
 
     @Transactional
     public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
-        final String serviceName = "PersonService.validateAndSaveRoleForSorPerson";
         final List<ValidationError> validationErrors = validateAndConvert(sorRole);
 
         if (!validationErrors.isEmpty()) {
-            return new GeneralServiceExecutionResult<SorRole>(serviceName, sorRole, validationErrors);
+            return new GeneralServiceExecutionResult<SorRole>(sorRole, validationErrors);
         }
 
         logger.info("validateAndSaveRoleForSorPerson: sorPerson.getPersonId(): "+ sorPerson.getPersonId() + "role info code: " +sorRole.getRoleInfo().getCode()) ;
@@ -216,27 +215,26 @@ public class DefaultPersonService implements PersonService {
 
         this.personRepository.savePerson(person);
 
-        return new GeneralServiceExecutionResult<SorRole>(serviceName, sorRole);
+        return new GeneralServiceExecutionResult<SorRole>(sorRole);
     }
 
     @Transactional
     public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException {
         Assert.notNull(reconciliationCriteria,"reconciliationCriteria cannot be null");
         final List<ValidationError> validationErrors = validateAndConvert(reconciliationCriteria);
-        final String serviceName = "PersonService.addPerson";
 
         if (!validationErrors.isEmpty()) {
-            return new GeneralServiceExecutionResult<Person>(serviceName, validationErrors);
+            return new GeneralServiceExecutionResult<Person>(validationErrors);
         }
 
         final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
 
         switch (result.getReconciliationType()) {
             case NONE:
-                return new GeneralServiceExecutionResult<Person>(serviceName, magic(reconciliationCriteria));
+                return new GeneralServiceExecutionResult<Person>(magic(reconciliationCriteria));
 
             case EXACT:
-                return new GeneralServiceExecutionResult<Person>(serviceName, magicUpdate(reconciliationCriteria, result));
+                return new GeneralServiceExecutionResult<Person>(magicUpdate(reconciliationCriteria, result));
         }
 
         this.criteriaCache.put(reconciliationCriteria, result);
@@ -254,8 +252,7 @@ public class DefaultPersonService implements PersonService {
 
         this.criteriaCache.remove(reconciliationCriteria);
 
-        final String serviceName = "PersonService.addPerson";
-        return new GeneralServiceExecutionResult<Person>(serviceName, magic(reconciliationCriteria));
+        return new GeneralServiceExecutionResult<Person>(magic(reconciliationCriteria));
     }
 
     public ServiceExecutionResult<Person> addPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) throws IllegalArgumentException, IllegalStateException {
@@ -273,7 +270,7 @@ public class DefaultPersonService implements PersonService {
                 addSorPersonAndLink(reconciliationCriteria, person);
                 final Person savedPerson = this.personRepository.findByInternalId(person.getId());
                 recalculateCalculatedPerson(savedPerson);
-                return new GeneralServiceExecutionResult<Person>("PersonService.addPersonAndLink", savedPerson);
+                return new GeneralServiceExecutionResult<Person>(savedPerson);
             }
         }
 
@@ -437,20 +434,16 @@ public class DefaultPersonService implements PersonService {
      * @return serviceExecutionResult.
      */
     @Transactional
-    public ServiceExecutionResult<SorPerson> updateSorPerson(SorPerson sorPerson) {
-        final String serviceName = "PersonService.updateSorPerson";
-
+    public ServiceExecutionResult<SorPerson> updateSorPerson(final SorPerson sorPerson) {
         final List<ValidationError> validationErrors = validateAndConvert(sorPerson);
 
         if (!validationErrors.isEmpty()) {
-            return new GeneralServiceExecutionResult<SorPerson>(serviceName, sorPerson, validationErrors);
+            return new GeneralServiceExecutionResult<SorPerson>(validationErrors);
         }
 
         // Save Sor Person
         logger.info("PersonService:updateSorPerson: updating person...");
-        sorPerson = this.personRepository.saveSorPerson(sorPerson);
-
-        return new GeneralServiceExecutionResult<SorPerson>(serviceName, sorPerson);
+        return new GeneralServiceExecutionResult<SorPerson>(this.personRepository.saveSorPerson(sorPerson));
 
         // TODO Need to update the calculated person. Need to establish rules to do this. OR-59
     }
@@ -463,20 +456,17 @@ public class DefaultPersonService implements PersonService {
      */
     @Transactional
     public ServiceExecutionResult<SorRole> updateSorRole(SorRole role) {
-        final String serviceName = "PersonService.updateSorRole";
-        logger.info("PersonService:updateSorRole:");
-
         final List<ValidationError> validationErrors = validateAndConvert(role);
         
         if (!validationErrors.isEmpty()) {
-            return new GeneralServiceExecutionResult<SorRole>(serviceName, role, validationErrors);
+            return new GeneralServiceExecutionResult<SorRole>(validationErrors);
         }
 
         logger.info("PersonService:updateSorPerson: updating role...");
         // Save Sor Person
         role = this.personRepository.saveSorRole(role);
 
-        return new GeneralServiceExecutionResult<SorRole>(serviceName, role);
+        return new GeneralServiceExecutionResult<SorRole>(role);
 
         // TODO Need to update the calculated role. Need to establish rules to do this. OR-58
     }
