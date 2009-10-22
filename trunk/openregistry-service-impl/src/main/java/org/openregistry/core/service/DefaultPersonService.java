@@ -137,10 +137,13 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
+    /**
+     * This does not explicitly delete the names because its assumed the recalculation will clean it up.
+     */    
     @Transactional
-    public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson, final boolean mistake, final Type.TerminationTypes terminationTypes) {
+    public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson, final boolean mistake, final String terminationTypes) {
         Assert.notNull(sorPerson, "sorPerson cannot be null.");
-        final Type.TerminationTypes terminationTypeToUse = terminationTypes != null ? terminationTypes : Type.TerminationTypes.UNSPECIFIED;
+        final String terminationTypeToUse = terminationTypes != null ? terminationTypes : Type.TerminationTypes.UNSPECIFIED.name();
         
         final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
         Assert.notNull(person, "person cannot be null.");
@@ -160,15 +163,19 @@ public class DefaultPersonService implements PersonService {
             if (number.intValue() == 1) {
                 this.personRepository.deletePerson(person);
             }
-        } else {
-            //we do this explicitly here because once they're gone we can't re-calculate?  We might move to this to the recalculateCalculatedPerson method.
-            final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationTypeToUse.name());
-            for (final SorRole sorRole : sorPerson.getRoles()) {
-                for (final Role role : person.getRoles()) {
-                    if (!role.isTerminated() && sorRole.getId().equals(role.getSorRoleId())) {
-                        role.expireNow(terminationReason);
-                        role.setSorRoleId(null);
-                    }
+
+            this.personRepository.deleteSorPerson(sorPerson);
+            return true;
+        }
+
+        //we do this explicitly here because once they're gone we can't re-calculate?  We might move to this to the recalculateCalculatedPerson method.
+        final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationTypeToUse);
+
+        for (final SorRole sorRole : sorPerson.getRoles()) {
+            for (final Role role : person.getRoles()) {
+                if (!role.isTerminated() && sorRole.getId().equals(role.getSorRoleId())) {
+                    role.expireNow(terminationReason);
+                    role.setSorRoleId(null);
                 }
             }
         }
@@ -179,7 +186,7 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public boolean deleteSystemOfRecordPerson(final String sorSource, final String sorId, final boolean mistake, final Type.TerminationTypes terminationTypes) {
+    public boolean deleteSystemOfRecordPerson(final String sorSource, final String sorId, final boolean mistake, final String terminationTypes) {
         Assert.notNull(sorSource, "sorSource cannot be null.");
         Assert.notNull(sorId, "sorId cannot be null.");
         final SorPerson sorPerson = this.personRepository.findBySorIdentifierAndSource(sorSource, sorId);
@@ -303,7 +310,7 @@ public class DefaultPersonService implements PersonService {
     }
 
     /**
-     * Method to call for recalculating a calculated person.
+     * Method to call for recalculating a calculated person.  This should persist the person when done.
      *
      * @param person the person to recalculate.
      */
@@ -317,6 +324,7 @@ public class DefaultPersonService implements PersonService {
          *
          * It should be smart enough to handle initial calculation AND recalculation.
          */
+        this.personRepository.savePerson(person);
     }
 
     /**
