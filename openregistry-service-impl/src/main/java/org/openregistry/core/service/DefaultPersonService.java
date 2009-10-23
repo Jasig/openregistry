@@ -174,8 +174,7 @@ public class DefaultPersonService implements PersonService {
         for (final SorRole sorRole : sorPerson.getRoles()) {
             for (final Role role : person.getRoles()) {
                 if (!role.isTerminated() && sorRole.getId().equals(role.getSorRoleId())) {
-                    role.expireNow(terminationReason);
-                    role.setSorRoleId(null);
+                    role.expireNow(terminationReason, true);
                 }
             }
         }
@@ -196,31 +195,38 @@ public class DefaultPersonService implements PersonService {
 
     @Transactional
     public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
+        Assert.notNull(sorPerson, "SorPerson cannot be null.");
+        Assert.notNull(sorRole, "SorRole cannot be null.");
         final List<ValidationError> validationErrors = validateAndConvert(sorRole);
 
         if (!validationErrors.isEmpty()) {
-            return new GeneralServiceExecutionResult<SorRole>(sorRole, validationErrors);
+            return new GeneralServiceExecutionResult<SorRole>(validationErrors);
         }
 
-        logger.info("validateAndSaveRoleForSorPerson: sorPerson.getPersonId(): "+ sorPerson.getPersonId() + "role info code: " +sorRole.getRoleInfo().getCode()) ;
-        //find the calculated person and create and add a calculated role
-        Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
+        // check if the SoR Role has an ID assigned to it already
+        if (!StringUtils.hasText(sorRole.getSorId())) {
+            sorRole.setSorId(this.identifierGenerator.generateNextString());
+        }
 
-        SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
-        SorRole savedSorRole = savedSorPerson.pickOutRole(sorRole.getRoleInfo().getCode());
+        sorRole.setSourceSorIdentifier(sorPerson.getSourceSor());
 
-        logger.info("validateAndSaveRoleForSorPerson: sor role found: "+ savedSorRole.getId()) ;
+        final SorPerson newSorPerson = this.personRepository.saveSorPerson(sorPerson);
+        final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
 
-        person.addRole(savedSorRole.getRoleInfo(), savedSorRole);
+        recalculateCalculatedPerson(person);
 
-        this.personRepository.savePerson(person);
+        for (final SorRole newRole : newSorPerson.getRoles()) {
+            if (newRole.getSorId().equals(sorRole.getSorId())) {
+                return new GeneralServiceExecutionResult<SorRole>(newRole);
+            }
+        }
 
-        return new GeneralServiceExecutionResult<SorRole>(sorRole);
+        throw new IllegalStateException("We shouldn't ever get here.");
     }
 
     @Transactional
     public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException {
-        Assert.notNull(reconciliationCriteria,"reconciliationCriteria cannot be null");
+        Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
         final List<ValidationError> validationErrors = validateAndConvert(reconciliationCriteria);
 
         if (!validationErrors.isEmpty()) {
@@ -312,12 +318,27 @@ public class DefaultPersonService implements PersonService {
      * @param person the person to recalculate.
      */
     protected void recalculateCalculatedPerson(final Person person) {
+        final List<SorPerson> persons = this.personRepository.getSoRRecordsForPerson(person);
+
+        // update the list of calculated roles for this person
+        for (final SorPerson sorPerson : persons) {
+            for (final SorRole sorRole : sorPerson.getRoles()) {
+                final Role role = person.findRoleBySoRRoleId(sorRole.getId());
+
+                if (role == null) {
+                    person.addRole(sorRole);
+                } else {
+                    role.recalculate(sorRole);   
+                }
+            }
+        }
         /*
          * Nothing to do here yet, but this work flow should include:
          * 1. Choosing the appropriate names (and removing any unused names)
          * 2. Transitioning SorPerson information to Calculated Person (i.e. choosing)
-         * 3. Transitioning SorRoles to Calculated Roles (and associated information)
+         * 3. Transitioning SorRoles to Calculated Roles (and associated information) (/)
          * 4. Calculating additional attributes.
+         * 5. Preferences
          *
          * It should be smart enough to handle initial calculation AND recalculation.
          */
@@ -560,7 +581,7 @@ public class DefaultPersonService implements PersonService {
         for (final SorRole sorRole : sorRoles) {
             for (final Role role : fromPerson.getRoles()) {
                 if (sorRole.getId().equals(role.getSorRoleId())) {
-                    toPerson.addRole(sorRole.getRoleInfo(),sorRole);
+                    toPerson.addRole(sorRole);
                     rolesToDelete.add(role);
                 }
             }

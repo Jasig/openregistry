@@ -16,9 +16,9 @@
 package org.openregistry.core.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
+import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorSponsor;
 
 /**
@@ -28,25 +28,17 @@ import org.openregistry.core.domain.sor.SorSponsor;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public interface Role extends RoleInfo, Serializable, MutableDateRange {
-
-    Long getId();
+public interface Role extends RoleInfo, Serializable, DateRange {
 
     Set<Address> getAddresses();
 
-    Sponsor setSponsor();
-    
     Sponsor addSponsor(SorSponsor sorSponsor);
     
     Sponsor getSponsor();
 
     int getPercentage();
 
-    void setPercentage(int percentage);
-
     Type getPersonStatus();
-
-    void setPersonStatus(Type personStatus);
 
     Set<Phone> getPhones();
 
@@ -54,20 +46,12 @@ public interface Role extends RoleInfo, Serializable, MutableDateRange {
 
     Set<Url> getUrls();
 
-    Address addAddress();
-    
     Address addAddress(Address sorAddress);
 
-    Url addUrl();
-    
     Url addUrl(Url sorUrl);
 
-    EmailAddress addEmailAddress();
-    
     EmailAddress addEmailAddress(EmailAddress sorEmailAddress);
 
-    Phone addPhone();
-    
     Phone addPhone(Phone sorPhone);
 
     Set<Leave> getLeaves();
@@ -76,20 +60,12 @@ public interface Role extends RoleInfo, Serializable, MutableDateRange {
 
     Type getTerminationReason();
 
-    void setTerminationReason(Type reason);
-
     /**
      * Determine if this role has been terminated for an associated Person
      * 
      * @return true if the role is terminated, false otherwise, i.e. the role is active
      */
     boolean isTerminated();
-
-    /**
-     * Sets the sor role Id to create the link between the calculated role and the Sor Role.
-     * @param sorRoleId the role Id.  CANNOT be null.
-     */
-    void setSorRoleId(Long sorRoleId);
 
     /**
      * Returns the Sor role identifier, if one has been set.  If there is a calculated role, this MUST be set.
@@ -101,16 +77,9 @@ public interface Role extends RoleInfo, Serializable, MutableDateRange {
      * Expires the System of Record Role NOW with the provided reason.
      *
      * @param terminationReason the reason for termination.
+     * @param orphaned true if the SoRRole is actually being deleted.
      */
-    void expireNow(Type terminationReason);
+    void expireNow(Type terminationReason, boolean orphaned);
 
-    /**
-     * Expires the System of Record role with the provided reason on the provided date.
-     *
-     * @param terminationReason the reason for termination.
-     * @param expirationDate the date the expiration is effective.
-     */
-    void expire(Type terminationReason, Date expirationDate);
-    
-
+    void recalculate(SorRole sorRole);
 }

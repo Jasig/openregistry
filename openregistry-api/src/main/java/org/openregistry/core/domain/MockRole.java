@@ -1,3 +1,18 @@
+/**
+ * Copyright (C) 2009 Jasig, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.openregistry.core.domain;
 
 import org.openregistry.core.domain.internal.*;
@@ -35,17 +50,7 @@ public class MockRole extends Entity implements Role {
 		return 0;
 	}
 
-	public void setPercentage(int percentage) {
-	}
-
 	public Type getPersonStatus() {
-		return null;
-	}
-
-	public void setPersonStatus(Type personStatus) {
-	}
-
-	public Sponsor setSponsor() {
 		return null;
 	}
 
@@ -61,10 +66,6 @@ public class MockRole extends Entity implements Role {
 		return terminationReason;
 	}
 
-	public void setTerminationReason(Type reason) {
-		this.terminationReason = reason;
-	}
-
 	public boolean isTerminated() {
 		return false;
 	}
@@ -78,10 +79,6 @@ public class MockRole extends Entity implements Role {
 	}
 
 	public Set<Address> getAddresses() {
-		return null;
-	}
-
-	public Address addAddress() {
 		return null;
 	}
 
@@ -105,23 +102,13 @@ public class MockRole extends Entity implements Role {
 		return null;
 	}
 
-	public Phone addPhone() {
-		return null;
-	}
 
 	public Phone addPhone(Phone sorPhone) {
 		return null;
 	}
 
-	public Phone removePhoneById(Long id) {
-		return null;
-	}
 
 	public Set<Url> getUrls() {
-		return null;
-	}
-
-	public Url addUrl() {
 		return null;
 	}
 
@@ -161,13 +148,6 @@ public class MockRole extends Entity implements Role {
 		return null;
 	}
 
-	public void setStart(Date date) {
-	}
-
-	public void setEnd(final Date date) {
-        this.end = date;
-	}
-
 	public Date getStart() {
 		return null;
 	}
@@ -176,12 +156,16 @@ public class MockRole extends Entity implements Role {
 		return this.end;
 	}
 
-    public void expireNow(final Type terminationReason) {
-        expire(terminationReason, new Date());
+    public void expireNow(final Type terminationReason, final boolean orphaned) {
+        this.terminationReason = terminationReason;
+        this.end = new Date();
+
+        if (orphaned) {
+            this.sorRoleId = null;
+        }
     }
 
-    public void expire(final Type terminationReason, final Date expirationDate) {
-        this.terminationReason = terminationReason;
-        this.end = expirationDate;
+    public void recalculate(final SorRole sorRole) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
