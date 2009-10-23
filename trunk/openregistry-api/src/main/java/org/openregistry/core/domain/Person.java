@@ -64,29 +64,12 @@ public interface Person extends Serializable {
     List<Role> getRoles();
 
     /**
-     * Add a new role to a collection of roles this person holds.
-     *
-     * @param roleInfo the basic role information about this role (not customizable)
-     * @return role new role to add to this person instance.  NEVER returns null.
-     */
-    Role addRole(RoleInfo roleInfo);
- 
-    /**
      * Add a new role to a collection of roles this person holds and populate it with the data from the given sorRole.
      *
-     * @param roleInfo the basic role information about this role (not customizable)
      * @param sorRole the sor role to populate the data from
      * @return role new role to add to this person instance.  NEVER returns null.
      */
-    Role addRole(RoleInfo roleInfo, SorRole sorRole);
-
-    /**
-     * Add a new role to a collection of roles this person holds when the role already exists, such as on a move.
-     *
-     * @param role
-     * @return role role added to this person instance.  NEVER returns null.
-     */
-    Role addRole(Role role);
+    Role addRole(SorRole sorRole);
 
     /**
      * Get identifiers associated with this person.
@@ -151,6 +134,15 @@ public interface Person extends Serializable {
      * @return Role of this person for the provided identifier or a null if this person does not have such a role
      */
     Role pickOutRole(String code);
+
+    /**
+     * Finds the matching SoR Role Id for this calculated role.
+     *
+     * @param sorRoleId the internal role id to check for.  NOTE, this is NOT the SoR-assigned Role Id (even if the
+     * method is poorly named for now).
+     * @return the role, if found.  Null otherwise.
+     */
+    Role findRoleBySoRRoleId(Long sorRoleId);
 
     /**
      * Pick out the specific Identifier from the collection of identifiers for this person.

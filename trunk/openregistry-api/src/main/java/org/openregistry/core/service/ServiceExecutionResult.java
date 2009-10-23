@@ -43,9 +43,9 @@ public interface ServiceExecutionResult<T> extends Serializable {
     boolean succeeded();
 
     /**
-     * The original object we were working with, or the final object if we're successful.
+     * The final object if we're successful.
      *
-     * @return the original object.  This CANNOT be null.
+     * @return the original object.
      */
     T getTargetObject();
 

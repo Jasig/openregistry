@@ -119,8 +119,9 @@ public interface PersonService {
      * @param sorRole   to validate and add to a given person.
      * @return an instance of a <code>ServiceExecutionResult</code> containing details
      *         of whether this operation succeeded or failed.
+     * @throws IllegalArgumentException if any of the parameters are missing
      */
-    ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(SorPerson sorPerson, SorRole sorRole);
+    ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(SorPerson sorPerson, SorRole sorRole) throws IllegalArgumentException;
 
     /**
      * Validate, add, and persist a person in the OpenRegistry system.

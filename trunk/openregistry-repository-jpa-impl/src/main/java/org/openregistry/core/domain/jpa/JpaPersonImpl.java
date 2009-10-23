@@ -16,6 +16,7 @@
 package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.internal.Entity;
+import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.*;
 import org.hibernate.envers.Audited;
@@ -154,47 +155,11 @@ public class JpaPersonImpl extends Entity implements Person {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Role addRole(final RoleInfo roleInfo) {
-        if (!(roleInfo instanceof JpaRoleInfoImpl)) {
-            throw new IllegalArgumentException("roleInfo of type JpaRoleInfoImpl required.");
-        }
-        final JpaRoleImpl jpaRole = new JpaRoleImpl((JpaRoleInfoImpl) roleInfo, this);
+    public Role addRole(final SorRole sorRole) {
+        Assert.isInstanceOf(JpaSorRoleImpl.class, "SorRole must be instance of JpaSorRoleImpl.class");
+        final JpaRoleImpl jpaRole = new JpaRoleImpl((JpaSorRoleImpl) sorRole, this);
         this.roles.add(jpaRole);
         return jpaRole;
-    }
-    
-    public Role addRole(final RoleInfo roleInfo, final SorRole sorRole) {
-        if (!(roleInfo instanceof JpaRoleInfoImpl)) {
-            throw new IllegalArgumentException("roleInfo of type JpaRoleInfoImpl required.");
-        }
-        final JpaRoleImpl jpaRole = (JpaRoleImpl)this.addRole(roleInfo);
-        jpaRole.setPersonStatus(sorRole.getPersonStatus());
-        jpaRole.setStart(sorRole.getStart());
-        jpaRole.setEnd(sorRole.getEnd());
-        jpaRole.addSponsor(sorRole.getSponsor());
-        for (Address address: sorRole.getAddresses()) {
-        	jpaRole.addAddress(address);
-        }
-        for (EmailAddress emailAddress: sorRole.getEmailAddresses()) {
-        	jpaRole.addEmailAddress(emailAddress);
-        }
-        for (Phone phone: sorRole.getPhones()) {
-        	jpaRole.addPhone(phone);
-        }
-        for (Url url: sorRole.getUrls()) {
-        	jpaRole.addUrl(url);
-        }
-        logger.info("setting prc role's sor role id: " + sorRole.getId());
-        jpaRole.setSorRoleId(sorRole.getId());
-
-        return jpaRole;
-    }
-
-    public Role addRole(Role role){
-        this.roles.add(role);
-        Assert.isInstanceOf(JpaRoleImpl.class, role);
-        ((JpaRoleImpl)role).moveToPerson(this);
-        return role;
     }
 
     public List<Role> getRoles() {
@@ -252,5 +217,15 @@ public class JpaPersonImpl extends Entity implements Person {
 
     public synchronized void removeCurrentActivationKey() {
         this.activationKey.removeKeyValues();
+    }
+
+    public Role findRoleBySoRRoleId(final Long sorRoleId) {
+        Assert.notNull(sorRoleId);
+        for (final Role role : this.roles) {
+            if (sorRoleId.equals(role.getSorRoleId())) {
+                return role;
+            }
+        }
+        return null;
     }
 }

@@ -66,6 +66,10 @@ public class MockPerson implements Person {
         return 1L;
     }
 
+    public void addRole(final Role role) {
+        this.roles.add(role);
+    }
+
     public Set<? extends Name> getNames() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -78,25 +82,8 @@ public class MockPerson implements Person {
         return roles;
     }
 
-    public Role addRole(RoleInfo roleInfo) {
+    public Role addRole(SorRole sorRole) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public Role addRole(RoleInfo roleInfo, SorRole sorRole) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public Role addRole(Role role) {
-        roles.add(role);
-		return role;
-    }
-
-    public void removeRole(Role role) {
-        roles.remove(role);
-    }
-
-    public void removeAllRoles() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public Set<Identifier> getIdentifiers() {
@@ -219,5 +206,14 @@ public class MockPerson implements Person {
 
     public void removeCurrentActivationKey() {
         this.activationKey = null;
+    }
+
+    public Role findRoleBySoRRoleId(final Long sorRoleId) {
+        for (final Role role : this.roles) {
+            if (sorRoleId.equals(role.getSorRoleId())) {
+                return role;
+            }
+        }
+        return null;
     }
 }
