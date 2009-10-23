@@ -127,31 +127,46 @@ public final class PeopleResource {
     public PersonResponseRepresentation showPerson(@PathParam("personId") String personId,
                                                    @PathParam("personIdType") String personIdType) {
 
-        logger.info(String.format("Searching for a person with  {personIdType:%s, personId:%s} ...", personIdType, personId));
-        final Person person = this.personService.findPersonByIdentifier(personIdType, personId);
-        if (person == null) {
-            //HTTP 404
-            logger.info("Person is not found.");
-            throw new NotFoundException(
-                    String.format("The person resource identified by /people/%s/%s URI does not exist",
-                            personIdType, personId));
-        }
+        final Person person = findPersonOrThrowNotFoundException(personIdType, personId);
         logger.info("Person is found. Building a suitable representation...");
         return new PersonResponseRepresentation(buildPersonIdentifierRepresentations(person.getIdentifiers()));
     }
 
     @POST
+    @Path("{personIdType}/{personId}")
+    @Consumes(MediaType.APPLICATION_XML)
+    public Response linkSorPersonWithCalculatedPerson(@PathParam("personId") String personId,
+                                                      @PathParam("personIdType") String personIdType,
+                                                      PersonRequestRepresentation personRequestRepresentation) {
+
+        Response response = validate(personRequestRepresentation);
+        if (response != null) {
+            return response;
+        }
+        final Person person = findPersonOrThrowNotFoundException(personIdType, personId);
+        final ReconciliationCriteria reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
+        logger.info("Trying to link incoming SOR person with calculated person...");
+        try {
+            this.personService.addPersonAndLink(reconciliationCriteria, person);
+        }
+        catch (IllegalStateException ex) {
+            response = Response.status(409).entity(ex.getMessage()).build();
+        }
+        //HTTP 204
+        return null;
+    }
+
+    @POST
     @Consumes(MediaType.APPLICATION_XML)
     public Response processIncomingPerson(PersonRequestRepresentation personRequestRepresentation, @QueryParam("force") String forceAdd) {
-        Response response = null;
-        if (!personRequestRepresentation.checkRequiredData()) {
-            //HTTP 400
-            return Response.status(Response.Status.BAD_REQUEST).entity("The person entity payload is incomplete.").build();
+        Response response = validate(personRequestRepresentation);
+        if (response != null) {
+            return response;
         }
         final ReconciliationCriteria reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
         logger.info("Trying to add incoming person...");
 
-        // TODO catch illegal state and warning
+        // TODO catch illegal state and warning - do 409
         if (FORCE_ADD_FLAG.equals(forceAdd)) {
             logger.warn("Multiple people found, but doing a 'force add'");
             final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria);
@@ -174,7 +189,8 @@ public final class PeopleResource {
             final URI uri = buildPersonResourceUri(person);
             response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
             logger.info(String.format("Person successfully created. The person resource URI is %s", uri.toString()));
-        } catch (final ReconciliationException ex) {
+        }
+        catch (final ReconciliationException ex) {
             switch (ex.getReconciliationType()) {
                 case MAYBE:
                     final List<PersonMatch> conflictingPeopleFound = ex.getMatches();
@@ -189,9 +205,7 @@ public final class PeopleResource {
                     logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
                     break;
             }
-
         }
-
         return response;
     }
 
@@ -233,7 +247,8 @@ public final class PeopleResource {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("The operation resulted in an internal error")
                         .build();
             }*/
-        } catch (final IllegalArgumentException ex) {
+        }
+        catch (final IllegalArgumentException ex) {
             logger.info("The 'terminationReason' did not pass the validation");
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
@@ -246,7 +261,7 @@ public final class PeopleResource {
     @Path("sor/{sorSource}/{sorId}")
     public Response deleteSystemOfRecordPerson(@PathParam("sorSource") final String sorSource,
                                                @PathParam("sorId") final String sorId,
-                                               @QueryParam("mistake") @DefaultValue("false") final boolean mistake ,
+                                               @QueryParam("mistake") @DefaultValue("false") final boolean mistake,
                                                @QueryParam("terminationType") @DefaultValue("UNSPECIFIED") final String terminationType) {
         try {
             if (!this.personService.deleteSystemOfRecordPerson(sorSource, sorId, mistake, terminationType)) {
@@ -255,8 +270,9 @@ public final class PeopleResource {
             //HTTP 204
             logger.debug("The SOR Person resource has been successfully DELETEd");
             return null;
-        } catch (final PersonNotFoundException e) {
-            throw new NotFoundException(String.format("The system of record person resource identified by /people/sor/%s/%s URI does not exist", 
+        }
+        catch (final PersonNotFoundException e) {
+            throw new NotFoundException(String.format("The system of record person resource identified by /people/sor/%s/%s URI does not exist",
                     sorSource, sorId));
         }
     }
@@ -366,5 +382,27 @@ public final class PeopleResource {
         final Form f = new Form();
         f.putSingle("activationKey", person.getCurrentActivationKey().asString());
         return f;
+    }
+
+    private Response validate(PersonRequestRepresentation personRequestRepresentation) {
+        if (!personRequestRepresentation.checkRequiredData()) {
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST).entity("The person entity payload is incomplete.").build();
+        }
+        //Returns null response indicating that the representation is valid
+        return null;
+    }
+
+    private Person findPersonOrThrowNotFoundException(final String personIdType, final String personId) {
+        logger.info(String.format("Searching for a person with  {personIdType:%s, personId:%s} ...", personIdType, personId));
+        final Person person = this.personService.findPersonByIdentifier(personIdType, personId);
+        if (person == null) {
+            //HTTP 404
+            logger.info("Person is not found.");
+            throw new NotFoundException(
+                    String.format("The person resource identified by /people/%s/%s URI does not exist",
+                            personIdType, personId));
+        }
+        return person;
     }
 }

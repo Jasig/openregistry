@@ -9,6 +9,7 @@
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>
+        <context-artifact name="openregistry-webapp:Web exploded" />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
@@ -71,6 +72,7 @@
     <orderEntry type="library" exported="" name="Maven: org.apache.geronimo.specs:geronimo-j2ee-management_1.0_spec:1.0" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.apache.activemq:activemq-pool:5.2.0" level="project" />
     <orderEntry type="library" exported="" name="Maven: commons-pool:commons-pool:1.4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: net.sf.ehcache:ehcache-core:1.7.0-beta" level="project" />
     <orderEntry type="module" module-name="openregistry-repository-jpa-impl" exported="" scope="RUNTIME" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: javax.persistence:jpa-api:2.0.Beta1-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.hibernate:hibernate-envers:3.5.0-SNAPSHOT" level="project" />
@@ -97,6 +99,7 @@
     <orderEntry type="library" exported="" name="Maven: org.springframework.webflow:spring-webflow:2.0.8.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework.webflow:spring-binding:2.0.8.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework.webflow:spring-js:2.0.8.RELEASE" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:org.springframework.test:3.0.0.RC1" level="project" />
     <orderEntry type="library" exported="" name="Maven: taglibs:standard:1.1.2" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.antlr:antlr:3.0.1" level="project" />

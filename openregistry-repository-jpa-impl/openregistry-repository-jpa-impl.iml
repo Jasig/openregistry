@@ -91,6 +91,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.geronimo.specs:geronimo-j2ee-management_1.0_spec:1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:activemq-pool:5.2.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: commons-pool:commons-pool:1.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: net.sf.ehcache:ehcache-core:1.7.0-beta" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:org.springframework.test:3.0.0.RC1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:org.springframework.orm:3.0.0.RC1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:org.springframework.jdbc:3.0.0.RC1" level="project" />
