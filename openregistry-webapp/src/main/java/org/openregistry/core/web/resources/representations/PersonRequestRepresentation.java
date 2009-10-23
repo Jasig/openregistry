@@ -147,6 +147,25 @@ public class PersonRequestRepresentation {
     /**
      * Factory method for use only for mocking purposes in tests
      *
+     * @return
+     */
+    public static PersonRequestRepresentation forLinkingSorPersonGood() {
+        return newRepresentationWithRequiredDataAndSsn("link-sor-good");
+    }
+
+    /**
+     * Factory method for use only for mocking purposes in tests
+     *
+     * @return
+     */
+    public static PersonRequestRepresentation forLinkingSorPersonBad() {
+        return newRepresentationWithRequiredDataAndSsn("link-sor-bad");
+    }
+
+
+    /**
+     * Factory method for use only for mocking purposes in tests
+     *
      * @param ssn
      * @return
      */

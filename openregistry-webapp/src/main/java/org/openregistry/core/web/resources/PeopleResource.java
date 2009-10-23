@@ -150,7 +150,7 @@ public final class PeopleResource {
             this.personService.addPersonAndLink(reconciliationCriteria, person);
         }
         catch (IllegalStateException ex) {
-            response = Response.status(409).entity(ex.getMessage()).build();
+            return Response.status(409).entity(ex.getMessage()).build();
         }
         //HTTP 204
         return null;
