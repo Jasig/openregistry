@@ -59,8 +59,7 @@ public abstract class JerseyTestSupport extends JerseyTest {
     protected final ClientResponse assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(int statusCode, String uriPath,
                                                                                              String httpMethod, Object entity) {
 
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethodAndEntity(pathToURI(uriPath), httpMethod, entity);
-        Form f = response.getEntity(Form.class);
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethodAndEntity(pathToURI(uriPath), httpMethod, entity);        
         assertEquals(statusCode, response.getStatus());
         return response;
     }

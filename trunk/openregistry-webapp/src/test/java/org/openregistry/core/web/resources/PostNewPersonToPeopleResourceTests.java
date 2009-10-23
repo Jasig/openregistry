@@ -27,6 +27,7 @@ import org.openregistry.core.web.resources.representations.PersonRequestRepresen
 
 /**
  * @since 1.0
+ * @author Dmitriy Kopylenko
  */
 public class PostNewPersonToPeopleResourceTests extends JerseyTestSupport {
 
