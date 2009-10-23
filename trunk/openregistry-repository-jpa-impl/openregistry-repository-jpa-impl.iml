@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module relativePaths="true" MavenProjectsManager.isMavenModule="true" org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+<module MavenProjectsManager.isMavenModule="true" org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="jpa" name="JPA">
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
-        <setting name="targe-facet" value="" />
         <datasource-mapping>
           <factory-entry name="OpenRegistryPersistence" />
         </datasource-mapping>
@@ -38,8 +37,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="openregistry-api" exported="" />
     <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.8" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.6.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.6.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.6.5" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.6.5" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.persistence:jpa-api:2.0.Beta1-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.beans:3.0.0.RC1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.core:3.0.0.RC1" level="project" />
@@ -66,6 +65,7 @@
     <orderEntry type="library" exported="" name="Maven: javassist:javassist:3.8.0.GA" level="project" />
     <orderEntry type="module" module-name="openregistry-service-impl" scope="TEST" />
     <orderEntry type="library" scope="TEST" name="Maven: org.javalid:javalid-spring:1.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: de.odysseus.juel:juel-impl:2.1.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:jcl-over-slf4j:1.5.8" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: log4j:log4j:1.2.14" level="project" />

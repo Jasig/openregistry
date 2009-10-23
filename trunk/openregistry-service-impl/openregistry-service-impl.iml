@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module relativePaths="true" MavenProjectsManager.isMavenModule="true" org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+<module MavenProjectsManager.isMavenModule="true" org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -13,10 +13,11 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="openregistry-api" exported="" />
     <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.8" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.6.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.6.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.6.5" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.6.5" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-spring:1.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: de.odysseus.juel:juel-impl:2.1.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.transaction:3.0.0.RC1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.aop:3.0.0.RC1" level="project" />
