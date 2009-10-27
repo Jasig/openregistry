@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.service;
 
+import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -454,4 +455,46 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         assertEquals(1, countRowsInTable("prc_persons"));
         assertEquals(1, countRowsInTable("prc_names"));
      }
+
+
+    /**
+     * Tests for the Add Role Use Case
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNoRolePassedIn() {
+        this.personService.validateAndSaveRoleForSorPerson(new JpaSorPersonImpl(), null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNoPersonPassedIn() {
+        this.personService.validateAndSaveRoleForSorPerson(null, new JpaSorRoleImpl(new JpaRoleInfoImpl(), new JpaSorPersonImpl()));
+    }
+
+    public void testAddRoleForSoRPerson() throws ReconciliationException {
+        final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
+        final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
+        final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+
+        final SorRole role = sorPerson1.addRole(new JpaRoleInfoImpl());
+        role.setSorId("1");
+        role.setSourceSorIdentifier("FOO");
+        role.setPercentage(50);
+        role.setStart(new Date());
+
+        final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
+        entityManager.flush();
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+        assertEquals(1, countRowsInTable("prs_role_records"));        
+        assertEquals(1, countRowsInTable("prc_role_records"));
+    }
+
 }
