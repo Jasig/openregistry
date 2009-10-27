@@ -180,7 +180,7 @@ public class DefaultPersonService implements PersonService {
         }
 
         this.personRepository.deleteSorPerson(sorPerson);
-        recalculateCalculatedPerson(person);
+        this.personRepository.savePerson(person);
         return true;
     }
 
@@ -212,8 +212,9 @@ public class DefaultPersonService implements PersonService {
 
         final SorPerson newSorPerson = this.personRepository.saveSorPerson(sorPerson);
         final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
+        recalculateRoleForPerson(person, sorRole);
 
-        recalculateCalculatedPerson(person);
+        this.personRepository.savePerson(person);
 
         for (final SorRole newRole : newSorPerson.getRoles()) {
             if (newRole.getSorId().equals(sorRole.getSorId())) {
@@ -275,7 +276,7 @@ public class DefaultPersonService implements PersonService {
             if (personMatch.getPerson().equals(person)) {
                 addSorPersonAndLink(reconciliationCriteria, person);
                 final Person savedPerson = this.personRepository.findByInternalId(person.getId());
-                recalculateCalculatedPerson(savedPerson);
+                recalculatePersonBiodemInfo(savedPerson);
                 return new GeneralServiceExecutionResult<Person>(savedPerson);
             }
         }
@@ -312,37 +313,22 @@ public class DefaultPersonService implements PersonService {
         return personMatches;
     }
 
-    /**
-     * Method to call for recalculating a calculated person.  This should persist the person when done.
-     *
-     * @param person the person to recalculate.
-     */
-    protected void recalculateCalculatedPerson(final Person person) {
+    protected void recalculatePersonBiodemInfo(final Person person) {
         final List<SorPerson> persons = this.personRepository.getSoRRecordsForPerson(person);
+        //* 1. Choosing the appropriate names (and removing any unused names)
+        //* 2. Transitioning SorPerson information to Calculated Person (i.e. choosing)
 
-        // update the list of calculated roles for this person
-        for (final SorPerson sorPerson : persons) {
-            for (final SorRole sorRole : sorPerson.getRoles()) {
-                final Role role = person.findRoleBySoRRoleId(sorRole.getId());
 
-                if (role == null) {
-                    person.addRole(sorRole);
-                } else {
-                    role.recalculate(sorRole);   
-                }
-            }
+    }
+
+    protected void recalculateRoleForPerson(final Person person, final SorRole sorRole) {
+        final Role role = person.findRoleBySoRRoleId(sorRole.getId());
+
+        if (role == null) {
+            person.addRole(sorRole);
+        } else {
+            role.recalculate(sorRole);
         }
-        /*
-         * Nothing to do here yet, but this work flow should include:
-         * 1. Choosing the appropriate names (and removing any unused names)
-         * 2. Transitioning SorPerson information to Calculated Person (i.e. choosing)
-         * 3. Transitioning SorRoles to Calculated Roles (and associated information) (/)
-         * 4. Calculating additional attributes.
-         * 5. Preferences
-         *
-         * It should be smart enough to handle initial calculation AND recalculation.
-         */
-        this.personRepository.savePerson(person);
     }
 
     /**
