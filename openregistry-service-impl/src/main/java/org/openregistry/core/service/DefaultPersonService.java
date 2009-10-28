@@ -214,7 +214,7 @@ public class DefaultPersonService implements PersonService {
         final SorPerson newSorPerson = this.personRepository.saveSorPerson(sorPerson);
         final Person person = this.personRepository.findByInternalId(newSorPerson.getPersonId());
         final SorRole newSorRole = newSorPerson.findSorRoleBySorRoleId(sorRole.getSorId());
-        recalculateRoleForPerson(person, newSorRole);
+        person.addRole(newSorRole);
         this.personRepository.savePerson(person);
 
         return new GeneralServiceExecutionResult<SorRole>(newSorRole);
@@ -316,16 +316,6 @@ public class DefaultPersonService implements PersonService {
 
     }
 
-    protected void recalculateRoleForPerson(final Person person, final SorRole sorRole) {
-        final Role role = person.findRoleBySoRRoleId(sorRole.getId());
-
-        if (role == null) {
-            person.addRole(sorRole);
-        } else {
-            role.recalculate(sorRole);
-        }
-    }
-
     /**
      * Validates the object using the JaValid annotation framework and then converts the errors into the OpenRegistry API for errors.
      *
@@ -333,20 +323,9 @@ public class DefaultPersonService implements PersonService {
      * @return the list of validation errors.  CANNOT be NULL.  Can be empty.
      */
     protected List<ValidationError> validateAndConvert(final Object object) {
-        final List<ValidationMessage> validationMessages = this.annotationValidator.validateObject(object, JvGroup.DEFAULT_GROUP, "", true, 5);
-        return convertToValidationErrors(validationMessages);
-    }
-
-    /**
-     * Converts the validation errors from JaValid into the OpenRegistry API validation errors.
-     *
-     * @param messages the JaValid messages to convert.
-     * @return the list of validation errors.  CANNOT be null.  CAN be empty.
-     */
-    protected List<ValidationError> convertToValidationErrors(final List<ValidationMessage> messages) {
         final List<ValidationError> validationErrors = new ArrayList<ValidationError>();
 
-        for (final ValidationMessage message : messages) {
+        for (final ValidationMessage message : this.annotationValidator.validateObject(object, JvGroup.DEFAULT_GROUP, "", true, 5)) {
             validationErrors.add(new JaValidValidationError(message));
         }
 
