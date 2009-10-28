@@ -88,7 +88,7 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     public String getValue() {
         return this.value;
     }
-    
+
     public Boolean isPrimary() {
     	return this.primary;
     }

@@ -197,32 +197,27 @@ public class DefaultPersonService implements PersonService {
     public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
         Assert.notNull(sorPerson, "SorPerson cannot be null.");
         Assert.notNull(sorRole, "SorRole cannot be null.");
-        final List<ValidationError> validationErrors = validateAndConvert(sorRole);
-
-        if (!validationErrors.isEmpty()) {
-            return new GeneralServiceExecutionResult<SorRole>(validationErrors);
-        }
 
         // check if the SoR Role has an ID assigned to it already
         if (!StringUtils.hasText(sorRole.getSorId())) {
             sorRole.setSorId(this.identifierGenerator.generateNextString());
         }
 
+        final List<ValidationError> validationErrors = validateAndConvert(sorRole);
+
+        if (!validationErrors.isEmpty()) {
+            return new GeneralServiceExecutionResult<SorRole>(validationErrors);
+        }
+
         sorRole.setSourceSorIdentifier(sorPerson.getSourceSor());
 
         final SorPerson newSorPerson = this.personRepository.saveSorPerson(sorPerson);
-        final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
-        recalculateRoleForPerson(person, sorRole);
-
+        final Person person = this.personRepository.findByInternalId(newSorPerson.getPersonId());
+        final SorRole newSorRole = newSorPerson.findSorRoleBySorRoleId(sorRole.getSorId());
+        recalculateRoleForPerson(person, newSorRole);
         this.personRepository.savePerson(person);
 
-        for (final SorRole newRole : newSorPerson.getRoles()) {
-            if (newRole.getSorId().equals(sorRole.getSorId())) {
-                return new GeneralServiceExecutionResult<SorRole>(newRole);
-            }
-        }
-
-        throw new IllegalStateException("We shouldn't ever get here.");
+        return new GeneralServiceExecutionResult<SorRole>(newSorRole);
     }
 
     @Transactional
@@ -484,7 +479,7 @@ public class DefaultPersonService implements PersonService {
         if (name == null) return false;
 
         // remove name from the set (annotation in set to delete orphans)
-        sorPerson.removeName(name);
+        sorPerson.getNames().remove(name);
 
         // save changes
         this.personRepository.saveSorPerson(sorPerson);

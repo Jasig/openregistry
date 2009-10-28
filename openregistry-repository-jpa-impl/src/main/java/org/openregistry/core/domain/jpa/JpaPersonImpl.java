@@ -156,7 +156,7 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     public Role addRole(final SorRole sorRole) {
-        Assert.isInstanceOf(JpaSorRoleImpl.class, "SorRole must be instance of JpaSorRoleImpl.class");
+        Assert.isInstanceOf(JpaSorRoleImpl.class, sorRole);
         final JpaRoleImpl jpaRole = new JpaRoleImpl((JpaSorRoleImpl) sorRole, this);
         this.roles.add(jpaRole);
         return jpaRole;
@@ -168,12 +168,6 @@ public class JpaPersonImpl extends Entity implements Person {
 
     public Set<Identifier> getIdentifiers() {
         return this.identifiers;
-    }
-
-    public Identifier addIdentifier() {
-        final JpaIdentifierImpl jpaIdentifier = new JpaIdentifierImpl(this);
-        this.identifiers.add(jpaIdentifier);
-        return jpaIdentifier;
     }
 
     public Identifier addIdentifier(final IdentifierType identifierType, final String value) {

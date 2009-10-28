@@ -62,14 +62,13 @@ public class DefaultPersonServiceTests {
     }
 
     void setReconciliationCriteria(ReconciliationCriteria reconciliationCriteria){
-        MockSorName name = new MockSorName();
+        SorPerson sorPerson = reconciliationCriteria.getPerson();
+        final MockSorName name = (MockSorName) sorPerson.addName();
         name.setGiven("Sam");
         name.setFamily("Malone");
         name.setMiddle("B");
         name.setPrefix("");
         name.setSuffix("");
-        SorPerson sorPerson = reconciliationCriteria.getPerson();
-        sorPerson.addName(name);
         sorPerson.setGender("Male");
         sorPerson.setDateOfBirth(new Date());
     }

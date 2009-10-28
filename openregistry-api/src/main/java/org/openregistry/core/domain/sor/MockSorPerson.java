@@ -81,10 +81,6 @@ public class MockSorPerson extends Entity implements SorPerson {
         return this.names;
     }
 
-    public void setNames(List<Name> names){
-        this.names = names;
-    }
-
     public void setSorId(final String id) {
         this.sorId = id;
     }
@@ -106,14 +102,13 @@ public class MockSorPerson extends Entity implements SorPerson {
     }
 
     public Name addName() {
-        final MockSorName sorName = new MockSorName(this);
+        final MockSorName sorName = new MockSorName();
         this.names.add(sorName);
         return sorName;
     }
 
     public void addName(Name name) {
         this.names.add(name);
-        ((MockSorName)name).moveToPerson(this);
     }
 
     public synchronized Name findNameByNameId(final Long id) {
@@ -156,16 +151,16 @@ public class MockSorPerson extends Entity implements SorPerson {
 		roles.add(role);
     }
 
-    public synchronized void removeRole(final SorRole role){
-        this.roles.remove(role);
-    }
-
-    public synchronized void removeAllRoles(){
-        this.roles.clear();
-    }
-
     public SorRole pickOutRole(String code) {
         return null;
     }
 
+    public SorRole findSorRoleBySorRoleId(final String sorRoleId) {
+        for (final SorRole sorRole : this.roles) {
+            if (sorRole.getSorId().equals(sorRoleId)) {
+                return sorRole;
+            }
+        }
+        return null;
+    }
 }

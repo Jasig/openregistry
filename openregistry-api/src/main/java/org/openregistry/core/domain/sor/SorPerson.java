@@ -113,18 +113,6 @@ public interface SorPerson {
     void addName(Name name);
 
     /**
-     * Removes an SoR Name based on the Name provided.
-     *
-     * @param name the name to remove.
-     */
-    void removeName(Name name);
-
-    /**
-     * Removes all names from the Sor Person
-     */
-    void removeAllNames();
-
-    /**
      * Finds an SoR Name (and returns it) based on the Name Id provided.
      *
      * @param id the id of the name.
@@ -154,12 +142,14 @@ public interface SorPerson {
 	SorRole addRole(RoleInfo roleInfo);
 
     /**
+     * // TODO we need to remove this method.
+     *
      * Adds an SoR Role (and returns it) role already exists it is being added to the person.
      *
      * @param role the role to add.
      */
     void addRole(SorRole role);
-    
+
     /**
      * Retrieves the identifier of the Calculated Person associated with this System of Record person.  Portions of the
      * System of Record Person were used to calculate this Calculated Person.
@@ -176,29 +166,26 @@ public interface SorPerson {
     void setPersonId(Long personId);
 
     /**
-     * Removes the SoR Role.
-     *
-     * @param sorRole the role to remove.
-     */
-    void removeRole(SorRole sorRole);
-
-    /**
      * Retrieves the list of System of Record roles.
      * @return the list of roles, CANNOT be null.  CAN be empty.
      */
     List<SorRole> getRoles();
 
     /**
-     * Removes all roles from the Sor Person
-     */
-    void removeAllRoles();
-
-    /**
      * Find the Sor Role for a given RoleInfo code.
      * @param code  Role Info Code.
      * @return
      */
-    public SorRole pickOutRole(String code);
+    SorRole pickOutRole(String code);
+
+    /**
+     * Finds the SorRole by the SoR-assigned ID (or the one we assigned to it).
+     * This is NOT the internal ID.
+     *
+     * @param sorRoleId the ID to find.
+     * @return the role, if found.
+     */
+    SorRole findSorRoleBySorRoleId(String sorRoleId);
 
 
 }

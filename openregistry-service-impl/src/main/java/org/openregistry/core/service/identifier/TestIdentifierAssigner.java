@@ -61,9 +61,7 @@ public class TestIdentifierAssigner implements IdentifierAssigner {
 
         builder.append(constructNewValue());
 
-        final Identifier identifier = person.addIdentifier();
-        identifier.setType(referenceRepository.findIdentifierType(getIdentifierType()));
-        identifier.setValue(builder.toString());
+        final Identifier identifier = person.addIdentifier(referenceRepository.findIdentifierType(getIdentifierType()), builder.toString());
         identifier.setDeleted(false);
         identifier.setPrimary(true);
     }

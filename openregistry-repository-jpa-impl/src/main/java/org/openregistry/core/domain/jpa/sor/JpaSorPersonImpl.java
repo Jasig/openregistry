@@ -127,10 +127,6 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         return this.names;
     }
 
-    public void setNames(List<Name> names){
-        this.names = names;
-    }
-
     public void setSorId(final String id) {
         this.sorId = id;
     }
@@ -175,14 +171,6 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         return nameToFind;
     }
 
-    public synchronized void removeName(Name name) {
-        this.names.remove(name);
-    }
-
-    public synchronized void removeAllNames(){
-        this.names.clear();
-    }
-
     // TODO not sure if this should be here
     public String getFormattedNameAndID(){
         final StringBuilder builder = new StringBuilder();
@@ -214,19 +202,21 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         ((JpaSorRoleImpl)role).moveToPerson(this);
     }
 
-    public synchronized void removeRole(final SorRole role){
-        this.roles.remove(role);
-    }
-
-    public synchronized void removeAllRoles(){
-        this.roles.clear();
-    }
-
     public SorRole pickOutRole(String code) {
         //TODO: Is this the correct assumption???
         for(SorRole r : this.roles) {
             if(r.getRoleInfo().getCode().equals(code)) {
                 return r;
+            }
+        }
+        return null;
+    }
+
+    public SorRole findSorRoleBySorRoleId(final String sorRoleId) {
+        Assert.notNull(sorRoleId);
+        for (final SorRole role : this.roles) {
+            if (sorRoleId.equals(role.getSorId())) {
+                return role;
             }
         }
         return null;

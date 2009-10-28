@@ -42,14 +42,8 @@ public final class MockSorName implements Name {
 
     private String suffix;
 
-    private MockSorPerson person;
-
     public MockSorName() {
         // nothing to do
-    }
-
-    public MockSorName(final MockSorPerson person) {
-        this.person = person;
     }
 
     public Long getId() {
@@ -144,8 +138,4 @@ public final class MockSorName implements Name {
 		// TODO Auto-generated method stub
 
 	}
-
-    public void moveToPerson(MockSorPerson person){
-        this.person = person;
-    }
 }

@@ -272,12 +272,15 @@ public final class JpaRoleImpl extends Entity implements Role {
         }
     }
 
-    // TODO: assume that the RoleInfo has not changed.
     public void recalculate(final SorRole sorRole) {
         this.personStatus = (JpaTypeImpl) sorRole.getPersonStatus();
         this.start = sorRole.getStart();
         this.end = sorRole.getEnd();
         this.sorRoleId = sorRole.getId();
+        this.percentage =sorRole.getPercentage();
+        this.terminationReason = (JpaTypeImpl) sorRole.getTerminationReason();
+
+        // TODO leaves of absence?
 
         this.addresses.clear();
         this.phones.clear();
@@ -297,5 +300,7 @@ public final class JpaRoleImpl extends Entity implements Role {
         for (final Url url: sorRole.getUrls()) {
         	addUrl(url);
         }
+
+        this.addSponsor(sorRole.getSponsor());
     }
 }

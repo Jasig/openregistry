@@ -16,6 +16,7 @@
 package org.openregistry.core.service;
 
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
+import org.openregistry.core.repository.ReferenceRepository;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,9 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private ReferenceRepository referenceRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -470,8 +474,13 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         this.personService.validateAndSaveRoleForSorPerson(null, new JpaSorRoleImpl(new JpaRoleInfoImpl(), new JpaSorPersonImpl()));
     }
 
+    @Test
     public void testAddRoleForSoRPerson() throws ReconciliationException {
         final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
+        this.simpleJdbcTemplate.update("insert into prd_campuses(id, code, name) values(1, 'cam', 'Busch')");
+        this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(1, 'FOO', 'Foo Description')");
+        this.simpleJdbcTemplate.update("insert into drd_organizational_units(id, campus_id, organizational_unit_t, code, name) values(1, 1, 1, 'cod', 'Department')");
+        this.simpleJdbcTemplate.update("insert into prd_roles(id, title, organizational_unit_id, campus_id, affiliation_t, code) values(1, 'Title', 1, 1, 1, 'Code')");
         final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
         final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
 
@@ -480,11 +489,15 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         assertEquals(1, countRowsInTable("prs_sor_persons"));
         assertEquals(1, countRowsInTable("prs_names"));
 
-        final SorRole role = sorPerson1.addRole(new JpaRoleInfoImpl());
+        final SorRole role = sorPerson1.addRole(this.referenceRepository.getRoleInfoById(1L));
         role.setSorId("1");
         role.setSourceSorIdentifier("FOO");
         role.setPercentage(50);
         role.setStart(new Date());
+        role.setPersonStatus(this.referenceRepository.getTypeById(1L));
+        final SorSponsor sorSponsor = role.setSponsor();
+        sorSponsor.setSponsorId(1L);
+        sorSponsor.setType(this.referenceRepository.getTypeById(1L));
 
         final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
         entityManager.flush();
@@ -495,6 +508,53 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         assertEquals(1, countRowsInTable("prs_names"));
         assertEquals(1, countRowsInTable("prs_role_records"));        
         assertEquals(1, countRowsInTable("prc_role_records"));
+
+        final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
+        final Role cRole = person.getRoles().get(0);
+        final SorRole sRole = ser.getTargetObject();
+        assertEquals(sRole.getPercentage(), cRole.getPercentage());
+        assertEquals(sRole.getStart(), cRole.getStart());
+    }
+
+    @Test
+    public void testAddRoleForSoRPersonWithNoRoleID() throws ReconciliationException {
+        final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
+        this.simpleJdbcTemplate.update("insert into prd_campuses(id, code, name) values(1, 'cam', 'Busch')");
+        this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(1, 'FOO', 'Foo Description')");
+        this.simpleJdbcTemplate.update("insert into drd_organizational_units(id, campus_id, organizational_unit_t, code, name) values(1, 1, 1, 'cod', 'Department')");
+        this.simpleJdbcTemplate.update("insert into prd_roles(id, title, organizational_unit_id, campus_id, affiliation_t, code) values(1, 'Title', 1, 1, 1, 'Code')");
+        final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
+        final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+
+        final SorRole role = sorPerson1.addRole(this.referenceRepository.getRoleInfoById(1L));
+        role.setSourceSorIdentifier("FOO");
+        role.setPercentage(50);
+        role.setStart(new Date());
+        role.setPersonStatus(this.referenceRepository.getTypeById(1L));
+        final SorSponsor sorSponsor = role.setSponsor();
+        sorSponsor.setSponsorId(1L);
+        sorSponsor.setType(this.referenceRepository.getTypeById(1L));
+
+        final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
+        entityManager.flush();
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+        assertEquals(1, countRowsInTable("prs_role_records"));
+        assertEquals(1, countRowsInTable("prc_role_records"));
+
+        final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
+        final Role cRole = person.getRoles().get(0);
+        final SorRole sRole = ser.getTargetObject();
+        assertEquals(sRole.getPercentage(), cRole.getPercentage());
+        assertEquals(sRole.getStart(), cRole.getStart());
     }
 
 }
