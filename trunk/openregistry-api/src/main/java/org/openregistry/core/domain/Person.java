@@ -110,8 +110,6 @@ public interface Person extends Serializable {
 
     void setGender(String gender);
 
-    Identifier addIdentifier();
-
     /**
      * Constructs a new Identifier based on the provided type and value.
      *

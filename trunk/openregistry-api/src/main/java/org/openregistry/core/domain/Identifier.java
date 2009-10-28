@@ -29,15 +29,21 @@ public interface Identifier extends Serializable {
     IdentifierType getType();
 
     String getValue();
-    
+
+    /**
+     * Defaults to true.
+     *
+     * @return whether its the primary version of this identifier, or one that exists for historical reasons.
+     */
     Boolean isPrimary();
-    
+
+    /**
+     * Defaults to false.
+     *
+     * @return whether the identifier is valid or not.
+     */
     Boolean isDeleted();
-
-    void setType(IdentifierType type);
-
-    void setValue(String value);
-    
+   
     void setPrimary(Boolean value);
     
     void setDeleted(Boolean value);

@@ -89,6 +89,6 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
     }
 
     public String toString(){
-        return getId().toString();
+        return getId() != null ? getId().toString() : super.toString();
     }
 }
