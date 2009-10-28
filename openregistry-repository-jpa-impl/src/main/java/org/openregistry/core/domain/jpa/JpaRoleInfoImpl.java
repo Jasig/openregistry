@@ -54,7 +54,7 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
     @JoinColumn(name="affiliation_t")
     private JpaTypeImpl affiliationType;
 
-    @Column(name="code",nullable = false,length = 3)
+    @Column(name="code",nullable = false,length = 5)
     private String code;
 
     @OneToMany(mappedBy = "roleInfo")
