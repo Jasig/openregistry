@@ -52,7 +52,7 @@ public final class JpaSorNameImpl extends Entity implements Name {
     @SequenceGenerator(name="prs_names_seq",sequenceName="prs_names_seq",initialValue=1,allocationSize=50)
     private Long id;
     
-    @ManyToOne
+    @ManyToOne(optional=false)
     @JoinColumn(name="name_t")
     @NotNull
     private JpaTypeImpl type;

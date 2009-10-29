@@ -50,7 +50,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 
 	private final String OR_WEBAPP_IDENTIFIER = "or-webapp";
 	private final String REGISTRAR_IDENTIFIER = "registrar";
-	private final String NAME_DATA_TYPE = "Formal";
+	private static final String NAME_DATA_TYPE = "Formal";
 
 	private static final String EMAIL_ADDRESS = "test@test.edu";
 	private static final String PHONE_NUMBER = "555-555-5555";
@@ -85,11 +85,10 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         sorPerson.setSourceSor(sor);
         sorPerson.setSsn(ssn);
 
-        final Name name = sorPerson.addName();
+        final Name name = sorPerson.addName(this.referenceRepository.findType(Type.DataTypes.NAME, NAME_DATA_TYPE));
         name.setFamily(lastName);
         name.setGiven(firstName);
         name.setOfficialName();
-        name.setType((JpaTypeImpl)this.referenceRepository.findType(Type.DataTypes.NAME, NAME_DATA_TYPE));
 
         return reconciliationCriteria;
     }

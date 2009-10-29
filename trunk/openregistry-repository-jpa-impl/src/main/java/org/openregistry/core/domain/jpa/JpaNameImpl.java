@@ -47,7 +47,7 @@ public class JpaNameImpl extends Entity implements Name {
     @SequenceGenerator(name="prc_names_seq",sequenceName="prc_names_seq",initialValue=1,allocationSize=50)
     private Long id;
     
-    @ManyToOne
+    @ManyToOne(optional=false)
     @JoinColumn(name="name_t")
     private JpaTypeImpl type;
 

@@ -63,11 +63,14 @@
                                         <form:option value="Dr" label="Dr."/>
                                     </form:select>
                                 </td>
-                                <td><form:input path="names[${loopStatus.index}].given" /></</td>
+                                <td><form:input path="names[${loopStatus.index}].given" /></td>
                                 <td><form:input path="names[${loopStatus.index}].middle" /></td>
                                 <td><form:input path="names[${loopStatus.index}].family" /></td>
                                 <td><form:input path="names[${loopStatus.index}].suffix" /></td>
-                                <td><form:select path="names[${loopStatus.index}].type" items="${nameTypes}" itemValue="id" itemLabel="description" /></td>
+                                <td><form:select path="names[${loopStatus.index}].type">
+                                       <form:options items="${nameTypes}" itemValue="id" itemLabel="description" />
+                                    </form:select>
+                                </td>
                                 <td><a href="${flowExecutionUrl}&_eventId=submitRemoveName&nameId=${sorName.id}"><img src="images/trash.jpg" title="remove name"/></a></td>   
                             </tr>
                             </c:forEach>
@@ -95,7 +98,7 @@
                                 <td><fmt:formatDate pattern="MM/dd/yyyy" value="${role.start}"/></td>
                                 <td><fmt:formatDate pattern="MM/dd/yyyy" value="${role.end}"/></td>
                                 <td>
-                                    <a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}"><spring:message code="edit.label"/>
+                                    <a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}"><spring:message code="edit.label"/></a>
                                 </td>
                             </tr>
                             </c:forEach>

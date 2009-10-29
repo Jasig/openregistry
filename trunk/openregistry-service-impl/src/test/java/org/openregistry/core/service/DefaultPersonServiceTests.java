@@ -64,13 +64,12 @@ public class DefaultPersonServiceTests {
 
     void setReconciliationCriteria(ReconciliationCriteria reconciliationCriteria){
         SorPerson sorPerson = reconciliationCriteria.getPerson();
-        final MockSorName name = (MockSorName) sorPerson.addName();
+        final MockSorName name = (MockSorName) sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, "Formal"));
         name.setGiven("Sam");
         name.setFamily("Malone");
         name.setMiddle("B");
         name.setPrefix("");
         name.setSuffix("");
-       //TODO  needs referenceRepository...  name.setType(Type.DataTypes.NAME...);
         sorPerson.setGender("Male");
         sorPerson.setDateOfBirth(new Date());
     }

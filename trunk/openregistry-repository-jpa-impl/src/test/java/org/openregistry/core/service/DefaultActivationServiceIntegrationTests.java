@@ -45,6 +45,8 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
     private static final String IDENTIFIER_VALUE ="test";
 
     private static final String LOCK_VALUE = "LOCK";
+    
+    private static final String NAME_DATA_TYPE = "Formal";
 
     @Autowired
     private ActivationService activationService;
@@ -70,7 +72,8 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
         final Identifier identifier = person.addIdentifier(identifierType, IDENTIFIER_VALUE);
         identifier.setDeleted(false);
         identifier.setPrimary(true);
-        final Name name = person.addName();
+        this.simpleJdbcTemplate.update("insert into ctx_data_types(id, data_type, description) values(2, 'NAME', '" + NAME_DATA_TYPE + "')");
+        final Name name = person.addName(referenceRepository.findType(Type.DataTypes.NAME, "Formal"));
         name.setGiven("Scott");
         this.person = this.personRepository.savePerson(person);
     }

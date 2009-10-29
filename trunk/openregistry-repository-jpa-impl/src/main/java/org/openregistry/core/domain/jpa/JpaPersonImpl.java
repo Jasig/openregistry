@@ -90,6 +90,14 @@ public class JpaPersonImpl extends Entity implements Person {
     	this.names.add(name);
     	return name;
     }
+    
+    public Name addName(Type type) {
+       	Assert.isInstanceOf(JpaTypeImpl.class, type);
+    	final JpaNameImpl name = new JpaNameImpl(this);
+    	name.setType(type);
+    	this.names.add(name);
+    	return name;
+    }
 
     public Name getOfficialName() {
     	Set<? extends Name> names = this.getNames();
