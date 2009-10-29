@@ -409,7 +409,23 @@ public final class PeopleResource {
 	/**
 	 * @param reconciliationCriteriaObjectFactory the reconciliationCriteriaObjectFactory to set
 	 */
-	public void setReconciliationCriteriaObjectFactory(ObjectFactory<ReconciliationCriteria> reconciliationCriteriaObjectFactory) {
+	public void setReconciliationCriteriaObjectFactory(final ObjectFactory<ReconciliationCriteria> reconciliationCriteriaObjectFactory) {
 		this.reconciliationCriteriaObjectFactory = reconciliationCriteriaObjectFactory;
 	}
+
+    public void setPersonService(final PersonService personService) {
+        this.personService = personService;
+    }
+
+    public void setReferenceRepository(final ReferenceRepository referenceRepository) {
+        this.referenceRepository = referenceRepository;
+    }
+
+    public void setPreferredPersonIdentifierType(final String preferredPersonIdentifierType) {
+        this.preferredPersonIdentifierType = preferredPersonIdentifierType;
+    }
+
+    public void setIdentifierChangeService(final IdentifierChangeService identifierChangeService) {
+        this.identifierChangeService = identifierChangeService;
+    }
 }

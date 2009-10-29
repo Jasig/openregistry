@@ -75,7 +75,6 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public Person findByIdentifier(final String identifierType, final String identifierValue) throws RepositoryAccessException {
-        System.out.println("PERSON COUNT: " + this.persons.size());
         for (final Person person : this.persons) {
             for (final Identifier identifier : person.getIdentifiers()) {
                 if (identifier.getType().getName().equals(identifierType) && identifier.getValue().equals(identifierValue)) {
@@ -132,7 +131,6 @@ public class MockPersonRepository implements PersonRepository {
 
     public void deleteSorPerson(final SorPerson person) {
         this.sorPersons.remove(person);
-        System.out.println("DELETE SORPERSON: " + this.sorPersons.size());
     }
 
     public void deletePerson(final Person person) {

@@ -25,12 +25,16 @@
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <bean id="peopleResource-underTest" class="org.openregistry.core.web.resources.PeopleResource">
-    	<property name="reconciliationCriteriaObjectFactory" ref="&reconciliationCriteriaFactory"/>
+    	<property name="reconciliationCriteriaObjectFactory" ref="reconciliationCriteriaFactory" />
+        <property name="personService" ref="personService" />
+        <property name="referenceRepository" ref="referenceRepository" />
+        <property name="identifierChangeService" ref="identifierChangeService" />
+        <property name="preferredPersonIdentifierType" ref="preferredPersonIdentifierType" />
     </bean>
 
     <!-- All these beans will be autowired into 'PeopleResource' -->    
-    <bean class="org.openregistry.core.repository.MockReferenceRepository"/>
-    <bean class="org.openregistry.core.service.NullIdentifierChangeServiceFactoryBean"/>
+    <bean class="org.openregistry.core.repository.MockReferenceRepository" id="referenceRepository" />
+    <bean class="org.openregistry.core.service.NullIdentifierChangeServiceFactoryBean" id="identifierChangeService" />
     <bean id="reconciliationCriteriaFactory" class="org.openregistry.core.web.factory.MockReconciliationCriteriaFactory"/>
 
     <bean id="preferredPersonIdentifierType" class="java.lang.String">
