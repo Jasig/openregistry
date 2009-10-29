@@ -67,7 +67,7 @@
                                 <td><form:input path="names[${loopStatus.index}].middle" /></td>
                                 <td><form:input path="names[${loopStatus.index}].family" /></td>
                                 <td><form:input path="names[${loopStatus.index}].suffix" /></td>
-                                <td> </td>
+                                <td><form:select path="names[${loopStatus.index}].type" items="${nameTypes}" itemValue="id" itemLabel="description" /></td>
                                 <td><a href="${flowExecutionUrl}&_eventId=submitRemoveName&nameId=${sorName.id}"><img src="images/trash.jpg" title="remove name"/></a></td>   
                             </tr>
                             </c:forEach>
