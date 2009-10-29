@@ -54,6 +54,13 @@ public interface Person extends Serializable {
      * @return an EMPTY name.  CANNOT return NULL.
      */
     Name addName();
+    
+    /**
+     * Adds a name with the given type to the set of names.
+     *
+     * @return the name that was added.
+     */
+    Name addName(Type type);
 
     /**
      * Get a collection of roles associated with this person

@@ -323,7 +323,6 @@ public final class PeopleResource {
         ps.getPerson().setSourceSor(request.systemOfRecordId);
         ps.getPerson().setSorId(request.systemOfRecordPersonId);
         Name name = ps.getPerson().addName(referenceRepository.findType(Type.DataTypes.NAME, "Formal"));
-        // Name name = ps.getPerson().addName();
         name.setGiven(request.firstName);
         name.setFamily(request.lastName);
         ps.setEmailAddress(request.email);
