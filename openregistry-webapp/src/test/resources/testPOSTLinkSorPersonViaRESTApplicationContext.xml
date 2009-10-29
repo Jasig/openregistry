@@ -27,6 +27,6 @@
     <import resource="basePeopleResourceApplicationContext.xml"/>
 
     <!-- will be autowired into 'PeopleResource' (imported from the base app ctx) -->
-    <bean class="org.openregistry.core.web.resources.LinkSorPersonMockitoBasedPersonServiceFactoryBean" init-method="init"/>
+    <bean class="org.openregistry.core.web.resources.LinkSorPersonMockitoBasedPersonServiceFactoryBean" init-method="init" id="personService" />
 
 </beans>
