@@ -33,6 +33,8 @@ import java.util.*;
 
 public class MockSorPerson extends Entity implements SorPerson {
 
+    private Long id;
+
     private String sorId;
 
     private String sourceSorIdentifier;
@@ -49,6 +51,10 @@ public class MockSorPerson extends Entity implements SorPerson {
 
     private List<SorRole> roles = new ArrayList<SorRole>();
 
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
     public List<SorRole> getRoles(){
         return this.roles;
     }
@@ -62,7 +68,7 @@ public class MockSorPerson extends Entity implements SorPerson {
     }
 
     public Long getId() {
-        return 1L;
+        return this.id;
     }
 
     public String getSorId() {
@@ -123,18 +129,6 @@ public class MockSorPerson extends Entity implements SorPerson {
         return nameToFind;
     }
 
-    public synchronized void removeName(Name name) {
-        this.names.remove(name);
-    }
-
-    public synchronized void removeAllNames(){
-        this.names.clear();
-    }
-
-    public String getFormattedNameAndID(){
-        return null;
-    }
-
 	public Long getPersonId() {
 		return this.personId;
 	}
@@ -144,7 +138,9 @@ public class MockSorPerson extends Entity implements SorPerson {
 	}
 
 	public SorRole addRole(final RoleInfo roleInfo) {
-        return null;
+        final SorRole sorRole = new MockSorRole();
+        this.roles.add(sorRole);
+        return sorRole;
     }
 
     public void addRole(final SorRole role){

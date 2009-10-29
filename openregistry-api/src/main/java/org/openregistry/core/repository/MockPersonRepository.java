@@ -46,13 +46,12 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public MockPersonRepository(final Person[] persons, final SorPerson[] sorPersons) {
-        for (final Person person : persons) {
-            this.persons.add(person);
-        }
+        this.persons.addAll(Arrays.asList(persons));
+        this.sorPersons.addAll(Arrays.asList(sorPersons));
+    }
 
-        for (final SorPerson sorPerson : sorPersons) {
-            this.sorPersons.add(sorPerson);
-        }        
+    public List<Person> getPersons() {
+        return this.persons;
     }
 
     public Person findByInternalId(final Long id) throws RepositoryAccessException {
@@ -66,10 +65,17 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public SorPerson findSorByInternalId(Long id) throws RepositoryAccessException {
+        for (final SorPerson person : this.sorPersons) {
+            if (person.getId().equals(id)) {
+                return person;
+            }
+        }
+
         return null;
     }
 
     public Person findByIdentifier(final String identifierType, final String identifierValue) throws RepositoryAccessException {
+        System.out.println("PERSON COUNT: " + this.persons.size());
         for (final Person person : this.persons) {
             for (final Identifier identifier : person.getIdentifiers()) {
                 if (identifier.getType().getName().equals(identifierType) && identifier.getValue().equals(identifierValue)) {
@@ -85,10 +91,6 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public SorPerson findByPersonIdAndSorIdentifier(Long personId, String sorSourceIdentifier) {
-        return null;
-    }
-
-    public SorRole findSorRoleByInternalId(Long id) {
         return null;
     }
 
@@ -130,6 +132,7 @@ public class MockPersonRepository implements PersonRepository {
 
     public void deleteSorPerson(final SorPerson person) {
         this.sorPersons.remove(person);
+        System.out.println("DELETE SORPERSON: " + this.sorPersons.size());
     }
 
     public void deletePerson(final Person person) {
@@ -145,10 +148,6 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public SorPerson findSorPersonByPersonIdAndSorRoleId(Long personId, Long sorRoleId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public List<Identifier> findPersonIdentifiers(Long personId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
