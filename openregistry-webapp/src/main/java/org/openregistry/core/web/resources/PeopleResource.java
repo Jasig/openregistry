@@ -18,7 +18,6 @@ package org.openregistry.core.web.resources;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.ObjectFactory;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
@@ -73,7 +72,7 @@ public final class PeopleResource {
     @Resource(name = "reconciliationCriteriaFactory")
     private ObjectFactory<ReconciliationCriteria> reconciliationCriteriaObjectFactory;
 
-    //JSR-250 injection which is more appropriate here for 'autowiring by name' in the case of multiple types
+	//JSR-250 injection which is more appropriate here for 'autowiring by name' in the case of multiple types
     //are defined in the app ctx (Strings). The looked up bean name defaults to the property name which
     //needs an injection.
     @Resource
@@ -323,7 +322,8 @@ public final class PeopleResource {
         final ReconciliationCriteria ps = this.reconciliationCriteriaObjectFactory.getObject();
         ps.getPerson().setSourceSor(request.systemOfRecordId);
         ps.getPerson().setSorId(request.systemOfRecordPersonId);
-        Name name = ps.getPerson().addName();
+        Name name = ps.getPerson().addName(referenceRepository.findType(Type.DataTypes.NAME, "Formal"));
+        // Name name = ps.getPerson().addName();
         name.setGiven(request.firstName);
         name.setFamily(request.lastName);
         ps.setEmailAddress(request.email);
@@ -405,4 +405,11 @@ public final class PeopleResource {
         }
         return person;
     }
+    
+	/**
+	 * @param reconciliationCriteriaObjectFactory the reconciliationCriteriaObjectFactory to set
+	 */
+	public void setReconciliationCriteriaObjectFactory(ObjectFactory<ReconciliationCriteria> reconciliationCriteriaObjectFactory) {
+		this.reconciliationCriteriaObjectFactory = reconciliationCriteriaObjectFactory;
+	}
 }

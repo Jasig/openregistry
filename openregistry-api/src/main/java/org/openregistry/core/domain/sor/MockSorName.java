@@ -15,9 +15,9 @@
  */
 package org.openregistry.core.domain.sor;
 
-import org.openregistry.core.domain.internal.Entity;
+import org.openregistry.core.domain.MockType;
 import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.Type;
 
 /**
  * Implementation of the Name domain object that conforms to the tables for the Systems of Record
@@ -31,6 +31,8 @@ import org.openregistry.core.domain.Person;
 public final class MockSorName implements Name {
 
     private Long id;
+    
+    private Type type;
 
     private String prefix;
 
@@ -48,6 +50,10 @@ public final class MockSorName implements Name {
 
     public Long getId() {
         return this.id;
+    }
+    
+    public Type getType() {
+        return this.type;
     }
 
     public String getPrefix() {
@@ -68,6 +74,10 @@ public final class MockSorName implements Name {
 
     public String getSuffix() {
         return this.suffix;
+    }
+    
+    public void setType(final Type type) {
+        this.type = type;
     }
 
     public void setPrefix(final String prefix) {
