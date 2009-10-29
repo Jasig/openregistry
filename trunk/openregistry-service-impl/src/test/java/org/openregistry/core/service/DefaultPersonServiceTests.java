@@ -70,6 +70,7 @@ public class DefaultPersonServiceTests {
         name.setMiddle("B");
         name.setPrefix("");
         name.setSuffix("");
+       //TODO  needs referenceRepository...  name.setType(Type.DataTypes.NAME...);
         sorPerson.setGender("Male");
         sorPerson.setDateOfBirth(new Date());
     }

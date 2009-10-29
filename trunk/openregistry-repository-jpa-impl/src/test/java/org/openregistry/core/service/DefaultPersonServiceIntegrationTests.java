@@ -20,10 +20,13 @@ import org.openregistry.core.repository.ReferenceRepository;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.sor.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;
+import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.reconciliation.*;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -47,6 +50,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 
 	private final String OR_WEBAPP_IDENTIFIER = "or-webapp";
 	private final String REGISTRAR_IDENTIFIER = "registrar";
+	private final String NAME_DATA_TYPE = "Formal";
 
 	private static final String EMAIL_ADDRESS = "test@test.edu";
 	private static final String PHONE_NUMBER = "555-555-5555";
@@ -57,12 +61,17 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
 
     @Autowired
     private PersonService personService;
-
+    
     @Autowired
     private ReferenceRepository referenceRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
+    
+    @Before
+    public void setUp() throws Exception {
+        this.simpleJdbcTemplate.update("insert into ctx_data_types(id, data_type, description) values(2, 'NAME', '" + NAME_DATA_TYPE + "')");
+    }
 
     protected ReconciliationCriteria constructReconciliationCriteria(final String firstName, final String lastName, final String ssn, final String emailAddress, final String phoneNumber, Date birthDate, final String sor, final String sorId) {
         final ReconciliationCriteria reconciliationCriteria = new JpaReconciliationCriteriaImpl();
@@ -80,6 +89,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
         name.setFamily(lastName);
         name.setGiven(firstName);
         name.setOfficialName();
+        name.setType((JpaTypeImpl)this.referenceRepository.findType(Type.DataTypes.NAME, NAME_DATA_TYPE));
 
         return reconciliationCriteria;
     }

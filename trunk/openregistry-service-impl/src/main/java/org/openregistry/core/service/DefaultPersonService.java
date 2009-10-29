@@ -373,6 +373,7 @@ public class DefaultPersonService implements PersonService {
         name.setMiddle(sorName.getMiddle());
         name.setPrefix(sorName.getPrefix());
         name.setSuffix(sorName.getSuffix());
+        name.setType(sorName.getType());
 
         // Assign identifiers, including SSN from the SoR Person
         for (final IdentifierAssigner ia : this.identifierAssigners) {
