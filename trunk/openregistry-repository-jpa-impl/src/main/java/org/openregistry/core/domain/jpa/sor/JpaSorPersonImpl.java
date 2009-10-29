@@ -19,7 +19,9 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.RoleInfo;
+import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
+import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
 import org.hibernate.annotations.Fetch;
@@ -154,9 +156,17 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     }
 
     public void addName(Name name) {
-        this.names.add(name);
         Assert.isInstanceOf(JpaSorNameImpl.class, name);
+        this.names.add(name);
         ((JpaSorNameImpl)name).moveToPerson(this);
+    }
+    
+    public Name addName(Type type) {
+    	Assert.isInstanceOf(JpaTypeImpl.class, type);
+        final JpaSorNameImpl jpaSorName = new JpaSorNameImpl(this);
+        jpaSorName.setType(type);
+        this.names.add(jpaSorName);
+        return jpaSorName;
     }
 
     public synchronized Name findNameByNameId(final Long id) {

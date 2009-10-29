@@ -49,6 +49,9 @@ public class JpaTypeImpl extends Entity implements Type {
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="type")
     private List<JpaAddressImpl> addresses;
+    
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="type")
+    private List<JpaNameImpl> names;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="organizationalUnitType")
     private List<JpaOrganizationalUnitImpl> organizationalUnits;

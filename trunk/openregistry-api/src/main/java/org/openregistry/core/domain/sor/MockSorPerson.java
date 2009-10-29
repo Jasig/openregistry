@@ -19,6 +19,7 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.RoleInfo;
+import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 
 import java.util.*;
@@ -115,6 +116,13 @@ public class MockSorPerson extends Entity implements SorPerson {
 
     public void addName(Name name) {
         this.names.add(name);
+    }
+    
+    public Name addName(Type type) {
+        final MockSorName sorName = new MockSorName();
+        sorName.setType(type);
+        this.names.add(sorName);
+        return sorName;
     }
 
     public synchronized Name findNameByNameId(final Long id) {

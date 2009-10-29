@@ -25,6 +25,8 @@ import java.io.Serializable;
 public interface Name extends Serializable {
 
     Long getId();
+    
+    Type getType();
 
     String getPrefix();
 
@@ -35,6 +37,8 @@ public interface Name extends Serializable {
     String getFamily();
 
     String getSuffix();
+    
+    void setType(Type type);
 
     void setPrefix(String prefix);
 

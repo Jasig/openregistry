@@ -16,7 +16,9 @@
 package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.Name;
+import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
+import org.springframework.util.Assert;
 import org.hibernate.envers.Audited;
 import org.javalid.annotations.validation.NotNull;
 import org.javalid.annotations.core.ValidateDefinition;
@@ -24,7 +26,7 @@ import org.javalid.annotations.core.ValidateDefinition;
 import javax.persistence.*;
 
 /**
- * Unique Contraints assumes that only one official name and one preferred name per person id may exist
+ * Unique Constraints assumes that only one official name and one preferred name per person id may exist
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
@@ -44,6 +46,10 @@ public class JpaNameImpl extends Entity implements Name {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_names_seq")
     @SequenceGenerator(name="prc_names_seq",sequenceName="prc_names_seq",initialValue=1,allocationSize=50)
     private Long id;
+    
+    @ManyToOne
+    @JoinColumn(name="name_t")
+    private JpaTypeImpl type;
 
     @Column(name="prefix", nullable=true, length=5)
     private String prefix;
@@ -86,6 +92,10 @@ public class JpaNameImpl extends Entity implements Name {
     public Long getId() {
         return this.id;
     }
+    
+    public Type getType() {
+        return this.type;
+    }
 
     public String getPrefix() {
         return this.prefix;
@@ -105,6 +115,11 @@ public class JpaNameImpl extends Entity implements Name {
 
     public String getSuffix() {
         return this.suffix;
+    }
+    
+    public void setType(final Type type) {
+        Assert.isInstanceOf(JpaTypeImpl.class, type);
+        this.type = (JpaTypeImpl) type;
     }
 
     public void setPrefix(final String prefix) {

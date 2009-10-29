@@ -16,10 +16,14 @@
 package org.openregistry.core.domain.jpa.sor;
 
 import org.openregistry.core.domain.internal.Entity;
+import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.Type;
+import org.springframework.util.Assert;
 import org.hibernate.envers.Audited;
 import org.javalid.annotations.validation.NotEmpty;
+import org.javalid.annotations.validation.NotNull;
 import org.javalid.annotations.core.ValidateDefinition;
 
 import javax.persistence.*;
@@ -47,6 +51,11 @@ public final class JpaSorNameImpl extends Entity implements Name {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_names_seq")
     @SequenceGenerator(name="prs_names_seq",sequenceName="prs_names_seq",initialValue=1,allocationSize=50)
     private Long id;
+    
+    @ManyToOne
+    @JoinColumn(name="name_t")
+    @NotNull
+    private JpaTypeImpl type;
 
     @Column(name="prefix", nullable=true, length=5)
     private String prefix;
@@ -79,6 +88,10 @@ public final class JpaSorNameImpl extends Entity implements Name {
     public Long getId() {
         return this.id;
     }
+    
+    public Type getType() {
+        return this.type;
+    }
 
     public String getPrefix() {
         return this.prefix;
@@ -98,6 +111,11 @@ public final class JpaSorNameImpl extends Entity implements Name {
 
     public String getSuffix() {
         return this.suffix;
+    }
+    
+    public void setType(final Type type) {
+        Assert.isInstanceOf(JpaTypeImpl.class, type);
+        this.type = (JpaTypeImpl) type;
     }
 
     public void setPrefix(final String prefix) {

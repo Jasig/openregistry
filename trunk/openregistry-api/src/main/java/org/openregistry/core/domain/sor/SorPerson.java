@@ -18,6 +18,7 @@ package org.openregistry.core.domain.sor;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.RoleInfo;
+import org.openregistry.core.domain.Type;
 
 import java.util.List;
 import java.util.Set;
@@ -111,6 +112,13 @@ public interface SorPerson {
      * Adds a name to the set of names.
      */
     void addName(Name name);
+    
+    /**
+     * Adds a name with the given type to the set of names.
+     *
+     * @return the name that was added.
+     */
+    Name addName(Type type);
 
     /**
      * Finds an SoR Name (and returns it) based on the Name Id provided.

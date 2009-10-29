@@ -17,12 +17,15 @@ package org.openregistry.core.domain;
 
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.internal.Entity;
+import org.openregistry.core.domain.MockType;
 
 /**
  */
 public class MockName extends Entity implements Name {
 
     private Long id;
+    
+    private Type type;
 
     private String prefix;
 
@@ -55,6 +58,10 @@ public class MockName extends Entity implements Name {
     public Long getId() {
         return this.id;
     }
+    
+    public Type getType() {
+        return this.type;
+    }
 
     public String getPrefix() {
         return this.prefix;
@@ -74,6 +81,10 @@ public class MockName extends Entity implements Name {
 
     public String getSuffix() {
         return this.suffix;
+    }
+    
+    public void setType(final Type type) {
+        this.type = type;
     }
 
     public void setPrefix(final String prefix) {

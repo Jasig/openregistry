@@ -24,13 +24,14 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <context:component-scan base-package="org.openregistry.core.factory.jpa"/>
-
-    <bean id="peopleResource-underTest" class="org.openregistry.core.web.resources.PeopleResource" />
+    <bean id="peopleResource-underTest" class="org.openregistry.core.web.resources.PeopleResource">
+    	<property name="reconciliationCriteriaObjectFactory" ref="&reconciliationCriteriaFactory"/>
+    </bean>
 
     <!-- All these beans will be autowired into 'PeopleResource' -->    
-    <bean class="org.openregistry.core.repository.NullReferenceRepositoryFactoryBean"/>
+    <bean class="org.openregistry.core.repository.MockReferenceRepository"/>
     <bean class="org.openregistry.core.service.NullIdentifierChangeServiceFactoryBean"/>
+    <bean id="reconciliationCriteriaFactory" class="org.openregistry.core.web.factory.MockReconciliationCriteriaFactory"/>
 
     <bean id="preferredPersonIdentifierType" class="java.lang.String">
         <constructor-arg index="0" value="NETID"/>
