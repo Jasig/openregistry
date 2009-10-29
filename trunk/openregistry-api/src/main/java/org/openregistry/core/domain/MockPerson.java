@@ -82,8 +82,10 @@ public class MockPerson implements Person {
         return roles;
     }
 
-    public Role addRole(SorRole sorRole) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Role addRole(final SorRole sorRole) {
+        final MockRole mockRole = new MockRole(sorRole);
+        this.roles.add(mockRole);
+        return mockRole;
     }
 
     public Set<Identifier> getIdentifiers() {
@@ -112,13 +114,6 @@ public class MockPerson implements Person {
 
             public Boolean isDeleted() {
                 return false;
-            }
-
-            public void setType(final IdentifierType type) {
-            }
-
-            public void setValue(final String value) {
-
             }
 
             public void setPrimary(Boolean value) {

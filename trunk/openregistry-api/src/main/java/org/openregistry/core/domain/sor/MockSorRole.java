@@ -38,9 +38,16 @@ public class MockSorRole extends Entity implements SorRole{
 
 	private Type terminationReason;
 
-	public MockSorRole(Long id) {
-		this.id=id;
+	public MockSorRole() {
 	}
+
+    public MockSorRole(final Long id) {
+        this.id = id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
 	public Long getId() {
 		return id;

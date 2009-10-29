@@ -38,6 +38,12 @@ public class MockRole extends Entity implements Role {
 
     private Date end;
 
+    public MockRole(final SorRole sorRole) {
+        this.sorRoleId = sorRole.getId();
+        this.end = sorRole.getEnd();
+        this.terminationReason = sorRole.getTerminationReason();
+    }
+
 	public MockRole(Long id) {
 		this.id = id;
 	}

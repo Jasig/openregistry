@@ -18,9 +18,7 @@ package org.openregistry.core.web.resources;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.representation.Form;
 
 import static org.junit.Assert.*;
 
