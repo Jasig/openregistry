@@ -18,55 +18,10 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:jee="http://www.springframework.org/schema/jee"
-       xmlns:util="http://www.springframework.org/schema/util"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:lang="http://www.springframework.org/schema/lang"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-2.5.xsd
-        http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-        http://www.springframework.org/schema/jee
-        http://www.springframework.org/schema/jee/spring-jee.xsd
-        http://www.springframework.org/schema/util
-        http://www.springframework.org/schema/util/spring-util-2.5.xsd
-        http://www.springframework.org/schema/lang
-        http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
-        http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-
-    <context:component-scan base-package="org.openregistry.core.factory.jpa"/>
-
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-          p:dataSource-ref="dataSource">
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
-                  p:generateDdl="true"
-                  p:showSql="true"/>
-        </property>
-        <property name="jpaPropertyMap">
-            <map>
-                <entry key="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-                <entry key="hibernate.hbm2ddl.auto" value="update"/>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
-          p:entityManagerFactory-ref="entityManagerFactory"/>
-
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
-        p:password=""
-        p:url="jdbc:hsqldb:mem:openregistry"
-        p:username="sa"
-        p:driverClass="org.hsqldb.jdbcDriver" />
+    <import resource="base-integration-tests.xml" />
 
     <bean id="personService" class="org.openregistry.core.service.DefaultPersonService">
       <constructor-arg index="0" ref="personRepository" />
@@ -74,10 +29,6 @@
       <constructor-arg index="2" ref="identifierGenerator" />
       <constructor-arg index="3" ref="reconciler" />
     </bean>
-
-    <bean id="personRepository" class="org.openregistry.core.repository.jpa.JpaPersonRepository" />
-
-    <bean id="referenceRepository" class="org.openregistry.core.repository.jpa.JpaReferenceRepository" />
 
     <bean id="reconciler" class="org.openregistry.core.service.reconciliation.NameReconciler" />
 
