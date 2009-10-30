@@ -273,20 +273,34 @@ public class DefaultPersonServiceTests {
 	    personRepository.findByIdentifier("NetId","testId");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testAddRoleWithNoParameters() {
+        this.personService.validateAndSaveRoleForSorPerson(null, null);
+    }
+
+    public void testAddNewRoleForPerson() {
+        final MockSorPerson mockSorPerson = new MockSorPerson();
+        mockSorPerson.setPersonId(1L);
+        final MockSorRole sorRole = (MockSorRole) mockSorPerson.addRole((RoleInfo) null);
+        sorRole.setSorId("1");
+        sorRole.setId(2L);
+
+        final MockPerson mockPerson = new MockPerson();
+        mockPerson.setId(1L);
+
+        final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {mockSorPerson});
+        this.personService = new DefaultPersonService(personRepository, this.referenceRepository, new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+        final ServiceExecutionResult<SorRole> serviceExecutionResult = this.personService.validateAndSaveRoleForSorPerson(mockSorPerson, sorRole);
+
+        assertTrue(serviceExecutionResult.succeeded());
+
+        final Person person = this.personRepository.findByInternalId(1L);
+        assertEquals(1, person.getRoles().size());
+    }
+
 
 
     //TODO need to add test cases for conditionally required fields.
 
     //TODO field level test cases need to be added to the integration tests since annotations are not available in Mocked classes at the api level.
-
-    /** TODO need to add this to integration tests
-     * Tests that reconciliationCriteria must provide Source Sor Id.
-
-    @Test
-    public void testSourceSorIdRequired() {
-        ServiceExecutionResult result = this.personService.addPerson(reconciliationCriteria, null);
-        Assert.notEmpty(result.getValidationErrors());
-    }
-   */
-
 }
