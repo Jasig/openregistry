@@ -67,7 +67,7 @@
                                 <td><form:input path="names[${loopStatus.index}].middle" /></td>
                                 <td><form:input path="names[${loopStatus.index}].family" /></td>
                                 <td><form:input path="names[${loopStatus.index}].suffix" /></td>
-                                <td><form:select path="names[${loopStatus.index}].type">
+                                <td><form:select path="names[${loopStatus.index}].type.id">
                                        <form:options items="${nameTypes}" itemValue="id" itemLabel="description" />
                                     </form:select>
                                 </td>
