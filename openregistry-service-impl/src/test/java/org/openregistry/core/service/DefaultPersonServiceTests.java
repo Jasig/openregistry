@@ -278,11 +278,15 @@ public class DefaultPersonServiceTests {
         this.personService.validateAndSaveRoleForSorPerson(null, null);
     }
 
+    @Test
     public void testAddNewRoleForPerson() {
         final MockSorPerson mockSorPerson = new MockSorPerson();
+        mockSorPerson.setSourceSor("FOO");
         mockSorPerson.setPersonId(1L);
+
         final MockSorRole sorRole = (MockSorRole) mockSorPerson.addRole((RoleInfo) null);
         sorRole.setSorId("1");
+        sorRole.setSourceSorIdentifier("FOO");
         sorRole.setId(2L);
 
         final MockPerson mockPerson = new MockPerson();
@@ -294,7 +298,7 @@ public class DefaultPersonServiceTests {
 
         assertTrue(serviceExecutionResult.succeeded());
 
-        final Person person = this.personRepository.findByInternalId(1L);
+        final Person person = personRepository.findByInternalId(1L);
         assertEquals(1, person.getRoles().size());
     }
 

@@ -89,7 +89,7 @@ public class MockPerson implements Person {
     }
 
     public List<Role> getRoles() {
-        return roles;
+        return this.roles;
     }
 
     public Role addRole(final SorRole sorRole) {
