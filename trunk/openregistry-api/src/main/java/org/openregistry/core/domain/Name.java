@@ -50,11 +50,11 @@ public interface Name extends Serializable {
 
     void setSuffix(String suffix);
     
-    void setOfficialName();
+    void setOfficialName(boolean officialName);
     
     boolean isOfficialName();
 
-    void setPreferredName();
+    void setPreferredName(boolean preferredName);
     
     boolean isPreferredName();
     

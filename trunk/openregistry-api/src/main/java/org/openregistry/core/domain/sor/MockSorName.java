@@ -44,6 +44,11 @@ public final class MockSorName implements Name {
 
     private String suffix;
 
+    private boolean officialName;
+
+    private boolean preferredName;
+
+
     public MockSorName() {
         // nothing to do
     }
@@ -130,22 +135,18 @@ public final class MockSorName implements Name {
     }
 
 	public boolean isOfficialName() {
-		// TODO Auto-generated method stub
-		return false;
+        return this.officialName;
 	}
 
 	public boolean isPreferredName() {
-		// TODO Auto-generated method stub
-		return false;
+        return this.preferredName;
 	}
 
-	public void setOfficialName() {
-		// TODO Auto-generated method stub
-
+	public void setOfficialName(final boolean officialName) {
+        this.officialName = officialName;
 	}
 
-	public void setPreferredName() {
-		// TODO Auto-generated method stub
-
+	public void setPreferredName(final boolean preferredName) {
+        this.preferredName = preferredName;
 	}
 }

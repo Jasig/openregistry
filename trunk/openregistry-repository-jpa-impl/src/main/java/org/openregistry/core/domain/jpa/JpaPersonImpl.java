@@ -113,7 +113,7 @@ public class JpaPersonImpl extends Entity implements Person {
     public Name addOfficialName(){
         final JpaNameImpl name = new JpaNameImpl(this);
         this.names.add(name);
-        name.setOfficialName();
+        name.setOfficialName(true);
         return name;
     }
 
@@ -139,12 +139,8 @@ public class JpaPersonImpl extends Entity implements Person {
     public Name addPreferredName(){
         final JpaNameImpl name = new JpaNameImpl(this);
         this.names.add(name);
-        name.setPreferredName();
+        name.setPreferredName(true);
         return name;
-    }
-
-    public void setPreferredName(Name name){
-        name.setPreferredName();
     }
 
     public String getGender() {

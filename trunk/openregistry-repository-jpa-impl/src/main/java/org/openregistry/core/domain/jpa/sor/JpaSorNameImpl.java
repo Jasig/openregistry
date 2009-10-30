@@ -31,9 +31,7 @@ import javax.persistence.*;
 /**
  * Implementation of the Name domain object that conforms to the tables for the Systems of Record
  *
- * TODO: Add Type field.
  * TODO: fix stubs
- * TODO: we want a type and not "is..." since those are our names
  * TODO: add unique constraints with new type
  *
  * @author Scott Battaglia
@@ -205,12 +203,12 @@ public final class JpaSorNameImpl extends Entity implements Name {
 		return false;
 	}
 
-	public void setOfficialName() {
+	public void setOfficialName(final boolean officialName) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setPreferredName() {
+	public void setPreferredName(final boolean preferredName) {
 		// TODO Auto-generated method stub
 
 	}

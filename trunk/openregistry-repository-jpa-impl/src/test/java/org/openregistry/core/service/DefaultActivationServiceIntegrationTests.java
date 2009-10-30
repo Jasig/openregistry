@@ -89,7 +89,6 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractInte
         final String oldActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, person.getId());
         assertEquals(currentActivationKey.asString(), oldActivationKeyString);
         final ActivationKey newActivationKey = this.activationService.generateActivationKey(person);
-        // TODO: figure out why we need to flush here.  Is it necessary?
         this.entityManager.flush();
         final String newActivationKeyString = this.simpleJdbcTemplate.queryForObject("select activation_key from prc_persons where id = ?", String.class, person.getId());
         assertEquals(newActivationKey.asString(), newActivationKeyString);

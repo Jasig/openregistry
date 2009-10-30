@@ -15,9 +15,6 @@
  */
 package org.openregistry.core.web;
 
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
 import org.springframework.webflow.test.execution.AbstractXmlFlowExecutionTests;
 import org.springframework.webflow.test.MockExternalContext;
 import org.springframework.webflow.test.MockFlowBuilderContext;
@@ -29,21 +26,14 @@ import org.springframework.webflow.core.collection.LocalAttributeMap;
 import org.springframework.webflow.core.collection.AttributeMap;
 import org.springframework.webflow.engine.Flow;
 import org.springframework.webflow.engine.EndState;
-import org.openregistry.core.domain.jpa.JpaTypeImpl;
-import org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl;
-import org.openregistry.core.domain.sor.MockReconciliationCriteria;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.MockPerson;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
-import org.openregistry.core.repository.MockPersonRepository;
 import org.openregistry.core.repository.MockReferenceRepository;
-import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.web.factory.MockReconciliationCriteriaFactory;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.mapping.MappingResults;
 import org.springframework.binding.mapping.Mapper;
 
@@ -63,12 +53,10 @@ public class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 	private static final String KIPLING = "Kipling";
 
     private MockPersonSearchAction personSearchAction;
-    private PersonRepository personRepository;
     private ReferenceRepository referenceRepository;
     private ObjectFactory<ReconciliationCriteria> reconciliationCriteriaFactory;
 
     protected void setUp(){
-        this.personRepository = new MockPersonRepository(new MockPerson());
         personSearchAction = new MockPersonSearchAction();
         referenceRepository = new MockReferenceRepository();
         reconciliationCriteriaFactory = new MockReconciliationCriteriaFactory();
@@ -99,7 +87,7 @@ public class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         final Name name = sorPerson.addName(this.referenceRepository.findType(Type.DataTypes.NAME, "Formal"));
         name.setFamily(lastName);
         name.setGiven(firstName);
-        name.setOfficialName();
+        name.setOfficialName(true);
 
        
         return reconciliationCriteria;

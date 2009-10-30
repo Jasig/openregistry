@@ -363,7 +363,7 @@ public class DefaultPersonService implements PersonService {
 
         //initialize the name to be both official and preferred.
         final Name name = person.addOfficialName();
-        person.setPreferredName(name);
+        name.setPreferredName(true);
 
         // There should only be one at this point.
         // TODO generalize this to all names
