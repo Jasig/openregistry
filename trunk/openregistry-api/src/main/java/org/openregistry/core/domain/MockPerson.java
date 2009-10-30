@@ -34,6 +34,8 @@ public class MockPerson implements Person {
 
 	private List<Role> roles = new ArrayList<Role>();
 
+    private long id = 1L;
+
     public MockPerson() {
         this("testId", false, false);
     }
@@ -63,7 +65,11 @@ public class MockPerson implements Person {
     }
 
     public Long getId() {
-        return 1L;
+        return this.id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public void addRole(final Role role) {
