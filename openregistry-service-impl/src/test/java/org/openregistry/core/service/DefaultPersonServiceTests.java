@@ -98,8 +98,6 @@ public class DefaultPersonServiceTests {
 
     /**
      * Tests if reconciliation result is EXACT that person is returned.
-     *
-     * // TODO: this test is actually technically incorrect.
      */
     @Test
     public void testReconciliationResultExactMatch() throws ReconciliationException {

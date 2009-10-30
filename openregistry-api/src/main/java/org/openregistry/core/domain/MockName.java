@@ -15,12 +15,8 @@
  */
 package org.openregistry.core.domain;
 
-import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.internal.Entity;
-import org.openregistry.core.domain.MockType;
 
-/**
- */
 public class MockName extends Entity implements Name {
 
     private Long id;
@@ -37,22 +33,12 @@ public class MockName extends Entity implements Name {
 
     private String suffix;
 
-    private MockPerson person;
+    private boolean officialName = false;
 
-    private Boolean officialName = false;
-
-    private Boolean preferredName = false;
+    private boolean preferredName = false;
 
     public MockName() {
     	// nothing else to do
-    }
-
-    public MockName(final MockPerson person) {
-    	this.person = person;
-    }
-
-    public void moveToPerson(MockPerson person){
-        this.person = person;
     }
 
     public Long getId() {
@@ -107,16 +93,16 @@ public class MockName extends Entity implements Name {
         this.suffix = suffix;
     }
 
-    public void setOfficialName() {
-        this.officialName = true;
+    public void setOfficialName(final boolean officialName) {
+        this.officialName = officialName;
     }
 
     public boolean isOfficialName() {
     	return this.officialName;
     }
 
-    public void setPreferredName() {
-        this.preferredName = true;
+    public void setPreferredName(final boolean preferredName) {
+        this.preferredName = preferredName;
     }
 
     public boolean isPreferredName() {

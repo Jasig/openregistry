@@ -85,10 +85,6 @@ public class JpaNameImpl extends Entity implements Name {
     	this.person = person;
     }
 
-    public void moveToPerson(JpaPersonImpl person){
-        this.person = person;
-    }
-
     public Long getId() {
         return this.id;
     }
@@ -142,16 +138,16 @@ public class JpaNameImpl extends Entity implements Name {
         this.suffix = suffix;
     }
 
-    public void setOfficialName() {
-        this.officialName = true;
+    public void setOfficialName(final boolean officialName) {
+        this.officialName = officialName;
     }
 
     public boolean isOfficialName() {
     	return this.officialName;
     }
 
-    public void setPreferredName() {
-        this.preferredName = true;
+    public void setPreferredName(final boolean preferredName) {
+        this.preferredName = preferredName;
     }
 
     public boolean isPreferredName() {

@@ -167,13 +167,13 @@ public class MockPerson implements Person {
 
     public Name addOfficialName() {
         MockName name = new MockName();
-        name.setOfficialName();
+        name.setOfficialName(true);
         return name;
     }
 
     public Name addPreferredName() {
         MockName name = new MockName();
-        name.setPreferredName();
+        name.setPreferredName(true);
         return name;
     }
 

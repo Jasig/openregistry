@@ -83,7 +83,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         final Name name = sorPerson.addName(this.referenceRepository.findType(Type.DataTypes.NAME, NAME_DATA_TYPE));
         name.setFamily(lastName);
         name.setGiven(firstName);
-        name.setOfficialName();
+        name.setOfficialName(true);
 
         return reconciliationCriteria;
     }
