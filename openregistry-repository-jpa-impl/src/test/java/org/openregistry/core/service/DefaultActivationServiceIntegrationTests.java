@@ -38,7 +38,7 @@ import java.util.Date;
  * @since 0.1
  */
 @ContextConfiguration(locations = {"classpath:test-activationServices-context.xml"})
-public final class DefaultActivationServiceIntegrationTests extends AbstractTransactionalJUnit4SpringContextTests {
+public final class DefaultActivationServiceIntegrationTests extends AbstractIntegrationTests {
 
     private static final String IDENTIFIER_TYPE ="NetId";
 
@@ -64,16 +64,15 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractTran
 
     @Before
     public void setUp() throws Exception {
+//        super.setUp();
         final Person person = new JpaPersonImpl();
         person.setDateOfBirth(new Date());
         person.setGender("M");
-        this.simpleJdbcTemplate.update("insert into prd_identifier_types(identifier_t, name) values(null, '" + IDENTIFIER_TYPE + "')");
         final IdentifierType identifierType = this.referenceRepository.findIdentifierType(IDENTIFIER_TYPE);
         final Identifier identifier = person.addIdentifier(identifierType, IDENTIFIER_VALUE);
         identifier.setDeleted(false);
         identifier.setPrimary(true);
-        this.simpleJdbcTemplate.update("insert into ctx_data_types(id, data_type, description) values(2, 'NAME', '" + NAME_DATA_TYPE + "')");
-        final Name name = person.addName(referenceRepository.findType(Type.DataTypes.NAME, "Formal"));
+        final Name name = person.addName(referenceRepository.findType(Type.DataTypes.NAME, NAME_DATA_TYPE));
         name.setGiven("Scott");
         this.person = this.personRepository.savePerson(person);
     }

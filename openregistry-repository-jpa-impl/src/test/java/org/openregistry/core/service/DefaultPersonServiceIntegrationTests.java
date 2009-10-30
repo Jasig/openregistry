@@ -46,7 +46,7 @@ import java.text.*;
  */
 
 @ContextConfiguration(locations = {"classpath:test-personServices-context.xml"})
-public final class DefaultPersonServiceIntegrationTests extends AbstractTransactionalJUnit4SpringContextTests {
+public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrationTests {
 
 	private final String OR_WEBAPP_IDENTIFIER = "or-webapp";
 	private final String REGISTRAR_IDENTIFIER = "registrar";
@@ -68,11 +68,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
     @PersistenceContext
     private EntityManager entityManager;
     
-    @Before
-    public void setUp() throws Exception {
-        this.simpleJdbcTemplate.update("insert into ctx_data_types(id, data_type, description) values(2, 'NAME', '" + NAME_DATA_TYPE + "')");
-    }
-
     protected ReconciliationCriteria constructReconciliationCriteria(final String firstName, final String lastName, final String ssn, final String emailAddress, final String phoneNumber, Date birthDate, final String sor, final String sorId) {
         final ReconciliationCriteria reconciliationCriteria = new JpaReconciliationCriteriaImpl();
         reconciliationCriteria.setEmailAddress(emailAddress);
@@ -411,10 +406,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
     // test delete SoR Person no mistake
      @Test
      public void testDeleteSoRPersonNoMistakeOneSoR() throws ReconciliationException {
-
-        this.simpleJdbcTemplate.update("insert into ctx_data_types (data_type, description) values('TERMINATION', 'UNSPECIFIED')", new HashMap());
-
-
         final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.addPerson(criteria);
         final SorPerson sorPerson = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult.getTargetObject().getId(), OR_WEBAPP_IDENTIFIER);
@@ -437,10 +428,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
     // test delete SoR Person with no mistake (2 sors)
      @Test
      public void testDeleteSoRPersonNoMistakeTwoSoRs() throws ReconciliationException {
-
-        this.simpleJdbcTemplate.update("insert into ctx_data_types (data_type, description) values('TERMINATION', 'UNSPECIFIED')", new HashMap());
-        this.simpleJdbcTemplate.update("insert into ctx_data_types (data_type, description) values('TERMINATION', 'FIRED')", new HashMap());
-
         final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.addPerson(criteria);
         final SorPerson sorPerson = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult.getTargetObject().getId(), OR_WEBAPP_IDENTIFIER);
@@ -486,10 +473,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
     @Test
     public void testAddRoleForSoRPerson() throws ReconciliationException {
         final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
-        this.simpleJdbcTemplate.update("insert into prd_campuses(id, code, name) values(1, 'cam', 'Busch')");
-        this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(1, 'FOO', 'Foo Description')");
-        this.simpleJdbcTemplate.update("insert into drd_organizational_units(id, campus_id, organizational_unit_t, code, name) values(1, 1, 1, 'cod', 'Department')");
-        this.simpleJdbcTemplate.update("insert into prd_roles(id, title, organizational_unit_id, campus_id, affiliation_t, code) values(1, 'Title', 1, 1, 1, 'Code')");
         final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
         final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
 
@@ -528,10 +511,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractTransact
     @Test
     public void testAddRoleForSoRPersonWithNoRoleID() throws ReconciliationException {
         final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
-        this.simpleJdbcTemplate.update("insert into prd_campuses(id, code, name) values(1, 'cam', 'Busch')");
-        this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(1, 'FOO', 'Foo Description')");
-        this.simpleJdbcTemplate.update("insert into drd_organizational_units(id, campus_id, organizational_unit_t, code, name) values(1, 1, 1, 'cod', 'Department')");
-        this.simpleJdbcTemplate.update("insert into prd_roles(id, title, organizational_unit_id, campus_id, affiliation_t, code) values(1, 'Title', 1, 1, 1, 'Code')");
         final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
         final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
 
