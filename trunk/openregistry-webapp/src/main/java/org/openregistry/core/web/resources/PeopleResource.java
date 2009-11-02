@@ -26,6 +26,7 @@ import org.openregistry.core.domain.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.IdentifierChangeService;
+import org.openregistry.core.service.ValidationError;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
 import org.openregistry.core.web.resources.representations.LinkRepresentation;
@@ -85,34 +86,38 @@ public final class PeopleResource {
 
     private static final String FORCE_ADD_FLAG = "y";
 
-    @PUT
-    @Path("{personIdType}/{personId}/roles/{roleCode}")
+    @POST
+    @Path("sor/{sorSource}/{sorId}/roles")
     @Consumes(MediaType.APPLICATION_XML)
-    public Response processIncomingRole(@PathParam("personIdType") String personIdType,
-                                        @PathParam("personId") String personId,
-                                        @PathParam("roleCode") String roleCode,
-                                        @QueryParam("sor") String sorSourceId,
+    public Response processIncomingRole(@PathParam("sorSource") final String sorSource,
+                                        @PathParam("sorId") final String sorId,
                                         RoleRepresentation roleRepresentation) {
 
-        if (sorSourceId == null) {
-            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
-                    .entity("The 'sor' query parameter is missing").build());
-        }
-        final SorPerson sorPerson = this.personService.findSorPersonByIdentifierAndSourceIdentifier(personIdType, personId, sorSourceId);
+        System.out.println("processIncomingRole");
+        final SorPerson sorPerson = this.personService.findBySorIdentifierAndSource(sorSource, sorId);
         if (sorPerson == null) {
             //HTTP 404
             throw new NotFoundException(
-                    String.format("The person resource identified by [%s/%s] URI does not exist for the given [%s] sor id",
-                            personIdType, personId, sorSourceId));
+                    String.format("The person resource identified by [%s/%s] URI does not exist.",
+                            sorSource, sorId));
         }
+        /*
         final RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(roleCode);
         if (roleInfo == null) {
             throw new NotFoundException(
                     String.format("The role identified by [%s] does not exist", roleCode));
         }
-        final SorRole sorRole = buildSorRoleFrom(sorPerson, roleInfo, roleRepresentation);
+        */
+        final SorRole sorRole = buildSorRoleFrom(sorPerson, roleRepresentation);
         final ServiceExecutionResult result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
         if (result.getValidationErrors().size() > 0) {
+            List<ValidationError> validationErrors = result.getValidationErrors();
+
+            Iterator<ValidationError> iter = validationErrors.iterator();
+            while (iter.hasNext()) {
+                ValidationError nextElement = iter.next();
+                logger.info("ValidationErrors: "+ nextElement.getField());
+            }
             throw new WebApplicationException(400);
         }
         //HTTP 201
@@ -262,6 +267,7 @@ public final class PeopleResource {
                                                @PathParam("sorId") final String sorId,
                                                @QueryParam("mistake") @DefaultValue("false") final boolean mistake,
                                                @QueryParam("terminationType") @DefaultValue("UNSPECIFIED") final String terminationType) {
+        System.out.println("deleteSystemOfRecordPerson");
         try {
             if (!this.personService.deleteSystemOfRecordPerson(sorSource, sorId, mistake, terminationType)) {
                 throw new WebApplicationException(new RuntimeException(String.format("Unable to Delete SorPerson for SoR [ %s ] with ID [ %s ]", sorSource, sorId)), 500);
@@ -278,13 +284,24 @@ public final class PeopleResource {
 
     //TODO: what happens if the role (identified by RoleInfo) has been added already?
     //NOTE: the sponsor is not set (remains null) as it was not defined in the XML payload as was discussed
-    private SorRole buildSorRoleFrom(final SorPerson person, final RoleInfo roleInfo, final RoleRepresentation roleRepresentation) {
+    private SorRole buildSorRoleFrom(final SorPerson person, final RoleRepresentation roleRepresentation) {
+
+        final RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(roleRepresentation.roleCode);
+        if (roleInfo == null) {
+            throw new NotFoundException(
+                    String.format("The role identified by [%s] does not exist", roleRepresentation.roleCode));
+        }
+
         final SorRole sorRole = person.addRole(roleInfo);
         sorRole.setSorId("1");  // TODO: what to set here?
         sorRole.setSourceSorIdentifier(person.getSourceSor());
-        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, "active"));
+        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, "Active"));
         sorRole.setStart(roleRepresentation.startDate);
         sorRole.setEnd(roleRepresentation.endDate);
+        sorRole.setPercentage(new Integer(roleRepresentation.percentage).intValue());
+        sorRole.setSponsor();
+        sorRole.getSponsor().setType(referenceRepository.findType(Type.DataTypes.SPONSOR, "Person"));
+        sorRole.getSponsor().setSponsorId(81L); // TODO: what to set here?
 
         //Emails
         for (final RoleRepresentation.Email e : roleRepresentation.emails) {
@@ -313,7 +330,8 @@ public final class PeopleResource {
             address.setLine3(a.line3);
             address.setCity(a.city);
             address.setPostalCode(a.postalCode);
-            //TODO: how to set Region and Country instances??? Currently there is no way!
+            address.setCountry(referenceRepository.getCountryByCode(a.countryCode));
+            //TODO: how to set Region instances??? Currently there is no way!
         }
         return sorRole;
     }
