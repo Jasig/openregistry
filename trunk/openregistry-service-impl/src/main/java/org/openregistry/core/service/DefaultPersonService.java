@@ -137,6 +137,15 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
+    @Transactional
+    public SorPerson findBySorIdentifierAndSource(final String sorSource, final String sorId){
+        try {
+            return this.personRepository.findBySorIdentifierAndSource(sorSource, sorId);
+        } catch (Exception e){
+            return null;
+        }
+    }
+
     /**
      * This does not explicitly delete the names because its assumed the recalculation will clean it up.
      */    
