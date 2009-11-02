@@ -40,6 +40,8 @@ public interface ReferenceRepository {
 
     Country getCountryById(Long id);
 
+    Country getCountryByCode(String code);
+
     List<Country> getCountries();
 
     List<RoleInfo> getRoleInfos();

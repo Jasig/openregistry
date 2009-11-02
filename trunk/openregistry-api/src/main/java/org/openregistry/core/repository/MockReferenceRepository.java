@@ -54,6 +54,10 @@ public final class MockReferenceRepository implements ReferenceRepository {
         return null;
     }
 
+    public Country getCountryByCode(String code){
+        return null;
+    }
+
     public List<Country> getCountries() {
         return null;
     }
