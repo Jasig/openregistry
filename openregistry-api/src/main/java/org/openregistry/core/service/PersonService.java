@@ -75,6 +75,15 @@ public interface PersonService {
 
     /**
      * For a particular Sor Person record for the specified sourceSorIdentifier.
+     * @param sorSource
+     * @param sorId
+     * @return  SorPerson
+     */
+
+    SorPerson findBySorIdentifierAndSource(final String sorSource, final String sorId);
+
+    /**
+     * For a particular Sor Person record for the specified sourceSorIdentifier.
      * @param fromPerson
      * @param toPerson
      * @return  SorPerson
