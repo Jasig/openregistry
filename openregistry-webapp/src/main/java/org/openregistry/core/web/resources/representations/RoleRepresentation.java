@@ -33,6 +33,9 @@ import java.util.Date;
 @XmlRootElement(name = "open-registry-role")
 public final class RoleRepresentation {
 
+    @XmlAttribute(name = "role-code")
+    public String roleCode;
+
     @XmlAttribute(name = "start-date")
     public Date startDate;
 
@@ -41,6 +44,9 @@ public final class RoleRepresentation {
 
     @XmlAttribute
     public String percentage;
+
+    @XmlAttribute(name = "sponsor-id")
+    public String sponsorId;
 
     @XmlElementWrapper
     @XmlElement(name = "address")
