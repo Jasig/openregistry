@@ -72,6 +72,11 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
+    public Country getCountryByCode(String code) {
+        return (Country)this.entityManager.createQuery("select c from country c where c.code = :code order by c.name").setParameter("code", code).getSingleResult();
+    }
+
+    @Transactional
     public List<Country> getCountries() {
         return (List<Country>) this.entityManager.createQuery("select c from country c").getResultList();
     }
