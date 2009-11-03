@@ -81,12 +81,15 @@ public final class NameReconciler implements Reconciler {
 			matches.addAll(exactMatches);
 			matches.addAll(partialMatches);
 			logger.info("Reconcile: returning MAYBE; " + exactMatches.size() + "," + partialMatches.size() + " matches found");
+			Collections.sort(matches);
 			return new ReconciliationResultImpl(ReconciliationType.MAYBE, matches);
 		} else if (exactMatches.size() > 1) {
 			logger.info("Reconcile: returning MAYBE; " + exactMatches.size() + "," + partialMatches.size() + " matches found");
+			Collections.sort(exactMatches);
 			return new ReconciliationResultImpl(ReconciliationType.MAYBE, exactMatches);
 		} else {
 			logger.info("Reconcile: returning EXACT; " + exactMatches.size() + "," + partialMatches.size() + " matches found");
+			// No need to sort exactMatches here as there is only one
 			return new ReconciliationResultImpl(ReconciliationType.EXACT, exactMatches);
 		}
 	}

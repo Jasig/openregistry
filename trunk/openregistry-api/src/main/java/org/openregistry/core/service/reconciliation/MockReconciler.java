@@ -65,6 +65,14 @@ public final class MockReconciler implements Reconciler {
                     }
                     public int getConfidenceLevel() { return 0; }
                     public Person getPerson() { return new MockPerson();}
+                	public int compareTo(final PersonMatch personMatch) {
+                		final int level = getConfidenceLevel() - personMatch.getConfidenceLevel();
+                		if (level == 0) {
+                			final int result = getPerson().getOfficialName().getFamily().compareTo(personMatch.getPerson().getOfficialName().getFamily());
+                			return result == 0 ? getPerson().getOfficialName().getGiven().compareTo(personMatch.getPerson().getOfficialName().getGiven()): result;
+                		}
+                		return level;
+                	}
                     };
                 exactMatch.add(personMatch);
                 severalMatch.add(personMatch);
