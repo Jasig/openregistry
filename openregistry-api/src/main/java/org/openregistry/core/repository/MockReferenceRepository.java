@@ -42,6 +42,10 @@ public final class MockReferenceRepository implements ReferenceRepository {
         return null;
     }
 
+    public OrganizationalUnit getOrganizationalUnitByCode(String code){
+        return null;
+    }
+
     public List<Campus> getCampuses() {
         return null;
     }
@@ -83,6 +87,10 @@ public final class MockReferenceRepository implements ReferenceRepository {
     }
 
     public Region getRegionById(final Long id) {
+        return null;
+    }
+
+    public Region getRegionByCodeAndCountryId(final String code, final String countryCode) {
         return null;
     }
 

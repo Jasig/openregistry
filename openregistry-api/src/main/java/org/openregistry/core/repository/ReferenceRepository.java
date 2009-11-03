@@ -34,6 +34,8 @@ public interface ReferenceRepository {
 
     OrganizationalUnit getOrganizationalUnitById(Long id);
 
+    OrganizationalUnit getOrganizationalUnitByCode(String code);
+
     List<Campus> getCampuses();
 
     Campus getCampusById(Long id);
@@ -55,6 +57,8 @@ public interface ReferenceRepository {
     List<Region> getRegions();
 
     Region getRegionById(Long id);
+
+    Region getRegionByCodeAndCountryId(String code, String countryCode);
 
     /**
      * Find a Type based on the original {@link org.openregistry.core.domain.Type.DataTypes} and the value we're
