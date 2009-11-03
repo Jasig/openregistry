@@ -118,6 +118,42 @@ public class DefaultPersonServiceTests {
         this.personService.addPerson(reconciliationCriteria);
      }
 
+    @Test(expected=IllegalStateException.class)
+    public void testAddPersonAndLinkWithBadCriteria() {
+        this.personService.addPersonAndLink(new MockReconciliationCriteria(), new MockPerson());
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void testAddPersonAndLinkWithBadPerson() {
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+        this.personService.setPersonObjectFactory(this.objectFactory);
+
+        try {
+            this.personService.addPerson(reconciliationCriteria);
+        } catch (ReconciliationException e) {
+            final Person p = e.getMatches().get(0).getPerson();
+            final MockPerson m = new MockPerson();
+            m.setId(5L);
+            final ServiceExecutionResult<Person> ser = this.personService.addPersonAndLink(reconciliationCriteria, m);
+        }
+    }
+
+    @Test
+    public void testAddPersonAndLink() {
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+        this.personService.setPersonObjectFactory(this.objectFactory);
+
+        try {
+            this.personService.addPerson(reconciliationCriteria);
+        } catch (ReconciliationException e) {
+            final Person p = e.getMatches().get(0).getPerson();
+            final ServiceExecutionResult<Person> ser = this.personService.addPersonAndLink(reconciliationCriteria, p);
+
+            assertTrue(ser.succeeded());
+            assertEquals(p.getId(), ser.getTargetObject().getId());
+        }
+    }
+
      /**
      * Tests if old reconciliationResult provided that person is returned, activation key is returned, identifiers created.
      */

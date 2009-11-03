@@ -174,4 +174,29 @@ public class MockRole extends Entity implements Role {
     public void recalculate(final SorRole sorRole) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MockRole mockRole = (MockRole) o;
+
+        if (end != null ? !end.equals(mockRole.end) : mockRole.end != null) return false;
+        if (id != null ? !id.equals(mockRole.id) : mockRole.id != null) return false;
+        if (sorRoleId != null ? !sorRoleId.equals(mockRole.sorRoleId) : mockRole.sorRoleId != null) return false;
+        if (terminationReason != null ? !terminationReason.equals(mockRole.terminationReason) : mockRole.terminationReason != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (terminationReason != null ? terminationReason.hashCode() : 0);
+        result = 31 * result + (sorRoleId != null ? sorRoleId.hashCode() : 0);
+        result = 31 * result + (end != null ? end.hashCode() : 0);
+        return result;
+    }
 }

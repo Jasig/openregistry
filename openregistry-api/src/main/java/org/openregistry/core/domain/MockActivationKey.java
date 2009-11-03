@@ -82,4 +82,28 @@ public final class MockActivationKey implements ActivationKey {
     public boolean hasLock(final String lock) {
         return this.lock != null && this.lock.equals(lock);
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MockActivationKey that = (MockActivationKey) o;
+
+        if (end != null ? !end.equals(that.end) : that.end != null) return false;
+        if (lock != null ? !lock.equals(that.lock) : that.lock != null) return false;
+        if (start != null ? !start.equals(that.start) : that.start != null) return false;
+        if (value != null ? !value.equals(that.value) : that.value != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = value != null ? value.hashCode() : 0;
+        result = 31 * result + (start != null ? start.hashCode() : 0);
+        result = 31 * result + (end != null ? end.hashCode() : 0);
+        result = 31 * result + (lock != null ? lock.hashCode() : 0);
+        return result;
+    }
 }
