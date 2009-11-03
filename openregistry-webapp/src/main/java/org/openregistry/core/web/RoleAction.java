@@ -47,7 +47,6 @@ public final class RoleAction extends AbstractPersonServiceAction {
         this.referenceRepository = referenceRepository;
     }
 
-    protected final String ACTIVE_STATUS = "Active";
     protected final String CAMPUS = "Campus";
     protected final String PERSON = "Person";
     protected final String CELL = "Cell";
@@ -68,7 +67,7 @@ public final class RoleAction extends AbstractPersonServiceAction {
         sorRole.setSorId("1");  // TODO Don't hardcode OR-56
         sorRole.setSourceSorIdentifier("or-webapp"); // TODO Don't hardcode OR-55
         logger.info("status: "+Type.DataTypes.STATUS.name());
-        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, ACTIVE_STATUS));
+        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE.name()));
         final EmailAddress emailAddress = sorRole.addEmailAddress();
         emailAddress.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL, CAMPUS));
         final Phone phone = sorRole.addPhone();
