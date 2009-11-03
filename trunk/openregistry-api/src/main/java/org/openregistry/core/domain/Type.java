@@ -38,6 +38,10 @@ public interface Type extends Serializable {
 
     enum TerminationTypes {FIRED, EXPIRED, UNSPECIFIED}
 
+    enum SponsorTypes {PERSON, DEPARTMENT}
+
+    enum PersonStatusTypes {ACTIVE, INACTIVE}
+
     /**
      * The internal identifier of the type.
      *
