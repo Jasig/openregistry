@@ -57,6 +57,11 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
+    public OrganizationalUnit getOrganizationalUnitByCode(String code){
+        return (OrganizationalUnit)this.entityManager.createQuery("select d from organizationalUnit d where d.localCode = :code order by d.name").setParameter("code", code).getSingleResult();
+    }
+
+    @Transactional
     public List<Campus> getCampuses() {
         return (List<Campus>) this.entityManager.createQuery("select c from campus c order by c.name").getResultList();
     }
@@ -104,6 +109,11 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     @Transactional
     public List<Region> getRegions() {
         return (List<Region>) this.entityManager.createQuery("select r from region r").getResultList();
+    }
+
+    @Transactional
+        public Region getRegionByCodeAndCountryId(final String code, final String countryCode) {
+            return (Region)this.entityManager.createQuery("select r from region r join r.country c where r.code = :code and c.code = :countryCode order by r.name, c.code").setParameter("code", code).setParameter("countryCode", countryCode).getSingleResult();
     }
 
     @Transactional
