@@ -22,6 +22,7 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
+import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
@@ -101,18 +102,13 @@ public final class PeopleResource {
                     String.format("The person resource identified by [%s/%s] URI does not exist.",
                             sorSource, sorId));
         }
-        /*
-        final RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(roleCode);
-        if (roleInfo == null) {
-            throw new NotFoundException(
-                    String.format("The role identified by [%s] does not exist", roleCode));
-        }
-        */
+
         final SorRole sorRole = buildSorRoleFrom(sorPerson, roleRepresentation);
         final ServiceExecutionResult result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
         if (result.getValidationErrors().size() > 0) {
             List<ValidationError> validationErrors = result.getValidationErrors();
 
+            //TODO how to return validation errors?
             Iterator<ValidationError> iter = validationErrors.iterator();
             while (iter.hasNext()) {
                 ValidationError nextElement = iter.next();
@@ -257,7 +253,7 @@ public final class PeopleResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
         //If we got here, everything went well. HTTP 204
-        logger.info("The Role resource has been successfully DELETEd");
+        logger.info("The Role resource has been successfully DELETED");
         return null;
     }
 
@@ -282,7 +278,6 @@ public final class PeopleResource {
     }
 
     //TODO: what happens if the role (identified by RoleInfo) has been added already?
-    //NOTE: the sponsor is not set (remains null) as it was not defined in the XML payload as was discussed
     private SorRole buildSorRoleFrom(final SorPerson person, final RoleRepresentation roleRepresentation) {
 
         final RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(roleRepresentation.roleCode);
@@ -292,15 +287,14 @@ public final class PeopleResource {
         }
 
         final SorRole sorRole = person.addRole(roleInfo);
-        sorRole.setSorId("1");  // TODO: what to set here?
+        if (roleRepresentation.roleId != null) sorRole.setSorId(roleRepresentation.roleId);
         sorRole.setSourceSorIdentifier(person.getSourceSor());
-        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, "Active"));
+        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE.name()));
         sorRole.setStart(roleRepresentation.startDate);
         sorRole.setEnd(roleRepresentation.endDate);
         sorRole.setPercentage(new Integer(roleRepresentation.percentage).intValue());
         sorRole.setSponsor();
-        sorRole.getSponsor().setType(referenceRepository.findType(Type.DataTypes.SPONSOR, "Person"));
-        sorRole.getSponsor().setSponsorId(81L); // TODO: what to set here?
+        setSponsorInfo(sorRole.getSponsor(), referenceRepository.findType(Type.DataTypes.SPONSOR, roleRepresentation.sponsorType), roleRepresentation);
 
         //Emails
         for (final RoleRepresentation.Email e : roleRepresentation.emails) {
@@ -329,10 +323,33 @@ public final class PeopleResource {
             address.setLine3(a.line3);
             address.setCity(a.city);
             address.setPostalCode(a.postalCode);
-            address.setCountry(referenceRepository.getCountryByCode(a.countryCode));
-            //TODO: how to set Region instances??? Currently there is no way!
+            Country country = referenceRepository.getCountryByCode(a.countryCode);
+            address.setCountry(country);
+            if (country != null) address.setRegion(referenceRepository.getRegionByCodeAndCountryId(a.regionCode, country.getCode()));
         }
         return sorRole;
+    }
+    
+    private void setSponsorInfo(SorSponsor sponsor, Type type, RoleRepresentation roleRepresentation){
+        sponsor.setType(type);
+        if (type.getDescription().equals(Type.SponsorTypes.DEPARTMENT.name())){
+            OrganizationalUnit org = referenceRepository.getOrganizationalUnitByCode(roleRepresentation.sponsorId);
+            if (org == null) {
+                throw new NotFoundException(
+                    String.format("The department identified by [%s] does not exist", roleRepresentation.sponsorId));
+            }
+            sponsor.setSponsorId(org.getId());
+        }
+        if (type.getDescription().equals(Type.SponsorTypes.PERSON.name())){
+            final String sponsorIdType = roleRepresentation.sponsorIdType != null ? roleRepresentation.sponsorIdType : this.preferredPersonIdentifierType;
+            Person person = this.personService.findPersonByIdentifier(sponsorIdType, roleRepresentation.sponsorId);
+            if (person == null) {
+                throw new NotFoundException(
+                    String.format("The sponsor identified by [%s] does not exist", roleRepresentation.sponsorId));
+            }
+            sponsor.setSponsorId(person.getId());
+        }
+        //TODO other sponsor types?
     }
 
     private ReconciliationCriteria buildReconciliationCriteriaFrom(final PersonRequestRepresentation request) {
