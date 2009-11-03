@@ -111,8 +111,21 @@ public class MockPerson implements Person {
                     public String getName() {
                         return identifierType;
                     }
-                };
-            }
+
+                    public boolean equals(final Object o) {
+                        if (o == null) {
+                            return false;
+                        }
+
+                        if (!(o instanceof IdentifierType)) {
+                            return false;
+                        }
+
+                        final IdentifierType idType = (IdentifierType) o;
+                        return getName().equals(idType.getName());
+                    }
+                 };
+             }
 
             public String getValue() {
                 return identifierValue;
@@ -132,6 +145,20 @@ public class MockPerson implements Person {
 
             public void setDeleted(final Boolean value) {
 
+            }
+
+            public boolean equals(final Object o) {
+                if (o == null) {
+                    return false;
+                }
+
+                if (!(o instanceof Identifier)) {
+                    return false;
+                }
+
+                final Identifier id = (Identifier) o;
+
+                return (identifierValue.equals(id.getValue()) && identifierType.equals(id.getType()));
             }
         };
 
@@ -225,5 +252,34 @@ public class MockPerson implements Person {
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MockPerson that = (MockPerson) o;
+
+        if (id != that.id) return false;
+        if (activationKey != null ? !activationKey.equals(that.activationKey) : that.activationKey != null)
+            return false;
+        if (identifierType != null ? !identifierType.equals(that.identifierType) : that.identifierType != null)
+            return false;
+        if (identifierValue != null ? !identifierValue.equals(that.identifierValue) : that.identifierValue != null)
+            return false;
+        if (roles != null ? !roles.equals(that.roles) : that.roles != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = activationKey != null ? activationKey.hashCode() : 0;
+        result = 31 * result + (identifierType != null ? identifierType.hashCode() : 0);
+        result = 31 * result + (identifierValue != null ? identifierValue.hashCode() : 0);
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (int) (id ^ (id >>> 32));
+        return result;
     }
 }

@@ -137,4 +137,38 @@ public class MockName extends Entity implements Name {
             builder.append(delimiter);
         }
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MockName mockName = (MockName) o;
+
+        if (officialName != mockName.officialName) return false;
+        if (preferredName != mockName.preferredName) return false;
+        if (family != null ? !family.equals(mockName.family) : mockName.family != null) return false;
+        if (given != null ? !given.equals(mockName.given) : mockName.given != null) return false;
+        if (id != null ? !id.equals(mockName.id) : mockName.id != null) return false;
+        if (middle != null ? !middle.equals(mockName.middle) : mockName.middle != null) return false;
+        if (prefix != null ? !prefix.equals(mockName.prefix) : mockName.prefix != null) return false;
+        if (suffix != null ? !suffix.equals(mockName.suffix) : mockName.suffix != null) return false;
+        if (type != null ? !type.equals(mockName.type) : mockName.type != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (prefix != null ? prefix.hashCode() : 0);
+        result = 31 * result + (given != null ? given.hashCode() : 0);
+        result = 31 * result + (middle != null ? middle.hashCode() : 0);
+        result = 31 * result + (family != null ? family.hashCode() : 0);
+        result = 31 * result + (suffix != null ? suffix.hashCode() : 0);
+        result = 31 * result + (officialName ? 1 : 0);
+        result = 31 * result + (preferredName ? 1 : 0);
+        return result;
+    }
 }
