@@ -27,7 +27,7 @@ import java.util.List;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public interface PersonMatch extends Serializable {
+public interface PersonMatch extends Serializable, Comparable<PersonMatch> {
 
     /**
      * Returns the list of fields that matched.  This is an OPTIONAL method that returns additional information, if
