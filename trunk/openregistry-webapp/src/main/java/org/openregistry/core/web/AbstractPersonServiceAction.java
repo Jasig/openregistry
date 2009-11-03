@@ -32,13 +32,16 @@ import java.util.List;
  */
 public abstract class AbstractPersonServiceAction {
 
-    protected Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired(required=true)
-    private SpringErrorValidationErrorConverter converter;
+    @Autowired(required=false)
+    private SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
 
-    @Autowired(required=true)
-    private PersonService personService;
+    private final PersonService personService;
+
+    protected AbstractPersonServiceAction(final PersonService personService) {
+        this.personService = personService;
+    }
 
     protected final PersonService getPersonService() {
         return this.personService;
@@ -56,9 +59,4 @@ public abstract class AbstractPersonServiceAction {
         }
         return serviceExecutionResult.succeeded();
     }
-
-    public void setPersonService(PersonService personService){
-        this.personService = personService;
-    }
-
 }

@@ -15,8 +15,11 @@
  */
 package org.openregistry.core.web;
 
+import org.openregistry.core.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
+import org.springframework.binding.message.MessageResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.webflow.execution.RequestContext;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
@@ -42,12 +45,19 @@ public final class PersonSearchAction extends AbstractPersonServiceAction {
 
     private final String identifierType = "NETID";
 
+    @Autowired(required=true)
+    public PersonSearchAction(final PersonService personService) {
+        super(personService);
+    }
+
     public String addSorPerson(final ReconciliationCriteria reconciliationCriteria, final RequestContext context) {
         reconciliationCriteria.getPerson().setSourceSor(SOR_INDENTIFIER);
         try {
             final ServiceExecutionResult<Person> result = getPersonService().addPerson(reconciliationCriteria);
-            if (!result.getValidationErrors().isEmpty()) {
-                getSpringErrorValidationErrorConverter().convertValidationErrors(result.getValidationErrors(), context.getMessageContext());
+            
+            getSpringErrorValidationErrorConverter().convertValidationErrors(result.getValidationErrors(), context.getMessageContext());
+
+            if (context.getMessageContext().hasErrorMessages()) {
                 return "validationError";
             }
 
@@ -83,7 +93,8 @@ public final class PersonSearchAction extends AbstractPersonServiceAction {
         final Identifier netId = person.pickOutIdentifier(this.identifierType);
 
         if (person.getCurrentActivationKey() != null) {
-            context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg(person.getCurrentActivationKey().asString()).build());
+            final MessageResolver message = new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg(person.getCurrentActivationKey().asString()).build();
+            context.addMessage(message);
         } else {
             context.addMessage(new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg("TempKey").build());
         }

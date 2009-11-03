@@ -50,36 +50,36 @@ public class ActivationKeyProcessorResourceTests extends JerseyTestSupport {
 
     @Test
     public void testVerifyKeyNotFound() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(404, "people/NetId/valid/activation/whatKey", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(404, "people/NETID/valid/activation/whatKey", "GET");
     }
 
     @Test
     public void testVerifyEverythingOkay() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NETID/valid/activation/key", "GET");
     }
 
     @Test
     public void testDoubleVerifyWithGoodLockOnSecondAttempt() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "GET");
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NETID/valid/activation/key", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NETID/valid/activation/key", "GET");
     }
 
     // we cheat on this one due to the way the test must be run.  Oops!
     @Test
     public void testDoubleVerifyWithBadLockOnSecondAttempt() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "GET");
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "GET");
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NetId/valid/activation/key", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NETID/valid/activation/key", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NETID/valid/activation/key", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NETID/valid/activation/key", "GET");
     }
 
     @Test
     public void testVerifyBeforeActivationWindow() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NetId/notActive/activation/key", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NETID/notActive/activation/key", "GET");
     }
 
     @Test
     public void testVerifyAfterActivationWindow() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(410, "people/NetId/expired/activation/key", "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(410, "people/NETID/expired/activation/key", "GET");
     }
 
     @Test
@@ -89,28 +89,28 @@ public class ActivationKeyProcessorResourceTests extends JerseyTestSupport {
 
     @Test
     public void testInvalidateActivationKeyNotFound() {
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod(pathToURI("people/NetId/testId/activation/whatKey"), "DELETE");
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethod(pathToURI("people/NETID/testId/activation/whatKey"), "DELETE");
         assertEquals(404, response.getClientResponseStatus().getStatusCode());
     }
 
     @Test
     public void testInvalidateWorked() {
         // lock it first
-        handleClientRequestForUriPathAndHttpMethod(pathToURI("people/NetId/valid/activation/key"), "GET");
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NetId/valid/activation/key", "DELETE");
+        handleClientRequestForUriPathAndHttpMethod(pathToURI("people/NETID/valid/activation/key"), "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, "people/NETID/valid/activation/key", "DELETE");
 
     }
 
     @Test
     public void testInvalidateLockIssue() {
         // double lock it first
-        handleClientRequestForUriPathAndHttpMethod(pathToURI("people/NetId/valid/activation/key"), "GET");
-        handleClientRequestForUriPathAndHttpMethod(pathToURI("people/NetId/valid/activation/key"), "GET");
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NetId/valid/activation/key", "DELETE");
+        handleClientRequestForUriPathAndHttpMethod(pathToURI("people/NETID/valid/activation/key"), "GET");
+        handleClientRequestForUriPathAndHttpMethod(pathToURI("people/NETID/valid/activation/key"), "GET");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NETID/valid/activation/key", "DELETE");
     }
 
     @Test
     public void testInvalidateNotLocked() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NetId/valid/activation/key", "DELETE");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(409, "people/NETID/valid/activation/key", "DELETE");
     }
 }

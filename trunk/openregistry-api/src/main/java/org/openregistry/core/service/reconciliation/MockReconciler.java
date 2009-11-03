@@ -32,13 +32,21 @@ import java.util.ArrayList;
  */
 public final class MockReconciler implements Reconciler {
 
-    private final ReconciliationType desiredResult;
+    private ReconciliationType desiredResult;
+
+    public MockReconciler() {
+
+    }
 
     public MockReconciler(final ReconciliationType result) {
         if (result == null) {
             throw new IllegalArgumentException("result cannot be null.");
         }
         this.desiredResult = result;
+    }
+
+    public void setReconciliationType(final ReconciliationType reconciliationType) {
+        this.desiredResult = reconciliationType;
     }
 
     public ReconciliationResult reconcile(final ReconciliationCriteria reconciliationCriteria) {

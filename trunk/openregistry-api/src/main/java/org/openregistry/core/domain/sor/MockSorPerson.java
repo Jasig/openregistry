@@ -167,4 +167,39 @@ public class MockSorPerson extends Entity implements SorPerson {
         }
         return null;
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MockSorPerson that = (MockSorPerson) o;
+
+        if (dateOfBirth != null ? !dateOfBirth.equals(that.dateOfBirth) : that.dateOfBirth != null) return false;
+        if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (names != null ? !names.equals(that.names) : that.names != null) return false;
+        if (personId != null ? !personId.equals(that.personId) : that.personId != null) return false;
+        if (roles != null ? !roles.equals(that.roles) : that.roles != null) return false;
+        if (sorId != null ? !sorId.equals(that.sorId) : that.sorId != null) return false;
+        if (sourceSorIdentifier != null ? !sourceSorIdentifier.equals(that.sourceSorIdentifier) : that.sourceSorIdentifier != null)
+            return false;
+        if (ssn != null ? !ssn.equals(that.ssn) : that.ssn != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (sorId != null ? sorId.hashCode() : 0);
+        result = 31 * result + (sourceSorIdentifier != null ? sourceSorIdentifier.hashCode() : 0);
+        result = 31 * result + (personId != null ? personId.hashCode() : 0);
+        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (names != null ? names.hashCode() : 0);
+        result = 31 * result + (ssn != null ? ssn.hashCode() : 0);
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        return result;
+    }
 }

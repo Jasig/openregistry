@@ -67,7 +67,7 @@ public class DefaultActivationServiceTests {
     public void testNewKeyGeneratedForIdentifierTypeAndValue() {
         final Person person = this.person;
         final ActivationKey activationKey = person.getCurrentActivationKey();
-        final ActivationKey newActivationKey = this.activationService.generateActivationKey("NetId", "testId");
+        final ActivationKey newActivationKey = this.activationService.generateActivationKey("NETID", "testId");
 
         assertFalse(activationKey.asString().equals(newActivationKey.asString()));
         assertNotSame(activationKey, newActivationKey);
@@ -108,17 +108,17 @@ public class DefaultActivationServiceTests {
 
     @Test(expected = IllegalArgumentException.class)
     public void testNoActivationKeyIdentifiers() {
-        this.activationService.getActivationKey("NetId", "testId", null, "whocares");
+        this.activationService.getActivationKey("NETID", "testId", null, "whocares");
     }
 
    @Test(expected = IllegalArgumentException.class)
     public void testNoActivationKeyLock() {
-        this.activationService.getActivationKey("NetId", "testId", "booyah", null);
+        this.activationService.getActivationKey("NETID", "testId", "booyah", null);
     }
 
     @Test
     public void testGetActivationKeyValueDoesntMatch() {
-        assertNull(this.activationService.getActivationKey("NetId", "testId", "foo", "whocares"));
+        assertNull(this.activationService.getActivationKey("NETID", "testId", "foo", "whocares"));
     }
 
     @Test
@@ -126,7 +126,7 @@ public class DefaultActivationServiceTests {
         final Person person = this.person;
         final ActivationKey activationKey = person.getCurrentActivationKey();
         activationKey.lock("me");
-        final ActivationKey actKey = this.activationService.getActivationKey("NetId", "testId", activationKey.asString(), "me");
+        final ActivationKey actKey = this.activationService.getActivationKey("NETID", "testId", activationKey.asString(), "me");
 
         assertSame(activationKey, actKey);
     }
@@ -137,7 +137,7 @@ public class DefaultActivationServiceTests {
         final ActivationKey activationKey = person.getCurrentActivationKey();
         activationKey.lock("me");
 
-        this.activationService.getActivationKey("NetId", "testId", activationKey.asString(), "notMe");
+        this.activationService.getActivationKey("NETID", "testId", activationKey.asString(), "notMe");
     }
 
 
@@ -269,19 +269,19 @@ public class DefaultActivationServiceTests {
     @Test
     public void testInvalidateActivationKeyKeyFoundAndCorrectLock() {
         this.activationService.getActivationKey(this.person, this.person.getCurrentActivationKey().asString(), "myLock");
-        this.activationService.invalidateActivationKey("NetId", "testId", this.person.getCurrentActivationKey().asString(), "myLock");
+        this.activationService.invalidateActivationKey("NETID", "testId", this.person.getCurrentActivationKey().asString(), "myLock");
     }
 
     @Test(expected = LockingException.class)
     public void testInvalidateActivationKeyKeyFoundAndIncorrectLock() {
         this.activationService.getActivationKey(this.person, this.person.getCurrentActivationKey().asString(), "myLock");
-        this.activationService.invalidateActivationKey("NetId", "testId", this.person.getCurrentActivationKey().asString(), "notMyLock");
+        this.activationService.invalidateActivationKey("NETID", "testId", this.person.getCurrentActivationKey().asString(), "notMyLock");
     }
 
 
     @Test(expected = NoSuchElementException.class)
     public void testInvalidateActivationKeyKeyNotFound() {
-        this.activationService.invalidateActivationKey("NetId", "testId", "foo", "who cares");
+        this.activationService.invalidateActivationKey("NETID", "testId", "foo", "who cares");
 
     }
 
@@ -294,7 +294,7 @@ public class DefaultActivationServiceTests {
         final Date endDate = calendar.getTime();
         final ActivationKey activationKey = this.person.generateNewActivationKey(startDate, endDate);
 
-        this.activationService.invalidateActivationKey("NetId", "testId", activationKey.asString(), "who cares");
+        this.activationService.invalidateActivationKey("NETID", "testId", activationKey.asString(), "who cares");
 
     }
 }

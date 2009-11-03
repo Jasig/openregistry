@@ -89,7 +89,13 @@ public class MockPersonRepository implements PersonRepository {
         return null;
     }
 
-    public SorPerson findByPersonIdAndSorIdentifier(Long personId, String sorSourceIdentifier) {
+    public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier) {
+        for (final SorPerson sorPerson : this.sorPersons) {
+            if (sorPerson.getPersonId().equals(personId)  && sorPerson.getSourceSor().equals(sorSourceIdentifier)) {
+                return sorPerson;
+            }
+        }
+        
         return null;
     }
 
@@ -102,10 +108,12 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public Person savePerson(Person person) throws RepositoryAccessException {
+        this.persons.add(person);
         return person;
     }
 
     public SorPerson saveSorPerson(SorPerson sorPerson) throws RepositoryAccessException {
+        this.sorPersons.add(sorPerson);
         return sorPerson;
     }
 
@@ -142,10 +150,6 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public SorRole saveSorRole(SorRole role) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public SorPerson findSorPersonByPersonIdAndSorRoleId(Long personId, Long sorRoleId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
