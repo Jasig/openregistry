@@ -61,9 +61,9 @@ public final class SpringErrorValidationErrorConverter {
     public void convertValidationErrors(final List<ValidationError> validationErrors, final MessageContext messages) {
         for (final ValidationError validationError : validationErrors) {
             if (validationError.getField() == null) {
-                messages.addMessage(new MessageBuilder().error().args(validationError.getArguments()).code(validationError.getCode()).build());
+                messages.addMessage(new MessageBuilder().error().args(validationError.getArguments()).code(validationError.getCode()).defaultText(validationError.getCode()).build());
             } else {
-                messages.addMessage(new MessageBuilder().error().args(validationError.getArguments()).source(validationError.getField()).code(validationError.getCode()).build());
+                messages.addMessage(new MessageBuilder().error().args(validationError.getArguments()).source(validationError.getField()).code(validationError.getCode()).defaultText(validationError.getCode()).build());
             }
         }
     }

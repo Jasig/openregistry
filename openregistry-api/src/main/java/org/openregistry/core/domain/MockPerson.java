@@ -28,7 +28,7 @@ public class MockPerson implements Person {
 
     private ActivationKey activationKey = new MockActivationKey(UUID.randomUUID().toString(), new Date(), new Date());
 
-    private final String identifierType = "NetId";
+    private final String identifierType = "NETID";
 
     private final String identifierValue;
 
@@ -191,8 +191,13 @@ public class MockPerson implements Person {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public Identifier pickOutIdentifier(String name) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Identifier pickOutIdentifier(final String name) {
+        for (final Identifier identifier : getIdentifiers()) {
+            if (identifier.getType().getName().equals(name)) {
+                return identifier;
+            }
+        }
+        return null;
     }
 
     public ActivationKey generateNewActivationKey(Date start, Date end) {

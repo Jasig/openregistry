@@ -40,7 +40,7 @@ import java.util.Date;
 @ContextConfiguration(locations = {"classpath:test-activationServices-context.xml"})
 public final class DefaultActivationServiceIntegrationTests extends AbstractIntegrationTests {
 
-    private static final String IDENTIFIER_TYPE ="NetId";
+    private static final String IDENTIFIER_TYPE ="NETID";
 
     private static final String IDENTIFIER_VALUE ="test";
 

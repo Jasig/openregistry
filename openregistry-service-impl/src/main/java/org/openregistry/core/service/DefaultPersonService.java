@@ -99,6 +99,10 @@ public class DefaultPersonService implements PersonService {
         this.identifierAssigners = identifierAssigners;
     }
 
+    public void setAnnotationValidator(final AnnotationValidator<Object> annotationValidator) {
+        this.annotationValidator = annotationValidator;
+    }
+
     @Transactional
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
@@ -108,21 +112,6 @@ public class DefaultPersonService implements PersonService {
     public Person findPersonByIdentifier(final String identifierType, final String identifierValue) {
         try {
             return this.personRepository.findByIdentifier(identifierType,identifierValue);
-        } catch (final Exception e) {
-            return null;
-        }
-    }
-
-    @Transactional
-    public SorPerson findSorPersonByIdentifierAndSourceIdentifier(final String identifierType, final String identifierValue, final String sorSourceId) {
-        try {
-            final Person person = this.personRepository.findByIdentifier(identifierType, identifierValue);
-
-            if (person == null) {
-                return null;
-            }
-
-            return this.personRepository.findByPersonIdAndSorIdentifier(person.getId(), sorSourceId);
         } catch (final Exception e) {
             return null;
         }

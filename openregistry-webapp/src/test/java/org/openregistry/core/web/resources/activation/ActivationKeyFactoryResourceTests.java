@@ -46,7 +46,7 @@ public final class ActivationKeyFactoryResourceTests extends JerseyTestSupport {
      */
     @Test
     public void testActivationKeyGeneration() {
-        assertNotNull(assertStatusCodeEqualsForRequestUriAndHttpMethod(201, "people/NetId/testId/activation", "POST")
+        assertNotNull(assertStatusCodeEqualsForRequestUriAndHttpMethod(201, "people/NETID/testId/activation", "POST")
                 .getHeaders().getFirst("Location"));
     }
 

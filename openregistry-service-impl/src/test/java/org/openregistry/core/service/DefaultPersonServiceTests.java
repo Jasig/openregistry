@@ -248,7 +248,7 @@ public class DefaultPersonServiceTests {
         this.personService.deleteSystemOfRecordPerson(sorPerson, true, null);
 
 
-		Person person = personRepository.findByIdentifier("NetId","testId");
+		Person person = personRepository.findByIdentifier("NETID","testId");
 		assertNotNull(person);
 		assertEquals("Not just one role left",person.getRoles().size(),1);
 		assertEquals(person.getRoles().get(0).getId(),new Long(2));
@@ -270,7 +270,7 @@ public class DefaultPersonServiceTests {
         this.personService = new DefaultPersonService(personRepository, this.referenceRepository, new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
         this.personService.deleteSystemOfRecordPerson(sorPerson, true, null);
         assertNull(personRepository.findByInternalId(1L));
-	    personRepository.findByIdentifier("NetId","testId");
+	    personRepository.findByIdentifier("NETID","testId");
     }
 
     @Test(expected=IllegalArgumentException.class)

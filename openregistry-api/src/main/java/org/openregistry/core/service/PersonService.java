@@ -56,16 +56,6 @@ public interface PersonService {
     Person findPersonByIdentifier(String identifierType, String identifierValue);
 
     /**
-     * Locates the original system of record record by a calculated identifier AND the source of the system of record.
-     *
-     * @param identifierType the type of the identifier
-     * @param identifierValue the value of the identifier
-     * @param sorSourceId the source
-     * @return the SorPerson, if found.  Otherwise, NULL.
-     */
-    SorPerson findSorPersonByIdentifierAndSourceIdentifier(String identifierType, String identifierValue, String sorSourceId);
-
-    /**
      * For a particular Sor Person record for the specified sourceSorIdentifier.
      * @param id person id
      * @param sourceSorIdentifier

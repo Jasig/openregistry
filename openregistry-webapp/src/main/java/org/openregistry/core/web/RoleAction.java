@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.web;
 
+import org.openregistry.core.service.PersonService;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,13 @@ import java.util.*;
 @Component
 public final class RoleAction extends AbstractPersonServiceAction {
 
+    private final ReferenceRepository referenceRepository;
+
     @Autowired(required=true)
-    private ReferenceRepository referenceRepository;
+    public RoleAction(final PersonService personService, final ReferenceRepository referenceRepository) {
+        super(personService);
+        this.referenceRepository = referenceRepository;
+    }
 
     protected final String ACTIVE_STATUS = "Active";
     protected final String CAMPUS = "Campus";

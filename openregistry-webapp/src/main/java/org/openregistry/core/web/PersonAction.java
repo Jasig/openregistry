@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.web;
 
+import org.openregistry.core.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -35,8 +36,13 @@ import java.util.List;
 @Component
 public final class PersonAction extends AbstractPersonServiceAction {
 
+    private final PersonRepository personRepository;
+
     @Autowired(required=true)
-    private PersonRepository personRepository;
+    public PersonAction(final PersonService personService, final PersonRepository personRepository) {
+        super(personService);
+        this.personRepository = personRepository;
+    }
 
     // TODO this should not be used
     protected final MessageSourceAccessor msa = OpenRegistryMessageSourceAccessor.getMessageSourceAccessor();
