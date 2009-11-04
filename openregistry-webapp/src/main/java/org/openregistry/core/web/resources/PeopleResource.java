@@ -95,7 +95,6 @@ public final class PeopleResource {
                                         @PathParam("sorId") final String sorId,
                                         RoleRepresentation roleRepresentation) {
 
-        System.out.println("processIncomingRole");
         final SorPerson sorPerson = this.personService.findBySorIdentifierAndSource(sorSource, sorId);
         if (sorPerson == null) {
             //HTTP 404
@@ -107,15 +106,9 @@ public final class PeopleResource {
         final SorRole sorRole = buildSorRoleFrom(sorPerson, roleRepresentation);
         final ServiceExecutionResult result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
         if (result.getValidationErrors().size() > 0) {
-            List<ValidationError> validationErrors = result.getValidationErrors();
-
-            //TODO how to return validation errors?
-            Iterator<ValidationError> iter = validationErrors.iterator();
-            while (iter.hasNext()) {
-                ValidationError nextElement = iter.next();
-                logger.info("ValidationErrors: "+ nextElement.getField());
-            }
-            throw new WebApplicationException(400);
+            //throw new WebApplicationException(400);
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST).entity(buildValidationErrorsResponse(result.getValidationErrors())).build();
         }
         //HTTP 201
         return Response.created(this.uriInfo.getAbsolutePath()).build();
@@ -280,9 +273,10 @@ public final class PeopleResource {
 
     //TODO: what happens if the role (identified by RoleInfo) has been added already?
     private SorRole buildSorRoleFrom(final SorPerson person, final RoleRepresentation roleRepresentation) {
-
-        final RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(roleRepresentation.roleCode);
-        if (roleInfo == null) {
+        RoleInfo roleInfo = null;
+        try {
+            roleInfo = this.referenceRepository.getRoleInfoByCode(roleRepresentation.roleCode);
+        } catch (Exception ex){
             throw new NotFoundException(
                     String.format("The role identified by [%s] does not exist", roleRepresentation.roleCode));
         }
@@ -292,8 +286,8 @@ public final class PeopleResource {
         sorRole.setSourceSorIdentifier(person.getSourceSor());
         sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE));
         sorRole.setStart(roleRepresentation.startDate);
-        sorRole.setEnd(roleRepresentation.endDate);
-        sorRole.setPercentage(new Integer(roleRepresentation.percentage).intValue());
+        if (roleRepresentation.endDate != null) sorRole.setEnd(roleRepresentation.endDate);
+        if (roleRepresentation.percentage != null) sorRole.setPercentage(new Integer(roleRepresentation.percentage).intValue());
         sorRole.setSponsor();
         setSponsorInfo(sorRole.getSponsor(), referenceRepository.findType(Type.DataTypes.SPONSOR, roleRepresentation.sponsorType), roleRepresentation);
 
@@ -333,22 +327,25 @@ public final class PeopleResource {
     
     private void setSponsorInfo(SorSponsor sponsor, Type type, RoleRepresentation roleRepresentation){
         sponsor.setType(type);
-        if (type.getDescription().equals(Type.SponsorTypes.DEPARTMENT.name())){
-            OrganizationalUnit org = referenceRepository.getOrganizationalUnitByCode(roleRepresentation.sponsorId);
-            if (org == null) {
+        if (type.getDescription().equals(Type.SponsorTypes.ORG_UNIT.name())){
+            try {
+                OrganizationalUnit org = referenceRepository.getOrganizationalUnitByCode(roleRepresentation.sponsorId);
+                sponsor.setSponsorId(org.getId());
+            } catch (Exception ex){
                 throw new NotFoundException(
                     String.format("The department identified by [%s] does not exist", roleRepresentation.sponsorId));
             }
-            sponsor.setSponsorId(org.getId());
+
         }
         if (type.getDescription().equals(Type.SponsorTypes.PERSON.name())){
             final String sponsorIdType = roleRepresentation.sponsorIdType != null ? roleRepresentation.sponsorIdType : this.preferredPersonIdentifierType;
-            Person person = this.personService.findPersonByIdentifier(sponsorIdType, roleRepresentation.sponsorId);
-            if (person == null) {
+            try {
+                Person person = this.personService.findPersonByIdentifier(sponsorIdType, roleRepresentation.sponsorId);
+                sponsor.setSponsorId(person.getId());
+            } catch (Exception ex){
                 throw new NotFoundException(
                     String.format("The sponsor identified by [%s] does not exist", roleRepresentation.sponsorId));
             }
-            sponsor.setSponsorId(person.getId());
         }
         //TODO other sponsor types?
     }
@@ -432,6 +429,18 @@ public final class PeopleResource {
         }
         //Returns null response indicating that the representation is valid
         return null;
+    }
+
+    private StringBuffer buildValidationErrorsResponse(List<ValidationError>validationErrors){
+        Iterator<ValidationError> iter = validationErrors.iterator();
+        StringBuffer buff = new StringBuffer("Validation errors were found:");
+        while (iter.hasNext()) {
+            ValidationError nextElement = iter.next();
+            buff.append(" ");
+            buff.append(nextElement.getField()) ;
+            buff.append(" " + nextElement.getCode());
+        }
+        return buff;
     }
 
     private Person findPersonOrThrowNotFoundException(final String personIdType, final String personId) {
