@@ -133,7 +133,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         sorPerson.setSourceSor(sor);
         sorPerson.setSsn(ssn);
 
-        final Name name = sorPerson.addName(this.referenceRepository.findType(Type.DataTypes.NAME, "Formal"));
+        final Name name = sorPerson.addName(this.referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
         name.setFamily(lastName);
         name.setGiven(firstName);
         name.setOfficialName(true);

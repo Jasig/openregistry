@@ -102,6 +102,10 @@ public final class MockReferenceRepository implements ReferenceRepository {
         return null;
     }
 
+    public Type findType(DataTypes type, Enum value) {
+        return findType(type, value.name());
+    }
+
     public Type findType(final DataTypes type, final String value) {
         return new Type(){
 

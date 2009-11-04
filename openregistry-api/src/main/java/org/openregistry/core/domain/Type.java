@@ -42,6 +42,13 @@ public interface Type extends Serializable {
 
     enum PersonStatusTypes {ACTIVE, INACTIVE}
 
+    enum AddressTypes {CAMPUS, HOME, OFFICE}
+
+    // TODO, not sure if CELL is actually a good choice
+    enum PhoneTypes {LANDLINE, CELL}
+
+    enum NameTypes {LEGAL, FORMAL, AKA, MAIDEN, FKA}
+
     /**
      * The internal identifier of the type.
      *

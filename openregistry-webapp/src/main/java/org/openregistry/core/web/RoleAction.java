@@ -47,9 +47,7 @@ public final class RoleAction extends AbstractPersonServiceAction {
         this.referenceRepository = referenceRepository;
     }
 
-    protected final String CAMPUS = "Campus";
     protected final String PERSON = "Person";
-    protected final String CELL = "Cell";
 
     public SorRole initSorRole(final SorPerson sorPerson, final String roleInfoCode) {
         final RoleInfo roleInfo = referenceRepository.getRoleInfoByCode(roleInfoCode);
@@ -64,17 +62,15 @@ public final class RoleAction extends AbstractPersonServiceAction {
      */
     protected SorRole addRole(final SorPerson sorPerson, final RoleInfo roleInfo){
         final SorRole sorRole = sorPerson.addRole(roleInfo);
-        sorRole.setSorId("1");  // TODO Don't hardcode OR-56
         sorRole.setSourceSorIdentifier("or-webapp"); // TODO Don't hardcode OR-55
-        logger.info("status: "+Type.DataTypes.STATUS.name());
-        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE.name()));
+        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE));
         final EmailAddress emailAddress = sorRole.addEmailAddress();
-        emailAddress.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL, CAMPUS));
+        emailAddress.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL, Type.AddressTypes.CAMPUS));
         final Phone phone = sorRole.addPhone();
-        phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, CELL));
-        phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, CAMPUS));
+        phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, Type.PhoneTypes.CELL));
+        phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.CAMPUS));
         final Address address = sorRole.addAddress();
-        address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, CAMPUS));
+        address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.CAMPUS));
         final SorSponsor sponsor = sorRole.setSponsor();
         sponsor.setType(referenceRepository.findType(Type.DataTypes.SPONSOR, PERSON));  // TODO handle other types OR-57
 

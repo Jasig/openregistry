@@ -289,7 +289,7 @@ public final class PeopleResource {
         final SorRole sorRole = person.addRole(roleInfo);
         if (roleRepresentation.roleId != null) sorRole.setSorId(roleRepresentation.roleId);
         sorRole.setSourceSorIdentifier(person.getSourceSor());
-        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE.name()));
+        sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE));
         sorRole.setStart(roleRepresentation.startDate);
         sorRole.setEnd(roleRepresentation.endDate);
         sorRole.setPercentage(new Integer(roleRepresentation.percentage).intValue());
@@ -356,7 +356,7 @@ public final class PeopleResource {
         final ReconciliationCriteria ps = this.reconciliationCriteriaObjectFactory.getObject();
         ps.getPerson().setSourceSor(request.systemOfRecordId);
         ps.getPerson().setSorId(request.systemOfRecordPersonId);
-        Name name = ps.getPerson().addName(referenceRepository.findType(Type.DataTypes.NAME, "Formal"));
+        final Name name = ps.getPerson().addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
         name.setGiven(request.firstName);
         name.setFamily(request.lastName);
         ps.setEmailAddress(request.email);
