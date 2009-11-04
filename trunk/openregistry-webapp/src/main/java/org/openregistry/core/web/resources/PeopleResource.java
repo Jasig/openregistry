@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.web.resources;
 
+import org.openregistry.core.domain.*;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorSponsor;
-import org.openregistry.core.domain.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.IdentifierChangeService;
@@ -46,6 +46,7 @@ import java.util.*;
 
 import com.sun.jersey.api.NotFoundException;
 import com.sun.jersey.api.representation.Form;
+import org.springframework.util.Assert;
 
 /**
  * Root RESTful resource representing people in Open Registry.
@@ -369,6 +370,13 @@ public final class PeopleResource {
         ps.setCity(request.city);
         ps.setRegion(request.region);
         ps.setPostalCode(request.postalCode);
+
+        for (final PersonRequestRepresentation.Identifier identifier : request.identifiers) {
+            final IdentifierType identifierType = this.referenceRepository.findIdentifierType(identifier.identifierType);
+            Assert.notNull(identifierType);
+
+            ps.getIdentifiersByType().put(identifierType, identifier.identifierValue);
+        }
         return ps;
     }
 
