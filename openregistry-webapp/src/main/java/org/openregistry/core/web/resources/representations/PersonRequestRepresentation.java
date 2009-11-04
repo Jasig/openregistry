@@ -16,11 +16,14 @@
 package org.openregistry.core.web.resources.representations;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * A simple struct-like class encapsulating an incoming request for addition to the registry of
@@ -79,6 +82,10 @@ public class PersonRequestRepresentation {
     @XmlElement(name = "postal-code")
     public String postalCode;
 
+    @XmlElementWrapper(name = "identifiers")
+    @XmlElement(name = "identifier")
+    public List<Identifier> identifiers = new ArrayList<Identifier>();
+
     public boolean checkRequiredData() {
         return (this.systemOfRecordId != null
                 && this.systemOfRecordPersonId != null
@@ -86,6 +93,16 @@ public class PersonRequestRepresentation {
                 && this.lastName != null
                 && this.email != null
                 && this.phoneNumber != null);
+    }
+
+    @XmlRootElement(name = "identifier")
+    public static class Identifier {
+
+        @XmlAttribute(name = "type")
+        public String identifierType;
+
+        @XmlAttribute(name = "value")
+        public String identifierValue;
     }
 
     @Override
