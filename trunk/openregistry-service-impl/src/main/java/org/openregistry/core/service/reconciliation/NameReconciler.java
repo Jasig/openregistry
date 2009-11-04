@@ -39,7 +39,6 @@ import org.springframework.stereotype.Component;
  * @author steiner
  * @version $Revision$ $Date$
  */
-@Component
 public final class NameReconciler implements Reconciler {
 
 	private static final long serialVersionUID = -7509304431552307514L;
