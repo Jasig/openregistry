@@ -46,8 +46,6 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractInte
 
     private static final String LOCK_VALUE = "LOCK";
     
-    private static final String NAME_DATA_TYPE = "Formal";
-
     @Autowired
     private ActivationService activationService;
 
@@ -72,7 +70,7 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractInte
         final Identifier identifier = person.addIdentifier(identifierType, IDENTIFIER_VALUE);
         identifier.setDeleted(false);
         identifier.setPrimary(true);
-        final Name name = person.addName(referenceRepository.findType(Type.DataTypes.NAME, NAME_DATA_TYPE));
+        final Name name = person.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
         name.setGiven("Scott");
         this.person = this.personRepository.savePerson(person);
     }

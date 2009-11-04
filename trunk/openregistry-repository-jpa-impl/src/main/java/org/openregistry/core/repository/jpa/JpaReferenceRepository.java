@@ -132,6 +132,11 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
+    public Type findType(final DataTypes type, final Enum value) {
+        return findType(type, value.name());
+    }
+
+    @Transactional
     public Type findType(final DataTypes type, final String value) {
         return (Type) this.entityManager.createQuery("select r from type r where dataType=:dataType and description=:description").setParameter("dataType",type.name()).setParameter("description",value).getSingleResult();
     }

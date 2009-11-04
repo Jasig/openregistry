@@ -72,6 +72,8 @@ public interface ReferenceRepository {
      */
     Type findType(Type.DataTypes type, String value);
 
+    Type findType(Type.DataTypes type, Enum value);
+
     Type getTypeById(final Long id); 
 
     List<IdentifierType> getIdentifierTypes();

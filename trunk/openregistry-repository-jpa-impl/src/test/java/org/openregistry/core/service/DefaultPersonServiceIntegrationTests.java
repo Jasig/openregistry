@@ -50,7 +50,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 
 	private final String OR_WEBAPP_IDENTIFIER = "or-webapp";
 	private final String REGISTRAR_IDENTIFIER = "registrar";
-	private static final String NAME_DATA_TYPE = "Formal";
 
 	private static final String EMAIL_ADDRESS = "test@test.edu";
 	private static final String PHONE_NUMBER = "555-555-5555";
@@ -80,7 +79,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         sorPerson.setSourceSor(sor);
         sorPerson.setSsn(ssn);
 
-        final Name name = sorPerson.addName(this.referenceRepository.findType(Type.DataTypes.NAME, NAME_DATA_TYPE));
+        final Name name = sorPerson.addName(this.referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
         name.setFamily(lastName);
         name.setGiven(firstName);
         name.setOfficialName(true);

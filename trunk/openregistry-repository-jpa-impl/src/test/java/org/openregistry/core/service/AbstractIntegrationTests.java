@@ -23,7 +23,7 @@ public abstract class AbstractIntegrationTests extends AbstractTransactionalJUni
     @Before
     public void dataBaseSetUp() throws Exception {
         this.simpleJdbcTemplate.update("insert into prd_identifier_types(identifier_t, name) values(null, 'NETID')");
-        this.simpleJdbcTemplate.update("insert into ctx_data_types(id, data_type, description) values(1, 'NAME', 'Formal')");
+        this.simpleJdbcTemplate.update("insert into ctx_data_types(id, data_type, description) values(1, 'NAME', 'FORMAL')");
         this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(2, 'TERMINATION', 'UNSPECIFIED')");
         this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(3, 'FOO', 'Foo Description')");
         this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(4, 'TERMINATION', 'FIRED')");
