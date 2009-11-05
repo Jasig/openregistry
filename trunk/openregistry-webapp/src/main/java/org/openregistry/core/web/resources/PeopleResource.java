@@ -27,7 +27,6 @@ import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.IdentifierChangeService;
-import org.openregistry.core.service.ValidationError;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
 import org.openregistry.core.web.resources.representations.LinkRepresentation;
@@ -38,6 +37,7 @@ import org.openregistry.core.repository.ReferenceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.ConstraintViolation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.annotation.Resource;
@@ -352,16 +352,16 @@ public final class PeopleResource {
 
     private ReconciliationCriteria buildReconciliationCriteriaFrom(final PersonRequestRepresentation request) {
         final ReconciliationCriteria ps = this.reconciliationCriteriaObjectFactory.getObject();
-        ps.getPerson().setSourceSor(request.systemOfRecordId);
-        ps.getPerson().setSorId(request.systemOfRecordPersonId);
-        final Name name = ps.getPerson().addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
+        ps.getSorPerson().setSourceSor(request.systemOfRecordId);
+        ps.getSorPerson().setSorId(request.systemOfRecordPersonId);
+        final Name name = ps.getSorPerson().addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
         name.setGiven(request.firstName);
         name.setFamily(request.lastName);
         ps.setEmailAddress(request.email);
         ps.setPhoneNumber(request.phoneNumber);
-        ps.getPerson().setDateOfBirth(request.dateOfBirth);
-        ps.getPerson().setSsn(request.ssn);
-        ps.getPerson().setGender(request.gender);
+        ps.getSorPerson().setDateOfBirth(request.dateOfBirth);
+        ps.getSorPerson().setSsn(request.ssn);
+        ps.getSorPerson().setGender(request.gender);
         ps.setAddressLine1(request.addressLine1);
         ps.setAddressLine2(request.addressLine2);
         ps.setCity(request.city);
@@ -431,16 +431,23 @@ public final class PeopleResource {
         return null;
     }
 
-    private StringBuffer buildValidationErrorsResponse(List<ValidationError>validationErrors){
-        Iterator<ValidationError> iter = validationErrors.iterator();
-        StringBuffer buff = new StringBuffer("Validation errors were found:");
-        while (iter.hasNext()) {
-            ValidationError nextElement = iter.next();
-            buff.append(" ");
-            buff.append(nextElement.getField()) ;
-            buff.append(" " + nextElement.getCode());
+    private StringBuilder buildValidationErrorsResponse(final Set<ConstraintViolation> validationErrors) {
+        final StringBuilder builder = new StringBuilder();
+
+        if (!validationErrors.isEmpty()) {
+            return builder;
         }
-        return buff;
+
+        builder.append("Validation errors were found:");
+
+        for (final ConstraintViolation violation : validationErrors) {
+            builder.append(" ");
+            builder.append(violation.getPropertyPath().toString());
+            builder.append(" ");
+            builder.append(violation.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName());
+        }
+
+        return builder;
     }
 
     private Person findPersonOrThrowNotFoundException(final String personIdType, final String personId) {

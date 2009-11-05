@@ -16,23 +16,13 @@
 package org.openregistry.core.web.resources;
 
 import org.mockito.ArgumentMatcher;
-import org.mockito.Matchers;
+
 import static org.mockito.Mockito.*;
-import org.openregistry.core.domain.ActivationKey;
-import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.domain.IdentifierType;
+
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
-import org.openregistry.core.service.JaValidValidationError;
 import org.openregistry.core.service.PersonService;
-import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.ValidationError;
-import org.openregistry.core.service.reconciliation.PersonMatch;
-import org.openregistry.core.service.reconciliation.ReconciliationException;
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.springframework.beans.factory.FactoryBean;
-
-import java.util.*;
 
 /**
  * FactoryBean to create Mockito-based mocks of <code>PersonService</code> and related collaborators needed to test
@@ -75,7 +65,7 @@ public class LinkSorPersonMockitoBasedPersonServiceFactoryBean implements Factor
 
         @Override
         public boolean matches(Object criteria) {
-            return (criteria == null) ? false : "link-sor-good".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
+            return (criteria == null) ? false : "link-sor-good".equals(((ReconciliationCriteria) criteria).getSorPerson().getSsn());
         }
     }
 
@@ -83,7 +73,7 @@ public class LinkSorPersonMockitoBasedPersonServiceFactoryBean implements Factor
 
         @Override
         public boolean matches(Object criteria) {
-            return (criteria == null) ? false : "link-sor-bad".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
+            return (criteria == null) ? false : "link-sor-bad".equals(((ReconciliationCriteria) criteria).getSorPerson().getSsn());
         }
     }
 

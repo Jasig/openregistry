@@ -17,28 +17,23 @@ package org.openregistry.core.domain.jpa.sor;
 
 import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
-import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Leave;
 import org.openregistry.core.domain.internal.Entity;
-import org.javalid.annotations.validation.NotNull;
-import org.javalid.annotations.core.ValidateDefinition;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Nancy Mond
- * Date: Apr 7, 2009
- * Time: 4:05:24 PM
- * To change this template use File | Settings | File Templates.
+ * @author Nancy Mond
+ * @version $Revision$ $Date$
+ * @since 0.1
  */
 @javax.persistence.Entity(name="sorLoa")
 @Table(name="prs_leaves_of_absence")
 @Audited
-@ValidateDefinition
 public final class JpaSorLeaveImpl extends Entity implements Leave {
 
     @Id

@@ -247,20 +247,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.javalid</groupId>
-            <artifactId>javalid-spring</artifactId>
-            <version>${javalid.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.javalid</groupId>
-            <artifactId>javalid-core</artifactId>
-            <version>${javalid.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>${slf4j.version}</version>

@@ -20,9 +20,6 @@ import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.*;
 import org.hibernate.envers.Audited;
-import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.validation.NotEmpty;
-import org.javalid.annotations.validation.NotNull;
 import org.springframework.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +41,6 @@ import java.util.Set;
 @javax.persistence.Entity(name="person")
 @Table(name="prc_persons")
 @Audited
-@ValidateDefinition
 public class JpaPersonImpl extends Entity implements Person {
     protected static final Logger logger = LoggerFactory.getLogger(JpaPersonImpl.class);
 
@@ -67,11 +63,9 @@ public class JpaPersonImpl extends Entity implements Person {
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
-    @NotNull (customCode="dateOfBirthRequiredMsg")
     private Date dateOfBirth;
 
     @Column(name="gender",length=1,nullable=false)
-    @NotEmpty(customCode="genderRequiredMsg")
     private String gender;
 
     @Embedded

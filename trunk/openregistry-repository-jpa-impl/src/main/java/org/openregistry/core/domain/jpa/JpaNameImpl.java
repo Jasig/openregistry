@@ -20,8 +20,6 @@ import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 import org.springframework.util.Assert;
 import org.hibernate.envers.Audited;
-import org.javalid.annotations.validation.NotNull;
-import org.javalid.annotations.core.ValidateDefinition;
 
 import javax.persistence.*;
 
@@ -38,7 +36,6 @@ import javax.persistence.*;
 			   @UniqueConstraint(columnNames={"person_id","is_official_name"})
 	   })
 @Audited
-@ValidateDefinition
 public class JpaNameImpl extends Entity implements Name {
 
     @Id
@@ -55,7 +52,6 @@ public class JpaNameImpl extends Entity implements Name {
     private String prefix;
 
     @Column(name="given_name",nullable=false,length=100)
-    @NotNull(customCode = "firstNameRequiredMsg")
     private String given;
 
     @Column(name="middle_name",nullable=true,length=100)

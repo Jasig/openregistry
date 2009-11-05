@@ -15,12 +15,9 @@
  */
 package org.openregistry.core.web;
 
-import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.validation.NotNull;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,11 +27,8 @@ import javax.servlet.http.HttpServletResponse;
  * @version $Revision$ $Date$
  * @since 0.1-M2
  */
-@ValidateDefinition
 public final class ReferenceRepositoryHandlerInterceptor extends HandlerInterceptorAdapter {
 
-
-    @NotNull
     private final ReferenceRepository referenceRepository;
 
     @Autowired(required=true)

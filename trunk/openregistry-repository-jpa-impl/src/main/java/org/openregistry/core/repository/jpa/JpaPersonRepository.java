@@ -59,8 +59,8 @@ public class JpaPersonRepository implements PersonRepository {
         return (Person) this.entityManager.createQuery("Select p from person p join p.identifiers i join i.type t where t.name = :name and i.value = :value").setParameter("name", identifierType).setParameter("value", identifierValue).getSingleResult();
     }
 
-    public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier) {
-        return (SorPerson) this.entityManager.createQuery("Select s from sorPerson s where s.sourceSorIdentifier = :sorSourceIdentifier and s.personId = :personId").setParameter("sorSourceIdentifier", sorSourceIdentifier).setParameter("personId", personId).getSingleResult();
+    public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSource) {
+        return (SorPerson) this.entityManager.createQuery("Select s from sorPerson s where s.sourceSor = :sorSource and s.personId = :personId").setParameter("sorSource", sorSource).setParameter("personId", personId).getSingleResult();
     }
 
     public SorRole findSorRoleByInternalId(final Long id) throws RepositoryAccessException {
@@ -104,8 +104,8 @@ public class JpaPersonRepository implements PersonRepository {
         return this.entityManager.merge(role);
     }
 
-    public SorPerson findBySorIdentifierAndSource(final String sorSourceIdentifier, final String sorId) {
-        return (SorPerson) this.entityManager.createQuery("select s from sorPerson s where s.sourceSorIdentifier = :sorSourceIdentifier and s.sorId = :sorId").setParameter("sorSourceIdentifier", sorSourceIdentifier).setParameter("sorId", sorId).getSingleResult();
+    public SorPerson findBySorIdentifierAndSource(final String sorSource, final String sorId) {
+        return (SorPerson) this.entityManager.createQuery("select s from sorPerson s where s.sourceSor = :sorSource and s.sorId = :sorId").setParameter("sorSource", sorSource).setParameter("sorId", sorId).getSingleResult();
     }
 
     public void deleteSorPerson(final SorPerson sorPerson) {

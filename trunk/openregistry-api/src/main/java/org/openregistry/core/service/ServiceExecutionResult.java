@@ -15,11 +15,10 @@
  */
 package org.openregistry.core.service;
 
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
-
+import javax.validation.ConstraintViolation;
 import java.util.Date;
-import java.util.List;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * A container encapsulating results of any number of different Open Registry public service API invocations.
@@ -54,5 +53,5 @@ public interface ServiceExecutionResult<T> extends Serializable {
      *
      * @return the list of validations.  CANNOT be null.  CAN be empty.
      */
-    List<ValidationError> getValidationErrors();
+    Set<ConstraintViolation> getValidationErrors();
 }

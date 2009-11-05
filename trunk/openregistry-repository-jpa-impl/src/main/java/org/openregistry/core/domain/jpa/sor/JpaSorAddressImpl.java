@@ -23,28 +23,23 @@ import org.openregistry.core.domain.Country;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.JpaRegionImpl;
 import org.openregistry.core.domain.jpa.JpaCountryImpl;
-import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.hibernate.envers.Audited;
-import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.validation.NotNull;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Unique constraints assumes that each role record has only one address of a given type
  *
- * Created by IntelliJ IDEA.
- * User: Nancy Mond
- * Date: Apr 7, 2009
- * Time: 2:57:11 PM
- * To change this template use File | Settings | File Templates.
+ * @author Nancy Mond
+ * @version $Revision$ $Date$
+ * @since 0.1
  */
 @javax.persistence.Entity(name="sorAddress")
 @Table(name="prs_addresses", uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
-@ValidateDefinition
 public final class JpaSorAddressImpl extends Entity implements Address {
 
     @Id

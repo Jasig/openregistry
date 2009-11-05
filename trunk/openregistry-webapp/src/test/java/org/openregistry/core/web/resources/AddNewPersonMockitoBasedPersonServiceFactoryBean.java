@@ -29,9 +29,10 @@ import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.ValidationError;
-import org.openregistry.core.service.JaValidValidationError;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Path;
+import javax.validation.metadata.ConstraintDescriptor;
 import java.util.*;
 
 /**
@@ -79,7 +80,39 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         //Stubbing service execution result with validation errors
         final ServiceExecutionResult<Person> mockValidationErrorsExecutionResult = mock(ServiceExecutionResult.class);
         when(mockValidationErrorsExecutionResult.getValidationErrors())
-                .thenReturn(new ArrayList<ValidationError>(Arrays.asList(new JaValidValidationError())));
+                .thenReturn(new HashSet<ConstraintViolation>(Arrays.asList(new ConstraintViolation() {
+                    public String getMessage() {
+                        return null;
+                    }
+
+                    public String getMessageTemplate() {
+                        return null;
+                    }
+
+                    public Object getRootBean() {
+                        return null;
+                    }
+
+                    public Class getRootBeanClass() {
+                        return null;
+                    }
+
+                    public Object getLeafBean() {
+                        return null;
+                    }
+
+                    public Path getPropertyPath() {
+                        return null;
+                    }
+
+                    public Object getInvalidValue() {
+                        return null;
+                    }
+
+                    public ConstraintDescriptor<?> getConstraintDescriptor() {
+                        return null;
+                    }
+                })));
 
         //Stubbing PersonService
         final PersonService ps = mock(PersonService.class);
@@ -158,7 +191,7 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
 
         @Override
         public boolean matches(Object criteria) {
-            return (criteria == null) ? false : "new".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
+            return (criteria == null) ? false : "new".equals(((ReconciliationCriteria) criteria).getSorPerson().getSsn());
         }
     }
 
@@ -166,7 +199,7 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
 
         @Override
         public boolean matches(Object criteria) {
-            return (criteria == null) ? false : "existing".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
+            return (criteria == null) ? false : "existing".equals(((ReconciliationCriteria) criteria).getSorPerson().getSsn());
         }
     }
 
@@ -174,7 +207,7 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
 
         @Override
         public boolean matches(Object criteria) {
-            return (criteria == null) ? false : "multiple".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
+            return (criteria == null) ? false : "multiple".equals(((ReconciliationCriteria) criteria).getSorPerson().getSsn());
         }
     }
 
@@ -182,7 +215,7 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
 
         @Override
         public boolean matches(Object criteria) {
-            return (criteria == null) ? false : "errors".equals(((ReconciliationCriteria) criteria).getPerson().getSsn());
+            return (criteria == null) ? false : "errors".equals(((ReconciliationCriteria) criteria).getSorPerson().getSsn());
         }
     }
 }

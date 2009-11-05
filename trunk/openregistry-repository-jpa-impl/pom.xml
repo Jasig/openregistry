@@ -55,13 +55,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.javalid</groupId>
-            <artifactId>javalid-core</artifactId>
-            <version>${javalid.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-envers</artifactId>
             <version>${hibernate.version}</version>
@@ -72,6 +65,14 @@
                     <artifactId>persistence-api</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+            <scope>compile</scope>
+            <type>jar</type>
         </dependency>
 
         <dependency>
@@ -151,14 +152,6 @@
             <groupId>org.antlr</groupId>
             <artifactId>antlr</artifactId>
             <version>${antlr.version}</version>
-            <scope>test</scope>
-            <type>jar</type>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>el-api</artifactId>
-            <version>${el.api.version}</version>
             <scope>test</scope>
             <type>jar</type>
         </dependency>

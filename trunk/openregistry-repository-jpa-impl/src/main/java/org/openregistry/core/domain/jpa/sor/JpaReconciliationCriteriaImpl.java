@@ -18,10 +18,10 @@ package org.openregistry.core.domain.jpa.sor;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.IdentifierType;
-import org.javalid.annotations.validation.NotNull;
-import org.javalid.annotations.core.ValidateDefinition;
 import org.springframework.core.style.ToStringCreator;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -32,11 +32,11 @@ import java.util.HashMap;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@ValidateDefinition
 public final class JpaReconciliationCriteriaImpl implements ReconciliationCriteria {
 
     @NotNull
-    private SorPerson person = new JpaSorPersonImpl();
+    @Valid
+    private JpaSorPersonImpl sorPerson = new JpaSorPersonImpl();
 
     private Map<IdentifierType, String> identifiersByType = new HashMap<IdentifierType, String>();
 
@@ -56,7 +56,7 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
 
     public String toString() {
         final ToStringCreator toStringCreator = new ToStringCreator(this);
-        toStringCreator.append("person", this.person);
+        toStringCreator.append("person", this.sorPerson);
         toStringCreator.append("emailAddress", this.emailAddress);
         toStringCreator.append("phoneNumber", this.phoneNumber);
         toStringCreator.append("addressLine1", this.addressLine1);
@@ -83,9 +83,8 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
     public void setPhoneNumber(final String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-// TODO this method name is confusing, can it be changed to getSorPerson?
-    public SorPerson getPerson() {
-        return this.person;
+    public SorPerson getSorPerson() {
+        return this.sorPerson;
     }
 
     public Map<IdentifierType, String> getIdentifiersByType() {
@@ -145,7 +144,7 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
         if (emailAddress != null ? !emailAddress.equals(that.emailAddress) : that.emailAddress != null) return false;
         if (identifiersByType != null ? !identifiersByType.equals(that.identifiersByType) : that.identifiersByType != null)
             return false;
-        if (person != null ? !person.equals(that.person) : that.person != null) return false;
+        if (sorPerson != null ? !sorPerson.equals(that.sorPerson) : that.sorPerson != null) return false;
         if (phoneNumber != null ? !phoneNumber.equals(that.phoneNumber) : that.phoneNumber != null) return false;
         if (postalCode != null ? !postalCode.equals(that.postalCode) : that.postalCode != null) return false;
         if (region != null ? !region.equals(that.region) : that.region != null) return false;
@@ -155,7 +154,7 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
 
     @Override
     public int hashCode() {
-        int result = person != null ? person.hashCode() : 0;
+        int result = sorPerson != null ? sorPerson.hashCode() : 0;
         result = 31 * result + (identifiersByType != null ? identifiersByType.hashCode() : 0);
         result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);

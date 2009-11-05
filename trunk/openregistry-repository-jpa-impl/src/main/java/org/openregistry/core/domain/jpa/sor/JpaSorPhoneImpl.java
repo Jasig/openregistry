@@ -17,15 +17,13 @@ package org.openregistry.core.domain.jpa.sor;
 
 import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
-import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Phone;
 import org.openregistry.core.domain.internal.Entity;
-import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.validation.NotNull;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Unique constraints also assumes that one full phone number should not appear twice
@@ -44,7 +42,6 @@ import javax.persistence.*;
 				@UniqueConstraint(columnNames={"phone_t", "address_t", "role_record_id"})
 		})
 @Audited
-@ValidateDefinition
 public final class JpaSorPhoneImpl extends Entity implements Phone {
 
     @Id

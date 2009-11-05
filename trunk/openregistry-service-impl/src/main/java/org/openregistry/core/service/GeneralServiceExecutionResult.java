@@ -15,16 +15,10 @@
  */
 package org.openregistry.core.service;
 
-import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.ValidationError;
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
-
-import java.util.List;
+import javax.validation.ConstraintViolation;
 import java.util.Date;
 import java.util.Collections;
+import java.util.Set;
 
 /**
  * Implementation of a <code>ServiceExecutionResult </code>
@@ -39,7 +33,7 @@ public class GeneralServiceExecutionResult<T> implements ServiceExecutionResult<
 
     private final T targetObject;
 
-    private final List<ValidationError> validationErrors;
+    private final Set<ConstraintViolation> validationErrors;
 
     private boolean succeeded;  
 
@@ -47,13 +41,13 @@ public class GeneralServiceExecutionResult<T> implements ServiceExecutionResult<
         this(targetObject, null);
     }
 
-    public GeneralServiceExecutionResult(final List<ValidationError> validationErrors) {
+    public GeneralServiceExecutionResult(final Set<ConstraintViolation> validationErrors) {
         this(null, validationErrors);
     }
 
-    public GeneralServiceExecutionResult(final T targetObject, final List<ValidationError> validationErrors) {
+    public GeneralServiceExecutionResult(final T targetObject, final Set<ConstraintViolation> validationErrors) {
         this.targetObject = targetObject;
-        this.validationErrors = validationErrors != null ? Collections.unmodifiableList(validationErrors) : Collections.<ValidationError>emptyList();
+        this.validationErrors = validationErrors != null ? Collections.unmodifiableSet(validationErrors) : Collections.<ConstraintViolation>emptySet();
         this.succeeded = this.validationErrors.isEmpty();
     }
 
@@ -65,7 +59,7 @@ public class GeneralServiceExecutionResult<T> implements ServiceExecutionResult<
         return this.targetObject;
     }
 
-    public List<ValidationError> getValidationErrors() {
+    public Set<ConstraintViolation> getValidationErrors() {
         return this.validationErrors;
     }
 
