@@ -48,7 +48,7 @@ public class JpaNameImpl extends Entity implements Name {
     private Long id;
     
     @ManyToOne(optional=false)
-    @JoinColumn(name="name_t")
+    @JoinColumn(name="name_t", nullable=false)
     private JpaTypeImpl type;
 
     @Column(name="prefix", nullable=true, length=5)
