@@ -28,8 +28,18 @@ import java.io.Serializable;
  */
 public interface ReconciliationCriteria extends Serializable {
 
+    /**
+     * The System of Record person we are trying to add.
+     *
+     * @return the System of Record Person.  CANNOT be NULL.
+     */
     SorPerson getSorPerson();
 
+    /**
+     * An email address that MIGHT be used for reconciliation.
+     *
+     * @return the email address or null if it doesn't work.
+     */
     String getEmailAddress();
 
     void setEmailAddress(String emailAddress);
