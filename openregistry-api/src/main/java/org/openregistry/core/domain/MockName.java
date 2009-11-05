@@ -143,7 +143,7 @@ public class MockName extends Entity implements Name {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MockName mockName = (MockName) o;
+        final MockName mockName = (MockName) o;
 
         if (officialName != mockName.officialName) return false;
         if (preferredName != mockName.preferredName) return false;

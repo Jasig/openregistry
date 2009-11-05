@@ -180,7 +180,7 @@ public class MockRole extends Entity implements Role {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MockRole mockRole = (MockRole) o;
+        final MockRole mockRole = (MockRole) o;
 
         if (end != null ? !end.equals(mockRole.end) : mockRole.end != null) return false;
         if (id != null ? !id.equals(mockRole.id) : mockRole.id != null) return false;
