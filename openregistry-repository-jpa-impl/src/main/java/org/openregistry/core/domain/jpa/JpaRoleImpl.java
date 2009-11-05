@@ -21,9 +21,6 @@ import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorSponsor;
 import org.hibernate.envers.Audited;
-import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.validation.DateAfter;
-import org.javalid.annotations.validation.NotNull;
 import org.springframework.util.Assert;
 
 import java.util.Date;
@@ -44,7 +41,6 @@ import javax.persistence.*;
 // TODO should a person be able to have multiple entries for the same role?  Perhaps if the affiliation date is unique?
 @javax.persistence.Entity(name = "role")
 @Table(name = "prc_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"person_id","role_id"}))
-@ValidateDefinition
 @Audited
 public final class JpaRoleImpl extends Entity implements Role {
 
@@ -71,7 +67,6 @@ public final class JpaRoleImpl extends Entity implements Role {
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "sponsor_id")
-    @NotNull(customCode = "sponsorRequiredMsg")
     private JpaSponsorImpl sponsor;
 
     @Column(name = "percent_time", nullable = false)
@@ -94,7 +89,6 @@ public final class JpaRoleImpl extends Entity implements Role {
 
     @Column(name = "affiliation_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    @NotNull(customCode = "startDateRequiredMsg")
     private Date start;
 
     @Column(name = "termination_date")

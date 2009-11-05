@@ -26,16 +26,15 @@ import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.validation.NotEmpty;
-import org.javalid.annotations.validation.NotNull;
-import org.javalid.annotations.validation.ValidateList;
-import org.javalid.annotations.validation.DateCheck;
 import org.springframework.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import java.util.*;
 
@@ -47,11 +46,8 @@ import java.util.*;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="sorPerson")
-@Table(name="prs_sor_persons",
-	uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id","person_id"})
-)
+@Table(name="prs_sor_persons", uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id","person_id"}))
 @Audited
-@ValidateDefinition
 public class JpaSorPersonImpl extends Entity implements SorPerson {
 
     protected static final Logger logger = LoggerFactory.getLogger(JpaSorPersonImpl.class);
@@ -66,26 +62,28 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     private String sorId;
 
     @Column(name="source_sor_id", nullable = false)
-    @NotEmpty
-    private String sourceSorIdentifier;
+    @NotNull
+    @Size(min=1)
+    private String sourceSor;
 
     @Column(name="person_id")
     private Long personId;
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
-    @NotNull(customCode="dateOfBirthRequiredMsg")
-    @DateCheck(today = true, mode=DateCheck.MODE_LESS_THAN)
+    @NotNull(message="dateOfBirthRequiredMsg")
+    @Past
     private Date dateOfBirth;
 
     @Column(name="gender",length=1,nullable=false)
-    @NotEmpty(customCode="genderRequiredMsg")
+    @NotNull(message = "genderRequiredMsg")
+    @Size(min=1,max=1,message = "genderRequiredMsg")
     private String gender;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-    @ValidateList
     @Fetch(value = FetchMode.SUBSELECT)
+    @Valid
     private List<Name> names = new ArrayList<Name>();
 
     @Column(name="ssn",nullable=true)
@@ -93,8 +91,8 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-    @ValidateList
     @Fetch(value = FetchMode.SUBSELECT)
+    @Valid
     private List<SorRole> roles = new ArrayList<SorRole>();
 
     public List<SorRole> getRoles(){
@@ -118,11 +116,11 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     }
 
     public String getSourceSor() {
-        return this.sourceSorIdentifier;
+        return this.sourceSor;
     }
 
     public void setSourceSor(final String sorIdentifier) {
-        this.sourceSorIdentifier = sorIdentifier;
+        this.sourceSor = sorIdentifier;
     }
 
     public List<Name> getNames() {
@@ -246,7 +244,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         if (recordId != null ? !recordId.equals(that.recordId) : that.recordId != null) return false;
         if (roles != null ? !roles.equals(that.roles) : that.roles != null) return false;
         if (sorId != null ? !sorId.equals(that.sorId) : that.sorId != null) return false;
-        if (sourceSorIdentifier != null ? !sourceSorIdentifier.equals(that.sourceSorIdentifier) : that.sourceSorIdentifier != null)
+        if (sourceSor != null ? !sourceSor.equals(that.sourceSor) : that.sourceSor != null)
             return false;
         if (ssn != null ? !ssn.equals(that.ssn) : that.ssn != null) return false;
 
@@ -257,7 +255,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     public int hashCode() {
         int result = recordId != null ? recordId.hashCode() : 0;
         result = 31 * result + (sorId != null ? sorId.hashCode() : 0);
-        result = 31 * result + (sourceSorIdentifier != null ? sourceSorIdentifier.hashCode() : 0);
+        result = 31 * result + (sourceSor != null ? sourceSor.hashCode() : 0);
         result = 31 * result + (personId != null ? personId.hashCode() : 0);
         result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);

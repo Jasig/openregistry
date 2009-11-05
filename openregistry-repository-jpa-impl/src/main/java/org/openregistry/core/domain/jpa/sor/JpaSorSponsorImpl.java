@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.Type;
@@ -26,8 +27,6 @@ import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorSponsor;
-import org.javalid.annotations.validation.NotNull;
-import org.javalid.annotations.core.ValidateDefinition;
 import org.springframework.util.Assert;
 
 /**
@@ -40,7 +39,6 @@ import org.springframework.util.Assert;
 @javax.persistence.Entity(name="sorSponsor")
 @Table(name="prs_sponsors",uniqueConstraints = @UniqueConstraint(columnNames = {"sponsor_t","sponsor_id"}))
 @Audited
-@ValidateDefinition
 public class JpaSorSponsorImpl extends Entity implements SorSponsor {
 
 	private static final long serialVersionUID = 3547710151070428086L;

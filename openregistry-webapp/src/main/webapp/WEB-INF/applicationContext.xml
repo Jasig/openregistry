@@ -75,7 +75,6 @@
             <list>
                 <value>messages</value>
                 <value>uilabels</value>
-                <value>org/javalid/core/validator/jv_messages</value>
                 <value>org/openregistry/core/messages/log</value>
                 <value>http_errors</value>
             </list>
@@ -93,5 +92,7 @@
         <lang:property name="identifierChangeEventDestinationUri"
                        value="activemq:topic:openregistry.identifier-change.out"/>
     </lang:groovy>
+
+    <bean id="javaXCompatibleValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />        
 
 </beans>

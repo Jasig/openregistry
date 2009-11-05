@@ -15,8 +15,6 @@
  */
 package org.openregistry.core.domain.jpa.sor;
 
-import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.validation.*;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
@@ -37,6 +35,11 @@ import org.hibernate.annotations.FetchMode;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 /**
@@ -48,7 +51,6 @@ import java.util.*;
 @javax.persistence.Entity(name="sorRole")
 @Table(name="prs_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id","id"}))
 @Audited
-@ValidateDefinition
 public final class JpaSorRoleImpl extends Entity implements SorRole {
 
     @Id
@@ -58,35 +60,37 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     private Long recordId;
 
     @Column(name="id")
-    @NotEmpty
+    @NotNull
+    @Size(min=1)
     private String sorId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorUrlImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-    @ValidateList
+    @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Url> urls = new ArrayList<Url>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorEmailAddressImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-    @ValidateList
+    @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorPhoneImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-    @ValidateList
+    @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Phone> phones = new ArrayList<Phone>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorAddressImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-    @ValidateList
+    @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Address> addresses = new ArrayList<Address>();
 
     @Column(name="source_sor_id", nullable = false)
-    @NotEmpty
+    @NotNull
+    @Size(min=1)
     private String sourceSorIdentifier;
 
     @ManyToOne(optional = false)
@@ -94,8 +98,8 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     private JpaSorPersonImpl person;
 
     @Column(name="percent_time",nullable=false)
-    @MinValue(0)
-    @MaxValue(100)
+    @DecimalMin(value = "0")
+    @DecimalMax(value = "100")
     private int percentage;
 
     @ManyToOne(optional = false)
@@ -104,7 +108,7 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     private JpaTypeImpl personStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch=FetchType.EAGER, targetEntity = JpaSorLeaveImpl.class)
-    @ValidateList
+    @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Leave> leaves = new ArrayList<Leave>();
 
@@ -115,12 +119,12 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name="sponsor_id")
-    @NotNull (customCode="sponsorRequiredMsg")
+    @NotNull(message="sponsorRequiredMsg")
     private JpaSorSponsorImpl sponsor;
 
     @Column(name="affiliation_date",nullable=false)
     @Temporal(TemporalType.DATE)
-    @NotNull(customCode="startDateRequiredMsg")
+    @NotNull(message="startDateRequiredMsg")
     private Date start;
 
     @Column(name="termination_date")

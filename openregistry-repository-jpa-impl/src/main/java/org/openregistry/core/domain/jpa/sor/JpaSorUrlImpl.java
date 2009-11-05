@@ -20,12 +20,10 @@ import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.Url;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
-import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
-import org.javalid.annotations.validation.NotNull;
-import org.javalid.annotations.core.ValidateDefinition;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.net.URL;
 
 /**
@@ -41,7 +39,6 @@ import java.net.URL;
 @Table(name="prs_urls",
 	uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"}))
 @Audited
-@ValidateDefinition
 public final class JpaSorUrlImpl extends Entity implements Url {
 
     @Id

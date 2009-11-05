@@ -15,20 +15,10 @@
  */
 package org.openregistry.core.web.resources;
 
-import org.mockito.ArgumentMatcher;
 import static org.mockito.Mockito.*;
 import org.openregistry.core.domain.*;
-import org.openregistry.core.domain.sor.ReconciliationCriteria;
-import org.openregistry.core.service.JaValidValidationError;
 import org.openregistry.core.service.PersonService;
-import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.ValidationError;
-import org.openregistry.core.service.reconciliation.PersonMatch;
-import org.openregistry.core.service.reconciliation.ReconciliationException;
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.springframework.beans.factory.FactoryBean;
-
-import java.util.*;
 
 /**
  * FactoryBean to create Mockito-based mocks of <code>PersonService</code> and related collaborators needed to test

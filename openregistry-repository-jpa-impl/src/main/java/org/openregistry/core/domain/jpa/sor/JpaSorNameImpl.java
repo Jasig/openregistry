@@ -18,15 +18,13 @@ package org.openregistry.core.domain.jpa.sor;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Type;
 import org.springframework.util.Assert;
 import org.hibernate.envers.Audited;
-import org.javalid.annotations.validation.NotEmpty;
-import org.javalid.annotations.validation.NotNull;
-import org.javalid.annotations.core.ValidateDefinition;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Implementation of the Name domain object that conforms to the tables for the Systems of Record
@@ -41,7 +39,6 @@ import javax.persistence.*;
 @javax.persistence.Entity(name="sorName")
 @Table(name="prs_names")
 @Audited
-@ValidateDefinition
 public final class JpaSorNameImpl extends Entity implements Name {
 
     @Id
@@ -58,7 +55,8 @@ public final class JpaSorNameImpl extends Entity implements Name {
     @Column(name="prefix", nullable=true, length=5)
     private String prefix;
 
-    @NotEmpty
+    @NotNull
+    @Size(min=1)
     @Column(name="given_name",nullable=false,length=100)
     private String given;
 

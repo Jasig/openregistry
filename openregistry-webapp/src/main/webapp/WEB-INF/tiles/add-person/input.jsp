@@ -31,7 +31,7 @@
 					<div class="row">
 						<label for="c1_prefix" class="prefix"><spring:message code="prefix.label"/></label>
                         <div class="select prefix">
-                            <form:select path="person.names[0].prefix" id="c1_prefix" size="1" tabindex="1">
+                            <form:select path="sorPerson.names[0].prefix" id="c1_prefix" size="1" tabindex="1">
                                 <form:option value="" label=""/>
 							    <form:option value="Mrs" label="Mrs."/>
                                 <form:option value="Miss" label="Miss"/>
@@ -42,23 +42,23 @@
                         </div>
 
 						<label for="c1_firstName" class="firstName"><spring:message code="firstName.label"/><em>*</em></label>
-						<form:input path="person.names[0].given" id="c1_firstName" size="10" maxlength="30" tabindex="2" />
+						<form:input path="sorPerson.names[0].given" id="c1_firstName" size="10" maxlength="30" tabindex="2" />
 
                         <label for="c1_middleName" class="middleName"><spring:message code="middleName.label" /></label>
-                        <form:input path="person.names[0].middle" id="c1_middleName" size="10" maxlength="30" tabindex="3" />
+                        <form:input path="sorPerson.names[0].middle" id="c1_middleName" size="10" maxlength="30" tabindex="3" />
 
                         <label for="c1_lastName" class="lastName"><spring:message code="lastName.label" /><em>*</em></label>
-                        <form:input path="person.names[0].family" id="c1_lastName" size="10" maxlength="30" tabindex="4" />
+                        <form:input path="sorPerson.names[0].family" id="c1_lastName" size="10" maxlength="30" tabindex="4" />
 
                         <label for="c1_suffix" class="suffix"><spring:message code="suffix.label" /></label>
-                        <form:input path="person.names[0].suffix" id="c1_suffix" size="5" maxlength="5" tabindex="5" />
+                        <form:input path="sorPerson.names[0].suffix" id="c1_suffix" size="5" maxlength="5" tabindex="5" />
                     </div>
 
                     <div class="row">
 
 						<label for="c1_gender" class="gender"><spring:message code="gender.label" /> <em>*</em></label>
 						<div class="select gender">
-                            <form:select path="person.gender" id="c1_gender" size="1" tabindex="6">
+                            <form:select path="sorPerson.gender" id="c1_gender" size="1" tabindex="6">
                                 <form:option value="" label=""/>
                                 <form:option value="F" label="Female"/>
 							    <form:option value="M" label="Male"/>
@@ -68,12 +68,12 @@
 
                    <div class="row">
 						<label for="c1_dateOfBirth" class="dateOfBirth"><spring:message code="dateOfBirth.label"/><em>*</em></label>
-						<form:input path="person.dateOfBirth" id="c1_dateOfBirth" size="10" maxlength="10" tabindex="7" />
+						<form:input path="sorPerson.dateOfBirth" id="c1_dateOfBirth" size="10" maxlength="10" tabindex="7" />
                    </div>
 
                     <div class="row">
                         <label for="c1_SSN"><spring:message code="ssn.label"/></label>
-                        <form:input path="person.ssn" id="c1_ssn" size="9" maxlength="9" tabindex="8" />
+                        <form:input path="sorPerson.ssn" id="c1_ssn" size="9" maxlength="9" tabindex="8" />
                     </div>
 
                     <div class="row">

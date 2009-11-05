@@ -35,7 +35,7 @@
         <flow:flow-location path="/WEB-INF/flows/delete-person.xml" id="deletePerson" />
         <flow:flow-location path="/WEB-INF/flows/update-person.xml" id="updatePerson" />
         <flow:flow-location path="/WEB-INF/flows/update-role.xml" id="updateRole" />
-        <flow:flow-location path="/WEB-INF/flows/add-role.xml" id="addRole" />
+        <flow:flow-location path="/WEB-INF/flows/add-role.xml" id="add-role" />
         <flow:flow-location path="/WEB-INF/flows/search-person.xml" id="searchForPerson" />
         <flow:flow-location path="/WEB-INF/flows/manage-person-roles.xml" id="managePersonRoles" />
         <flow:flow-location path="/WEB-INF/flows/split-person.xml" id="splitPerson" />

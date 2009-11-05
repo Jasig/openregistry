@@ -19,27 +19,21 @@ import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
-import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.hibernate.envers.Audited;
-import org.javalid.annotations.core.ValidateDefinition;
-import org.javalid.annotations.validation.NotNull;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Nancy Mond
- * Date: Apr 7, 2009
- * Time: 2:28:38 PM
- * To change this template use File | Settings | File Templates.
+ * @author Nancy Mond
+ * @version $Revision$ $Date$
+ * @since 0.1
  */
 
 @javax.persistence.Entity(name="sorEmailAddress")
-@Table(name="prs_emails",
-		uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
+@Table(name="prs_emails", uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
-@ValidateDefinition
 public final class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
 
     @Id

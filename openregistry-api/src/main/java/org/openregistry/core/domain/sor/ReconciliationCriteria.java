@@ -28,7 +28,7 @@ import java.io.Serializable;
  */
 public interface ReconciliationCriteria extends Serializable {
 
-    SorPerson getPerson();
+    SorPerson getSorPerson();
 
     String getEmailAddress();
 

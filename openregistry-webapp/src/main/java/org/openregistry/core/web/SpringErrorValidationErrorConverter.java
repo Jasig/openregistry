@@ -15,13 +15,13 @@
  */
 package org.openregistry.core.web;
 
-import org.openregistry.core.service.ValidationError;
 import org.springframework.validation.Errors;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import javax.validation.ConstraintViolation;
+import java.util.Set;
 
 /**
  * Converts the OpenRegistry Validation Errors to the Spring Validation Errors.
@@ -41,14 +41,13 @@ public final class SpringErrorValidationErrorConverter {
      * @param validationErrors the errors provided by the {@link org.openregistry.core.service.PersonService}
      * @param errors an instance of Spring's {@link org.springframework.validation.Errors}
      */
-    public void convertValidationErrors(final List<ValidationError> validationErrors, final Errors errors) {
-        for (final ValidationError validationError : validationErrors) {
-            if (validationError.getField() == null) {
-                errors.reject(validationError.getCode(), validationError.getArguments(), null);
-            } else {
-                errors.rejectValue(validationError.getField(), validationError.getCode(), validationError.getArguments(), null);
-            }
-        }
+    public void convertValidationErrors(final Set<ConstraintViolation> validationErrors, final Errors errors) {
+		for (final ConstraintViolation violation : validationErrors) {
+			errors.rejectValue(violation.getPropertyPath().toString(),
+					violation.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName(),
+					violation.getConstraintDescriptor().getAttributes().values().toArray(),
+					violation.getMessage());
+		}
     }
 
     /**
@@ -58,13 +57,10 @@ public final class SpringErrorValidationErrorConverter {
      * @param validationErrors the errors provided by the {@link org.openregistry.core.service.PersonService}
      * @param messages an instance of Spring's {@link org.springframework.binding.message.MessageContext}
      */
-    public void convertValidationErrors(final List<ValidationError> validationErrors, final MessageContext messages) {
-        for (final ValidationError validationError : validationErrors) {
-            if (validationError.getField() == null) {
-                messages.addMessage(new MessageBuilder().error().args(validationError.getArguments()).code(validationError.getCode()).defaultText(validationError.getCode()).build());
-            } else {
-                messages.addMessage(new MessageBuilder().error().args(validationError.getArguments()).source(validationError.getField()).code(validationError.getCode()).defaultText(validationError.getCode()).build());
-            }
+    public void convertValidationErrors(final Set<ConstraintViolation> validationErrors, final MessageContext messages) {
+        for (final ConstraintViolation violation : validationErrors) {
+            messages.addMessage(new MessageBuilder().error().args(violation.getConstraintDescriptor().getAttributes().values().toArray())
+                    .source(violation.getPropertyPath().toString()).code(violation.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName()).defaultText(violation.getMessage()).build());
         }
     }
 }

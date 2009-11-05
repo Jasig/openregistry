@@ -15,25 +15,17 @@
  */
 package org.openregistry.core.web;
 
-import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.ActivationKey;
 import org.openregistry.core.domain.PersonNotFoundException;
-import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ActivationService;
-import org.openregistry.core.service.ValidationError;
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.binding.message.Message;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

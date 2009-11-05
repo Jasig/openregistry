@@ -21,37 +21,11 @@
         </dependency>
 
         <dependency>
-            <groupId>org.javalid</groupId>
-            <artifactId>javalid-core</artifactId>
-            <version>${javalid.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.javalid</groupId>
-            <artifactId>javalid-spring</artifactId>
-            <version>${javalid.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>jsr250-api</artifactId>
             <version>${jsr250.version}</version>
             <scope>compile</scope>
             <type>jar</type>
-        </dependency>
-
-        <dependency>
-            <groupId>de.odysseus.juel</groupId>
-            <artifactId>juel-impl</artifactId>
-            <version>${juel.version}</version>
-            <scope>runtime</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>de.odysseus.juel</groupId>
-                    <artifactId>juel-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -338,24 +312,26 @@
             <version>${ehcache.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <!-- TEST DEPENDENCIES -->
+
         <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>el-api</artifactId>
-            <version>${el.api.version}</version>
-            <scope>test</scope>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+            <scope>runtime</scope>
             <type>jar</type>
         </dependency>
     </dependencies>
 
     <repositories>
-        <!-- currently needed for JaValid -->
         <repository>
-            <id>jasig</id>
-            <name>JASIG Maven2 Repository</name>
-            <layout>default</layout>
-            <url>http://developer.ja-sig.org/maven2</url>
+            <id>jboss</id>
+            <url>http://repository.jboss.com/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 </project>

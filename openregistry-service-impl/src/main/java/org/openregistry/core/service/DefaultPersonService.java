@@ -33,11 +33,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.util.Assert;
-import org.javalid.core.AnnotationValidator;
-import org.javalid.core.ValidationMessage;
-import org.javalid.core.AnnotationValidatorImpl;
-import org.javalid.core.config.JvConfiguration;
-import org.javalid.annotations.core.JvGroup;
 
 import java.util.*;
 
@@ -45,7 +40,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
-
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 /**
  * Default implementation of the {@link PersonService}.
@@ -74,7 +71,7 @@ public class DefaultPersonService implements PersonService {
     private List<IdentifierAssigner> identifierAssigners = new ArrayList<IdentifierAssigner>();
 
     @Autowired(required = false)
-    private AnnotationValidator<Object> annotationValidator = new AnnotationValidatorImpl(JvConfiguration.JV_CONFIG_FILE_FIELD);
+    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Resource(name = "personFactory")
     private ObjectFactory<Person> personObjectFactory;
@@ -99,8 +96,8 @@ public class DefaultPersonService implements PersonService {
         this.identifierAssigners = identifierAssigners;
     }
 
-    public void setAnnotationValidator(final AnnotationValidator<Object> annotationValidator) {
-        this.annotationValidator = annotationValidator;
+    public void setValidator(final Validator validator) {
+        this.validator = validator; 
     }
 
     @Transactional
@@ -122,6 +119,7 @@ public class DefaultPersonService implements PersonService {
         try {
           return this.personRepository.findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
         } catch (Exception e){
+            // TODO we need to log this better.
           return null;
         }
     }
@@ -201,7 +199,7 @@ public class DefaultPersonService implements PersonService {
             sorRole.setSorId(this.identifierGenerator.generateNextString());
         }
 
-        final List<ValidationError> validationErrors = validateAndConvert(sorRole);
+        final Set validationErrors = this.validator.validate(sorRole);
 
         if (!validationErrors.isEmpty()) {
             return new GeneralServiceExecutionResult<SorRole>(validationErrors);
@@ -221,7 +219,9 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
-        final List<ValidationError> validationErrors = validateAndConvert(reconciliationCriteria);
+
+        // TODO this might fail because it doesn't match.
+        final Set validationErrors = this.validator.validate(reconciliationCriteria);
 
         if (!validationErrors.isEmpty()) {
             return new GeneralServiceExecutionResult<Person>(validationErrors);
@@ -315,34 +315,18 @@ public class DefaultPersonService implements PersonService {
     }
 
     /**
-     * Validates the object using the JaValid annotation framework and then converts the errors into the OpenRegistry API for errors.
-     *
-     * @param object the object to check
-     * @return the list of validation errors.  CANNOT be NULL.  Can be empty.
-     */
-    protected List<ValidationError> validateAndConvert(final Object object) {
-        final List<ValidationError> validationErrors = new ArrayList<ValidationError>();
-
-        for (final ValidationMessage message : this.annotationValidator.validateObject(object, JvGroup.DEFAULT_GROUP, "", true, 5)) {
-            validationErrors.add(new JaValidValidationError(message));
-        }
-
-        return validationErrors;
-    }
-
-    /**
      * Current workflow for converting an SorPerson into the actual Person.
      *
      * @param reconciliationCriteria the original search criteria.
      * @return the newly saved Person.
      */
     protected Person magic(final ReconciliationCriteria reconciliationCriteria) {
-        if (!StringUtils.hasText(reconciliationCriteria.getPerson().getSorId())) {
-            reconciliationCriteria.getPerson().setSorId(this.identifierGenerator.generateNextString());
+        if (!StringUtils.hasText(reconciliationCriteria.getSorPerson().getSorId())) {
+            reconciliationCriteria.getSorPerson().setSorId(this.identifierGenerator.generateNextString());
         }
 
         // Save Sor Person
-        final SorPerson sorPerson = this.personRepository.saveSorPerson(reconciliationCriteria.getPerson());
+        final SorPerson sorPerson = this.personRepository.saveSorPerson(reconciliationCriteria.getSorPerson());
 
         // Construct actual person from Sor Information
         final Person person = constructPersonFromSorData(sorPerson);
@@ -382,7 +366,7 @@ public class DefaultPersonService implements PersonService {
     }
 
     protected Person addSorPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) {
-        final SorPerson sorPerson = reconciliationCriteria.getPerson();
+        final SorPerson sorPerson = reconciliationCriteria.getSorPerson();
         final SorPerson registrySorPerson = this.findByPersonIdAndSorIdentifier(person.getId(), sorPerson.getSourceSor());
 
         if (registrySorPerson != null) {
@@ -415,7 +399,7 @@ public class DefaultPersonService implements PersonService {
      */
     @Transactional
     public ServiceExecutionResult<SorPerson> updateSorPerson(final SorPerson sorPerson) {
-        final List<ValidationError> validationErrors = validateAndConvert(sorPerson);
+        final Set validationErrors = this.validator.validate(sorPerson);
 
         if (!validationErrors.isEmpty()) {
             return new GeneralServiceExecutionResult<SorPerson>(validationErrors);
@@ -436,7 +420,7 @@ public class DefaultPersonService implements PersonService {
      */
     @Transactional
     public ServiceExecutionResult<SorRole> updateSorRole(SorRole role) {
-        final List<ValidationError> validationErrors = validateAndConvert(role);
+        final Set validationErrors = this.validator.validate(role);
         
         if (!validationErrors.isEmpty()) {
             return new GeneralServiceExecutionResult<SorRole>(validationErrors);

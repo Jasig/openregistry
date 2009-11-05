@@ -17,16 +17,12 @@ package org.openregistry.core.service;
 
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.openregistry.core.repository.ReferenceRepository;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.sor.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;
-import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.reconciliation.*;
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -72,7 +68,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         reconciliationCriteria.setEmailAddress(emailAddress);
         reconciliationCriteria.setPhoneNumber(phoneNumber);
 
-        final SorPerson sorPerson = reconciliationCriteria.getPerson();
+        final SorPerson sorPerson = reconciliationCriteria.getSorPerson();
         sorPerson.setDateOfBirth(birthDate);
         sorPerson.setGender("M");
         sorPerson.setSorId(sorId);
@@ -193,7 +189,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prs_names"));
         assertEquals(1, countRowsInTable("prs_sor_persons"));
 
-        final SorPerson sorPerson = this.personService.findByPersonIdAndSorIdentifier(person.getId(), reconciliationCriteria.getPerson().getSourceSor());
+        final SorPerson sorPerson = this.personService.findByPersonIdAndSorIdentifier(person.getId(), reconciliationCriteria.getSorPerson().getSourceSor());
 
         // check birthdate is set correctly
         Date birthDate = this.simpleJdbcTemplate.queryForObject("select date_of_birth from prc_persons where id = ?", Date.class, person.getId());
@@ -511,12 +507,16 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
     public void testAddRoleForSoRPersonWithNoRoleID() throws ReconciliationException {
         final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
         final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
-        final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
+
+        this.entityManager.flush();
 
         assertEquals(1, countRowsInTable("prc_persons"));
         assertEquals(1, countRowsInTable("prc_names"));
         assertEquals(1, countRowsInTable("prs_sor_persons"));
         assertEquals(1, countRowsInTable("prs_names"));
+
+        final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
+        assertNotNull(sorPerson1);
 
         final SorRole role = sorPerson1.addRole(this.referenceRepository.getRoleInfoById(1L));
         role.setSourceSorIdentifier("FOO");

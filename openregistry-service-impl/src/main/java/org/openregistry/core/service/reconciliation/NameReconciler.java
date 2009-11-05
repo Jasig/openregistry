@@ -31,7 +31,6 @@ import org.openregistry.core.service.reconciliation.ReconciliationResult.Reconci
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Very simplistic Name Reconciler.  Just for testing purposes.
@@ -55,7 +54,7 @@ public final class NameReconciler implements Reconciler {
 		final List<PersonMatch> exactMatches = new ArrayList<PersonMatch>();
 		final List<PersonMatch> partialMatches = new ArrayList<PersonMatch>();
 		
-		final List<Name> names = reconciliationCriteria.getPerson().getNames();  // TODO deal with multiple names properly
+		final List<Name> names = reconciliationCriteria.getSorPerson().getNames();  // TODO deal with multiple names properly
 		logger.info("Reconcile: found " + names.size() + " name(s)");
 		for(final Name name: names) {
 			logger.info("Reconcile: checking name: " + name.getGiven() + " " + name.getFamily());

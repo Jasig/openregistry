@@ -27,7 +27,7 @@
 
     <!-- By default, the first state is the start state. -->
     <action-state id="createName">
-        <evaluate expression="personSearch.getPerson().addName(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@NAME, 'Formal'))" />
+        <evaluate expression="personSearch.getSorPerson().addName(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@NAME, 'FORMAL'))" />
         <transition to="addPerson" />
     </action-state>
 
@@ -37,7 +37,7 @@
         </on-render>
         <transition on="submitAddPerson" to="reconciliationAddPerson" bind="true" validate="true">
             <!-- TODO do we need this? -->
-            <set name="flowScope.personToAdd" value="personSearch.getPerson()" />
+            <set name="flowScope.personToAdd" value="personSearch.getSorPerson()" />
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson" />  
     </view-state>
@@ -75,7 +75,7 @@
         <transition to="addRole" />
     </action-state>
 
-    <subflow-state id="addRole" subflow="addRole" >
+    <subflow-state id="addRole" subflow="add-role" >
         <input name="sorPerson" value="flowScope.sorPerson"/>
         <output name="role"/>
         <transition on="roleWasAdded" to="roleAddedSucceeded">

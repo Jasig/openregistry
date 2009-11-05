@@ -15,11 +15,6 @@
  */
 package org.openregistry.core.web;
 
-import org.javalid.core.AnnotationValidator;
-import org.javalid.core.JavalidValidationCallbackHandler;
-import org.javalid.core.ValidationMessage;
-import org.javalid.core.resource.LocaleResolver;
-import org.javalid.core.resource.MessageCodeResolver;
 import org.junit.Test;
 import org.openregistry.core.domain.MockPerson;
 import org.openregistry.core.domain.Person;
@@ -27,7 +22,6 @@ import org.openregistry.core.domain.sor.MockSorPerson;
 import org.openregistry.core.repository.MockPersonRepository;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.service.DefaultPersonService;
-import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
 import org.openregistry.core.service.reconciliation.MockReconciler;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
@@ -58,10 +52,15 @@ import org.springframework.binding.mapping.MappingResults;
 import org.springframework.binding.mapping.Mapper;
 
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import javax.validation.ConstraintViolation;
+import javax.validation.Path;
+import javax.validation.Payload;
+import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
+import javax.validation.metadata.BeanDescriptor;
+import javax.validation.metadata.ConstraintDescriptor;
+import java.lang.annotation.Annotation;
+import java.util.*;
 
 /**
  * @author Nancy Mond
@@ -128,7 +127,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         reconciliationCriteria.setEmailAddress(emailAddress);
         reconciliationCriteria.setPhoneNumber(phoneNumber);
 
-        final SorPerson sorPerson = reconciliationCriteria.getPerson();
+        final SorPerson sorPerson = reconciliationCriteria.getSorPerson();
         sorPerson.setDateOfBirth(birthDate);
         sorPerson.setSourceSor(sor);
         sorPerson.setSsn(ssn);
@@ -158,72 +157,105 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     @Test
     public void testCriteriaSubmitError() {
         this.messageContext.addMessage(new MessageBuilder().error().code("errorCode").build());
-        this.personService.setAnnotationValidator(new AnnotationValidator<Object>() {
-            public List<ValidationMessage> validateObject(Object o) {
-                return validateObject(o, "group");
+        this.personService.setValidator(new Validator() {
+
+            public <T> Set<ConstraintViolation<T>> validate(final T t, Class<?>... classes) {
+                final Set<ConstraintViolation<T>> violations = new HashSet<ConstraintViolation<T>>();
+
+                violations.add(new ConstraintViolation<T>() {
+                    public String getMessage() {
+                        return "foo";
+                    }
+
+                    public String getMessageTemplate() {
+                        return "foo";
+                    }
+
+                    public T getRootBean() {
+                        return t;
+                    }
+
+                    public Class<T> getRootBeanClass() {
+                        return null;
+                    }
+
+                    public Object getLeafBean() {
+                        return t;
+                    }
+
+                    public Path getPropertyPath() {
+                        return new Path() {
+                            public Iterator<Node> iterator() {
+                                return null;
+                            }
+
+                            public String toString() {
+                                return "foo";
+                            }
+                        };
+                    }
+
+                    public Object getInvalidValue() {
+                        return t;
+                    }
+
+                    public ConstraintDescriptor<?> getConstraintDescriptor() {
+                        return new ConstraintDescriptor() {
+                            public Annotation getAnnotation() {
+                                return new Annotation() {
+                                    public Class<? extends Annotation> annotationType() {
+                                        return NotNull.class;
+                                    }
+
+                                    public String toString() {
+                                        return "NotNull";
+                                    }
+                                };
+                            }
+
+                            public Set<Class<?>> getGroups() {
+                                return null;  //To change body of implemented methods use File | Settings | File Templates.
+                            }
+
+                            public Set<Class<? extends Payload>> getPayload() {
+                                return null;  //To change body of implemented methods use File | Settings | File Templates.
+                            }
+
+                            public List getConstraintValidatorClasses() {
+                                return null;  //To change body of implemented methods use File | Settings | File Templates.
+                            }
+
+                            public Map<String, Object> getAttributes() {
+                                return new HashMap();
+                            }
+
+                            public Set<ConstraintDescriptor<?>> getComposingConstraints() {
+                                return null;  //To change body of implemented methods use File | Settings | File Templates.
+                            }
+
+                            public boolean isReportAsSingleViolation() {
+                                return false;  //To change body of implemented methods use File | Settings | File Templates.
+                            }
+                        };
+                    }
+                });
+                return violations;
             }
 
-            public List<ValidationMessage> validateObject(Object o, String s) {
-                final ValidationMessage validationMessage = new ValidationMessage("", "errorCode", new Object[0], true);
-                return Arrays.asList(validationMessage);
-            }
-
-            public List<ValidationMessage> validateObject(Object o, String s, JavalidValidationCallbackHandler javalidValidationCallbackHandler) {
-                return validateObject(o);
-            }
-
-            public List<ValidationMessage> validateObject(Object o, String s, boolean b) {
-                return validateObject(o);
-            }
-
-            public List<ValidationMessage> validateObject(Object o, String s, boolean b, JavalidValidationCallbackHandler javalidValidationCallbackHandler) {
-                return validateObject(o);
-            }
-
-            public List<ValidationMessage> validateObject(Object o, String s, String s1) {
-                return validateObject(o);
-            }
-
-            public List<ValidationMessage> validateObject(Object o, String s, String s1, JavalidValidationCallbackHandler javalidValidationCallbackHandler) {
-                return validateObject(o);
-            }
-
-            public List<ValidationMessage> validateObject(Object o, String s, String s1, boolean b) {
-                return validateObject(o);
-            }
-
-            public List<ValidationMessage> validateObject(Object o, String s, String s1, boolean b, JavalidValidationCallbackHandler javalidValidationCallbackHandler) {
-                return validateObject(o);
-            }
-
-            public List<ValidationMessage> validateObject(Object o, String s, String s1, boolean b, int i) {
-                return validateObject(o);
-            }
-
-            public List<ValidationMessage> validateObject(Object o, String s, String s1, boolean b, int i, JavalidValidationCallbackHandler javalidValidationCallbackHandler) {
-                return validateObject(o);
-            }
-
-            public List<ValidationMessage> validateProperty(Object o, String s, Object o1, String s1, String s2) {
+            public <T> Set<ConstraintViolation<T>> validateProperty(T t, String s, Class<?>... classes) {
                 return null;
             }
 
-            public LocaleResolver getLocaleResolver() {
+            public <T> Set<ConstraintViolation<T>> validateValue(Class<T> tClass, String s, Object o, Class<?>... classes) {
                 return null;
             }
 
-            public void setLocaleResolver(LocaleResolver localeResolver) {
-            }
-
-            public MessageCodeResolver getMessageCodeResolver() {
+            public BeanDescriptor getConstraintsForClass(Class<?> aClass) {
                 return null;
             }
 
-            public void setMessageCodeResolver(MessageCodeResolver messageCodeResolver) {
-            }
-
-            public boolean isMessageResolvingEnabled() {
-                return false;
+            public <T> T unwrap(Class<T> tClass) {
+                return null;
             }
         });
 
@@ -324,7 +356,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
     // mock add role subflow
     public Flow createMockAddRoleSubflow(){
-        Flow mockAddRoleFlow = new Flow("addRole");
+        Flow mockAddRoleFlow = new Flow("add-role");
         mockAddRoleFlow.setInputMapper(new Mapper() {
             public MappingResults map(Object source, Object target)  {
                 assertNotNull(((AttributeMap)source).get("sorPerson"));
