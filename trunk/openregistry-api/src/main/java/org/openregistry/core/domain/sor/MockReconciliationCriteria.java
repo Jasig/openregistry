@@ -66,7 +66,7 @@ public final class MockReconciliationCriteria implements ReconciliationCriteria 
         this.phoneNumber = phoneNumber;
     }
 
-    public SorPerson getPerson() {
+    public SorPerson getSorPerson() {
         return this.person;
     }
 

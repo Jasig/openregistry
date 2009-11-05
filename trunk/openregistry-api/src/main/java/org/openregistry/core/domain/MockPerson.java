@@ -259,7 +259,7 @@ public class MockPerson implements Person {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MockPerson that = (MockPerson) o;
+        final MockPerson that = (MockPerson) o;
 
         if (id != that.id) return false;
         if (activationKey != null ? !activationKey.equals(that.activationKey) : that.activationKey != null)
