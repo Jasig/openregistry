@@ -43,6 +43,9 @@ public interface PersonRepository {
      */
     Person findByInternalId(Long id) throws RepositoryAccessException;
 
+    // TODO this should not be used.  We should be loading a person and then finding a role.
+    SorRole findSorRoleByInternalId(Long id) throws RepositoryAccessException;
+
     /**
      * Find canonical <code>SorPerson</code> entity in the Open Registry.
      *
