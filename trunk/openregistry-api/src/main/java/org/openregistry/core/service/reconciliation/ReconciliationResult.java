@@ -36,7 +36,7 @@ public interface ReconciliationResult extends Serializable {
      * MAYBE - means one or more possible possible matches
      *
      */
-    enum ReconciliationType {EXACT, NONE, MAYBE}
+    enum ReconciliationType {EXACT, NONE, MAYBE, MISMATCH}
 
     /**
      * Returns the type of reconciliation that resulted.
