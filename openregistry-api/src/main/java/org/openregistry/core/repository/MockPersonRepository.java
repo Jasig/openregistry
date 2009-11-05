@@ -18,7 +18,6 @@ package org.openregistry.core.repository;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.service.SearchCriteria;
@@ -100,11 +99,11 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public List<Person> searchByCriteria(SearchCriteria searchCriteria) throws RepositoryAccessException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public List<Person> findByFamilyName(String family) throws RepositoryAccessException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public Person savePerson(Person person) throws RepositoryAccessException {
@@ -152,4 +151,33 @@ public class MockPersonRepository implements PersonRepository {
     public SorRole saveSorRole(SorRole role) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+	public List<Person> findByEmailAddress(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Person> findByEmailAddressAndPhoneNumber(String email,
+			String countryCode, String areaCode, String number) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Person> findByEmailAddressAndPhoneNumber(String email,
+			String countryCode, String areaCode, String number, String extension) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Person> findByPhoneNumber(String countryCode, String areaCode,
+			String number, String extension) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Person> findByPhoneNumber(String countryCode, String areaCode,
+			String number) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -178,4 +178,17 @@ public interface PersonRepository {
      * @return the updated SoR role.
      */
     SorRole saveSorRole(SorRole role);
+
+	List<Person> findByEmailAddressAndPhoneNumber(String email,
+			String countryCode, String areaCode, String number);
+	
+	List<Person> findByEmailAddressAndPhoneNumber(String email,
+			String countryCode, String areaCode, String number, String extension);
+	
+	List<Person> findByEmailAddress(String email);
+	   
+	List<Person> findByPhoneNumber(String countryCode, String areaCode, String number, String extension);
+		   
+	List<Person> findByPhoneNumber(String countryCode, String areaCode, String number);
+
 }
