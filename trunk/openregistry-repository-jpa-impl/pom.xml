@@ -21,13 +21,6 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>jpa-api</artifactId>
-            <version>${persistence.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>org.springframework.beans</artifactId>
             <version>${spring.version}</version>
@@ -78,29 +71,12 @@
                     <groupId>javax.persistence</groupId>
                     <artifactId>persistence-api</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-annotations</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>hsqldb</groupId>
-                    <artifactId>hsqldb</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-annotations</artifactId>
+            <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
             <scope>compile</scope>
             <exclusions>
@@ -219,14 +195,14 @@
 
     <repositories>
         <repository>
-            <id>snapshots.jboss.org</id>
-            <name>Jboss Snapshots Maven2 Repository</name>
-            <url>http://snapshots.jboss.org/maven2</url>
+            <id>repository.jboss.org</id>
+            <name>Jboss  Maven2 Repository</name>
+            <url>http://repository.jboss.org/maven2</url>
             <releases>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </releases>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
         </repository>
     </repositories>
