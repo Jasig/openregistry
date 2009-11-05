@@ -134,25 +134,25 @@ public class JpaPersonRepository implements PersonRepository {
     // TODO The next 5 methods are for supporting the new reconciler code....these should be replaced with something more general
     
     public List<Person> findByEmailAddressAndPhoneNumber(final String email, final String countryCode, final String areaCode, final String number, final String extension) {
-    	return (List<Person>) this.entityManager.createQuery("select p from person p where p.roles.emailAddresses.address = :email and p.roles.phones.countryCode = :countryCode and p.roles.phones.areaCode = :areaCode and p.roles.phones.number = :number and p.roles.phones.extension = :extension").setParameter("email", email).setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).setParameter("extension", extension).getResultList();
+    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e, IN(r.phones) ph where e.address = :email and ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number and ph.extension = :extension").setParameter("email", email).setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).setParameter("extension", extension).getResultList();
     }
     
     /* No extension */
     public List<Person> findByEmailAddressAndPhoneNumber(final String email, final String countryCode, final String areaCode, final String number) {
-    	return (List<Person>) this.entityManager.createQuery("select p from person p where p.roles.emailAddresses.address = :email and p.roles.phones.countryCode = :countryCode and p.roles.phones.areaCode = :areaCode and p.roles.phones.number = :number").setParameter("email", email).setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).getResultList();
+    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e, IN(r.phones) ph where e.address = :email and ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number").setParameter("email", email).setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).getResultList();
     }
     
     public List<Person> findByEmailAddress(final String email) {
-    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles.emailAddresses e where e.address = :email").setParameter("email", email).getResultList();
+    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e where e.address = :email").setParameter("email", email).getResultList();
     }
     
     public List<Person> findByPhoneNumber(final String countryCode, final String areaCode, final String number, final String extension) {
-    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles.phones ph where ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number and ph.extension = :extension").setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).setParameter("extension", extension).getResultList();
+    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.phones) ph where ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number and ph.extension = :extension").setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).setParameter("extension", extension).getResultList();
     }
     
     /* No extension */
     public List<Person> findByPhoneNumber(final String countryCode, final String areaCode, final String number) {
-    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles.phones ph where ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number").setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).getResultList();
+    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.phones) ph where ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number").setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).getResultList();
     }
 }
 
