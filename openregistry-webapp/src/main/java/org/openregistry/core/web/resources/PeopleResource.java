@@ -160,14 +160,17 @@ public final class PeopleResource {
         final ReconciliationCriteria reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
         logger.info("Trying to add incoming person...");
 
-        // TODO catch illegal state and warning - do 409
         if (FORCE_ADD_FLAG.equals(forceAdd)) {
             logger.warn("Multiple people found, but doing a 'force add'");
-            final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria);
-            final Person forcefullyAddedPerson = result.getTargetObject();
-            final URI uri = buildPersonResourceUri(forcefullyAddedPerson);
-            response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
-            logger.info(String.format("Person successfully created (with 'force add' option). The person resource URI is %s", uri.toString()));
+            try {
+                final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria);
+                final Person forcefullyAddedPerson = result.getTargetObject();
+                final URI uri = buildPersonResourceUri(forcefullyAddedPerson);
+                response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
+                logger.info(String.format("Person successfully created (with 'force add' option). The person resource URI is %s", uri.toString()));
+            } catch (final IllegalStateException e) {
+                response = Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+            }
             return response;
         }
 

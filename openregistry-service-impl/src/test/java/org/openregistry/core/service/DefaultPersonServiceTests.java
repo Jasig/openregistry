@@ -338,9 +338,5 @@ public class DefaultPersonServiceTests {
         assertEquals(1, person.getRoles().size());
     }
 
-
-
     //TODO need to add test cases for conditionally required fields.
-
-    //TODO field level test cases need to be added to the integration tests since annotations are not available in Mocked classes at the api level.
 }

@@ -187,6 +187,12 @@ public final class JpaRoleImpl extends Entity implements Role {
         return jpaPhone;
     }
 
+    public Leave addLeave(final Leave sorLeave) {
+        final JpaLeaveImpl jpaLeaveImpl = new JpaLeaveImpl(this, sorLeave);
+        this.leaves.add(jpaLeaveImpl);
+        return jpaLeaveImpl;
+    }
+
     public String getTitle() {
         return this.roleInfo.getTitle();
     }
@@ -274,12 +280,15 @@ public final class JpaRoleImpl extends Entity implements Role {
         this.percentage =sorRole.getPercentage();
         this.terminationReason = (JpaTypeImpl) sorRole.getTerminationReason();
 
-        // TODO leaves of absence?
-
         this.addresses.clear();
         this.phones.clear();
         this.emailAddresses.clear();
         this.urls.clear();
+        this.leaves.clear();
+
+        for (final Leave leave : sorRole.getLeaves()) {
+            addLeave(leave);
+        }
 
         for (final Address address: sorRole.getAddresses()) {
         	addAddress(address);
