@@ -206,4 +206,30 @@ public class MockSorRole extends Entity implements SorRole{
 	public Date getEnd() {
 		return null;
 	}
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final MockSorRole that = (MockSorRole) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (sorId != null ? !sorId.equals(that.sorId) : that.sorId != null) return false;
+        if (sourceSorIdentifier != null ? !sourceSorIdentifier.equals(that.sourceSorIdentifier) : that.sourceSorIdentifier != null)
+            return false;
+        if (terminationReason != null ? !terminationReason.equals(that.terminationReason) : that.terminationReason != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (sorId != null ? sorId.hashCode() : 0);
+        result = 31 * result + (sourceSorIdentifier != null ? sourceSorIdentifier.hashCode() : 0);
+        result = 31 * result + (terminationReason != null ? terminationReason.hashCode() : 0);
+        return result;
+    }
 }

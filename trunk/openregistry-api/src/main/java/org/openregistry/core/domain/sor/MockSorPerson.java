@@ -173,7 +173,7 @@ public class MockSorPerson extends Entity implements SorPerson {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MockSorPerson that = (MockSorPerson) o;
+        final MockSorPerson that = (MockSorPerson) o;
 
         if (dateOfBirth != null ? !dateOfBirth.equals(that.dateOfBirth) : that.dateOfBirth != null) return false;
         if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
