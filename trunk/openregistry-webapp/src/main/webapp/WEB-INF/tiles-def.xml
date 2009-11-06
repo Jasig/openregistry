@@ -108,16 +108,18 @@
     <definition name="openregistry.main" template="index.jsp">
     </definition>
 
-    <definition name="errors/404" template="/WEB-INF/layouts/rutgers.jsp">
+    <definition name="errors/404" template="/WEB-INF/layouts/default2.jsp">
         <put-attribute name="titleCode" value="errors.404.title" type="string" cascade="true" />
+        <put-attribute name="head" value="/WEB-INF/tiles/defaultHead.jsp" />
         <put-attribute name="bodyValue" value="errors.404.body" type="string" cascade="true" />
-        <put-attribute name="body" value="/WEB-INF/tiles/errors.jsp" />
+        <put-attribute name="content" value="/WEB-INF/tiles/errors.jsp" />
     </definition>
 
-    <definition name="errors/500" template="/WEB-INF/layouts/rutgers.jsp">
+    <definition name="errors/500" template="/WEB-INF/layouts/default2.jsp">
         <put-attribute name="titleCode" value="errors.500.title" type="string" cascade="true" />
+        <put-attribute name="head" value="/WEB-INF/tiles/defaultHead.jsp" />
         <put-attribute name="bodyValue" value="errors.500.body" type="string" cascade="true" />
-        <put-attribute name="body" value="/WEB-INF/tiles/errors.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/tiles/errors.jsp"/>
     </definition>
 
 </tiles-definitions>
