@@ -32,9 +32,7 @@ import javax.persistence.*;
  */
 @javax.persistence.Entity(name="identifier")
 
-// TODO should a user be able to have multiple NetIDs?
-@Table(name="prc_identifiers",
-		uniqueConstraints= @UniqueConstraint(columnNames={"identifier_t", "identifier"}))
+@Table(name="prc_identifiers", uniqueConstraints= @UniqueConstraint(columnNames={"identifier_t", "identifier"}))
 @Audited
 public class JpaIdentifierImpl extends Entity implements Identifier {
 

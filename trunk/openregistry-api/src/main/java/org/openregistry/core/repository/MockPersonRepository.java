@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.repository;
 
+import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Role;
@@ -157,31 +158,37 @@ public class MockPersonRepository implements PersonRepository {
     }
 
 	public List<Person> findByEmailAddress(String email) {
-		// TODO Auto-generated method stub
-		return null;
+        final List<Person> persons = new ArrayList<Person>();
+        for (final Person person : this.persons) {
+            for (final Role role : person.getRoles()) {
+                for (final EmailAddress emailAddress : role.getEmailAddresses()) {
+                    if (emailAddress.getAddress().equalsIgnoreCase(email)) {
+                        persons.add(person);
+                        break;
+                    }
+                }
+            }
+        }
+		return persons;
 	}
 
 	public List<Person> findByEmailAddressAndPhoneNumber(String email,
 			String countryCode, String areaCode, String number) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<Person>();
 	}
 
 	public List<Person> findByEmailAddressAndPhoneNumber(String email,
 			String countryCode, String areaCode, String number, String extension) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<Person>();
 	}
 
 	public List<Person> findByPhoneNumber(String countryCode, String areaCode,
 			String number, String extension) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<Person>();
 	}
 
 	public List<Person> findByPhoneNumber(String countryCode, String areaCode,
 			String number) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<Person>();
 	}
 }

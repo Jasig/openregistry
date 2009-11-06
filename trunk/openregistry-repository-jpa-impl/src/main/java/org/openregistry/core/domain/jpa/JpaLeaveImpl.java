@@ -19,6 +19,7 @@ import org.openregistry.core.domain.Leave;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -59,6 +60,17 @@ public class JpaLeaveImpl extends Entity implements Leave {
     @JoinColumn(name="role_record_id")
     private JpaRoleImpl role;
 
+    public JpaLeaveImpl() {
+
+    }
+
+    public JpaLeaveImpl(final JpaRoleImpl role, final Leave leave) {
+        this.start = leave.getStart();
+        this.end = leave.getEnd();
+        this.reason = (JpaTypeImpl) leave.getReason();
+        this.role = role;
+    }
+
     protected Long getId() {
         return this.id;
     }
@@ -84,10 +96,7 @@ public class JpaLeaveImpl extends Entity implements Leave {
     }
 
     public void setReason(final Type type) {
-        if (!(type instanceof JpaTypeImpl)) {
-            throw new IllegalArgumentException("Requires type JpaTypeImpl");
-        }
-
+        Assert.isInstanceOf(JpaRoleImpl.class, type, "Must be of class JpaTypeImpl");
         this.reason = (JpaTypeImpl) type;
     }
 }
