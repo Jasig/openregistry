@@ -118,9 +118,8 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         builderContext.registerBean("referenceRepository", referenceRepository);
         builderContext.registerBean("reconciliationCriteriaFactory", reconciliationCriteriaFactory);
         builderContext.registerBean("messageContext", this.messageContext);
+        builderContext.registerBean("personService", this.personService);
     }
-
-    
     
     protected ReconciliationCriteria constructReconciliationCriteria(final String firstName, final String lastName, final String ssn, final String emailAddress, final String phoneNumber, Date birthDate, final String sor){
         final ReconciliationCriteria reconciliationCriteria = reconciliationCriteriaFactory.getObject();

@@ -65,7 +65,7 @@ public final class RoleAction extends AbstractPersonServiceAction {
         sorRole.setSourceSorIdentifier("or-webapp"); // TODO Don't hardcode OR-55
         sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE));
         final EmailAddress emailAddress = sorRole.addEmailAddress();
-        emailAddress.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL, Type.AddressTypes.CAMPUS));
+        emailAddress.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.CAMPUS));
         final Phone phone = sorRole.addPhone();
         phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, Type.PhoneTypes.CELL));
         phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.CAMPUS));

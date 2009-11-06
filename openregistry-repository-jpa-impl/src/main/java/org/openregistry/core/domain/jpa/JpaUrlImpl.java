@@ -32,10 +32,9 @@ import java.net.URL;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="url")
-@Table(name="prc_urls",
-	uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"})
+@Table(name="prc_urls")
+// TODO disabled for now: uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"})
 
-)
 @Audited
 public class JpaUrlImpl extends Entity implements Url {
 

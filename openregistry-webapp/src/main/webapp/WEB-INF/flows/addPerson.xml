@@ -57,7 +57,7 @@
             <evaluate expression="personSearchAction.addSorPerson(personSearch, messageContext)" result="flowScope.serviceExecutionResult"/>
         </transition>
         <transition on="submitAddRole" to="addRole">
-            <evaluate expression="personSearchAction.findByPersonIdAndSorIdentifier(requestParameters.personId, 'or-webapp')" result="flowScope.sorPerson" />
+            <evaluate expression="personService.findByPersonIdAndSorIdentifier(requestParameters.personId, 'or-webapp')" result="flowScope.sorPerson" />
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
@@ -71,7 +71,7 @@
     </decision-state>
 
     <action-state id="getSorPerson">
-        <evaluate expression="personSearchAction.findByPersonIdAndSorIdentifier(flowScope.serviceExecutionResult.getTargetObject().getId(), 'or-webapp')" result="flowScope.sorPerson" />
+        <evaluate expression="personService.findByPersonIdAndSorIdentifier(flowScope.serviceExecutionResult.getTargetObject().getId(), 'or-webapp')" result="flowScope.sorPerson" />
         <transition to="addRole" />
     </action-state>
 
