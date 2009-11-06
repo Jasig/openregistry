@@ -47,8 +47,6 @@ public final class RoleAction extends AbstractPersonServiceAction {
         this.referenceRepository = referenceRepository;
     }
 
-    protected final String PERSON = "Person";
-
     public SorRole initSorRole(final SorPerson sorPerson, final String roleInfoCode) {
         final RoleInfo roleInfo = referenceRepository.getRoleInfoByCode(roleInfoCode);
         return addRole(sorPerson, roleInfo);
@@ -72,7 +70,7 @@ public final class RoleAction extends AbstractPersonServiceAction {
         final Address address = sorRole.addAddress();
         address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.CAMPUS));
         final SorSponsor sponsor = sorRole.setSponsor();
-        sponsor.setType(referenceRepository.findType(Type.DataTypes.SPONSOR, PERSON));  // TODO handle other types OR-57
+        sponsor.setType(referenceRepository.findType(Type.DataTypes.SPONSOR, Type.SponsorTypes.PERSON));  // TODO handle other types OR-57
 
         //provide default values for start and end date of role
         final Calendar cal = Calendar.getInstance();

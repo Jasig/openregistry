@@ -27,7 +27,7 @@
 
     <!-- By default, the first state is the start state. -->
     <action-state id="createName">
-        <evaluate expression="personSearch.getSorPerson().addName(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@NAME, 'FORMAL'))" />
+        <evaluate expression="personSearch.getSorPerson().addName(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@NAME, @org.openregistry.core.domain.Type$NameTypes@FORMAL))" />
         <transition to="addPerson" />
     </action-state>
 
