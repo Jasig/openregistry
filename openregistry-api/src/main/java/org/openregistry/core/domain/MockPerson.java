@@ -158,7 +158,7 @@ public class MockPerson implements Person {
 
                 final Identifier id = (Identifier) o;
 
-                return (identifierValue.equals(id.getValue()) && identifierType.equals(id.getType()));
+                return (identifierValue.equals(id.getValue()) && getType().equals(id.getType()));
             }
         };
 
