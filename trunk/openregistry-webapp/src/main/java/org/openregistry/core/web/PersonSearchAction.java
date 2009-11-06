@@ -108,9 +108,4 @@ public final class PersonSearchAction extends AbstractPersonServiceAction {
     public boolean hasSorPersonRecord(final Person p, final String sourceSorId) {
         return getPersonService().findByPersonIdAndSorIdentifier(p.getId(), sourceSorId) != null;
     }
-
-    public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier){
-        return getPersonService().findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
-    }
-
 }

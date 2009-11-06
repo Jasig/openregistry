@@ -36,8 +36,8 @@ import java.net.URL;
  * To change this template use File | Settings | File Templates.
  */
 @javax.persistence.Entity(name="sorUrl")
-@Table(name="prs_urls",
-	uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"}))
+@Table(name="prs_urls")
+// TODO commented out because MySql blows up: uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"}))
 @Audited
 public final class JpaSorUrlImpl extends Entity implements Url {
 
