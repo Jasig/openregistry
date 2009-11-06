@@ -264,11 +264,6 @@ public class MockPerson implements Person {
         if (id != that.id) return false;
         if (activationKey != null ? !activationKey.equals(that.activationKey) : that.activationKey != null)
             return false;
-        if (identifierType != null ? !identifierType.equals(that.identifierType) : that.identifierType != null)
-            return false;
-        if (identifierValue != null ? !identifierValue.equals(that.identifierValue) : that.identifierValue != null)
-            return false;
-        if (roles != null ? !roles.equals(that.roles) : that.roles != null) return false;
 
         return true;
     }
@@ -276,8 +271,6 @@ public class MockPerson implements Person {
     @Override
     public int hashCode() {
         int result = activationKey != null ? activationKey.hashCode() : 0;
-        result = 31 * result + (identifierType != null ? identifierType.hashCode() : 0);
-        result = 31 * result + (identifierValue != null ? identifierValue.hashCode() : 0);
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
         result = 31 * result + (int) (id ^ (id >>> 32));
         return result;
