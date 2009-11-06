@@ -44,7 +44,7 @@ public final class JpaSorEmailAddressImpl extends Entity implements EmailAddress
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
     @NotNull
-    private JpaTypeImpl type;
+    private JpaTypeImpl addressType;
 
     @Column(name="address",nullable=false,length=100)
     @NotNull
@@ -67,7 +67,7 @@ public final class JpaSorEmailAddressImpl extends Entity implements EmailAddress
     }
 
     public Type getAddressType() {
-        return this.type;
+        return this.addressType;
     }
 
     public String getAddress() {
@@ -80,6 +80,6 @@ public final class JpaSorEmailAddressImpl extends Entity implements EmailAddress
 
     public void setAddressType(final Type type) {
         Assert.isInstanceOf(JpaTypeImpl.class, type);
-        this.type = (JpaTypeImpl) type;
+        this.addressType = (JpaTypeImpl) type;
     }
 }
