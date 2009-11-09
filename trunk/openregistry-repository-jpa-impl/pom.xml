@@ -163,15 +163,6 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc14</artifactId>
-            <version>11.2.0.1.0</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-
     </dependencies>
 
     <build>
