@@ -4,7 +4,7 @@
     <parent>
         <artifactId>openregistry</artifactId>
         <groupId>org.jasig.openregistry</groupId>
-        <version>0.1-M2-SNAPSHOT</version>
+        <version>0.1-M2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.openregistry</groupId>
@@ -89,6 +89,14 @@
         </dependency>
 
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-tools</artifactId>
+            <version>3.2.4.GA</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>${javassist.version}</version>
@@ -156,7 +164,6 @@
             <type>jar</type>
         </dependency>
 
-        <!--
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
@@ -164,7 +171,7 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
-        -->
+
     </dependencies>
 
     <build>
@@ -179,7 +186,7 @@
                         <path location="target/classes"/>
                     </classpath>
                     <jpaconfiguration persistenceunit="OpenRegistryPersistence" propertyfile="src/test/resources/hibernate.properties" />
-                    <hbm2ddl export="false" update="true" drop="false" create="false" outputfilename="or_schema.ddl" delimiter=";" format="true" haltonerror="false" console="true" />
+                    <hbm2ddl export="true" update="true" drop="false" create="true" outputfilename="or_schema.ddl" delimiter=";" format="true" haltonerror="false" console="true" />
                   </hibernatetool>
               </configuration>
             </plugin>
