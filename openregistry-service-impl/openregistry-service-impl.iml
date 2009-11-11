@@ -12,13 +12,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="openregistry-api" exported="" />
+    <orderEntry type="library" exported="" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.8" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.6.5" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.6.5" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-core:1.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.javalid:javalid-spring:1.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: de.odysseus.juel:juel-impl:2.1.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.transaction:3.0.0.RC1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.aop:3.0.0.RC1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.beans:3.0.0.RC1" level="project" />
@@ -51,7 +49,7 @@
     <orderEntry type="library" exported="" name="Maven: org.apache.activemq:activemq-pool:5.2.0" level="project" />
     <orderEntry type="library" exported="" name="Maven: commons-pool:commons-pool:1.4" level="project" />
     <orderEntry type="library" exported="" name="Maven: net.sf.ehcache:ehcache-core:1.7.0-beta" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: javax.el:el-api:1.0" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.hibernate:hibernate-validator:4.0.1.GA" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.8.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-nop:1.5.8" level="project" />
   </component>

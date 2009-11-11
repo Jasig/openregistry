@@ -29,8 +29,8 @@ import org.springframework.web.context.ContextLoaderListener;
  */
 public class DeleteSorPersonViaRestResourceTests extends JerseyTestSupport {
 
-    private static final String EXISTING_SOR_PERSON_TEST_URI = "/people/sor/TEST-SOR/EXISTING-PERSON";
-    private static final String NON_EXISTING_SOR_PERSON_TEST_URI = "/people/sor/TEST-SOR/NON-EXISTING-PERSON";
+    private static final String EXISTING_SOR_PERSON_TEST_URI = "/sor/TEST-SOR/people/EXISTING-PERSON";
+    private static final String NON_EXISTING_SOR_PERSON_TEST_URI = "/sor/TEST-SOR/people/NON-EXISTING-PERSON";
 
     public DeleteSorPersonViaRestResourceTests() {
         super(new WebAppDescriptor.Builder("org.openregistry.core.web.resources")

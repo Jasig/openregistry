@@ -9,6 +9,7 @@
         <webroots>
           <root url="file://$MODULE_DIR$/openregistry-webapp/src/main/webapp" relative="/" />
         </webroots>
+        <context-artifact name="openregistry:Web exploded" />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
