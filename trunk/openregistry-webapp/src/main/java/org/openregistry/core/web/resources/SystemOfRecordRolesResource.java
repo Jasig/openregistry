@@ -15,10 +15,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -61,14 +58,7 @@ public class SystemOfRecordRolesResource {
                                         @PathParam("sorPersonId") final String sorPersonId,
                                         final RoleRepresentation roleRepresentation) {
 
-        final SorPerson sorPerson = this.personService.findBySorIdentifierAndSource(sorSourceId, sorPersonId);
-        if (sorPerson == null) {
-            //HTTP 404
-            throw new NotFoundException(
-                    String.format("The person resource identified by [/sor/%s/people/%s] URI does not exist.",
-                            sorSourceId, sorPersonId));
-        }
-
+        final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
         final SorRole sorRole = buildSorRoleFrom(sorPerson, roleRepresentation);
         final ServiceExecutionResult<SorRole> result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
         if (!result.getValidationErrors().isEmpty()) {
@@ -82,6 +72,36 @@ public class SystemOfRecordRolesResource {
                 .path(result.getTargetObject().getSorId())
                 .build())
                 .build();
+    }
+
+    @PUT
+    @Path("sorRoleId")
+    @Consumes(MediaType.APPLICATION_XML)
+    public Response updateIncomingRole(@PathParam("sorSourceId") final String sorSourceId,
+                                       @PathParam("sorPersonId") final String sorPersonId,
+                                       @PathParam("sorRoleId") final String sorRoleId,
+                                       final RoleRepresentation roleRepresentation) {
+
+        final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
+        final SorRole sorRole = sorPerson.findSorRoleBySorRoleId(sorRoleId);
+        if(sorRole == null) {
+            throw new NotFoundException(
+                    String.format("The role resource identified by [/sor/%s/people/%s/roles/%s] URI does not exist.",
+                            sorSourceId, sorPersonId, sorRoleId));    
+        }
+        //TODO: How to actually update the role? Work in progress...
+        return null;
+    }
+
+    private SorPerson findPersonOrThrowNotFoundException(String sorSourceId, String sorPersonId) {
+        final SorPerson sorPerson = this.personService.findBySorIdentifierAndSource(sorSourceId, sorPersonId);
+        if (sorPerson == null) {
+            //HTTP 404
+            throw new NotFoundException(
+                    String.format("The person resource identified by [/sor/%s/people/%s] URI does not exist.",
+                            sorSourceId, sorPersonId));
+        }
+        return sorPerson;
     }
 
     private SorRole buildSorRoleFrom(final SorPerson person, final RoleRepresentation roleRepresentation) {
