@@ -55,11 +55,11 @@ public class SystemOfRecordRolesResource {
     @Resource
     private String preferredPersonIdentifierType;
 
-    @POST    
+    @POST
     @Consumes(MediaType.APPLICATION_XML)
     public Response processIncomingRole(@PathParam("sorSourceId") final String sorSourceId,
                                         @PathParam("sorPersonId") final String sorPersonId,
-                                        RoleRepresentation roleRepresentation) {
+                                        final RoleRepresentation roleRepresentation) {
 
         final SorPerson sorPerson = this.personService.findBySorIdentifierAndSource(sorSourceId, sorPersonId);
         if (sorPerson == null) {
@@ -70,22 +70,26 @@ public class SystemOfRecordRolesResource {
         }
 
         final SorRole sorRole = buildSorRoleFrom(sorPerson, roleRepresentation);
-        final ServiceExecutionResult result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
-        if (result.getValidationErrors().size() > 0) {
+        final ServiceExecutionResult<SorRole> result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
+        if (!result.getValidationErrors().isEmpty()) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).
                     entity(ValidationUtils.buildValidationErrorsResponse(result.getValidationErrors())).build();
         }
+
         //HTTP 201
-        return Response.created(this.uriInfo.getAbsolutePath()).build();
+        return Response.created(this.uriInfo.getAbsolutePathBuilder()
+                .path(result.getTargetObject().getSorId())
+                .build())
+                .build();
     }
 
-    //TODO: what happens if the role (identified by RoleInfo) has been added already?
     private SorRole buildSorRoleFrom(final SorPerson person, final RoleRepresentation roleRepresentation) {
         RoleInfo roleInfo = null;
         try {
             roleInfo = this.referenceRepository.getRoleInfoByCode(roleRepresentation.roleCode);
-        } catch (Exception ex){
+        }
+        catch (Exception ex) {
             throw new NotFoundException(
                     String.format("The role identified by [%s] does not exist", roleRepresentation.roleCode));
         }
@@ -134,27 +138,29 @@ public class SystemOfRecordRolesResource {
         return sorRole;
     }
 
-    private void setSponsorInfo(SorSponsor sponsor, Type type, RoleRepresentation roleRepresentation){
+    private void setSponsorInfo(SorSponsor sponsor, Type type, RoleRepresentation roleRepresentation) {
         sponsor.setType(type);
-        if (type.getDescription().equals(Type.SponsorTypes.ORG_UNIT.name())){
+        if (type.getDescription().equals(Type.SponsorTypes.ORG_UNIT.name())) {
             try {
                 OrganizationalUnit org = referenceRepository.getOrganizationalUnitByCode(roleRepresentation.sponsorId);
                 sponsor.setSponsorId(org.getId());
-            } catch (Exception ex){
+            }
+            catch (Exception ex) {
                 throw new NotFoundException(
-                    String.format("The department identified by [%s] does not exist", roleRepresentation.sponsorId));
+                        String.format("The department identified by [%s] does not exist", roleRepresentation.sponsorId));
             }
 
         }
-        if (type.getDescription().equals(Type.SponsorTypes.PERSON.name())){
+        if (type.getDescription().equals(Type.SponsorTypes.PERSON.name())) {
             final String sponsorIdType =
                     roleRepresentation.sponsorIdType != null ? roleRepresentation.sponsorIdType : this.preferredPersonIdentifierType;
             try {
                 Person person = this.personService.findPersonByIdentifier(sponsorIdType, roleRepresentation.sponsorId);
                 sponsor.setSponsorId(person.getId());
-            } catch (Exception ex){
+            }
+            catch (Exception ex) {
                 throw new NotFoundException(
-                    String.format("The sponsor identified by [%s] does not exist", roleRepresentation.sponsorId));
+                        String.format("The sponsor identified by [%s] does not exist", roleRepresentation.sponsorId));
             }
         }
         //TODO other sponsor types?
