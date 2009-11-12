@@ -31,7 +31,7 @@ import org.openregistry.core.web.resources.representations.PersonRequestRepresen
  */
 public class PostNewPersonToPeopleResourceTests extends JerseyTestSupport {
 
-    private static final String RESOURCE_UNDER_TEST_URI = "/people";
+    private static final String RESOURCE_UNDER_TEST_URI = "/sor/test/people";
 
     public PostNewPersonToPeopleResourceTests() {
         super(new WebAppDescriptor.Builder("org.openregistry.core.web.resources")

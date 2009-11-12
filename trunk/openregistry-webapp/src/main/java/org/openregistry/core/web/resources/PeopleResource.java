@@ -62,10 +62,6 @@ import org.springframework.util.Assert;
 @Path("/people")
 public final class PeopleResource {
 
-    //Jersey specific injection
-    @Context
-    UriInfo uriInfo;
-
     @Autowired(required = true)
     private PersonService personService;
 
@@ -75,15 +71,7 @@ public final class PeopleResource {
     @Resource(name = "reconciliationCriteriaFactory")
     private ObjectFactory<ReconciliationCriteria> reconciliationCriteriaObjectFactory;
 
-	//JSR-250 injection which is more appropriate here for 'autowiring by name' in the case of multiple types
-    //are defined in the app ctx (Strings). The looked up bean name defaults to the property name which
-    //needs an injection.
-    @Resource
-    private String preferredPersonIdentifierType;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private static final String FORCE_ADD_FLAG = "y";
 
     @GET
     @Path("{personIdType}/{personId}")
@@ -104,12 +92,13 @@ public final class PeopleResource {
                                                       @PathParam("personIdType") String personIdType,
                                                       PersonRequestRepresentation personRequestRepresentation) {
 
-        Response response = validate(personRequestRepresentation);
+        Response response = PeopleResourceUtils.validate(personRequestRepresentation);
         if (response != null) {
             return response;
         }
         final Person person = findPersonOrThrowNotFoundException(personIdType, personId);
-        final ReconciliationCriteria reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
+        final ReconciliationCriteria reconciliationCriteria = PeopleResourceUtils.buildReconciliationCriteriaFrom(personRequestRepresentation, 
+                this.reconciliationCriteriaObjectFactory, this.referenceRepository);
         logger.info("Trying to link incoming SOR person with calculated person...");
         try {
             this.personService.addPersonAndLink(reconciliationCriteria, person);
@@ -121,112 +110,7 @@ public final class PeopleResource {
         return null;
     }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_XML)
-    public Response processIncomingPerson(PersonRequestRepresentation personRequestRepresentation, @QueryParam("force") String forceAdd) {
-        Response response = validate(personRequestRepresentation);
-        if (response != null) {
-            return response;
-        }
-        final ReconciliationCriteria reconciliationCriteria = buildReconciliationCriteriaFrom(personRequestRepresentation);
-        logger.info("Trying to add incoming person...");
 
-        if (FORCE_ADD_FLAG.equals(forceAdd)) {
-            logger.warn("Multiple people found, but doing a 'force add'");
-            try {
-                final ServiceExecutionResult<Person> result = this.personService.forceAddPerson(reconciliationCriteria);
-                final Person forcefullyAddedPerson = result.getTargetObject();
-                final URI uri = buildPersonResourceUri(forcefullyAddedPerson);
-                response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
-                logger.info(String.format("Person successfully created (with 'force add' option). The person resource URI is %s", uri.toString()));
-            } catch (final IllegalStateException e) {
-                response = Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
-            }
-            return response;
-        }
-
-        try {
-            final ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
-
-            if (!result.succeeded()) {
-                logger.info("The incoming person payload did not pass validation. Validation errors: " + result.getValidationErrors());
-                return Response.status(Response.Status.BAD_REQUEST).entity("The incoming request is malformed.").build();
-            }
-
-            final Person person = result.getTargetObject();
-            final URI uri = buildPersonResourceUri(person);
-            response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
-            logger.info(String.format("Person successfully created. The person resource URI is %s", uri.toString()));
-        }
-        catch (final ReconciliationException ex) {
-            switch (ex.getReconciliationType()) {
-                case MAYBE:
-                    final List<PersonMatch> conflictingPeopleFound = ex.getMatches();
-                    response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound)).type(MediaType.APPLICATION_XHTML_XML).build();
-                    logger.info("Multiple people found: " + response.getEntity());
-                    break;
-
-                case EXACT:
-                    final URI uri = buildPersonResourceUri(ex.getMatches().get(0).getPerson());
-                    //HTTP 303 ("See other with GET")
-                    response = Response.seeOther(uri).build();
-                    logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
-                    break;
-            }
-        }
-        return response;
-    }
-
-    private ReconciliationCriteria buildReconciliationCriteriaFrom(final PersonRequestRepresentation request) {
-        final ReconciliationCriteria ps = this.reconciliationCriteriaObjectFactory.getObject();
-        ps.getSorPerson().setSourceSor(request.systemOfRecordId);
-        ps.getSorPerson().setSorId(request.systemOfRecordPersonId);
-        final Name name = ps.getSorPerson().addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
-        name.setGiven(request.firstName);
-        name.setFamily(request.lastName);
-        ps.setEmailAddress(request.email);
-        ps.setPhoneNumber(request.phoneNumber);
-        ps.getSorPerson().setDateOfBirth(request.dateOfBirth);
-        ps.getSorPerson().setSsn(request.ssn);
-        ps.getSorPerson().setGender(request.gender);
-        ps.setAddressLine1(request.addressLine1);
-        ps.setAddressLine2(request.addressLine2);
-        ps.setCity(request.city);
-        ps.setRegion(request.region);
-        ps.setPostalCode(request.postalCode);
-
-        for (final PersonRequestRepresentation.Identifier identifier : request.identifiers) {
-            final IdentifierType identifierType = this.referenceRepository.findIdentifierType(identifier.identifierType);
-            Assert.notNull(identifierType);
-
-            ps.getIdentifiersByType().put(identifierType, identifier.identifierValue);
-        }
-        return ps;
-    }
-
-    private URI buildPersonResourceUri(final Person person) {
-        for (final Identifier id : person.getIdentifiers()) {
-            if (this.preferredPersonIdentifierType.equals(id.getType().getName())) {
-                return this.uriInfo.getAbsolutePathBuilder().path(this.preferredPersonIdentifierType)
-                        .path(id.getValue()).build();
-            }
-        }
-        //Person MUST have at least one id of the preferred configured type. Results in HTTP 500
-        throw new IllegalStateException("The person must have at least one id of the preferred configured type " +
-                "which is <" + this.preferredPersonIdentifierType + ">");
-    }
-
-    private LinkRepresentation buildLinksToConflictingPeopleFound(List<PersonMatch> matches) {
-        //A little defensive stuff. Will result in HTTP 500
-        if (matches.isEmpty()) {
-            throw new IllegalStateException("Person matches cannot be empty if reconciliation result is <MAYBE>");
-        }
-        final List<LinkRepresentation.Link> links = new ArrayList<LinkRepresentation.Link>();
-        for (final PersonMatch match : matches) {
-            links.add(new LinkRepresentation.Link("person", buildPersonResourceUri(match.getPerson()).toString()));
-        }
-        return new LinkRepresentation(links);
-    }
 
     private List<PersonResponseRepresentation.PersonIdentifierRepresentation> buildPersonIdentifierRepresentations(final Set<Identifier> identifiers) {
 
@@ -241,23 +125,6 @@ public final class PeopleResource {
         }
         return idsRep;
     }
-
-    //Content-Type: application/x-www-form-urlencoded
-    private Form buildPersonActivationKeyRepresentation(final Person person) {
-        final Form f = new Form();
-        f.putSingle("activationKey", person.getCurrentActivationKey().asString());
-        return f;
-    }
-
-    private Response validate(PersonRequestRepresentation personRequestRepresentation) {
-        if (!personRequestRepresentation.checkRequiredData()) {
-            //HTTP 400
-            return Response.status(Response.Status.BAD_REQUEST).entity("The person entity payload is incomplete.").build();
-        }
-        //Returns null response indicating that the representation is valid
-        return null;
-    }
-
 
 
     private Person findPersonOrThrowNotFoundException(final String personIdType, final String personId) {
