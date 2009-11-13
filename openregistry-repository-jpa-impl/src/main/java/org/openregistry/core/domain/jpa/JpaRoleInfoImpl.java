@@ -84,6 +84,10 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
         return this.code;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getDisplayableName(){
         return getTitle() + "/"+ getOrganizationalUnit().getName()+ "/" + getCampus().getName();
     }

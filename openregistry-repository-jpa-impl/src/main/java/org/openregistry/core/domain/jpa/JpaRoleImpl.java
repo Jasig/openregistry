@@ -238,6 +238,10 @@ public final class JpaRoleImpl extends Entity implements Role {
         return this.roleInfo.getCode();
     }
 
+    public void setCode(String code) {
+        this.roleInfo.setCode(code);
+    }
+
     public Type getTerminationReason() {
         return this.terminationReason;
     }

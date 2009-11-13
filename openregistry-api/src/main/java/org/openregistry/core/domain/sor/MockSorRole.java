@@ -61,7 +61,11 @@ public class MockSorRole extends Entity implements SorRole{
 		this.sorId = id;
 	}
 
-	public String getSourceSorIdentifier() {
+    public void setCode(String code) {
+        //NOP
+    }
+
+    public String getSourceSorIdentifier() {
 		return sourceSorIdentifier;
 	}
 
