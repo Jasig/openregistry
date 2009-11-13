@@ -148,6 +148,10 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
         return this.roleInfo.getCode();
     }
 
+    public void setCode(String code) {
+        this.roleInfo.setCode(code);
+    }
+
     public void expireNow(final Type terminationReason) {
         expire(terminationReason, new Date());
     }

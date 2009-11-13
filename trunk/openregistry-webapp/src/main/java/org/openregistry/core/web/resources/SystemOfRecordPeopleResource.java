@@ -131,7 +131,7 @@ public class SystemOfRecordPeopleResource {
     }
 
     @DELETE
-    @Path("sorPersonId")
+    @Path("{sorPersonId}")
     public Response deletePerson(@PathParam("sorSourceId") final String sorSourceId,
                                  @PathParam("sorPersonId") final String sorPersonId,
                                  @QueryParam("mistake") @DefaultValue("false") final boolean mistake,

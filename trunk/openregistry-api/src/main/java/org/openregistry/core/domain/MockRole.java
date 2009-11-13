@@ -162,6 +162,10 @@ public class MockRole extends Entity implements Role {
 		return this.end;
 	}
 
+    public void setCode(String code) {
+        //NOP
+    }
+
     public void expireNow(final Type terminationReason, final boolean orphaned) {
         this.terminationReason = terminationReason;
         this.end = new Date();
