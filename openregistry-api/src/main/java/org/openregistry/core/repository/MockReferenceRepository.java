@@ -75,7 +75,39 @@ public final class MockReferenceRepository implements ReferenceRepository {
     }
 
     public RoleInfo getRoleInfoByCode(final String code) {
-    	return null;
+    	return new RoleInfo() {
+            public String getTitle() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public OrganizationalUnit getOrganizationalUnit() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public Campus getCampus() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public Type getAffiliationType() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getCode() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public void setCode(String code) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public String getDisplayableName() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public Long getId() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        };
     }
 
     public RoleInfo getRoleInfoByOrganizationalUnitAndTitle(final OrganizationalUnit ou, final String title) {

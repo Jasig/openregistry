@@ -26,7 +26,7 @@
 
     <import resource="basePeopleResourceApplicationContext.xml"/>
 
-    <bean class="org.openregistry.core.web.resources.AddNewPersonMockitoBasedPersonServiceFactoryBean" init-method="init" id="personService"/>
+    <bean class="org.openregistry.core.web.resources.UpdateSorRoleMockitoBasedPersonServiceFactoryBean" init-method="init" id="personService"/>
 
     <bean id="sorRoleFactory" class="org.openregistry.core.factory.jpa.JpaSorRoleFactory"/>
 
