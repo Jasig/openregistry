@@ -28,6 +28,5 @@
 
     <bean class="org.openregistry.core.web.resources.UpdateSorRoleMockitoBasedPersonServiceFactoryBean" init-method="init" id="personService"/>
 
-    <bean id="sorRoleFactory" class="org.openregistry.core.factory.jpa.JpaSorRoleFactory"/>
 
 </beans>

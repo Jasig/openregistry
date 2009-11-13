@@ -56,9 +56,6 @@ public class SystemOfRecordRolesResource {
     @Resource
     private String preferredPersonIdentifierType;
 
-    @Resource(name = "sorRoleFactory")
-    private ObjectFactory<SorRole> sorRoleFactory;
-
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public Response processIncomingRole(@PathParam("sorSourceId") final String sorSourceId,
@@ -120,44 +117,36 @@ public class SystemOfRecordRolesResource {
 
     private void updateSorRoleWithIncomingData(SorRole sorRole, RoleRepresentation roleRepresentation) {
         validRoleInfoForCodeOrThrowBadDataException(roleRepresentation.roleCode);
-        //Update roleCode
+        //TODO discuss with Scott
         sorRole.setCode(roleRepresentation.roleCode);
         copyBasicRoleDataFromIncomingRepresentation(sorRole, roleRepresentation);
 
-        List<EmailAddress> newEmails = new ArrayList<EmailAddress>();
-        List<Phone> newPhones = new ArrayList<Phone>();
-        List<Address> newAddresses = new ArrayList<Address>();
-        SorRole tempSorRole = this.sorRoleFactory.getObject();
-
         //Update newEmails
-        for (final RoleRepresentation.Email e : roleRepresentation.emails) {
-            final EmailAddress email = tempSorRole.addEmailAddress();
-            copyEmailDataFromIncomingRepresentation(email, e);
-            newEmails.add(email);
+        if(!roleRepresentation.emails.isEmpty()) {
+            sorRole.getEmailAddresses().clear();
         }
-        //swap the emails - the domain model needs more encapsulation!
-        List<EmailAddress> currentEmails = sorRole.getEmailAddresses();
-        currentEmails = newEmails;
+        for (final RoleRepresentation.Email e : roleRepresentation.emails) {
+            final EmailAddress email = sorRole.addEmailAddress();
+            copyEmailDataFromIncomingRepresentation(email, e);
+        }
 
         //Update phones
-        for (final RoleRepresentation.Phone ph : roleRepresentation.phones) {
-            final Phone phone = tempSorRole.addPhone();
-            copyPhoneDataFromIncomingRepresentation(phone, ph);
-            newPhones.add(phone);
+        if(!roleRepresentation.phones.isEmpty()) {
+            sorRole.getPhones().clear();
         }
-        //swap the phones
-        List<Phone> currentPhones = sorRole.getPhones();
-        currentPhones = newPhones;
+        for (final RoleRepresentation.Phone ph : roleRepresentation.phones) {
+            final Phone phone = sorRole.addPhone();
+            copyPhoneDataFromIncomingRepresentation(phone, ph);
+        }
 
         //Update addresses
-        for (final RoleRepresentation.Address a : roleRepresentation.addresses) {
-            final Address address = tempSorRole.addAddress();
-            copyAddressDataFromIncomingRepresentation(address, a);
-            newAddresses.add(address);
+        if(!roleRepresentation.addresses.isEmpty()) {
+            sorRole.getAddresses().clear();
         }
-        //swap the addresses
-        List<Address> currentAddresses = sorRole.getAddresses();
-        currentAddresses = newAddresses;
+        for (final RoleRepresentation.Address a : roleRepresentation.addresses) {
+            final Address address = sorRole.addAddress();
+            copyAddressDataFromIncomingRepresentation(address, a);
+        }        
     }
 
     private SorRole buildSorRoleFrom(final SorPerson person, final RoleRepresentation roleRepresentation) {
