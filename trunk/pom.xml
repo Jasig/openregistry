@@ -284,7 +284,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <aspectj.version>1.6.5</aspectj.version>
         <camel.version>2.0.0</camel.version>
         <clover.version>2.6.0</clover.version>
-        <spring.version>3.0.0.RC1</spring.version>
+        <spring.version>3.0.0.RC2</spring.version>
         <spring.security.version>2.0.4</spring.security.version>
         <junit.version>4.6</junit.version>
         <servlet.version>2.5</servlet.version>
