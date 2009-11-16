@@ -92,7 +92,7 @@ public class SystemOfRecordRolesResource {
             throw new NotFoundException(
                     String.format("The role resource identified by [/sor/%s/people/%s/roles/%s] URI does not exist.",
                             sorSourceId, sorPersonId, sorRoleId));
-        }        
+        }
         updateSorRoleWithIncomingData(sorRole, roleRepresentation);
         ServiceExecutionResult<SorRole> result = this.personService.updateSorRole(sorRole);
         if (!result.getValidationErrors().isEmpty()) {
@@ -115,38 +115,29 @@ public class SystemOfRecordRolesResource {
         return sorPerson;
     }
 
-    private void updateSorRoleWithIncomingData(SorRole sorRole, RoleRepresentation roleRepresentation) {
+    private void updateSorRoleWithIncomingData(final SorRole sorRole, final RoleRepresentation roleRepresentation) {
         validRoleInfoForCodeOrThrowBadDataException(roleRepresentation.roleCode);
         //TODO discuss with Scott
         sorRole.setCode(roleRepresentation.roleCode);
         copyBasicRoleDataFromIncomingRepresentation(sorRole, roleRepresentation);
 
         //Update newEmails
-        if(!roleRepresentation.emails.isEmpty()) {
+        if (!roleRepresentation.emails.isEmpty()) {
             sorRole.getEmailAddresses().clear();
         }
-        for (final RoleRepresentation.Email e : roleRepresentation.emails) {
-            final EmailAddress email = sorRole.addEmailAddress();
-            copyEmailDataFromIncomingRepresentation(email, e);
-        }
+        copyEmailDataFromIncomingRepresentation(sorRole, roleRepresentation.emails);
 
         //Update phones
-        if(!roleRepresentation.phones.isEmpty()) {
+        if (!roleRepresentation.phones.isEmpty()) {
             sorRole.getPhones().clear();
         }
-        for (final RoleRepresentation.Phone ph : roleRepresentation.phones) {
-            final Phone phone = sorRole.addPhone();
-            copyPhoneDataFromIncomingRepresentation(phone, ph);
-        }
+        copyPhoneDataFromIncomingRepresentation(sorRole, roleRepresentation.phones);
 
         //Update addresses
-        if(!roleRepresentation.addresses.isEmpty()) {
+        if (!roleRepresentation.addresses.isEmpty()) {
             sorRole.getAddresses().clear();
         }
-        for (final RoleRepresentation.Address a : roleRepresentation.addresses) {
-            final Address address = sorRole.addAddress();
-            copyAddressDataFromIncomingRepresentation(address, a);
-        }        
+        copyAddressDataFromIncomingRepresentation(sorRole, roleRepresentation.addresses);
     }
 
     private SorRole buildSorRoleFrom(final SorPerson person, final RoleRepresentation roleRepresentation) {
@@ -156,24 +147,9 @@ public class SystemOfRecordRolesResource {
         sorRole.setSourceSorIdentifier(person.getSourceSor());
 
         copyBasicRoleDataFromIncomingRepresentation(sorRole, roleRepresentation);
-
-        //Emails
-        for (final RoleRepresentation.Email e : roleRepresentation.emails) {
-            final EmailAddress email = sorRole.addEmailAddress();
-            copyEmailDataFromIncomingRepresentation(email, e);
-        }
-
-        //Phones
-        for (final RoleRepresentation.Phone ph : roleRepresentation.phones) {
-            final Phone phone = sorRole.addPhone();
-            copyPhoneDataFromIncomingRepresentation(phone, ph);
-        }
-
-        //Addresses
-        for (final RoleRepresentation.Address a : roleRepresentation.addresses) {
-            final Address address = sorRole.addAddress();
-            copyAddressDataFromIncomingRepresentation(address, a);
-        }
+        copyEmailDataFromIncomingRepresentation(sorRole, roleRepresentation.emails);
+        copyPhoneDataFromIncomingRepresentation(sorRole, roleRepresentation.phones);
+        copyAddressDataFromIncomingRepresentation(sorRole, roleRepresentation.addresses);
         return sorRole;
     }
 
@@ -198,34 +174,46 @@ public class SystemOfRecordRolesResource {
 
     }
 
-    private void copyEmailDataFromIncomingRepresentation(EmailAddress email, RoleRepresentation.Email emailRepresentation) {
-        email.setAddress(emailRepresentation.address);
-        email.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL, emailRepresentation.type));
+    private void copyEmailDataFromIncomingRepresentation(SorRole sorRole, List<RoleRepresentation.Email> emailsRepresentation) {
+        for (final RoleRepresentation.Email e : emailsRepresentation) {
+            final EmailAddress email = sorRole.addEmailAddress();
+            email.setAddress(e.address);
+            email.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL, e.type));
+        }
+
     }
 
-    private void copyPhoneDataFromIncomingRepresentation(Phone phone, RoleRepresentation.Phone phoneRepresentation) {
-        phone.setNumber(phoneRepresentation.number);
-        phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, phoneRepresentation.addressType));
-        phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, phoneRepresentation.type));
-        phone.setCountryCode(phoneRepresentation.countryCode);
-        phone.setAreaCode(phoneRepresentation.areaCode);
-        phone.setExtension(phoneRepresentation.extension);
-    }
-
-    private void copyAddressDataFromIncomingRepresentation(Address address, RoleRepresentation.Address addressRepresentation) {
-        address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, addressRepresentation.type));
-        address.setLine1(addressRepresentation.line1);
-        address.setLine2(addressRepresentation.line2);
-        address.setLine3(addressRepresentation.line3);
-        address.setCity(addressRepresentation.city);
-        address.setPostalCode(addressRepresentation.postalCode);
-        Country country = referenceRepository.getCountryByCode(addressRepresentation.countryCode);
-        address.setCountry(country);
-        if (country != null) {
-            address.setRegion(referenceRepository.getRegionByCodeAndCountryId(addressRepresentation.regionCode, country.getCode()));
+    private void copyPhoneDataFromIncomingRepresentation(SorRole sorRole, List<RoleRepresentation.Phone> phonesRepresentation) {
+        for (final RoleRepresentation.Phone ph : phonesRepresentation) {
+            final Phone phone = sorRole.addPhone();
+            phone.setNumber(ph.number);
+            phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, ph.addressType));
+            phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, ph.type));
+            phone.setCountryCode(ph.countryCode);
+            phone.setAreaCode(ph.areaCode);
+            phone.setExtension(ph.extension);
         }
     }
 
+    private void copyAddressDataFromIncomingRepresentation(SorRole sorRole, List<RoleRepresentation.Address> addressesRepresentation) {
+        for (final RoleRepresentation.Address a : addressesRepresentation) {
+            final Address address = sorRole.addAddress();
+            address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, a.type));
+            address.setLine1(a.line1);
+            address.setLine2(a.line2);
+            address.setLine3(a.line3);
+            address.setCity(a.city);
+            address.setPostalCode(a.postalCode);
+            Country country = referenceRepository.getCountryByCode(a.countryCode);
+            address.setCountry(country);
+            if (country != null) {
+                address.setRegion(referenceRepository.getRegionByCodeAndCountryId(a.regionCode, country.getCode()));
+            }
+        }
+
+    }
+
+    //TODO: NEED TO REVIEW THE IMPLEMENTATION OF THIS METHOD
     private void setSponsorInfo(SorSponsor sponsor, Type type, RoleRepresentation roleRepresentation) {
         sponsor.setType(type);
         if (type.getDescription().equals(Type.SponsorTypes.ORG_UNIT.name())) {
