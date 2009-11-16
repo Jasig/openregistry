@@ -220,6 +220,9 @@ public class DefaultPersonService implements PersonService {
     public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
 
+        if (this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(),reconciliationCriteria.getSorPerson().getSorId()) != null){
+            throw new IllegalStateException("CANNOT ADD SAME SOR RECORD.");                        
+        }
         // TODO this might fail because it doesn't match.
         final Set validationErrors = this.validator.validate(reconciliationCriteria);
 
