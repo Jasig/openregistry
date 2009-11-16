@@ -42,7 +42,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
         return null;
     }
 
-    public OrganizationalUnit getOrganizationalUnitByCode(String code){
+    public OrganizationalUnit getOrganizationalUnitByCode(String code) {
         return null;
     }
 
@@ -58,7 +58,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
         return null;
     }
 
-    public Country getCountryByCode(String code){
+    public Country getCountryByCode(String code) {
         return null;
     }
 
@@ -75,7 +75,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
     }
 
     public RoleInfo getRoleInfoByCode(final String code) {
-    	return new RoleInfo() {
+        return new RoleInfo() {
             public String getTitle() {
                 return null;  //To change body of implemented methods use File | Settings | File Templates.
             }
@@ -111,7 +111,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
     }
 
     public RoleInfo getRoleInfoByOrganizationalUnitAndTitle(final OrganizationalUnit ou, final String title) {
-       	return null;
+        return null;
     }
 
     public List<Region> getRegions() {
@@ -139,31 +139,36 @@ public final class MockReferenceRepository implements ReferenceRepository {
     }
 
     public Type findType(final DataTypes type, final String value) {
-        return new Type(){
+        if (type != null && value != null) {
+            return new Type() {
 
-			public Long getId() {
-				return 1L;
-			}
+                public Long getId() {
+                    return 1L;
+                }
 
-			public String getDataType() {
-				return type.name();
-			}
+                public String getDataType() {
+                    return type.name();
+                }
 
-			public String getDescription() {
-				return value;
-			}
+                public String getDescription() {
+                    return value;
+                }
 
-			public String toString(){
-				return String.format("%s - %s", getDataType(), getDescription());
-			}
-		};
+                public String toString() {
+                    return String.format("%s - %s", getDataType(), getDescription());
+                }
+            };
+        }
+        else {
+            return new MockType("test", "test");
+        }
     }
 
-    public List<IdentifierType> getIdentifierTypes(){
+    public List<IdentifierType> getIdentifierTypes() {
         return null;
     }
 
-    public IdentifierType findIdentifierType(final String identifierName){
+    public IdentifierType findIdentifierType(final String identifierName) {
         return null;
     }
 }

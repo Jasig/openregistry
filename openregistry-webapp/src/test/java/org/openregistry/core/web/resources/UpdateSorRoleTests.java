@@ -44,4 +44,16 @@ public class UpdateSorRoleTests extends JerseyTestSupport {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(404, NON_EXISTING_RESOURCE_UNDER_TEST_URI,
                 PUT_HTTP_METHOD, new RoleRepresentation());
     }
+
+    //@Test
+    /*public void goodRequest() {
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(204, GOOD_SOR_ROLE_RESOURCE_UNDER_TEST_URI,
+                PUT_HTTP_METHOD, new RoleRepresentation());
+    }*/
+
+    @Test
+    public void badRequest() {
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(400, BAD_SOR_ROLE_RESOURCE_UNDER_TEST_URI,
+                PUT_HTTP_METHOD, new RoleRepresentation());
+    }
 }

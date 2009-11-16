@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.validation.ConstraintViolation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -23,6 +24,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -95,6 +97,7 @@ public class SystemOfRecordRolesResource {
         }
         updateSorRoleWithIncomingData(sorRole, roleRepresentation);
         ServiceExecutionResult<SorRole> result = this.personService.updateSorRole(sorRole);
+        Set<ConstraintViolation> errors = result.getValidationErrors();
         if (!result.getValidationErrors().isEmpty()) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).
@@ -117,27 +120,28 @@ public class SystemOfRecordRolesResource {
 
     private void updateSorRoleWithIncomingData(final SorRole sorRole, final RoleRepresentation roleRepresentation) {
         validRoleInfoForCodeOrThrowBadDataException(roleRepresentation.roleCode);
-        //TODO discuss with Scott
-        sorRole.setCode(roleRepresentation.roleCode);
+        //TODO discuss with Scott how to 'update' role code???
+        //sorRole.setCode(roleRepresentation.roleCode);
         copyBasicRoleDataFromIncomingRepresentation(sorRole, roleRepresentation);
 
         //Update newEmails
-        if (!roleRepresentation.emails.isEmpty()) {
-            sorRole.getEmailAddresses().clear();
+        sorRole.getEmailAddresses().clear();
+        if (roleRepresentation.emails != null) {
+            copyEmailDataFromIncomingRepresentation(sorRole, roleRepresentation.emails);
         }
-        copyEmailDataFromIncomingRepresentation(sorRole, roleRepresentation.emails);
 
         //Update phones
-        if (!roleRepresentation.phones.isEmpty()) {
-            sorRole.getPhones().clear();
+        sorRole.getPhones().clear();
+        if (roleRepresentation.phones != null) {
+            copyPhoneDataFromIncomingRepresentation(sorRole, roleRepresentation.phones);
         }
-        copyPhoneDataFromIncomingRepresentation(sorRole, roleRepresentation.phones);
 
         //Update addresses
-        if (!roleRepresentation.addresses.isEmpty()) {
-            sorRole.getAddresses().clear();
+        sorRole.getAddresses().clear();
+        if (roleRepresentation.addresses != null) {
+            copyAddressDataFromIncomingRepresentation(sorRole, roleRepresentation.addresses);
         }
-        copyAddressDataFromIncomingRepresentation(sorRole, roleRepresentation.addresses);
+
     }
 
     private SorRole buildSorRoleFrom(final SorPerson person, final RoleRepresentation roleRepresentation) {
@@ -168,8 +172,7 @@ public class SystemOfRecordRolesResource {
         sorRole.setStart(roleRepresentation.startDate);
         if (roleRepresentation.endDate != null) sorRole.setEnd(roleRepresentation.endDate);
         if (roleRepresentation.percentage != null) sorRole.setPercentage(new Integer(roleRepresentation.percentage).intValue());
-        sorRole.setSponsor();
-        setSponsorInfo(sorRole.getSponsor(),
+        setSponsorInfo(sorRole.setSponsor(),
                 this.referenceRepository.findType(Type.DataTypes.SPONSOR, roleRepresentation.sponsorType), roleRepresentation);
 
     }

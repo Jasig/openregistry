@@ -46,7 +46,7 @@ public final class RoleRepresentation {
     public Date endDate;
 
     @XmlAttribute
-    public String percentage;
+    public String percentage = "0";
 
     @XmlAttribute(name = "sponsor-type")
     public String sponsorType;

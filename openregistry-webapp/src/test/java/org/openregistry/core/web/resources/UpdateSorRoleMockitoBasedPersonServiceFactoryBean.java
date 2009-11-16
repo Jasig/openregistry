@@ -16,10 +16,13 @@
 package org.openregistry.core.web.resources;
 
 import org.mockito.ArgumentMatcher;
-import org.openregistry.core.domain.Person;
+import org.mockito.Matchers;
+import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
+import org.openregistry.core.domain.sor.SorSponsor;
+import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.springframework.beans.factory.FactoryBean;
@@ -29,12 +32,14 @@ import javax.validation.Path;
 import javax.validation.metadata.ConstraintDescriptor;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
 /**
  * FactoryBean to create Mockito-based mocks of <code>PersonService</code> and related collaborators needed to test
- * 'POST /people/{personIdType}/{personId}' scenarios of <code>PeopleResource</code>
+ * 'PUT /sor/{sorSourceId}/people/{sorPersonId}/roles/{sorRoleId}' scenarios of <code>SystemOfRecordRolesResource</code>
  *
  * @author Dmitriy Kopylenko
  * @since 1.0
@@ -45,54 +50,34 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
 
     public void init() throws Exception {
 
+        //Subbing a set of execution errors
+        Set<ConstraintViolation> mockSetWithErrors = mock(Set.class, "withErrors");
+        when(mockSetWithErrors.size()).thenReturn(1);
+
+        //Subbing a set of execution errors
+        Set<ConstraintViolation> mockSetWithNoErrors = mock(Set.class, "withNoErrors");
+        when(mockSetWithNoErrors.size()).thenReturn(0);
+
+        //Stubbing SorSponsor
+        final SorSponsor mockSorSponsor = mock(SorSponsor.class);
+
         //Stubbing 'good' sor role
         final SorRole mockGoodSorRole = mock(SorRole.class);
         when(mockGoodSorRole.getCode()).thenReturn("GOOD");
+        when(mockGoodSorRole.setSponsor()).thenReturn(mockSorSponsor);
 
         //Stubbing 'bad' sor role
         final SorRole mockBadSorRole = mock(SorRole.class);
         when(mockBadSorRole.getCode()).thenReturn("BAD");
+        when(mockBadSorRole.setSponsor()).thenReturn(mockSorSponsor);
 
         //Stubbing service execution result with validation errors
-        final ServiceExecutionResult<SorRole> mockValidationErrorsExecutionResult = mock(ServiceExecutionResult.class);
-        when(mockValidationErrorsExecutionResult.getValidationErrors())
-                .thenReturn(new HashSet<ConstraintViolation>(Arrays.asList(new ConstraintViolation() {
-                    public String getMessage() {
-                        return null;
-                    }
-
-                    public String getMessageTemplate() {
-                        return null;
-                    }
-
-                    public Object getRootBean() {
-                        return null;
-                    }
-
-                    public Class getRootBeanClass() {
-                        return null;
-                    }
-
-                    public Object getLeafBean() {
-                        return null;
-                    }
-
-                    public Path getPropertyPath() {
-                        return null;
-                    }
-
-                    public Object getInvalidValue() {
-                        return null;
-                    }
-
-                    public ConstraintDescriptor<?> getConstraintDescriptor() {
-                        return null;
-                    }
-                })));
+        final ServiceExecutionResult<SorRole> goodExecutionResult = mock(ServiceExecutionResult.class, "good execution result");
+        when(goodExecutionResult.getValidationErrors()).thenReturn(mockSetWithNoErrors);
 
         //Stubbing service execution result without validation errors
-        final ServiceExecutionResult<SorRole> mockSuccessExecutionResult = mock(ServiceExecutionResult.class);
-        when(mockValidationErrorsExecutionResult.getValidationErrors()).thenReturn(new HashSet<ConstraintViolation>());
+        final ServiceExecutionResult<SorRole> badExecutionResult = mock(ServiceExecutionResult.class, "bad execution result");
+        when(badExecutionResult.getValidationErrors()).thenReturn(mockSetWithErrors);
 
         //Stubbing Person
         final SorPerson mockPerson = mock(SorPerson.class);
@@ -101,12 +86,11 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
 
         //Stubbing PersonService
         final PersonService ps = mock(PersonService.class);
-        when(ps.findPersonByIdentifier(eq("TEST-SOR-ID"), eq("NON-EXISTING-SOR-PERSON"))).thenReturn(null);
+        when(ps.findBySorIdentifierAndSource(eq("TEST-SOR-ID"), eq("NON-EXISTING-SOR-PERSON"))).thenReturn(null);
         when(ps.findBySorIdentifierAndSource(eq("TEST-SOR-ID"), eq("EXISTING-SOR-PERSON"))).thenReturn(mockPerson);
-        //We don't care about the return value as the REST implementation doesn't use it
-        when(ps.updateSorRole(argThat(new IsGoodSorRoleMatch()))).thenReturn(mockSuccessExecutionResult);
-        when(ps.updateSorRole(argThat(new IsBadSorRoleMatch()))).thenReturn(mockValidationErrorsExecutionResult);
-                
+        when(ps.updateSorRole(argThat(new IsGoodSorRoleMatch()))).thenReturn(goodExecutionResult);
+        when(ps.updateSorRole(argThat(new IsBadSorRoleMatch()))).thenReturn(badExecutionResult);
+
         this.mockPersonService = ps;
     }
 
