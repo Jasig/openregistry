@@ -37,7 +37,7 @@ import java.util.*;
 
 /**
  * FactoryBean to create Mockito-based mocks of <code>PersonService</code> and related collaborators needed to test
- * 'POST /people' scenarios of <code>PeopleResource</code>
+ * 'POST /sor/{sorSourceId}/people' scenarios of <code>SystemOfRecordPeopleResource</code>
  *
  * @author Dmitriy Kopylenko
  * @since 1.0
