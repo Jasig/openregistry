@@ -119,6 +119,7 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         //stubbing different reconciliation scenarios
         when(ps.addPerson(argThat(new IsNewPersonMatch()))).thenReturn(mockNoPeopleFoundServiceExecutionResult);
         when(ps.addPerson(argThat(new IsExistingPersonMatch()))).thenThrow(new ReconciliationException(mockPersonAlreadyExistsReconciliationResult));
+         when(ps.addPerson(argThat(new IsExistingErrorPersonMatch()))).thenThrow(new IllegalStateException());
         when(ps.addPerson(argThat(new HasValidationErrors()))).thenReturn(mockValidationErrorsExecutionResult);
         when(ps.addPerson(argThat(new IsMultiplePeopleMatch()))).thenThrow(new ReconciliationException(mockMultiplePeopleFoundReconciliationResult));
         //Mocking 'force add' option
@@ -199,6 +200,14 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         @Override
         public boolean matches(Object criteria) {
             return (criteria == null) ? false : "existing".equals(((ReconciliationCriteria) criteria).getSorPerson().getSsn());
+        }
+    }
+
+    private static class IsExistingErrorPersonMatch extends ArgumentMatcher<ReconciliationCriteria> {
+
+        @Override
+        public boolean matches(Object criteria) {
+            return (criteria == null) ? false : "existingError".equals(((ReconciliationCriteria) criteria).getSorPerson().getSsn());
         }
     }
 

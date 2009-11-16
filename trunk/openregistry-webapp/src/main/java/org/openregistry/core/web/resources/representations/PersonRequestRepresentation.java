@@ -139,8 +139,17 @@ public class PersonRequestRepresentation {
      *
      * @return
      */
-    public static PersonRequestRepresentation forExistingPerson() {
+    public static PersonRequestRepresentation forExistingPersonNoSoRRecord() {
         return newRepresentationWithRequiredDataAndSsn("existing");
+    }
+
+    /**
+     * Factory method for use only for mocking purposes in tests
+     *
+     * @return
+     */
+    public static PersonRequestRepresentation forExistingPersonExistingSoRRecord() {
+        return newRepresentationWithRequiredDataAndSsn("existingError");
     }
 
     /**

@@ -126,6 +126,8 @@ public class SystemOfRecordPeopleResource {
                     logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
                     break;
             }
+        } catch (final IllegalStateException e) {
+                response = Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }
         return response;
     }
