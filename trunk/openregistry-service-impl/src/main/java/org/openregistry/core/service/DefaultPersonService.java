@@ -403,11 +403,15 @@ public class DefaultPersonService implements PersonService {
      */
     @Transactional
     public ServiceExecutionResult<SorPerson> updateSorPerson(final SorPerson sorPerson) {
+
         final Set validationErrors = this.validator.validate(sorPerson);
 
         if (!validationErrors.isEmpty()) {
             return new GeneralServiceExecutionResult<SorPerson>(validationErrors);
         }
+
+        //do reconciliationCheck to make sure that modifications do not cause person to reconcile to a different person
+        if (!this.reconciler.reconcilesToSamePerson(sorPerson)) throw new IllegalStateException();
 
         // Save Sor Person
         logger.info("PersonService:updateSorPerson: updating person...");
