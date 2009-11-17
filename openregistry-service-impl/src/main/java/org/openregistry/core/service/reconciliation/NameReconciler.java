@@ -22,6 +22,7 @@ import java.util.List;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.service.reconciliation.FieldMatch;
 import org.openregistry.core.service.reconciliation.PersonMatch;
@@ -92,7 +93,7 @@ public final class NameReconciler implements Reconciler {
 		}
 	}
 
-    public ReconciliationResult reconciliationCheck(ReconciliationCriteria reconciliationCriteria){
+    public ReconciliationResult reconciliationCheck(final SorPerson person){
         return null;
     }
 
