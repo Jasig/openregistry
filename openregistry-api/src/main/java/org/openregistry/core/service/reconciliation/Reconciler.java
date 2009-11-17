@@ -38,4 +38,6 @@ public interface Reconciler extends Serializable {
      */
     ReconciliationResult reconcile(ReconciliationCriteria reconciliationCriteria);
 
+    ReconciliationResult reconciliationCheck(ReconciliationCriteria reconciliationCriteria);
+
 }
