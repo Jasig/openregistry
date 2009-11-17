@@ -29,7 +29,6 @@ import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.reconciliation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.util.Assert;
@@ -40,7 +39,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
-import javax.validation.ConstraintViolation;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
@@ -51,7 +51,7 @@ import javax.validation.Validator;
  * @author Dmitriy Kopylenko
  * @since 1.0.0
  */
-@Service("personService")
+@Named("personService")
 public class DefaultPersonService implements PersonService {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -76,7 +76,7 @@ public class DefaultPersonService implements PersonService {
     @Resource(name = "personFactory")
     private ObjectFactory<Person> personObjectFactory;
 
-    @Autowired
+    @Inject
     public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler) {
         this.personRepository = personRepository;
         this.referenceRepository = referenceRepository;

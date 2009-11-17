@@ -17,11 +17,11 @@ package org.openregistry.core.service;
 
 import org.openregistry.core.domain.*;
 import org.openregistry.core.repository.PersonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.NoSuchElementException;
@@ -33,17 +33,16 @@ import java.util.NoSuchElementException;
  * @version $Revision$ $Date$
  * @since 0.1
  */
-@Service("activationService")
+@Named("activationService")
 public final class DefaultActivationService implements ActivationService {
 
-    @Autowired(required=true)
     private final PersonRepository personRepository;
 
     private DateGenerator startDateGenerator = new CurrentDateTimeDateGenerator();
 
     private DateGenerator endDateGenerator = new AdditiveDateTimeDateGenerator(Calendar.DAY_OF_MONTH, 10);
 
-    @Autowired(required=true)
+    @Inject
     public DefaultActivationService(final PersonRepository personRepository) {
         this.personRepository = personRepository;
     }

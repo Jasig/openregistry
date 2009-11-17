@@ -24,14 +24,11 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.PersonRepository;
-import org.openregistry.core.service.reconciliation.FieldMatch;
-import org.openregistry.core.service.reconciliation.PersonMatch;
-import org.openregistry.core.service.reconciliation.Reconciler;
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.ReconciliationResult.ReconciliationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.inject.Inject;
 
 /**
  * Very simplistic Name Reconciler.  Just for testing purposes.
@@ -43,10 +40,14 @@ public final class NameReconciler implements Reconciler {
 
 	private static final long serialVersionUID = -7509304431552307514L;
 
-	@Autowired(required = true)
-	private PersonRepository personRepository;
+	private final PersonRepository personRepository;
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Inject
+    public NameReconciler(final PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
 	
 	/* 
 	 * @see org.openregistry.core.service.reconciliation.Reconciler#reconcile(org.openregistry.core.domain.sor.ReconciliationCriteria)

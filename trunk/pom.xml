@@ -140,6 +140,13 @@
             <version>${aspectj.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <scope>compile</scope>
+            <version>${javax.inject.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -311,6 +318,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <ehcache.version>1.7.0-beta</ehcache.version>
         <hibernate.validator.version>4.0.1.GA</hibernate.validator.version>
         <javax.validation.version>1.0.0.GA</javax.validation.version>
+        <javax.inject.version>1</javax.inject.version>
     </properties>
 
     <pluginRepositories>

@@ -17,36 +17,24 @@ package org.openregistry.core.web.resources;
 
 import org.openregistry.core.domain.*;
 import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.ObjectFactory;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.service.PersonService;
-import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.IdentifierChangeService;
-import org.openregistry.core.service.reconciliation.PersonMatch;
-import org.openregistry.core.service.reconciliation.ReconciliationException;
-import org.openregistry.core.web.resources.representations.LinkRepresentation;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
 import org.openregistry.core.web.resources.representations.PersonResponseRepresentation;
-import org.openregistry.core.web.resources.representations.RoleRepresentation;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.ConstraintViolation;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.annotation.Resource;
-import java.net.URI;
 import java.util.*;
 
 import com.sun.jersey.api.NotFoundException;
-import com.sun.jersey.api.representation.Form;
-import org.springframework.util.Assert;
 
 /**
  * Root RESTful resource representing <i>canonical</i> view of people in Open Registry.
@@ -57,21 +45,25 @@ import org.springframework.util.Assert;
  * @author Dmitriy Kopylenko
  * @since 1.0
  */
-@Component
-@Scope("singleton")
+@Named
+@Singleton
 @Path("/people")
 public final class PeopleResource {
 
-    @Autowired(required = true)
-    private PersonService personService;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired(required = true)
-    private ReferenceRepository referenceRepository;
+    private final PersonService personService;
+
+    private final ReferenceRepository referenceRepository;
 
     @Resource(name = "reconciliationCriteriaFactory")
     private ObjectFactory<ReconciliationCriteria> reconciliationCriteriaObjectFactory;
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    @Inject
+    public PeopleResource(final PersonService personService, final ReferenceRepository referenceRepository) {
+        this.personService = personService;
+        this.referenceRepository = referenceRepository;
+    }
 
     @GET
     @Path("{personIdType}/{personId}")

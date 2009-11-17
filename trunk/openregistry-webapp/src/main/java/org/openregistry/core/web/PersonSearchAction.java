@@ -16,11 +16,9 @@
 package org.openregistry.core.web;
 
 import org.openregistry.core.service.PersonService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageResolver;
-import org.springframework.stereotype.Component;
 import org.springframework.webflow.execution.RequestContext;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
@@ -30,6 +28,9 @@ import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /**
  * Created by IntelliJ IDEA.
  * User: nmond
@@ -37,7 +38,7 @@ import org.openregistry.core.service.reconciliation.ReconciliationException;
  * Time: 10:52:01 AM
  * To change this template use File | Settings | File Templates.
  */
-@Component
+@Named("personSearchAction")
 public final class PersonSearchAction extends AbstractPersonServiceAction {
 
     //TODO don't hardcode. OR-55
@@ -45,7 +46,7 @@ public final class PersonSearchAction extends AbstractPersonServiceAction {
 
     private final String identifierType = "NETID";
 
-    @Autowired(required=true)
+    @Inject
     public PersonSearchAction(final PersonService personService) {
         super(personService);
     }

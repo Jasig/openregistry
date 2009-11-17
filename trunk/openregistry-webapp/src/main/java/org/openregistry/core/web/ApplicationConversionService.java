@@ -17,13 +17,14 @@ package org.openregistry.core.web;
 
 import org.springframework.binding.convert.converters.StringToDate;
 import org.springframework.binding.convert.service.DefaultConversionService;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.InitializingBean;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,16 +34,20 @@ import org.slf4j.LoggerFactory;
  * To change this template use File | Settings | File Templates.
  */
 
-@Service("applicationConversionService")
+@Named("applicationConversionService")
 public final class ApplicationConversionService extends DefaultConversionService implements InitializingBean {
 
-    @Autowired(required = true)
-    private ReferenceRepository referenceRepository;
-
-    @Autowired(required = true)
-    private PersonRepository personRepository;
-
     protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private final ReferenceRepository referenceRepository;
+
+    private final PersonRepository personRepository;
+
+    @Inject
+    public ApplicationConversionService(final PersonRepository personRepository, final ReferenceRepository referenceRepository) {
+        this.personRepository = personRepository;
+        this.referenceRepository = referenceRepository;
+    }
 
     @Override
     protected void addDefaultConverters() {

@@ -16,13 +16,12 @@
 package org.openregistry.integration.internal;
 
 import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.camel.ProducerTemplate;
-import org.apache.camel.ExchangePattern;
 import org.openregistry.integration.IntegrationGateway;
 import org.openregistry.integration.IntegrationProcessingException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Map;
 
 /**
@@ -36,21 +35,14 @@ import java.util.Map;
  * @since 1.0
  */
 @Component
-@Scope("singleton")
-public class CamelIntegrationGateway implements IntegrationGateway {
+@Singleton
+public final class CamelIntegrationGateway implements IntegrationGateway {
 
-    @Autowired
-    private ProducerTemplate camelTemplate;
+    private final ProducerTemplate camelTemplate;
 
-    public CamelIntegrationGateway() {
-    }
-
-    public CamelIntegrationGateway(ProducerTemplate producerTemplate) {
+    @Inject
+    public CamelIntegrationGateway(final ProducerTemplate producerTemplate) {
         this.camelTemplate = producerTemplate;
-    }
-
-    public ProducerTemplate getCamelTemplate() {
-        return this.camelTemplate;
     }
 
     public void dispatch(String destinationId, Object messageBody) throws IntegrationProcessingException {
@@ -78,10 +70,10 @@ public class CamelIntegrationGateway implements IntegrationGateway {
         try {
             return this.camelTemplate.requestBody(destinationId, messageBody, requiredType);
         }
-        catch(ClassCastException ex) {
+        catch(final ClassCastException ex) {
             throw new IllegalArgumentException("The response message body is of incompatible type with passed in argument");
         }
-        catch (Throwable e) {
+        catch (final Throwable e) {
             throw new IntegrationProcessingException(e);
         }
 
@@ -93,10 +85,10 @@ public class CamelIntegrationGateway implements IntegrationGateway {
         try {
             return this.camelTemplate.requestBodyAndHeaders(destinationId, messageBody, metadata, requiredType);
         }
-        catch(ClassCastException ex) {
+        catch(final ClassCastException ex) {
             throw new IllegalArgumentException("The response message body is of incompatible type with passed in argument");
         }
-        catch (Throwable e) {
+        catch (final Throwable e) {
             throw new IntegrationProcessingException(e);
         }
     }

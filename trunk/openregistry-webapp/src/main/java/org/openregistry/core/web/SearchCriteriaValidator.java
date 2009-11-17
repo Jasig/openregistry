@@ -17,19 +17,19 @@ package org.openregistry.core.web;
 
 import org.springframework.validation.Validator;
 import org.springframework.validation.Errors;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
+import javax.inject.Named;
 import javax.validation.Validation;
 
 /**
- * Bridges the Spring Validation code with the JaValid validation code.
+ * Bridges the Spring Validation code with the JSR330 validation code.
  *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Component("searchCriteriaValidator")
+@Named("searchCriteriaValidator")
 public final class SearchCriteriaValidator implements Validator {
 
     private SpringValidatorAdapter validator = new SpringValidatorAdapter(Validation.buildDefaultValidatorFactory().getValidator());

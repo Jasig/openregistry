@@ -21,8 +21,8 @@ import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.springframework.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.inject.Inject;
 import java.security.SecureRandom;
 
 /**
@@ -39,8 +39,12 @@ public class TestIdentifierAssigner implements IdentifierAssigner {
 
     private static final SecureRandom secureRandom = new SecureRandom();
 
-	@Autowired(required = true)
-	private ReferenceRepository referenceRepository;
+	private final ReferenceRepository referenceRepository;
+
+    @Inject
+    public TestIdentifierAssigner(final ReferenceRepository referenceRepository) {
+        this.referenceRepository = referenceRepository;
+    }
 
     public void addIdentifierTo(final SorPerson sorPerson, final Person person) {
         final Name name = person.getOfficialName();

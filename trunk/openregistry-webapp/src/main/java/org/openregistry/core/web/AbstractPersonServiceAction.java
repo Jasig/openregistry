@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
 
@@ -34,7 +33,6 @@ public abstract class AbstractPersonServiceAction {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired(required=false)
     private SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();
 
     private final PersonService personService;
@@ -58,5 +56,9 @@ public abstract class AbstractPersonServiceAction {
             messageContext.addMessage(new MessageBuilder().info().code(successMessageCode).build());
         }
         return serviceExecutionResult.succeeded();
+    }
+
+    public void setConverter(final SpringErrorValidationErrorConverter converter) {
+        this.converter = converter;
     }
 }

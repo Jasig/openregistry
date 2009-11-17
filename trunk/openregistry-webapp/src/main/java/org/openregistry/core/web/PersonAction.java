@@ -16,7 +16,6 @@
 package org.openregistry.core.web;
 
 import org.openregistry.core.service.PersonService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.openregistry.core.domain.sor.SorPerson;
@@ -24,6 +23,7 @@ import org.openregistry.core.domain.*;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.aspect.OpenRegistryMessageSourceAccessor;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -38,7 +38,7 @@ public final class PersonAction extends AbstractPersonServiceAction {
 
     private final PersonRepository personRepository;
 
-    @Autowired(required=true)
+    @Inject
     public PersonAction(final PersonService personService, final PersonRepository personRepository) {
         super(personService);
         this.personRepository = personRepository;

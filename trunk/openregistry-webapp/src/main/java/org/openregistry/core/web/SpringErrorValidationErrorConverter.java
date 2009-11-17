@@ -18,8 +18,8 @@ package org.openregistry.core.web;
 import org.springframework.validation.Errors;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Named;
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
@@ -31,7 +31,7 @@ import java.util.Set;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Component(value = "springErrorValidationErrorConverter")
+@Named("springErrorValidationErrorConverter")
 public final class SpringErrorValidationErrorConverter {
 
     /**
