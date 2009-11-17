@@ -15,9 +15,7 @@
  */
 package org.openregistry.core.service;
 
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.domain.jpa.JpaPersonImpl;
@@ -26,6 +24,8 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import static org.junit.Assert.*;
+
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
@@ -46,13 +46,13 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractInte
 
     private static final String LOCK_VALUE = "LOCK";
     
-    @Autowired
+    @Inject
     private ActivationService activationService;
 
-    @Autowired
+    @Inject
     private PersonRepository personRepository;
 
-    @Autowired
+    @Inject
     private ReferenceRepository referenceRepository;
 
     @PersistenceContext

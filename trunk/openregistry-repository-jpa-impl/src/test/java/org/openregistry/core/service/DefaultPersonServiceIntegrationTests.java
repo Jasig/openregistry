@@ -18,7 +18,6 @@ package org.openregistry.core.service;
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.openregistry.core.domain.jpa.sor.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;
@@ -26,6 +25,7 @@ import org.openregistry.core.service.reconciliation.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.*;
@@ -54,10 +54,10 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 	private static final String RUDY = "Rudy";
 	private static final String KIPSTEIN = "Kipstein";
 
-    @Autowired
+    @Inject
     private PersonService personService;
     
-    @Autowired
+    @Inject
     private ReferenceRepository referenceRepository;
 
     @PersistenceContext
