@@ -21,6 +21,7 @@ import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
+import org.openregistry.core.web.resources.representations.PersonModifyRepresentation;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.util.Assert;
 
@@ -36,6 +37,15 @@ public final class PeopleResourceUtils {
 
     public static Response validate(PersonRequestRepresentation personRequestRepresentation) {
         if (!personRequestRepresentation.checkRequiredData()) {
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST).entity("The person entity payload is incomplete.").build();
+        }
+        //Returns null response indicating that the representation is valid
+        return null;
+    }
+
+    public static Response validate(PersonModifyRepresentation personModifyRepresentation){
+        if (!personModifyRepresentation.checkRequiredData()) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).entity("The person entity payload is incomplete.").build();
         }
