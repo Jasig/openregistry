@@ -15,9 +15,9 @@
  */
 package org.openregistry.core.service.reconciliation;
 
-import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.service.reconciliation.ReconciliationResult.*;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.MockPerson;
 
@@ -98,7 +98,7 @@ public final class MockReconciler implements Reconciler {
         };
     }
 
-    public ReconciliationResult reconciliationCheck(final SorPerson sorPerson) {
-        return reconcile(null);
+    public boolean reconcilesToSamePerson(final SorPerson sorPerson) {
+        return true;
     }
 }

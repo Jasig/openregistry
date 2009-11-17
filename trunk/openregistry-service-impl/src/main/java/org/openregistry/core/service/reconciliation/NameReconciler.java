@@ -94,8 +94,8 @@ public final class NameReconciler implements Reconciler {
 		}
 	}
 
-    public ReconciliationResult reconciliationCheck(final SorPerson person){
-        return null;
+    public boolean reconcilesToSamePerson(final SorPerson person){
+        return true;
     }
 
 }

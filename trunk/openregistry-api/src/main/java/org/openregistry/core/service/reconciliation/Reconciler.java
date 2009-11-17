@@ -39,6 +39,6 @@ public interface Reconciler extends Serializable {
      */
     ReconciliationResult reconcile(ReconciliationCriteria reconciliationCriteria);
 
-    ReconciliationResult reconciliationCheck(SorPerson reconciliationCriteria);
+    boolean reconcilesToSamePerson(SorPerson sorPerson);
 
 }

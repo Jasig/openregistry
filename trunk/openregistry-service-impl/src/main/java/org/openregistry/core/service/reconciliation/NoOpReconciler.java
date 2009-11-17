@@ -57,27 +57,7 @@ public final class NoOpReconciler implements Reconciler {
         };
     }
 
-    public ReconciliationResult reconciliationCheck(final SorPerson sorPerson){
-       return new ReconciliationResult() {
-            public ReconciliationType getReconciliationType() {
-                return ReconciliationType.EXACT;
-            }
-
-            public List<PersonMatch> getMatches() {
-                return Collections.EMPTY_LIST;
-            }
-
-            public boolean noPeopleFound() {
-                return false;
-            }
-
-            public boolean personAlreadyExists() {
-                return true;
-            }
-
-            public boolean multiplePeopleFound() {
-                return false;
-            }
-        };
+    public boolean reconcilesToSamePerson(final SorPerson sorPerson){
+       return true;
     }
 }
