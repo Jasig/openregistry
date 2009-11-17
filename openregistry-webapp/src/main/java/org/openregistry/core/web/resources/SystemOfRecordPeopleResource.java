@@ -17,10 +17,9 @@ package org.openregistry.core.web.resources;
 
 import com.sun.jersey.api.NotFoundException;
 import com.sun.jersey.api.representation.Form;
-import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.PersonNotFoundException;
+import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
@@ -28,6 +27,8 @@ import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
 import org.openregistry.core.web.resources.representations.LinkRepresentation;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
+import org.openregistry.core.web.resources.representations.PersonModifyRepresentation;
+import org.openregistry.core.utils.ValidationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectFactory;
@@ -173,6 +174,37 @@ public final class SystemOfRecordPeopleResource {
         }
     }
 
+    @PUT
+    @Path("{sorPersonId}")
+    @Consumes(MediaType.APPLICATION_XML)
+    public Response updateIncomingPerson(@PathParam("sorSourceId") final String sorSourceId,
+                                       @PathParam("sorPersonId") final String sorPersonId,
+                                       final PersonModifyRepresentation personModifyRepresentation) {
+
+
+        Response response = PeopleResourceUtils.validate(personModifyRepresentation);
+        if (response != null) {
+            return response;
+        }
+
+        final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
+
+        updateSorPersonWithIncomingData(sorPerson, personModifyRepresentation);
+        try {
+            ServiceExecutionResult<SorPerson> result = this.personService.updateSorPerson(sorPerson);
+
+            if (!result.getValidationErrors().isEmpty()) {
+                //HTTP 400
+                logger.info("The incoming person payload did not pass validation. Validation errors: " + result.getValidationErrors());
+                return Response.status(Response.Status.BAD_REQUEST).entity("The incoming request is malformed.").build();
+            }
+        } catch (IllegalStateException e){
+            response = Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+        //HTTP 204
+        return null;
+    }
+
     private URI buildPersonResourceUri(final Person person) {
         for (final Identifier id : person.getIdentifiers()) {
             if (this.preferredPersonIdentifierType.equals(id.getType().getName())) {
@@ -203,4 +235,47 @@ public final class SystemOfRecordPeopleResource {
         f.putSingle("activationKey", person.getCurrentActivationKey().asString());
         return f;
     }
+
+    private SorPerson findPersonOrThrowNotFoundException(String sorSourceId, String sorPersonId) {
+        final SorPerson sorPerson = this.personService.findBySorIdentifierAndSource(sorSourceId, sorPersonId);
+        if (sorPerson == null) {
+            //HTTP 404
+            throw new NotFoundException(
+                    String.format("The person resource identified by [/sor/%s/people/%s] URI does not exist.",
+                            sorSourceId, sorPersonId));
+        }
+        return sorPerson;
+    }
+
+    private void updateSorPersonWithIncomingData(SorPerson sorPerson, PersonModifyRepresentation personRepresentation){
+        sorPerson.setDateOfBirth(personRepresentation.dateOfBirth);
+        sorPerson.setSsn(personRepresentation.ssn);
+        sorPerson.setGender(personRepresentation.gender);
+
+        boolean hasLegalorFormalNameType = hasLegalorFormalNameType(personRepresentation);
+        for (final PersonModifyRepresentation.Name n : personRepresentation.names) {
+            final Name name = sorPerson.addName();
+            name.setFamily(n.lastName);
+            name.setGiven(n.firstName);
+
+            //TODO Default is Formal unless already have a name marked Formal or Legal?
+            if (n.nameType != null && referenceRepository.findType(Type.DataTypes.NAME, n.nameType) != null) {
+                name.setType(referenceRepository.findType(Type.DataTypes.NAME, n.nameType));
+            } else {
+                if (!hasLegalorFormalNameType) {
+                    name.setType(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
+                    hasLegalorFormalNameType = true;
+                } else {
+                    name.setType(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.AKA));
+                }
+            }
+        }
+    }
+
+    private boolean hasLegalorFormalNameType(PersonModifyRepresentation personRepresentation){
+        for (final PersonModifyRepresentation.Name n : personRepresentation.names)
+            if (n.nameType != null && (n.nameType.equals(Type.NameTypes.LEGAL) || n.nameType.equals(Type.NameTypes.FORMAL))) return true;
+        return false;
+    }
+
 }
