@@ -92,4 +92,8 @@ public final class NameReconciler implements Reconciler {
 		}
 	}
 
+    public ReconciliationResult reconciliationCheck(ReconciliationCriteria reconciliationCriteria){
+        return null;
+    }
+
 }
