@@ -17,9 +17,9 @@ package org.openregistry.core.web;
 
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.repository.ReferenceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,7 +31,7 @@ public final class ReferenceRepositoryHandlerInterceptor extends HandlerIntercep
 
     private final ReferenceRepository referenceRepository;
 
-    @Autowired(required=true)
+    @Inject
     public ReferenceRepositoryHandlerInterceptor(final ReferenceRepository referenceRepository) {
         this.referenceRepository = referenceRepository;
     }
@@ -47,7 +47,6 @@ public final class ReferenceRepositoryHandlerInterceptor extends HandlerIntercep
         request.setAttribute("addressTypes", this.referenceRepository.getTypesBy(Type.DataTypes.ADDRESS));
         request.setAttribute("affiliationTypes", this.referenceRepository.getTypesBy(Type.DataTypes.AFFILIATION));
         request.setAttribute("campusTypes", this.referenceRepository.getTypesBy(Type.DataTypes.CAMPUS));
-        request.setAttribute("emailTypes", this.referenceRepository.getTypesBy(Type.DataTypes.EMAIL));
         request.setAttribute("nameTypes", this.referenceRepository.getTypesBy(Type.DataTypes.NAME));
         request.setAttribute("organizationalUnitTypes", this.referenceRepository.getTypesBy(Type.DataTypes.ORGANIZATIONAL_UNIT));
         request.setAttribute("personTypes", this.referenceRepository.getTypesBy(Type.DataTypes.PERSON));

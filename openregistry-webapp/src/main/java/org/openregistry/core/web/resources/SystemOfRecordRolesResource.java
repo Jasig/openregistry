@@ -10,22 +10,17 @@ import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.utils.ValidationUtils;
 import org.openregistry.core.web.resources.representations.RoleRepresentation;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.validation.ConstraintViolation;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 
 /**
  * Root RESTful resource representing <i>System of Record</i> view of Roles in Open Registry.
@@ -37,8 +32,8 @@ import java.util.Set;
  * @author Nancy Mond
  * @since 1.0
  */
-@Component
-@Scope("singleton")
+@Named
+@Singleton
 @Path("/sor/{sorSourceId}/people/{sorPersonId}/roles")
 public class SystemOfRecordRolesResource {
 
@@ -46,17 +41,21 @@ public class SystemOfRecordRolesResource {
     @Context
     UriInfo uriInfo;
 
-    @Autowired(required = true)
-    private PersonService personService;
+    private final PersonService personService;
 
-    @Autowired(required = true)
-    private ReferenceRepository referenceRepository;
+    private final ReferenceRepository referenceRepository;
 
     //JSR-250 injection which is more appropriate here for 'autowiring by name' in the case of multiple types
     //are defined in the app ctx (Strings). The looked up bean name defaults to the property name which
     //needs an injection.
     @Resource
     private String preferredPersonIdentifierType;
+
+    @Inject
+    public SystemOfRecordRolesResource(final PersonService personService, final ReferenceRepository referenceRepository) {
+        this.personService = personService;
+        this.referenceRepository = referenceRepository;
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_XML)

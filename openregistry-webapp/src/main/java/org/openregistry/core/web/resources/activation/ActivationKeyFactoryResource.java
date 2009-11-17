@@ -15,18 +15,16 @@
  */
 package org.openregistry.core.web.resources.activation;
 
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.openregistry.core.service.ActivationService;
 import org.openregistry.core.domain.PersonNotFoundException;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
-
 
 import com.sun.jersey.api.NotFoundException;
 
@@ -38,17 +36,21 @@ import java.net.URI;
  * @author Dmitriy Kopylenko
  * @since 1.0
  */
-@Component
-@Scope("singleton")
+@Named("activationkeyFactoryResource")
+@Singleton
 @Path("/people/{personIdType}/{personId}/activation")
 public final class ActivationKeyFactoryResource {
 
-    @Autowired
-    private ActivationService activationService;
+    private final ActivationService activationService;
 
     //Jersey specific injection
     @Context
     UriInfo uriInfo;
+
+    @Inject
+    public ActivationKeyFactoryResource(final ActivationService activationService) {
+        this.activationService = activationService;
+    }
 
     @POST
     public Response generateNewActivationKey(@PathParam("personIdType") final String personIdType, @PathParam("personId") final String personId) {

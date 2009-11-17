@@ -18,8 +18,6 @@ package org.openregistry.core.web;
 import org.openregistry.core.service.PersonService;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorSponsor;
@@ -27,6 +25,8 @@ import org.openregistry.core.domain.*;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.repository.ReferenceRepository;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.*;
 
 /**
@@ -36,12 +36,12 @@ import java.util.*;
  * Time: 10:52:01 AM
  * To change this template use File | Settings | File Templates.
  */
-@Component
+@Named("roleAction")
 public final class RoleAction extends AbstractPersonServiceAction {
 
     private final ReferenceRepository referenceRepository;
 
-    @Autowired(required=true)
+    @Inject
     public RoleAction(final PersonService personService, final ReferenceRepository referenceRepository) {
         super(personService);
         this.referenceRepository = referenceRepository;

@@ -17,14 +17,14 @@ package org.openregistry.core.service;
 
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Identifier;
-import org.springframework.stereotype.Service;
-import org.apache.camel.ProducerTemplate;
+
+import javax.inject.Named;
 
 /**
  * Default implementation of <code>IdentifierChangeService</code>
  * @since 1.0
  */
-@Service
+@Named("identifierChangeService")
 public class DefaultIdentifierChangeService implements IdentifierChangeService {
 
     public boolean change(IdentifierType internalIdType, Identifier internalId, IdentifierType changedIdType, Identifier changedId) {

@@ -16,7 +16,6 @@
 package org.openregistry.core.web.resources.activation;
 
 import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.openregistry.core.service.ActivationService;
 import org.openregistry.core.domain.PersonNotFoundException;
@@ -25,6 +24,9 @@ import org.openregistry.core.domain.LockingException;
 import org.openregistry.core.web.resources.config.LockExtractor;
 import org.openregistry.core.web.resources.config.DefaultLockExtractor;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.DELETE;
@@ -45,16 +47,24 @@ import java.util.NoSuchElementException;
  * @author Dmitriy Kopylenko
  * @since 1.0
  */
-@Component
-@Scope("singleton")
+@Named("activationKeyProcessorResource")
+@Singleton
 @Path("/people/{personIdType}/{personId}/activation/{activationKey}")
 public final class ActivationKeyProcessorResource {
 
-    @Autowired
-    private ActivationService activationService;
+    private final ActivationService activationService;
 
     @Autowired(required=false)
     private LockExtractor lockExtractor = new DefaultLockExtractor();
+
+    @Inject
+    public ActivationKeyProcessorResource(final ActivationService activationService) {
+        this.activationService = activationService;
+    }
+
+    public void setLockExtractor(final LockExtractor lockExtractor) {
+        this.lockExtractor = lockExtractor;
+    }
 
     @DELETE
     public Response invalidateActivationKey(@PathParam("personIdType") String personIdType,

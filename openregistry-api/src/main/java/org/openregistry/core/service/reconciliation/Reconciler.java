@@ -16,6 +16,7 @@
 package org.openregistry.core.service.reconciliation;
 
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
+import org.openregistry.core.domain.sor.SorPerson;
 
 import java.io.Serializable;
 
@@ -38,6 +39,6 @@ public interface Reconciler extends Serializable {
      */
     ReconciliationResult reconcile(ReconciliationCriteria reconciliationCriteria);
 
-    ReconciliationResult reconciliationCheck(ReconciliationCriteria reconciliationCriteria);
+    ReconciliationResult reconciliationCheck(SorPerson reconciliationCriteria);
 
 }

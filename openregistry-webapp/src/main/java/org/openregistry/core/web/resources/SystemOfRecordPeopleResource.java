@@ -16,11 +16,11 @@ import org.openregistry.core.web.resources.representations.PersonRequestRepresen
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -41,20 +41,22 @@ import java.util.List;
  * @author Scott Battaglia
  * @since 1.0
  */
-@Component
-@Scope("singleton")
+@Named
+@Singleton
 @Path("/sor/{sorSourceId}/people")
-public class SystemOfRecordPeopleResource {
+public final class SystemOfRecordPeopleResource {
+
+    private static final String FORCE_ADD_FLAG = "y";
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     //Jersey specific injection
     @Context
     UriInfo uriInfo;
 
-    @Autowired(required = true)
-    private PersonService personService;
+    private final PersonService personService;
 
-    @Autowired(required = true)
-    private ReferenceRepository referenceRepository;
+    private final ReferenceRepository referenceRepository;
 
     @Resource(name = "reconciliationCriteriaFactory")
     private ObjectFactory<ReconciliationCriteria> reconciliationCriteriaObjectFactory;
@@ -65,9 +67,12 @@ public class SystemOfRecordPeopleResource {
     @Resource
     private String preferredPersonIdentifierType;
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    @Inject
+    public SystemOfRecordPeopleResource(final PersonService personService, final ReferenceRepository referenceRepository) {
+        this.personService = personService;
+        this.referenceRepository = referenceRepository;
+    }
 
-    private static final String FORCE_ADD_FLAG = "y";
 
     @POST
     @Consumes(MediaType.APPLICATION_XML)
