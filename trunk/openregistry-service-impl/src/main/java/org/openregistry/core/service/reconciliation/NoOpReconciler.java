@@ -19,6 +19,7 @@ import org.openregistry.core.service.reconciliation.Reconciler;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
+import org.openregistry.core.domain.sor.SorPerson;
 
 import java.util.List;
 import java.util.Collections;
@@ -56,7 +57,7 @@ public final class NoOpReconciler implements Reconciler {
         };
     }
 
-    public ReconciliationResult reconciliationCheck(ReconciliationCriteria reconciliationCriteria){
+    public ReconciliationResult reconciliationCheck(final SorPerson sorPerson){
        return new ReconciliationResult() {
             public ReconciliationType getReconciliationType() {
                 return ReconciliationType.EXACT;
