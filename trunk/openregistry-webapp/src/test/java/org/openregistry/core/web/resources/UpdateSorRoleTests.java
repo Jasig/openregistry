@@ -45,11 +45,11 @@ public class UpdateSorRoleTests extends JerseyTestSupport {
                 PUT_HTTP_METHOD, new RoleRepresentation());
     }
 
-    //@Test
-    /*public void goodRequest() {
+    @Test
+    public void goodRequest() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(204, GOOD_SOR_ROLE_RESOURCE_UNDER_TEST_URI,
                 PUT_HTTP_METHOD, new RoleRepresentation());
-    }*/
+    }
 
     @Test
     public void badRequest() {

@@ -52,11 +52,11 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
 
         //Subbing a set of execution errors
         Set<ConstraintViolation> mockSetWithErrors = mock(Set.class, "withErrors");
-        when(mockSetWithErrors.size()).thenReturn(1);
+        when(mockSetWithErrors.isEmpty()).thenReturn(false);
 
         //Subbing a set of execution errors
-        Set<ConstraintViolation> mockSetWithNoErrors = mock(Set.class, "withNoErrors");
-        when(mockSetWithNoErrors.size()).thenReturn(0);
+        Set<ConstraintViolation> mockSetWithNoErrors = mock(Set.class, "withNoErrors");        
+        when(mockSetWithNoErrors.isEmpty()).thenReturn(true);
 
         //Stubbing SorSponsor
         final SorSponsor mockSorSponsor = mock(SorSponsor.class);
