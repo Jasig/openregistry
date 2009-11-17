@@ -97,7 +97,6 @@ public class SystemOfRecordRolesResource {
         }
         updateSorRoleWithIncomingData(sorRole, roleRepresentation);
         ServiceExecutionResult<SorRole> result = this.personService.updateSorRole(sorRole);
-        Set<ConstraintViolation> errors = result.getValidationErrors();
         if (!result.getValidationErrors().isEmpty()) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).
