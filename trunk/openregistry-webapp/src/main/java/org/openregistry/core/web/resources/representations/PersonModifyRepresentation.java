@@ -58,6 +58,15 @@ public class PersonModifyRepresentation {
 
         @XmlElement(name = "last-name")
         public String lastName;
+
+        @XmlElement(name = "prefix")
+        public String prefix;
+
+        @XmlElement(name = "suffix")
+        public String suffix;
+
+        @XmlElement(name = "middle-name")
+        public String middleName;
     }
 
     public boolean checkRequiredData() {
@@ -78,7 +87,7 @@ public class PersonModifyRepresentation {
 
     @Override
     public String toString() {
-        return "PersonRequestRepresentation{" +
+        return "PersonModifyRepresentation{" +
                 ", firstName='" + names.get(0).firstName + '\'' +
                 ", lastName='" + names.get(0).lastName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
