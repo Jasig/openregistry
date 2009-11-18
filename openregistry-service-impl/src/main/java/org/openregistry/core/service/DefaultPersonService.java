@@ -310,11 +310,12 @@ public class DefaultPersonService implements PersonService {
         return personMatches;
     }
 
+    // TODO Need to update the calculated person. Need to establish rules to do this. OR-59
     protected void recalculatePersonBiodemInfo(final Person person) {
         final List<SorPerson> persons = this.personRepository.getSoRRecordsForPerson(person);
         //* 1. Choosing the appropriate names (and removing any unused names)
         //* 2. Transitioning SorPerson information to Calculated Person (i.e. choosing)
-
+        
 
     }
 
@@ -415,9 +416,15 @@ public class DefaultPersonService implements PersonService {
 
         // Save Sor Person
         logger.info("PersonService:updateSorPerson: updating person...");
-        return new GeneralServiceExecutionResult<SorPerson>(this.personRepository.saveSorPerson(sorPerson));
+        SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
 
-        // TODO Need to update the calculated person. Need to establish rules to do this. OR-59
+        final Person person = this.findPersonById(savedSorPerson.getPersonId());
+        Assert.notNull(person, "person cannot be null.");
+
+        recalculatePersonBiodemInfo(person);
+
+        return new GeneralServiceExecutionResult<SorPerson>(savedSorPerson);
+
     }
 
     /**
