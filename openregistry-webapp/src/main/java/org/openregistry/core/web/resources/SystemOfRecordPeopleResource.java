@@ -258,6 +258,9 @@ public final class SystemOfRecordPeopleResource {
             final Name name = sorPerson.addName();
             name.setFamily(n.lastName);
             name.setGiven(n.firstName);
+            name.setMiddle(n.middleName);
+            name.setSuffix(n.suffix);
+            name.setPrefix(n.prefix);
 
             //TODO Default is Formal unless already have a name marked Formal or Legal?
             if (n.nameType != null && referenceRepository.findType(Type.DataTypes.NAME, n.nameType) != null) {
