@@ -253,6 +253,7 @@ public final class SystemOfRecordPeopleResource {
         sorPerson.setGender(personRepresentation.gender);
 
         boolean hasLegalorFormalNameType = hasLegalorFormalNameType(personRepresentation);
+        sorPerson.getNames().clear();
         for (final PersonModifyRepresentation.Name n : personRepresentation.names) {
             final Name name = sorPerson.addName();
             name.setFamily(n.lastName);
