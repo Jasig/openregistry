@@ -42,11 +42,6 @@ import java.util.List;
 public class PersonModifyRepresentation {
 
     /* Required fields *************/
-    @XmlAttribute(name = "sor")
-    public String systemOfRecordId;
-
-    @XmlAttribute(name = "sor-person-id")
-    public String systemOfRecordPersonId;
 
     @XmlElementWrapper(name = "names")
     @XmlElement(name = "name")
@@ -55,20 +50,18 @@ public class PersonModifyRepresentation {
     @XmlRootElement(name = "name")
     public static class Name {
 
-        @XmlAttribute(name = "firstName")
+        @XmlAttribute(name = "type")
+        public String nameType;
+        
+        @XmlElement(name = "first-name")
         public String firstName;
 
-        @XmlAttribute(name = "lastName")
+        @XmlElement(name = "last-name")
         public String lastName;
-
-        @XmlAttribute(name = "nameType")
-        public String nameType;
     }
 
     public boolean checkRequiredData() {
-        return (this.systemOfRecordId != null
-                && this.systemOfRecordPersonId != null
-                && this.names.get(0) != null
+        return (this.names.get(0) != null
                 && this.names.get(0).firstName != null
                 && this.names.get(0).lastName != null);
     }
@@ -86,8 +79,6 @@ public class PersonModifyRepresentation {
     @Override
     public String toString() {
         return "PersonRequestRepresentation{" +
-                "systemOfRecordId='" + systemOfRecordId + '\'' +
-                ", systemOfRecordPersonId='" + systemOfRecordPersonId + '\'' +
                 ", firstName='" + names.get(0).firstName + '\'' +
                 ", lastName='" + names.get(0).lastName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
@@ -170,8 +161,6 @@ public class PersonModifyRepresentation {
         //For test purposes, distinguish between 'new', 'exact match', or 'multiple people found'
         // by setting the 'ssn' property
         final PersonModifyRepresentation rep = new PersonModifyRepresentation();
-        rep.systemOfRecordId = "test";
-        rep.systemOfRecordPersonId = "test";
         rep.names.get(0).firstName = "test";
         rep.names.get(0).lastName = "test";
         rep.ssn = ssn;
