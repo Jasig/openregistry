@@ -15,18 +15,11 @@
  */
 package org.openregistry.core.service;
 
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.PersonNotFoundException;
-import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.Type;
-import org.openregistry.core.domain.sor.ReconciliationCriteria;
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.service.reconciliation.ReconciliationResult;
-import org.openregistry.core.service.reconciliation.PersonMatch;
-import org.openregistry.core.service.reconciliation.ReconciliationException;
+import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.sor.*;
+import org.openregistry.core.service.reconciliation.*;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Component defining the main public API for interacting with Open Registry Persons subsystem.
@@ -45,7 +38,7 @@ public interface PersonService {
      *         exist in Open Registry for a given internal id.
      */
     Person findPersonById(Long id);
-    
+
     /**
      * Finds the canonical <code>Person</code> by one of the unique identifiers that the system is aware of.
      *
@@ -86,7 +79,7 @@ public interface PersonService {
      * periodic clean ups of their data sources.  Having this information will allow us to more accurately "calculate" the actual
      * person the system knows about by discounting out-of-date information from systems of records.
      * <p>
-     * Its recommended, but not required, that individuals roles we expired or deleted first.  Otherwise, they will be closed or deleted
+     * Its recommended, but not required, that individuals roles be expired or deleted first.  Otherwise, they will be closed or deleted
      * without a proper reason.
      *
      * @param sorPerson the person to remove from the system of record.
@@ -110,6 +103,17 @@ public interface PersonService {
      * @throws PersonNotFoundException if the person could not be found from the sorSource and sorId
      */
     boolean deleteSystemOfRecordPerson(String sorSource, String sorId, boolean mistake, String terminationTypes) throws PersonNotFoundException, IllegalArgumentException;
+
+	/**
+	 * Removes the System of Record Role from the respository. Systems may wish to clean up their data by removing roles, although they could just set expiry dates on them
+	 * @param sorPerson the System of Record person that the sorRole belongs to
+	 * @param sorRole the object to be deleted from the repository
+	 * @param mistake true if the SoR Role should never have existed
+     * @param terminationTypes the optional termination type for removed role records.  Unused when mistake=true.
+	 * @return true if the delete succeeds
+	 * @throws IllegalArgumentException if the sorRole is null
+	 */
+	boolean deleteSystemOfRecordRole(SorPerson sorPerson, SorRole sorRole, boolean mistake, String terminationTypes) throws IllegalArgumentException;
 
     /**
      * Validate, add and persist in the Open Registry a given Role for a given Person
@@ -186,7 +190,7 @@ public interface PersonService {
      *
      * @param sorPerson the person who's name to remove.
      * @param nameId id of name to delete from the person
-     * @return Result of the remove. 
+     * @return Result of the remove.
      */
     // TODO this should be replace with a proper call to sorPerson.getNames().remove(index)
     boolean removeSorName(SorPerson sorPerson, Long nameId);

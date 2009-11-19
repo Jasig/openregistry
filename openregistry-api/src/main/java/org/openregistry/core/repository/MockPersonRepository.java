@@ -15,17 +15,11 @@
  */
 package org.openregistry.core.repository;
 
-import org.openregistry.core.domain.EmailAddress;
-import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.service.SearchCriteria;
+import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.sor.*;
+import org.openregistry.core.service.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @version $Revision$ $Date$
@@ -64,7 +58,7 @@ public class MockPersonRepository implements PersonRepository {
                 return person;
             }
         }
-        
+
         return null;
     }
 
@@ -99,7 +93,7 @@ public class MockPersonRepository implements PersonRepository {
                 return sorPerson;
             }
         }
-        
+
         return null;
     }
 
@@ -122,7 +116,7 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public void deleteSorRole(SorPerson person, SorRole role) {
-        //To change body of implemented methods use File | Settings | File Templates.
+		person.getRoles().remove(role);
     }
 
     public List<SorPerson> getSoRRecordsForPerson(final Person person) {

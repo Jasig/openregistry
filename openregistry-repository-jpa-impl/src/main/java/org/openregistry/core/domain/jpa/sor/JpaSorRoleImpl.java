@@ -15,31 +15,20 @@
  */
 package org.openregistry.core.domain.jpa.sor;
 
-import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.sor.SorSponsor;
-import org.openregistry.core.domain.jpa.JpaTypeImpl;
-import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
-import org.openregistry.core.domain.Address;
-import org.openregistry.core.domain.Campus;
-import org.openregistry.core.domain.EmailAddress;
-import org.openregistry.core.domain.Leave;
-import org.openregistry.core.domain.OrganizationalUnit;
-import org.openregistry.core.domain.Phone;
-import org.openregistry.core.domain.RoleInfo;
+import org.hibernate.annotations.*;
+import org.hibernate.envers.*;
+import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.Type;
-import org.openregistry.core.domain.Url;
 import org.openregistry.core.domain.internal.Entity;
-import org.hibernate.envers.Audited;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.springframework.util.Assert;
+import org.openregistry.core.domain.jpa.*;
+import org.openregistry.core.domain.sor.*;
+import org.springframework.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.Table;
+import javax.validation.*;
+import javax.validation.constraints.*;
 import java.util.*;
 
 /**
@@ -93,7 +82,7 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     @Size(min=1)
     private String sourceSorIdentifier;
 
-    @ManyToOne(optional = false)
+	@ManyToOne(optional = false)
     @JoinColumn(name="sor_person_id", nullable=false)
     private JpaSorPersonImpl person;
 
@@ -143,6 +132,11 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
         this.roleInfo = roleInfo;
         this.person = sorPerson;
     }
+
+	public JpaSorPersonImpl getPerson() {
+		return person;
+	}
+
 
     public String getCode() {
         return this.roleInfo.getCode();

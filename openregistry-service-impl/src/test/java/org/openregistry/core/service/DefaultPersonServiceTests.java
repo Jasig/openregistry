@@ -15,19 +15,17 @@
  */
 package org.openregistry.core.service;
 
-import org.junit.Test;
-import org.junit.Before;
 import static org.junit.Assert.*;
+import org.junit.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.repository.*;
-import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
-import org.openregistry.core.service.reconciliation.MockReconciler;
+import org.openregistry.core.service.identifier.*;
+import org.openregistry.core.service.reconciliation.*;
 import org.openregistry.core.service.reconciliation.ReconciliationResult.*;
-import org.openregistry.core.service.reconciliation.ReconciliationException;
-import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.*;
 
-import java.util.Date;
+import java.util.*;
 
 /**
  * Test cases for the {@link DefaultIdentifierChangeService}.  Note this does not actually
@@ -339,4 +337,79 @@ public class DefaultPersonServiceTests {
     }
 
     //TODO need to add test cases for conditionally required fields.
+
+	/**
+	 * DELETE SOR ROLE TESTS
+	 */
+
+	    // test delete SoR Role no mistake
+    @Test
+    public void testDeleteSoRRoleNoMistakeOneSoR() throws ReconciliationException {
+        final MockPerson mockPerson = new MockPerson();
+
+        final SorPerson sorPerson = new MockSorPerson();
+        sorPerson.setPersonId(1L);
+		sorPerson.setSourceSor("or-webapp");
+		MockSorRole sorRole = new MockSorRole(1L);
+		sorPerson.addRole(sorRole);
+
+		MockRole mockRole = new MockRole(1L);
+		mockRole.setSorRoleId(sorRole.getId());
+		mockPerson.addRole(mockRole);
+
+        final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
+
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+
+		this.personService.deleteSystemOfRecordRole(sorPerson, sorRole, false, Type.TerminationTypes.FIRED.name());
+
+		Person person = personRepository.findByInternalId(1L);
+		assertNotNull(person);
+
+		SorPerson fetchedSorPerson = personRepository.findByPersonIdAndSorIdentifier(1L,"or-webapp");
+
+		// verify that the sorPerson no longer has any roles
+		assertEquals(0,fetchedSorPerson.getRoles().size());
+
+		Type terminationReason = person.getRoles().get(0).getTerminationReason();
+
+		// verify that since there was no mistake, the role remains but a termination reason is set
+		assertEquals(terminationReason.getDataType(),Type.DataTypes.TERMINATION.name());
+		assertEquals(terminationReason.getDescription(),Type.TerminationTypes.FIRED.name());
+    }
+
+	    // test delete SoR Role with mistake
+    @Test
+    public void testDeleteSoRRoleWithMistakeOneSoR() throws ReconciliationException {
+        final MockPerson mockPerson = new MockPerson();
+
+        final SorPerson sorPerson = new MockSorPerson();
+        sorPerson.setPersonId(1L);
+		sorPerson.setSourceSor("or-webapp");
+		MockSorRole sorRole = new MockSorRole(1L);
+		sorPerson.addRole(sorRole);
+
+		MockRole mockRole = new MockRole(1L);
+		mockRole.setSorRoleId(sorRole.getId());
+		mockPerson.addRole(mockRole);
+
+        final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
+
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+
+		this.personService.deleteSystemOfRecordRole(sorPerson, sorRole, true, Type.TerminationTypes.FIRED.name());
+
+		Person person = personRepository.findByInternalId(1L);
+		assertNotNull(person);
+
+		SorPerson fetchedSorPerson = personRepository.findByPersonIdAndSorIdentifier(1L,"or-webapp");
+
+		// verify that the sorPerson no longer has any roles
+		assertEquals(0,fetchedSorPerson.getRoles().size());
+
+		// verify that the person also has no roles
+		assertEquals(0,person.getRoles().size());
+
+    }
+
 }

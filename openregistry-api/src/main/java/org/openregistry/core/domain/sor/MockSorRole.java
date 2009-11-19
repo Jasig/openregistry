@@ -15,8 +15,8 @@
  */
 package org.openregistry.core.domain.sor;
 
-import org.openregistry.core.domain.internal.*;
 import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.internal.*;
 
 import java.util.*;
 
@@ -77,6 +77,10 @@ public class MockSorRole extends Entity implements SorRole{
 	}
 
 	public void expire(Type terminationReason, Date expirationDate) {
+	}
+
+	public SorPerson getPerson() {
+		return null;
 	}
 
 	public int getPercentage() {
