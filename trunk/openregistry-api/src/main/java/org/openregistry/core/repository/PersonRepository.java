@@ -15,13 +15,11 @@
  */
 package org.openregistry.core.repository;
 
-import java.util.List;
+import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.sor.*;
+import org.openregistry.core.service.*;
 
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.service.SearchCriteria;
+import java.util.*;
 
 /**
  * Repository abstraction to deal with persistence concerns for <code>Person</code> entities
@@ -56,7 +54,7 @@ public interface PersonRepository {
      *                                   technical reasons.
      */
     SorPerson findSorByInternalId(Long id) throws RepositoryAccessException;
-    
+
     /**
      * Finds the <code>Person</code> based on the identifier type and value.
      * @param identifierType the identifier type
@@ -90,7 +88,7 @@ public interface PersonRepository {
      *
      * @param searchCriteria the search criteria.
      * @return a list of people that match.
-     * 
+     *
      * @throws RepositoryAccessException if the operation does not succeed for any number of
      *                                   technical reasons.
      */
@@ -98,14 +96,14 @@ public interface PersonRepository {
 
     /**
      * Find a list of <code>Person</code> entities from the supplied Family Name.
-     * 
+     *
      * @param family the Family Name to search for
-     * @return List of people find in the Open Registry's person repository or an empty list if 
+     * @return List of people find in the Open Registry's person repository or an empty list if
      *         no people exist with this Family Name.
      * @throws RepositoryAccessException
      */
     List<Person> findByFamilyName(String family) throws RepositoryAccessException;
-    
+
     /**
      * Persist or update an instance of a canonical <code>Person</code> entity in the Open Registry.
      *
@@ -127,7 +125,7 @@ public interface PersonRepository {
     SorPerson saveSorPerson(SorPerson person) throws RepositoryAccessException;
 
     /**
-     * Removes the SoR Role from the database.  This method ASSUMES your code is handling the removal from the person's
+     * Removes the SoR Role from the database.  This method ASSUMES your code is handling the removal of the person's
      * role from the person object BEFORE calling deleteSorRole.
      *
      * @param person the person who the role is being deleted from.
@@ -184,14 +182,14 @@ public interface PersonRepository {
 
 	List<Person> findByEmailAddressAndPhoneNumber(String email,
 			String countryCode, String areaCode, String number);
-	
+
 	List<Person> findByEmailAddressAndPhoneNumber(String email,
 			String countryCode, String areaCode, String number, String extension);
-	
+
 	List<Person> findByEmailAddress(String email);
-	   
+
 	List<Person> findByPhoneNumber(String countryCode, String areaCode, String number, String extension);
-		   
+
 	List<Person> findByPhoneNumber(String countryCode, String areaCode, String number);
 
 }

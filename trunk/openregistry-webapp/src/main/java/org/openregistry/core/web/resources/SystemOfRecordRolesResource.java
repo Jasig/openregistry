@@ -15,27 +15,20 @@
  */
 package org.openregistry.core.web.resources;
 
-import com.sun.jersey.api.NotFoundException;
+import com.sun.jersey.api.*;
 import org.openregistry.core.domain.*;
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.sor.SorSponsor;
-import org.openregistry.core.repository.ReferenceRepository;
-import org.openregistry.core.service.PersonService;
-import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.utils.ValidationUtils;
-import org.openregistry.core.web.resources.representations.RoleRepresentation;
+import org.openregistry.core.domain.sor.*;
+import org.openregistry.core.repository.*;
+import org.openregistry.core.service.*;
+import org.openregistry.core.utils.*;
+import org.openregistry.core.web.resources.representations.*;
+import org.slf4j.*;
 
-import javax.annotation.Resource;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
+import javax.annotation.*;
+import javax.inject.*;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.util.List;
+import javax.ws.rs.core.*;
+import java.util.*;
 
 /**
  * Root RESTful resource representing <i>System of Record</i> view of Roles in Open Registry.
@@ -51,6 +44,9 @@ import java.util.List;
 @Singleton
 @Path("/sor/{sorSourceId}/people/{sorPersonId}/roles")
 public class SystemOfRecordRolesResource {
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
 
     //Jersey specific injection
     @Context
@@ -118,6 +114,37 @@ public class SystemOfRecordRolesResource {
         }
         //HTTP 204
         return null;
+    }
+
+	@DELETE
+    @Path("{sorRoleId}")
+    public Response deleteRole(	 @PathParam("sorSourceId") final String sorSourceId,
+                                 @PathParam("sorPersonId") final String sorPersonId,
+                                 @PathParam("sorRoleId") final String sorRoleId,
+                                 @QueryParam("mistake") @DefaultValue("false") final boolean mistake,
+                                 @QueryParam("terminationType") @DefaultValue("UNSPECIFIED") final String terminationType) {
+
+		final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
+		final SorRole sorRole = sorPerson.findSorRoleBySorRoleId(sorRoleId);
+		if (sorRole == null) {
+			throw new NotFoundException(
+					String.format("The role resource identified by [/sor/%s/people/%s/roles/%s] URI does not exist.",
+							sorSourceId, sorPersonId, sorRoleId));
+		}
+
+        try {
+            if (!this.personService.deleteSystemOfRecordRole(sorPerson, sorRole, mistake, terminationType)) {
+                throw new WebApplicationException(
+                        new RuntimeException(String.format("Unable to Delete SorRole for SoR [ %s ] with ID [ %s ] and Role ID [ %s ]", sorSourceId, sorPersonId, sorRoleId)), 500);
+            }
+            //HTTP 204
+            logger.debug("The SOR Person role has been successfully DELETEd");
+            return null;
+        }
+        catch (final PersonNotFoundException e) {
+            throw new NotFoundException(String.format("The system of record role resource identified by /sor/%s/people/%s/%s URI does not exist",
+                    sorSourceId, sorPersonId, sorRoleId));
+        }
     }
 
     private SorPerson findPersonOrThrowNotFoundException(String sorSourceId, String sorPersonId) {

@@ -17,9 +17,8 @@ package org.openregistry.core.domain.sor;
 
 import org.openregistry.core.domain.*;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -73,6 +72,7 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
      */
     void expire(Type terminationReason, Date expirationDate);
 
+	SorPerson getPerson();
 
     int getPercentage();
 
@@ -81,7 +81,7 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
     Type getPersonStatus();
 
     void setPersonStatus(Type personStatus);
-    
+
     RoleInfo getRoleInfo();
 
     SorSponsor setSponsor();
@@ -91,9 +91,9 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
     Type getTerminationReason();
 
     void setTerminationReason(Type reason);
-    
+
     List<Address> getAddresses();
-    
+
     Address addAddress();
 
     Address removeAddressById(final Long id);
@@ -125,5 +125,5 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
     Campus getCampus();
 
     String getLocalCode();
- 
+
 }

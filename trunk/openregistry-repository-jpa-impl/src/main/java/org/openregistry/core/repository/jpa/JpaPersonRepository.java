@@ -15,23 +15,16 @@
  */
 package org.openregistry.core.repository.jpa;
 
-import java.util.List;
-import java.util.Date;
-
-import org.openregistry.core.repository.PersonRepository;
-import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.domain.*;
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.jpa.JpaPersonImpl;
-import org.openregistry.core.domain.jpa.sor.JpaSorPersonImpl;
-import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
-import org.openregistry.core.service.SearchCriteria;
-import org.springframework.stereotype.Repository;
+import org.openregistry.core.domain.jpa.*;
+import org.openregistry.core.domain.jpa.sor.*;
+import org.openregistry.core.domain.sor.*;
+import org.openregistry.core.repository.*;
+import org.openregistry.core.service.*;
+import org.springframework.stereotype.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
+import java.util.*;
 
 /**
  * Person repository implementation built on top of JPA.
@@ -50,7 +43,7 @@ public class JpaPersonRepository implements PersonRepository {
     public Person findByInternalId(final Long id) throws RepositoryAccessException {
         return this.entityManager.find(JpaPersonImpl.class, id);
     }
-    
+
     public SorPerson findSorByInternalId(final Long id) throws RepositoryAccessException {
         return this.entityManager.find(JpaSorPersonImpl.class, id);
     }
@@ -93,7 +86,9 @@ public class JpaPersonRepository implements PersonRepository {
     }
 
     public void deleteSorRole(final SorPerson person, final SorRole role) {
-        this.entityManager.merge(person);
+		SorRole sorRoleToDelete = this.entityManager.getReference(role.getClass(), role.getId());
+		this.entityManager.remove(sorRoleToDelete);
+        saveSorPerson(person);
     }
 
     public void updateRole(final Person person, final Role role) {
@@ -130,26 +125,26 @@ public class JpaPersonRepository implements PersonRepository {
     public void deletePerson(final Person person) {
         this.entityManager.remove(person);
     }
-  
+
     // TODO The next 5 methods are for supporting the new reconciler code....these should be replaced with something more general
-    
+
     public List<Person> findByEmailAddressAndPhoneNumber(final String email, final String countryCode, final String areaCode, final String number, final String extension) {
     	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e, IN(r.phones) ph where e.address = :email and ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number and ph.extension = :extension").setParameter("email", email).setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).setParameter("extension", extension).getResultList();
     }
-    
+
     /* No extension */
     public List<Person> findByEmailAddressAndPhoneNumber(final String email, final String countryCode, final String areaCode, final String number) {
     	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e, IN(r.phones) ph where e.address = :email and ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number").setParameter("email", email).setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).getResultList();
     }
-    
+
     public List<Person> findByEmailAddress(final String email) {
     	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e where e.address = :email").setParameter("email", email).getResultList();
     }
-    
+
     public List<Person> findByPhoneNumber(final String countryCode, final String areaCode, final String number, final String extension) {
     	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.phones) ph where ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number and ph.extension = :extension").setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).setParameter("extension", extension).getResultList();
     }
-    
+
     /* No extension */
     public List<Person> findByPhoneNumber(final String countryCode, final String areaCode, final String number) {
     	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.phones) ph where ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number").setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).getResultList();
