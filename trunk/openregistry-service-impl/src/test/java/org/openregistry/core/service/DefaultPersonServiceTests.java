@@ -69,6 +69,7 @@ public class DefaultPersonServiceTests {
         name.setSuffix("");
         sorPerson.setGender("Male");
         sorPerson.setDateOfBirth(new Date());
+        reconciliationCriteria.setEmailAddress("test@test.com");
     }
 
      /**

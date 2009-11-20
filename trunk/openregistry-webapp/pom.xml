@@ -52,6 +52,19 @@
         </dependency>
 
         <dependency>
+            <groupId>org.jasig.openregistry</groupId>
+            <artifactId>openregistry-repository-jpa-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate.java-persistence</groupId>
+                    <artifactId>jpa-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>        
+
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>${servlet.version}</version>

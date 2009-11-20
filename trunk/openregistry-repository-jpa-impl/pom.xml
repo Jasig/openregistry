@@ -71,7 +71,7 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate.validator.version}</version>
-            <scope>compile</scope>
+            <scope>runtime</scope>
             <type>jar</type>
         </dependency>
 

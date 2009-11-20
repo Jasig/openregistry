@@ -40,8 +40,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.Validation;
-import javax.validation.Validator;
+import javax.validation.*;
 
 /**
  * Default implementation of the {@link PersonService}.
@@ -71,8 +70,7 @@ public class DefaultPersonService implements PersonService {
     @Autowired(required=false)
     private List<IdentifierAssigner> identifierAssigners = new ArrayList<IdentifierAssigner>();
 
-    @Autowired(required = false)
-    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    private final Validator validator;
 
     @Inject
     public DefaultPersonService(@Named("personFactory") final ObjectFactory<Person> personObjectFactory, final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler) {
@@ -81,6 +79,13 @@ public class DefaultPersonService implements PersonService {
         this.identifierGenerator = identifierGenerator;
         this.reconciler = reconciler;
         this.personObjectFactory = personObjectFactory;
+
+        final Configuration configuration = Validation.byDefaultProvider().configure();
+        final ConstraintValidatorFactory c = Validation.byDefaultProvider().configure().getDefaultConstraintValidatorFactory();
+        final ConstraintValidatorFactory sorAware = new SoRAwareConstraintValidatorFactoryImpl(c);
+        configuration.constraintValidatorFactory(sorAware);
+        final ValidatorFactory v = configuration.buildValidatorFactory();
+        this.validator = v.getValidator();
     }
 
     public void setCriteriaCache(final Map<ReconciliationCriteria,ReconciliationResult> criteriaCache) {
@@ -89,10 +94,6 @@ public class DefaultPersonService implements PersonService {
 
     public void setIdentifierAssigners(final List<IdentifierAssigner> identifierAssigners) {
         this.identifierAssigners = identifierAssigners;
-    }
-
-    public void setValidator(final Validator validator) {
-        this.validator = validator; 
     }
 
     @Transactional

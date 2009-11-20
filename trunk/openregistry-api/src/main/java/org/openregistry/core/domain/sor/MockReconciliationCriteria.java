@@ -15,10 +15,9 @@
  */
 package org.openregistry.core.domain.sor;
 
-import org.openregistry.core.domain.sor.ReconciliationCriteria;
-import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.IdentifierType;
 
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -29,13 +28,13 @@ import java.util.HashMap;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-
 public final class MockReconciliationCriteria implements ReconciliationCriteria {
 
     private SorPerson person = new MockSorPerson();
 
     private Map<IdentifierType, String> identifiersByType = new HashMap<IdentifierType, String>();
 
+    @NotNull
     private String emailAddress;
 
     private String phoneNumber;

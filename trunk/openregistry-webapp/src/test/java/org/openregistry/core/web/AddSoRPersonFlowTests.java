@@ -86,22 +86,22 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     private DefaultMessageContext messageContext;
 
     protected void setUp() {
-        this.mockReconciler = new MockReconciler();
 
         final StaticMessageSource staticMessageSource = new StaticMessageSource();
         staticMessageSource.addMessage("personAddedFinalConfirm", Locale.getDefault(), "test");
         staticMessageSource.addMessage("roleAdded", Locale.getDefault(), "test");
         staticMessageSource.addMessage("errorCode", Locale.getDefault(), "test");
 
+        this.mockReconciler = new MockReconciler();
         this.messageContext = new DefaultMessageContext(staticMessageSource);
         this.personService = new DefaultPersonService(new ObjectFactory<Person>() {
             public Person getObject() throws BeansException {
                 return new MockPerson();
             }
         }, personRepository,referenceRepository, new NoOpIdentifierGenerator(), this.mockReconciler);
-        personSearchAction = new PersonSearchAction(this.personService);
-        referenceRepository = new MockReferenceRepository();
-        reconciliationCriteriaFactory = new MockReconciliationCriteriaFactory();
+        this.personSearchAction = new PersonSearchAction(this.personService);
+        this.referenceRepository = new MockReferenceRepository();
+        this.reconciliationCriteriaFactory = new MockReconciliationCriteriaFactory();
     }
 
     @Override
@@ -110,8 +110,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     }
 
     @Override
-    protected void configureFlowBuilderContext(MockFlowBuilderContext builderContext) {
-
+    protected void configureFlowBuilderContext(final MockFlowBuilderContext builderContext) {
         builderContext.registerBean("personSearchAction", personSearchAction);
         builderContext.registerBean("referenceRepository", referenceRepository);
         builderContext.registerBean("reconciliationCriteriaFactory", reconciliationCriteriaFactory);
@@ -153,111 +152,8 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     //validation errors found
     @Test
     public void testCriteriaSubmitError() {
-        this.messageContext.addMessage(new MessageBuilder().error().code("errorCode").build());
-        this.personService.setValidator(new Validator() {
-
-            public <T> Set<ConstraintViolation<T>> validate(final T t, Class<?>... classes) {
-                final Set<ConstraintViolation<T>> violations = new HashSet<ConstraintViolation<T>>();
-
-                violations.add(new ConstraintViolation<T>() {
-                    public String getMessage() {
-                        return "foo";
-                    }
-
-                    public String getMessageTemplate() {
-                        return "foo";
-                    }
-
-                    public T getRootBean() {
-                        return t;
-                    }
-
-                    public Class<T> getRootBeanClass() {
-                        return null;
-                    }
-
-                    public Object getLeafBean() {
-                        return t;
-                    }
-
-                    public Path getPropertyPath() {
-                        return new Path() {
-                            public Iterator<Node> iterator() {
-                                return null;
-                            }
-
-                            public String toString() {
-                                return "foo";
-                            }
-                        };
-                    }
-
-                    public Object getInvalidValue() {
-                        return t;
-                    }
-
-                    public ConstraintDescriptor<?> getConstraintDescriptor() {
-                        return new ConstraintDescriptor() {
-                            public Annotation getAnnotation() {
-                                return new Annotation() {
-                                    public Class<? extends Annotation> annotationType() {
-                                        return NotNull.class;
-                                    }
-
-                                    public String toString() {
-                                        return "NotNull";
-                                    }
-                                };
-                            }
-
-                            public Set<Class<?>> getGroups() {
-                                return null;  //To change body of implemented methods use File | Settings | File Templates.
-                            }
-
-                            public Set<Class<? extends Payload>> getPayload() {
-                                return null;  //To change body of implemented methods use File | Settings | File Templates.
-                            }
-
-                            public List getConstraintValidatorClasses() {
-                                return null;  //To change body of implemented methods use File | Settings | File Templates.
-                            }
-
-                            public Map<String, Object> getAttributes() {
-                                return new HashMap();
-                            }
-
-                            public Set<ConstraintDescriptor<?>> getComposingConstraints() {
-                                return null;  //To change body of implemented methods use File | Settings | File Templates.
-                            }
-
-                            public boolean isReportAsSingleViolation() {
-                                return false;  //To change body of implemented methods use File | Settings | File Templates.
-                            }
-                        };
-                    }
-                });
-                return violations;
-            }
-
-            public <T> Set<ConstraintViolation<T>> validateProperty(T t, String s, Class<?>... classes) {
-                return null;
-            }
-
-            public <T> Set<ConstraintViolation<T>> validateValue(Class<T> tClass, String s, Object o, Class<?>... classes) {
-                return null;
-            }
-
-            public BeanDescriptor getConstraintsForClass(Class<?> aClass) {
-                return null;
-            }
-
-            public <T> T unwrap(Class<T> tClass) {
-                return null;
-            }
-        });
-
         this.mockReconciler.setReconciliationType(ReconciliationResult.ReconciliationType.NONE);
-        ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, RUDYARD, "INVALID_SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
+        final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, RUDYARD, "INVALID_SSN", null, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
         setCurrentState("addPerson");
         getFlowScope().put("personSearch", criteria);
 

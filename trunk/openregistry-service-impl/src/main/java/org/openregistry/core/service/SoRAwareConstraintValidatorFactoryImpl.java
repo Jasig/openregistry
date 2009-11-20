@@ -13,12 +13,12 @@ import javax.validation.ConstraintValidatorFactory;
  * @version $Revision$ $Date$
  * @since 0.1
  */
-// @Named("constraintValidatorFactory")
+@Named("constraintValidatorFactory")
 public final class SoRAwareConstraintValidatorFactoryImpl implements ConstraintValidatorFactory {
 
     private final ConstraintValidatorFactory delegatedConstraintValidatorFactory;
 
-//    @Inject
+    @Inject
     public SoRAwareConstraintValidatorFactoryImpl(final ConstraintValidatorFactory delegatedConstraintValidatorFactory) {
         this.delegatedConstraintValidatorFactory = delegatedConstraintValidatorFactory;
     }

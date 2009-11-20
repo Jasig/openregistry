@@ -15,8 +15,6 @@
  */
 package org.openregistry.core.domain.sor;
 
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
