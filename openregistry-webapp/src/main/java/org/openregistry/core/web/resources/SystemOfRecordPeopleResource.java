@@ -181,13 +181,7 @@ public final class SystemOfRecordPeopleResource {
                                        @PathParam("sorPersonId") final String sorPersonId,
                                        final PersonModifyRepresentation personModifyRepresentation) {
 
-
-        Response response = PeopleResourceUtils.validate(personModifyRepresentation);
-        if (response != null) {
-            return response;
-        }
-
-        final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
+        SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
 
         updateSorPersonWithIncomingData(sorPerson, personModifyRepresentation);
         try {
@@ -199,7 +193,7 @@ public final class SystemOfRecordPeopleResource {
                 return Response.status(Response.Status.BAD_REQUEST).entity("The incoming request is malformed.").build();
             }
         } catch (IllegalStateException e){
-            response = Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+            return Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }
         //HTTP 204
         return null;
