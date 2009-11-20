@@ -24,10 +24,11 @@
     <import resource="base-integration-tests.xml" />
 
     <bean id="personService" class="org.openregistry.core.service.DefaultPersonService">
-      <constructor-arg index="0" ref="personRepository" />
-      <constructor-arg index="1" ref="referenceRepository" />
-      <constructor-arg index="2" ref="identifierGenerator" />
-      <constructor-arg index="3" ref="reconciler" />
+      <constructor-arg index="0" ref="personFactory" />
+      <constructor-arg index="1" ref="personRepository" />
+      <constructor-arg index="2" ref="referenceRepository" />
+      <constructor-arg index="3" ref="identifierGenerator" />
+      <constructor-arg index="4" ref="reconciler" />
     </bean>
 
     <bean id="reconciler" class="org.openregistry.core.service.reconciliation.NameReconciler" />

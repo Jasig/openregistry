@@ -61,8 +61,6 @@ public interface RoleInfo extends Serializable {
      */
     String getCode();
 
-    void setCode(String code);
-
     /**
      * A name to display for the roleinfo.
      * @return

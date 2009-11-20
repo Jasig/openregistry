@@ -94,16 +94,14 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         staticMessageSource.addMessage("errorCode", Locale.getDefault(), "test");
 
         this.messageContext = new DefaultMessageContext(staticMessageSource);
-        this.personService = new DefaultPersonService(personRepository,referenceRepository, new NoOpIdentifierGenerator(), this.mockReconciler);
-        personSearchAction = new PersonSearchAction(this.personService);
-        referenceRepository = new MockReferenceRepository();
-        reconciliationCriteriaFactory = new MockReconciliationCriteriaFactory();
-
-        this.personService.setPersonObjectFactory(new ObjectFactory<Person>() {
+        this.personService = new DefaultPersonService(new ObjectFactory<Person>() {
             public Person getObject() throws BeansException {
                 return new MockPerson();
             }
-        });
+        }, personRepository,referenceRepository, new NoOpIdentifierGenerator(), this.mockReconciler);
+        personSearchAction = new PersonSearchAction(this.personService);
+        referenceRepository = new MockReferenceRepository();
+        reconciliationCriteriaFactory = new MockReconciliationCriteriaFactory();
     }
 
     @Override

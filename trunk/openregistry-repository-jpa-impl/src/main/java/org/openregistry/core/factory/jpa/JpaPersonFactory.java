@@ -18,9 +18,9 @@ package org.openregistry.core.factory.jpa;
 import org.openregistry.core.domain.jpa.JpaPersonImpl;
 import org.openregistry.core.domain.Person;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.BeansException;
-import org.springframework.stereotype.Component;
+
+import javax.inject.Named;
 
 /**
  * Autowired component that will construct a new JpaPersonImpl to be fed to our other layers.  There should only be one
@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@Component("personFactory")
+@Named("personFactory")
 public final class JpaPersonFactory implements ObjectFactory<Person> {
 
     public Person getObject() throws BeansException {

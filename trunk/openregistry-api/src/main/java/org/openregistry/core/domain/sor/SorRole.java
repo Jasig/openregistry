@@ -72,8 +72,6 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
      */
     void expire(Type terminationReason, Date expirationDate);
 
-	SorPerson getPerson();
-
     int getPercentage();
 
     void setPercentage(int percentage);
