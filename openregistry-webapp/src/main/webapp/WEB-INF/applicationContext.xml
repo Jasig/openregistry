@@ -94,5 +94,4 @@
     </lang:groovy>
 
     <bean id="javaXCompatibleValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />        
-
 </beans>
