@@ -69,12 +69,6 @@ public class PersonModifyRepresentation {
         public String middleName;
     }
 
-    public boolean checkRequiredData() {
-        return (this.names.get(0) != null
-                && this.names.get(0).firstName != null
-                && this.names.get(0).lastName != null);
-    }
-
     /* Optional fields *************/
     @XmlElement(name = "dob")
     public Date dateOfBirth;
@@ -101,78 +95,22 @@ public class PersonModifyRepresentation {
      *
      * @return
      */
-    public static PersonModifyRepresentation forNewPerson() {
-        return newRepresentationWithRequiredDataAndSsn("new");
-    }
 
-    /**
-     * Factory method for use only for mocking purposes in tests
-     *
-     * @return
-     */
-    public static PersonModifyRepresentation forExistingPersonNoSoRRecord() {
-        return newRepresentationWithRequiredDataAndSsn("existing");
-    }
-
-    /**
-     * Factory method for use only for mocking purposes in tests
-     *
-     * @return
-     */
-    public static PersonModifyRepresentation forExistingPersonExistingSoRRecord() {
-        return newRepresentationWithRequiredDataAndSsn("existingError");
-    }
-
-    /**
-     * Factory method for use only for mocking purposes in tests
-     *
-     * @return
-     */
-    public static PersonModifyRepresentation withValidationErrors() {
-        return newRepresentationWithRequiredDataAndSsn("errors");
-    }
-
-    /**
-     * Factory method for use only for mocking purposes in tests
-     *
-     * @return
-     */
-    public static PersonModifyRepresentation forMultiplePeople() {
-        return newRepresentationWithRequiredDataAndSsn("multiple");
-    }
-
-    /**
-     * Factory method for use only for mocking purposes in tests
-     *
-     * @return
-     */
-    public static PersonModifyRepresentation forLinkingSorPersonGood() {
-        return newRepresentationWithRequiredDataAndSsn("link-sor-good");
-    }
-
-    /**
-     * Factory method for use only for mocking purposes in tests
-     *
-     * @return
-     */
-    public static PersonModifyRepresentation forLinkingSorPersonBad() {
-        return newRepresentationWithRequiredDataAndSsn("link-sor-bad");
-    }
-
-
-    /**
-     * Factory method for use only for mocking purposes in tests
-     *
-     * @param ssn
-     * @return
-     */
-    private static PersonModifyRepresentation newRepresentationWithRequiredDataAndSsn(String ssn) {
-        //For test purposes, distinguish between 'new', 'exact match', or 'multiple people found'
+    public static PersonModifyRepresentation newRepresentationWithRequiredData() {
+        //For test purposes, distinguish between 'reconciliation error' and 'validation error'
         // by setting the 'ssn' property
         final PersonModifyRepresentation rep = new PersonModifyRepresentation();
-        rep.names.get(0).firstName = "test";
-        rep.names.get(0).lastName = "test";
-        rep.ssn = ssn;
+        Name name = new Name();
+        name.nameType = "FORMAL";
+        name.firstName = "test";
+        name.lastName = "test";
+        name.prefix = "test";
+        name.suffix = "test";
+        name.middleName = "test";
+        rep.names.add(name);
+        rep.ssn = "xxx-xx-xxxx";
+        rep.gender="F";
+        rep.dateOfBirth=new Date();
         return rep;
     }
 }
