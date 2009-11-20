@@ -35,7 +35,6 @@ public class MockSorRole extends Entity implements SorRole{
 
 	private String sourceSorIdentifier;
 
-
 	private Type terminationReason;
 
 	public MockSorRole() {
@@ -77,10 +76,6 @@ public class MockSorRole extends Entity implements SorRole{
 	}
 
 	public void expire(Type terminationReason, Date expirationDate) {
-	}
-
-	public SorPerson getPerson() {
-		return null;
 	}
 
 	public int getPercentage() {
