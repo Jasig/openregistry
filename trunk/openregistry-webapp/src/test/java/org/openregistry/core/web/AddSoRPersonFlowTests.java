@@ -19,8 +19,7 @@ import org.junit.Test;
 import org.openregistry.core.domain.MockPerson;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.MockSorPerson;
-import org.openregistry.core.repository.MockPersonRepository;
-import org.openregistry.core.repository.PersonRepository;
+import org.openregistry.core.repository.*;
 import org.openregistry.core.service.DefaultPersonService;
 import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
 import org.openregistry.core.service.reconciliation.MockReconciler;
@@ -44,8 +43,6 @@ import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
-import org.openregistry.core.repository.MockReferenceRepository;
-import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.web.factory.MockReconciliationCriteriaFactory;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.binding.mapping.MappingResults;
@@ -98,7 +95,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
             public Person getObject() throws BeansException {
                 return new MockPerson();
             }
-        }, personRepository,referenceRepository, new NoOpIdentifierGenerator(), this.mockReconciler);
+        }, personRepository,referenceRepository, new NoOpIdentifierGenerator(), this.mockReconciler, new MockSystemOfRecordRepository());
         this.personSearchAction = new PersonSearchAction(this.personService);
         this.referenceRepository = new MockReferenceRepository();
         this.reconciliationCriteriaFactory = new MockReconciliationCriteriaFactory();
