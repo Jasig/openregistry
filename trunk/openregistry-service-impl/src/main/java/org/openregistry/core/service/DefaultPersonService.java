@@ -15,32 +15,20 @@
  */
 package org.openregistry.core.service;
 
-import org.openregistry.core.service.identifier.IdentifierAssigner;
-import org.openregistry.core.service.identifier.IdentifierGenerator;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Role;
-import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.Type;
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.ReconciliationCriteria;
-import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.repository.PersonRepository;
-import org.openregistry.core.repository.ReferenceRepository;
+import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.sor.*;
+import org.openregistry.core.repository.*;
+import org.openregistry.core.service.identifier.*;
 import org.openregistry.core.service.reconciliation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-import org.springframework.util.Assert;
+import org.slf4j.*;
+import org.springframework.beans.factory.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.transaction.annotation.*;
+import org.springframework.util.*;
 
-import java.util.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.inject.*;
 import javax.validation.*;
+import java.util.*;
 
 /**
  * Default implementation of the {@link PersonService}.
@@ -63,7 +51,7 @@ public class DefaultPersonService implements PersonService {
     private final IdentifierGenerator identifierGenerator;
 
     private final ObjectFactory<Person> personObjectFactory;
-    
+
     @Autowired(required=false)
     private Map<ReconciliationCriteria,ReconciliationResult> criteriaCache = new EhCacheBackedMapImpl<ReconciliationCriteria, ReconciliationResult>();
 
@@ -100,7 +88,7 @@ public class DefaultPersonService implements PersonService {
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
     }
-    
+
     @Transactional
     public Person findPersonByIdentifier(final String identifierType, final String identifierValue) {
         try {
@@ -131,12 +119,12 @@ public class DefaultPersonService implements PersonService {
 
     /**
      * This does not explicitly delete the names because its assumed the recalculation will clean it up.
-     */    
+     */
     @Transactional
     public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson, final boolean mistake, final String terminationTypes) {
         Assert.notNull(sorPerson, "sorPerson cannot be null.");
         final String terminationTypeToUse = terminationTypes != null ? terminationTypes : Type.TerminationTypes.UNSPECIFIED.name();
-        
+
         final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
         Assert.notNull(person, "person cannot be null.");
 
@@ -204,8 +192,8 @@ public class DefaultPersonService implements PersonService {
                 role.expireNow(terminationReason, true);
             }
 		}
-        // TODO can't we just call sorPerson.getRoles().remove(sorRole) and then save?
-		this.personRepository.deleteSorRole(sorPerson, sorRole);
+        // just call sorPerson.getRoles().remove(sorRole) and then save?
+		sorPerson.getRoles().remove(sorRole);
 		this.personRepository.savePerson(person);
 		return true;
 	}
@@ -243,7 +231,7 @@ public class DefaultPersonService implements PersonService {
 
         if (reconciliationCriteria.getSorPerson().getSorId() != null &&
             this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(),reconciliationCriteria.getSorPerson().getSorId()) != null){
-            throw new IllegalStateException("CANNOT ADD SAME SOR RECORD.");                        
+            throw new IllegalStateException("CANNOT ADD SAME SOR RECORD.");
         }
         // TODO this might fail because it doesn't match.
         final Set validationErrors = this.validator.validate(reconciliationCriteria);
@@ -346,7 +334,7 @@ public class DefaultPersonService implements PersonService {
             for (final Name sorName: sorPerson.getNames()){
                 //need to check if the name is already added
                 final Name personName = person.addName();
-                sorName.getFamily();                
+                sorName.getFamily();
                 personName.setFamily("name");
                 personName.setFamily(sorName.getFamily());
                 personName.setGiven(sorName.getGiven());
@@ -385,7 +373,7 @@ public class DefaultPersonService implements PersonService {
 
         // Now connect the SorPerson to the actual person
         sorPerson.setPersonId(person.getId());
-        
+
         return person;
     }
 
@@ -433,9 +421,9 @@ public class DefaultPersonService implements PersonService {
         sorPerson.setPersonId(person.getId());
         this.personRepository.saveSorPerson(sorPerson);
 
-		return person;        
+		return person;
     }
-    
+
     protected Person magicUpdate(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
         Assert.isTrue(result.getMatches().size() == 1, "ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
 
@@ -483,7 +471,7 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public ServiceExecutionResult<SorRole> updateSorRole(SorRole role) {
         final Set validationErrors = this.validator.validate(role);
-        
+
         if (!validationErrors.isEmpty()) {
             return new GeneralServiceExecutionResult<SorRole>(validationErrors);
         }
