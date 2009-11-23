@@ -293,8 +293,8 @@ public class DefaultPersonService implements PersonService {
         for (final PersonMatch personMatch : result.getMatches()) {
             if (personMatch.getPerson().equals(person)) {
                 addSorPersonAndLink(reconciliationCriteria, person);
-                final Person savedPerson = this.personRepository.findByInternalId(person.getId());
-                recalculatePersonBiodemInfo(savedPerson);
+                Person savedPerson = this.personRepository.findByInternalId(person.getId());
+                savedPerson = recalculatePersonBiodemInfo(savedPerson);
                 return new GeneralServiceExecutionResult<Person>(savedPerson);
             }
         }
@@ -332,12 +332,38 @@ public class DefaultPersonService implements PersonService {
     }
 
     // TODO Need to update the calculated person. Need to establish rules to do this. OR-59
-    protected void recalculatePersonBiodemInfo(final Person person) {
-        final List<SorPerson> persons = this.personRepository.getSoRRecordsForPerson(person);
+    protected Person recalculatePersonBiodemInfo(final Person person) {
+        final List<SorPerson> sorPersons = this.personRepository.getSoRRecordsForPerson(person);
         //* 1. Choosing the appropriate names (and removing any unused names)
         //* 2. Transitioning SorPerson information to Calculated Person (i.e. choosing)
-        
 
+        //for now, clear names
+        //add all names from all sor records as long as they are different from alrady added names
+       /*
+        if (person.getNames() != null) person.getNames().clear();
+        boolean isOfficialandPreferredNameSet = false;
+        for (final SorPerson sorPerson : sorPersons) {
+            for (final Name sorName: sorPerson.getNames()){
+                //need to check if the name is already added
+                final Name personName = person.addName();
+                sorName.getFamily();                
+                personName.setFamily("name");
+                personName.setFamily(sorName.getFamily());
+                personName.setGiven(sorName.getGiven());
+                personName.setMiddle(sorName.getMiddle());
+                personName.setPrefix(sorName.getPrefix());
+                personName.setSuffix(sorName.getSuffix());
+                personName.setType(sorName.getType());
+                if(!isOfficialandPreferredNameSet){
+                    personName.setOfficialName(true);
+                    personName.setPreferredName(true);
+                    isOfficialandPreferredNameSet = true;
+                }
+            }
+        }
+        this.personRepository.savePerson(person);
+        */
+        return(person);
     }
 
     /**
