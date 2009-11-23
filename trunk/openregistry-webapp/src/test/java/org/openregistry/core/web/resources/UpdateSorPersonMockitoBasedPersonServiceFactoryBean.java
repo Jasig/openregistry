@@ -46,6 +46,9 @@ public class UpdateSorPersonMockitoBasedPersonServiceFactoryBean implements Fact
 
     public void init() throws Exception {
 
+        //Stubbing Name
+        final Name mockName = mock(Name.class);
+
         //Subbing a set of execution errors
         Set<ConstraintViolation> mockSetWithErrors = mock(Set.class, "withErrors");
         when(mockSetWithErrors.isEmpty()).thenReturn(false);
@@ -57,14 +60,17 @@ public class UpdateSorPersonMockitoBasedPersonServiceFactoryBean implements Fact
         //Stubbing 'good' sor person
         final SorPerson mockGoodSorPerson = mock(SorPerson.class);
         when(mockGoodSorPerson.getSsn()).thenReturn("good");
+        when(mockGoodSorPerson.addName()).thenReturn(mockName);
 
         //Stubbing 'valiation errors' sor person
         final SorPerson mockValidationErrorsSorPerson = mock(SorPerson.class);
         when(mockValidationErrorsSorPerson.getSsn()).thenReturn("errors");
+        when(mockValidationErrorsSorPerson.addName()).thenReturn(mockName);
 
         //Stubbing 'reconciliaton error' sor person
         final SorPerson mockReconciliationErrorSorPerson = mock(SorPerson.class);
         when(mockReconciliationErrorSorPerson.getSsn()).thenReturn("reconciliationError");
+        when(mockReconciliationErrorSorPerson.addName()).thenReturn(mockName);
 
         //stubbing ReferenceRepository
         final ReferenceRepository rr = mock(ReferenceRepository.class);
@@ -81,9 +87,6 @@ public class UpdateSorPersonMockitoBasedPersonServiceFactoryBean implements Fact
         //Stubbing service execution result without validation errors
         final ServiceExecutionResult<SorPerson> badExecutionResult = mock(ServiceExecutionResult.class, "bad execution result");
         when(badExecutionResult.getValidationErrors()).thenReturn(mockSetWithErrors);
-
-        //Stubbing Name
-        final Name mockName = mock(Name.class);
 
         //Stubbing Person
         final SorPerson mockPerson = mock(SorPerson.class);
