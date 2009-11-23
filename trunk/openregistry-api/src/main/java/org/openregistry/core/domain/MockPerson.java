@@ -81,11 +81,11 @@ public class MockPerson implements Person {
     }
 
     public Name addName() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new MockName();  //To change body of implemented methods use File | Settings | File Templates.
     }
     
     public Name addName(Type type) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new MockName();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public List<Role> getRoles() {

@@ -82,12 +82,12 @@ public class UpdateSorPersonMockitoBasedPersonServiceFactoryBean implements Fact
         final ServiceExecutionResult<SorPerson> badExecutionResult = mock(ServiceExecutionResult.class, "bad execution result");
         when(badExecutionResult.getValidationErrors()).thenReturn(mockSetWithErrors);
 
-        //Stubbing Person
-        final SorPerson mockPerson = mock(SorPerson.class);
-        when(mockPerson.addName()).thenReturn(new MockName());
-
         //Stubbing Name
         final Name mockName = mock(Name.class);
+
+        //Stubbing Person
+        final SorPerson mockPerson = mock(SorPerson.class);
+        when(mockPerson.addName()).thenReturn(mockName);
 
         //Stubbing PersonService
         final PersonService ps = mock(PersonService.class);
