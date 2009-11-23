@@ -58,4 +58,6 @@
 
     <bean id="referenceRepository" class="org.openregistry.core.repository.jpa.JpaReferenceRepository" />
 
+    <bean id="systemOfRecordRepository" class="org.openregistry.core.repository.jpa.JpaSystemOfRecordRepositoryImpl" />
+
 </beans>

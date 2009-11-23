@@ -61,7 +61,7 @@ public class DefaultPersonService implements PersonService {
     private final Validator validator;
 
     @Inject
-    public DefaultPersonService(@Named("personFactory") final ObjectFactory<Person> personObjectFactory, final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler) {
+    public DefaultPersonService(@Named("personFactory") final ObjectFactory<Person> personObjectFactory, final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler, final SystemOfRecordRepository systemOfRecordRepository) {
         this.personRepository = personRepository;
         this.referenceRepository = referenceRepository;
         this.identifierGenerator = identifierGenerator;
@@ -70,7 +70,7 @@ public class DefaultPersonService implements PersonService {
 
         final Configuration configuration = Validation.byDefaultProvider().configure();
         final ConstraintValidatorFactory c = Validation.byDefaultProvider().configure().getDefaultConstraintValidatorFactory();
-        final ConstraintValidatorFactory sorAware = new SoRAwareConstraintValidatorFactoryImpl(c);
+        final ConstraintValidatorFactory sorAware = new SoRAwareConstraintValidatorFactoryImpl(c, systemOfRecordRepository);
         configuration.constraintValidatorFactory(sorAware);
         final ValidatorFactory v = configuration.buildValidatorFactory();
         this.validator = v.getValidator();

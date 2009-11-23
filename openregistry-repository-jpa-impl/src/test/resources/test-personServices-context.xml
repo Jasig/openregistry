@@ -29,6 +29,7 @@
       <constructor-arg index="2" ref="referenceRepository" />
       <constructor-arg index="3" ref="identifierGenerator" />
       <constructor-arg index="4" ref="reconciler" />
+      <constructor-arg index="5" ref="systemOfRecordRepository" />
     </bean>
 
     <bean id="reconciler" class="org.openregistry.core.service.reconciliation.NameReconciler" />
