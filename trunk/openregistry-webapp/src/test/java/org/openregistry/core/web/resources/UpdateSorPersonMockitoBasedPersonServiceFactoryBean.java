@@ -67,7 +67,7 @@ public class UpdateSorPersonMockitoBasedPersonServiceFactoryBean implements Fact
         when(mockValidationErrorsSorPerson.getSsn()).thenReturn("errors");
         when(mockValidationErrorsSorPerson.addName()).thenReturn(mockName);
 
-        //Stubbing 'reconciliaton error' sor person
+        //Stubbing 'reconciliation error' sor person
         final SorPerson mockReconciliationErrorSorPerson = mock(SorPerson.class);
         when(mockReconciliationErrorSorPerson.getSsn()).thenReturn("reconciliationError");
         when(mockReconciliationErrorSorPerson.addName()).thenReturn(mockName);
