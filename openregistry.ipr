@@ -162,6 +162,7 @@
             <element id="library" level="project" name="Maven: javax.validation:validation-api:1.0.0.GA" />
             <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.6.5" />
             <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.6.5" />
+            <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
             <element id="archive" name="openregistry-service-impl-0.1-M3-SNAPSHOT.jar">
               <element id="module-output" name="openregistry-service-impl" />
             </element>
@@ -3141,6 +3142,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jdbc/3.0.0.RC2/org.springframework.jdbc-3.0.0.RC2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: javax.inject:javax.inject:1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/inject/javax.inject/1/javax.inject-1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/inject/javax.inject/1/javax.inject-1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/inject/javax.inject/1/javax.inject-1-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
