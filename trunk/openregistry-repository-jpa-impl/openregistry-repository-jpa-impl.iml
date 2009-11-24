@@ -40,6 +40,7 @@
     <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.8" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.6.5" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.6.5" level="project" />
+    <orderEntry type="library" exported="" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.beans:3.0.0.RC2" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.core:3.0.0.RC2" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:org.springframework.asm:3.0.0.RC2" level="project" />
