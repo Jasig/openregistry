@@ -62,7 +62,7 @@ public class UpdateSorPersonMockitoBasedPersonServiceFactoryBean implements Fact
         when(mockGoodSorPerson.getSsn()).thenReturn("good");
         when(mockGoodSorPerson.addName()).thenReturn(mockName);
 
-        //Stubbing 'valiation errors' sor person
+        //Stubbing 'validation errors' sor person
         final SorPerson mockValidationErrorsSorPerson = mock(SorPerson.class);
         when(mockValidationErrorsSorPerson.getSsn()).thenReturn("errors");
         when(mockValidationErrorsSorPerson.addName()).thenReturn(mockName);
@@ -87,10 +87,6 @@ public class UpdateSorPersonMockitoBasedPersonServiceFactoryBean implements Fact
         //Stubbing service execution result without validation errors
         final ServiceExecutionResult<SorPerson> badExecutionResult = mock(ServiceExecutionResult.class, "bad execution result");
         when(badExecutionResult.getValidationErrors()).thenReturn(mockSetWithErrors);
-
-        //Stubbing Person
-        final SorPerson mockPerson = mock(SorPerson.class);
-        when(mockPerson.addName()).thenReturn(mockName);
 
         //Stubbing PersonService
         final PersonService ps = mock(PersonService.class);

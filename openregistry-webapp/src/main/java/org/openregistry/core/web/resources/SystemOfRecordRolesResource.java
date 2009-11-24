@@ -45,7 +45,7 @@ import java.util.*;
 @Path("/sor/{sorSourceId}/people/{sorPersonId}/roles")
 public class SystemOfRecordRolesResource {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
     //Jersey specific injection
@@ -74,7 +74,7 @@ public class SystemOfRecordRolesResource {
                                         @PathParam("sorPersonId") final String sorPersonId,
                                         final RoleRepresentation roleRepresentation) {
 
-        final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
+        final SorPerson sorPerson = (SorPerson) findPersonAndRoleOrThrowNotFoundException(sorSourceId, sorPersonId, null).get("person");
         final SorRole sorRole = buildSorRoleFrom(sorPerson, roleRepresentation);
         final ServiceExecutionResult<SorRole> result = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
         if (!result.getValidationErrors().isEmpty()) {
@@ -98,13 +98,7 @@ public class SystemOfRecordRolesResource {
                                        @PathParam("sorRoleId") final String sorRoleId,
                                        final RoleRepresentation roleRepresentation) {
 
-        final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
-        final SorRole sorRole = sorPerson.findSorRoleBySorRoleId(sorRoleId);
-        if (sorRole == null) {
-            throw new NotFoundException(
-                    String.format("The role resource identified by [/sor/%s/people/%s/roles/%s] URI does not exist.",
-                            sorSourceId, sorPersonId, sorRoleId));
-        }
+        final SorRole sorRole = (SorRole) findPersonAndRoleOrThrowNotFoundException(sorSourceId, sorPersonId, sorRoleId).get("role");
         updateSorRoleWithIncomingData(sorRole, roleRepresentation);
         ServiceExecutionResult<SorRole> result = this.personService.updateSorRole(sorRole);
         if (!result.getValidationErrors().isEmpty()) {
@@ -116,22 +110,16 @@ public class SystemOfRecordRolesResource {
         return null;
     }
 
-	@DELETE
+    @DELETE
     @Path("{sorRoleId}")
-    public Response deleteRole(	 @PathParam("sorSourceId") final String sorSourceId,
-                                 @PathParam("sorPersonId") final String sorPersonId,
-                                 @PathParam("sorRoleId") final String sorRoleId,
-                                 @QueryParam("mistake") @DefaultValue("false") final boolean mistake,
-                                 @QueryParam("terminationType") @DefaultValue("UNSPECIFIED") final String terminationType) {
+    public Response deleteRole(@PathParam("sorSourceId") final String sorSourceId,
+                               @PathParam("sorPersonId") final String sorPersonId,
+                               @PathParam("sorRoleId") final String sorRoleId,
+                               @QueryParam("mistake") @DefaultValue("false") final boolean mistake,
+                               @QueryParam("terminationType") @DefaultValue("UNSPECIFIED") final String terminationType) {
 
-		final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
-		final SorRole sorRole = sorPerson.findSorRoleBySorRoleId(sorRoleId);
-		if (sorRole == null) {
-			throw new NotFoundException(
-					String.format("The role resource identified by [/sor/%s/people/%s/roles/%s] URI does not exist.",
-							sorSourceId, sorPersonId, sorRoleId));
-		}
-
+        final SorPerson sorPerson = (SorPerson) findPersonAndRoleOrThrowNotFoundException(sorSourceId, sorPersonId, sorRoleId).get("person");
+        final SorRole sorRole = (SorRole) findPersonAndRoleOrThrowNotFoundException(sorSourceId, sorPersonId, sorRoleId).get("role");
         try {
             if (!this.personService.deleteSystemOfRecordRole(sorPerson, sorRole, mistake, terminationType)) {
                 throw new WebApplicationException(
@@ -147,7 +135,10 @@ public class SystemOfRecordRolesResource {
         }
     }
 
-    private SorPerson findPersonOrThrowNotFoundException(String sorSourceId, String sorPersonId) {
+    //Java badly needs Tuples. Scala, where are you?!!!!!
+    private Map<String, Object> findPersonAndRoleOrThrowNotFoundException(String sorSourceId, String sorPersonId, String sorRoleId) {
+        //Poor simulation of Tuple 'pair'. Oh, well
+        Map<String, Object> ret = new HashMap<String, Object>(2);
         final SorPerson sorPerson = this.personService.findBySorIdentifierAndSource(sorSourceId, sorPersonId);
         if (sorPerson == null) {
             //HTTP 404
@@ -155,7 +146,17 @@ public class SystemOfRecordRolesResource {
                     String.format("The person resource identified by [/sor/%s/people/%s] URI does not exist.",
                             sorSourceId, sorPersonId));
         }
-        return sorPerson;
+        if (sorRoleId != null) {
+            final SorRole sorRole = sorPerson.findSorRoleBySorRoleId(sorRoleId);
+            if (sorRole == null) {
+                throw new NotFoundException(
+                        String.format("The role resource identified by [/sor/%s/people/%s/roles/%s] URI does not exist.",
+                                sorSourceId, sorPersonId, sorRoleId));
+            }
+            ret.put("role", sorRole);
+        }
+        ret.put("person", sorPerson);
+        return ret;
     }
 
     private void updateSorRoleWithIncomingData(final SorRole sorRole, final RoleRepresentation roleRepresentation) {
