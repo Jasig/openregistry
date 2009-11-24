@@ -73,25 +73,24 @@
     <orderEntry type="library" exported="" name="Maven: commons-pool:commons-pool:1.4" level="project" />
     <orderEntry type="library" exported="" name="Maven: net.sf.ehcache:ehcache-core:1.7.0-beta" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.hibernate:hibernate-validator:4.0.1.GA" level="project" />
-    <orderEntry type="module" module-name="openregistry-repository-jpa-impl" exported="" scope="RUNTIME" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.hibernate:hibernate-envers:3.5.0-Beta-2" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.hibernate:hibernate-core:3.5.0-Beta-2" level="project" />
+    <orderEntry type="module" module-name="openregistry-repository-jpa-impl" scope="TEST" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hibernate:hibernate-envers:3.5.0-Beta-2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hibernate:hibernate-core:3.5.0-Beta-2" level="project" />
     <orderEntry type="library" exported="" name="Maven: antlr:antlr:2.7.7" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: dom4j:dom4j:1.6.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: javax.transaction:jta:1.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: hsqldb:hsqldb:1.8.0.2" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.hibernate.java-persistence:jpa-api:2.0-cr-1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.hibernate:hibernate-commons-annotations:3.2.0.Beta1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.hibernate:hibernate-annotations:3.5.0-Beta-2" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.hibernate:hibernate-entitymanager:3.5.0-Beta-2" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: cglib:cglib:2.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: dom4j:dom4j:1.6.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: javax.transaction:jta:1.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: hsqldb:hsqldb:1.8.0.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hibernate:hibernate-commons-annotations:3.2.0.Beta1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hibernate:hibernate-annotations:3.5.0-Beta-2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hibernate:hibernate-entitymanager:3.5.0-Beta-2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: cglib:cglib:2.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: asm:asm:3.2" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: javassist:javassist:3.8.0.GA" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.hibernate:hibernate-tools:3.2.4.GA" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.beanshell:bsh:2.0b4" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: freemarker:freemarker:2.3.8" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.hibernate:jtidy:r8-20060801" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: javassist:javassist:3.8.0.GA" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hibernate:hibernate-tools:3.2.4.GA" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.beanshell:bsh:2.0b4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: freemarker:freemarker:2.3.8" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hibernate:jtidy:r8-20060801" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet.jsp:jsp-api:2.0" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.springframework.security:spring-security-cas-client:2.0.4" level="project" />
