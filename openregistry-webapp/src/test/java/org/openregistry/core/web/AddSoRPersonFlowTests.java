@@ -17,7 +17,6 @@ package org.openregistry.core.web;
 
 import org.junit.Test;
 import org.openregistry.core.domain.*;
-import org.openregistry.core.domain.sor.MockSorPerson;
 import org.openregistry.core.repository.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
@@ -49,6 +48,7 @@ import javax.validation.metadata.ConstraintDescriptor;
 
 import static org.mockito.Mockito.*;
 
+import java.lang.annotation.Annotation;
 import java.util.*;
 
 /**
@@ -302,4 +302,12 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         new EndState(mockAddRoleFlow, "roleWasAdded");
         return mockAddRoleFlow;
     }
+
+    private class TestAnnotation implements Annotation {
+
+        public Class<? extends Annotation> annotationType() {
+            return TestAnnotation.class;
+        }
+}
+
 }
