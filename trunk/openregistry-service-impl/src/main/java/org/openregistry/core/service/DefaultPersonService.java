@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
 
+import javax.annotation.Resource;
 import javax.inject.*;
 import javax.validation.*;
 import java.util.*;
@@ -50,7 +51,8 @@ public class DefaultPersonService implements PersonService {
 
     private final IdentifierGenerator identifierGenerator;
 
-    private final ObjectFactory<Person> personObjectFactory;
+    @Resource(name="personFactory")
+    private ObjectFactory<Person> personObjectFactory;
 
     @Autowired(required=false)
     private Map<ReconciliationCriteria,ReconciliationResult> criteriaCache = new EhCacheBackedMapImpl<ReconciliationCriteria, ReconciliationResult>();
@@ -61,12 +63,11 @@ public class DefaultPersonService implements PersonService {
     private final Validator validator;
 
     @Inject
-    public DefaultPersonService(@Named("personFactory") final ObjectFactory<Person> personObjectFactory, final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler, final SystemOfRecordRepository systemOfRecordRepository) {
+    public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler, final SystemOfRecordRepository systemOfRecordRepository) {
         this.personRepository = personRepository;
         this.referenceRepository = referenceRepository;
         this.identifierGenerator = identifierGenerator;
         this.reconciler = reconciler;
-        this.personObjectFactory = personObjectFactory;
 
         final Configuration configuration = Validation.byDefaultProvider().configure();
         final ConstraintValidatorFactory c = Validation.byDefaultProvider().configure().getDefaultConstraintValidatorFactory();
@@ -74,6 +75,10 @@ public class DefaultPersonService implements PersonService {
         configuration.constraintValidatorFactory(sorAware);
         final ValidatorFactory v = configuration.buildValidatorFactory();
         this.validator = v.getValidator();
+    }
+
+    public void setPersonObjectFactory(final ObjectFactory personObjectFactory) {
+        this.personObjectFactory = personObjectFactory;
     }
 
     public void setCriteriaCache(final Map<ReconciliationCriteria,ReconciliationResult> criteriaCache) {
