@@ -24,12 +24,9 @@ import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.MockName;
 import org.openregistry.core.repository.ReferenceRepository;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Path;
-import javax.validation.metadata.ConstraintDescriptor;
 import java.util.*;
 
 /**
