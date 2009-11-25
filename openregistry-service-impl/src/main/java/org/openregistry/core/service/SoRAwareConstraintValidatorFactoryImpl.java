@@ -15,15 +15,13 @@
  */
 package org.openregistry.core.service;
 
+import org.openregistry.core.domain.validation.SystemOfRecordRepositoryAware;
 import org.openregistry.core.repository.SystemOfRecordRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorFactory;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 /**
  * Implementation of the {@link javax.validation.ConstraintValidatorFactory} that determines, based on the SoR's
@@ -33,34 +31,24 @@ import java.lang.reflect.Proxy;
  * @version $Revision$ $Date$
  * @since 0.1
  */
-@Named("constraintValidatorFactory")
 public final class SoRAwareConstraintValidatorFactoryImpl implements ConstraintValidatorFactory {
 
     private final ConstraintValidatorFactory delegatedConstraintValidatorFactory;
 
     private final SystemOfRecordRepository systemOfRecordRepository;
 
-    @Inject
     public SoRAwareConstraintValidatorFactoryImpl(final ConstraintValidatorFactory delegatedConstraintValidatorFactory, final SystemOfRecordRepository systemOfRecordRepository) {
         this.delegatedConstraintValidatorFactory = delegatedConstraintValidatorFactory;
         this.systemOfRecordRepository = systemOfRecordRepository;
     }
 
     public <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> tClass) {
-        return wrap(this.delegatedConstraintValidatorFactory.getInstance(tClass));
-    }
+        final T constraintValidator = this.delegatedConstraintValidatorFactory.getInstance(tClass);
 
-    protected <T extends ConstraintValidator<?, ?>> T wrap(final T constraintValidator) {
-        return (T) Proxy.newProxyInstance(constraintValidator.getClass().getClassLoader(), constraintValidator.getClass().getInterfaces(), new InvocationHandler() {
+        if (constraintValidator instanceof SystemOfRecordRepositoryAware) {
+            ((SystemOfRecordRepositoryAware) constraintValidator).setSystemOfRecordRepository(this.systemOfRecordRepository);
+        }
 
-            public Object invoke(final Object o, final Method method, final Object[] objects) throws Throwable {
-                if (method.getName().equals("initialize")) {
-                    return method.invoke(constraintValidator, objects);
-                }
-
-                // do some magic to determine if we should call validate
-                return method.invoke(constraintValidator, objects);
-            }
-        });
+        return constraintValidator;
     }
 }
