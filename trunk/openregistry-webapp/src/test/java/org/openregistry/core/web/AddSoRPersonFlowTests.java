@@ -16,17 +16,14 @@
 package org.openregistry.core.web;
 
 import org.junit.Test;
-import org.openregistry.core.domain.MockPerson;
-import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.MockSorPerson;
 import org.openregistry.core.repository.*;
-import org.openregistry.core.service.DefaultPersonService;
-import org.openregistry.core.service.identifier.NoOpIdentifierGenerator;
-import org.openregistry.core.service.reconciliation.MockReconciler;
+import org.openregistry.core.service.PersonService;
+import org.openregistry.core.service.ServiceExecutionResult;
+import org.openregistry.core.service.reconciliation.ReconciliationException;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
-import org.springframework.beans.BeansException;
 import org.springframework.binding.message.DefaultMessageContext;
-import org.springframework.binding.message.MessageBuilder;
 import org.springframework.context.support.StaticMessageSource;
 import org.springframework.webflow.test.execution.AbstractXmlFlowExecutionTests;
 import org.springframework.webflow.test.MockExternalContext;
@@ -41,22 +38,17 @@ import org.springframework.webflow.engine.Flow;
 import org.springframework.webflow.engine.EndState;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.Type;
 import org.openregistry.core.web.factory.MockReconciliationCriteriaFactory;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.binding.mapping.MappingResults;
 import org.springframework.binding.mapping.Mapper;
 
-
 import javax.validation.ConstraintViolation;
 import javax.validation.Path;
-import javax.validation.Payload;
-import javax.validation.Validator;
-import javax.validation.constraints.NotNull;
-import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
-import java.lang.annotation.Annotation;
+
+import static org.mockito.Mockito.*;
+
 import java.util.*;
 
 /**
@@ -74,28 +66,21 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     private PersonSearchAction personSearchAction;
     private ReferenceRepository referenceRepository;
     private ObjectFactory<ReconciliationCriteria> reconciliationCriteriaFactory;
-    private PersonRepository personRepository = new MockPersonRepository();
-
-    private DefaultPersonService personService;
-
-    private MockReconciler mockReconciler;
 
     private DefaultMessageContext messageContext;
 
+    private PersonService personService;
+
     protected void setUp() {
+
+        this.personService = mock(PersonService.class);
 
         final StaticMessageSource staticMessageSource = new StaticMessageSource();
         staticMessageSource.addMessage("personAddedFinalConfirm", Locale.getDefault(), "test");
         staticMessageSource.addMessage("roleAdded", Locale.getDefault(), "test");
         staticMessageSource.addMessage("errorCode", Locale.getDefault(), "test");
 
-        this.mockReconciler = new MockReconciler();
         this.messageContext = new DefaultMessageContext(staticMessageSource);
-        this.personService = new DefaultPersonService(new ObjectFactory<Person>() {
-            public Person getObject() throws BeansException {
-                return new MockPerson();
-            }
-        }, personRepository,referenceRepository, new NoOpIdentifierGenerator(), this.mockReconciler, new MockSystemOfRecordRepository());
         this.personSearchAction = new PersonSearchAction(this.personService);
         this.referenceRepository = new MockReferenceRepository();
         this.reconciliationCriteriaFactory = new MockReconciliationCriteriaFactory();
@@ -136,7 +121,6 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
     @Test
     public void testStartFlow() {
-        this.mockReconciler.setReconciliationType(ReconciliationResult.ReconciliationType.NONE);
         ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
         MutableAttributeMap input = new LocalAttributeMap();
 	    input.put("personSearch", criteria);
@@ -148,9 +132,31 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
     //validation errors found
     @Test
-    public void testCriteriaSubmitError() {
-        this.mockReconciler.setReconciliationType(ReconciliationResult.ReconciliationType.NONE);
+    public void testCriteriaSubmitError() throws ReconciliationException {
         final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, RUDYARD, "INVALID_SSN", null, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
+        final ServiceExecutionResult<Person> serviceExecutionResult = mock(ServiceExecutionResult.class, RETURNS_SMART_NULLS);
+        final Set<ConstraintViolation> violations = mock(Set.class, RETURNS_SMART_NULLS);
+        final Iterator iter = mock(Iterator.class);
+        final ConstraintViolation constraintViolation = mock(ConstraintViolation.class, RETURNS_SMART_NULLS);
+        final Path path = mock(Path.class);
+        final ConstraintDescriptor constraintDescriptor = mock(ConstraintDescriptor.class, RETURNS_SMART_NULLS);
+        final Map map = mock(Map.class, RETURNS_SMART_NULLS);
+
+        when(constraintViolation.getMessage()).thenReturn("errorCode");
+        when(constraintViolation.getConstraintDescriptor()).thenReturn(constraintDescriptor);
+        when(constraintDescriptor.getAttributes()).thenReturn(map);
+        when(map.values()).thenReturn(new ArrayList());
+        when(constraintDescriptor.getAnnotation()).thenReturn(new TestAnnotation());
+
+        when(iter.next()).thenReturn(constraintViolation);
+        when(iter.hasNext()).thenReturn(true).thenReturn(false);
+        when(violations.iterator()).thenReturn(iter);
+        when(violations.isEmpty()).thenReturn(false);
+        when(serviceExecutionResult.succeeded()).thenReturn(false);
+        when(serviceExecutionResult.getValidationErrors()).thenReturn(violations);
+        when(personService.addPerson(criteria)).thenReturn(serviceExecutionResult);
+
+
         setCurrentState("addPerson");
         getFlowScope().put("personSearch", criteria);
 
@@ -163,10 +169,28 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     }
 
     //reconciliation returns NONE.  Adds the new person.  Adds the role.
-    public void testAddNewPerson() {
-        this.mockReconciler.setReconciliationType(ReconciliationResult.ReconciliationType.NONE);
+    @Test
+    public void testAddNewPerson() throws ReconciliationException {
         ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "UNIQUE_SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
- 
+
+        final ServiceExecutionResult<Person> serviceExecutionResult = mock(ServiceExecutionResult.class, RETURNS_SMART_NULLS);
+        final Person person = mock(Person.class, RETURNS_SMART_NULLS);
+        when(serviceExecutionResult.succeeded()).thenReturn(true);
+        when(serviceExecutionResult.getTargetObject()).thenReturn(person);
+
+        when(person.getId()).thenReturn(1L);
+        final Identifier identifier = mock(Identifier.class, RETURNS_SMART_NULLS);
+        when(person.pickOutIdentifier("NETID")).thenReturn(identifier);
+
+        when (identifier.getValue()).thenReturn("FOOBAR");
+        final ActivationKey activationKey = mock(ActivationKey.class, RETURNS_SMART_NULLS);
+        when(person.getCurrentActivationKey()).thenReturn(activationKey);
+
+        when(activationKey.asString()).thenReturn("foobar");
+
+        when(this.personService.findByPersonIdAndSorIdentifier(1L, "or-webapp")).thenReturn(criteria.getSorPerson());
+        when(this.personService.addPerson(criteria)).thenReturn(serviceExecutionResult);
+
         setCurrentState("addPerson");
         getFlowScope().put("personSearch", criteria);
 
@@ -180,9 +204,12 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     }
 
     //reconciliation returns reconciliation (view matches)
-    public void testAddPersonMatchesFound() {
-        this.mockReconciler.setReconciliationType(ReconciliationResult.ReconciliationType.MAYBE);
+    public void testAddPersonMatchesFound() throws ReconciliationException {
         ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
+
+        final ReconciliationException reconciliationException = mock(ReconciliationException.class);
+        when(reconciliationException.multiplePeopleFound()).thenReturn(true);
+        when(this.personService.addPerson(criteria)).thenThrow(reconciliationException);
 
         setCurrentState("addPerson");
         getFlowScope().put("personSearch", criteria);
@@ -195,9 +222,31 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     }
 
     //test case to start at viewMatches and continue to force add
-    public void testForceAdd() {
-        this.mockReconciler.setReconciliationType(ReconciliationResult.ReconciliationType.MAYBE);
+    public void testForceAdd() throws ReconciliationException {
         ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
+
+        final ServiceExecutionResult<Person> serviceExecutionResult = mock(ServiceExecutionResult.class, RETURNS_SMART_NULLS);
+        final Person person = mock(Person.class, RETURNS_SMART_NULLS);
+        when(serviceExecutionResult.succeeded()).thenReturn(true);
+        when(serviceExecutionResult.getTargetObject()).thenReturn(person);
+
+        when(person.getId()).thenReturn(1L);
+        final Identifier identifier = mock(Identifier.class, RETURNS_SMART_NULLS);
+        when(person.pickOutIdentifier("NETID")).thenReturn(identifier);
+
+        when (identifier.getValue()).thenReturn("FOOBAR");
+        final ActivationKey activationKey = mock(ActivationKey.class, RETURNS_SMART_NULLS);
+        when(person.getCurrentActivationKey()).thenReturn(activationKey);
+
+        when(activationKey.asString()).thenReturn("foobar");
+        when(this.personService.findByPersonIdAndSorIdentifier(1L, "or-webapp")).thenReturn(criteria.getSorPerson());
+
+        final ReconciliationException reconciliationException = mock(ReconciliationException.class, RETURNS_SMART_NULLS);
+        final List personMatchList = mock(List.class);
+        when(reconciliationException.getMatches()).thenReturn(personMatchList);
+
+        when(this.personService.addPerson(criteria)).thenThrow(reconciliationException);
+        when(this.personService.forceAddPerson(criteria)).thenReturn(serviceExecutionResult);
 
         setCurrentState("addPerson");
         getFlowScope().put("personSearch", criteria);
@@ -215,22 +264,19 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     
 
     // test case to start at viewMatches and continue to selecting a match and ending at addRole.
-     public void testSelectMatchAddRole() {
-        this.mockReconciler.setReconciliationType(ReconciliationResult.ReconciliationType.MAYBE);
+     public void testSelectMatchAddRole() throws ReconciliationException {
         ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
 
-        final MockSorPerson mockSorPerson = new MockSorPerson();
-        mockSorPerson.setPersonId(1L);
-        mockSorPerson.setSourceSor("or-webapp");
+        final ReconciliationException reconciliationException = mock(ReconciliationException.class);
+        when(reconciliationException.multiplePeopleFound()).thenReturn(true);
+        when(reconciliationException.getReconciliationType()).thenReturn(ReconciliationResult.ReconciliationType.EXACT);
+        when(this.personService.addPerson(criteria)).thenThrow(reconciliationException);
+        when(this.personService.findByPersonIdAndSorIdentifier(1L, "or-webapp")).thenReturn(criteria.getSorPerson());
 
-        final MockPerson mockPerson = new MockPerson();
-        mockPerson.setId(1L);
-
-        this.personRepository.saveSorPerson(mockSorPerson);
-        this.personRepository.savePerson(mockPerson);
 
         setCurrentState("addPerson");
         getFlowScope().put("personSearch", criteria);
+//        getFlowScope().put("reconciliationResult", reconciliationException);
 
         getFlowDefinitionRegistry().registerFlowDefinition(createMockAddRoleSubflow());
         MockExternalContext context = new MockExternalContext();
