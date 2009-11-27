@@ -15,21 +15,20 @@
  */
 package org.openregistry.core.service;
 
-import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
-import org.openregistry.core.repository.ReferenceRepository;
-import org.springframework.test.context.ContextConfiguration;
-import org.openregistry.core.domain.jpa.sor.*;
-import org.openregistry.core.domain.*;
-import org.openregistry.core.domain.sor.*;
-import org.openregistry.core.service.reconciliation.*;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.*;
+import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.jpa.*;
+import org.openregistry.core.domain.jpa.sor.*;
+import org.openregistry.core.domain.sor.*;
+import org.openregistry.core.repository.*;
+import org.openregistry.core.service.reconciliation.*;
+import org.springframework.test.context.*;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.*;
+import javax.inject.*;
+import javax.persistence.*;
 import java.text.*;
+import java.util.*;
 
 /**
  * Integration test for {@link DefaultPersonService} that links up with the JPA
@@ -56,13 +55,13 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 
     @Inject
     private PersonService personService;
-    
+
     @Inject
     private ReferenceRepository referenceRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     protected ReconciliationCriteria constructReconciliationCriteria(final String firstName, final String lastName, final String ssn, final String emailAddress, final String phoneNumber, Date birthDate, final String sor, final String sorId) {
         final ReconciliationCriteria reconciliationCriteria = new JpaReconciliationCriteriaImpl();
         reconciliationCriteria.setEmailAddress(emailAddress);
@@ -493,7 +492,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prc_names"));
         assertEquals(1, countRowsInTable("prs_sor_persons"));
         assertEquals(1, countRowsInTable("prs_names"));
-        assertEquals(1, countRowsInTable("prs_role_records"));        
+        assertEquals(1, countRowsInTable("prs_role_records"));
         assertEquals(1, countRowsInTable("prc_role_records"));
 
         final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
@@ -542,6 +541,84 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         final SorRole sRole = ser.getTargetObject();
         assertEquals(sRole.getPercentage(), cRole.getPercentage());
         assertEquals(sRole.getStart(), cRole.getStart());
+    }
+
+
+	/**
+	 * Tests for Delete SorRole
+	 */
+
+	@Test
+    public void testDeleteSorRoleNoMistake() throws ReconciliationException {
+        final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
+        final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
+        final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+
+        final SorRole role = sorPerson1.addRole(this.referenceRepository.getRoleInfoById(1L));
+        role.setSorId("1");
+        role.setSourceSorIdentifier("FOO");
+        role.setPercentage(50);
+        role.setStart(new Date());
+        role.setPersonStatus(this.referenceRepository.getTypeById(1L));
+        final SorSponsor sorSponsor = role.setSponsor();
+        sorSponsor.setSponsorId(1L);
+        sorSponsor.setType(this.referenceRepository.getTypeById(1L));
+
+        final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
+        entityManager.flush();
+
+        assertEquals(1, countRowsInTable("prs_role_records"));
+        assertEquals(1, countRowsInTable("prc_role_records"));
+
+		final boolean deleted = personService.deleteSystemOfRecordRole(sorPerson1, ser.getTargetObject(),false,Type.TerminationTypes.FIRED.name());
+		assertTrue("Delete SorRole failed",deleted);
+		entityManager.flush();
+
+		assertEquals(0, countRowsInTable("prs_role_records"));
+		assertEquals(1, countRowsInTable("prc_role_records"));
+		Integer termination = this.simpleJdbcTemplate.queryForObject("select termination_t from prc_role_records where person_id = ?", Integer.class, 1L);
+
+		assertEquals(4,termination.intValue());
+    }
+
+	@Test
+    public void testDeleteSorRoleWithMistake() throws ReconciliationException {
+        final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
+        final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
+        final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+
+        final SorRole role = sorPerson1.addRole(this.referenceRepository.getRoleInfoById(1L));
+        role.setSorId("1");
+        role.setSourceSorIdentifier("FOO");
+        role.setPercentage(50);
+        role.setStart(new Date());
+        role.setPersonStatus(this.referenceRepository.getTypeById(1L));
+        final SorSponsor sorSponsor = role.setSponsor();
+        sorSponsor.setSponsorId(1L);
+        sorSponsor.setType(this.referenceRepository.getTypeById(1L));
+
+        final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
+        entityManager.flush();
+
+        assertEquals(1, countRowsInTable("prs_role_records"));
+        assertEquals(1, countRowsInTable("prc_role_records"));
+
+		final boolean deleted = personService.deleteSystemOfRecordRole(sorPerson1, ser.getTargetObject(),true,Type.TerminationTypes.FIRED.name());
+		assertTrue("Delete SorRole failed",deleted);
+		entityManager.flush();
+
+		assertEquals(0, countRowsInTable("prs_role_records"));
+		assertEquals(0, countRowsInTable("prc_role_records"));
     }
 
 }
