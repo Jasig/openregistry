@@ -581,7 +581,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 
 		assertEquals(0, countRowsInTable("prs_role_records"));
 		assertEquals(1, countRowsInTable("prc_role_records"));
-		Integer termination = this.simpleJdbcTemplate.queryForObject("select termination_t from prc_role_records where person_id = ?", Integer.class, 1L);
+		final Long termination = this.simpleJdbcTemplate.queryForObject("select termination_t from prc_role_records where person_id = ?", Long.class, serviceExecutionResult1.getTargetObject().getId());
 
 		assertEquals(4,termination.intValue());
     }
