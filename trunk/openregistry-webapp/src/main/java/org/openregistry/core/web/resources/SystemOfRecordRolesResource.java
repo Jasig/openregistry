@@ -118,8 +118,9 @@ public class SystemOfRecordRolesResource {
                                @QueryParam("mistake") @DefaultValue("false") final boolean mistake,
                                @QueryParam("terminationType") @DefaultValue("UNSPECIFIED") final String terminationType) {
 
-        final SorPerson sorPerson = (SorPerson) findPersonAndRoleOrThrowNotFoundException(sorSourceId, sorPersonId, sorRoleId).get("person");
-        final SorRole sorRole = (SorRole) findPersonAndRoleOrThrowNotFoundException(sorSourceId, sorPersonId, sorRoleId).get("role");
+        final Map<String, Object> personAndRole = findPersonAndRoleOrThrowNotFoundException(sorSourceId, sorPersonId, sorRoleId);
+        final SorPerson sorPerson = (SorPerson) personAndRole.get("person");
+        final SorRole sorRole = (SorRole) personAndRole.get("role");
         try {
             if (!this.personService.deleteSystemOfRecordRole(sorPerson, sorRole, mistake, terminationType)) {
                 throw new WebApplicationException(
