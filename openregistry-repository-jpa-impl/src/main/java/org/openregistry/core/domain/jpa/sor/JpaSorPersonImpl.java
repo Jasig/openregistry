@@ -15,6 +15,8 @@
  */
 package org.openregistry.core.domain.jpa.sor;
 
+import org.openregistry.core.domain.annotation.Required;
+import org.openregistry.core.domain.annotation.RequiredSize;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.Name;
@@ -59,6 +61,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     private Long recordId;
 
     @Column(name="id")
+    @Required
     private String sorId;
 
     @Column(name="source_sor_id", nullable = false)
@@ -71,22 +74,24 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
-    @NotNull(message="dateOfBirthRequiredMsg")
+    @Required(message="dateOfBirthRequiredMsg")
     @Past
     private Date dateOfBirth;
 
     @Column(name="gender",length=1,nullable=false)
-    @NotNull(message = "genderRequiredMsg")
+    @Required(message = "genderRequiredMsg")
     @Size(min=1,max=1,message = "genderRequiredMsg")
     private String gender;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @Fetch(value = FetchMode.SUBSELECT)
+    @RequiredSize
     @Valid
     private List<Name> names = new ArrayList<Name>();
 
     @Column(name="ssn",nullable=true)
+    @Required
     private String ssn;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)

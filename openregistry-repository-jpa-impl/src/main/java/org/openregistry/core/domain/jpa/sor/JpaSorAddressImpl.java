@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.domain.jpa.sor;
 
+import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.Address;
 import org.openregistry.core.domain.Type;
@@ -49,6 +50,7 @@ public final class JpaSorAddressImpl extends Entity implements Address {
 
     @ManyToOne
     @JoinColumn(name="address_t")
+    @AllowedTypes
     @NotNull
     private JpaTypeImpl type;
 

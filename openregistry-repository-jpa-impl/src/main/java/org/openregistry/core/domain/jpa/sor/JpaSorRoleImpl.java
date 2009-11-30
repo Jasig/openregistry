@@ -19,6 +19,8 @@ import org.hibernate.annotations.*;
 import org.hibernate.envers.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.annotation.AllowedTypes;
+import org.openregistry.core.domain.annotation.RequiredSize;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.*;
 import org.openregistry.core.domain.sor.*;
@@ -55,24 +57,28 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorUrlImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    @RequiredSize
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Url> urls = new ArrayList<Url>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorEmailAddressImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    @RequiredSize
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorPhoneImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    @RequiredSize
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Phone> phones = new ArrayList<Phone>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorAddressImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    @RequiredSize
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Address> addresses = new ArrayList<Address>();
@@ -94,9 +100,11 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     @ManyToOne(optional = false)
     @JoinColumn(name="person_status_t")
     @NotNull
+    @AllowedTypes
     private JpaTypeImpl personStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch=FetchType.EAGER, targetEntity = JpaSorLeaveImpl.class)
+    @RequiredSize
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Leave> leaves = new ArrayList<Leave>();

@@ -15,6 +15,8 @@
  */
 package org.openregistry.core.domain.jpa.sor;
 
+import org.openregistry.core.domain.annotation.Required;
+import org.openregistry.core.domain.annotation.RequiredSize;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.IdentifierType;
@@ -38,20 +40,27 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
     @Valid
     private JpaSorPersonImpl sorPerson = new JpaSorPersonImpl();
 
+    // TODO annotation here for required size?
     private Map<IdentifierType, String> identifiersByType = new HashMap<IdentifierType, String>();
 
+    @Required
     private String emailAddress;
 
+    @Required
     private String phoneNumber;
 
+    @Required
     private String addressLine1;
 
     private String addressLine2;
 
+    @Required
     private String city;
 
+    @Required
     private String region;
 
+    @Required
     private String postalCode;
 
     public String toString() {

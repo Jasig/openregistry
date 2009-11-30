@@ -16,6 +16,7 @@
 package org.openregistry.core.domain.jpa.sor;
 
 import org.hibernate.envers.Audited;
+import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Phone;
@@ -52,11 +53,13 @@ public final class JpaSorPhoneImpl extends Entity implements Phone {
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
     @NotNull
+    @AllowedTypes
     private JpaTypeImpl addressType;
 
     @ManyToOne(optional = false)
     @JoinColumn(name="phone_t")
     @NotNull
+    @AllowedTypes
     private JpaTypeImpl phoneType;
 
     @Column(name="country_code",nullable=false,length=5)

@@ -15,33 +15,27 @@
  */
 package org.openregistry.core.domain.validation;
 
-import org.openregistry.core.domain.annotation.Required;
-import org.openregistry.core.domain.sor.SoRSpecification;
+import org.openregistry.core.domain.annotation.RequiredSize;
 
 import javax.validation.ConstraintValidatorContext;
+import java.util.Collection;
 
 /**
- * Determines whether this field is required for a particular SoR or not.
+ * Validates the @RequiredSize annotation.
  *
  * @version $Revision$ $Date$
  * @since 0.1
  */
-public final class RequiredFieldConstraintValidator extends AbstractSystemOfRecordConstraintValidator<Required,Object> {
+public final class RequiredSizeConstraintValidator extends AbstractSystemOfRecordConstraintValidator<RequiredSize, Collection> {
 
     private String property;
 
-    public void initialize(final Required required) {
+    public void initialize(final RequiredSize required) {
         this.property = required.property();
     }
 
-    public boolean isValid(final Object o, final ConstraintValidatorContext constraintValidatorContext) {
-        final SoRSpecification soRSpecification = getSoRSpecification();
-
-        // TODO change this once we actually have some SoRs
-        if (soRSpecification == null) {
-            return true;
-        }
-
+    public boolean isValid(final Collection o, final ConstraintValidatorContext constraintValidatorContext) {
+        // TODO finish this off
         return true;
     }
 }

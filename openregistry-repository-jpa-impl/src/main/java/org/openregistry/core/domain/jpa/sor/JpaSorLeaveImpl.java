@@ -16,6 +16,7 @@
 package org.openregistry.core.domain.jpa.sor;
 
 import org.hibernate.envers.Audited;
+import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Leave;
@@ -54,6 +55,7 @@ public final class JpaSorLeaveImpl extends Entity implements Leave {
     @ManyToOne(optional = false)
     @JoinColumn(name="leave_t")
     @NotNull
+    @AllowedTypes
     private JpaTypeImpl reason;
 
     @ManyToOne(optional=false)

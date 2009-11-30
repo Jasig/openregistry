@@ -33,7 +33,11 @@ public abstract class AbstractSystemOfRecordConstraintValidator<A extends Annota
     private SystemOfRecordRepository systemOfRecordRepository;
 
     protected SoRSpecification getSoRSpecification() {
-        return this.systemOfRecordRepository.findSoRSpecificationById(SystemOfRecordHolder.getCurrentSystemOfRecord().getStringId());
+        if (SystemOfRecordHolder.getCurrentSystemOfRecord() != null) {
+            return this.systemOfRecordRepository.findSoRSpecificationById(SystemOfRecordHolder.getCurrentSystemOfRecord().getStringId());
+        }
+        // TODO replace this with an IllegalStateException
+        return null;
     }
 
     public final void setSystemOfRecordRepository(final SystemOfRecordRepository systemOfRecordRepository) {
