@@ -198,8 +198,27 @@
             <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.4" />
             <element id="library" level="project" name="Maven: net.sf.ehcache:ehcache-core:1.7.0-beta" />
             <element id="library" level="project" name="Maven: org.hibernate:hibernate-validator:4.0.1.GA" />
+            <element id="archive" name="openregistry-repository-jpa-impl-0.1-M3-SNAPSHOT.jar">
+              <element id="module-output" name="openregistry-repository-jpa-impl" />
+            </element>
+            <element id="library" level="project" name="Maven: org.hibernate:hibernate-envers:3.5.0-Beta-2" />
+            <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:3.5.0-Beta-2" />
             <element id="library" level="project" name="Maven: antlr:antlr:2.7.7" />
+            <element id="library" level="project" name="Maven: dom4j:dom4j:1.6.1" />
+            <element id="library" level="project" name="Maven: xml-apis:xml-apis:1.0.b2" />
+            <element id="library" level="project" name="Maven: javax.transaction:jta:1.1" />
+            <element id="library" level="project" name="Maven: hsqldb:hsqldb:1.8.0.2" />
+            <element id="library" level="project" name="Maven: org.hibernate.java-persistence:jpa-api:2.0-cr-1" />
+            <element id="library" level="project" name="Maven: org.hibernate:hibernate-commons-annotations:3.2.0.Beta1" />
+            <element id="library" level="project" name="Maven: org.hibernate:hibernate-annotations:3.5.0-Beta-2" />
+            <element id="library" level="project" name="Maven: org.hibernate:hibernate-entitymanager:3.5.0-Beta-2" />
+            <element id="library" level="project" name="Maven: cglib:cglib:2.2" />
             <element id="library" level="project" name="Maven: asm:asm:3.2" />
+            <element id="library" level="project" name="Maven: javassist:javassist:3.8.0.GA" />
+            <element id="library" level="project" name="Maven: org.hibernate:hibernate-tools:3.2.4.GA" />
+            <element id="library" level="project" name="Maven: org.beanshell:bsh:2.0b4" />
+            <element id="library" level="project" name="Maven: freemarker:freemarker:2.3.8" />
+            <element id="library" level="project" name="Maven: org.hibernate:jtidy:r8-20060801" />
             <element id="library" level="project" name="Maven: org.springframework.security:spring-security-cas-client:2.0.4" />
             <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:2.0.4" />
             <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.3" />

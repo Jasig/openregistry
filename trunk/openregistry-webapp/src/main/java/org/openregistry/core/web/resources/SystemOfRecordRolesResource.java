@@ -122,6 +122,7 @@ public class SystemOfRecordRolesResource {
         final SorPerson sorPerson = (SorPerson) personAndRole.get("person");
         final SorRole sorRole = (SorRole) personAndRole.get("role");
         try {
+            //TODO: need to encapsulate the lookups behind the service API
             if (!this.personService.deleteSystemOfRecordRole(sorPerson, sorRole, mistake, terminationType)) {
                 throw new WebApplicationException(
                         new RuntimeException(String.format("Unable to Delete SorRole for SoR [ %s ] with ID [ %s ] and Role ID [ %s ]", sorSourceId, sorPersonId, sorRoleId)), 500);
@@ -136,7 +137,7 @@ public class SystemOfRecordRolesResource {
         }
     }
 
-    //Java badly needs Tuples. Scala, where are you?!!!!!
+    //Java needs Tuples. Scala, where are you?!!!!!
     private Map<String, Object> findPersonAndRoleOrThrowNotFoundException(String sorSourceId, String sorPersonId, String sorRoleId) {
         //Poor simulation of Tuple 'pair'. Oh, well
         Map<String, Object> ret = new HashMap<String, Object>(2);
