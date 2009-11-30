@@ -36,7 +36,7 @@ public class DeleteSorRoleViaRestResourceTests extends JerseyTestSupport {
     }
 
     @Test
-    public void postAndGetNotAllowedOnSorPersonResource() {
+    public void postAndGetNotAllowedOnSorRoleResource() {
         assertStatusCodeEqualsForRequestUriAndHttpMethod(405, GOOD_TEST_URI, "GET");
         assertStatusCodeEqualsForRequestUriAndHttpMethod(405, GOOD_TEST_URI, "POST");
     }
