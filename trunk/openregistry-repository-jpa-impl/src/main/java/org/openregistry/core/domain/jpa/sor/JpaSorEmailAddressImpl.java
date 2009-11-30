@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.domain.jpa.sor;
 
+import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
@@ -44,6 +45,7 @@ public final class JpaSorEmailAddressImpl extends Entity implements EmailAddress
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
     @NotNull
+    @AllowedTypes
     private JpaTypeImpl addressType;
 
     @Column(name="address",nullable=false,length=100)

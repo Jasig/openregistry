@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.domain.jpa.sor;
 
+import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.Name;
@@ -50,6 +51,7 @@ public final class JpaSorNameImpl extends Entity implements Name {
     @ManyToOne(optional=false)
     @JoinColumn(name="name_t", nullable=false)
     @NotNull
+    @AllowedTypes
     private JpaTypeImpl type;
 
     @Column(name="prefix", nullable=true, length=5)

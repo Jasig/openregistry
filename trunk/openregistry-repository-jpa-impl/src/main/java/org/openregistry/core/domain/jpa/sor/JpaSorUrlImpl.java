@@ -16,6 +16,7 @@
 package org.openregistry.core.domain.jpa.sor;
 
 import org.hibernate.envers.Audited;
+import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.Url;
 import org.openregistry.core.domain.Type;
@@ -49,6 +50,7 @@ public final class JpaSorUrlImpl extends Entity implements Url {
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
     @NotNull
+    @AllowedTypes
     private JpaTypeImpl type;
 
     @Column(name="url",length=500,nullable = false)
