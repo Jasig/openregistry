@@ -37,7 +37,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = RequiredSizeConstraintValidator.class)
 public @interface RequiredSize {
 
-    String property() default "";
+    String property();
 
     String message() default "{org.openregistry.core.domain.annotation.RequiredSize.message}";
 

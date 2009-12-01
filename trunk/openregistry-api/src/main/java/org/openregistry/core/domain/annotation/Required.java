@@ -36,7 +36,7 @@ import static java.lang.annotation.ElementType.*;
 @Constraint(validatedBy = RequiredFieldConstraintValidator.class)
 public @interface Required {
 
-    String property() default "";
+    String property();
 
     String message() default "{org.openregistry.core.domain.annotation.Required.message}";
 
