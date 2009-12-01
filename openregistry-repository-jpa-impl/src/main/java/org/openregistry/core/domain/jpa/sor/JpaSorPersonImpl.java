@@ -61,7 +61,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     private Long recordId;
 
     @Column(name="id")
-    @Required
+    @Required(property = "person.sorId")
     private String sorId;
 
     @Column(name="source_sor_id", nullable = false)
@@ -74,24 +74,24 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
 
     @Column(name="date_of_birth",nullable=false)
     @Temporal(TemporalType.DATE)
-    @Required(message="dateOfBirthRequiredMsg")
+    @Required(property="person.dateOfBirth", message="dateOfBirthRequiredMsg")
     @Past
     private Date dateOfBirth;
 
     @Column(name="gender",length=1,nullable=false)
-    @Required(message = "genderRequiredMsg")
+    @Required(property = "person.gender", message = "genderRequiredMsg")
     @Size(min=1,max=1,message = "genderRequiredMsg")
     private String gender;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @Fetch(value = FetchMode.SUBSELECT)
-    @RequiredSize
+    @RequiredSize(property = "person.names")
     @Valid
     private List<Name> names = new ArrayList<Name>();
 
     @Column(name="ssn",nullable=true)
-    @Required
+    @Required(property = "person.ssn")
     private String ssn;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)

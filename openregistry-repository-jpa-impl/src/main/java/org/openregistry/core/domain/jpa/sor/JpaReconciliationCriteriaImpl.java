@@ -43,24 +43,24 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
     // TODO annotation here for required size?
     private Map<IdentifierType, String> identifiersByType = new HashMap<IdentifierType, String>();
 
-    @Required
+    @Required(property="reconciliation.emailAddress")
     private String emailAddress;
 
-    @Required
+    @Required(property="reconciliation.phoneNumber")
     private String phoneNumber;
 
-    @Required
+    @Required(property = "reconciliation.addressLine1")
     private String addressLine1;
 
     private String addressLine2;
 
-    @Required
+    @Required(property = "reconciliation.city")
     private String city;
 
-    @Required
+    @Required(property = "reconciliation.region")
     private String region;
 
-    @Required
+    @Required(property = "reconciliation.postalCode")
     private String postalCode;
 
     public String toString() {
