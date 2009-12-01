@@ -45,7 +45,7 @@ public final class JpaSorEmailAddressImpl extends Entity implements EmailAddress
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
     @NotNull
-    @AllowedTypes
+    @AllowedTypes(property = "emailAddress.addressType")
     private JpaTypeImpl addressType;
 
     @Column(name="address",nullable=false,length=100)

@@ -100,7 +100,7 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     @ManyToOne(optional = false)
     @JoinColumn(name="person_status_t")
     @NotNull
-    @AllowedTypes
+    @AllowedTypes(property = "role.personStatus")
     private JpaTypeImpl personStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch=FetchType.EAGER, targetEntity = JpaSorLeaveImpl.class)

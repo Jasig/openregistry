@@ -53,13 +53,13 @@ public final class JpaSorPhoneImpl extends Entity implements Phone {
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
     @NotNull
-    @AllowedTypes
+    @AllowedTypes(property="phone.addressType")
     private JpaTypeImpl addressType;
 
     @ManyToOne(optional = false)
     @JoinColumn(name="phone_t")
     @NotNull
-    @AllowedTypes
+    @AllowedTypes(property = "phone.phoneType")
     private JpaTypeImpl phoneType;
 
     @Column(name="country_code",nullable=false,length=5)

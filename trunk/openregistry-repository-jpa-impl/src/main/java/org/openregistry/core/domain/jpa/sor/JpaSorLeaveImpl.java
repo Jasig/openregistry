@@ -55,7 +55,7 @@ public final class JpaSorLeaveImpl extends Entity implements Leave {
     @ManyToOne(optional = false)
     @JoinColumn(name="leave_t")
     @NotNull
-    @AllowedTypes
+    @AllowedTypes(property = "leave.reason")
     private JpaTypeImpl reason;
 
     @ManyToOne(optional=false)

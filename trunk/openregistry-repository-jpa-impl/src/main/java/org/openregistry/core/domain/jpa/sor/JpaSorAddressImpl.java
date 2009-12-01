@@ -50,7 +50,7 @@ public final class JpaSorAddressImpl extends Entity implements Address {
 
     @ManyToOne
     @JoinColumn(name="address_t")
-    @AllowedTypes
+    @AllowedTypes(property = "address.type")
     @NotNull
     private JpaTypeImpl type;
 

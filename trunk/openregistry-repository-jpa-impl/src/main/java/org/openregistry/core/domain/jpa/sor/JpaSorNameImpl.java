@@ -51,7 +51,7 @@ public final class JpaSorNameImpl extends Entity implements Name {
     @ManyToOne(optional=false)
     @JoinColumn(name="name_t", nullable=false)
     @NotNull
-    @AllowedTypes
+    @AllowedTypes(property = "name.type")
     private JpaTypeImpl type;
 
     @Column(name="prefix", nullable=true, length=5)
