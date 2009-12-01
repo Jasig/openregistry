@@ -53,7 +53,7 @@ public class JpaPersonImpl extends Entity implements Person {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<JpaNameImpl> names = new HashSet<JpaNameImpl>();
-    
+
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaRoleImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<Role> roles = new ArrayList<Role>();
@@ -211,6 +211,39 @@ public class JpaPersonImpl extends Entity implements Person {
         this.activationKey.removeKeyValues();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JpaPersonImpl jpaPerson = (JpaPersonImpl) o;
+
+        if (activationKey != null ? !activationKey.equals(jpaPerson.activationKey) : jpaPerson.activationKey != null)
+            return false;
+        if (dateOfBirth != null ? !dateOfBirth.equals(jpaPerson.dateOfBirth) : jpaPerson.dateOfBirth != null)
+            return false;
+        if (gender != null ? !gender.equals(jpaPerson.gender) : jpaPerson.gender != null) return false;
+        if (id != null ? !id.equals(jpaPerson.id) : jpaPerson.id != null) return false;
+        if (identifiers != null ? !identifiers.equals(jpaPerson.identifiers) : jpaPerson.identifiers != null)
+            return false;
+        if (names != null ? !names.equals(jpaPerson.names) : jpaPerson.names != null) return false;
+        if (roles != null ? !roles.equals(jpaPerson.roles) : jpaPerson.roles != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (names != null ? names.hashCode() : 0);
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (identifiers != null ? identifiers.hashCode() : 0);
+        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (activationKey != null ? activationKey.hashCode() : 0);
+        return result;
+    }
+
     public Role findRoleBySoRRoleId(final Long sorRoleId) {
         Assert.notNull(sorRoleId);
         for (final Role role : this.roles) {
@@ -220,4 +253,5 @@ public class JpaPersonImpl extends Entity implements Person {
         }
         return null;
     }
+
 }

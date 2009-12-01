@@ -30,11 +30,8 @@ import javax.persistence.*;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="name")
-@Table(name="prc_names",
-	   uniqueConstraints = {
-			   @UniqueConstraint(columnNames = {"person_id","is_preferred_name"}),
-			   @UniqueConstraint(columnNames={"person_id","is_official_name"})
-	   })
+@Table(name="prc_names")
+
 @Audited
 public class JpaNameImpl extends Entity implements Name {
 
@@ -177,5 +174,22 @@ public class JpaNameImpl extends Entity implements Name {
             builder.append(string);
             builder.append(delimiter);
         }
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JpaNameImpl)) return false;
+
+        final JpaNameImpl that = (JpaNameImpl) o;
+
+        if (family != null ? !family.equals(that.family) : that.family != null) return false;
+        if (given != null ? !given.equals(that.given) : that.given != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (middle != null ? !middle.equals(that.middle) : that.middle != null) return false;
+        if (prefix != null ? !prefix.equals(that.prefix) : that.prefix != null) return false;
+        if (suffix != null ? !suffix.equals(that.suffix) : that.suffix != null) return false;
+
+        return true;
     }
 }
