@@ -35,7 +35,6 @@ public final class RequiredSizeConstraintValidator extends AbstractSystemOfRecor
     }
 
     public boolean isValid(final Collection o, final ConstraintValidatorContext constraintValidatorContext) {
-        // TODO finish this off
-        return true;
+        return o == null || getSoRSpecification().isWithinRequiredSize(this.property, o);
     }
 }

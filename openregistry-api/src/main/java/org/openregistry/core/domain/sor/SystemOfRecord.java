@@ -23,9 +23,13 @@ package org.openregistry.core.domain.sor;
  */
 public interface SystemOfRecord {
 
+    enum Interfaces {BATCH, INTERACTIVE, REALTIME}
+
     /**
      * The String identifier, i.e. "registrar"
      * @return the String identifier, cannot be null.
      */
     String getStringId();
+
+    Interfaces[] allowedInterfaces();
 }

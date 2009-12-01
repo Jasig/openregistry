@@ -17,6 +17,8 @@ package org.openregistry.core.repository;
 
 import org.openregistry.core.domain.sor.SoRSpecification;
 
+import java.util.Collection;
+
 /**
  * @version $Revision$ $Date$
  * @since 0.1
@@ -24,6 +26,18 @@ import org.openregistry.core.domain.sor.SoRSpecification;
 public final class MockSystemOfRecordRepository implements SystemOfRecordRepository {
 
     public SoRSpecification findSoRSpecificationById(final String sorSourceId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new SoRSpecification() {
+            public boolean isAllowedValueForProperty(String property, String value) {
+                return true;
+            }
+
+            public boolean isRequiredProperty(String property) {
+                return false;
+            }
+
+            public boolean isWithinRequiredSize(String property, Collection collection) {
+                return true;
+            }
+        };
     }
 }
