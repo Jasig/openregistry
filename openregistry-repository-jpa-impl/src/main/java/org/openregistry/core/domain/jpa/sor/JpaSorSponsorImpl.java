@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.sor.SorRole;
@@ -51,6 +52,7 @@ public class JpaSorSponsorImpl extends Entity implements SorSponsor {
     @ManyToOne(optional = false)
     @JoinColumn(name="sponsor_t")
     @NotNull
+    @AllowedTypes(property="sponsor.sponsorType")
     private JpaTypeImpl sponsorType;
 
     @Column(name="sponsor_id")

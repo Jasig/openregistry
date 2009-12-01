@@ -37,7 +37,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = AllowedTypeConstraintValidator.class)
 public @interface AllowedTypes {
 
-    String property() default "";
+    String property();
 
     String message() default "{org.openregistry.core.domain.annotation.AllowedTypes.message}";
 

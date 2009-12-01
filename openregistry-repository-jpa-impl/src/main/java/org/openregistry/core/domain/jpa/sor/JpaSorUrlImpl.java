@@ -50,7 +50,7 @@ public final class JpaSorUrlImpl extends Entity implements Url {
     @ManyToOne(optional = false)
     @JoinColumn(name="address_t")
     @NotNull
-    @AllowedTypes
+    @AllowedTypes(property = "url.type")
     private JpaTypeImpl type;
 
     @Column(name="url",length=500,nullable = false)
