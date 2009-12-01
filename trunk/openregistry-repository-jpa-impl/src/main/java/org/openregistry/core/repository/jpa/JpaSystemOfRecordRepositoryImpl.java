@@ -19,6 +19,7 @@ import org.openregistry.core.domain.sor.SoRSpecification;
 import org.openregistry.core.repository.SystemOfRecordRepository;
 
 import javax.inject.Named;
+import java.util.Collection;
 
 /**
  * @author Scott Battaglia
@@ -31,6 +32,17 @@ public final class JpaSystemOfRecordRepositoryImpl implements SystemOfRecordRepo
     public SoRSpecification findSoRSpecificationById(final String sorSourceId) {
         return new SoRSpecification() {
 
+            public boolean isAllowedValueForProperty(String property, String value) {
+                return true;
+            }
+
+            public boolean isRequiredProperty(String property) {
+                return false;
+            }
+
+            public boolean isWithinRequiredSize(String property, Collection collection) {
+                return true;
+            }
         };
     }
 }

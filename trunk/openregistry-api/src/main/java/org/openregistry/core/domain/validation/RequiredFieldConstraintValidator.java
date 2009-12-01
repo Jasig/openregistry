@@ -35,13 +35,8 @@ public final class RequiredFieldConstraintValidator extends AbstractSystemOfReco
     }
 
     public boolean isValid(final Object o, final ConstraintValidatorContext constraintValidatorContext) {
-        final SoRSpecification soRSpecification = getSoRSpecification();
+        final boolean required = getSoRSpecification().isRequiredProperty(this.property);
 
-        // TODO change this once we actually have some SoRs
-        if (soRSpecification == null) {
-            return true;
-        }
-
-        return true;
+        return !required || o != null;
     }
 }

@@ -15,12 +15,45 @@
  */
 package org.openregistry.core.domain.sor;
 
+import java.util.Collection;
+
 /**
- * Created by IntelliJ IDEA.
- * User: battags
- * Date: Nov 23, 2009
- * Time: 2:48:39 PM
- * To change this template use File | Settings | File Templates.
+ * Represents a System of Record's specification.
+ *
+ * @version $Revision$ $Date$
+ * @since 0.1
  */
 public interface SoRSpecification {
+
+    /**
+     * Determines whether an SoR is allowed to assert a specific type value for a property.
+     * <p>
+     * Note, if the property is not found in the SoR's specification, the assumption is that there is no
+     * restriction.
+     *
+     * @param property the property to check
+     * @param value the value we want to confirm.
+     * @return true, if its allowed, false otherwise.
+     */
+    boolean isAllowedValueForProperty(String property, String value);
+
+    /**
+     * Determines whether an SoR is required to send this property or not.
+     *
+     * @param property the property to check
+     * @return true if its required, false if not.
+     */
+    boolean isRequiredProperty(String property);
+
+
+    /**
+     * Determines whether an SoR provided a collection of objects of the appropriate size.
+     * <p>
+     * Note, that if the property is not found in the SoR's specification, the assumption is that there
+     * is no restriction.
+     * @param property the property to check
+     * @param collection the collection to determine the size of
+     * @return true if its the required size, false if not.
+     */
+    boolean isWithinRequiredSize(String property, Collection collection);
 }

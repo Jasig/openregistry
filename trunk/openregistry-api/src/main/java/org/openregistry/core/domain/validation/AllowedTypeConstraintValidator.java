@@ -35,7 +35,6 @@ public final class AllowedTypeConstraintValidator extends AbstractSystemOfRecord
     }
 
     public boolean isValid(final Type type, final ConstraintValidatorContext constraintValidatorContext) {
-        // TODO implement
-        return true;
+        return type == null || getSoRSpecification().isAllowedValueForProperty(this.property, type.getDataType());
     }
 }
