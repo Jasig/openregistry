@@ -16,6 +16,8 @@
 package org.openregistry.core.utils;
 
 import javax.validation.ConstraintViolation;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,12 +35,12 @@ public final class ValidationUtils {
      * Build a String representation of a set of provided <code>ConstraintViolation</code>s
      *
      * @param validationErrors
-     * @return String representation of a given collection constriant violations
+     * @return String representation of a given collection constraint violations
      *         or null if the set is empty
      * @throws NullPointerException if passed in set reference is null
      */
-    public static String buildValidationErrorsResponse(final Set<ConstraintViolation> validationErrors) throws NullPointerException {
-        if (!validationErrors.isEmpty()) {
+    public static String buildValidationErrorsResponseAsString(final Set<ConstraintViolation> validationErrors) throws NullPointerException {
+        if (validationErrors.isEmpty()) {
             return null;
         }
         final StringBuilder builder = new StringBuilder();
@@ -50,5 +52,16 @@ public final class ValidationUtils {
             builder.append(violation.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName());
         }
         return builder.toString();
+    }
+
+    public static List<String> buildValidationErrorsResponseAsList(final Set<ConstraintViolation> validationErrors) throws NullPointerException {
+        if (validationErrors.isEmpty()) {
+            return null;
+        }
+        final List<String> errs = new ArrayList<String>(validationErrors.size());
+        for (final ConstraintViolation violation : validationErrors) {
+            errs.add(String.format("The [%s] field value is invalid.", violation.getPropertyPath().toString()));
+        }
+        return errs;
     }
 }

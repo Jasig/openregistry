@@ -16,6 +16,7 @@
 package org.openregistry.core.web.resources;
 
 import org.openregistry.core.domain.*;
+import org.openregistry.core.web.resources.representations.ErrorsResponseRepresentation;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.ObjectFactory;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
@@ -89,19 +90,18 @@ public final class PeopleResource {
             return response;
         }
         final Person person = findPersonOrThrowNotFoundException(personIdType, personId);
-        final ReconciliationCriteria reconciliationCriteria = PeopleResourceUtils.buildReconciliationCriteriaFrom(personRequestRepresentation, 
+        final ReconciliationCriteria reconciliationCriteria = PeopleResourceUtils.buildReconciliationCriteriaFrom(personRequestRepresentation,
                 this.reconciliationCriteriaObjectFactory, this.referenceRepository);
         logger.info("Trying to link incoming SOR person with calculated person...");
         try {
             this.personService.addPersonAndLink(reconciliationCriteria, person);
         }
         catch (IllegalStateException ex) {
-            return Response.status(409).entity(ex.getMessage()).build();
+            Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(ex.getMessage()))).type(MediaType.APPLICATION_XML).build();
         }
         //HTTP 204
         return null;
     }
-
 
 
     private List<PersonResponseRepresentation.PersonIdentifierRepresentation> buildPersonIdentifierRepresentations(final Set<Identifier> identifiers) {
@@ -130,6 +130,6 @@ public final class PeopleResource {
                             personIdType, personId));
         }
         return person;
-    }    
+    }
 }
 

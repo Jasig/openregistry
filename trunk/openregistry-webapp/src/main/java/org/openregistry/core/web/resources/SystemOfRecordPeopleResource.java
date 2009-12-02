@@ -25,6 +25,7 @@ import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
+import org.openregistry.core.web.resources.representations.ErrorsResponseRepresentation;
 import org.openregistry.core.web.resources.representations.LinkRepresentation;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
 import org.openregistry.core.web.resources.representations.PersonModifyRepresentation;
@@ -44,6 +45,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -113,8 +115,10 @@ public final class SystemOfRecordPeopleResource {
                 final URI uri = buildPersonResourceUri(forcefullyAddedPerson);
                 response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(forcefullyAddedPerson)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
                 logger.info(String.format("Person successfully created (with 'force add' option). The person resource URI is %s", uri.toString()));
-            } catch (final IllegalStateException e) {
-                response = Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+            }
+            catch (final IllegalStateException e) {
+                response = Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(e.getMessage())))
+                        .type(MediaType.APPLICATION_XML).build();
             }
             return response;
         }
@@ -124,7 +128,9 @@ public final class SystemOfRecordPeopleResource {
 
             if (!result.succeeded()) {
                 logger.info("The incoming person payload did not pass validation. Validation errors: " + result.getValidationErrors());
-                return Response.status(Response.Status.BAD_REQUEST).entity("The incoming request is malformed.").build();
+                return Response.status(Response.Status.BAD_REQUEST).
+                        entity(new ErrorsResponseRepresentation(ValidationUtils.buildValidationErrorsResponseAsList(result.getValidationErrors())))
+                        .type(MediaType.APPLICATION_XML).build();
             }
 
             final Person person = result.getTargetObject();
@@ -136,7 +142,8 @@ public final class SystemOfRecordPeopleResource {
             switch (ex.getReconciliationType()) {
                 case MAYBE:
                     final List<PersonMatch> conflictingPeopleFound = ex.getMatches();
-                    response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound)).type(MediaType.APPLICATION_XHTML_XML).build();
+                    response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound))
+                            .type(MediaType.APPLICATION_XHTML_XML).build();
                     logger.info("Multiple people found: " + response.getEntity());
                     break;
 
@@ -147,8 +154,10 @@ public final class SystemOfRecordPeopleResource {
                     logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
                     break;
             }
-        } catch (final IllegalStateException e) {
-                response = Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+        catch (final IllegalStateException e) {
+            response = Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(e.getMessage())))
+                    .type(MediaType.APPLICATION_XML).build();
         }
         return response;
     }
@@ -178,8 +187,8 @@ public final class SystemOfRecordPeopleResource {
     @Path("{sorPersonId}")
     @Consumes(MediaType.APPLICATION_XML)
     public Response updateIncomingPerson(@PathParam("sorSourceId") final String sorSourceId,
-                                       @PathParam("sorPersonId") final String sorPersonId,
-                                       final PersonModifyRepresentation personModifyRepresentation) {
+                                         @PathParam("sorPersonId") final String sorPersonId,
+                                         final PersonModifyRepresentation personModifyRepresentation) {
 
         SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
 
@@ -190,10 +199,14 @@ public final class SystemOfRecordPeopleResource {
             if (!result.getValidationErrors().isEmpty()) {
                 //HTTP 400
                 logger.info("The incoming person payload did not pass validation. Validation errors: " + result.getValidationErrors());
-                return Response.status(Response.Status.BAD_REQUEST).entity("The incoming request is malformed.").build();
+                return Response.status(Response.Status.BAD_REQUEST).
+                        entity(new ErrorsResponseRepresentation(ValidationUtils.buildValidationErrorsResponseAsList(result.getValidationErrors())))
+                        .type(MediaType.APPLICATION_XML).build();
             }
-        } catch (IllegalStateException e){
-            return Response.status(409).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+        catch (IllegalStateException e) {
+            Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(e.getMessage())))
+                    .type(MediaType.APPLICATION_XML).build();
         }
         //HTTP 204
         return null;
@@ -241,7 +254,7 @@ public final class SystemOfRecordPeopleResource {
         return sorPerson;
     }
 
-    private void updateSorPersonWithIncomingData(SorPerson sorPerson, PersonModifyRepresentation personRepresentation){
+    private void updateSorPersonWithIncomingData(SorPerson sorPerson, PersonModifyRepresentation personRepresentation) {
         sorPerson.setDateOfBirth(personRepresentation.dateOfBirth);
         sorPerson.setSsn(personRepresentation.ssn);
         sorPerson.setGender(personRepresentation.gender);
@@ -259,18 +272,20 @@ public final class SystemOfRecordPeopleResource {
             //TODO Default is Formal unless already have a name marked Formal or Legal?
             if (n.nameType != null && referenceRepository.findType(Type.DataTypes.NAME, n.nameType) != null) {
                 name.setType(referenceRepository.findType(Type.DataTypes.NAME, n.nameType));
-            } else {
+            }
+            else {
                 if (!hasLegalorFormalNameType) {
                     name.setType(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
                     hasLegalorFormalNameType = true;
-                } else {
+                }
+                else {
                     name.setType(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.AKA));
                 }
             }
         }
     }
 
-    private boolean hasLegalorFormalNameType(PersonModifyRepresentation personRepresentation){
+    private boolean hasLegalorFormalNameType(PersonModifyRepresentation personRepresentation) {
         for (final PersonModifyRepresentation.Name n : personRepresentation.names)
             if (n.nameType != null && (n.nameType.equals(Type.NameTypes.LEGAL) || n.nameType.equals(Type.NameTypes.FORMAL))) return true;
         return false;

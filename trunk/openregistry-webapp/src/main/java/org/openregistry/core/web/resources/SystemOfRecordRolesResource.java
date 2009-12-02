@@ -80,7 +80,8 @@ public class SystemOfRecordRolesResource {
         if (!result.getValidationErrors().isEmpty()) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).
-                    entity(ValidationUtils.buildValidationErrorsResponse(result.getValidationErrors())).build();
+                    entity(new ErrorsResponseRepresentation(ValidationUtils.buildValidationErrorsResponseAsList(result.getValidationErrors())))
+                    .type(MediaType.APPLICATION_XML).build();
         }
 
         //HTTP 201
@@ -104,7 +105,8 @@ public class SystemOfRecordRolesResource {
         if (!result.getValidationErrors().isEmpty()) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).
-                    entity(ValidationUtils.buildValidationErrorsResponse(result.getValidationErrors())).build();
+                    entity(new ErrorsResponseRepresentation(ValidationUtils.buildValidationErrorsResponseAsList(result.getValidationErrors())))
+                    .type(MediaType.APPLICATION_XML).build();
         }
         //HTTP 204
         return null;
