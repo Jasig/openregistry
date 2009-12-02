@@ -81,6 +81,14 @@
         </property>
     </bean>
 
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver">
+        <property name="defaultThemeName">
+            <value>theme</value>
+        </property>
+    </bean>
+
+    <bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource"></bean>
+
     <bean id="openregistryMessageSourceAccessor" class="org.openregistry.aspect.OpenRegistryMessageSourceAccessor"/>
 
     <!-- Messaging integration configuration -->
