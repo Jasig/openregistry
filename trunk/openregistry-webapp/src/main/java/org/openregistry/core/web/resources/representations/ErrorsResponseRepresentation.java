@@ -17,6 +17,16 @@ import java.util.List;
 @XmlRootElement(name = "open-registry-errors")
 public class ErrorsResponseRepresentation {
 
+    /**
+     * Required by JAXB provider
+     */
+    public ErrorsResponseRepresentation() {
+    }
+
+    public ErrorsResponseRepresentation(List<String> errorMessages) {
+        this.errorMessages = errorMessages;
+    }
+
     @XmlElement(name = "error")
-    public List<String> errorMessage;
+    public List<String> errorMessages;
 }
