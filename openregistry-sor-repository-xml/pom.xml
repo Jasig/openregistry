@@ -28,6 +28,12 @@
             <type>jar</type>
             <scope>compile</scope>
             <version>${spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
