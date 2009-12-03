@@ -31,6 +31,9 @@ public final class JpaSystemOfRecordRepositoryImpl implements SystemOfRecordRepo
 
     public SoRSpecification findSoRSpecificationById(final String sorSourceId) {
         return new SoRSpecification() {
+            public String getSoR() {
+                return "foo";
+            }
 
             public boolean isAllowedValueForProperty(String property, String value) {
                 return true;

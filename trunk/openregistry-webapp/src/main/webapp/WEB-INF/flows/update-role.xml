@@ -31,7 +31,7 @@
             <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
         </on-entry>
         <transition on="submitUpdateRole" to="roleWasUpdated" >
-            <evaluate expression="roleAction.updateSorRole(role, messageContext)"/>
+            <evaluate expression="roleAction.updateSorRole(sorPerson, role, messageContext)"/>
         </transition>
         <transition on="submitUpdateAddress" to="updateAddress" >
             <set name="requestScope.addressId" value="requestParameters.addressId" type="long" />
@@ -79,7 +79,7 @@
             <set name="viewScope.address" value="flowScope.address" />
         </on-entry>
         <transition on="submitUpdateAddressInfo" to="roleWasUpdated" >
-            <evaluate expression="roleAction.updateSorRole(role, messageContext)"/>
+            <evaluate expression="roleAction.updateSorRole(sorPerson, role, messageContext)"/>
         </transition>
     </view-state>
 

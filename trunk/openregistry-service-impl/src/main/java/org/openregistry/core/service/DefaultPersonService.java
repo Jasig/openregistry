@@ -482,27 +482,26 @@ public class DefaultPersonService implements PersonService {
 
     }
 
-    /**
-     * Persists an SorRole on update.
-     *
-     * @param role to update.
-     * @return serviceExecutionResult.
-     */
     @Transactional
-    public ServiceExecutionResult<SorRole> updateSorRole(SorRole role) {
-        final Set validationErrors = this.validator.validate(role);
+    public ServiceExecutionResult<SorRole> updateSorRole(final SorPerson sorPerson, final SorRole sorRole) {
+        Assert.notNull(sorPerson, "sorPerson cannot be null.");
+        Assert.notNull(sorRole, "sorRole cannot be null.");
+
+        final Set validationErrors = this.validator.validate(sorRole);
 
         if (!validationErrors.isEmpty()) {
             return new GeneralServiceExecutionResult<SorRole>(validationErrors);
         }
 
-        logger.info("PersonService:updateSorPerson: updating role...");
-        // Save Sor Person
-        role = this.personRepository.saveSorRole(role);
+        final SorRole savedSorRole = this.personRepository.saveSorRole(sorRole);
 
-        return new GeneralServiceExecutionResult<SorRole>(role);
+        final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
+        final Role role = person.findRoleBySoRRoleId(savedSorRole.getId());
 
-        // TODO Need to update the calculated role. Need to establish rules to do this. OR-58
+        role.recalculate(sorRole);
+        this.personRepository.savePerson(person);
+
+        return new GeneralServiceExecutionResult<SorRole>(savedSorRole);
     }
 
     @Transactional

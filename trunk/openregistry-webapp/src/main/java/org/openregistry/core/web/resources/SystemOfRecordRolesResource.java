@@ -99,9 +99,13 @@ public class SystemOfRecordRolesResource {
                                        @PathParam("sorRoleId") final String sorRoleId,
                                        final RoleRepresentation roleRepresentation) {
 
-        final SorRole sorRole = (SorRole) findPersonAndRoleOrThrowNotFoundException(sorSourceId, sorPersonId, sorRoleId).get("role");
+        final Map<String,Object> pair = findPersonAndRoleOrThrowNotFoundException(sorSourceId, sorPersonId, sorRoleId);
+
+        final SorRole sorRole = (SorRole) pair.get("role");
+        final SorPerson sorPerson = (SorPerson) pair.get("person");
+
         updateSorRoleWithIncomingData(sorRole, roleRepresentation);
-        ServiceExecutionResult<SorRole> result = this.personService.updateSorRole(sorRole);
+        ServiceExecutionResult<SorRole> result = this.personService.updateSorRole(sorPerson, sorRole);
         if (!result.getValidationErrors().isEmpty()) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST).

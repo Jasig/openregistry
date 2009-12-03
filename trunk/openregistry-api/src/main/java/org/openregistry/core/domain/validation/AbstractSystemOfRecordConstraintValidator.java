@@ -42,6 +42,11 @@ public abstract class AbstractSystemOfRecordConstraintValidator<A extends Annota
 
         // TODO this should be replaced with  the IllegalStateException above
         return new SoRSpecification() {
+
+            public String getSoR() {
+                return "foo";
+            }
+
             public boolean isAllowedValueForProperty(String property, String value) {
                 return true;
             }
