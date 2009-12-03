@@ -205,7 +205,7 @@ public final class SystemOfRecordPeopleResource {
             }
         }
         catch (IllegalStateException e) {
-            Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(e.getMessage())))
+            return Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(e.getMessage())))
                     .type(MediaType.APPLICATION_XML).build();
         }
         //HTTP 204

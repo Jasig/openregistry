@@ -97,7 +97,7 @@ public final class PeopleResource {
             this.personService.addPersonAndLink(reconciliationCriteria, person);
         }
         catch (IllegalStateException ex) {
-            Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(ex.getMessage()))).type(MediaType.APPLICATION_XML).build();
+            return Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(ex.getMessage()))).type(MediaType.APPLICATION_XML).build();
         }
         //HTTP 204
         return null;

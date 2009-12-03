@@ -17,6 +17,7 @@ package org.openregistry.core.web.resources;
 
 import org.mockito.ArgumentMatcher;
 import org.mockito.Matchers;
+import org.openregistry.core.MockitoUtils;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
@@ -51,10 +52,6 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
     public void init() throws Exception {
 
         //Subbing a set of execution errors
-        Set<ConstraintViolation> mockSetWithErrors = mock(Set.class, "withErrors");
-        when(mockSetWithErrors.isEmpty()).thenReturn(false);
-
-        //Subbing a set of execution errors
         Set<ConstraintViolation> mockSetWithNoErrors = mock(Set.class, "withNoErrors");        
         when(mockSetWithNoErrors.isEmpty()).thenReturn(true);
 
@@ -77,7 +74,8 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
 
         //Stubbing service execution result without validation errors
         final ServiceExecutionResult<SorRole> badExecutionResult = mock(ServiceExecutionResult.class, "bad execution result");
-        when(badExecutionResult.getValidationErrors()).thenReturn(mockSetWithErrors);
+        Set<ConstraintViolation> mockValidationErrors = MockitoUtils.oneMinimalisticMockConstraintViolation();
+        when(badExecutionResult.getValidationErrors()).thenReturn(mockValidationErrors);
 
         //Stubbing Person
         final SorPerson mockPerson = mock(SorPerson.class);
