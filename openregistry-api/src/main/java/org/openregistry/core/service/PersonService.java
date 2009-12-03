@@ -175,15 +175,16 @@ public interface PersonService {
      * @param sorPerson the Person to update.
      * @return Result of updating.  Validation errors if they occurred or the sorPerson.
      */
-    ServiceExecutionResult<SorPerson> updateSorPerson(final SorPerson sorPerson);
+    ServiceExecutionResult<SorPerson> updateSorPerson(SorPerson sorPerson);
 
     /**
-     * Updates the SorRole.
+     * Updates the SorRole for a particular person.
      *
-     * @param role to update
+     * @param sorPerson the person who's role we are updating.  CANNOT BE NULL.
+     * @param role the role we are updating.  CANNOT BE NULL.
      * @return Result of updating.  Validation errors if they occurred or the sorPerson.
      */
-    ServiceExecutionResult<SorRole> updateSorRole(final SorRole role);
+    ServiceExecutionResult<SorRole> updateSorRole(SorPerson sorPerson, SorRole role);
 
     /**
      * Removes an SorName.

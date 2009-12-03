@@ -16,7 +16,6 @@
 package org.openregistry.core.domain.jpa.sor;
 
 import org.openregistry.core.domain.annotation.Required;
-import org.openregistry.core.domain.annotation.RequiredSize;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.IdentifierType;

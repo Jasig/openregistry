@@ -96,8 +96,8 @@ public final class RoleAction extends AbstractPersonServiceAction {
         return convertAndReturnStatus(result, context, null);
     }
 
-    public boolean updateSorRole(final SorRole role, final MessageContext context) {
-        final ServiceExecutionResult<SorRole> result = getPersonService().updateSorRole(role);
+    public boolean updateSorRole(final SorPerson sorPerson, final SorRole role, final MessageContext context) {
+        final ServiceExecutionResult<SorRole> result = getPersonService().updateSorRole(sorPerson, role);
         return convertAndReturnStatus(result, context, "roleUpdated");
     }
 

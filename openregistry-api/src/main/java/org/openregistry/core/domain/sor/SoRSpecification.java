@@ -26,6 +26,13 @@ import java.util.Collection;
 public interface SoRSpecification {
 
     /**
+     * Returns the String representation of the SoR who this specification is for.
+     *
+     * @return the String representation.  CANNOT be NULL.
+     */
+    String getSoR();
+
+    /**
      * Determines whether an SoR is allowed to assert a specific type value for a property.
      * <p>
      * Note, if the property is not found in the SoR's specification, the assumption is that there is no

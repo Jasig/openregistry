@@ -88,8 +88,8 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
         final PersonService ps = mock(PersonService.class);
         when(ps.findBySorIdentifierAndSource(eq("TEST-SOR-ID"), eq("NON-EXISTING-SOR-PERSON"))).thenReturn(null);
         when(ps.findBySorIdentifierAndSource(eq("TEST-SOR-ID"), eq("EXISTING-SOR-PERSON"))).thenReturn(mockPerson);
-        when(ps.updateSorRole(argThat(new IsGoodSorRoleMatch()))).thenReturn(goodExecutionResult);
-        when(ps.updateSorRole(argThat(new IsBadSorRoleMatch()))).thenReturn(badExecutionResult);
+        when(ps.updateSorRole(argThat(new PersonMatch()), argThat(new IsGoodSorRoleMatch()))).thenReturn(goodExecutionResult);
+        when(ps.updateSorRole(argThat(new PersonMatch()), argThat(new IsBadSorRoleMatch()))).thenReturn(badExecutionResult);
 
         this.mockPersonService = ps;
     }
@@ -104,6 +104,13 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
 
     public boolean isSingleton() {
         return true;
+    }
+
+    private static class PersonMatch extends ArgumentMatcher<SorPerson> {
+        @Override
+        public boolean matches(final Object o) {
+            return true;
+        }
     }
 
     private static class IsGoodSorRoleMatch extends ArgumentMatcher<SorRole> {
