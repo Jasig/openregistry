@@ -33,6 +33,7 @@ import org.openregistry.core.utils.ValidationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -99,10 +100,8 @@ public final class SystemOfRecordPeopleResource {
                                           @QueryParam("force") String forceAdd) {
 
         personRequestRepresentation.systemOfRecordId = sorSourceId;
-        Response response = PeopleResourceUtils.validate(personRequestRepresentation);
-        if (response != null) {
-            return response;
-        }
+        Response response = null;
+        
         final ReconciliationCriteria reconciliationCriteria = PeopleResourceUtils.buildReconciliationCriteriaFrom(personRequestRepresentation,
                 this.reconciliationCriteriaObjectFactory, this.referenceRepository);
         logger.info("Trying to add incoming person...");
@@ -190,7 +189,7 @@ public final class SystemOfRecordPeopleResource {
                                          @PathParam("sorPersonId") final String sorPersonId,
                                          final PersonModifyRepresentation personModifyRepresentation) {
 
-        SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
+        final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
 
         updateSorPersonWithIncomingData(sorPerson, personModifyRepresentation);
         try {
@@ -213,18 +212,13 @@ public final class SystemOfRecordPeopleResource {
     }
 
     private URI buildPersonResourceUri(final Person person) {
-        for (final Identifier id : person.getIdentifiers()) {
-            if (this.preferredPersonIdentifierType.equals(id.getType().getName())) {
-                return this.uriInfo.getAbsolutePathBuilder().path(this.preferredPersonIdentifierType)
-                        .path(id.getValue()).build();
-            }
-        }
-        //Person MUST have at least one id of the preferred configured type. Results in HTTP 500
-        throw new IllegalStateException("The person must have at least one id of the preferred configured type " +
-                "which is <" + this.preferredPersonIdentifierType + ">");
+        final Identifier identifier = person.pickOutIdentifier(this.preferredPersonIdentifierType);
+
+        Assert.notNull(identifier, "The person must have at least one id of the preferred configured type which is <" + this.preferredPersonIdentifierType + ">");
+        return this.uriInfo.getAbsolutePathBuilder().path(this.preferredPersonIdentifierType).path(identifier.getValue()).build();
     }
 
-    private LinkRepresentation buildLinksToConflictingPeopleFound(List<PersonMatch> matches) {
+    private LinkRepresentation buildLinksToConflictingPeopleFound(final List<PersonMatch> matches) {
         //A little defensive stuff. Will result in HTTP 500
         if (matches.isEmpty()) {
             throw new IllegalStateException("Person matches cannot be empty if reconciliation result is <MAYBE>");
@@ -243,7 +237,7 @@ public final class SystemOfRecordPeopleResource {
         return f;
     }
 
-    private SorPerson findPersonOrThrowNotFoundException(String sorSourceId, String sorPersonId) {
+    private SorPerson findPersonOrThrowNotFoundException(final String sorSourceId, final String sorPersonId) {
         final SorPerson sorPerson = this.personService.findBySorIdentifierAndSource(sorSourceId, sorPersonId);
         if (sorPerson == null) {
             //HTTP 404
@@ -259,7 +253,7 @@ public final class SystemOfRecordPeopleResource {
         sorPerson.setSsn(personRepresentation.ssn);
         sorPerson.setGender(personRepresentation.gender);
 
-        boolean hasLegalorFormalNameType = hasLegalorFormalNameType(personRepresentation);
+        boolean hasLegalOrFormalNameType = hasLegalOrFormalNameType(personRepresentation);
         sorPerson.getNames().clear();
         for (final PersonModifyRepresentation.Name n : personRepresentation.names) {
             final Name name = sorPerson.addName();
@@ -274,9 +268,9 @@ public final class SystemOfRecordPeopleResource {
                 name.setType(referenceRepository.findType(Type.DataTypes.NAME, n.nameType));
             }
             else {
-                if (!hasLegalorFormalNameType) {
+                if (!hasLegalOrFormalNameType) {
                     name.setType(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
-                    hasLegalorFormalNameType = true;
+                    hasLegalOrFormalNameType = true;
                 }
                 else {
                     name.setType(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.AKA));
@@ -285,9 +279,9 @@ public final class SystemOfRecordPeopleResource {
         }
     }
 
-    private boolean hasLegalorFormalNameType(PersonModifyRepresentation personRepresentation) {
+    private boolean hasLegalOrFormalNameType(PersonModifyRepresentation personRepresentation) {
         for (final PersonModifyRepresentation.Name n : personRepresentation.names)
-            if (n.nameType != null && (n.nameType.equals(Type.NameTypes.LEGAL) || n.nameType.equals(Type.NameTypes.FORMAL))) return true;
+            if (n.nameType != null && (n.nameType.equals(Type.NameTypes.LEGAL.name()) || n.nameType.equals(Type.NameTypes.FORMAL.name()))) return true;
         return false;
     }
 

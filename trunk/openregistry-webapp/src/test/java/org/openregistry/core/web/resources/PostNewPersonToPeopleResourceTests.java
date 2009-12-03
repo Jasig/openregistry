@@ -49,12 +49,6 @@ public class PostNewPersonToPeopleResourceTests extends JerseyTestSupport {
     }
 
     @Test
-    public void missingRequiredData() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(400, RESOURCE_UNDER_TEST_URI,
-                POST_HTTP_METHOD, new PersonRequestRepresentation());
-    }
-
-    @Test
     public void addingNonExistentPerson() {
         assertNotNull(assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(201, RESOURCE_UNDER_TEST_URI, POST_HTTP_METHOD,
                 PersonRequestRepresentation.forNewPerson()).getHeaders().getFirst("Location"));

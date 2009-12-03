@@ -48,12 +48,6 @@ public class PostLinkSorPersonViaRestResourceTests extends JerseyTestSupport {
     }
 
     @Test
-    public void missingRequiredData() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(400, RESOURCE_UNDER_TEST_URI_EXISTING,
-                POST_HTTP_METHOD, new PersonRequestRepresentation());
-    }
-
-    @Test
     public void nonExistingPersonResource() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(404, RESOURCE_UNDER_TEST_URI_NON_EXISTING,
                 POST_HTTP_METHOD, PersonRequestRepresentation.forLinkingSorPersonGood());
