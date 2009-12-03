@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.web.resources;
 
+import org.openregistry.core.MockitoUtils;
 import org.springframework.beans.factory.FactoryBean;
 
 import static org.mockito.Mockito.*;
@@ -27,6 +28,7 @@ import org.openregistry.core.domain.Name;
 import org.openregistry.core.repository.ReferenceRepository;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.Path;
 import java.util.*;
 
 /**
@@ -45,10 +47,6 @@ public class UpdateSorPersonMockitoBasedPersonServiceFactoryBean implements Fact
 
         //Stubbing Name
         final Name mockName = mock(Name.class);
-
-        //Subbing a set of execution errors
-        Set<ConstraintViolation> mockSetWithErrors = mock(Set.class, "withErrors");
-        when(mockSetWithErrors.isEmpty()).thenReturn(false);
 
         //Subbing a set of execution errors
         Set<ConstraintViolation> mockSetWithNoErrors = mock(Set.class, "withNoErrors");
@@ -83,7 +81,8 @@ public class UpdateSorPersonMockitoBasedPersonServiceFactoryBean implements Fact
 
         //Stubbing service execution result without validation errors
         final ServiceExecutionResult<SorPerson> badExecutionResult = mock(ServiceExecutionResult.class, "bad execution result");
-        when(badExecutionResult.getValidationErrors()).thenReturn(mockSetWithErrors);
+        Set<ConstraintViolation> mockValidationErrors = MockitoUtils.oneMinimalisticMockConstraintViolation();
+        when(badExecutionResult.getValidationErrors()).thenReturn(mockValidationErrors);
 
         //Stubbing PersonService
         final PersonService ps = mock(PersonService.class);
