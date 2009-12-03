@@ -20,15 +20,10 @@ import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.repository.ReferenceRepository;
-import org.openregistry.core.web.resources.representations.ErrorsResponseRepresentation;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
 import org.openregistry.core.web.resources.representations.PersonModifyRepresentation;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.util.Assert;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.Arrays;
 
 /**
  * @since 1.0
@@ -44,28 +39,65 @@ public final class PeopleResourceUtils {
         final ReconciliationCriteria rc = factory.getObject();
         rc.getSorPerson().setSourceSor(request.systemOfRecordId);
         rc.getSorPerson().setSorId(request.systemOfRecordPersonId);
-        final Name name = rc.getSorPerson().addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
-        name.setGiven(request.firstName);
-        name.setFamily(request.lastName);
-        rc.setEmailAddress(request.email);
-        rc.setPhoneNumber(request.phoneNumber);
+
+        boolean hasLegalorFormalNameType = hasLegalorFormalNameType(request);
+        for (final PersonRequestRepresentation.Name requestName : request.names) {
+            final Name name = rc.getSorPerson().addName();
+            name.setGiven(requestName.firstName);
+            name.setFamily(requestName.lastName);
+            name.setMiddle(requestName.middleName);
+            name.setPrefix(requestName.prefix);
+            name.setSuffix(requestName.suffix);
+            Type type = processNameType(referenceRepository, hasLegalorFormalNameType, requestName.nameType);
+            name.setType(type);
+            if (type.equals(Type.NameTypes.FORMAL)) hasLegalorFormalNameType = true;
+        }
         rc.getSorPerson().setDateOfBirth(request.dateOfBirth);
         rc.getSorPerson().setSsn(request.ssn);
         rc.getSorPerson().setGender(request.gender);
-        rc.setAddressLine1(request.addressLine1);
-        rc.setAddressLine2(request.addressLine2);
-        rc.setCity(request.city);
-        rc.setRegion(request.region);
-        rc.setPostalCode(request.postalCode);
+        
+        if (request.reconciliation != null){
+            if (request.reconciliation.address != null){
+                rc.setAddressLine1(request.reconciliation.address.addressLine1);
+                rc.setAddressLine2(request.reconciliation.address.addressLine2);
+                rc.setCity(request.reconciliation.address.city);
+                rc.setRegion(request.reconciliation.address.region);
+                rc.setPostalCode(request.reconciliation.address.postalCode);
+            }
+            if (!request.reconciliation.emails.isEmpty())
+                rc.setEmailAddress(request.reconciliation.emails.get(0).email);
+            if (!request.reconciliation.phones.isEmpty())
+                rc.setPhoneNumber(request.reconciliation.phones.get(0).phoneNumber);
 
-        for (final PersonRequestRepresentation.Identifier identifier : request.identifiers) {
-            final IdentifierType identifierType = referenceRepository.findIdentifierType(identifier.identifierType);
-            Assert.notNull(identifierType);
-
-            rc.getIdentifiersByType().put(identifierType, identifier.identifierValue);
+            if (!request.reconciliation.identifiers.isEmpty()){
+                for (final PersonRequestRepresentation.Reconciliation.Identifier identifier : request.reconciliation.identifiers) {
+                    final IdentifierType identifierType = referenceRepository.findIdentifierType(identifier.identifierType);
+                    Assert.notNull(identifierType);
+                    rc.getIdentifiersByType().put(identifierType, identifier.identifierValue);
+                }
+            }
         }
         return rc;
     }
 
+    public static Type processNameType(ReferenceRepository referenceRepository, boolean hasLegalorFormalNameType, String nameType){
+        if (nameType != null && referenceRepository.findType(Type.DataTypes.NAME, nameType) != null) {
+            return referenceRepository.findType(Type.DataTypes.NAME, nameType);
+        }
+        //TODO Default is Formal unless already have a name marked Formal or Legal?
+        if (hasLegalorFormalNameType) return referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.AKA);
+        return referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL);
+    }
 
+    protected static boolean hasLegalorFormalNameType(final PersonRequestRepresentation request) {
+        for (final PersonRequestRepresentation.Name n : request.names)
+            if (n.nameType != null && (n.nameType.equals(Type.NameTypes.LEGAL) || n.nameType.equals(Type.NameTypes.FORMAL))) return true;
+        return false;
+    }
+
+    public static boolean hasLegalorFormalNameType(final PersonModifyRepresentation personRepresentation) {
+        for (final PersonModifyRepresentation.Name n : personRepresentation.names)
+            if (n.nameType != null && (n.nameType.equals(Type.NameTypes.LEGAL) || n.nameType.equals(Type.NameTypes.FORMAL))) return true;
+        return false;
+    }
 }

@@ -99,6 +99,7 @@ public final class SystemOfRecordPeopleResource {
                                           @PathParam("sorSourceId") String sorSourceId,
                                           @QueryParam("force") String forceAdd) {
 
+        logger.info("processing person");
         personRequestRepresentation.systemOfRecordId = sorSourceId;
         Response response = null;
         
@@ -190,8 +191,8 @@ public final class SystemOfRecordPeopleResource {
                                          final PersonModifyRepresentation personModifyRepresentation) {
 
         final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
-
         updateSorPersonWithIncomingData(sorPerson, personModifyRepresentation);
+
         try {
             ServiceExecutionResult<SorPerson> result = this.personService.updateSorPerson(sorPerson);
 
@@ -207,6 +208,7 @@ public final class SystemOfRecordPeopleResource {
             return Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(e.getMessage())))
                     .type(MediaType.APPLICATION_XML).build();
         }
+
         //HTTP 204
         return null;
     }
@@ -253,8 +255,10 @@ public final class SystemOfRecordPeopleResource {
         sorPerson.setSsn(personRepresentation.ssn);
         sorPerson.setGender(personRepresentation.gender);
 
-        boolean hasLegalOrFormalNameType = hasLegalOrFormalNameType(personRepresentation);
+        boolean hasLegalorFormalNameType = PeopleResourceUtils.hasLegalorFormalNameType(personRepresentation);
+
         sorPerson.getNames().clear();
+
         for (final PersonModifyRepresentation.Name n : personRepresentation.names) {
             final Name name = sorPerson.addName();
             name.setFamily(n.lastName);
@@ -262,27 +266,9 @@ public final class SystemOfRecordPeopleResource {
             name.setMiddle(n.middleName);
             name.setSuffix(n.suffix);
             name.setPrefix(n.prefix);
-
-            //TODO Default is Formal unless already have a name marked Formal or Legal?
-            if (n.nameType != null && referenceRepository.findType(Type.DataTypes.NAME, n.nameType) != null) {
-                name.setType(referenceRepository.findType(Type.DataTypes.NAME, n.nameType));
-            }
-            else {
-                if (!hasLegalOrFormalNameType) {
-                    name.setType(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
-                    hasLegalOrFormalNameType = true;
-                }
-                else {
-                    name.setType(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.AKA));
-                }
-            }
+            Type type = PeopleResourceUtils.processNameType(referenceRepository, hasLegalorFormalNameType, n.nameType);
+            name.setType(type);
+            if (type.equals(Type.NameTypes.FORMAL)) hasLegalorFormalNameType = true;
         }
     }
-
-    private boolean hasLegalOrFormalNameType(PersonModifyRepresentation personRepresentation) {
-        for (final PersonModifyRepresentation.Name n : personRepresentation.names)
-            if (n.nameType != null && (n.nameType.equals(Type.NameTypes.LEGAL.name()) || n.nameType.equals(Type.NameTypes.FORMAL.name()))) return true;
-        return false;
-    }
-
 }
