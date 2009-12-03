@@ -220,7 +220,7 @@ public class SystemOfRecordRolesResource {
         sorRole.setPersonStatus(this.referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE));
         sorRole.setStart(roleRepresentation.startDate);
         if (roleRepresentation.endDate != null) sorRole.setEnd(roleRepresentation.endDate);
-        if (roleRepresentation.percentage != null) sorRole.setPercentage(new Integer(roleRepresentation.percentage).intValue());
+        if (roleRepresentation.percentage != null) sorRole.setPercentage(Integer.parseInt(roleRepresentation.percentage));
         setSponsorInfo(sorRole.setSponsor(),
                 this.referenceRepository.findType(Type.DataTypes.SPONSOR, roleRepresentation.sponsorType), roleRepresentation);
 
