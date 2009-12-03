@@ -85,10 +85,6 @@ public final class PeopleResource {
                                                       @PathParam("personIdType") String personIdType,
                                                       PersonRequestRepresentation personRequestRepresentation) {
 
-        Response response = PeopleResourceUtils.validate(personRequestRepresentation);
-        if (response != null) {
-            return response;
-        }
         final Person person = findPersonOrThrowNotFoundException(personIdType, personId);
         final ReconciliationCriteria reconciliationCriteria = PeopleResourceUtils.buildReconciliationCriteriaFrom(personRequestRepresentation,
                 this.reconciliationCriteriaObjectFactory, this.referenceRepository);

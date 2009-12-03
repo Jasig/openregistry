@@ -86,15 +86,6 @@ public class PersonRequestRepresentation {
     @XmlElement(name = "identifier")
     public List<Identifier> identifiers = new ArrayList<Identifier>();
 
-    public boolean checkRequiredData() {
-        return (this.systemOfRecordId != null
-                && this.systemOfRecordPersonId != null
-                && this.firstName != null
-                && this.lastName != null
-                && this.email != null
-                && this.phoneNumber != null);
-    }
-
     @XmlRootElement(name = "identifier")
     public static class Identifier {
 

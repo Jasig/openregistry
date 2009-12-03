@@ -38,17 +38,6 @@ public final class PeopleResourceUtils {
     private PeopleResourceUtils() {
     }
 
-    public static Response validate(PersonRequestRepresentation personRequestRepresentation) {
-        if (!personRequestRepresentation.checkRequiredData()) {
-            //HTTP 400
-            return Response.status(Response.Status.BAD_REQUEST).
-                    entity(new ErrorsResponseRepresentation(Arrays.asList("The person entity payload is incomplete.")))
-                    .type(MediaType.APPLICATION_XML).build();            
-        }
-        //Returns null response indicating that the representation is valid
-        return null;
-    }
-
     public static ReconciliationCriteria buildReconciliationCriteriaFrom(final PersonRequestRepresentation request,
                                                                          ObjectFactory<ReconciliationCriteria> factory,
                                                                          ReferenceRepository referenceRepository) {
