@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.repository;
+package org.jasig.openregistry.test.repository;
 
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;
+import org.openregistry.core.repository.PersonRepository;
+import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.service.*;
 
 import java.util.*;

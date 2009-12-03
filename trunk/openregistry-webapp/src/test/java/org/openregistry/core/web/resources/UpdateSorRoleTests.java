@@ -18,7 +18,6 @@ package org.openregistry.core.web.resources;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import org.junit.Test;
-import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
 import org.openregistry.core.web.resources.representations.RoleRepresentation;
 import org.springframework.web.context.ContextLoaderListener;
 

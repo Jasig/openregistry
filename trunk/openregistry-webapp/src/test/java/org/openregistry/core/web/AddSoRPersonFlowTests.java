@@ -15,6 +15,8 @@
  */
 package org.openregistry.core.web;
 
+import org.jasig.openregistry.test.domain.MockReconciliationCriteriaFactory;
+import org.jasig.openregistry.test.repository.MockReferenceRepository;
 import org.junit.Test;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.repository.*;
@@ -37,7 +39,6 @@ import org.springframework.webflow.engine.Flow;
 import org.springframework.webflow.engine.EndState;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.web.factory.MockReconciliationCriteriaFactory;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.binding.mapping.MappingResults;
 import org.springframework.binding.mapping.Mapper;

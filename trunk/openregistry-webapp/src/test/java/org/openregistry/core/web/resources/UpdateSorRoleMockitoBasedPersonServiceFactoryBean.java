@@ -15,25 +15,16 @@
  */
 package org.openregistry.core.web.resources;
 
+import org.jasig.openregistry.test.util.MockitoUtils;
 import org.mockito.ArgumentMatcher;
-import org.mockito.Matchers;
-import org.openregistry.core.MockitoUtils;
-import org.openregistry.core.domain.*;
-import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorSponsor;
-import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.springframework.beans.factory.FactoryBean;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Path;
-import javax.validation.metadata.ConstraintDescriptor;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.mockito.Mockito.*;

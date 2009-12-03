@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.service.reconciliation;
+package org.jasig.openregistry.test.service;
 
-import java.util.List;
+import org.openregistry.core.service.reconciliation.PersonMatch;
+import org.openregistry.core.service.reconciliation.ReconciliationResult;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @version $Revision$ $Date$

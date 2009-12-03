@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.service.reconciliation;
+package org.jasig.openregistry.test.service;
 
+import org.jasig.openregistry.test.domain.MockPerson;
+import org.openregistry.core.service.reconciliation.FieldMatch;
+import org.openregistry.core.service.reconciliation.PersonMatch;
+import org.openregistry.core.service.reconciliation.Reconciler;
+import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.ReconciliationResult.*;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.MockPerson;
 
 import java.util.List;
 import java.util.Collections;

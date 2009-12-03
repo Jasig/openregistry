@@ -376,6 +376,20 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.jasig.openregistry</groupId>
+            <artifactId>openregistry-test-support</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <repositories>

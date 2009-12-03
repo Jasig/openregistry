@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.domain.sor;
+package org.jasig.openregistry.test.domain;
 
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.internal.*;
+import org.openregistry.core.domain.sor.SorRole;
+import org.openregistry.core.domain.sor.SorSponsor;
 
 import java.util.*;
 
@@ -27,7 +29,7 @@ import java.util.*;
  * Time: 1:47:09 PM
  */
 
-public class MockSorRole extends Entity implements SorRole{
+public class MockSorRole extends Entity implements SorRole {
 
 	private Long id;
 
@@ -59,10 +61,6 @@ public class MockSorRole extends Entity implements SorRole{
 	public void setSorId(String id) {
 		this.sorId = id;
 	}
-
-    public void setCode(String code) {
-        //NOP
-    }
 
     public String getSourceSorIdentifier() {
 		return sourceSorIdentifier;

@@ -17,8 +17,6 @@ package org.openregistry.core.web.resources;
 
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
 import org.springframework.web.context.ContextLoaderListener;
 import org.junit.Test;
 import static org.junit.Assert.*;

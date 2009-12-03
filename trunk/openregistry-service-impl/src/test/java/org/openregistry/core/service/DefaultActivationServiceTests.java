@@ -15,11 +15,12 @@
  */
 package org.openregistry.core.service;
 
+import org.jasig.openregistry.test.domain.MockPerson;
+import org.jasig.openregistry.test.repository.MockPersonRepository;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
 import org.openregistry.core.domain.*;
-import org.openregistry.core.repository.MockPersonRepository;
 
 import java.util.Date;
 import java.util.Calendar;

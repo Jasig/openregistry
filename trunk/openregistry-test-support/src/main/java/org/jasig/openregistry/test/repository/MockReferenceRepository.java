@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.repository;
+package org.jasig.openregistry.test.repository;
 
+import org.jasig.openregistry.test.domain.MockType;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.Type.DataTypes;
+import org.openregistry.core.repository.ReferenceRepository;
 
 import java.util.List;
 
