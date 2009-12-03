@@ -45,21 +45,21 @@
 
     <bean id="lockExtractor" class="org.openregistry.core.web.resources.config.MockLockExtractor" />
 
-    <bean id="personRepository" class="org.openregistry.core.repository.MockPersonRepository">
+    <bean id="personRepository" class="org.jasig.openregistry.test.repository.MockPersonRepository">
         <constructor-arg index="0">
             <list>
-                <bean class="org.openregistry.core.domain.MockPerson" />
-                <bean class="org.openregistry.core.domain.MockPerson">
+                <bean class="org.jasig.openregistry.test.domain.MockPerson" />
+                <bean class="org.jasig.openregistry.test.domain.MockPerson">
                     <constructor-arg index="0" value="valid" />
                     <constructor-arg index="1" value="false" />
                     <constructor-arg index="2" value="false" />
                 </bean>
-                <bean class="org.openregistry.core.domain.MockPerson">
+                <bean class="org.jasig.openregistry.test.domain.MockPerson">
                     <constructor-arg index="0" value="notActive" />
                     <constructor-arg index="1" value="true" />
                     <constructor-arg index="2" value="false" />
                 </bean>
-                <bean class="org.openregistry.core.domain.MockPerson">
+                <bean class="org.jasig.openregistry.test.domain.MockPerson">
                     <constructor-arg index="0" value="expired" />
                     <constructor-arg index="1" value="false" />
                     <constructor-arg index="2" value="true" />

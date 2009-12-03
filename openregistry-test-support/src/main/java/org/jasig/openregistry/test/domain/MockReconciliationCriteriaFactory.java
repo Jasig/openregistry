@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.web.factory;
+package org.jasig.openregistry.test.domain;
 
-import org.openregistry.core.domain.sor.MockReconciliationCriteria;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
 
-public class MockReconciliationCriteriaFactory implements
-		ObjectFactory<ReconciliationCriteria> {
+public class MockReconciliationCriteriaFactory implements ObjectFactory<ReconciliationCriteria> {
 
 	public ReconciliationCriteria getObject() throws BeansException {
 		return new MockReconciliationCriteria();

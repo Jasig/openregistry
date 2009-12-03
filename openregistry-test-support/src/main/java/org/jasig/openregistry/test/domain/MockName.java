@@ -13,22 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.domain.sor;
+package org.jasig.openregistry.test.domain;
 
-import org.openregistry.core.domain.MockType;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.internal.Entity;
 
-/**
- * Implementation of the Name domain object that conforms to the tables for the Systems of Record
- *
- *
- * @author Nancy Mond
- * @version $Revision$ $Date$
- * @since 1.0.0
- */
-
-public final class MockSorName implements Name {
+public class MockName extends Entity implements Name {
 
     private Long id;
     
@@ -44,13 +35,12 @@ public final class MockSorName implements Name {
 
     private String suffix;
 
-    private boolean officialName;
+    private boolean officialName = false;
 
-    private boolean preferredName;
+    private boolean preferredName = false;
 
-
-    public MockSorName() {
-        // nothing to do
+    public MockName() {
+    	// nothing else to do
     }
 
     public Long getId() {
@@ -105,6 +95,22 @@ public final class MockSorName implements Name {
         this.suffix = suffix;
     }
 
+    public void setOfficialName(final boolean officialName) {
+        this.officialName = officialName;
+    }
+
+    public boolean isOfficialName() {
+    	return this.officialName;
+    }
+
+    public void setPreferredName(final boolean preferredName) {
+        this.preferredName = preferredName;
+    }
+
+    public boolean isPreferredName() {
+    	return this.preferredName;
+    }
+
     public String getFormattedName(){
         final StringBuilder builder = new StringBuilder();
 
@@ -134,38 +140,22 @@ public final class MockSorName implements Name {
         }
     }
 
-	public boolean isOfficialName() {
-        return this.officialName;
-	}
-
-	public boolean isPreferredName() {
-        return this.preferredName;
-	}
-
-	public void setOfficialName(final boolean officialName) {
-        this.officialName = officialName;
-	}
-
-	public void setPreferredName(final boolean preferredName) {
-        this.preferredName = preferredName;
-	}
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final MockSorName that = (MockSorName) o;
+        final MockName mockName = (MockName) o;
 
-        if (officialName != that.officialName) return false;
-        if (preferredName != that.preferredName) return false;
-        if (family != null ? !family.equals(that.family) : that.family != null) return false;
-        if (given != null ? !given.equals(that.given) : that.given != null) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (middle != null ? !middle.equals(that.middle) : that.middle != null) return false;
-        if (prefix != null ? !prefix.equals(that.prefix) : that.prefix != null) return false;
-        if (suffix != null ? !suffix.equals(that.suffix) : that.suffix != null) return false;
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        if (officialName != mockName.officialName) return false;
+        if (preferredName != mockName.preferredName) return false;
+        if (family != null ? !family.equals(mockName.family) : mockName.family != null) return false;
+        if (given != null ? !given.equals(mockName.given) : mockName.given != null) return false;
+        if (id != null ? !id.equals(mockName.id) : mockName.id != null) return false;
+        if (middle != null ? !middle.equals(mockName.middle) : mockName.middle != null) return false;
+        if (prefix != null ? !prefix.equals(mockName.prefix) : mockName.prefix != null) return false;
+        if (suffix != null ? !suffix.equals(mockName.suffix) : mockName.suffix != null) return false;
+        if (type != null ? !type.equals(mockName.type) : mockName.type != null) return false;
 
         return true;
     }

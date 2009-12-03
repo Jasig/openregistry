@@ -15,8 +15,6 @@
  */
 package org.openregistry.core.web.resources;
 
-import org.openregistry.core.domain.PersonNotFoundException;
-import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.service.PersonService;

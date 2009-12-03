@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.domain.sor;
+package org.jasig.openregistry.test.domain;
 
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
+import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.SorRole;
 
 import java.util.*;
 

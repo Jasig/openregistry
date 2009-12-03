@@ -29,9 +29,9 @@
     </context:component-scan>
 
     <!-- All these beans will be autowired into 'PeopleResource' -->    
-    <bean class="org.openregistry.core.repository.MockReferenceRepository" id="referenceRepository" />
+    <bean class="org.jasig.openregistry.test.repository.MockReferenceRepository" id="referenceRepository" />
     <bean class="org.openregistry.core.service.NullIdentifierChangeServiceFactoryBean" id="identifierChangeService" />
-    <bean id="reconciliationCriteriaFactory" class="org.openregistry.core.web.factory.MockReconciliationCriteriaFactory"/>
+    <bean id="reconciliationCriteriaFactory" class="org.jasig.openregistry.test.domain.MockReconciliationCriteriaFactory"/>
 
     <bean id="preferredPersonIdentifierType" class="java.lang.String">
         <constructor-arg index="0" value="NETID"/>

@@ -11,6 +11,7 @@
         <module>openregistry-repository-jpa-impl</module>
         <module>openregistry-webapp</module>
         <module>openregistry-sor-repository-xml</module>
+        <module>openregistry-test-support</module>
     </modules>
     <name>Jasig OpenRegistry</name>
     <description>Registry System</description>
@@ -98,20 +99,6 @@
     </developers>
 
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

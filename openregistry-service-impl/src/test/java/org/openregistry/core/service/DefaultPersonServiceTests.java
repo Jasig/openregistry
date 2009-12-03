@@ -16,6 +16,12 @@
 package org.openregistry.core.service;
 
 import static org.junit.Assert.*;
+
+import org.jasig.openregistry.test.domain.*;
+import org.jasig.openregistry.test.repository.MockPersonRepository;
+import org.jasig.openregistry.test.repository.MockReferenceRepository;
+import org.jasig.openregistry.test.repository.MockSystemOfRecordRepository;
+import org.jasig.openregistry.test.service.MockReconciler;
 import org.junit.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;

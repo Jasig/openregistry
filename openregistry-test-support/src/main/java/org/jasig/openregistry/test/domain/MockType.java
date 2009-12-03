@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.domain;
+package org.jasig.openregistry.test.domain;
+
+import org.openregistry.core.domain.Type;
 
 public class MockType implements Type {
 

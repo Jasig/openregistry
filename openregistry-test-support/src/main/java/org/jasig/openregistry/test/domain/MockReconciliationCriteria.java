@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.domain.sor;
+package org.jasig.openregistry.test.domain;
 
 import org.openregistry.core.domain.IdentifierType;
+import org.openregistry.core.domain.sor.ReconciliationCriteria;
+import org.openregistry.core.domain.sor.SorPerson;
 
 import javax.validation.constraints.NotNull;
 import java.util.Map;

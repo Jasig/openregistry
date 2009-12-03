@@ -15,7 +15,7 @@
  */
 package org.openregistry.core.web.resources;
 
-import org.openregistry.core.MockitoUtils;
+import org.jasig.openregistry.test.util.MockitoUtils;
 import org.springframework.beans.factory.FactoryBean;
 
 import static org.mockito.Mockito.*;
@@ -32,8 +32,6 @@ import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Path;
-import javax.validation.metadata.ConstraintDescriptor;
 import java.util.*;
 
 /**
