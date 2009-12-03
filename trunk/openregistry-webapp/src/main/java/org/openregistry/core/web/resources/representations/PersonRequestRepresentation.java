@@ -15,6 +15,10 @@
  */
 package org.openregistry.core.web.resources.representations;
 
+import org.openregistry.core.domain.Address;
+import org.openregistry.core.domain.EmailAddress;
+import org.openregistry.core.domain.Phone;
+
 import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -38,26 +42,12 @@ import java.util.List;
 @XmlRootElement(name = "open-registry-person")
 public class PersonRequestRepresentation {
 
-    /* Required fields *************/
     @XmlAttribute(name = "sor")
     public String systemOfRecordId;
 
     @XmlAttribute(name = "sor-person-id")
     public String systemOfRecordPersonId;
 
-    @XmlAttribute(name = "first-name")
-    public String firstName;
-
-    @XmlAttribute(name = "last-name")
-    public String lastName;
-
-    @XmlAttribute(name = "email")
-    public String email;
-
-    @XmlAttribute(name = "phone")
-    public String phoneNumber;
-
-    /* Optional fields *************/
     @XmlElement(name = "dob")
     public Date dateOfBirth;
 
@@ -67,33 +57,88 @@ public class PersonRequestRepresentation {
     @XmlElement
     public String gender;
 
-    @XmlElement(name = "address-line1")
-    public String addressLine1;
+    @XmlElementWrapper(name = "names")
+    @XmlElement(name = "name")
+    public List<Name> names = new ArrayList<Name>();
 
-    @XmlElement(name = "address-line2")
-    public String addressLine2;
-
-    @XmlElement
-    public String city;
-
-    @XmlElement
-    public String region;
-
-    @XmlElement(name = "postal-code")
-    public String postalCode;
-
-    @XmlElementWrapper(name = "identifiers")
-    @XmlElement(name = "identifier")
-    public List<Identifier> identifiers = new ArrayList<Identifier>();
-
-    @XmlRootElement(name = "identifier")
-    public static class Identifier {
+    @XmlRootElement(name = "name")
+    public static class Name {
 
         @XmlAttribute(name = "type")
-        public String identifierType;
+        public String nameType;
 
-        @XmlAttribute(name = "value")
-        public String identifierValue;
+        @XmlAttribute(name = "first")
+        public String firstName;
+
+        @XmlAttribute(name = "last")
+        public String lastName;
+
+        @XmlAttribute(name = "middle")
+        public String middleName;
+
+        @XmlAttribute(name = "prefix")
+        public String prefix;
+
+        @XmlAttribute(name = "suffix")
+        public String suffix;
+    }
+
+    @XmlElement (name = "reconciliation")
+    public Reconciliation reconciliation;
+
+    @XmlRootElement(name = "reconciliation")
+    public static class Reconciliation {
+        @XmlElement(name = "address")
+        public Address address;
+
+        @XmlRootElement(name = "address")
+        public static class Address {
+
+            @XmlElement(name = "address-line1")
+            public String addressLine1;
+
+            @XmlElement(name = "address-line2")
+            public String addressLine2;
+
+            @XmlElement
+            public String city;
+
+            @XmlElement
+            public String region;
+
+            @XmlElement(name = "postal-code")
+            public String postalCode;
+
+        }
+
+        @XmlElementWrapper(name = "emails")
+        @XmlElement(name = "email")
+        public List<Email> emails = new ArrayList<Email>();
+
+        @XmlRootElement(name = "email")
+        public static class Email {
+            public String email;
+        }
+
+        @XmlElementWrapper(name = "phones")
+        @XmlElement(name = "phone")
+        public List<Phone> phones = new ArrayList<Phone>();
+        @XmlRootElement(name = "phone")
+        public static class Phone {
+            public String phoneNumber;
+        }
+
+        @XmlElementWrapper(name = "identifiers")
+        @XmlElement(name = "identifier")
+        public List<Identifier> identifiers = new ArrayList<Identifier>();
+
+        @XmlRootElement(name = "identifier")
+        public static class Identifier {
+            public String identifierValue;
+
+            @XmlAttribute(name = "type")
+            public String identifierType;
+        }
     }
 
     @Override
@@ -101,18 +146,18 @@ public class PersonRequestRepresentation {
         return "PersonRequestRepresentation{" +
                 "systemOfRecordId='" + systemOfRecordId + '\'' +
                 ", systemOfRecordPersonId='" + systemOfRecordPersonId + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
+                ", firstName='" + names.get(0).firstName + '\'' +
+                ", lastName='" + names.get(0).lastName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", ssn='" + ssn + '\'' +
                 ", gender='" + gender + '\'' +
-                ", addressLine1='" + addressLine1 + '\'' +
-                ", addressLine2='" + addressLine2 + '\'' +
-                ", city='" + city + '\'' +
-                ", region='" + region + '\'' +
-                ", postalCode='" + postalCode + '\'' +
+                //", email='" + email + '\'' +
+                //", phoneNumber='" + phoneNumber + '\'' +
+                //", addressLine1='" + addressLine1 + '\'' +
+                //", addressLine2='" + addressLine2 + '\'' +
+                //", city='" + city + '\'' +
+                //", region='" + region + '\'' +
+                //", postalCode='" + postalCode + '\'' +
                 '}';
     }
 
@@ -192,10 +237,18 @@ public class PersonRequestRepresentation {
         final PersonRequestRepresentation rep = new PersonRequestRepresentation();
         rep.systemOfRecordId = "test";
         rep.systemOfRecordPersonId = "test";
-        rep.firstName = "test";
-        rep.lastName = "test";
-        rep.email = "test";
-        rep.phoneNumber = "test";
+        Name name = new Name();
+        name.nameType = "FORMAL";
+        name.firstName = "test";
+        name.lastName = "test";
+        name.prefix = "test";
+        name.suffix = "test";
+        name.middleName = "test";
+        rep.names.add(name);
+        Reconciliation.Email email = new Reconciliation.Email();
+        email.email = "test";
+        Reconciliation.Phone phone = new Reconciliation.Phone();
+        phone.phoneNumber = "test";
         rep.ssn = ssn;
         return rep;
     }

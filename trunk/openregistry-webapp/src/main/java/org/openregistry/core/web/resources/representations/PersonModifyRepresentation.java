@@ -52,21 +52,21 @@ public class PersonModifyRepresentation {
 
         @XmlAttribute(name = "type")
         public String nameType;
-        
-        @XmlElement(name = "first-name")
+
+        @XmlAttribute(name = "first")
         public String firstName;
 
-        @XmlElement(name = "last-name")
+        @XmlAttribute(name = "last")
         public String lastName;
 
-        @XmlElement(name = "prefix")
+        @XmlAttribute(name = "middle")
+        public String middleName;
+
+        @XmlAttribute(name = "prefix")
         public String prefix;
 
-        @XmlElement(name = "suffix")
+        @XmlAttribute(name = "suffix")
         public String suffix;
-
-        @XmlElement(name = "middle-name")
-        public String middleName;
     }
 
     /* Optional fields *************/
