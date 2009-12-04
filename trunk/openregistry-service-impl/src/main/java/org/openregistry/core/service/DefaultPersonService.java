@@ -249,10 +249,10 @@ public class DefaultPersonService implements PersonService {
 
         switch (result.getReconciliationType()) {
             case NONE:
-                return new GeneralServiceExecutionResult<Person>(magic(reconciliationCriteria));
+                return new GeneralServiceExecutionResult<Person>(saveSorPersonAndConvertToCalculatedPerson(reconciliationCriteria));
 
             case EXACT:
-                return new GeneralServiceExecutionResult<Person>(magicUpdate(reconciliationCriteria, result));
+                return new GeneralServiceExecutionResult<Person>(addNewSorPersonAndLinkWithMatchedCalculatedPerson(reconciliationCriteria, result));
         }
 
         this.criteriaCache.put(reconciliationCriteria, result);
@@ -270,7 +270,7 @@ public class DefaultPersonService implements PersonService {
 
         this.criteriaCache.remove(reconciliationCriteria);
 
-        return new GeneralServiceExecutionResult<Person>(magic(reconciliationCriteria));
+        return new GeneralServiceExecutionResult<Person>(saveSorPersonAndConvertToCalculatedPerson(reconciliationCriteria));
     }
     
     @Transactional
@@ -380,7 +380,7 @@ public class DefaultPersonService implements PersonService {
      * @param reconciliationCriteria the original search criteria.
      * @return the newly saved Person.
      */
-    protected Person magic(final ReconciliationCriteria reconciliationCriteria) {
+    protected Person saveSorPersonAndConvertToCalculatedPerson(final ReconciliationCriteria reconciliationCriteria) {
         if (!StringUtils.hasText(reconciliationCriteria.getSorPerson().getSorId())) {
             reconciliationCriteria.getSorPerson().setSorId(this.identifierGenerator.generateNextString());
         }
@@ -444,7 +444,7 @@ public class DefaultPersonService implements PersonService {
 		return person;
     }
 
-    protected Person magicUpdate(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
+    protected Person addNewSorPersonAndLinkWithMatchedCalculatedPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
         Assert.isTrue(result.getMatches().size() == 1, "ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
 
         final Person person = result.getMatches().iterator().next().getPerson();
