@@ -19,9 +19,9 @@ import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
-import org.openregistry.core.web.resources.representations.PersonModifyRepresentation;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.util.Assert;
 
@@ -50,7 +50,7 @@ public final class PeopleResourceUtils {
             name.setSuffix(requestName.suffix);
             Type type = processNameType(referenceRepository, hasLegalorFormalNameType, requestName.nameType);
             name.setType(type);
-            if (type.equals(Type.NameTypes.FORMAL)) hasLegalorFormalNameType = true;
+            if (type.equals(Type.NameTypes.FORMAL.name())) hasLegalorFormalNameType = true;
         }
         rc.getSorPerson().setDateOfBirth(request.dateOfBirth);
         rc.getSorPerson().setSsn(request.ssn);
@@ -80,7 +80,30 @@ public final class PeopleResourceUtils {
         return rc;
     }
 
-    public static Type processNameType(ReferenceRepository referenceRepository, boolean hasLegalorFormalNameType, String nameType){
+    public static void buildModifiedSorPerson(final PersonRequestRepresentation request,
+                                                                         SorPerson sorPerson,
+                                                                         ReferenceRepository referenceRepository) {
+        sorPerson.setDateOfBirth(request.dateOfBirth);
+        sorPerson.setSsn(request.ssn);
+        sorPerson.setGender(request.gender);
+        boolean hasLegalorFormalNameType = hasLegalorFormalNameType(request);
+        sorPerson.getNames().clear();
+
+        for (final PersonRequestRepresentation.Name n : request.names) {
+            final Name name = sorPerson.addName();
+            name.setFamily(n.lastName);
+            name.setGiven(n.firstName);
+            name.setMiddle(n.middleName);
+            name.setSuffix(n.suffix);
+            name.setPrefix(n.prefix);
+            Type type = processNameType(referenceRepository, hasLegalorFormalNameType, n.nameType);
+            name.setType(type);
+            if (type.equals(Type.NameTypes.FORMAL)) hasLegalorFormalNameType = true;
+        }
+
+    }
+
+    protected static Type processNameType(ReferenceRepository referenceRepository, boolean hasLegalorFormalNameType, String nameType){
         if (nameType != null && referenceRepository.findType(Type.DataTypes.NAME, nameType) != null) {
             return referenceRepository.findType(Type.DataTypes.NAME, nameType);
         }
@@ -91,13 +114,8 @@ public final class PeopleResourceUtils {
 
     protected static boolean hasLegalorFormalNameType(final PersonRequestRepresentation request) {
         for (final PersonRequestRepresentation.Name n : request.names)
-            if (n.nameType != null && (n.nameType.equals(Type.NameTypes.LEGAL) || n.nameType.equals(Type.NameTypes.FORMAL))) return true;
+            if (n.nameType != null && (n.nameType.equals(Type.NameTypes.LEGAL.name()) || n.nameType.equals(Type.NameTypes.FORMAL.name()))) return true;
         return false;
     }
 
-    public static boolean hasLegalorFormalNameType(final PersonModifyRepresentation personRepresentation) {
-        for (final PersonModifyRepresentation.Name n : personRepresentation.names)
-            if (n.nameType != null && (n.nameType.equals(Type.NameTypes.LEGAL) || n.nameType.equals(Type.NameTypes.FORMAL))) return true;
-        return false;
-    }
 }

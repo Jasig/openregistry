@@ -252,4 +252,20 @@ public class PersonRequestRepresentation {
         rep.ssn = ssn;
         return rep;
     }
+
+    public static PersonRequestRepresentation modifyRepresentationWithRequiredData(){
+        final PersonRequestRepresentation rep = new PersonRequestRepresentation();
+        Name name = new Name();
+        name.nameType = "FORMAL";
+        name.firstName = "test";
+        name.lastName = "test";
+        name.prefix = "test";
+        name.suffix = "test";
+        name.middleName = "test";
+        rep.names.add(name);
+        rep.ssn = "xxx-xx-xxxx";
+        rep.gender="F";
+        rep.dateOfBirth=new Date();
+        return rep;
+    }
 }
