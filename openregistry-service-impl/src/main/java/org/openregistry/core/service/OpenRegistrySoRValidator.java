@@ -16,49 +16,25 @@
 package org.openregistry.core.service;
 
 import org.openregistry.core.repository.SystemOfRecordRepository;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.*;
-import javax.validation.metadata.BeanDescriptor;
-import java.util.Set;
 
 /**
  * @version $Revision$ $Date$
  * @since 0.1
  */
 @Named("openRegistryValidator")
-public final class OpenRegistrySoRValidator<T> implements Validator {
-
-    private final Validator validator;
+public final class OpenRegistrySoRValidator<T> extends LocalValidatorFactoryBean {
 
     @Inject
     public OpenRegistrySoRValidator(final SystemOfRecordRepository systemOfRecordRepository) {
         final Configuration configuration = Validation.byDefaultProvider().configure();
-        final ConstraintValidatorFactory c = Validation.byDefaultProvider().configure().getDefaultConstraintValidatorFactory();
+        final ConstraintValidatorFactory c = configuration.getDefaultConstraintValidatorFactory();
         final ConstraintValidatorFactory sorAware = new SoRAwareConstraintValidatorFactoryImpl(c, systemOfRecordRepository);
-        configuration.constraintValidatorFactory(sorAware);
-        final ValidatorFactory v = configuration.buildValidatorFactory();
-        this.validator = v.getValidator();
-    }
-
-    public <T> Set<ConstraintViolation<T>> validate(final T t, final Class<?>... classes) {
-        return this.validator.validate(t, classes);
-    }
-
-    public <T> Set<ConstraintViolation<T>> validateProperty(final T t, final String s, final Class<?>... classes) {
-        return this.validator.validateProperty(t, s, classes);
-    }
-
-    public <T> Set<ConstraintViolation<T>> validateValue(final Class<T> tClass, final String s, final Object o, final Class<?>... classes) {
-        return this.validator.validateValue(tClass, s, o, classes);
-    }
-
-    public BeanDescriptor getConstraintsForClass(final Class<?> aClass) {
-        return this.validator.getConstraintsForClass(aClass);
-    }
-
-    public <T> T unwrap(final Class<T> tClass) {
-        return this.validator.unwrap(tClass);
+        setConstraintValidatorFactory(sorAware);
     }
 }
