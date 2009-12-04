@@ -20,10 +20,7 @@ import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Phone;
 
 import javax.ws.rs.core.MultivaluedMap;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -134,6 +131,7 @@ public class PersonRequestRepresentation {
 
         @XmlRootElement(name = "identifier")
         public static class Identifier {
+            @XmlValue
             public String identifierValue;
 
             @XmlAttribute(name = "type")
