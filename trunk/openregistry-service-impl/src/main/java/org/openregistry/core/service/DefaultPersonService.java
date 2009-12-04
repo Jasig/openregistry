@@ -51,13 +51,13 @@ public class DefaultPersonService implements PersonService {
 
     private final IdentifierGenerator identifierGenerator;
 
-    @Resource(name="personFactory")
+    @Resource(name = "personFactory")
     private ObjectFactory<Person> personObjectFactory;
 
-    @Autowired(required=false)
-    private Map<ReconciliationCriteria,ReconciliationResult> criteriaCache = new EhCacheBackedMapImpl<ReconciliationCriteria, ReconciliationResult>();
+    @Autowired(required = false)
+    private Map<ReconciliationCriteria, ReconciliationResult> criteriaCache = new EhCacheBackedMapImpl<ReconciliationCriteria, ReconciliationResult>();
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     private List<IdentifierAssigner> identifierAssigners = new ArrayList<IdentifierAssigner>();
 
     private final Validator validator;
@@ -77,11 +77,40 @@ public class DefaultPersonService implements PersonService {
         this.validator = v.getValidator();
     }
 
+    //The following constructors used solely for unit testing with mocks stabbed by mocking frameworks.
+    //They all have package-private visibility to protect from instantiation elsewhere.
+    //The idea behind the mocking framework is to mock 'just enough' behaviour needed to unit test particular methods,
+    //without all that 'extra mock baggage'
+
+    DefaultPersonService() {
+        this.personRepository = null;
+        this.validator = null;
+        this.referenceRepository = null;
+        this.reconciler = null;
+        this.identifierGenerator = null;
+    }
+
+    DefaultPersonService(Validator validator) {
+        this.validator = validator;
+        this.personRepository = null;
+        this.referenceRepository = null;
+        this.reconciler = null;
+        this.identifierGenerator = null;
+    }
+
+    DefaultPersonService(PersonRepository personRepository, Validator validator) {
+        this.personRepository = personRepository;
+        this.validator = validator;
+        this.referenceRepository = null;
+        this.reconciler = null;
+        this.identifierGenerator = null;
+    }
+
     public void setPersonObjectFactory(final ObjectFactory personObjectFactory) {
         this.personObjectFactory = personObjectFactory;
     }
 
-    public void setCriteriaCache(final Map<ReconciliationCriteria,ReconciliationResult> criteriaCache) {
+    public void setCriteriaCache(final Map<ReconciliationCriteria, ReconciliationResult> criteriaCache) {
         this.criteriaCache = criteriaCache;
     }
 
@@ -97,8 +126,9 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public Person findPersonByIdentifier(final String identifierType, final String identifierValue) {
         try {
-            return this.personRepository.findByIdentifier(identifierType,identifierValue);
-        } catch (final Exception e) {
+            return this.personRepository.findByIdentifier(identifierType, identifierValue);
+        }
+        catch (final Exception e) {
             return null;
         }
     }
@@ -106,18 +136,20 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier) {
         try {
-          return this.personRepository.findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
-        } catch (Exception e){
+            return this.personRepository.findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
+        }
+        catch (Exception e) {
             // TODO we need to log this better.
-          return null;
+            return null;
         }
     }
 
     @Transactional
-    public SorPerson findBySorIdentifierAndSource(final String sorSource, final String sorId){
+    public SorPerson findBySorIdentifierAndSource(final String sorSource, final String sorId) {
         try {
             return this.personRepository.findBySorIdentifierAndSource(sorSource, sorId);
-        } catch (Exception e){
+        }
+        catch (Exception e) {
             return null;
         }
     }
@@ -135,7 +167,7 @@ public class DefaultPersonService implements PersonService {
 
         if (mistake) {
             for (final SorRole sorRole : sorPerson.getRoles()) {
-                for (final Iterator<Role> iter  = person.getRoles().iterator(); iter.hasNext();) {
+                for (final Iterator<Role> iter = person.getRoles().iterator(); iter.hasNext();) {
                     final Role role = iter.next();
                     if (sorRole.getId().equals(role.getSorRoleId())) {
                         iter.remove();
@@ -178,30 +210,31 @@ public class DefaultPersonService implements PersonService {
         return sorPerson != null && deleteSystemOfRecordPerson(sorPerson, mistake, terminationTypes);
     }
 
-	@Transactional
-	public boolean deleteSystemOfRecordRole(final SorPerson sorPerson, final SorRole sorRole, final boolean mistake, final String terminationTypes) throws IllegalArgumentException {
-		Assert.notNull(sorRole, "sorRole cannot be null.");
-		Assert.notNull(sorPerson, "soPerson cannot be null.");
-		final String terminationTypeToUse = terminationTypes != null ? terminationTypes : Type.TerminationTypes.UNSPECIFIED.name();
+    @Transactional
+    public boolean deleteSystemOfRecordRole(final SorPerson sorPerson, final SorRole sorRole, final boolean mistake, final String terminationTypes) throws IllegalArgumentException {
+        Assert.notNull(sorRole, "sorRole cannot be null.");
+        Assert.notNull(sorPerson, "soPerson cannot be null.");
+        final String terminationTypeToUse = terminationTypes != null ? terminationTypes : Type.TerminationTypes.UNSPECIFIED.name();
 
-		final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
-		Assert.notNull(person, "person cannot be null.");
+        final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
+        Assert.notNull(person, "person cannot be null.");
 
         final Role role = person.findRoleBySoRRoleId(sorRole.getId());
 
-		if(mistake){
+        if (mistake) {
             person.getRoles().remove(role);
-		} else {
-			final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationTypeToUse);
+        }
+        else {
+            final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationTypeToUse);
             if (!role.isTerminated()) {
                 role.expireNow(terminationReason, true);
             }
-		}
+        }
         // just call sorPerson.getRoles().remove(sorRole) and then save?
-		sorPerson.getRoles().remove(sorRole);
-		this.personRepository.savePerson(person);
-		return true;
-	}
+        sorPerson.getRoles().remove(sorRole);
+        this.personRepository.savePerson(person);
+        return true;
+    }
 
     @Transactional
     public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
@@ -235,7 +268,7 @@ public class DefaultPersonService implements PersonService {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
 
         if (reconciliationCriteria.getSorPerson().getSorId() != null &&
-            this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(),reconciliationCriteria.getSorPerson().getSorId()) != null){
+                this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()) != null) {
             throw new IllegalStateException("CANNOT ADD SAME SOR RECORD.");
         }
         // TODO this might fail because it doesn't match.
@@ -272,7 +305,7 @@ public class DefaultPersonService implements PersonService {
 
         return new GeneralServiceExecutionResult<Person>(saveSorPersonAndConvertToCalculatedPerson(reconciliationCriteria));
     }
-    
+
     @Transactional
     public ServiceExecutionResult<Person> addPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) throws IllegalArgumentException, IllegalStateException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null.");
@@ -309,7 +342,8 @@ public class DefaultPersonService implements PersonService {
                     personMatches.add(p);
                     return personMatches;
                 }
-            } catch (final Exception e) {
+            }
+            catch (final Exception e) {
 
             }
         }
@@ -332,34 +366,35 @@ public class DefaultPersonService implements PersonService {
         //for now, clear names
         //add all names from all sor records as long as they are different from already added names
         if (person.getNames() != null) person.getNames().clear();
-        
+
         final List<SorPerson> sorPersons = this.personRepository.getSoRRecordsForPerson(person);
         copySorNamesToPerson(sorPersons, person);
 
         //for now first name added is official and preferred        
-        if(person.getNames() != null){
+        if (person.getNames() != null) {
             Name name = person.getNames().iterator().next();
             name.setOfficialName(true);
             name.setPreferredName(true);
         }
 
         this.personRepository.savePerson(person);
-        return(person);
+        return (person);
     }
 
     /**
      * Copy SorNames to Calculated Person
+     *
      * @param sorPersons to copy
      * @param person
      */
-    protected void copySorNamesToPerson(final List<SorPerson> sorPersons, Person person){
+    protected void copySorNamesToPerson(final List<SorPerson> sorPersons, Person person) {
         for (final SorPerson sorPerson : sorPersons) {
-            for (final Name sorName: sorPerson.getNames()){
+            for (final Name sorName : sorPerson.getNames()) {
                 boolean alreadyAdded = false;
-                if(person.getNames() != null)
-                    for (final Name calculatedName: person.getNames())
+                if (person.getNames() != null)
+                    for (final Name calculatedName : person.getNames())
                         if (calculatedName.equals(sorName)) alreadyAdded = true;
-                if (!alreadyAdded){
+                if (!alreadyAdded) {
                     logger.info("Adding name: " + sorName.toString());
                     Name personName = person.addName();
                     personName.setFamily(sorName.getFamily());
@@ -397,7 +432,7 @@ public class DefaultPersonService implements PersonService {
         return person;
     }
 
-    protected Person constructPersonFromSorData(SorPerson sorPerson){
+    protected Person constructPersonFromSorData(SorPerson sorPerson) {
         // Construct actual person from Sor Information
         final Person person = this.personObjectFactory.getObject();
         person.setDateOfBirth(sorPerson.getDateOfBirth());
@@ -441,7 +476,7 @@ public class DefaultPersonService implements PersonService {
         sorPerson.setPersonId(person.getId());
         this.personRepository.saveSorPerson(sorPerson);
 
-		return person;
+        return person;
     }
 
     protected Person addNewSorPersonAndLinkWithMatchedCalculatedPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
@@ -449,7 +484,7 @@ public class DefaultPersonService implements PersonService {
 
         final Person person = result.getMatches().iterator().next().getPerson();
         return addSorPersonAndLink(reconciliationCriteria, person);
-	}
+    }
 
     /**
      * Persists an SorPerson on update.
@@ -505,7 +540,7 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Transactional
-    public boolean removeSorName(SorPerson sorPerson, Long nameId){
+    public boolean removeSorName(SorPerson sorPerson, Long nameId) {
         Name name = sorPerson.findNameByNameId(nameId);
         if (name == null) return false;
 
@@ -521,13 +556,13 @@ public class DefaultPersonService implements PersonService {
      * Move All Sor Records from one person to another.
      *
      * @param fromPerson person losing sor records.
-     * @param toPerson person receiving sor records.
+     * @param toPerson   person receiving sor records.
      * @return Result of move. Validation errors if they occurred or the Person receiving sor records.
      */
     @Transactional
-    public boolean moveAllSystemOfRecordPerson(Person fromPerson, Person toPerson){
+    public boolean moveAllSystemOfRecordPerson(Person fromPerson, Person toPerson) {
         // get the list of sor person records that will be moving.
-        List<SorPerson> sorPersonList =  personRepository.getSoRRecordsForPerson(fromPerson);
+        List<SorPerson> sorPersonList = personRepository.getSoRRecordsForPerson(fromPerson);
 
         // move each sorRecord
         for (final SorPerson sorPerson : sorPersonList) {
@@ -544,11 +579,11 @@ public class DefaultPersonService implements PersonService {
      * Move one Sor Record from one person to another.
      *
      * @param fromPerson person losing sor record.
-     * @param toPerson person receiving sor record.
+     * @param toPerson   person receiving sor record.
      * @return Success or failure.
      */
     @Transactional
-    public boolean moveSystemOfRecordPerson(Person fromPerson, Person toPerson, SorPerson movingSorPerson){
+    public boolean moveSystemOfRecordPerson(Person fromPerson, Person toPerson, SorPerson movingSorPerson) {
         movingSorPerson.setPersonId(toPerson.getId());
         updateCalculatedPersonsOnMoveOfSor(toPerson, fromPerson, movingSorPerson);
         this.personRepository.saveSorPerson(movingSorPerson);
@@ -558,12 +593,12 @@ public class DefaultPersonService implements PersonService {
     /**
      * Move one Sor Record from one person to another where the to person is not in the registry
      *
-     * @param fromPerson person losing sor record.
+     * @param fromPerson      person losing sor record.
      * @param movingSorPerson record that is moving.
      * @return Success or failure.
      */
     @Transactional
-    public boolean moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson movingSorPerson){
+    public boolean moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson movingSorPerson) {
         // create the new person in the registry
         Person toPerson = constructPersonFromSorData(movingSorPerson);
         return moveSystemOfRecordPerson(fromPerson, toPerson, movingSorPerson);
@@ -575,12 +610,10 @@ public class DefaultPersonService implements PersonService {
      *
      * @param toPerson
      * @param fromPerson
-     * @param sorPerson
-     *
-     * Adjust calculated roles...
-     * Point prc_role to prc_person receiving role
-     * Add the role to the set of roles in receiving prc_person
-     * Remove role from prc person losing role
+     * @param sorPerson  Adjust calculated roles...
+     *                   Point prc_role to prc_person receiving role
+     *                   Add the role to the set of roles in receiving prc_person
+     *                   Remove role from prc person losing role
      */
     protected void updateCalculatedPersonsOnMoveOfSor(final Person toPerson, final Person fromPerson, final SorPerson sorPerson) {
         Assert.notNull(toPerson, "toPerson cannot be null");
@@ -598,7 +631,7 @@ public class DefaultPersonService implements PersonService {
                 }
             }
         }
-        for (final Role role : rolesToDelete){
+        for (final Role role : rolesToDelete) {
             fromPerson.getRoles().remove(role);
         }
 
@@ -608,19 +641,19 @@ public class DefaultPersonService implements PersonService {
         this.personRepository.savePerson(toPerson);
     }
 
-    public SorPerson hasSorRecordFromSameSource(Person fromPerson, Person toPerson){
+    public SorPerson hasSorRecordFromSameSource(Person fromPerson, Person toPerson) {
         SorPerson sorPerson = null;
 
         //TODO need to complete this.
         return sorPerson;
     }
 
-    public boolean expireRole(SorRole role){
+    public boolean expireRole(SorRole role) {
         role.setEnd(new Date());
         return true;
     }
 
-    public boolean renewRole(SorRole role){
+    public boolean renewRole(SorRole role) {
         final Calendar cal = Calendar.getInstance();
 
         //TODO need to read configuration data for setting the default renewal date for this role type.

@@ -117,17 +117,17 @@
     <orderEntry type="library" exported="" name="Maven: org.apache.tiles:tiles-core:2.1.4" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.apache.tiles:tiles-api:2.1.4" level="project" />
     <orderEntry type="library" exported="" name="Maven: commons-digester:commons-digester:1.8.1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: com.sun.jersey:jersey-server:1.1.2-ea" level="project" />
-    <orderEntry type="library" exported="" name="Maven: com.sun.jersey:jersey-core:1.1.2-ea" level="project" />
-    <orderEntry type="library" exported="" name="Maven: javax.ws.rs:jsr311-api:1.1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: com.sun.jersey:jersey-json:1.1.2-ea" level="project" />
+    <orderEntry type="library" exported="" name="Maven: com.sun.jersey:jersey-server:1.1.4.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: com.sun.jersey:jersey-core:1.1.4.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: javax.ws.rs:jsr311-api:1.1.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: com.sun.jersey:jersey-json:1.1.4.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.codehaus.jettison:jettison:1.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: stax:stax-api:1.0.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.codehaus.jackson:jackson-core-asl:1.1.1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: com.sun.jersey.contribs:jersey-spring:1.1.2-ea" level="project" />
+    <orderEntry type="library" exported="" name="Maven: com.sun.jersey.contribs:jersey-spring:1.1.4.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: com.sun.xml.stream:sjsxp:1.0.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.sun.jersey:jersey-test-framework:1.1.2-ea" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.sun.jersey:jersey-client:1.1.2-ea" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.jersey:jersey-test-framework:1.1.4.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.jersey:jersey-client:1.1.4.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-servlet-webserver:1.9.8" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-http:1.9.8" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-framework:1.9.8" level="project" />
@@ -138,7 +138,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.embedded:glassfish-embedded-all:3.0-Prelude-Embedded-b14" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.sun.net.httpserver:http:20070405" level="project" />
     <orderEntry type="module" module-name="openregistry-test-support" scope="TEST" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.8.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.8.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-nop:1.5.8" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
