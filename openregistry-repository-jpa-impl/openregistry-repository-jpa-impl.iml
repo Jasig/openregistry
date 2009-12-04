@@ -103,7 +103,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.antlr:antlr:3.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.antlr:stringtemplate:3.1-b1" level="project" />
     <orderEntry type="module" module-name="openregistry-test-support" scope="TEST" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.8.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.8.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-nop:1.5.8" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
