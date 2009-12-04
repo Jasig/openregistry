@@ -51,6 +51,8 @@ public class DefaultPersonService implements PersonService {
 
     private final IdentifierGenerator identifierGenerator;
 
+    private final Validator validator;
+
     @Resource(name = "personFactory")
     private ObjectFactory<Person> personObjectFactory;
 
@@ -60,53 +62,16 @@ public class DefaultPersonService implements PersonService {
     @Autowired(required = false)
     private List<IdentifierAssigner> identifierAssigners = new ArrayList<IdentifierAssigner>();
 
-    private final Validator validator;
-
     @Inject
-    public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler, final SystemOfRecordRepository systemOfRecordRepository) {
+    public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler, final Validator validator) {
         this.personRepository = personRepository;
         this.referenceRepository = referenceRepository;
         this.identifierGenerator = identifierGenerator;
         this.reconciler = reconciler;
-
-        final Configuration configuration = Validation.byDefaultProvider().configure();
-        final ConstraintValidatorFactory c = Validation.byDefaultProvider().configure().getDefaultConstraintValidatorFactory();
-        final ConstraintValidatorFactory sorAware = new SoRAwareConstraintValidatorFactoryImpl(c, systemOfRecordRepository);
-        configuration.constraintValidatorFactory(sorAware);
-        final ValidatorFactory v = configuration.buildValidatorFactory();
-        this.validator = v.getValidator();
-    }
-
-    //The following constructors used solely for unit testing with mocks stabbed by mocking frameworks.
-    //They all have package-private visibility to protect from instantiation elsewhere.
-    //The idea behind the mocking framework is to mock 'just enough' behaviour needed to unit test particular methods,
-    //without all that 'extra mock baggage'
-
-    DefaultPersonService() {
-        this.personRepository = null;
-        this.validator = null;
-        this.referenceRepository = null;
-        this.reconciler = null;
-        this.identifierGenerator = null;
-    }
-
-    DefaultPersonService(Validator validator) {
         this.validator = validator;
-        this.personRepository = null;
-        this.referenceRepository = null;
-        this.reconciler = null;
-        this.identifierGenerator = null;
     }
 
-    DefaultPersonService(PersonRepository personRepository, Validator validator) {
-        this.personRepository = personRepository;
-        this.validator = validator;
-        this.referenceRepository = null;
-        this.reconciler = null;
-        this.identifierGenerator = null;
-    }
-
-    public void setPersonObjectFactory(final ObjectFactory personObjectFactory) {
+    public void setPersonObjectFactory(final ObjectFactory<Person> personObjectFactory) {
         this.personObjectFactory = personObjectFactory;
     }
 
@@ -127,8 +92,7 @@ public class DefaultPersonService implements PersonService {
     public Person findPersonByIdentifier(final String identifierType, final String identifierValue) {
         try {
             return this.personRepository.findByIdentifier(identifierType, identifierValue);
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             return null;
         }
     }
@@ -137,8 +101,7 @@ public class DefaultPersonService implements PersonService {
     public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier) {
         try {
             return this.personRepository.findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
-        }
-        catch (Exception e) {
+        } catch (final Exception e) {
             // TODO we need to log this better.
             return null;
         }
@@ -148,8 +111,7 @@ public class DefaultPersonService implements PersonService {
     public SorPerson findBySorIdentifierAndSource(final String sorSource, final String sorId) {
         try {
             return this.personRepository.findBySorIdentifierAndSource(sorSource, sorId);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -223,8 +185,7 @@ public class DefaultPersonService implements PersonService {
 
         if (mistake) {
             person.getRoles().remove(role);
-        }
-        else {
+        } else {
             final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationTypeToUse);
             if (!role.isTerminated()) {
                 role.expireNow(terminationReason, true);
@@ -342,8 +303,7 @@ public class DefaultPersonService implements PersonService {
                     personMatches.add(p);
                     return personMatches;
                 }
-            }
-            catch (final Exception e) {
+            } catch (final Exception e) {
 
             }
         }

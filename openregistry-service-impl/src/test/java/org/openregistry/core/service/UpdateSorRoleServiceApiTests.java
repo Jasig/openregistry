@@ -1,3 +1,18 @@
+/**
+ * Copyright (C) 2009 Jasig, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.openregistry.core.service;
 
 import org.jasig.openregistry.test.util.MockitoUtils;
@@ -15,10 +30,7 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.repository.PersonRepository;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -54,7 +66,7 @@ public class UpdateSorRoleServiceApiTests {
 
     @Test(expected = IllegalArgumentException.class)
     public void sorPersonAndSorRoleArgumentsCannotBeNull() {
-        PersonService ps = new DefaultPersonService();
+        PersonService ps = new DefaultPersonService(null, null, null, null, null);
         ps.updateSorRole(null, null);
     }
 
@@ -63,7 +75,7 @@ public class UpdateSorRoleServiceApiTests {
         Set mockValidationErrors = MockitoUtils.oneMinimalisticMockConstraintViolation();
         when(this.mockValidator.validate(eq(mockSorRole))).thenReturn(mockValidationErrors);
 
-        PersonService ps = new DefaultPersonService(this.mockValidator);
+        PersonService ps = new DefaultPersonService(null, null, null, null,  this.mockValidator);
 
         ServiceExecutionResult<SorRole> result = ps.updateSorRole(this.mockSorPerson, this.mockSorRole);
         assertFalse(result.succeeded());
@@ -79,7 +91,7 @@ public class UpdateSorRoleServiceApiTests {
         when(this.mockPersonRepository.saveSorRole(eq(this.mockSorRole))).thenReturn(this.mockSorRole);
         when(this.mockPersonRepository.findByInternalId(eq(1L))).thenReturn(this.mockPerson);
 
-        PersonService ps = new DefaultPersonService(this.mockPersonRepository, this.mockValidator);
+        PersonService ps = new DefaultPersonService(this.mockPersonRepository, null, null, null, this.mockValidator);
         ServiceExecutionResult<SorRole> result = ps.updateSorRole(this.mockSorPerson, this.mockSorRole);
         assertTrue(result.succeeded());
         assertTrue(result.getValidationErrors().isEmpty());

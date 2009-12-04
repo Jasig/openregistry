@@ -60,7 +60,7 @@ public class DefaultPersonServiceTests {
                 return new MockPerson();
             }
         };
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.NONE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.NONE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
         reconciliationCriteria = new MockReconciliationCriteria();
         setReconciliationCriteria(reconciliationCriteria);
@@ -92,7 +92,7 @@ public class DefaultPersonServiceTests {
      */
     @Test
     public void testReconciliationResultNoneReturnsPerson() throws ReconciliationException {
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.NONE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.NONE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
         ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
         assertNotNull(result);
@@ -106,7 +106,7 @@ public class DefaultPersonServiceTests {
      */
     @Test
     public void testReconciliationResultExactMatch() throws ReconciliationException {
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.EXACT), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.EXACT), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
         ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
         assertNotNull(result);
@@ -118,7 +118,7 @@ public class DefaultPersonServiceTests {
      */
     @Test(expected = ReconciliationException.class)
     public void testReconciliationResultMaybeMatch() throws ReconciliationException {
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
          this.personService.setPersonObjectFactory(this.objectFactory);
         this.personService.addPerson(reconciliationCriteria);
      }
@@ -130,7 +130,7 @@ public class DefaultPersonServiceTests {
 
     @Test(expected=IllegalStateException.class)
     public void testAddPersonAndLinkWithBadPerson() {
-        this.personService = new DefaultPersonService(this.personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(this.personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
 
         try {
@@ -145,7 +145,7 @@ public class DefaultPersonServiceTests {
 
     @Test
     public void testAddPersonAndLink() {
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
 
         try {
@@ -164,7 +164,7 @@ public class DefaultPersonServiceTests {
      */
     @Test
     public void testReconciliationResultOldReconciliationResultProvided() {
-         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new MockSystemOfRecordRepository());
+         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
          this.personService.setPersonObjectFactory(this.objectFactory);
 
          try {
@@ -207,7 +207,7 @@ public class DefaultPersonServiceTests {
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson, sorPerson1});
 
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
         this.personService.deleteSystemOfRecordPerson(sorPerson, false, null);
 
@@ -243,7 +243,7 @@ public class DefaultPersonServiceTests {
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
 
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
         this.personService.deleteSystemOfRecordPerson(sorPerson, false, null);
 
@@ -287,7 +287,7 @@ public class DefaultPersonServiceTests {
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson, sorPerson1});
 
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
         this.personService.deleteSystemOfRecordPerson(sorPerson, true, null);
 
@@ -311,7 +311,7 @@ public class DefaultPersonServiceTests {
         mockPerson.addRole(sorRole);
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
-        this.personService = new DefaultPersonService(personRepository, this.referenceRepository, new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, this.referenceRepository, new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
         this.personService.deleteSystemOfRecordPerson(sorPerson, true, null);
         assertNull(personRepository.findByInternalId(1L));
@@ -338,7 +338,7 @@ public class DefaultPersonServiceTests {
         mockPerson.setId(1L);
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {mockSorPerson});
-        this.personService = new DefaultPersonService(personRepository, this.referenceRepository, new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, this.referenceRepository, new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
         final ServiceExecutionResult<SorRole> serviceExecutionResult = this.personService.validateAndSaveRoleForSorPerson(mockSorPerson, sorRole);
 
@@ -371,7 +371,7 @@ public class DefaultPersonServiceTests {
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
 
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
 
 		this.personService.deleteSystemOfRecordRole(sorPerson, sorRole, false, Type.TerminationTypes.FIRED.name());
@@ -408,7 +408,7 @@ public class DefaultPersonServiceTests {
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
 
-        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new MockSystemOfRecordRepository());
+        this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), new OpenRegistrySoRValidator(new MockSystemOfRecordRepository()));
         this.personService.setPersonObjectFactory(this.objectFactory);
 		this.personService.deleteSystemOfRecordRole(sorPerson, sorRole, true, Type.TerminationTypes.FIRED.name());
 

@@ -60,4 +60,7 @@
 
     <bean id="systemOfRecordRepository" class="org.openregistry.core.repository.jpa.JpaSystemOfRecordRepositoryImpl" />
 
+    <bean id="validator" class="org.openregistry.core.service.OpenRegistrySoRValidator" />
+
+
 </beans>
