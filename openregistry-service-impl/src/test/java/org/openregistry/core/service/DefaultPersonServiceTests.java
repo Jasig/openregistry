@@ -34,7 +34,7 @@ import org.springframework.beans.factory.*;
 import java.util.*;
 
 /**
- * Test cases for the {@link DefaultIdentifierChangeService}.  Note this does not actually
+ * Test cases for the {@link DefaultPersonService}.  Note this does not actually
  * test the database.
  *
  * @version $Revision$ $Date$

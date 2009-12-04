@@ -556,6 +556,7 @@
       <module fileurl="file://$PROJECT_DIR$/openregistry-repository-jpa-impl/openregistry-repository-jpa-impl.iml" filepath="$PROJECT_DIR$/openregistry-repository-jpa-impl/openregistry-repository-jpa-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-service-impl/openregistry-service-impl.iml" filepath="$PROJECT_DIR$/openregistry-service-impl/openregistry-service-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" filepath="$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" />
+      <module fileurl="file://$PROJECT_DIR$/openregistry-test-support/openregistry-test-support.iml" filepath="$PROJECT_DIR$/openregistry-test-support/openregistry-test-support.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" filepath="$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" />
     </modules>
   </component>
@@ -3154,17 +3155,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/org.springframework.jdbc/3.0.0.RC3/org.springframework.jdbc-3.0.0.RC3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.apache.commons:com.springsource.org.apache.commons.logging:1.1.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/com.springsource.org.apache.commons.logging/1.1.1/com.springsource.org.apache.commons.logging-1.1.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/com.springsource.org.apache.commons.logging/1.1.1/com.springsource.org.apache.commons.logging-1.1.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/com.springsource.org.apache.commons.logging/1.1.1/com.springsource.org.apache.commons.logging-1.1.1-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
