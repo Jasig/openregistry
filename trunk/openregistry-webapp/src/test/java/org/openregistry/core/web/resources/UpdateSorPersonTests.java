@@ -18,7 +18,7 @@ package org.openregistry.core.web.resources;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import org.junit.Test;
-import org.openregistry.core.web.resources.representations.PersonModifyRepresentation;
+import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
 import org.springframework.web.context.ContextLoaderListener;
 
 /**
@@ -43,7 +43,7 @@ public class UpdateSorPersonTests extends JerseyTestSupport {
     @Test
     public void httpMethodNotAllowed() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(405, GOOD_SOR_PERSON_RESOURCE_UNDER_TEST_URI,
-                GET_HTTP_METHOD, new PersonModifyRepresentation());
+                GET_HTTP_METHOD, new PersonRequestRepresentation());
 
     }
 
@@ -57,24 +57,24 @@ public class UpdateSorPersonTests extends JerseyTestSupport {
     @Test
     public void nonExistingSorPerson() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(404, NON_EXISTING_RESOURCE_UNDER_TEST_URI,
-                PUT_HTTP_METHOD, PersonModifyRepresentation.newRepresentationWithRequiredData());
+                PUT_HTTP_METHOD, PersonRequestRepresentation.modifyRepresentationWithRequiredData());
     }
 
     @Test
     public void goodRequest() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(204, GOOD_SOR_PERSON_RESOURCE_UNDER_TEST_URI,
-                PUT_HTTP_METHOD, PersonModifyRepresentation.newRepresentationWithRequiredData());
+                PUT_HTTP_METHOD, PersonRequestRepresentation.modifyRepresentationWithRequiredData());
     }
 
     @Test
     public void badRequest() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(400, VALIDATION_ERRORS_SOR_PERSON_RESOURCE_UNDER_TEST_URI,
-                PUT_HTTP_METHOD, PersonModifyRepresentation.newRepresentationWithRequiredData());
+                PUT_HTTP_METHOD, PersonRequestRepresentation.modifyRepresentationWithRequiredData());
     }
 
     @Test
     public void reconcilationError() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(409, RECONCILIATION_ERRORS_SOR_PERSON_RESOURCE_UNDER_TEST_URI,
-                PUT_HTTP_METHOD, PersonModifyRepresentation.newRepresentationWithRequiredData());
+                PUT_HTTP_METHOD, PersonRequestRepresentation.modifyRepresentationWithRequiredData());
     }
 }

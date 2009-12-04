@@ -28,7 +28,6 @@ import org.openregistry.core.service.reconciliation.ReconciliationException;
 import org.openregistry.core.web.resources.representations.ErrorsResponseRepresentation;
 import org.openregistry.core.web.resources.representations.LinkRepresentation;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
-import org.openregistry.core.web.resources.representations.PersonModifyRepresentation;
 import org.openregistry.core.utils.ValidationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -188,10 +187,10 @@ public final class SystemOfRecordPeopleResource {
     @Consumes(MediaType.APPLICATION_XML)
     public Response updateIncomingPerson(@PathParam("sorSourceId") final String sorSourceId,
                                          @PathParam("sorPersonId") final String sorPersonId,
-                                         final PersonModifyRepresentation personModifyRepresentation) {
+                                         final PersonRequestRepresentation request) {
 
         final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
-        updateSorPersonWithIncomingData(sorPerson, personModifyRepresentation);
+        PeopleResourceUtils.buildModifiedSorPerson(request, sorPerson,this.referenceRepository);
 
         try {
             ServiceExecutionResult<SorPerson> result = this.personService.updateSorPerson(sorPerson);
@@ -248,27 +247,5 @@ public final class SystemOfRecordPeopleResource {
                             sorSourceId, sorPersonId));
         }
         return sorPerson;
-    }
-
-    private void updateSorPersonWithIncomingData(SorPerson sorPerson, PersonModifyRepresentation personRepresentation) {
-        sorPerson.setDateOfBirth(personRepresentation.dateOfBirth);
-        sorPerson.setSsn(personRepresentation.ssn);
-        sorPerson.setGender(personRepresentation.gender);
-
-        boolean hasLegalorFormalNameType = PeopleResourceUtils.hasLegalorFormalNameType(personRepresentation);
-
-        sorPerson.getNames().clear();
-
-        for (final PersonModifyRepresentation.Name n : personRepresentation.names) {
-            final Name name = sorPerson.addName();
-            name.setFamily(n.lastName);
-            name.setGiven(n.firstName);
-            name.setMiddle(n.middleName);
-            name.setSuffix(n.suffix);
-            name.setPrefix(n.prefix);
-            Type type = PeopleResourceUtils.processNameType(referenceRepository, hasLegalorFormalNameType, n.nameType);
-            name.setType(type);
-            if (type.equals(Type.NameTypes.FORMAL)) hasLegalorFormalNameType = true;
-        }
     }
 }
