@@ -327,15 +327,8 @@ public class DefaultPersonService implements PersonService {
         //add all names from all sor records as long as they are different from already added names
         if (person.getNames() != null) person.getNames().clear();
 
-        final List<SorPerson> sorPersons = this.personRepository.getSoRRecordsForPerson(person);
-        copySorNamesToPerson(sorPersons, person);
-
-        //for now first name added is official and preferred        
-        if (person.getNames() != null) {
-            Name name = person.getNames().iterator().next();
-            name.setOfficialName(true);
-            name.setPreferredName(true);
-        }
+        copySorNamesToPerson(person);
+        electOfficialAndPreferredName(person);
 
         this.personRepository.savePerson(person);
         return (person);
@@ -344,18 +337,19 @@ public class DefaultPersonService implements PersonService {
     /**
      * Copy SorNames to Calculated Person
      *
-     * @param sorPersons to copy
      * @param person
      */
-    protected void copySorNamesToPerson(final List<SorPerson> sorPersons, Person person) {
+    protected void copySorNamesToPerson(Person person) {
+        final List<SorPerson> sorPersons = this.personRepository.getSoRRecordsForPerson(person);
         for (final SorPerson sorPerson : sorPersons) {
             for (final Name sorName : sorPerson.getNames()) {
                 boolean alreadyAdded = false;
                 if (person.getNames() != null)
                     for (final Name calculatedName : person.getNames())
-                        if (calculatedName.equals(sorName)) alreadyAdded = true;
+                        if (calculatedName.equals(sorName)) {
+                            alreadyAdded = true;
+                        }
                 if (!alreadyAdded) {
-                    logger.info("Adding name: " + sorName.toString());
                     Name personName = person.addName();
                     personName.setFamily(sorName.getFamily());
                     personName.setGiven(sorName.getGiven());
@@ -366,7 +360,32 @@ public class DefaultPersonService implements PersonService {
                 }
             }
         }
+    }
 
+   /**
+    * First implementation for name election.  Will elect the first formal or legal name found for official name
+    * Will elect the preferredName to be the official Name.
+    *
+    * @param person
+    */
+   //TODO this will need to take into consideration SOR.
+    protected void electOfficialAndPreferredName(Person person){
+        if (person.getNames() == null) return;
+        for (final Name name : person.getNames()) {
+            if (name.getType().getDescription().equals(Type.NameTypes.FORMAL.name())
+                   || name.getType().getDescription().equals(Type.NameTypes.LEGAL.name())){
+                name.setOfficialName(true);
+                name.setPreferredName(true);
+                return;
+            }
+        }
+
+        // if official Name not set select first name added as official and preferred
+        if (person.getNames() != null) {
+            Name name = person.getNames().iterator().next();
+            name.setOfficialName(true);
+            name.setPreferredName(true);
+        }
     }
 
     /**
@@ -398,19 +417,17 @@ public class DefaultPersonService implements PersonService {
         person.setDateOfBirth(sorPerson.getDateOfBirth());
         person.setGender(sorPerson.getGender());
 
-        //initialize the name to be both official and preferred.
-        final Name name = person.addOfficialName();
-        name.setPreferredName(true);
+        for (final Name sorName : sorPerson.getNames()) {
+            Name name = person.addName();
+            name.setFamily(sorName.getFamily());
+            name.setGiven(sorName.getGiven());
+            name.setMiddle(sorName.getMiddle());
+            name.setPrefix(sorName.getPrefix());
+            name.setSuffix(sorName.getSuffix());
+            name.setType(sorName.getType());
+        }
 
-        // There should only be one at this point.
-        // TODO generalize this to all names
-        final Name sorName = sorPerson.getNames().iterator().next();
-        name.setFamily(sorName.getFamily());
-        name.setGiven(sorName.getGiven());
-        name.setMiddle(sorName.getMiddle());
-        name.setPrefix(sorName.getPrefix());
-        name.setSuffix(sorName.getSuffix());
-        name.setType(sorName.getType());
+        this.electOfficialAndPreferredName(person);
 
         // Assign identifiers, including SSN from the SoR Person
         for (final IdentifierAssigner ia : this.identifierAssigners) {
