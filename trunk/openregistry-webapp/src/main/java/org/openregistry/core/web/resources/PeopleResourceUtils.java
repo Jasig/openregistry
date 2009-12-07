@@ -40,7 +40,7 @@ public final class PeopleResourceUtils {
         rc.getSorPerson().setSourceSor(request.systemOfRecordId);
         rc.getSorPerson().setSorId(request.systemOfRecordPersonId);
 
-        boolean hasLegalorFormalNameType = hasLegalorFormalNameType(request);
+        boolean hasLegalOrFormalNameType = hasLegalorFormalNameType(request);
         for (final PersonRequestRepresentation.Name requestName : request.names) {
             final Name name = rc.getSorPerson().addName();
             name.setGiven(requestName.firstName);
@@ -48,9 +48,11 @@ public final class PeopleResourceUtils {
             name.setMiddle(requestName.middleName);
             name.setPrefix(requestName.prefix);
             name.setSuffix(requestName.suffix);
-            Type type = processNameType(referenceRepository, hasLegalorFormalNameType, requestName.nameType);
+            final Type type = processNameType(referenceRepository, hasLegalOrFormalNameType, requestName.nameType);
             name.setType(type);
-            if (type.equals(Type.NameTypes.FORMAL.name())) hasLegalorFormalNameType = true;
+            if (type.getDataType().equals(Type.NameTypes.FORMAL.name())) {
+                hasLegalOrFormalNameType = true;
+            }
         }
         rc.getSorPerson().setDateOfBirth(request.dateOfBirth);
         rc.getSorPerson().setSsn(request.ssn);
@@ -64,12 +66,15 @@ public final class PeopleResourceUtils {
                 rc.setRegion(request.reconciliation.address.region);
                 rc.setPostalCode(request.reconciliation.address.postalCode);
             }
-            if (!request.reconciliation.emails.isEmpty())
+            if (!request.reconciliation.emails.isEmpty()) {
                 rc.setEmailAddress(request.reconciliation.emails.get(0).email);
-            if (!request.reconciliation.phones.isEmpty())
-                rc.setPhoneNumber(request.reconciliation.phones.get(0).phoneNumber);
+            }
 
-            if (!request.reconciliation.identifiers.isEmpty()){
+            if (!request.reconciliation.phones.isEmpty()) {
+                rc.setPhoneNumber(request.reconciliation.phones.get(0).phoneNumber);
+            }
+
+            if (!request.reconciliation.identifiers.isEmpty()) {
                 for (final PersonRequestRepresentation.Reconciliation.Identifier identifier : request.reconciliation.identifiers) {
                     final IdentifierType identifierType = referenceRepository.findIdentifierType(identifier.identifierType);
                     Assert.notNull(identifierType);
@@ -80,13 +85,11 @@ public final class PeopleResourceUtils {
         return rc;
     }
 
-    public static void buildModifiedSorPerson(final PersonRequestRepresentation request,
-                                                                         SorPerson sorPerson,
-                                                                         ReferenceRepository referenceRepository) {
+    public static void buildModifiedSorPerson(final PersonRequestRepresentation request, final SorPerson sorPerson, final ReferenceRepository referenceRepository) {
         sorPerson.setDateOfBirth(request.dateOfBirth);
         sorPerson.setSsn(request.ssn);
         sorPerson.setGender(request.gender);
-        boolean hasLegalorFormalNameType = hasLegalorFormalNameType(request);
+        boolean hasLegalOrFormalNameType = hasLegalorFormalNameType(request);
         sorPerson.getNames().clear();
 
         for (final PersonRequestRepresentation.Name n : request.names) {
@@ -96,25 +99,34 @@ public final class PeopleResourceUtils {
             name.setMiddle(n.middleName);
             name.setSuffix(n.suffix);
             name.setPrefix(n.prefix);
-            Type type = processNameType(referenceRepository, hasLegalorFormalNameType, n.nameType);
+            final Type type = processNameType(referenceRepository, hasLegalOrFormalNameType, n.nameType);
             name.setType(type);
-            if (type.equals(Type.NameTypes.FORMAL)) hasLegalorFormalNameType = true;
+            if (type.getDataType().equals(Type.NameTypes.FORMAL.name())) {
+                hasLegalOrFormalNameType = true;
+            }
         }
 
     }
 
-    protected static Type processNameType(ReferenceRepository referenceRepository, boolean hasLegalorFormalNameType, String nameType){
-        if (nameType != null && referenceRepository.findType(Type.DataTypes.NAME, nameType) != null) {
-            return referenceRepository.findType(Type.DataTypes.NAME, nameType);
+    protected static Type processNameType(final ReferenceRepository referenceRepository, final boolean hasLegalOrFormalNameType, final String nameType){
+        if (nameType != null) {
+            final Type type = referenceRepository.findType(Type.DataTypes.NAME, nameType);
+            if (type != null) {
+                return type;
+            }
         }
         //TODO Default is Formal unless already have a name marked Formal or Legal?
-        if (hasLegalorFormalNameType) return referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.AKA);
-        return referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL);
+
+        return referenceRepository.findType(Type.DataTypes.NAME, hasLegalOrFormalNameType ? Type.NameTypes.AKA : Type.NameTypes.FORMAL);
     }
 
     protected static boolean hasLegalorFormalNameType(final PersonRequestRepresentation request) {
-        for (final PersonRequestRepresentation.Name n : request.names)
-            if (n.nameType != null && (n.nameType.equals(Type.NameTypes.LEGAL.name()) || n.nameType.equals(Type.NameTypes.FORMAL.name()))) return true;
+        for (final PersonRequestRepresentation.Name n : request.names) {
+            if (Type.NameTypes.LEGAL.name().equals(n.nameType) || Type.NameTypes.FORMAL.name().equals(n.nameType)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
