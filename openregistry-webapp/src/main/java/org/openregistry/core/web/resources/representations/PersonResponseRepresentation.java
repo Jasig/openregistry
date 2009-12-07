@@ -15,10 +15,7 @@
  */
 package org.openregistry.core.web.resources.representations;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -36,7 +33,7 @@ import java.util.List;
 public class PersonResponseRepresentation implements Serializable {
 
     @XmlElementWrapper(name = "identifiers")
-    @XmlElement(name = "id")
+    @XmlElement(name = "identifier")
     List<PersonIdentifierRepresentation> identifiers;
 
     /**
@@ -55,7 +52,7 @@ public class PersonResponseRepresentation implements Serializable {
         @XmlAttribute
         String type;
 
-        @XmlAttribute
+        @XmlValue
         String value;
 
         /**
