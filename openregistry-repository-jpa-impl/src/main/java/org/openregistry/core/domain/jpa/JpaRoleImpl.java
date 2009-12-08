@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 
 /**
  * Role entity mapped to a persistence store with JPA annotations.
@@ -67,16 +68,18 @@ public final class JpaRoleImpl extends Entity implements Role {
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "sponsor_id")
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private JpaSponsorImpl sponsor;
 
     @Column(name = "percent_time", nullable = false)
     private int percentage;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, targetEntity = JpaTypeImpl.class)
     @JoinColumn(name = "person_status_t")
-    private JpaTypeImpl personStatus;
+    private Type personStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaLeaveImpl.class)
+    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Leave> leaves = new HashSet<Leave>();
 
     @ManyToOne(optional = false)
@@ -95,9 +98,9 @@ public final class JpaRoleImpl extends Entity implements Role {
     @Temporal(TemporalType.DATE)
     private Date end;
 
-    @ManyToOne()
+    @ManyToOne(targetEntity = JpaTypeImpl.class)
     @JoinColumn(name = "termination_t")
-    private JpaTypeImpl terminationReason;
+    private Type terminationReason;
 
     @Column(name="prs_role_id",nullable = true)
     private Long sorRoleId;
@@ -145,7 +148,7 @@ public final class JpaRoleImpl extends Entity implements Role {
         return this.urls;
     }
 
-    public Address addAddress(final Address sorAddress) {
+    protected Address addAddress(final Address sorAddress) {
         final JpaAddressImpl jpaAddress = new JpaAddressImpl(this);
         this.addresses.add(jpaAddress);
         jpaAddress.setLine1(sorAddress.getLine1());
@@ -159,7 +162,7 @@ public final class JpaRoleImpl extends Entity implements Role {
         return jpaAddress;
     }
 
-    public Url addUrl(final Url sorUrl) {
+    protected Url addUrl(final Url sorUrl) {
         final JpaUrlImpl url = new JpaUrlImpl(this);
         this.urls.add(url);
         url.setUrl(sorUrl.getUrl());
@@ -167,7 +170,7 @@ public final class JpaRoleImpl extends Entity implements Role {
         return url;
     }
 
-    public EmailAddress addEmailAddress(final EmailAddress sorEmailAddress) {
+    protected EmailAddress addEmailAddress(final EmailAddress sorEmailAddress) {
         final JpaEmailAddressImpl jpaEmailAddress = new JpaEmailAddressImpl(this);
         this.emailAddresses.add(jpaEmailAddress);
         jpaEmailAddress.setAddress(sorEmailAddress.getAddress());
@@ -175,7 +178,7 @@ public final class JpaRoleImpl extends Entity implements Role {
         return jpaEmailAddress;
     }
 
-    public Phone addPhone(final Phone sorPhone) {
+    protected Phone addPhone(final Phone sorPhone) {
         final JpaPhoneImpl jpaPhone = new JpaPhoneImpl(this);
         this.phones.add(jpaPhone);
         jpaPhone.setCountryCode(sorPhone.getCountryCode());
@@ -187,7 +190,7 @@ public final class JpaRoleImpl extends Entity implements Role {
         return jpaPhone;
     }
 
-    public Leave addLeave(final Leave sorLeave) {
+    protected Leave addLeave(final Leave sorLeave) {
         final JpaLeaveImpl jpaLeaveImpl = new JpaLeaveImpl(this, sorLeave);
         this.leaves.add(jpaLeaveImpl);
         return jpaLeaveImpl;
@@ -201,13 +204,12 @@ public final class JpaRoleImpl extends Entity implements Role {
         return this.roleInfo.getAffiliationType();
     }
 
-    public Sponsor addSponsor(final SorSponsor sorSponsor) {
-        final JpaSponsorImpl sponsor = new JpaSponsorImpl(this);
-        sponsor.setSponsorId(sorSponsor.getSponsorId());
-        sponsor.setType(sorSponsor.getType());
-        sponsor.addRole(this);
-        this.sponsor = sponsor;
-        return sponsor;
+    protected void addSponsor(final SorSponsor sorSponsor) {
+        if (sponsor == null) {
+            this.sponsor = new JpaSponsorImpl(this);
+        }
+        this.sponsor.setSponsorId(sorSponsor.getSponsorId());
+        this.sponsor.setType(sorSponsor.getType());
     }
 
     public Sponsor getSponsor() {
@@ -238,10 +240,6 @@ public final class JpaRoleImpl extends Entity implements Role {
         return this.roleInfo.getCode();
     }
 
-    public void setCode(String code) {
-        this.roleInfo.setCode(code);
-    }
-
     public Type getTerminationReason() {
         return this.terminationReason;
     }
@@ -270,19 +268,19 @@ public final class JpaRoleImpl extends Entity implements Role {
     public void expireNow(final Type terminationReason, final boolean orphaned) {
         Assert.isInstanceOf(JpaTypeImpl.class, terminationReason);
         this.end = new Date();
-        this.terminationReason = (JpaTypeImpl) terminationReason;
+        this.terminationReason = terminationReason;
         if (orphaned) {
             this.sorRoleId = null;
         }
     }
 
     public void recalculate(final SorRole sorRole) {
-        this.personStatus = (JpaTypeImpl) sorRole.getPersonStatus();
+        this.personStatus = sorRole.getPersonStatus();
         this.start = sorRole.getStart();
         this.end = sorRole.getEnd();
         this.sorRoleId = sorRole.getId();
         this.percentage =sorRole.getPercentage();
-        this.terminationReason = (JpaTypeImpl) sorRole.getTerminationReason();
+        this.terminationReason = sorRole.getTerminationReason();
 
         this.addresses.clear();
         this.phones.clear();
