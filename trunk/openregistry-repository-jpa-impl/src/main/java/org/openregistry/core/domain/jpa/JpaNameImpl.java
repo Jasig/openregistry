@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.domain.jpa;
 
+import org.openregistry.core.domain.AbstractNameImpl;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
@@ -33,7 +34,7 @@ import javax.persistence.*;
 @Table(name="prc_names")
 
 @Audited
-public class JpaNameImpl extends Entity implements Name {
+public class JpaNameImpl extends AbstractNameImpl {
 
     @Id
     @Column(name="id")

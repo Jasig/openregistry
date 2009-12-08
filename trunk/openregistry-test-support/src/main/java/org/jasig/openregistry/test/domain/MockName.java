@@ -15,11 +15,12 @@
  */
 package org.jasig.openregistry.test.domain;
 
+import org.openregistry.core.domain.AbstractNameImpl;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 
-public class MockName extends Entity implements Name {
+public class MockName extends AbstractNameImpl {
 
     private Long id;
     

@@ -344,11 +344,13 @@ public class DefaultPersonService implements PersonService {
         for (final SorPerson sorPerson : sorPersons) {
             for (final Name sorName : sorPerson.getNames()) {
                 boolean alreadyAdded = false;
-                if (person.getNames() != null)
-                    for (final Name calculatedName : person.getNames())
-                        if (calculatedName.sameAs(sorName.getFamily(), sorName.getGiven(), sorName.getMiddle(), sorName.getPrefix(), sorName.getSuffix())){
+                if (person.getNames() != null) {
+                    for (final Name calculatedName : person.getNames()) {
+                        if (calculatedName.sameAs(sorName)) {
                             alreadyAdded = true;
                         }
+                    }
+                }
                 if (!alreadyAdded) {
                     Name personName = person.addName();
                     personName.setFamily(sorName.getFamily());

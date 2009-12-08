@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.domain.jpa.sor;
 
+import org.openregistry.core.domain.AbstractNameImpl;
 import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
@@ -40,7 +41,7 @@ import javax.validation.constraints.Size;
 @javax.persistence.Entity(name="sorName")
 @Table(name="prs_names")
 @Audited
-public final class JpaSorNameImpl extends Entity implements Name {
+public final class JpaSorNameImpl extends AbstractNameImpl {
 
     @Id
     @Column(name="id")
