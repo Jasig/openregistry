@@ -30,8 +30,8 @@ import javax.persistence.*;
  */
 
 @javax.persistence.Entity(name="emailAddress")
-@Table(name="prc_emails",
-		uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
+@Table(name="prc_emails") //,
+//		uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
 public class JpaEmailAddressImpl extends Entity implements EmailAddress {
 

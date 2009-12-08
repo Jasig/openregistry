@@ -33,7 +33,7 @@ import javax.validation.constraints.NotNull;
  */
 
 @javax.persistence.Entity(name="sorEmailAddress")
-@Table(name="prs_emails", uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
+    @Table(name="prs_emails", uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
 public final class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
 
