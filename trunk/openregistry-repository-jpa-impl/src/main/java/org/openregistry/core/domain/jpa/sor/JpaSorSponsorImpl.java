@@ -38,7 +38,7 @@ import org.springframework.util.Assert;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="sorSponsor")
-@Table(name="prs_sponsors",uniqueConstraints = @UniqueConstraint(columnNames = {"sponsor_t","sponsor_id"}))
+@Table(name="prs_sponsors" ,uniqueConstraints = @UniqueConstraint(columnNames = {"sponsor_t","sponsor_id"}))
 @Audited
 public class JpaSorSponsorImpl extends Entity implements SorSponsor {
 
@@ -49,11 +49,11 @@ public class JpaSorSponsorImpl extends Entity implements SorSponsor {
     @SequenceGenerator(name="prs_sponsors_seq",sequenceName="prs_sponsors_seq",initialValue=1,allocationSize=50)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, targetEntity = JpaTypeImpl.class)
     @JoinColumn(name="sponsor_t")
     @NotNull
     @AllowedTypes(property="sponsor.sponsorType")
-    private JpaTypeImpl sponsorType;
+    private Type sponsorType;
 
     @Column(name="sponsor_id")
     @NotNull
@@ -89,7 +89,7 @@ public class JpaSorSponsorImpl extends Entity implements SorSponsor {
 
 	public void setType(final Type type) {
         Assert.isInstanceOf(JpaTypeImpl.class, type);
-	    this.sponsorType = (JpaTypeImpl)type;
+	    this.sponsorType = type;
 	}
 
 	public void addRole(final SorRole role) {
@@ -100,5 +100,4 @@ public class JpaSorSponsorImpl extends Entity implements SorSponsor {
 	public Set<SorRole> getRoles() {
 		return this.roles;
 	}
-
 }

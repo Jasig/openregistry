@@ -23,6 +23,7 @@ import org.openregistry.core.domain.jpa.sor.*;
 import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.repository.*;
 import org.openregistry.core.service.reconciliation.*;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.*;
 
 import javax.inject.*;
@@ -88,6 +89,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
      *               1 Calculated Person row created, one name, one identifier
      */
 	@Test
+    @Rollback
 	public void testAddOnePerson() throws ReconciliationException {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
@@ -106,6 +108,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
      *               2 Calculated persons, two names, two identifiers
      */
     @Test
+    @Rollback
     public void testAddTwoDifferentPeople() throws ReconciliationException {
         final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ServiceExecutionResult<Person> result1 = this.personService.addPerson(reconciliationCriteria1);
@@ -176,6 +179,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
      * This is an update.  TODO complete this test
      */
     @Test(expected = IllegalStateException.class)
+    @Rollback
     public void testAddExactPersonWithSameSoR() throws ReconciliationException {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
@@ -221,6 +225,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
      * Test 4: Test of adding two new SoR Persons where there is an exact match (different SoR)
      */
     @Test
+    @Rollback
     public void testAddExactPersonWithDifferentSoRs() throws ReconciliationException {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "SOR2", null);
@@ -244,6 +249,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
      *
      */
     @Test(expected=IllegalStateException.class)
+    @Rollback
     public void testAddTwoSoRPersonsWithPartialMatchFromTheSameSoRWhereItsTheSamePerson() {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
@@ -264,6 +270,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
      * Expectation: two SoR Records, and two Calculated People
      */
     @Test
+    @Rollback
     public void testAddTwoSoRPersonsWithPartialMatchAndItsTwoDifferentPeopleFromSameSoR() {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
@@ -296,6 +303,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
      * Expectation: we should add a new SoR Record and update existing calculated person.
      */
     @Test
+    @Rollback
     public void testAddTwoSorPersonWithPartialMatchFromDifferentSoRsWhereItsTheSamePerson() {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "SOR2", null);
@@ -321,6 +329,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
      * Expectation: a new SoR Person and Calculated Person will be created (2 of each).
      */
     @Test
+    @Rollback
     public void testAddTwoNewSoRPersonsWithPartialMatchWhoAreDifferentPeople() throws ReconciliationException {
         final ReconciliationCriteria reconciliationCriteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ReconciliationCriteria reconciliationCriteria1 = constructReconciliationCriteria("FOOBAR", KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "SOR2", null);
@@ -345,6 +354,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 
     // test delete SoR Person with it being a mistake (and only one SoR) (i.e. were the appropriate roles, and names removed? from the calculated person?)
     @Test
+    @Rollback
     public void testDeleteSoRPersonAsAMistakeWithOnlyOneSoR() throws ReconciliationException {
         final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
 
@@ -367,6 +377,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 
     // test delete SoR Person with it being a mistake (and there being two SORs)
     @Test
+    @Rollback
     public void testDeleteSoRPersonAsMistakeWIthTwoSoRs() throws ReconciliationException {
         final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.addPerson(criteria);
@@ -399,6 +410,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 
     // test delete SoR Person no mistake
      @Test
+     @Rollback
      public void testDeleteSoRPersonNoMistakeOneSoR() throws ReconciliationException {
         final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.addPerson(criteria);
@@ -421,6 +433,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 
     // test delete SoR Person with no mistake (2 sors)
      @Test
+     @Rollback
      public void testDeleteSoRPersonNoMistakeTwoSoRs() throws ReconciliationException {
         final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER, null);
         final ServiceExecutionResult<Person> serviceExecutionResult = this.personService.addPerson(criteria);
@@ -464,7 +477,57 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         this.personService.validateAndSaveRoleForSorPerson(null, new JpaSorRoleImpl(new JpaRoleInfoImpl(), new JpaSorPersonImpl()));
     }
 
+    // UPDATE SOR ROLE
+     @Test
+     @Rollback
+     public void testUpdateExistingSoRRole() throws ReconciliationException {
+        final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
+        final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
+        final SorPerson sorPerson = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+
+        final SorRole sorRole = sorPerson.addRole(this.referenceRepository.getRoleInfoById(1L));
+
+        sorRole.setSorId("1");
+        sorRole.setSourceSorIdentifier("FOO");
+        sorRole.setPercentage(50);
+        sorRole.setStart(new Date());
+        sorRole.setPersonStatus(this.referenceRepository.getTypeById(1L));
+        final SorSponsor sponsor = sorRole.setSponsor();
+        sponsor.setSponsorId(1L);
+        sponsor.setType(this.referenceRepository.getTypeById(1L));
+
+        final ServiceExecutionResult<SorRole> serviceExecutionResult = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
+        this.entityManager.flush();
+        assertTrue(serviceExecutionResult.getValidationErrors().isEmpty());
+        assertEquals(1, countRowsInTable("prs_role_records"));
+        assertEquals(1, countRowsInTable("prc_role_records"));
+        assertEquals(1, countRowsInTable("prs_sponsors"));
+        assertEquals(1, countRowsInTable("prc_sponsors"));
+
+        final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
+        final SorRole sorRole1 = sorPerson1.findSorRoleBySorRoleId(serviceExecutionResult.getTargetObject().getSorId());
+
+        sorRole1.setPercentage(100);
+
+        this.personService.updateSorRole(sorPerson1, sorRole1);
+        this.entityManager.flush();
+        assertEquals(1, countRowsInTable("prs_role_records"));
+        assertEquals(1, countRowsInTable("prc_role_records"));
+        assertEquals(1, countRowsInTable("prs_sponsors"));
+        assertEquals(1, countRowsInTable("prc_sponsors"));
+
+        final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
+        final Role role = person.getRoles().get(0);
+        assertEquals(100, role.getPercentage());
+     }
+
     @Test
+    @Rollback
     public void testAddRoleForSoRPerson() throws ReconciliationException {
         final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
         final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
@@ -503,6 +566,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
     }
 
     @Test
+    @Rollback
     public void testAddRoleForSoRPersonWithNoRoleID() throws ReconciliationException {
         final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
         final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
@@ -549,6 +613,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 	 */
 
 	@Test
+    @Rollback
     public void testDeleteSorRoleNoMistake() throws ReconciliationException {
         final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
         final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
@@ -587,6 +652,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
     }
 
 	@Test
+    @Rollback
     public void testDeleteSorRoleWithMistake() throws ReconciliationException {
         final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
         final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
@@ -620,5 +686,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 		assertEquals(0, countRowsInTable("prs_role_records"));
 		assertEquals(0, countRowsInTable("prc_role_records"));
     }
+
+
 
 }

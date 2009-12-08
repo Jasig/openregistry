@@ -35,9 +35,7 @@ import org.springframework.util.Assert;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="sponsor")
-@Table(name="prc_sponsors",
-		uniqueConstraints = @UniqueConstraint(columnNames = {"sponsor_t","sponsor_id"})
-)
+@Table(name="prc_sponsors", uniqueConstraints = @UniqueConstraint(columnNames = {"sponsor_t","sponsor_id"}))
 @Audited
 public class JpaSponsorImpl extends Entity implements Sponsor {
 

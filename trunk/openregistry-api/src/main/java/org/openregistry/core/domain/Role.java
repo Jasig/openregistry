@@ -32,8 +32,6 @@ public interface Role extends RoleInfo, Serializable, DateRange {
 
     Set<Address> getAddresses();
 
-    Sponsor addSponsor(SorSponsor sorSponsor);
-    
     Sponsor getSponsor();
 
     int getPercentage();
@@ -45,14 +43,6 @@ public interface Role extends RoleInfo, Serializable, DateRange {
     Set<EmailAddress> getEmailAddresses();
 
     Set<Url> getUrls();
-
-    Address addAddress(Address sorAddress);
-
-    Url addUrl(Url sorUrl);
-
-    EmailAddress addEmailAddress(EmailAddress sorEmailAddress);
-
-    Phone addPhone(Phone sorPhone);
 
     Set<Leave> getLeaves();
 
