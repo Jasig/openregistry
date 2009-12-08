@@ -501,6 +501,10 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         sponsor.setSponsorId(1L);
         sponsor.setType(this.referenceRepository.getTypeById(1L));
 
+        final EmailAddress emailAddress = sorRole.addEmailAddress();
+        emailAddress.setAddress("scott@scott.com");
+        emailAddress.setAddressType(this.referenceRepository.getTypeById(1L));
+
         final ServiceExecutionResult<SorRole> serviceExecutionResult = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
         this.entityManager.flush();
         assertTrue(serviceExecutionResult.getValidationErrors().isEmpty());
@@ -508,6 +512,8 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prc_role_records"));
         assertEquals(1, countRowsInTable("prs_sponsors"));
         assertEquals(1, countRowsInTable("prc_sponsors"));
+        assertEquals(1, countRowsInTable("prs_emails"));
+        assertEquals(1, countRowsInTable("prc_emails"));
 
         final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
         final SorRole sorRole1 = sorPerson1.findSorRoleBySorRoleId(serviceExecutionResult.getTargetObject().getSorId());
@@ -520,6 +526,8 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prc_role_records"));
         assertEquals(1, countRowsInTable("prs_sponsors"));
         assertEquals(1, countRowsInTable("prc_sponsors"));
+        assertEquals(1, countRowsInTable("prs_emails"));
+        assertEquals(1, countRowsInTable("prc_emails"));
 
         final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
         final Role role = person.getRoles().get(0);
