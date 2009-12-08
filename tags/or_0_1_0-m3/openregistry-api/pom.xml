@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>openregistry</artifactId>
+        <groupId>org.jasig.openregistry</groupId>
+        <version>0.1-M3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.jasig.openregistry</groupId>
+    <artifactId>openregistry-api</artifactId>
+    <name>OpenRegistry API</name>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+          <groupId>javax.validation</groupId>
+          <artifactId>validation-api</artifactId>
+          <version>${javax.validation.version}</version>
+          <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>repository.jboss.org</id>
+            <name>Jboss  Maven2 Repository</name>
+            <url>http://repository.jboss.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

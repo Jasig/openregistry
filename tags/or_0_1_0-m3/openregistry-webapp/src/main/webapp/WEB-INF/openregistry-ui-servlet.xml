@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2009 Jasig, Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:flow="http://www.springframework.org/schema/webflow-config"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd">
+
+    <context:component-scan base-package="org.openregistry.core.web"/>
+
+    <flow:flow-executor id="flowExecutor" flow-registry="flowRegistry"/>
+
+    <flow:flow-registry id="flowRegistry" flow-builder-services="flowBuilderServices">
+        <flow:flow-location path="/WEB-INF/flows/addPerson.xml" id="addPerson"/>
+        <flow:flow-location path="/WEB-INF/flows/delete-person.xml" id="deletePerson" />
+        <flow:flow-location path="/WEB-INF/flows/update-person.xml" id="updatePerson" />
+        <flow:flow-location path="/WEB-INF/flows/update-role.xml" id="updateRole" />
+        <flow:flow-location path="/WEB-INF/flows/add-role.xml" id="add-role" />
+        <flow:flow-location path="/WEB-INF/flows/search-person.xml" id="searchForPerson" />
+        <flow:flow-location path="/WEB-INF/flows/manage-person-roles.xml" id="managePersonRoles" />
+        <flow:flow-location path="/WEB-INF/flows/split-person.xml" id="splitPerson" />
+        <flow:flow-location path="/WEB-INF/flows/join-person.xml" id="joinPerson" />
+        <flow:flow-location path="/WEB-INF/flows/new-activationKey.xml" id="newActivationKey" />
+        <flow:flow-location path="/WEB-INF/flows/view-complete-person.xml" id="viewCompletePerson" />
+    </flow:flow-registry>
+
+    <flow:flow-builder-services id="flowBuilderServices" conversion-service="applicationConversionService" view-factory-creator="mvcViewFactoryCreator" />
+
+    <bean id="mvcViewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
+        <property name="viewResolvers">
+            <list>
+                <bean id="tilesResolver" class="org.springframework.js.ajax.AjaxUrlBasedViewResolver" p:viewClass="org.springframework.webflow.mvc.view.FlowAjaxTilesView" />
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter" p:flowExecutor-ref="flowExecutor"/>
+
+    <bean class="org.openregistry.core.web.ReferenceRepositoryHandlerInterceptor" id="referenceRepositoryHandlerInterceptor">
+        <constructor-arg index="0" ref="referenceRepository" />
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" p:order="0"/>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping" p:flowRegistry-ref="flowRegistry" p:order="2">
+        <property name="interceptors">
+            <ref local="referenceRepositoryHandlerInterceptor" />
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" id="simpleMapping">
+       <property name="mappings">
+           <props>
+               <prop key="/errors/500.htm">urlViewController</prop>
+               <prop key="/errors/404.htm">urlViewController</prop>
+           </props>
+       </property>
+        <property name="order" value="1" />
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.UrlFilenameViewController" id="urlViewController" />
+
+    <bean class="org.springframework.web.servlet.view.tiles2.TilesViewResolver" id="tilesViewResolver" />
+
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles-def.xml</value>
+            </list>
+        </property>
+     </bean>
+</beans>

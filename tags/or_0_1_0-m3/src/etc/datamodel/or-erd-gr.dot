@@ -1,0 +1,141 @@
+/*
+ * Version: $Revision: 1.3 $
+ * Date: $Date: 2008/10/21 03:00:21 $
+ */
+
+digraph ORDATAMODEL {
+  graph [label="Draft OpenRegistry Data Model (10/08)", labelloc="t", labeljust="l", rankdir="LR"]
+  node [shape=plaintext, labeljust="l"]
+  
+  /*
+   * Group Registry cluster
+   */
+
+  subgraph cluster_GR {
+    label = "(GR) Group Registry";
+    color = "red";
+
+    /*
+     * Group Spaces
+     */
+
+    gro_spaces [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">gro_spaces</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Group namespaces.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">space_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the Space</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Name of the Space</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:change_id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Group Members
+     */
+
+    gro_members [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">gro_members</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Group members.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">group_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of the Group (grs_groups:group_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">member_id_type</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Type of entity that is a member of this Group, matches foo_id</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">member_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">ID of entity that is a member of this Group</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:change_id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Groups
+     */
+
+    gro_groups [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">gro_groups</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Group definitions.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">group_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of this Group</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Name of this Group, unique with group_space</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">space_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Namespace of this Group (grs_spaces:space_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">description</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Description of this Group</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of description</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:change_id)</td>
+</tr>
+   </table>>];
+  } /* cluster_GR */
+
+  /*
+   * relations
+   *
+   * 0/1: odottee
+   * 1: teetee
+   * 0+: crowodot
+   * 1+: crowotee
+   *
+   * x->y each x has arrowtail y's, each y has arrowhead x's
+   *
+   */
+  
+  gro_spaces -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  gro_spaces -> gro_groups [arrowhead="teetee", arrowtail="crowodot"];
+  gro_members -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+  gro_members -> gro_groups [arrowhead="crowodot", arrowtail="crowotee"];
+  gro_members -> prc_persons [arrowhead="crowodot", arrowtail="teetee", style="dashed"];
+  gro_groups -> ctx_change_log [arrowhead="crowotee", arrowtail="teetee"];
+}
