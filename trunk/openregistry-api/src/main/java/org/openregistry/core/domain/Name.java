@@ -61,4 +61,6 @@ public interface Name extends Serializable {
     String getFormattedName();
     
     String toString();
+
+    boolean sameAs(String family, String given, String middle, String prefix, String suffix);
 }
