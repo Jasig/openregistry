@@ -76,7 +76,7 @@ public class DefaultPersonServiceTests {
 
     void setReconciliationCriteria(ReconciliationCriteria reconciliationCriteria){
         SorPerson sorPerson = reconciliationCriteria.getSorPerson();
-        final MockSorName name = (MockSorName) sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
+        final Name name = sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
         name.setGiven("Sam");
         name.setFamily("Malone");
         name.setMiddle("B");

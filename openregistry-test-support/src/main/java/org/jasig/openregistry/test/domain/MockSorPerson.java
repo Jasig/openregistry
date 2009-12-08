@@ -109,7 +109,7 @@ public class MockSorPerson extends Entity implements SorPerson {
     }
 
     public Name addName() {
-        final MockSorName sorName = new MockSorName();
+        final MockName sorName = new MockName();
         this.names.add(sorName);
         return sorName;
     }
@@ -119,7 +119,7 @@ public class MockSorPerson extends Entity implements SorPerson {
     }
     
     public Name addName(Type type) {
-        final MockSorName sorName = new MockSorName();
+        final MockName sorName = new MockName();
         sorName.setType(type);
         this.names.add(sorName);
         return sorName;
