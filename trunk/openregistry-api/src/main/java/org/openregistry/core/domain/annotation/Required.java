@@ -27,6 +27,8 @@ import static java.lang.annotation.ElementType.*;
 
 /**
  * Constraint that determines whether a field is required for a specific SoR.
+ * <p>
+ * Similar to the NotNull check.
  *
  * @version $Revision$ $Date$
  * @since 0.1
