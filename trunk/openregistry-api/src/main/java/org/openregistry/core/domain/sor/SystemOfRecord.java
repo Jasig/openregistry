@@ -23,7 +23,7 @@ package org.openregistry.core.domain.sor;
  */
 public interface SystemOfRecord {
 
-    enum Interfaces {BATCH, INTERACTIVE, REALTIME}
+    enum Interfaces {BATCH, HUMAN, REALTIME}
 
     /**
      * The String identifier, i.e. "registrar"
