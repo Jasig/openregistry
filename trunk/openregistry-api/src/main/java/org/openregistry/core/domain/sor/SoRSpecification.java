@@ -16,6 +16,7 @@
 package org.openregistry.core.domain.sor;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Represents a System of Record's specification.
@@ -39,6 +40,16 @@ public interface SoRSpecification {
      * @return true if it can, false otherwise.
      */
     boolean isInboundInterfaceAllowed(SystemOfRecord.Interfaces interfaces);
+
+    /**
+     * Returns the notification scheme that should be used based on the interface provided.
+     * <p>
+     * There should be no interfaces in this mapping that do not satisfy the requirement of isInboundInterfaceAllowed()
+     * == true.
+     *
+     * @return the map containing the mappings.
+     */
+    Map<SystemOfRecord.Interfaces, String> getNotificationSchemesByInterface();
 
     /**
      * Determines whether an SoR is allowed to assert a specific type value for a property.
