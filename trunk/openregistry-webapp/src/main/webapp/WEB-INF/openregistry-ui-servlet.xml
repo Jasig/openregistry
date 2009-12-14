@@ -46,6 +46,11 @@
 
     <flow:flow-builder-services id="flowBuilderServices" conversion-service="applicationConversionService" view-factory-creator="mvcViewFactoryCreator" />
 
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver"
+            p:defaultThemeName="theme" />
+
+    <bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource" />
+    
     <bean id="mvcViewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
         <property name="viewResolvers">
             <list>
