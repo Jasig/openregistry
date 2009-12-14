@@ -33,10 +33,20 @@ public interface SoRSpecification {
     String getSoR();
 
     /**
+     * Determines where a System of Record is allowed to submit data via this interface.
+     *
+     * @param interfaces the interface to check.
+     * @return true if it can, false otherwise.
+     */
+    boolean isInboundInterfaceAllowed(SystemOfRecord.Interfaces interfaces);
+
+    /**
      * Determines whether an SoR is allowed to assert a specific type value for a property.
      * <p>
      * Note, if the property is not found in the SoR's specification, the assumption is that there is no
      * restriction.
+     * <p>
+     * If a property is disallowed, this should reutnr false.
      *
      * @param property the property to check
      * @param value the value we want to confirm.
@@ -52,6 +62,13 @@ public interface SoRSpecification {
      */
     boolean isRequiredProperty(String property);
 
+    /**
+     * Determines whether an SoR is allowed to send this property or not.
+     *
+     * @param property the property to check
+     * @return true if its disallowed, false otherwise.
+     */
+    boolean isDisallowedProperty(String property);
 
     /**
      * Determines whether an SoR provided a collection of objects of the appropriate size.
