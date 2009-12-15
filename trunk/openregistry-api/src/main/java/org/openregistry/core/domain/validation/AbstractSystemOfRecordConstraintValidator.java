@@ -16,12 +16,14 @@
 package org.openregistry.core.domain.validation;
 
 import org.openregistry.core.domain.sor.SoRSpecification;
+import org.openregistry.core.domain.sor.SystemOfRecord;
 import org.openregistry.core.domain.sor.SystemOfRecordHolder;
 import org.openregistry.core.repository.SystemOfRecordRepository;
 
 import javax.validation.ConstraintValidator;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Abstract class that exposes a method for obtaining the SoRSpecification.
@@ -57,6 +59,18 @@ public abstract class AbstractSystemOfRecordConstraintValidator<A extends Annota
 
             public boolean isWithinRequiredSize(String property, Collection collection) {
                 return true;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public boolean isInboundInterfaceAllowed(SystemOfRecord.Interfaces interfaces) {
+                return true;
+            }
+
+            public Map<SystemOfRecord.Interfaces, String> getNotificationSchemesByInterface() {
+                return null;
+            }
+
+            public boolean isDisallowedProperty(String property) {
+                return false;
             }
         };
     }
