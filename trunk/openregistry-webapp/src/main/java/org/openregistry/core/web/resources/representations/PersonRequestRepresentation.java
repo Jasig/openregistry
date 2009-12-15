@@ -114,6 +114,7 @@ public class PersonRequestRepresentation {
 
         @XmlRootElement(name = "email")
         public static class Email {
+            @XmlValue
             public String email;
         }
 
@@ -122,6 +123,7 @@ public class PersonRequestRepresentation {
         public List<Phone> phones = new ArrayList<Phone>();
         @XmlRootElement(name = "phone")
         public static class Phone {
+            @XmlValue
             public String phoneNumber;
         }
 
