@@ -16,10 +16,12 @@
 package org.openregistry.core.repository.jpa;
 
 import org.openregistry.core.domain.sor.SoRSpecification;
+import org.openregistry.core.domain.sor.SystemOfRecord;
 import org.openregistry.core.repository.SystemOfRecordRepository;
 
 import javax.inject.Named;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author Scott Battaglia
@@ -45,6 +47,18 @@ public final class JpaSystemOfRecordRepositoryImpl implements SystemOfRecordRepo
 
             public boolean isWithinRequiredSize(String property, Collection collection) {
                 return true;
+            }
+
+            public boolean isInboundInterfaceAllowed(SystemOfRecord.Interfaces interfaces) {
+                return true;
+            }
+
+            public Map<SystemOfRecord.Interfaces, String> getNotificationSchemesByInterface() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            public boolean isDisallowedProperty(String property) {
+                return false;  //To change body of implemented methods use File | Settings | File Templates.
             }
         };
     }
