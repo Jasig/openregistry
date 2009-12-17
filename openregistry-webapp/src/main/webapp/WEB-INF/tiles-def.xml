@@ -105,7 +105,9 @@
         <put-attribute name="body" value="/WEB-INF/tiles/view-complete-person/viewRole.jsp" />
     </definition>
 
-    <definition name="openregistry.main" template="index.jsp">
+    <definition name="openregistry.main" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="welcome.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/main/main.jsp" />
     </definition>
 
     <definition name="errors/404" template="/WEB-INF/layouts/default2.jsp">
