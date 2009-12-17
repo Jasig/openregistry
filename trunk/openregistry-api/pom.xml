@@ -11,27 +11,4 @@
     <artifactId>openregistry-api</artifactId>
     <name>OpenRegistry API</name>
     <packaging>jar</packaging>
-
-    <dependencies>
-        <dependency>
-          <groupId>javax.validation</groupId>
-          <artifactId>validation-api</artifactId>
-          <version>${javax.validation.version}</version>
-          <scope>compile</scope>
-        </dependency>
-    </dependencies>
-
-    <repositories>
-        <repository>
-            <id>repository.jboss.org</id>
-            <name>Jboss  Maven2 Repository</name>
-            <url>http://repository.jboss.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>

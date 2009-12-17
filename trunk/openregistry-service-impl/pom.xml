@@ -13,6 +13,35 @@
     <name>OpenRegistry Service Layer Implementation</name>
 
     <dependencies>
+        <!-- START Spring dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <!--
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <scope>test</scope>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!-- END Spring dependencies -->
+
+
         <dependency>
             <groupId>org.jasig.openregistry</groupId>
             <artifactId>openregistry-api</artifactId>
@@ -21,92 +50,9 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>jsr250-api</artifactId>
-            <version>${jsr250.version}</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>org.springframework.transaction</artifactId>
-            <version>${spring.version}</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.aopalliance</groupId>
-                    <artifactId>com.springsource.org.aopalliance</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>com.springsource.org.apache.commons.logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>org.springframework.context</artifactId>
-            <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.aopalliance</groupId>
-                    <artifactId>com.springsource.org.aopalliance</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>com.springsource.org.apache.commons.logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>org.springframework.expression</artifactId>
-            <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.antlr</groupId>
-                    <artifactId>com.springsource.org.antlr</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>com.springsource.org.apache.commons.logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
+            <artifactId>spring-jms</artifactId>
             <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
-            <scope>runtime</scope>
-            <type>jar</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>org.springframework.web.servlet</artifactId>
-            <version>${spring.version}</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.aopalliance</groupId>
-                    <artifactId>com.springsource.org.aopalliance</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>com.springsource.org.apache.commons.logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -118,25 +64,15 @@
                     <groupId>org.apache.ant</groupId>
                     <artifactId>ant</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.ant</groupId>
+                    <artifactId>ant-launcher</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
         <!-- Messaging infrastructure dependencies! -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>org.springframework.jms</artifactId>
-            <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.aopalliance</groupId>
-                    <artifactId>com.springsource.org.aopalliance</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>com.springsource.org.apache.commons.logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+
 
         <dependency>
             <groupId>org.apache.camel</groupId>
@@ -146,34 +82,6 @@
                <exclusion>
                    <groupId>commons-logging</groupId>
                    <artifactId>commons-logging-api</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-aop</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-context</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-core</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-beans</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-jms</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-context-support</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-tx</artifactId>
                </exclusion>
            </exclusions>
         </dependency>
@@ -199,34 +107,6 @@
                     <groupId>logkit</groupId>
                     <artifactId>logkit</artifactId>
                 </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-aop</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-context</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-core</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-beans</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-jms</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-context-support</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-tx</artifactId>
-               </exclusion>
            </exclusions>
         </dependency>
 
@@ -234,36 +114,6 @@
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-spring</artifactId>
             <version>${camel.version}</version>
-             <exclusions>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-aop</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-context</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-core</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-beans</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-jms</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-context-support</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-tx</artifactId>
-               </exclusion>
-           </exclusions>
         </dependency>
 
         <dependency>
@@ -275,34 +125,6 @@
                     <groupId>org.apache.geronimo.specs</groupId>
                     <artifactId>geronimo-jta_1.1_spec</artifactId>
                 </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-aop</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-context</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-core</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-beans</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-jms</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-context-support</artifactId>
-               </exclusion>
-               <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-tx</artifactId>
-               </exclusion>
            </exclusions>
         </dependency>
 
@@ -328,25 +150,5 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>jboss</id>
-            <url>http://repository.jboss.com/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>
