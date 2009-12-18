@@ -187,12 +187,14 @@ public class DefaultPersonService implements PersonService {
             person.getRoles().remove(role);
         } else {
             final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationTypeToUse);
+            // TODO THIS IS BAD!!!  isTerminated probably does not do what we want it to do.
             if (!role.isTerminated()) {
                 role.expireNow(terminationReason, true);
             }
         }
-        // just call sorPerson.getRoles().remove(sorRole) and then save?
+
         sorPerson.getRoles().remove(sorRole);
+        this.personRepository.saveSorPerson(sorPerson);
         this.personRepository.savePerson(person);
         return true;
     }
