@@ -5,6 +5,7 @@ import org.openregistry.core.domain.sor.SystemOfRecord;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import java.io.ByteArrayOutputStream;
 import java.util.*;
 
 /**
@@ -31,6 +32,13 @@ public final class XmlBasedSoRSpecificationImplTests extends TestCase {
         // ******** SOR **********/
         spec.setSor("fooBar");
 
+        // ******** VALUES FOR REQUIRED PROPERTIES **********/
+        final HashSet<String> requiredProperties = new HashSet<String>();
+        requiredProperties.add("required.property.1");
+        requiredProperties.add("required.property.2");
+        requiredProperties.add("required.property.3");
+        spec.setRequiredProperties(requiredProperties);
+
         // ******** VALUES FOR PROPERTIES **********/
         final Map<String, HashSet<String>> allowedValuesForProperty = new HashMap<String, HashSet<String>>();
         final HashSet<String> values = new HashSet<String>();
@@ -55,21 +63,17 @@ public final class XmlBasedSoRSpecificationImplTests extends TestCase {
 
         spec.setInterfaces(interfaces);
 
-
         final Map<SystemOfRecord.Interfaces,String> notification = new HashMap<SystemOfRecord.Interfaces, String>();
         notification.put(SystemOfRecord.Interfaces.HUMAN, "email");
         notification.put(SystemOfRecord.Interfaces.BATCH, "letter");
 
         spec.setInterfaceToNotificationSchemeMapping(notification);
 
-        // ******** REQUIRED PROPERTIES **********/
-        final HashSet<String> requiredProperties = new HashSet<String>();
-        disallowedProperties.add("foo.bar");
-        disallowedProperties.add("my.bar");
+        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-        spec.setRequiredProperties(requiredProperties);
+        this.marshaller.marshal(spec, byteArrayOutputStream);
 
-        this.marshaller.marshal(spec, System.out);
+        System.out.println(byteArrayOutputStream.toString().replaceAll("><", ">\n<"));
     }
     
 
