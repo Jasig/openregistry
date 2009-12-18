@@ -12,16 +12,6 @@
         </layout>
     </appender>
 
-     <!--
-      The root logger sends all log statements EXCEPT those sent to the perf4j
-      logger to System.out.
-    -->
-    <root>
-        <level value="ERROR"/>
-        <appender-ref ref="console"/>
-    </root>
-
-
     <logger name="org.springframework">
         <level value="WARN" />
     </logger>
@@ -30,4 +20,12 @@
         <level value="INFO" />
     </logger>
 
+     <!--
+      The root logger sends all log statements EXCEPT those sent to the perf4j
+      logger to System.out.
+    -->
+    <root>
+        <level value="ERROR"/>
+        <appender-ref ref="console"/>
+    </root>
 </log4j:configuration>
