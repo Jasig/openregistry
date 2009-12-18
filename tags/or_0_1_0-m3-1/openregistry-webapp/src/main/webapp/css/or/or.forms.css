@@ -1,0 +1,110 @@
+/**
+ * Copyright (C) 2009 Jasig, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+form ul li label {display:block; font-weight: bold;}
+form ul li span {float: left; margin:0 4px 0 0; padding:0 0 8px;}
+form ul li span label {font-weight: normal; font-size: .8em;}
+form ul li {list-style-type: none;clear:both;
+display:block;
+margin:0;
+padding:4px 5px 2px 9px;}
+form input {padding:2px 0;}
+
+li.leftHalf {
+clear:left;
+float:left;
+}
+
+li.rightHalf {
+    clear: none;
+    float: right;
+}
+
+form li.leftHalf, form li.rightHalf {
+width:46% !important;
+}
+
+select {
+    padding: 1px 0;
+}
+
+input[type="text"] {
+    width: 9em;
+    padding:2px 0;
+}
+
+.formerror {background-color: #f00;}
+
+input.suffix {width: 3em;}
+
+.fl-theme-mist form ul li span select {
+background-color:#DFEFFF !important;
+border:0.1em solid #5A95CF;
+margin:-0.1em;
+}
+
+.odd {background-color: #eee;}
+.even {background-color: #ddd;}
+
+table {width: 100%;}
+
+.container {
+    margin-top: 10px;
+    color: #292929;
+    width: 300px;
+    border: 1px solid #BABABA;
+    padding: 10px;
+    margin-left: 10px;
+    margin-bottom: 1em;
+    -o-border-radius: 10px;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 10px;
+    -webkit-box-shadow: 0px 3px 7px #adadad;
+    border-radius: 10px;
+    -moz-box-sizing: border-box;
+    -opera-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.box {
+    margin-top: 10px;
+    color: #292929;
+    width: 98%;
+    border: 1px solid #BABABA;
+    background-color: #ddd;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 1em;
+    -o-border-radius: 10px;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 10px;
+    -webkit-box-shadow: 0px 3px 7px #adadad;
+    border-radius: 10px;
+    -moz-box-sizing: border-box;
+    -opera-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.changed {
+    background-color: yellow;
+}
+

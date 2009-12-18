@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+
+    Copyright (C) 2009 Jasig, Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition name="openregistry.search" template="/WEB-INF/layouts/default2.jsp">
+        <put-attribute name="titleCode" value="delete.person.title" type="string" />
+        <put-attribute name="head" value="/WEB-INF/tiles/search/searchHead.jsp" />
+        <put-attribute name="content" value="openregistry.search.content" />
+    </definition>
+
+    <definition name="openregistry.search.content" template="/WEB-INF/layouts/search.jsp">
+        <put-attribute name="searchForm" value="/WEB-INF/tiles/search/searchForm.jsp" />
+        <put-attribute name="searchResults" value="/WEB-INF/tiles/search/searchResults.jsp" />
+    </definition>
+
+    <definition name="openregistry.search.displayPerson" template="/WEB-INF/layouts/default.jsp">
+        <put-attribute name="titleCode" value="delete.person.title" type="string" />
+        <put-attribute name="head" value="/WEB-INF/tiles/defaultHead.jsp" />
+        <put-attribute name="content" value="/WEB-INF/tiles/search/searchViewPerson.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.add.insert" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="addPerson.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/add-person/input.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.add.found" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="addPerson.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/add-person/found.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.add.matches" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="personMatches.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/add-person/matches.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.update.update" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="updatePerson.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/update-person/updatePerson.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.split" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="splitPerson.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/split-person/selectSorRecords.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.join" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="splitPerson.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/join-person/joinPersons.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.update.selectRole" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="selectRoleToAdd.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/update-person/selectRole.jsp" />
+    </definition>
+
+    <definition name="openregistry.role.update" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="updateRole.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/update-role/updateRole.jsp" />
+    </definition>
+
+    <definition name="openregistry.role.add" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="addRole.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/add-role/addRole.jsp" />
+    </definition>
+
+    <definition name="openregistry.role.address.update" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="updateAddress.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/update-role/updateAddress.jsp" />
+    </definition>
+
+    <definition name="openregistry.manage.person.roles" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="managePersonRoles.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/manage-person-roles/managePersonRoles.jsp" />
+    </definition>
+
+    <definition name="openregistry.generate.activationKey" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="generateActivationKey.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/new-activationKey/newActivationKey.jsp" />
+    </definition>
+
+    <definition name="openregistry.view.complete.person" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="viewCompletePerson.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/view-complete-person/viewCompletePerson.jsp" />
+    </definition>
+
+    <definition name="openregistry.person.view.role" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="viewRole.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/view-complete-person/viewRole.jsp" />
+    </definition>
+
+    <definition name="openregistry.main" template="/WEB-INF/layouts/base.jsp">
+        <put-attribute name="titleCode" value="welcome.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/tiles/main/main.jsp" />
+    </definition>
+
+    <definition name="errors/404" template="/WEB-INF/layouts/default2.jsp">
+        <put-attribute name="titleCode" value="errors.404.title" type="string" cascade="true" />
+        <put-attribute name="head" value="/WEB-INF/tiles/defaultHead.jsp" />
+        <put-attribute name="bodyValue" value="errors.404.body" type="string" cascade="true" />
+        <put-attribute name="content" value="/WEB-INF/tiles/errors.jsp" />
+    </definition>
+
+    <definition name="errors/500" template="/WEB-INF/layouts/default2.jsp">
+        <put-attribute name="titleCode" value="errors.500.title" type="string" cascade="true" />
+        <put-attribute name="head" value="/WEB-INF/tiles/defaultHead.jsp" />
+        <put-attribute name="bodyValue" value="errors.500.body" type="string" cascade="true" />
+        <put-attribute name="content" value="/WEB-INF/tiles/errors.jsp"/>
+    </definition>
+
+</tiles-definitions>
