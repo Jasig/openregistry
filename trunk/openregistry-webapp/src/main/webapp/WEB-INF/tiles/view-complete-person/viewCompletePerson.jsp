@@ -34,6 +34,45 @@
 
     <fieldset class="fm-h" id="ecn1">
         <label class="desc">${person.officialName.formattedName}</label>
+        <div>
+            <label class="desc"><spring:message code="viewCalculatedPerson.heading"/></label>
+            <table class="data" cellspacing="0" width="80%">
+                <thead>
+                    <tr class="appHeadingRow">
+                        <th><spring:message code="property.label"/></th>
+                        <th><spring:message code="value.label"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="name" items="${person.names}" varStatus="loopStatus">
+                    <tr>
+                        <td><spring:message code="nameColumn.label"/> (${name.type.description})</td>
+                        <td>${name.formattedName}</td>
+                    </tr>
+                </c:forEach>
+                <c:forEach var="identifier" items="${person.identifiers}" varStatus="loopStatus">
+                    <tr>
+                        <td>${identifier.type.name}</td>
+                        <td>${identifier.value}</td>
+                    </tr>
+                </c:forEach>
+                <tr>
+                    <td><spring:message code="dateOfBirth.label"/></td>
+                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/></td>
+                </tr>
+                <tr>
+                    <td><spring:message code="gender.label" /></td>
+                    <td>${person.gender}</td>
+                </tr>
+                <c:forEach var="role" items="${person.roles}" >
+                    <tr>
+                        <td><spring:message code="role.label" /></td>
+                        <td><a href="${flowExecutionUrl}&_eventId=submitViewRole&roleCode=${role.code}&formattedName=${person.formattedNameAndID}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>
+                    </tr>
+                 </c:forEach>
+                </tbody>
+            </table>
+        </div>        
         <c:forEach var="sorPerson" items="${sorPersons}" varStatus="loopStatus">
             <label class="desc"><spring:message code="sor.heading"/> <c:out value="${sorPerson.sourceSor}" /></label>
                 <div>
@@ -45,18 +84,20 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <tr>
+                            <td><spring:message code="sorId.label" /></td>
+                            <td>${sorPerson.sorId}</td>
+                        </tr>
                         <c:forEach var="sorName" items="${sorPerson.names}" varStatus="loopStatus">
                             <tr>
-                                <td><spring:message code="nameColumn.label"/></td>
+                                <td><spring:message code="nameColumn.label"/> (${sorName.type.description})</td>
                                 <td>${sorName.formattedName}</td>
                             </tr>
                         </c:forEach>
-                        <c:forEach var="identifier" items="${person.identifiers}" varStatus="loopStatus">
-                            <tr>
-                                <td>${identifier.type.name}</td>
-                                <td>${identifier.value}</td>
-                            </tr>
-                        </c:forEach>
+                        <tr>
+                            <td><spring:message code="ssn.label" /></td>
+                            <td>${sorPerson.ssn}</td>
+                        </tr>
                         <tr>
                             <td><spring:message code="dateOfBirth.label"/></td>
                             <td><fmt:formatDate pattern="MM/dd/yyyy" value="${sorPerson.dateOfBirth}"/></td>
@@ -68,15 +109,12 @@
                         <c:forEach var="role" items="${sorPerson.roles}" >
                             <tr>
                                 <td><spring:message code="role.label" /></td>
-                                <td><a href="${flowExecutionUrl}&_eventId=submitViewRole&roleId=${role.id}&sorPersonName=${sorPerson.formattedNameAndID}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitViewSoRRole&sorSource=${sorPerson.sourceSor}&roleCode=${role.code}&formattedName=${sorPerson.formattedNameAndID}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>
                             </tr>
                          </c:forEach>
                         </tbody>
                     </table>
         </c:forEach>
-        </div>
-        <div>
-            <label class="desc"><spring:message code="audit.heading"/></label>            
         </div>
 
 		</fieldset>
