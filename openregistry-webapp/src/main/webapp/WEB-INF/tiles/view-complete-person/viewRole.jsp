@@ -34,7 +34,7 @@
 
         <fieldset class="fm-h" id="ecn1">
             <label class="desc2" for="c1_startdate">
-                <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2><c:out value="${sorPersonName}"/></em2>
+                <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2><c:out value="${formattedName}"/></em2>
                 <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="role.heading" /></span>
                 <em2><c:out value="${role.title}"/>/<c:out value="${role.organizationalUnit.name}"/>/<c:out value="${role.campus.name}"/></em2>
             </label>
@@ -57,7 +57,7 @@
                 </table>
 
 
-             <label class="desc"><spring:message code="emailAddress.heading"/><input id="addEmailBtn" type="image" name="_eventId_submitAddEmail" src="images/add2.gif" title="add a new email address"/></label>
+             <label class="desc"><spring:message code="emailAddress.heading"/>
 
                 <div>
                     <table class="data" cellspacing="0" width="50%">
@@ -78,7 +78,7 @@
                 </div>
 
 
-                <label class="desc"><spring:message code="phones.heading"/><input id="addPhoneBtn" type="image" name="_eventId_submitAddPhone" src="images/add2.gif" title="add a new phone number"/></label>
+                <label class="desc"><spring:message code="phones.heading"/>
                 <div>
                     <table class="data" cellspacing="0" width="50%">
                         <thead>
@@ -106,7 +106,7 @@
                     </table>
                 </div>
 
-                <label class="desc"><spring:message code="address.heading"/><input id="addAddressBtn" type="image" name="_eventId_submitAddAddress" src="images/add2.gif" title="add a new address"/></label>
+                <label class="desc"><spring:message code="address.heading"/>
                 <c:choose>
                 <c:when test="${not empty role.addresses}">
                 <div>
@@ -131,7 +131,7 @@
                     <c:otherwise><spring:message code="noAddressesDefined.label"/><br/><br/></c:otherwise>
                 </c:choose>
 
-                <label class="desc"><spring:message code="urls.heading"/><input id="addURLBtn" type="image" name="_eventId_submitAddURL" src="images/add2.gif" title="add a new URL"/></label>
+                <label class="desc"><spring:message code="urls.heading"/>
                 <c:choose>
                 <c:when test="${not empty role.urls}">
 
@@ -159,10 +159,8 @@
 
 			</fieldset>
 			</fieldset>
-            <c:if test='${empty infoModel}'>
-			    <div class="row fm-v" style="clear:both;">
-				    <input style="float:left;" type="submit" id="fm-search-submit1" name="_eventId_submitBack" class="btn-submit" value="Back" tabindex="11"/>
-			    </div>
-            </c:if>
+            <div class="row fm-v" style="clear:both;">
+                <input style="float:left;" type="submit" id="fm-search-submit1" name="_eventId_submitBack" class="btn-submit" value="Back" tabindex="11"/>
+            </div>
 
 		</form:form>
