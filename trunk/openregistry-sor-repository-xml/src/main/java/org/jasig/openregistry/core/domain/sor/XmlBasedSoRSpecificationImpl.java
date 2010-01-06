@@ -33,8 +33,13 @@ public final class XmlBasedSoRSpecificationImpl implements SoRSpecification {
     @XmlElementWrapper(name = "notificationSchemes", required= false)
     private Map<SystemOfRecord.Interfaces, String> interfaceToNotificationSchemeMapping = new HashMap<SystemOfRecord.Interfaces, String>();
 
-    @XmlElementWrapper(name = "allowedValues")
-    private Map<String, HashSet<String>> allowedValuesForProperty = new HashMap<String, HashSet<String>>();
+    @XmlElementWrapper(name = "allowedValuesForProperties")
+    @XmlElement(name="allowedValuesForProperty")
+    private HashSet<XmlBasedAllowValueHelperImpl> allowedValuesForProperty = new HashSet<XmlBasedAllowValueHelperImpl>();
+
+    @XmlElementWrapper(name = "sizesForCollectionProperties")
+    @XmlElement(name="collection")
+    private HashSet<XmlBasedPropertySizeHelperImpl> minMaxPropertySizes = new HashSet<XmlBasedPropertySizeHelperImpl>();
 
     public String getSoR() {
         return this.sor;
@@ -49,9 +54,13 @@ public final class XmlBasedSoRSpecificationImpl implements SoRSpecification {
     }
 
     public boolean isAllowedValueForProperty(final String property, final String value) {
-        final Set<String> allowedValues = this.allowedValuesForProperty.get(property);
+        for (final XmlBasedAllowValueHelperImpl xml : this.allowedValuesForProperty) {
+            if (xml.supportsProperty(property)) {
+                return xml.isAllowedValueForProperty(property, value);
+            }
+        }
 
-        return allowedValues == null || allowedValues.isEmpty() || allowedValues.contains(value);
+        return true;
     }
 
     public boolean isRequiredProperty(final String property) {
@@ -63,7 +72,13 @@ public final class XmlBasedSoRSpecificationImpl implements SoRSpecification {
     }
 
     public boolean isWithinRequiredSize(final String property, final Collection collection) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        for (final XmlBasedPropertySizeHelperImpl helper : this.minMaxPropertySizes) {
+            if (helper.supportsProperty(property)) {
+                return helper.isWithinRequiredRangeForProperty(collection);
+            }
+        }
+
+        return true;
     }
 
     public void setSor(final String sor) {
@@ -86,7 +101,11 @@ public final class XmlBasedSoRSpecificationImpl implements SoRSpecification {
         this.interfaceToNotificationSchemeMapping = interfaceToNotificationSchemeMapping;
     }
 
-    public void setAllowedValuesForProperty(final Map<String, HashSet<String>> allowedValuesForProperty) {
+    public void setAllowedValuesForProperty(final HashSet<XmlBasedAllowValueHelperImpl> allowedValuesForProperty) {
         this.allowedValuesForProperty = allowedValuesForProperty;
+    }
+
+    public void setMinMaxPropertySizes(final HashSet<XmlBasedPropertySizeHelperImpl> minMaxPropertySizes) {
+        this.minMaxPropertySizes = minMaxPropertySizes;
     }
 }

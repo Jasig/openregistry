@@ -44,7 +44,8 @@ public interface SoRSpecification {
     /**
      * Returns the notification scheme that should be used based on the interface provided.
      * <p>
-     * There should be no interfaces in this mapping that do not satisfy the requirement of isInboundInterfaceAllowed()
+     * There should be no interfaces in this mapping that do not satisfy the requirement of
+     * {@link org.openregistry.core.domain.sor.SoRSpecification#isInboundInterfaceAllowed(org.openregistry.core.domain.sor.SystemOfRecord.Interfaces)}
      * == true.
      *
      * @return the map containing the mappings.
@@ -57,7 +58,7 @@ public interface SoRSpecification {
      * Note, if the property is not found in the SoR's specification, the assumption is that there is no
      * restriction.
      * <p>
-     * If a property is disallowed, this should reutnr false.
+     * If a property is disallowed, this should return false.
      *
      * @param property the property to check
      * @param value the value we want to confirm.
