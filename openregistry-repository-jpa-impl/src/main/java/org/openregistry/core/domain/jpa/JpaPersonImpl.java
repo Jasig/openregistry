@@ -111,12 +111,9 @@ public class JpaPersonImpl extends Entity implements Person {
         return name;
     }
 
-    public String getFormattedNameAndID(){
-        final StringBuilder builder = new StringBuilder();
-        builder.append(this.getOfficialName().getFormattedName());
-        builder.append(" ID:");
-        builder.append(this.id);
-        return builder.toString();
+    //TODO really don't need this.  Should replace code with getOfficialName().getFormattedName()
+    public String getFormattedName(){
+        return this.getOfficialName().getFormattedName();
     }
 
     public Name getPreferredName() {
