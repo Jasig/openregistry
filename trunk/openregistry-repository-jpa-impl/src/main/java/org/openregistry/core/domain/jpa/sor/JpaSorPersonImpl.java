@@ -185,12 +185,10 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     }
 
     // TODO not sure if this should be here
-    public String getFormattedNameAndID(){
+    public String getFormattedName(){
         final StringBuilder builder = new StringBuilder();
         // TODO fix this next line
         builder.append(this.getNames().iterator().next().getFormattedName());
-        builder.append(" ID:");
-        builder.append(this.recordId);
         return builder.toString();
     }
 
