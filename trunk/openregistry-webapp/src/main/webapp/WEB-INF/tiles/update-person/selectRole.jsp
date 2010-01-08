@@ -45,7 +45,7 @@
 				<input style="float:left;" type="submit" id="fm-search-submit1" name="_eventId_submitSelectRole" class="btn-submit" value="Add Role" tabindex="3"/>
 			</div>
         <fieldset class="fm-h" id="ecn1">
-            <p style="margin-bottom:0;">${sorPerson.formattedNameAndID} <spring:message code="existingRoles.heading" /></p>
+            <p style="margin-bottom:0;">${sorPerson.formattedName} <spring:message code="existingRoles.heading" /></p>
             <c:choose>
             <c:when test="${not empty sorPerson.roles}">
             <div>

@@ -34,7 +34,7 @@
 
         <fieldset class="fm-h" id="ecn1">
             <label class="desc2" for="c1_startdate">
-                <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2><c:out value="${sorPerson.formattedNameAndID}"/></em2>
+                <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2><c:out value="${sorPerson.formattedName}"/></em2>
                 <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="role.heading" /></span>
                 <em2><c:out value="${role.title}"/>/<c:out value="${role.organizationalUnit.name}"/>/<c:out value="${role.campus.name}"/></em2>
             </label>
@@ -57,7 +57,7 @@
                 <div class="row">
                     <label for="c1_UpdateRoleSponsor" class="updateRoleSponsor"><spring:message code="sponsor.label" /><em>*</em></label>
                     <div class="select sponsor">
-					    <form:select path="sponsor.sponsorId" id="c1_UpdateRoleSponsor" items="${sponsorList}" itemValue="id" itemLabel= "formattedNameAndID" size="1" tabindex="3" />
+					    <form:select path="sponsor.sponsorId" id="c1_UpdateRoleSponsor" items="${sponsorList}" itemValue="id" itemLabel= "formattedName" size="1" tabindex="3" />
                     </div>
 
                     <label for="c1_pt" class="updateRolePt"><spring:message code="pt.label" /></label>

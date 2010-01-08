@@ -34,6 +34,8 @@
 
         <fieldset class="fm-h" id="ecn1">
             <label class="desc2" for="c1_startdate">
+                <span style="color:#000; font-weight:bold;font-size:1.2em;"><c:out value="${viewRoleTitle}"/></span>
+                <br/><br/>
                 <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2><c:out value="${formattedName}"/></em2>
                 <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="role.heading" /></span>
                 <em2><c:out value="${role.title}"/>/<c:out value="${role.organizationalUnit.name}"/>/<c:out value="${role.campus.name}"/></em2>
@@ -49,10 +51,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td><spring:message code="startDate.label"/></td><td><fmt:formatDate pattern="MM-dd-yyyy" value="${role.start}" /></td></tr>
-                        <tr><td><spring:message code="endDate.label"/></td<td><fmt:formatDate pattern="MM-dd-yyyy" value="${role.end}"/></td></tr>
-                        <tr><td><spring:message code="sponsor.label"/></td<td>${sponsorPerson.formattedNameAndID}</td></tr>
-                        <tr><td><spring:message code="pt.label"/></td<td>${role.percentage}</td></tr>              
+                        <tr><td><spring:message code="personStatus.label"/></td<td>${role.personStatus.description}</td></tr>
+                        <tr><td><spring:message code="startDate.label"/></td><td><fmt:formatDate value="${role.start}" dateStyle="long"/></td></tr>
+                        <tr><td><spring:message code="endDate.label"/></td<td><fmt:formatDate value="${role.end}" dateStyle="long"/></td></tr>
+                        <tr><td><spring:message code="sponsor.label"/></td<td>${sponsorPerson.officialName.formattedName}</td></tr>
+                        <tr><td><spring:message code="pt.label"/></td<td>${role.percentage}</td></tr>
+                        <tr><td><spring:message code="roleTitle.label"/></td<td>${role.title}</td></tr>
+                        <tr><td><spring:message code="affiliation.label"/></td<td>${role.affiliationType.description}</td></tr>
+                        <tr><td><spring:message code="organizationalUnit.label"/></td<td>${role.organizationalUnit.name}</td></tr>
+                        <tr><td><spring:message code="campus.label"/></td<td>${role.campus.name}</td></tr>
+                        <c:choose>
+                            <c:when test="${!empty role.terminationReason}">
+                                <tr><td><spring:message code="terminationReason.label"/></td<td>${role.terminationReason.description}</td></tr>
+                            </c:when>
+                            <c:otherwise><tr><td><spring:message code="terminationReason.label"/></td><td> </td></tr></c:otherwise>
+                        </c:choose>
                     </tbody>
                 </table>
 
@@ -71,7 +84,7 @@
                             <c:forEach var="emailAddress" items="${role.emailAddresses}" varStatus="loopStatus">
                             <tr>
                                 <td>${emailAddress.addressType.description}</td>
-                                <td>${emailAddress.address}</td>
+                                <td><a href="mailto:'${emailAddress.address}'">${emailAddress.address}</a></td>                                
                             </c:forEach>
                         </tbody>
                     </table>
@@ -156,6 +169,30 @@
                 </c:when>
                     <c:otherwise><spring:message code="noUrlsDefined.label"/><br/><br/></c:otherwise>
                 </c:choose>
+
+                <label class="desc"><spring:message code="leaves.heading"/>
+                <c:choose>
+                    <c:when test="${not empty role.leaves}">
+                        <div>
+                        <table class="data" cellspacing="0" width="50%">
+                            <thead>
+                                <tr class="appHeadingRow">
+                                    <th><spring:message code="property.label"/></th>
+                                    <th><spring:message code="value.label"/></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="leave" items="${role.leaves}" varStatus="loopStatus">
+                                    <tr><td><spring:message code="startDate.label"/></td><td><fmt:formatDate value="${leave.start}" dateStyle="long" /></td></tr>
+                                    <tr><td><spring:message code="endDate.label"/></td><td><fmt:formatDate value="${leave.end}" dateStyle="long" /></td></tr>
+                                    <tr><td><spring:message code="reason.label"/></td><td>${leave.reason.description}</td></tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                    </c:when>
+                        <c:otherwise><spring:message code="noLeavesDefined.label"/><br/><br/></c:otherwise>
+                    </c:choose>
 
 			</fieldset>
 			</fieldset>
