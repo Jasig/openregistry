@@ -33,7 +33,7 @@
                 <br/>
 
                 <fieldset class="fm-h" id="ecn1">
-                <label class="desc2"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="managePersonRoles.label" /></span><em2><c:out value="${sorPerson.formattedNameAndID}"/></em2></label>
+                <label class="desc2"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="managePersonRoles.label" /></span><em2><c:out value="${sorPerson.formattedName}"/></em2></label>
                 </br></br>
 
                 <label class="desc"><spring:message code="roles.heading"/></label>
