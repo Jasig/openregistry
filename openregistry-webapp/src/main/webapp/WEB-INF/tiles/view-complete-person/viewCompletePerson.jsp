@@ -58,7 +58,7 @@
                 </c:forEach>
                 <tr>
                     <td><spring:message code="dateOfBirth.label"/></td>
-                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/></td>
+                    <td><fmt:formatDate value="${person.dateOfBirth}" dateStyle="long" /></td>
                 </tr>
                 <tr>
                     <td><spring:message code="gender.label" /></td>
@@ -67,14 +67,14 @@
                 <c:forEach var="role" items="${person.roles}" >
                     <tr>
                         <td><spring:message code="role.label" /></td>
-                        <td><a href="${flowExecutionUrl}&_eventId=submitViewRole&roleCode=${role.code}&formattedName=${person.formattedNameAndID}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>
+                        <td><a href="${flowExecutionUrl}&_eventId=submitViewRole&roleCode=${role.code}&formattedName=${person.officialName.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>
                     </tr>
                  </c:forEach>
                 </tbody>
             </table>
         </div>        
         <c:forEach var="sorPerson" items="${sorPersons}" varStatus="loopStatus">
-            <label class="desc"><spring:message code="sor.heading"/> <c:out value="${sorPerson.sourceSor}" /></label>
+            <label class="desc"><spring:message code="source.heading"/> <c:out value="${sorPerson.sourceSor}" /></label>
                 <div>
                     <table class="data" cellspacing="0" width="80%">
                         <thead>
@@ -109,7 +109,7 @@
                         <c:forEach var="role" items="${sorPerson.roles}" >
                             <tr>
                                 <td><spring:message code="role.label" /></td>
-                                <td><a href="${flowExecutionUrl}&_eventId=submitViewSoRRole&sorSource=${sorPerson.sourceSor}&roleCode=${role.code}&formattedName=${sorPerson.formattedNameAndID}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>
+                                <td><a href="${flowExecutionUrl}&_eventId=submitViewSoRRole&sorSource=${sorPerson.sourceSor}&roleCode=${role.code}&formattedName=${sorPerson.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>
                             </tr>
                          </c:forEach>
                         </tbody>
@@ -121,7 +121,7 @@
 		</fieldset>
 
 		<div class="row fm-v" style="clear:both;">
-			<input style="float:left;" type="submit" id="fm-cancel-submit1" name="_eventId_cancel" class="btn-submit" value="Cancel" tabindex="11"/>
+			<input style="float:left;" type="submit" id="fm-newSearch-submit1" name="_eventId_newSearch" class="btn-submit" value="New Search" tabindex="11"/>
 		</div>
 
 </form:form>

@@ -33,7 +33,7 @@
         <br/>
 
         <fieldset class="fm-h" id="ecn1">
-            <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2><c:out value="${sorPerson.formattedNameAndID}"/></em2></label>
+            <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2><c:out value="${sorPerson.formattedName}"/></em2></label>
             <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="role.heading" /></span><em2><c:out value="${role.affiliationType.description}"/>/<c:out value="${role.title}"/></em2></label>
                 <br/><br/>
 

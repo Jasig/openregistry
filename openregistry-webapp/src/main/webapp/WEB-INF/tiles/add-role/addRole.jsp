@@ -37,7 +37,7 @@
         <fieldset class="fm-h" id="ecn1">
             <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="addRole.label"/></span><em2><c:out value="${role.affiliationType.description}"/></em2></label>
             <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="title.label" /></span><em2><c:out value="${role.title}"/></em2></label>
-            <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="to.label" /></span><em2><c:out value="${sorPerson.formattedNameAndID}"/></em2></label>
+            <label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="to.label" /></span><em2><c:out value="${sorPerson.formattedName}"/></em2></label>
             <br/><br/>
 
             <label class="desc" for="c1_startdate"><spring:message code="specifyRoleInfo.heading"/></label>
@@ -51,7 +51,7 @@
 
                     <label for="c1_sponsor" class="sponsor"><spring:message code="sponsor.label" /><em>*</em></label>
                     <div class="select sponsor">
-                        <form:select path="sponsor.sponsorId" id="c1_sponsor" items="${sponsorList}" itemValue="id" itemLabel="formattedNameAndID" size="1" tabindex="3" />
+                        <form:select path="sponsor.sponsorId" id="c1_sponsor" items="${sponsorList}" itemValue="id" itemLabel="formattedName" size="1" tabindex="3" />
                     </div>
                 </div>
 
