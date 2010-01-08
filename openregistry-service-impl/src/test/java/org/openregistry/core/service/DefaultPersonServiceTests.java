@@ -15,13 +15,9 @@
  */
 package org.openregistry.core.service;
 
-import static org.junit.Assert.*;
-
 import org.jasig.openregistry.test.domain.*;
-import org.jasig.openregistry.test.repository.MockPersonRepository;
-import org.jasig.openregistry.test.repository.MockReferenceRepository;
-import org.jasig.openregistry.test.repository.MockSystemOfRecordRepository;
-import org.jasig.openregistry.test.service.MockReconciler;
+import org.jasig.openregistry.test.repository.*;
+import org.jasig.openregistry.test.service.*;
 import org.junit.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;
@@ -31,8 +27,9 @@ import org.openregistry.core.service.reconciliation.*;
 import org.openregistry.core.service.reconciliation.ReconciliationResult.*;
 import org.springframework.beans.factory.*;
 
-import javax.validation.Validator;
 import java.util.*;
+
+import static org.junit.Assert.*;
 
 /**
  * Test cases for the {@link DefaultPersonService}.  Note this does not actually
@@ -431,5 +428,77 @@ public class DefaultPersonServiceTests {
 		// verify that the person also has no roles
 		assertEquals(0,person.getRoles().size());
     }
+
+	/*
+	 * SEARCH FOR PERSON TESTS
+	 */
+
+	@Test
+	public void testSearchForPersonMatchFamilyName() throws Exception{
+		final MockPerson mockPerson = new MockPerson();
+
+		final MockSorPerson sorPerson = new MockSorPerson();
+		sorPerson.setPersonId(1L);
+		sorPerson.setId(1L);
+		Name name = new MockName();
+		name.setGiven("Rudyard");
+		name.setFamily("Kipling");
+		sorPerson.addName(name);
+		sorPerson.setSsn("123456789");
+		Date birthday = new Date();
+		sorPerson.setDateOfBirth(birthday);
+		final MockSorRole sorRole = (MockSorRole) sorPerson.addRole((RoleInfo) null);
+		sorRole.setId(1L);
+		sorRole.setSorId("500");
+
+		mockPerson.addRole(sorRole);
+
+		final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
+
+		this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), this.validator);
+		this.personService.setPersonObjectFactory(this.objectFactory);
+
+		MutableSearchCriteriaImpl searchCriteria = new MutableSearchCriteriaImpl();
+		searchCriteria.setFamilyName(sorPerson.getNames().get(0).getFamily());
+		List personMatches = personService.searchForPersonBy(searchCriteria);
+		assertNotNull(personMatches);
+		assertTrue(personMatches.size() > 0);
+	}
+
+	@Test
+	public void testSearchForPersonMatchSSN() throws Exception{
+		final MockPerson mockPerson = new MockPerson();
+
+		final MockSorPerson sorPerson = new MockSorPerson();
+		sorPerson.setPersonId(1L);
+		sorPerson.setId(1L);
+		Name name = new MockName();
+		name.setGiven("Rudyard");
+		name.setFamily("Kipling");
+		sorPerson.addName(name);
+		sorPerson.setSsn("123456789");
+		Date birthday = new Date();
+		sorPerson.setDateOfBirth(birthday);
+		final MockSorRole sorRole = (MockSorRole) sorPerson.addRole((RoleInfo) null);
+		sorRole.setId(1L);
+		sorRole.setSorId("500");
+
+		mockPerson.addRole(sorRole);
+
+		final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
+
+		this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE), this.validator);
+		this.personService.setPersonObjectFactory(this.objectFactory);
+
+		MutableSearchCriteriaImpl searchCriteria = new MutableSearchCriteriaImpl();
+		searchCriteria.setIdentifierType("SSN");
+		searchCriteria.setIdentifierValue("123456789");
+		List personMatches = personService.searchForPersonBy(searchCriteria);
+		assertNotNull(personMatches);
+		assertTrue(personMatches.size() > 0);
+
+
+
+	}
 
 }
