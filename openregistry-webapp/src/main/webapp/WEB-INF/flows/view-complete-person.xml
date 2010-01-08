@@ -36,27 +36,29 @@
         <transition on="submitViewSoRRole" to="viewRole" >
             <set name="requestScope.roleCode" value="requestParameters.roleCode" />
             <set name="requestScope.sorSource" value="requestParameters.sorSource" />
+            <set name="flowScope.viewRoleTitle" value="requestParameters.sorSource" />
             <evaluate expression="personService.findByPersonIdAndSorIdentifier(person.id, sorSource)" result="requestScope.sorPerson"/>
             <evaluate expression="sorPerson.pickOutRole(roleCode)" result="flowScope.role"/>
             <evaluate expression="personService.findPersonById(role.sponsor.sponsorId)" result="flowScope.sponsorPerson" />
         </transition>
         <transition on="submitViewRole" to="viewRole" >
             <set name="requestScope.roleCode" value="requestParameters.roleCode" />
+            <set name="flowScope.viewRoleTitle" value="'Calculated Role'" />
             <evaluate expression="person.pickOutRole(roleCode)" result="flowScope.role"/>
             <evaluate expression="personService.findPersonById(role.sponsor.sponsorId)" result="flowScope.sponsorPerson" />
         </transition>
-        <transition on="cancel" to="moveCancelled" />
+        <transition on="newSearch" to="newSearch" />
     </view-state>
 
     <view-state id="viewRole" model="role" view="openregistry.person.view.role">
         <on-entry>
             <set name="viewScope.command" value="'role'" />
-            <set name="viewScope.sponsorValue" value="flowScope.sponsorPerson.formattedNameAndID" />
+            <set name="viewScope.sponsorValue" value="flowScope.sponsorPerson.getOfficialName().getFormattedName()" />
             <set name="viewScope.formattedName" value="requestParameters.formattedName" />
         </on-entry>
         <transition on="submitBack" to="viewCompletePerson"></transition>
     </view-state>
 
-    <end-state id="moveCancelled" />
+    <end-state id="newSearch" />
 
 </flow>
