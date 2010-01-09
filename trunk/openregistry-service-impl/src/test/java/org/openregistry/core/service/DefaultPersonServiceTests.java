@@ -431,7 +431,7 @@ public class DefaultPersonServiceTests {
 
 	/*
 	 * SEARCH FOR PERSON TESTS
-
+*/
 
 	@Test
 	public void testSearchForPersonMatchFamilyName() throws Exception{
@@ -500,5 +500,5 @@ public class DefaultPersonServiceTests {
 
 
 	}
- */
+
 }
