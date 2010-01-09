@@ -17,8 +17,7 @@ package org.jasig.openregistry.test.repository;
 
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;
-import org.openregistry.core.repository.PersonRepository;
-import org.openregistry.core.repository.RepositoryAccessException;
+import org.openregistry.core.repository.*;
 import org.openregistry.core.service.*;
 
 import java.util.*;
@@ -100,8 +99,8 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public List<Person> searchByCriteria(SearchCriteria searchCriteria) throws RepositoryAccessException {
-        return null;
-    }
+ 		return persons;
+ 	 }
 
     public List<Person> findByFamilyName(String family) throws RepositoryAccessException {
         return null;
