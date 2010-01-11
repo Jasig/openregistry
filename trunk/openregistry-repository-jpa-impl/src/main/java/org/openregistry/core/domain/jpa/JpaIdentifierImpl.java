@@ -87,11 +87,11 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
         return this.value;
     }
 
-    public Boolean isPrimary() {
+    public Boolean getIsPrimary() {
     	return this.primary;
     }
 
-    public Boolean isDeleted() {
+    public Boolean getIsDeleted() {
     	return this.deleted;
     }
 

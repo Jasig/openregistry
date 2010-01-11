@@ -35,14 +35,14 @@ public interface Identifier extends Serializable {
      *
      * @return whether its the primary version of this identifier, or one that exists for historical reasons.
      */
-    Boolean isPrimary();
+    Boolean getIsPrimary();
 
     /**
      * Defaults to false.
      *
      * @return whether the identifier is valid or not.
      */
-    Boolean isDeleted();
+    Boolean getIsDeleted();
    
     void setPrimary(Boolean value);
     
