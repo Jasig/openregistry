@@ -47,7 +47,7 @@
                 <c:forEach var="name" items="${person.names}" varStatus="loopStatus">
                     <tr>
                         <td><spring:message code="nameColumn.label"/> (${name.type.description})</td>
-                        <td>${name.formattedName}</td>
+                        <td>${name.longFormattedName}</td>
                     </tr>
                 </c:forEach>
                 <tr>
@@ -99,7 +99,7 @@
                         <c:forEach var="sorName" items="${sorPerson.names}" varStatus="loopStatus">
                             <tr>
                                 <td><spring:message code="nameColumn.label"/> (${sorName.type.description})</td>
-                                <td>${sorName.formattedName}</td>
+                                <td>${sorName.longFormattedName}</td>
                             </tr>
                         </c:forEach>
                         <tr>
@@ -129,7 +129,7 @@
 		</fieldset>
 
 		<div class="row fm-v" style="clear:both;">
-			<input style="float:left;" type="submit" id="fm-newSearch-submit1" name="_eventId_newSearch" class="btn-submit" value="New Search" tabindex="11"/>
+			<input style="float:left;" type="submit" id="fm-newSearch-submit1" name="_eventId_submitNewSearch" class="btn-submit" value="New Search" tabindex="11"/>
 		</div>
 
 </form:form>
