@@ -131,11 +131,11 @@ public class MockPerson implements Person {
                 return identifierValue;
             }
 
-            public Boolean isPrimary() {
+            public Boolean getIsPrimary() {
                 return true;
             }
 
-            public Boolean isDeleted() {
+            public Boolean getIsDeleted() {
                 return false;
             }
 

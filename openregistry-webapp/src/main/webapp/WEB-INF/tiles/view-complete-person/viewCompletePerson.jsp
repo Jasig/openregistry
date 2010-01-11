@@ -50,12 +50,6 @@
                         <td>${name.formattedName}</td>
                     </tr>
                 </c:forEach>
-                <c:forEach var="identifier" items="${person.identifiers}" varStatus="loopStatus">
-                    <tr>
-                        <td>${identifier.type.name}</td>
-                        <td>${identifier.value}</td>
-                    </tr>
-                </c:forEach>
                 <tr>
                     <td><spring:message code="dateOfBirth.label"/></td>
                     <td><fmt:formatDate value="${person.dateOfBirth}" dateStyle="long" /></td>
@@ -64,9 +58,23 @@
                     <td><spring:message code="gender.label" /></td>
                     <td>${person.gender}</td>
                 </tr>
+                <c:forEach var="identifier" items="${person.identifiers}" varStatus="loopStatus">
+                    <tr>
+                        <c:choose>
+                            <c:when test="${identifier.isPrimary}">
+                                <td><spring:message code="identifier.heading" />${identifier.type.name} (<spring:message code="primary.label" />)</td>
+                            </c:when>
+                            <c:when test="${identifier.isDeleted}">
+                                <td><spring:message code="identifier.heading" />${identifier.type.name} (<spring:message code="deleted.label" />)</td>
+                            </c:when>
+                            <c:otherwise><td><spring:message code="identifier.heading" />${identifier.type.name}</td></c:otherwise>
+                        </c:choose>
+                        <td>${identifier.value}</td>
+                    </tr>
+                </c:forEach>
                 <c:forEach var="role" items="${person.roles}" >
                     <tr>
-                        <td><spring:message code="role.label" /></td>
+                        <td><spring:message code="role.label" /> (${role.personStatus.description}) <fmt:formatDate value="${role.start}" dateStyle="long" />-<fmt:formatDate value="${role.end}" dateStyle="long" /></td>
                         <td><a href="${flowExecutionUrl}&_eventId=submitViewRole&roleCode=${role.code}&formattedName=${person.officialName.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>
                     </tr>
                  </c:forEach>
@@ -100,7 +108,7 @@
                         </tr>
                         <tr>
                             <td><spring:message code="dateOfBirth.label"/></td>
-                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${sorPerson.dateOfBirth}"/></td>
+                            <td><fmt:formatDate value="${sorPerson.dateOfBirth}" dateStyle="long"/></td>
                         </tr>
                         <tr>
                             <td><spring:message code="gender.label" /></td>
@@ -108,7 +116,7 @@
                         </tr>
                         <c:forEach var="role" items="${sorPerson.roles}" >
                             <tr>
-                                <td><spring:message code="role.label" /></td>
+                                <td><spring:message code="role.label" /> (${role.personStatus.description}) <fmt:formatDate value="${role.start}" dateStyle="long" />-<fmt:formatDate value="${role.end}" dateStyle="long" /></td>
                                 <td><a href="${flowExecutionUrl}&_eventId=submitViewSoRRole&sorSource=${sorPerson.sourceSor}&roleCode=${role.code}&formattedName=${sorPerson.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>
                             </tr>
                          </c:forEach>
