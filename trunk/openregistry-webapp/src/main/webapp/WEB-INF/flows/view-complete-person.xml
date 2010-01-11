@@ -47,7 +47,7 @@
             <evaluate expression="person.pickOutRole(roleCode)" result="flowScope.role"/>
             <evaluate expression="personService.findPersonById(role.sponsor.sponsorId)" result="flowScope.sponsorPerson" />
         </transition>
-        <transition on="newSearch" to="newSearch" />
+        <transition on="submitNewSearch" to="newSearch" />
     </view-state>
 
     <view-state id="viewRole" model="role" view="openregistry.person.view.role">
