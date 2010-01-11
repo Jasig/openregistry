@@ -121,6 +121,18 @@ public class MockName extends AbstractNameImpl {
         return builder.toString();
     }
 
+    public String getLongFormattedName(){
+        final StringBuilder builder = new StringBuilder();
+
+        if (this.prefix != null) construct(builder, "", this.prefix, " ");
+        construct(builder, "", this.given, " ");
+        if (this.middle != null) construct(builder, "", this.middle, " ");
+        if (this.family != null) construct(builder, "", this.family, " ");
+        if (this.suffix != null) construct(builder, ",", this.suffix, "");
+
+        return builder.toString();
+    }
+
     public String toString() {
         final StringBuilder builder = new StringBuilder();
 
