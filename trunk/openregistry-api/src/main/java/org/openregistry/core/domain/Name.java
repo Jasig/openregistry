@@ -59,6 +59,8 @@ public interface Name extends Serializable {
     boolean isPreferredName();
     
     String getFormattedName();
+
+    String getLongFormattedName();
     
     String toString();
 
