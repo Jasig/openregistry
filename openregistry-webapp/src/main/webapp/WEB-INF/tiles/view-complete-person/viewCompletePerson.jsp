@@ -56,7 +56,7 @@
                 </tr>
                 <tr>
                     <td><spring:message code="gender.label" /></td>
-                    <td>${person.gender}</td>
+                    <td><spring:message code="${person.gender}.genderDisplayValue" /></td>
                 </tr>
                 <c:forEach var="identifier" items="${person.identifiers}" varStatus="loopStatus">
                     <tr>
@@ -112,7 +112,8 @@
                         </tr>
                         <tr>
                             <td><spring:message code="gender.label" /></td>
-                            <td>${sorPerson.gender}</td>
+                            <td><spring:message code="${sorPerson.gender}.genderDisplayValue" /></td>
+
                         </tr>
                         <c:forEach var="role" items="${sorPerson.roles}" >
                             <tr>
