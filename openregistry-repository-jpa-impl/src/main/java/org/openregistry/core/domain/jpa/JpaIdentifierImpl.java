@@ -54,10 +54,10 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     private String value;
 
     @Column(name="is_primary", nullable=false)
-    private Boolean primary = true;
+    private boolean primary = true;
 
     @Column(name="is_deleted", nullable=false)
-    private Boolean deleted = false;
+    private boolean deleted = false;
 
     public JpaIdentifierImpl() {
         // nothing to do
@@ -87,11 +87,11 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
         return this.value;
     }
 
-    public Boolean getIsPrimary() {
+    public boolean isPrimary() {
     	return this.primary;
     }
 
-    public Boolean getIsDeleted() {
+    public boolean isDeleted() {
     	return this.deleted;
     }
 
@@ -104,11 +104,11 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
         this.value = value;
     }
 
-    public void setPrimary(Boolean value) {
+    public void setPrimary(boolean value) {
     	this.primary = value;
     }
 
-    public void setDeleted(Boolean value) {
+    public void setDeleted(boolean value) {
     	this.deleted = value;
     }
 
