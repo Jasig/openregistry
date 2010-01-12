@@ -61,10 +61,10 @@
                 <c:forEach var="identifier" items="${person.identifiers}" varStatus="loopStatus">
                     <tr>
                         <c:choose>
-                            <c:when test="${identifier.isPrimary}">
+                            <c:when test="${identifier.primary}">
                                 <td><spring:message code="identifier.heading" />${identifier.type.name} (<spring:message code="primary.label" />)</td>
                             </c:when>
-                            <c:when test="${identifier.isDeleted}">
+                            <c:when test="${identifier.deleted}">
                                 <td><spring:message code="identifier.heading" />${identifier.type.name} (<spring:message code="deleted.label" />)</td>
                             </c:when>
                             <c:otherwise><td><spring:message code="identifier.heading" />${identifier.type.name}</td></c:otherwise>
