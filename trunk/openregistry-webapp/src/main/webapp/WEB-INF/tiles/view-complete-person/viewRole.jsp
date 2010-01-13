@@ -34,40 +34,43 @@
 
         <fieldset class="fm-h" id="ecn1">
             <label class="desc2" for="c1_startdate">
-                <span style="color:#000; font-weight:bold;font-size:1.2em;"><c:out value="${viewRoleTitle}"/></span>
-                <br/><br/>
-                <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2><c:out value="${formattedName}"/></em2>
-                <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="role.heading" /></span>
-                <em2><c:out value="${role.title}"/>/<c:out value="${role.organizationalUnit.name}"/>/<c:out value="${role.campus.name}"/></em2>
-            </label>
-                <br/><br/>
 
-                <label class="desc" for="c1_startdate"><spring:message code="roleInformation.heading"/></label>
-                <table class="data" cellspacing="0" width="80%">
-                    <thead>
-                        <tr class="appHeadingRow">
-                            <th><spring:message code="property.label"/></th>
-                            <th><spring:message code="value.label"/></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><spring:message code="personStatus.label"/></td<td>${role.personStatus.description}</td></tr>
-                        <tr><td><spring:message code="startDate.label"/></td><td><fmt:formatDate value="${role.start}" dateStyle="long"/></td></tr>
-                        <tr><td><spring:message code="endDate.label"/></td<td><fmt:formatDate value="${role.end}" dateStyle="long"/></td></tr>
-                        <tr><td><spring:message code="sponsor.label"/></td<td>${sponsorPerson.officialName.formattedName}</td></tr>
-                        <tr><td><spring:message code="pt.label"/></td<td>${role.percentage}</td></tr>
-                        <tr><td><spring:message code="roleTitle.label"/></td<td>${role.title}</td></tr>
-                        <tr><td><spring:message code="affiliation.label"/></td<td>${role.affiliationType.description}</td></tr>
-                        <tr><td><spring:message code="organizationalUnit.label"/></td<td>${role.organizationalUnit.name}</td></tr>
-                        <tr><td><spring:message code="campus.label"/></td<td>${role.campus.name}</td></tr>
-                        <c:choose>
-                            <c:when test="${!empty role.terminationReason}">
-                                <tr><td><spring:message code="terminationReason.label"/></td<td>${role.terminationReason.description}</td></tr>
-                            </c:when>
-                            <c:otherwise><tr><td><spring:message code="terminationReason.label"/></td><td> </td></tr></c:otherwise>
-                        </c:choose>
-                    </tbody>
-                </table>
+		    <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2> <c:out value="${formattedName}"/></em2>
+		    <br/><br/>
+            <span style="color:#000; font-weight:bold;font-size:1.2em;"><c:out value="${viewRoleTitle}"/></span>: <em2><c:out value="${role.title}"/>/<c:out value="${role.organizationalUnit.name}"/>/<c:out value="${role.campus.name}"/></em2>
+
+            </label>
+            <br/><br/>
+
+            <label class="desc" for="c1_startdate"><spring:message code="roleInformation.heading"/></label>
+            <table class="data" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="appHeadingRow">
+                        <th><spring:message code="personStatus.label"/></th>
+                        <th><spring:message code="startDate.label"/></th>
+                        <th><spring:message code="endDate.label"/></th>
+                        <th><spring:message code="sponsor.label"/></th>
+                        <th><spring:message code="pt.label"/></th>
+                        <th><spring:message code="roleTitle.label"/></th>
+				        <th><spring:message code="affiliation.label"/></th>
+				        <th><spring:message code="organizationalUnit.label"/></th>
+                        <th><spring:message code="campus.label"/></th>
+				        <th><spring:message code="terminationReason.label"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <td>${role.personStatus.description}</td>
+                    <td><fmt:formatDate value="${role.start}" dateStyle="long"/></td>
+                    <td><fmt:formatDate value="${role.end}" dateStyle="long"/></td>
+                    <td>${sponsorPerson.officialName.formattedName}</td>
+                    <td>${role.percentage}</td>
+                    <td>${role.title}</td>
+                    <td>${role.affiliationType.description}</td>
+                    <td>${role.organizationalUnit.name}</td>
+                    <td>${role.campus.name}</td>
+                    <td>${role.terminationReason.description}</td>
+                </tbody>
+            </table>
 
 
              <label class="desc"><spring:message code="emailAddress.heading"/>
@@ -84,7 +87,7 @@
                             <c:forEach var="emailAddress" items="${role.emailAddresses}" varStatus="loopStatus">
                             <tr>
                                 <td>${emailAddress.addressType.description}</td>
-                                <td><a href="mailto:'${emailAddress.address}'">${emailAddress.address}</a></td>                                
+                                <td><a href="mailto:'${emailAddress.address}'">${emailAddress.address}</a></td>
                             </c:forEach>
                         </tbody>
                     </table>
