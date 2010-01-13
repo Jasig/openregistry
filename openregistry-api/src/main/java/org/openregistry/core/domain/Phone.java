@@ -23,6 +23,8 @@ import java.io.Serializable;
  * @since 1.0.0
  */
 public interface Phone extends Serializable {
+	
+	static final String PHONE_SEP = "-";
 
     Long getId();
     
