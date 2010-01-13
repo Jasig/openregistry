@@ -137,4 +137,29 @@ public class JpaPhoneImpl extends Entity implements Phone {
     public void setExtension(final String extension) {
         this.extension = extension;
     }
+    
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        if (this.countryCode != null && this.countryCode != "") {
+        	builder.append("+");
+        	builder.append(this.countryCode);
+        	builder.append(" ");
+        }
+        if (this.areaCode != null && this.areaCode != "") {
+        	builder.append(this.areaCode);
+        	builder.append(PHONE_SEP);
+        }
+        if (this.number.charAt(3) != '-') {
+        	builder.append(this.number.substring(0, 3));
+        	builder.append(PHONE_SEP);
+        	builder.append(this.number.substring(3));
+        } else {
+        	builder.append(this.number);
+        }
+        if (this.extension != null && this.extension != "") {
+        	builder.append(" x");
+        	builder.append(this.extension);
+        }
+        return builder.toString();
+    }
 }
