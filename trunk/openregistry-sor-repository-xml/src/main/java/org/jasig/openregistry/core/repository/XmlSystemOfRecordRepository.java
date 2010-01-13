@@ -15,6 +15,7 @@
  */
 package org.jasig.openregistry.core.repository;
 
+import org.jasig.openregistry.core.domain.sor.XmlBasedSoRSpecificationImpl;
 import org.openregistry.core.domain.sor.SoRSpecification;
 import org.openregistry.core.repository.SystemOfRecordRepository;
 import org.slf4j.Logger;
@@ -23,15 +24,16 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 import javax.inject.Named;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Loads the XML files representing the System of Record specifications from a directory on the file system.
+ * <p>
+ * Note, this simple implementation ASSUMES that you want to replace the entire set with what's in the specified directory.
  *
  * @version $Revision$ $Date$
  * @since 0.1
@@ -43,10 +45,21 @@ public final class XmlSystemOfRecordRepository implements SystemOfRecordReposito
 
     private final File file;
 
+    private final JAXBContext jaxbContext = JAXBContext.newInstance(XmlBasedSoRSpecificationImpl.class);
+
+    private final Unmarshaller unMarshaller = jaxbContext.createUnmarshaller();
+
     private List<SoRSpecification> soRSpecifications = new ArrayList<SoRSpecification>();
 
-    public XmlSystemOfRecordRepository(final Resource resource) throws IOException {
+    /**
+     * Creates a new repository using the supplied directory as the starting point.
+     * 
+     * @param resource
+     * @throws Exception
+     */
+    public XmlSystemOfRecordRepository(final Resource resource) throws Exception {
         this.file = resource.getFile();
+        logger.info("Attempting to load Xml Repository from [" + this.file.getAbsolutePath() + "]");
         Assert.isTrue(this.file.isDirectory(), "Provided resource MUST be a directory.");
         reload();
     }
@@ -75,9 +88,21 @@ public final class XmlSystemOfRecordRepository implements SystemOfRecordReposito
                 soRSpecifications.add(soRSpecification);
             }
         }
+
+        this.soRSpecifications = soRSpecifications;
     }
 
     private SoRSpecification loadSoRSpecificationFromFile(final File file) {
+        try {
+            logger.info("Attempting to load file [" + file.getName() + "] for reading specification.");
+            final FileReader fileReader = new FileReader(file);
+            logger.info("File [" + file.getName() + "] successfully loaded.");
+
+            return (SoRSpecification) this.unMarshaller.unmarshal(fileReader);
+        } catch (final Exception e) {
+            logger.error("Cannot complete loading of [" + file.getName() + "] due to error below.");
+            logger.error(e.getMessage(),e);
+        }
         
         return null;
     }

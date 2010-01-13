@@ -46,6 +46,13 @@
 
         <dependency>
             <groupId>org.jasig.openregistry</groupId>
+            <artifactId>openregistry-sor-repository-xml</artifactId>
+            <scope>runtime</scope>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jasig.openregistry</groupId>
             <artifactId>openregistry-repository-jpa-impl</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
