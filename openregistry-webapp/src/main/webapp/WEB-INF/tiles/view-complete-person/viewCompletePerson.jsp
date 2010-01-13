@@ -75,7 +75,7 @@
                     <tr>
                         <td><spring:message code="role.label" /> (<b>${role.personStatus.description}</b>)</td>
                         <td colspan="3"><a href="${flowExecutionUrl}&_eventId=submitViewRole&roleCode=${role.code}&formattedName=${person.officialName.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>
-                        <td colspan="2"><fmt:formatDate value="${role.start}" dateStyle="long" /> <spring:message code="vcpTo.label"/> <fmt:formatDate value="${role.end}" dateStyle="long" /></td>
+                        <td colspan="2"><fmt:formatDate value="${role.start}"  /> <spring:message code="vcpTo.label"/> <fmt:formatDate value="${role.end}" /></td>
                     </tr>
                  </c:forEach>
                 </tbody>
@@ -108,7 +108,7 @@
                         </c:forEach>
                         <tr>
                             <td><spring:message code="dateOfBirth.label"/></td>
-                            <td colspan="5" ><fmt:formatDate value="${sorPerson.dateOfBirth}" dateStyle="long"/></td>
+                            <td colspan="5" ><fmt:formatDate value="${sorPerson.dateOfBirth}" /></td>
                         </tr>
                         <tr>
                             <td><spring:message code="gender.label" /></td>
@@ -123,7 +123,7 @@
                             <tr>
                                 <td><spring:message code="role.label" /> <b>(${role.personStatus.description})</b></td>
                                 <td colspan="3" ><a href="${flowExecutionUrl}&_eventId=submitViewSoRRole&sorSource=${sorPerson.sourceSor}&roleCode=${role.code}&formattedName=${sorPerson.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>                                
-                                <td colspan="2"><fmt:formatDate value="${role.start}" dateStyle="long" /> <spring:message code="vcpTo.label"/> <fmt:formatDate value="${role.end}" dateStyle="long" /></td>
+                                <td colspan="2"><fmt:formatDate value="${role.start}" /> <spring:message code="vcpTo.label"/> <fmt:formatDate value="${role.end}" /></td>
                             </tr>
                          </c:forEach>
                         </tbody>
