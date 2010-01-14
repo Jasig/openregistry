@@ -154,7 +154,7 @@ public final class JpaRoleImpl extends Entity implements Role {
         jpaAddress.setLine1(sorAddress.getLine1());
         jpaAddress.setLine2(sorAddress.getLine2());
         jpaAddress.setLine3(sorAddress.getLine3());
-        jpaAddress.setCity(sorAddress.getLine1());
+        jpaAddress.setCity(sorAddress.getCity());
         jpaAddress.setRegion(sorAddress.getRegion());
         jpaAddress.setPostalCode(sorAddress.getPostalCode());
         jpaAddress.setCountry(sorAddress.getCountry());
