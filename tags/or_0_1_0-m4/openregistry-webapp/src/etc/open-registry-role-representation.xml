@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright (C) 2009 Jasig, Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<open-registry-role start-date="1/2/2009" end-date="5/22/2011" percentage="50">
+
+	<addresses>
+		<address type="Home">
+			<line1>225 Main st.</line1>
+			<line2>distr.</line2>
+			<line3>xxx</line3>
+			<city>Main City</city>
+			<postal-code>70097</postal-code>
+			<country-code>US</country-code>
+			<region-code>NJ</region-code>
+		</address>
+		<address type="Campus">
+			<line1>5 Main ave</line1>
+			<city>New Brunswick</city>
+			<postal-code>08887</postal-code>
+			<country-code>US</country-code>
+			<region-code>NJ</region-code>
+		</address>
+	</addresses>
+
+	<emails>
+		<email type="Personal" address="jd@gmail.com"/>
+		<email type="Office" address="jd@example.com"/>
+	</emails>
+
+	<urls>
+		<url type="Home page" address="http://example.com/mypage"/>
+		<url type="Twitter profile" address="http://twitter.com/myprofile"/>
+	</urls>
+
+	<phones>
+		<phone type="Home" address-type="Home">
+			<country-code>1</country-code>
+			<area-code>908</area-code>
+			<number>787765434</number>
+		</phone>
+		<phone type="Office" address-type="Office">
+			<country-code>1</country-code>
+			<area-code>908</area-code>
+			<number>123456789</number>
+			<extension>556</extension>
+		</phone>
+	</phones>
+
+</open-registry-role>

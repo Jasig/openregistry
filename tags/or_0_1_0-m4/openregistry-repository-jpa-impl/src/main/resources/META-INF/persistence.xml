@@ -1,0 +1,67 @@
+<!--
+
+    Copyright (C) 2009 Jasig, Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+        version="1.0">
+        <persistence-unit name="OpenRegistryPersistence" transaction-type="RESOURCE_LOCAL">
+            <class>org.openregistry.core.domain.jpa.JpaAddressImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaCampusImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaCountryImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaEmailAddressImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaIdentifierImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaIdentifierTypeImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaLeaveImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaNameImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaOrganizationalUnitImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaPersonImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaPhoneImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaRegionImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaRoleImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaRoleInfoImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaSponsorImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaTypeImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaUrlImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaSorAddressImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaSorEmailAddressImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaSorLeaveImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaSorNameImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaSorPersonImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaSorPhoneImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaSorSponsorImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaSorUrlImpl</class>
+            <properties>
+                <property name="hibernate.ejb.event.post-insert"
+                          value="org.hibernate.envers.event.AuditEventListener" />
+                <property name="hibernate.ejb.event.post-update"
+                          value="org.hibernate.envers.event.AuditEventListener" />
+                <property name="hibernate.ejb.event.post-delete"
+                          value="org.hibernate.envers.event.AuditEventListener" />
+                <property name="hibernate.ejb.event.pre-collection-update"
+                          value="org.hibernate.envers.event.AuditEventListener" />
+                <property name="hibernate.ejb.event.pre-collection-remove"
+                          value="org.hibernate.envers.event.AuditEventListener" />
+                <property name="hibernate.ejb.event.post-collection-recreate"
+                          value="org.hibernate.envers.event.AuditEventListener" />
+                <property name="org.hibernate.envers.auditTablePrefix" value="aud_" />
+                <property name="org.hibernate.envers.auditTableSuffix" value="" />
+            </properties>
+        </persistence-unit>
+</persistence>

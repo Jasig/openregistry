@@ -1,0 +1,364 @@
+/*
+ * Version: $Revision: 1.3 $
+ * Date: $Date: 2008/10/21 03:00:21 $
+ */
+
+digraph ORDATAMODEL {
+  graph [label="Draft OpenRegistry Data Model (10/08)", labelloc="t", labeljust="l", rankdir="LR"]
+  node [shape=plaintext, labeljust="l"]
+
+  subgraph cluster_BR {
+    label = "(BR) Business Rules Registry";
+    color = "yellow";
+
+    /*
+     * Attribute Definitions
+     */
+
+    bro_attribute_definitions [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">bro_attribute_definitions</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Instantiated attributes known to the business rules engine.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">attribute_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Attribute</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">name</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Name of this Attribute</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">version</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Version of this Attribute definition</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">source_table</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Source database table for this Attribute</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">source_column</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Source database column for this Attribute</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">description</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Description of this Attribute</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of description</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:change_id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Derived Attribute Overrides
+     */
+
+    bro_calculated_attribute_overrides [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">bro_calculated_attribute_overrides</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Instantiated manual overrides for attributes that are calculated from business rule calculations.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">override_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Override</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">person_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Who this Override applies to (prc_persons:person_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">attribute_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">id</font></td>
+ <td align="left">Identifier of Attribute for this Override (bro_attribute_definitions:attribute_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">attribute_value</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Value of Attribute by this Override</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">validity_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Validity for this Override (ctc_validities:validity_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:change_id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Derived Attribute Rules
+     */
+
+    bro_calculated_attribute_rules [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">bro_calculated_attribute_rules</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Instantiated business rules for deriving attributes from other attributes.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">rule_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Rule</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">priority</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Priority of this Rule, higher = more important</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">attribute_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Source attribute (bro_attribute_definitions:attribute_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">value_comparison</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">IS, ISNOT, etc</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">comparison_target</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Pattern or string for comparison (eg: IS "Student")</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">conjunction</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">AND, OR, etc</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">conjunction_rule_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Rule Identifier for conjunction (eg: AND RULEID 23)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">validity_rule_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier of Rule describing Validity of resulting Attributes (bro_validity_rules:validity_rule_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">description</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Description of this Rule</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of description</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sponsor_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Sponsor (authorizer) of this Rule (prs_sponsors:sponsor_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:change_id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Preferred Attribute Overrides
+     */
+
+    bro_preferred_attribute_overrides [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">bro_preferred_attribute_overrides</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Instantiated preferences for selecting from multiple attributes (eg: preferred display name).</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">override_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Override</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">priority</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Priority of this Override, higher = more important</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sor_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">SOR associated with this Override (ctx_data_types:data_type=sor)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Role associated with this Override (prs_roles:role_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">person_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Who this Override applies to (prc_persons:person_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">validity_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Validity for this Override (ctc_validities:validity_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:change_id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Preferred Attribute Rules
+     */
+
+    bro_preferred_attribute_rules [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">bro_preferred_attribute_rules</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Instantiated rules for selecting from multiple attributes (eg: affiliation display hierarchy).</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">rule_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Rule</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">priority</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Priority of this Rule, higher = more important</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sor_t</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">SOR associated with this Rule (ctx_data_types:data_type=sor)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">role_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Role associated with this Rule (prs_roles:role_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">description</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Description of this Rule</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of description</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">sponsor_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Sponsor (authorizer) of this Rule (prs_sponsors:sponsor_id)</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:change_id)</td>
+</tr>
+   </table>>];
+
+    /*
+     * Validity Rules
+     */
+
+    bro_validity_rules [label=<<table cellborder="1" cellpadding="0" cellspacing="0">
+<tr>
+ <td bgcolor="yellow" colspan="3"><font point-size="14">bro_validity_rules</font></td>
+</tr>
+<tr>
+ <td align="left" colspan="3"><font point-size="12">Instantiated rules for attaching validities to calculated attributes.</font></td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">rule_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Identifier for this Rule</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">from</font></td>
+ <td align="left"><font face="Courier" point-size="10">datetime</font></td>
+ <td align="left">First included second for absolute Validity</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">until</font></td>
+ <td align="left"><font face="Courier" point-size="10">datetime</font></td>
+ <td align="left">Last included second for absolute Validity</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">duration</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Duration in seconds of validity, beginning when attribute assigned</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">description</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Description of this Rule</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">locale</font></td>
+ <td align="left"><font face="Courier" point-size="10">char</font></td>
+ <td align="left">Locale of description</td>
+</tr>
+<tr>
+ <td align="left"><font face="Courier" point-size="10">change_id</font></td>
+ <td align="left"><font face="Courier" point-size="10">int</font></td>
+ <td align="left">Change Identifier (ctx_change_log:change_id)</td>
+</tr>
+   </table>>];
+  } /* cluster_BR */
+
+  /*
+   * relations
+   *
+   * 0/1: odottee
+   * 1: teetee
+   * 0+: crowodot
+   * 1+: crowotee
+   *
+   * x->y each x has arrowtail y's, each y has arrowhead x's
+   *
+   */
+  
+  bro_attribute_definitions -> ctx_change_log [arrowhead="crowodot", arrowtail="teetee"];
+  bro_calculated_attribute_overrides -> bro_attribute_definitions [arrowhead="crowodot", arrowtail="teetee"];
+  bro_calculated_attribute_overrides -> ctx_change_log [arrowhead="crowodot", arrowtail="teetee"];
+  bro_calculated_attribute_overrides -> ctc_validities [arrowhead="crowodot", arrowtail="teetee"];
+  bro_calculated_attribute_overrides -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
+  bro_calculated_attribute_rules -> bro_attribute_definitions [arrowhead="crowodot", arrowtail="teetee"];
+  bro_calculated_attribute_rules -> bro_validity_rules [arrowhead="crowodot", arrowtail="teetee"];
+  bro_calculated_attribute_rules -> ctx_change_log [arrowhead="crowodot", arrowtail="teetee"];
+  bro_calculated_attribute_rules -> prs_sponsors [arrowhead="crowodot", arrowtail="odottee"];
+  bro_preferred_attribute_overrides -> ctx_change_log [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_overrides -> ctc_validities [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_overrides -> prc_persons [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_overrides -> prs_roles [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_overrides -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_rules -> ctx_change_log [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_rules -> prs_roles [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_rules -> ctx_data_types [arrowhead="crowodot", arrowtail="teetee"];
+  bro_preferred_attribute_rules -> prs_sponsors [arrowhead="crowodot", arrowtail="odottee"];
+  bro_validity_rules -> ctx_change_log [arrowhead="crowodot", arrowtail="teetee"];
+}
