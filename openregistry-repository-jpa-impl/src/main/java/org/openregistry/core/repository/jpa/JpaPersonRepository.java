@@ -24,6 +24,10 @@ import org.openregistry.core.service.*;
 import org.springframework.stereotype.*;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 /**
@@ -65,11 +69,28 @@ public class JpaPersonRepository implements PersonRepository {
         final String familyName = searchCriteria.getFamilyName();
         final Date birthDate = searchCriteria.getDateOfBirth();
 
-        if (birthDate == null) {
-            return this.entityManager.createQuery("select p from person p join p.names n where n.given like :given and n.family  like :family").setParameter("given", "%" + givenName + "%").setParameter("family", "%" + familyName + "%").getResultList();
-        } else {
-            return this.entityManager.createQuery("select p from person p join p.names n where n.given like :given and n.family  like :family and p.dateOfBirth = :dateOfBirth").setParameter("given", "%" + givenName + "%").setParameter("family", "%" + familyName + "%").setParameter("dateOfBirth", birthDate).getResultList();
+        final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+
+        final CriteriaQuery<JpaPersonImpl> c =criteriaBuilder.createQuery(JpaPersonImpl.class);
+        final Root<JpaPersonImpl> person = c.from(JpaPersonImpl.class);
+        final Join<JpaPersonImpl,JpaNameImpl> name = person.join(JpaPersonImpl_.names);
+        c.select(person)
+                .where(criteriaBuilder.like(name.get(JpaNameImpl_.given), givenName))
+                .where(criteriaBuilder.and(criteriaBuilder.like(name.get(JpaNameImpl_.family), familyName)));
+
+        if (birthDate != null) {
+            c.select(person).where(criteriaBuilder.and(criteriaBuilder.equal(person.get(JpaPersonImpl_.dateOfBirth), birthDate)));
         }
+
+        final List<JpaPersonImpl> persons = this.entityManager.createQuery(c).getResultList();
+
+        final List<Person> realPeople = new ArrayList<Person>();
+
+        for (final JpaPersonImpl jpaPerson : persons) {
+            realPeople.add(jpaPerson);
+        }
+
+        return realPeople;
     }
 
     public List<Person> findByFamilyName(final String family) throws RepositoryAccessException {
