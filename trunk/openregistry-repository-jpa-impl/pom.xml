@@ -39,12 +39,6 @@
             <artifactId>hibernate-envers</artifactId>
             <version>${hibernate.version}</version>
             <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.persistence</groupId>
-                    <artifactId>persistence-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -66,6 +60,12 @@
                     <artifactId>hsqldb</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -165,6 +165,44 @@
                   </hibernatetool>
               </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.bsc.maven</groupId>
+                <artifactId>maven-processor-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>process</id>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <!-- source output directory -->
+                            <outputDirectory>src/main/java</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.3</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -179,6 +217,10 @@
                 <enabled>true</enabled>  <!-- Workaround for MNG-2974, see note below -->
             </releases>
         </pluginRepository>
-    </pluginRepositories>
 
+        <pluginRepository>
+          <id>maven-annotation-plugin</id>
+          <url>http://maven-annotation-plugin.googlecode.com/svn/trunk/mavenrepo</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

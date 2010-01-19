@@ -104,12 +104,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
                 <version>${spring.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
                 <type>jar</type>
             </dependency>
 
@@ -117,12 +111,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aop</artifactId>
                 <version>${spring.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
                 <type>jar</type>
             </dependency>
 
@@ -130,12 +118,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${spring.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
                 <type>jar</type>
             </dependency>
             
@@ -156,12 +138,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
                 <type>jar</type>
             </dependency>
 
@@ -169,12 +145,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-tx</artifactId>
                 <version>${spring.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
                 <type>jar</type>
             </dependency>
 
@@ -182,12 +152,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jms</artifactId>
                 <version>${spring.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
                 <type>jar</type>
             </dependency>
 
@@ -195,12 +159,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
                 <version>${spring.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
                 <type>jar</type>
             </dependency>
 
@@ -208,12 +166,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
                 <version>${spring.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
                 <type>jar</type>
             </dependency>
 
@@ -222,10 +174,6 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
                 <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
                     <exclusion>
                         <groupId>stax</groupId>
                         <artifactId>stax</artifactId>
@@ -261,6 +209,13 @@
                         <artifactId>jmxtools</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-jpamodelgen</artifactId>
+                <version>1.0.0-Beta-2</version>
+                <type>jar</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -348,8 +303,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
 
@@ -374,7 +329,7 @@ mi2KuXZFGad>>Lz0ULLXhqIo2KPjARsdren1aP3vzebzkM
 qNNNUvQNpqopPoOQRqmTvqoPnOnMopRPqpSUtxrWTxOxTu
 pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
 97W9kZkUUnmm]]></license>
-                    <jdk>1.5</jdk>
+                    <jdk>1.6</jdk>
                     <generateXml>true</generateXml>
                     <generateHtml>true</generateHtml>
                     <includes>
@@ -422,8 +377,8 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
                     </execution>
                 </executions>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                     <excludes>
                         <exclude>**/IdentifierChangeAspect.java</exclude>
                     </excludes>
@@ -484,7 +439,8 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <aspectj.version>1.6.5</aspectj.version>
         <camel.version>2.0.0</camel.version>
         <clover.version>2.6.0</clover.version>
-        <spring.version>3.0.0.RELEASE</spring.version>
+        <!--<spring.version>3.0.0.RELEASE</spring.version> -->
+        <spring.version>3.0.1.BUILD-SNAPSHOT</spring.version>
         <spring.security.version>2.0.5.RELEASE</spring.security.version>
         <junit.version>4.6</junit.version>
         <servlet.version>2.5</servlet.version>
@@ -502,7 +458,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <ognl.version>2.7.3</ognl.version>
         <tiles.version>2.1.4</tiles.version>
         <jsp.version>2.0</jsp.version>
-        <hibernate.version>3.5.0-Beta-2</hibernate.version>
+        <hibernate.version>3.5.0-Beta-3</hibernate.version>
         <javassist.version>3.8.0.GA</javassist.version>
         <hsqldb.version>1.8.0.10</hsqldb.version>
         <jersey.version>1.1.4.1</jersey.version>
@@ -566,6 +522,14 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+        </repository>
+
+        <repository>
+            <id>Spring-Snapshot</id>
+            <name>Spring Snapshot</name>
+            <url>http://maven.springframework.org/snapshot</url>
+            <snapshots><enabled>true</enabled></snapshots>
+            <releases><enabled>false</enabled></releases>
         </repository>
     </repositories>
 
