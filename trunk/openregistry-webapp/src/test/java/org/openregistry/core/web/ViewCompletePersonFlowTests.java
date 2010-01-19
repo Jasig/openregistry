@@ -17,6 +17,9 @@ package org.openregistry.core.web;
 
 import org.jasig.openregistry.test.repository.MockReferenceRepository;
 import org.jasig.openregistry.test.domain.MockPerson;
+import org.jasig.openregistry.test.domain.MockRole;
+import org.jasig.openregistry.test.domain.MockSorRole;
+import org.jasig.openregistry.test.domain.MockSorPerson;
 import org.jasig.openregistry.test.repository.MockPersonRepository;
 import org.junit.Test;
 import org.openregistry.core.domain.*;
@@ -34,6 +37,8 @@ import org.springframework.webflow.core.collection.AttributeMap;
 import org.springframework.webflow.engine.Flow;
 import org.springframework.webflow.engine.EndState;
 import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.SorRole;
+import org.openregistry.core.domain.sor.SorSponsor;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.binding.mapping.MappingResults;
 import org.springframework.binding.mapping.Mapper;
@@ -83,7 +88,7 @@ public final class ViewCompletePersonFlowTests extends AbstractXmlFlowExecutionT
 
     @Test
     public void testViewCompletePerson(){
-        Person person = new MockPerson();
+        final Person person = mock(Person.class, RETURNS_SMART_NULLS);
         setCurrentState("viewCompletePerson");
         getFlowScope().put("person", person);
 
@@ -93,25 +98,39 @@ public final class ViewCompletePersonFlowTests extends AbstractXmlFlowExecutionT
         assertCurrentStateEquals("viewCompletePerson");
     }
 
-    /*
     @Test
     public void testViewCompletePersonRole(){
-        Person person = new MockPerson();
-        Role role = new MockRole();
+        final Person person = mock(Person.class, RETURNS_SMART_NULLS);
+        final SorPerson sorPerson = mock(SorPerson.class, RETURNS_SMART_NULLS);
+        final SorRole sorRole = mock(SorRole.class, RETURNS_SMART_NULLS);
+        final SorSponsor sorSponsor = mock(SorSponsor.class, RETURNS_SMART_NULLS);
+        final Name name = mock(Name.class, RETURNS_SMART_NULLS);
 
-        Long id=1L;
-        when(personService.findPersonById(id)).thenReturn(person);
+        when(person.getId()).thenReturn(1L);
+        when(person.getOfficialName()).thenReturn(name);
+        when(name.getLongFormattedName()).thenReturn("Test Name");
+        when(name.getFormattedName()).thenReturn("Test Name");
+        when(personService.findByPersonIdAndSorIdentifier(1L, "source")).thenReturn(sorPerson);
+        when(personService.findPersonById(1L)).thenReturn(person);
+        when(sorPerson.pickOutRole("roleCode")).thenReturn(sorRole);
+        when(sorRole.getSponsor()).thenReturn(sorSponsor);
+        when(sorSponsor.getSponsorId()).thenReturn(1L);
+
         setCurrentState("viewCompletePerson");
         getFlowScope().put("person", person);
-        getFlowScope().put("role", role);
-
+        
         MockExternalContext context = new MockExternalContext();
+        context.putRequestParameter("sorSource","source");
+        context.putRequestParameter("roleCode","roleCode");
 
-        context.setEventId("submitViewRole");
+        context.setEventId("submitViewSoRRole");
         resumeFlow(context);
         assertCurrentStateEquals("viewRole");
+
+        context.setEventId("submitBack");
+        resumeFlow(context);
+        assertCurrentStateEquals("viewCompletePerson");
     }
-*/
 
     // mock search subflow
     public Flow createMockSearchSubflow(){
