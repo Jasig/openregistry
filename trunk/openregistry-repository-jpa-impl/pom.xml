@@ -166,6 +166,7 @@
               </configuration>
             </plugin>
 
+            <!--
             <plugin>
                 <groupId>org.bsc.maven</groupId>
                 <artifactId>maven-processor-plugin</artifactId>
@@ -177,7 +178,6 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <!-- source output directory -->
                             <outputDirectory>src/main/java</outputDirectory>
                         </configuration>
                     </execution>
@@ -203,6 +203,7 @@
                     </execution>
                 </executions>
             </plugin>
+        -->
         </plugins>
     </build>
 
