@@ -44,9 +44,21 @@ public interface ReconciliationCriteria extends Serializable {
 
     void setEmailAddress(String emailAddress);
 
+    String getPhoneCountryCode();
+
+    void setPhoneCountryCode(String phoneCountryCode);
+    
+    String getPhoneAreaCode();
+
+    void setPhoneAreaCode(String phoneAreaCode);
+    
     String getPhoneNumber();
 
     void setPhoneNumber(String phoneNumber);
+    
+    String getPhoneExtension();
+
+    void setPhoneExtension(String phoneExtension);
 
     Map<IdentifierType, String> getIdentifiersByType();
 

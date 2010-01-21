@@ -44,9 +44,16 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
 
     @Required(property="reconciliation.emailAddress")
     private String emailAddress;
+    
+    private String phoneCountryCode;
+
+    @Required(property="reconciliation.phoneAreaCode")
+    private String phoneAreaCode;
 
     @Required(property="reconciliation.phoneNumber")
     private String phoneNumber;
+    
+    private String phoneExtension;
 
     @Required(property = "reconciliation.addressLine1")
     private String addressLine1;
@@ -66,7 +73,10 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
         final ToStringCreator toStringCreator = new ToStringCreator(this);
         toStringCreator.append("person", this.sorPerson);
         toStringCreator.append("emailAddress", this.emailAddress);
+        toStringCreator.append("phoneCountryCode", this.phoneCountryCode);
+        toStringCreator.append("phoneAreaCode", this.phoneAreaCode);
         toStringCreator.append("phoneNumber", this.phoneNumber);
+        toStringCreator.append("phoneExtension", this.phoneExtension);
         toStringCreator.append("addressLine1", this.addressLine1);
         toStringCreator.append("addressLine2", this.addressLine2);
         toStringCreator.append("city", this.city);
@@ -84,13 +94,38 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
         this.emailAddress = emailAddress;
     }
 
-    public String getPhoneNumber() {
+	public String getPhoneCountryCode() {
+		return this.phoneCountryCode;
+	}
+
+	public void setPhoneCountryCode(final String phoneCountryCode) {
+		this.phoneCountryCode = phoneCountryCode;
+	}
+
+	public String getPhoneAreaCode() {
+		return this.phoneAreaCode;
+	}
+
+	public void setPhoneAreaCode(final String phoneAreaCode) {
+		this.phoneAreaCode = phoneAreaCode;
+	}
+
+	public String getPhoneNumber() {
         return this.phoneNumber;
     }
 
     public void setPhoneNumber(final String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    
+	public String getPhoneExtension() {
+		return this.phoneExtension;
+	}
+
+	public void setPhoneExtension(final String phoneExtension) {
+		this.phoneExtension = phoneExtension;
+	}
+
     public SorPerson getSorPerson() {
         return this.sorPerson;
     }
@@ -153,7 +188,10 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
         if (identifiersByType != null ? !identifiersByType.equals(that.identifiersByType) : that.identifiersByType != null)
             return false;
         if (sorPerson != null ? !sorPerson.equals(that.sorPerson) : that.sorPerson != null) return false;
+        if (phoneCountryCode != null ? !phoneCountryCode.equals(that.phoneCountryCode) : that.phoneCountryCode != null) return false;
+        if (phoneAreaCode != null ? !phoneAreaCode.equals(that.phoneAreaCode) : that.phoneAreaCode != null) return false;
         if (phoneNumber != null ? !phoneNumber.equals(that.phoneNumber) : that.phoneNumber != null) return false;
+        if (phoneExtension != null ? !phoneExtension.equals(that.phoneExtension) : that.phoneExtension != null) return false;
         if (postalCode != null ? !postalCode.equals(that.postalCode) : that.postalCode != null) return false;
         if (region != null ? !region.equals(that.region) : that.region != null) return false;
 
@@ -165,7 +203,10 @@ public final class JpaReconciliationCriteriaImpl implements ReconciliationCriter
         int result = sorPerson != null ? sorPerson.hashCode() : 0;
         result = 31 * result + (identifiersByType != null ? identifiersByType.hashCode() : 0);
         result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
+        result = 31 * result + (phoneCountryCode != null ? phoneCountryCode.hashCode() : 0);
+        result = 31 * result + (phoneAreaCode != null ? phoneAreaCode.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (phoneExtension != null ? phoneExtension.hashCode() : 0);
         result = 31 * result + (addressLine1 != null ? addressLine1.hashCode() : 0);
         result = 31 * result + (addressLine2 != null ? addressLine2.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
