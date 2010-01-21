@@ -38,8 +38,14 @@ public final class MockReconciliationCriteria implements ReconciliationCriteria 
 
     @NotNull
     private String emailAddress;
+    
+    private String phoneCountryCode;
+    
+    private String phoneAreaCode;
 
     private String phoneNumber;
+    
+    private String phoneExtension;
 
     private String addressLine1;
 
@@ -58,6 +64,22 @@ public final class MockReconciliationCriteria implements ReconciliationCriteria 
     public void setEmailAddress(final String emailAddress) {
         this.emailAddress = emailAddress;
     }
+    
+	public String getPhoneCountryCode() {
+		return this.phoneCountryCode;
+	}
+
+	public void setPhoneCountryCode(final String phoneCountryCode) {
+		this.phoneCountryCode = phoneCountryCode;
+	}
+
+	public String getPhoneAreaCode() {
+		return this.phoneAreaCode;
+	}
+
+	public void setPhoneAreaCode(final String phoneAreaCode) {
+		this.phoneAreaCode = phoneAreaCode;
+	}
 
     public String getPhoneNumber() {
         return this.phoneNumber;
@@ -66,6 +88,14 @@ public final class MockReconciliationCriteria implements ReconciliationCriteria 
     public void setPhoneNumber(final String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    
+	public String getPhoneExtension() {
+		return this.phoneExtension;
+	}
+
+	public void setPhoneExtension(final String phoneExtension) {
+		this.phoneExtension = phoneExtension;
+	}
 
     public SorPerson getSorPerson() {
         return this.person;

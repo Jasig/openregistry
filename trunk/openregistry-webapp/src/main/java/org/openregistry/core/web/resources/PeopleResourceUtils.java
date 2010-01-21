@@ -15,6 +15,9 @@
  */
 package org.openregistry.core.web.resources;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
@@ -60,7 +63,7 @@ public final class PeopleResourceUtils {
                 rc.setEmailAddress(request.reconciliation.emails.get(0).email);
             }
             if (!request.reconciliation.phones.isEmpty()) {
-                rc.setPhoneNumber(request.reconciliation.phones.get(0).phoneNumber);
+            	updatePhone(rc, request.reconciliation.phones.get(0).phoneNumber);
             }
 
             if (!request.reconciliation.identifiers.isEmpty()) {
@@ -74,7 +77,7 @@ public final class PeopleResourceUtils {
         return rc;
     }
 
-    private static void updateName(final Name name, final PersonRequestRepresentation.Name n, final ReferenceRepository referenceRepository) {
+	private static void updateName(final Name name, final PersonRequestRepresentation.Name n, final ReferenceRepository referenceRepository) {
         name.setFamily(n.lastName);
         name.setGiven(n.firstName);
         name.setMiddle(n.middleName);
@@ -83,6 +86,41 @@ public final class PeopleResourceUtils {
         final Type type = processNameType(referenceRepository, n.nameType);
         name.setType(type);
     }
+	
+	private static void updatePhone(final ReconciliationCriteria rc,
+			final String phoneNumber) {
+		String countryCode = null;
+		String areaCode = null;
+		String number = null;
+		String extension = null;
+
+		/*
+		 * Phone Number formats excepted:
+		 * Examples: (NNN) NNN-NNNN, NNNNNNNNNN, NNN-NNN-NNNN
+		 * 
+		 * Dashes or spaces are optional, parenthesis around area code are optional.
+		 * The number can be prefaced with the Country code which is a plus sign and 1-3 digits.
+		 * This needs to be followed by dash or space, e.g. +NNN NNN NNN-NNNN, +N-NNN-NNN-NNNN
+		 * The number can also be followed by an extension which is an 'x' followed by any
+		 * number of digits. There can be an optional space before the 'x'.
+		 * E.g. (NNN)-NNN-NNNNxNNNN, NNN-NNNN xNNN
+		 * 
+		 * Full examples: +1 (234)-567-8901 x234, +1-234-567-8901x234, +1 234 567 8901 x234
+		 */
+		String expression = "^(\\+(\\d{1,3})[- ])?(\\(?(\\d{3})\\)?[- ]?)?((\\d{3})[- ]?(\\d{4}))([ ]?x(\\d+))?$";
+		Matcher matcher = Pattern.compile(expression).matcher(phoneNumber);
+		if (matcher.matches()) {
+			countryCode = matcher.group(2);
+			areaCode = matcher.group(4);
+			number = matcher.group(6) + matcher.group(7);
+			extension = matcher.group(9);
+		}
+
+		rc.setPhoneCountryCode(countryCode);
+		rc.setPhoneAreaCode(areaCode);
+		rc.setPhoneNumber(number);
+		rc.setPhoneExtension(extension);
+	}
 
     public static void buildModifiedSorPerson(final PersonRequestRepresentation request, final SorPerson sorPerson, final ReferenceRepository referenceRepository) {
         sorPerson.setDateOfBirth(request.dateOfBirth);
