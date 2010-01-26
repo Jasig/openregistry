@@ -15,8 +15,14 @@ import java.util.*;
 @XmlRootElement(name = "specification")
 public final class XmlBasedSoRSpecificationImpl implements SoRSpecification {
 
-    @XmlElement(name="name",nillable = false)
+    @XmlElement(name="id",nillable = false)
     private String sor;
+
+    @XmlElement(name="name", nillable = false)
+    private String internalName;
+
+    @XmlElement(name="description",nillable = false)
+    private String internalDescription;
 
     @XmlElementWrapper(name = "requiredProperties", required = false)
     @XmlElement(name = "property",nillable = false)
@@ -43,6 +49,16 @@ public final class XmlBasedSoRSpecificationImpl implements SoRSpecification {
 
     public String getSoR() {
         return this.sor;
+    }
+
+    @Override
+    public String getName() {
+        return this.internalName;
+    }
+
+    @Override
+    public String getDescription() {
+        return this.internalDescription;
     }
 
     public boolean isInboundInterfaceAllowed(final SystemOfRecord.Interfaces interfaces) {
@@ -107,5 +123,13 @@ public final class XmlBasedSoRSpecificationImpl implements SoRSpecification {
 
     public void setMinMaxPropertySizes(final HashSet<XmlBasedPropertySizeHelperImpl> minMaxPropertySizes) {
         this.minMaxPropertySizes = minMaxPropertySizes;
+    }
+
+    public void setName(final String name) {
+        this.internalName = name;
+    }
+
+    public void setDescription(final String description) {
+        this.internalDescription = description;
     }
 }

@@ -241,7 +241,7 @@ public final class XmlBasedSoRSpecificationImplTests extends TestCase {
 
     @Test
     public void testSuccessfulUnMarshallWithMinimalSet() throws Exception {
-        assertEquals("foo", getSoRSpecificationFromString("<specification><name>foo</name></specification>").getSoR());
+        assertEquals("foo", getSoRSpecificationFromString("<specification><id>foo</id><name>TEST</name><description>This is a test sentence.</description></specification>").getSoR());
     }
 
     @Test(expected = JAXBException.class)
@@ -251,7 +251,7 @@ public final class XmlBasedSoRSpecificationImplTests extends TestCase {
 
     @Test
     public void testMarshallWithRequiredProperties() throws Exception {
-        final SoRSpecification soRSpecification = getSoRSpecificationFromString("<specification><name>TEST</name><requiredProperties><property>t1</property><property>t2</property></requiredProperties></specification>");
+        final SoRSpecification soRSpecification = getSoRSpecificationFromString("<specification><id>TEST</id><name>TEST</name><description>This is a test sentence.</description><requiredProperties><property>t1</property><property>t2</property></requiredProperties></specification>");
 
         assertEquals("TEST", soRSpecification.getSoR());
         assertTrue(soRSpecification.isRequiredProperty("t1"));
@@ -262,7 +262,7 @@ public final class XmlBasedSoRSpecificationImplTests extends TestCase {
     // TODO write more tests
     @Test
     public void testMarshallWithRequiredAndDisallowedProperties() throws Exception {
-        final SoRSpecification soRSpecification = getSoRSpecificationFromString("<specification><name>TEST</name><requiredProperties><property>t1</property><property>t2</property></requiredProperties><disallowedProperties><property>d1</property><property>d2</property></disallowedProperties></specification>");
+        final SoRSpecification soRSpecification = getSoRSpecificationFromString("<specification><id>TEST</id><name>TEST</name><description>This is a test sentence.</description><requiredProperties><property>t1</property><property>t2</property></requiredProperties><disallowedProperties><property>d1</property><property>d2</property></disallowedProperties></specification>");
 
         assertEquals("TEST", soRSpecification.getSoR());
         assertTrue(soRSpecification.isRequiredProperty("t1"));

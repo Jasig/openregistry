@@ -72,6 +72,16 @@ public abstract class AbstractSystemOfRecordConstraintValidator<A extends Annota
             public boolean isDisallowedProperty(String property) {
                 return false;
             }
+
+            @Override
+            public String getName() {
+                return "Name";
+            }
+
+            @Override
+            public String getDescription() {
+                return "description";
+            }
         };
     }
 
