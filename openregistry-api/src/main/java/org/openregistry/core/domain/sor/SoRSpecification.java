@@ -34,6 +34,19 @@ public interface SoRSpecification {
     String getSoR();
 
     /**
+     * Returns the name of the SoR.  This can be a longer description (i.e. Continuing Education).
+     * @return the name, cannot be null.
+     */
+    String getName();
+
+    /**
+     * The description of the specification.  What its goals are, what it hopes to accomplish, etc.
+     *
+     * @return the description.  CANNOT be NULL.
+     */
+    String getDescription();
+
+    /**
      * Determines where a System of Record is allowed to submit data via this interface.
      *
      * @param interfaces the interface to check.

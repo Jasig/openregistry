@@ -58,6 +58,16 @@ public final class MockSystemOfRecordRepository implements SystemOfRecordReposit
             public boolean isDisallowedProperty(String property) {
                 return false;
             }
+
+            @Override
+            public String getName() {
+                return "Name";
+            }
+
+            @Override
+            public String getDescription() {
+                return "Description";
+            }
         };
     }
 }

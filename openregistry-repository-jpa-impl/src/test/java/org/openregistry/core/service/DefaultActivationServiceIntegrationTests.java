@@ -62,7 +62,7 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractInte
 
     @Before
     public void setUp() throws Exception {
-//        super.setUp();
+
         final Person person = new JpaPersonImpl();
         person.setDateOfBirth(new Date());
         person.setGender("M");
