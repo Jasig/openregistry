@@ -1,5 +1,6 @@
 package org.openregistry.core.domain.jpa;
 
+import java.util.Date;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -12,6 +13,8 @@ public abstract class JpaIdentifierImpl_ {
 	public static volatile SingularAttribute<JpaIdentifierImpl, String> value;
 	public static volatile SingularAttribute<JpaIdentifierImpl, Boolean> primary;
 	public static volatile SingularAttribute<JpaIdentifierImpl, Boolean> deleted;
+	public static volatile SingularAttribute<JpaIdentifierImpl, Date> creationDate;
+	public static volatile SingularAttribute<JpaIdentifierImpl, Date> deletedDate;
 
 }
 

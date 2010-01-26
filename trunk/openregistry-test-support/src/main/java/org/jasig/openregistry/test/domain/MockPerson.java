@@ -102,6 +102,8 @@ public class MockPerson implements Person {
         final Set<Identifier> identifiers = new HashSet<Identifier>();
 
         final Identifier id = new Identifier() {
+
+            private final Date creationDate = new Date();
             public IdentifierType getType() {
                 return new IdentifierType() {
                     public Long getId() {
@@ -126,6 +128,16 @@ public class MockPerson implements Person {
                     }
                  };
              }
+
+            @Override
+            public Date getCreationDate() {
+                return this.creationDate;
+            }
+
+            @Override
+            public Date getDeletedDate() {
+                return null;
+            }
 
             public String getValue() {
                 return identifierValue;

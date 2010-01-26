@@ -21,6 +21,7 @@ import org.hibernate.envers.Audited;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Unique Constraints assumes each calculated person can have only one entry for each identifier type
@@ -59,6 +60,14 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @Column(name="is_deleted", nullable=false)
     private boolean deleted = false;
 
+    @Column(name="creation_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate = new Date();
+
+    @Column(name="deleted_date", nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deletedDate;
+
     public JpaIdentifierImpl() {
         // nothing to do
     }
@@ -95,6 +104,16 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     	return this.deleted;
     }
 
+    @Override
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
+
+    @Override
+    public Date getDeletedDate() {
+        return this.deletedDate;
+    }
+
     public void setType(final IdentifierType type) {
         Assert.isInstanceOf(JpaIdentifierTypeImpl.class, type, "Requires type JpaIdentifierTypeImpl.");
         this.type = (JpaIdentifierTypeImpl) type;
@@ -109,7 +128,16 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     }
 
     public void setDeleted(boolean value) {
+        if (value == this.deleted) {
+            return;
+        }
+        
     	this.deleted = value;
-    }
 
+        if (value) {
+            this.deletedDate = new Date();
+        } else {
+            this.deletedDate = null;
+        }
+    }
 }
