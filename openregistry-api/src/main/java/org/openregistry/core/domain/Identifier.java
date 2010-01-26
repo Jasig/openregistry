@@ -16,6 +16,7 @@
 package org.openregistry.core.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 
@@ -43,9 +44,28 @@ public interface Identifier extends Serializable {
      * @return whether the identifier is valid or not.
      */
     boolean isDeleted();
+
+    /**
+     * The date the identifier was created.  CANNOT be null.
+     * <p>
+     * This *should* be set at creation time and not actually set.
+     * @return the creation date.
+     */
+    Date getCreationDate();
+
+    /**
+     * The date the identifier was deleted.  CANNOT be null if deleted is true.
+     * @return the deletion date, if deleted is true.  This should be set when isDeleted is called, and not separately.
+     */
+    Date getDeletedDate();
    
     void setPrimary(boolean value);
-    
-    void setDeleted(boolean value);
 
+    /**
+     * Sets whether the identifier is deleted or not.  Setting this to true should set the deletion date.  Unsetting it
+     * should remove the deletion date.
+     *
+     * @param value whether it was deleted or not.
+     */
+    void setDeleted(boolean value);
 }
