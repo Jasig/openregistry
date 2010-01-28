@@ -3,7 +3,6 @@ package org.jasig.openregistry.core.domain.sor;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.openregistry.core.domain.sor.SoRSpecification;
-import org.openregistry.core.domain.sor.SystemOfRecord;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -48,35 +47,35 @@ public final class XmlBasedSoRSpecificationImplTests extends TestCase {
     public void testIsInboundInterfaceAllowed() {
          final XmlBasedSoRSpecificationImpl test = new XmlBasedSoRSpecificationImpl();
 
-        assertFalse(test.isInboundInterfaceAllowed(SystemOfRecord.Interfaces.HUMAN));
+        assertFalse(test.isInboundInterfaceAllowed(SoRSpecification.Interfaces.HUMAN));
 
-        final HashSet<SystemOfRecord.Interfaces> interfaces = new HashSet<SystemOfRecord.Interfaces>();
-        interfaces.add(SystemOfRecord.Interfaces.HUMAN);
-        interfaces.add(SystemOfRecord.Interfaces.BATCH);
+        final HashSet<SoRSpecification.Interfaces> interfaces = new HashSet<SoRSpecification.Interfaces>();
+        interfaces.add(SoRSpecification.Interfaces.HUMAN);
+        interfaces.add(SoRSpecification.Interfaces.BATCH);
 
         test.setInterfaces(interfaces);
 
-        assertTrue(test.isInboundInterfaceAllowed(SystemOfRecord.Interfaces.HUMAN));
-        assertTrue(test.isInboundInterfaceAllowed(SystemOfRecord.Interfaces.BATCH));
-        assertFalse(test.isInboundInterfaceAllowed(SystemOfRecord.Interfaces.REALTIME));
+        assertTrue(test.isInboundInterfaceAllowed(SoRSpecification.Interfaces.HUMAN));
+        assertTrue(test.isInboundInterfaceAllowed(SoRSpecification.Interfaces.BATCH));
+        assertFalse(test.isInboundInterfaceAllowed(SoRSpecification.Interfaces.REALTIME));
     }
 
     @Test
     public void testGetNotificationSchemesByInterface() {
         final XmlBasedSoRSpecificationImpl test = new XmlBasedSoRSpecificationImpl();
 
-        final Map<SystemOfRecord.Interfaces, String> interfaceMapping = new HashMap<SystemOfRecord.Interfaces, String>();
+        final Map<SoRSpecification.Interfaces, String> interfaceMapping = new HashMap<SoRSpecification.Interfaces, String>();
 
-        interfaceMapping.put(SystemOfRecord.Interfaces.HUMAN, "email");
-        interfaceMapping.put(SystemOfRecord.Interfaces.BATCH, "voice");
+        interfaceMapping.put(SoRSpecification.Interfaces.HUMAN, "email");
+        interfaceMapping.put(SoRSpecification.Interfaces.BATCH, "voice");
 
         test.setInterfaceToNotificationSchemeMapping(interfaceMapping);
 
         assertEquals(interfaceMapping, test.getNotificationSchemesByInterface());
 
-        assertEquals("email", test.getNotificationSchemesByInterface().get(SystemOfRecord.Interfaces.HUMAN));
-        assertEquals("voice", test.getNotificationSchemesByInterface().get(SystemOfRecord.Interfaces.BATCH));
-        assertNull(test.getNotificationSchemesByInterface().get(SystemOfRecord.Interfaces.REALTIME));
+        assertEquals("email", test.getNotificationSchemesByInterface().get(SoRSpecification.Interfaces.HUMAN));
+        assertEquals("voice", test.getNotificationSchemesByInterface().get(SoRSpecification.Interfaces.BATCH));
+        assertNull(test.getNotificationSchemesByInterface().get(SoRSpecification.Interfaces.REALTIME));
     }
 
     @Test
@@ -207,15 +206,15 @@ public final class XmlBasedSoRSpecificationImplTests extends TestCase {
         spec.setDisallowedProperties(disallowedProperties);
 
         // ******** INTERFACES **********/
-        final HashSet<SystemOfRecord.Interfaces> interfaces = new HashSet<SystemOfRecord.Interfaces>();
-        interfaces.add(SystemOfRecord.Interfaces.BATCH);
-        interfaces.add(SystemOfRecord.Interfaces.HUMAN);
+        final HashSet<SoRSpecification.Interfaces> interfaces = new HashSet<SoRSpecification.Interfaces>();
+        interfaces.add(SoRSpecification.Interfaces.BATCH);
+        interfaces.add(SoRSpecification.Interfaces.HUMAN);
 
         spec.setInterfaces(interfaces);
 
-        final Map<SystemOfRecord.Interfaces,String> notification = new HashMap<SystemOfRecord.Interfaces, String>();
-        notification.put(SystemOfRecord.Interfaces.HUMAN, "email");
-        notification.put(SystemOfRecord.Interfaces.BATCH, "letter");
+        final Map<SoRSpecification.Interfaces,String> notification = new HashMap<SoRSpecification.Interfaces, String>();
+        notification.put(SoRSpecification.Interfaces.HUMAN, "email");
+        notification.put(SoRSpecification.Interfaces.BATCH, "letter");
 
         spec.setInterfaceToNotificationSchemeMapping(notification);
         // **** MAX VALUES FOR COLLECTIONS

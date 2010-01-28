@@ -16,13 +16,12 @@
 package org.openregistry.core.domain.validation;
 
 import org.openregistry.core.domain.sor.SoRSpecification;
-import org.openregistry.core.domain.sor.SystemOfRecord;
 import org.openregistry.core.domain.sor.SystemOfRecordHolder;
-import org.openregistry.core.repository.SystemOfRecordRepository;
 
 import javax.validation.ConstraintValidator;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -31,61 +30,9 @@ import java.util.Map;
  * @version $Revision$ $Date$
  * @since 0.1
  */
-public abstract class AbstractSystemOfRecordConstraintValidator<A extends Annotation,T> implements ConstraintValidator<A,T>, SystemOfRecordRepositoryAware {
-
-    private SystemOfRecordRepository systemOfRecordRepository;
+public abstract class AbstractSystemOfRecordConstraintValidator<A extends Annotation,T> implements ConstraintValidator<A,T> {
 
     protected SoRSpecification getSoRSpecification() {
-        if (SystemOfRecordHolder.getCurrentSystemOfRecord() != null) {
-            return this.systemOfRecordRepository.findSoRSpecificationById(SystemOfRecordHolder.getCurrentSystemOfRecord().getStringId());
-        }
-
-        // throw new IllegalStateException("No System Of Record found that can be used to validate these constraints.");
-
-        // TODO this should be replaced with  the IllegalStateException above
-        return new SoRSpecification() {
-
-            public String getSoR() {
-                return "foo";
-            }
-
-            public boolean isAllowedValueForProperty(String property, String value) {
-                return true;
-            }
-
-            public boolean isRequiredProperty(String property) {
-                return false;
-            }
-
-            public boolean isWithinRequiredSize(String property, Collection collection) {
-                return true;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public boolean isInboundInterfaceAllowed(SystemOfRecord.Interfaces interfaces) {
-                return true;
-            }
-
-            public Map<SystemOfRecord.Interfaces, String> getNotificationSchemesByInterface() {
-                return null;
-            }
-
-            public boolean isDisallowedProperty(String property) {
-                return false;
-            }
-
-            @Override
-            public String getName() {
-                return "Name";
-            }
-
-            @Override
-            public String getDescription() {
-                return "description";
-            }
-        };
-    }
-
-    public final void setSystemOfRecordRepository(final SystemOfRecordRepository systemOfRecordRepository) {
-        this.systemOfRecordRepository = systemOfRecordRepository;
+        return SystemOfRecordHolder.getCurrentSystemOfRecord();
     }
 }
