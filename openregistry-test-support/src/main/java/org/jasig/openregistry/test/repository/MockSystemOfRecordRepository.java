@@ -16,7 +16,6 @@
 package org.jasig.openregistry.test.repository;
 
 import org.openregistry.core.domain.sor.SoRSpecification;
-import org.openregistry.core.domain.sor.SystemOfRecord;
 import org.openregistry.core.repository.SystemOfRecordRepository;
 
 import java.util.Collection;
@@ -47,11 +46,11 @@ public final class MockSystemOfRecordRepository implements SystemOfRecordReposit
                 return true;
             }
 
-            public boolean isInboundInterfaceAllowed(SystemOfRecord.Interfaces interfaces) {
+            public boolean isInboundInterfaceAllowed(Interfaces interfaces) {
                 return true;
             }
 
-            public Map<SystemOfRecord.Interfaces, String> getNotificationSchemesByInterface() {
+            public Map<Interfaces, String> getNotificationSchemesByInterface() {
                 return null;
             }
 

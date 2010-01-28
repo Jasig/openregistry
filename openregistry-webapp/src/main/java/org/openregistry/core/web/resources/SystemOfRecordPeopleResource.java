@@ -19,8 +19,11 @@ import com.sun.jersey.api.NotFoundException;
 import com.sun.jersey.api.representation.Form;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
+import org.openregistry.core.domain.sor.SoRSpecification;
 import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.SystemOfRecordHolder;
 import org.openregistry.core.repository.ReferenceRepository;
+import org.openregistry.core.repository.SystemOfRecordRepository;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
@@ -91,14 +94,9 @@ public final class SystemOfRecordPeopleResource {
         this.referenceRepository = referenceRepository;
     }
 
-
     @POST
     @Consumes(MediaType.APPLICATION_XML)
-    public Response processIncomingPerson(PersonRequestRepresentation personRequestRepresentation,
-                                          @PathParam("sorSourceId") String sorSourceId,
-                                          @QueryParam("force") String forceAdd) {
-
-        logger.info("processing person");
+    public Response processIncomingPerson(final PersonRequestRepresentation personRequestRepresentation, @PathParam("sorSourceId") final String sorSourceId, @QueryParam("force") final String forceAdd) {
         personRequestRepresentation.systemOfRecordId = sorSourceId;
         Response response = null;
         
@@ -185,10 +183,7 @@ public final class SystemOfRecordPeopleResource {
     @PUT
     @Path("{sorPersonId}")
     @Consumes(MediaType.APPLICATION_XML)
-    public Response updateIncomingPerson(@PathParam("sorSourceId") final String sorSourceId,
-                                         @PathParam("sorPersonId") final String sorPersonId,
-                                         final PersonRequestRepresentation request) {
-
+    public Response updateIncomingPerson(@PathParam("sorSourceId") final String sorSourceId, @PathParam("sorPersonId") final String sorPersonId, final PersonRequestRepresentation request) {
         final SorPerson sorPerson = findPersonOrThrowNotFoundException(sorSourceId, sorPersonId);
         PeopleResourceUtils.buildModifiedSorPerson(request, sorPerson,this.referenceRepository);
 

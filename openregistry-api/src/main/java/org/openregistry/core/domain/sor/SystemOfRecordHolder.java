@@ -23,13 +23,17 @@ package org.openregistry.core.domain.sor;
  */
 public final class SystemOfRecordHolder {
 
-    private static InheritableThreadLocal<SystemOfRecord> SYSTEM_OF_RECORD_THREAD_LOCAL = new InheritableThreadLocal<SystemOfRecord>();
+    private static InheritableThreadLocal<SoRSpecification> SYSTEM_OF_RECORD_THREAD_LOCAL = new InheritableThreadLocal<SoRSpecification>();
 
-    public static SystemOfRecord getCurrentSystemOfRecord() {
+    public static SoRSpecification getCurrentSystemOfRecord() {
         return SYSTEM_OF_RECORD_THREAD_LOCAL.get();
     }
 
     public static void clearCurrentSystemOfRecord() {
         SYSTEM_OF_RECORD_THREAD_LOCAL.remove();
+    }
+
+    public static void setCurrentSystemOfRecord(final SoRSpecification systemOfRecord) {
+        SYSTEM_OF_RECORD_THREAD_LOCAL.set(systemOfRecord);
     }
 }

@@ -1,7 +1,6 @@
 package org.jasig.openregistry.core.domain.sor;
 
 import org.openregistry.core.domain.sor.SoRSpecification;
-import org.openregistry.core.domain.sor.SystemOfRecord;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -34,10 +33,10 @@ public final class XmlBasedSoRSpecificationImpl implements SoRSpecification {
 
     @XmlElementWrapper(name = "allowedInterfaces",required = true)
     @XmlElement(name = "interface", nillable = false)    
-    private HashSet<SystemOfRecord.Interfaces> interfaces = new HashSet<SystemOfRecord.Interfaces>();
+    private HashSet<Interfaces> interfaces = new HashSet<Interfaces>();
 
     @XmlElementWrapper(name = "notificationSchemes", required= false)
-    private Map<SystemOfRecord.Interfaces, String> interfaceToNotificationSchemeMapping = new HashMap<SystemOfRecord.Interfaces, String>();
+    private Map<Interfaces, String> interfaceToNotificationSchemeMapping = new HashMap<Interfaces, String>();
 
     @XmlElementWrapper(name = "allowedValuesForProperties")
     @XmlElement(name="allowedValuesForProperty")
@@ -61,11 +60,11 @@ public final class XmlBasedSoRSpecificationImpl implements SoRSpecification {
         return this.internalDescription;
     }
 
-    public boolean isInboundInterfaceAllowed(final SystemOfRecord.Interfaces interfaces) {
+    public boolean isInboundInterfaceAllowed(final Interfaces interfaces) {
         return this.interfaces.contains(interfaces);
     }
 
-    public Map<SystemOfRecord.Interfaces, String> getNotificationSchemesByInterface() {
+    public Map<Interfaces, String> getNotificationSchemesByInterface() {
         return this.interfaceToNotificationSchemeMapping;
     }
 
@@ -109,11 +108,11 @@ public final class XmlBasedSoRSpecificationImpl implements SoRSpecification {
         this.disallowedProperties = disallowedProperties;
     }
 
-    public void setInterfaces(final HashSet<SystemOfRecord.Interfaces> interfaces) {
+    public void setInterfaces(final HashSet<Interfaces> interfaces) {
         this.interfaces = interfaces;
     }
 
-    public void setInterfaceToNotificationSchemeMapping(final Map<SystemOfRecord.Interfaces, String> interfaceToNotificationSchemeMapping) {
+    public void setInterfaceToNotificationSchemeMapping(final Map<Interfaces, String> interfaceToNotificationSchemeMapping) {
         this.interfaceToNotificationSchemeMapping = interfaceToNotificationSchemeMapping;
     }
 

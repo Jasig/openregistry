@@ -26,6 +26,8 @@ import java.util.Map;
  */
 public interface SoRSpecification {
 
+    enum Interfaces {BATCH, HUMAN, REALTIME}
+
     /**
      * Returns the String representation of the SoR who this specification is for.
      *
@@ -52,18 +54,18 @@ public interface SoRSpecification {
      * @param interfaces the interface to check.
      * @return true if it can, false otherwise.
      */
-    boolean isInboundInterfaceAllowed(SystemOfRecord.Interfaces interfaces);
+    boolean isInboundInterfaceAllowed(Interfaces interfaces);
 
     /**
      * Returns the notification scheme that should be used based on the interface provided.
      * <p>
      * There should be no interfaces in this mapping that do not satisfy the requirement of
-     * {@link org.openregistry.core.domain.sor.SoRSpecification#isInboundInterfaceAllowed(org.openregistry.core.domain.sor.SystemOfRecord.Interfaces)}
+     * {@link org.openregistry.core.domain.sor.SoRSpecification#isInboundInterfaceAllowed(Interfaces)}
      * == true.
      *
      * @return the map containing the mappings.
      */
-    Map<SystemOfRecord.Interfaces, String> getNotificationSchemesByInterface();
+    Map<Interfaces, String> getNotificationSchemesByInterface();
 
     /**
      * Determines whether an SoR is allowed to assert a specific type value for a property.
