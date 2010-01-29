@@ -309,7 +309,7 @@ public class DefaultPersonService implements PersonService {
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
         final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
 
-        if (StringUtils.hasText(searchCriteria.getIdentifierValue())) {
+/*        if (StringUtils.hasText(searchCriteria.getIdentifierValue())) {
             try {
                 final Person person = this.personRepository.findByIdentifier(searchCriteria.getIdentifierType(), searchCriteria.getIdentifierValue());
 
@@ -321,7 +321,7 @@ public class DefaultPersonService implements PersonService {
             } catch (final Exception e) {
 
             }
-        }
+        }*/
 
         final List<Person> persons = this.personRepository.searchByCriteria(searchCriteria);
 

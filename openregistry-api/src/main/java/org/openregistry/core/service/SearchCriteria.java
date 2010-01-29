@@ -42,16 +42,17 @@ public interface SearchCriteria extends Serializable {
     String getFamilyName();
 
     /**
+     * Returns the name as provided, *only* if it was provided as one String.
+     *
+     * @return the provided name.  CAN be null.
+     */
+    String getName();
+
+    /**
      * The complete date of birth.  Partial date of birth searches will not work.
      * @return the date of birth, or null.
      */
     Date getDateOfBirth();
-
-    /**
-     * The identifier type, as specified as one of the legitimate types, or null.
-     * @return the identifier type, or null.  This CANNOT be null if the value of the identifier is set.
-     */
-    String getIdentifierType();
 
     /**
      * The value of the identifier type.  If the value is set, the type MUST be set.
