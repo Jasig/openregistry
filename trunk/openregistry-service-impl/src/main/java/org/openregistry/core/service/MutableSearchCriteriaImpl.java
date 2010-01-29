@@ -15,7 +15,6 @@
  */
 package org.openregistry.core.service;
 
-import org.openregistry.core.service.SearchCriteria;
 import org.springframework.core.style.ToStringCreator;
 
 import java.util.Date;
@@ -33,9 +32,9 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
 
     private Date dateOfBirth;
 
-    private String identifierType;
-
     private String identifierValue;
+
+    private String name;
 
     public String getGivenName() {
         return this.givenName;
@@ -47,10 +46,6 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
 
     public Date getDateOfBirth() {
         return this.dateOfBirth;
-    }
-
-    public String getIdentifierType() {
-        return this.identifierType;
     }
 
     public String getIdentifierValue() {
@@ -69,17 +64,37 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public void setIdentifierType(final String identifierType) {
-        this.identifierType = identifierType;
-    }
-
     public void setIdentifierValue(final String identifierValue) {
         this.identifierValue = identifierValue;
     }
 
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(final String name) {
+        this.name = name.trim();
+
+        if (!this.name.contains(" ") && !this.name.contains(",")) {
+            this.familyName = this.name;
+            return;
+        }
+
+        if (this.name.contains(",")) {
+            final String[] split = this.name.split(",");
+            this.givenName = split[1];
+            this.familyName = split[0];
+            return;
+        }
+
+        final String[] split = name.split(" ");
+        this.givenName = split[0];
+        this.familyName = split[1];
+    }
+
     public String toString() {
         final ToStringCreator toStringCreator = new ToStringCreator(this);
-        toStringCreator.append("identifierType", this.identifierType);
         toStringCreator.append("identifierValue", this.identifierValue);
         toStringCreator.append("dateOfBirth", this.dateOfBirth);
         toStringCreator.append("familyName", this.familyName);

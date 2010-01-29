@@ -491,8 +491,8 @@ public class DefaultPersonServiceTests {
 		this.personService.setPersonObjectFactory(this.objectFactory);
 
 		MutableSearchCriteriaImpl searchCriteria = new MutableSearchCriteriaImpl();
-		searchCriteria.setIdentifierType("SSN");
-		searchCriteria.setIdentifierValue("123456789");
+//		searchCriteria.setIdentifierType("SSN");
+//		searchCriteria.setIdentifierValue("123456789");
 		List personMatches = personService.searchForPersonBy(searchCriteria);
 		assertNotNull(personMatches);
 		assertTrue(personMatches.size() > 0);
