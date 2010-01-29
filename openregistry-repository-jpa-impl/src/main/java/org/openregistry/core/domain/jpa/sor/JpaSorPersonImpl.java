@@ -234,6 +234,18 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     }
 
     @Override
+    public SorRole findSorRoleById(final Long roleId) {
+        Assert.notNull(roleId);
+
+        for (final SorRole role : this.roles) {
+            if (roleId.equals(role.getId())) {
+                return role;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof JpaSorPersonImpl)) return false;

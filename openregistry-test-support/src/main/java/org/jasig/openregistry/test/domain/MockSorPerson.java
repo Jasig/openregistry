@@ -169,6 +169,16 @@ public class MockSorPerson extends Entity implements SorPerson {
     }
 
     @Override
+    public SorRole findSorRoleById(final Long roleId) {
+        for (final SorRole sorRole : this.roles) {
+            if (sorRole.getId().equals(roleId)) {
+                return sorRole;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

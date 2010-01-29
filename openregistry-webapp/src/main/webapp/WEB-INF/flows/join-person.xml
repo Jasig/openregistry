@@ -29,7 +29,7 @@
 
     <view-state id="joinPerson" model="person" view="openregistry.person.join">
         <on-entry>
-            <evaluate expression="personRepository.getSoRRecordsForPerson(person)" result="flowScope.sorPersons"/>
+            <evaluate expression="personService.getSorPersonsFor(person)" result="flowScope.sorPersons"/>
             <set name="viewScope.command" value="'person'" />
             <set name="flowScope.fromPerson" value="person" />
         </on-entry>
