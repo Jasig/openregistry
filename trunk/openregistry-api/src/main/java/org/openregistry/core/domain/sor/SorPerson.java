@@ -195,5 +195,13 @@ public interface SorPerson {
      */
     SorRole findSorRoleBySorRoleId(String sorRoleId);
 
+    /**
+     * Returns the SoR Role that matches the internal id.
+     *
+     * @param roleId the internal role id.  CANNOT be NULL.
+     * @return the SoR role if one exists.  Otherwise, NULL.
+     */
+    SorRole findSorRoleById(Long roleId);
+
 
 }

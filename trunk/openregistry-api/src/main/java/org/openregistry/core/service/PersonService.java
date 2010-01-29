@@ -74,6 +74,22 @@ public interface PersonService {
     SorPerson hasSorRecordFromSameSource(Person fromPerson, Person toPerson);
 
     /**
+     * Retrieves the SoR Records for a particular calculated person.
+     *
+     * @param person the calculated person.  CANNOT BE NULL.
+     * @return the list of records.  CANNOT be NULL. CAN BE EMPTY if personId is invalid.
+     */
+    List<SorPerson> getSorPersonsFor(Person person);
+
+    /**
+     * Retrieves the SoR Records for a particular calculated person.
+     *
+     * @param personId the id of the calculated person.
+     * @return the list of records.  CANNOT be NULL. CAN BE EMPTY if personId is invalid.
+     */
+    List<SorPerson> getSorPersonsFor(Long personId);
+
+    /**
      * Removes the System of Record person from the repository.  A system may wish to do this when it no longer asserts the person
      * (i.e. they aren't taking classes anymore).  While its more likely, they would just leave the person, its possible some do
      * periodic clean ups of their data sources.  Having this information will allow us to more accurately "calculate" the actual

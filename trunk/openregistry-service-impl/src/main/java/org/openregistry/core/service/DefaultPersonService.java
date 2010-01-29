@@ -116,6 +116,19 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
+    @Override
+    @Transactional
+    public List<SorPerson> getSorPersonsFor(final Person person) {
+        Assert.notNull(person);
+        return this.personRepository.getSoRRecordsForPerson(person);
+    }
+
+    @Override
+    @Transactional
+    public List<SorPerson> getSorPersonsFor(final Long personId) {
+        return getSorPersonsFor(this.personRepository.findByInternalId(personId));
+    }
+
     /**
      * This does not explicitly delete the names because its assumed the recalculation will clean it up.
      */
