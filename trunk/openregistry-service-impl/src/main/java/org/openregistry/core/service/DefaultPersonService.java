@@ -307,8 +307,6 @@ public class DefaultPersonService implements PersonService {
 
     @Transactional
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
-        final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
-
         if (StringUtils.hasText(searchCriteria.getIdentifierValue())) {
             final String identifierValue = searchCriteria.getIdentifierValue();
             final List<IdentifierType> identifierTypes = this.referenceRepository.getIdentifierTypes();
@@ -318,26 +316,22 @@ public class DefaultPersonService implements PersonService {
                     final Person person = this.personRepository.findByIdentifier(identifierType.getName(), identifierValue);
 
                     if (person != null) {
-                        final PersonMatch p = new PersonMatchImpl(person, 100, new ArrayList<FieldMatch>());
-                        personMatches.add(p);
-                        return personMatches;
+                        return new ArrayList<PersonMatch>(Arrays.asList(new PersonMatchImpl(person, 100, new ArrayList<FieldMatch>())));
                     }
                 }
-
-                final List<Person> persons = this.personRepository.findByUnknownIdentifier(searchCriteria.getIdentifierValue());
-
-                for (final Person person : persons) {
-                    final PersonMatch p = new PersonMatchImpl(person, 50, new ArrayList<FieldMatch>());
-                    personMatches.add(p);
-                }
-
-                return personMatches;
             }
 
+            final List<Person> persons = this.personRepository.findByUnknownIdentifier(searchCriteria.getIdentifierValue());
+            return createMatches(persons);
         }
 
         final List<Person> persons = this.personRepository.searchByCriteria(searchCriteria);
-        for (final Person person : persons) {
+        return createMatches(persons);
+    }
+
+    protected List<PersonMatch> createMatches(final List<Person> people) {
+        final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
+        for (final Person person : people) {
             final PersonMatch p = new PersonMatchImpl(person, 50, new ArrayList<FieldMatch>());
             personMatches.add(p);
         }
