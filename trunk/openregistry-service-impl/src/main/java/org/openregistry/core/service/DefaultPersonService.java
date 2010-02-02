@@ -324,7 +324,14 @@ public class DefaultPersonService implements PersonService {
                     }
                 }
 
-                // no exact match based on format.  Should we try all of them?
+                final List<Person> persons = this.personRepository.findByUnknownIdentifier(searchCriteria.getIdentifierValue());
+
+                for (final Person person : persons) {
+                    final PersonMatch p = new PersonMatchImpl(person, 50, new ArrayList<FieldMatch>());
+                    personMatches.add(p);
+                }
+
+                return personMatches;
             }
 
         }

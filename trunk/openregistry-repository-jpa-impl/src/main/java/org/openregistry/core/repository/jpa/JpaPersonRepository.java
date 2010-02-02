@@ -57,6 +57,21 @@ public class JpaPersonRepository implements PersonRepository {
         return (Person) this.entityManager.createQuery("Select p from person p join p.identifiers i join i.type t where t.name = :name and i.value = :value").setParameter("name", identifierType).setParameter("value", identifierValue).getSingleResult();
     }
 
+    @Override
+    public List<Person> findByUnknownIdentifier(final String identifierValue) throws RepositoryAccessException {
+        final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+
+        final CriteriaQuery<JpaPersonImpl> c =criteriaBuilder.createQuery(JpaPersonImpl.class);
+        final Root<JpaPersonImpl> person = c.from(JpaPersonImpl.class);
+        final Join<JpaPersonImpl,JpaIdentifierImpl> identifier = person.join(JpaPersonImpl_.identifiers);
+
+        c.select(person).where(criteriaBuilder.equal(identifier.get(JpaIdentifierImpl_.value), identifierValue + "%"));
+        
+        final List<JpaPersonImpl> persons = this.entityManager.createQuery(c).getResultList();
+
+        return new ArrayList<Person>(persons);
+    }
+
     public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSource) {
         return (SorPerson) this.entityManager.createQuery("Select s from sorPerson s where s.sourceSor = :sorSource and s.personId = :personId").setParameter("sorSource", sorSource).setParameter("personId", personId).getSingleResult();
     }
