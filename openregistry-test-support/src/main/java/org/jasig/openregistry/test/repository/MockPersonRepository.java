@@ -84,6 +84,20 @@ public class MockPersonRepository implements PersonRepository {
         throw new RepositoryAccessException();
     }
 
+    @Override
+    public List<Person> findByUnknownIdentifier(String identifierValue) throws RepositoryAccessException {
+        final List<Person> people = new ArrayList<Person>();
+
+        for (final Person person : this.persons) {
+            for (final Identifier identifier : person.getIdentifiers()) {
+                if (identifier.getValue().equalsIgnoreCase(identifierValue)) {
+                    people.add(person);
+                }
+            }
+        }
+        return people;
+    }
+
     public SorPerson findBySorIdentifierAndSource(String sorSourceIdentifier, String sorId) {
         return null;
     }

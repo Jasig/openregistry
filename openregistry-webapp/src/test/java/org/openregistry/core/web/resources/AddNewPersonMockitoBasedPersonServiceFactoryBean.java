@@ -48,11 +48,11 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
     public void init() throws Exception {
         //Stubbing Person
         Person mockPerson = mock(Person.class);
-        Set<Identifier> ids = buildMockIdentifiers("-p1");
+        Set ids = buildMockIdentifiers("-p1");
         ActivationKey key = mock(ActivationKey.class);
         when(key.asString()).thenReturn("mock***activation###key");
         when(mockPerson.getIdentifiers()).thenReturn(ids);
-        when(mockPerson.pickOutIdentifier("NETID")).thenReturn(ids.iterator().next());
+        when(mockPerson.pickOutIdentifier("NETID")).thenReturn((Identifier) ids.iterator().next());
         when(mockPerson.getCurrentActivationKey()).thenReturn(key);
 
         //Stubbing 'person exists' result
@@ -129,14 +129,14 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
 
     private List<PersonMatch> buildMockPersonMatches() {
         Person mockPerson1 = mock(Person.class);
-        Set<Identifier> ids1 = buildMockIdentifiers("-p1");
+        Set ids1 = buildMockIdentifiers("-p1");
         when(mockPerson1.getIdentifiers()).thenReturn(ids1);
-        when(mockPerson1.pickOutIdentifier("NETID")).thenReturn(ids1.iterator().next());
+        when(mockPerson1.pickOutIdentifier("NETID")).thenReturn((Identifier) ids1.iterator().next());
 
         Person mockPerson2 = mock(Person.class);
-        Set<Identifier> ids2 = buildMockIdentifiers("-p2");
+        Set ids2 = buildMockIdentifiers("-p2");
         when(mockPerson2.getIdentifiers()).thenReturn(ids2);
-        when(mockPerson2.pickOutIdentifier("NETID")).thenReturn(ids2.iterator().next());
+        when(mockPerson2.pickOutIdentifier("NETID")).thenReturn((Identifier) ids2.iterator().next());
 
         PersonMatch mockMatch1 = mock(PersonMatch.class);
         PersonMatch mockMatch2 = mock(PersonMatch.class);
@@ -148,9 +148,9 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
 
     private List<PersonMatch> buildMockPersonMatchesWithOneMatch() {
         Person mockPerson1 = mock(Person.class);
-        Set<Identifier> ids1 = buildMockIdentifiers("-p1");
+        Set ids1 = buildMockIdentifiers("-p1");
         when(mockPerson1.getIdentifiers()).thenReturn(ids1);
-        when(mockPerson1.pickOutIdentifier("NETID")).thenReturn(ids1.iterator().next());
+        when(mockPerson1.pickOutIdentifier("NETID")).thenReturn((Identifier) ids1.iterator().next());
 
         PersonMatch mockMatch1 = mock(PersonMatch.class);
         when(mockMatch1.getPerson()).thenReturn(mockPerson1);

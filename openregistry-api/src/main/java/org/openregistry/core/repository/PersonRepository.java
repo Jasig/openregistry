@@ -66,6 +66,16 @@ public interface PersonRepository {
     Person findByIdentifier(String identifierType, String identifierValue) throws RepositoryAccessException;
 
     /**
+     * Finds the <code>Person</code> based on the identifier value.  This does a partial match, starting
+     * from the beginning.
+     *
+     * @param identifierValue the value to check
+     * @return the list of people that match.  CANNOT be NULL. CAN be EMPTY.
+     * @throws RepositoryAccessException
+     */
+    List<Person> findByUnknownIdentifier(String identifierValue) throws RepositoryAccessException;
+
+    /**
      * Locates the System of Record person based on the source and the identifier the source asserts.
      *
      * @param sorSourceIdentifier the source
