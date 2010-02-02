@@ -45,9 +45,8 @@
               </span>
            </li>
            <li class="container">
-               <form:label path="identifierType" for="identifierType">Identifier</form:label>
+               <form:label path="identifierValue" for="identifierValue">Identifier</form:label>
                <span>
-               <form:select path="identifierType" items="${identifierTypes}" itemLabel="name" itemValue="name" />
                <form:input path="identifierValue" cssErrorClass="formerror" />
               </span>
            </li>

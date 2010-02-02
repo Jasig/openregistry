@@ -309,24 +309,28 @@ public class DefaultPersonService implements PersonService {
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
         final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
 
-/*        if (StringUtils.hasText(searchCriteria.getIdentifierValue())) {
-            try {
-                final Person person = this.personRepository.findByIdentifier(searchCriteria.getIdentifierType(), searchCriteria.getIdentifierValue());
+        if (StringUtils.hasText(searchCriteria.getIdentifierValue())) {
+            final String identifierValue = searchCriteria.getIdentifierValue();
+            final List<IdentifierType> identifierTypes = this.referenceRepository.getIdentifierTypes();
 
-                if (person != null) {
-                    final PersonMatch p = new PersonMatchImpl(person, 100, new ArrayList<FieldMatch>());
-                    personMatches.add(p);
-                    return personMatches;
+            for (final IdentifierType identifierType : identifierTypes) {
+                if (identifierType.getFormatAsPattern().matcher(identifierValue).matches()) {
+                    final Person person = this.personRepository.findByIdentifier(identifierType.getName(), identifierValue);
+
+                    if (person != null) {
+                        final PersonMatch p = new PersonMatchImpl(person, 100, new ArrayList<FieldMatch>());
+                        personMatches.add(p);
+                        return personMatches;
+                    }
                 }
-            } catch (final Exception e) {
 
+                // no exact match based on format.  Should we try all of them?
             }
-        }*/
+
+        }
 
         final List<Person> persons = this.personRepository.searchByCriteria(searchCriteria);
-
         for (final Person person : persons) {
-            // TODO actually calculate the value for the match
             final PersonMatch p = new PersonMatchImpl(person, 50, new ArrayList<FieldMatch>());
             personMatches.add(p);
         }

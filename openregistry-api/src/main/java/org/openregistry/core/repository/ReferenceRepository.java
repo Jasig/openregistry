@@ -74,8 +74,13 @@ public interface ReferenceRepository {
 
     Type findType(Type.DataTypes type, Enum value);
 
-    Type getTypeById(final Long id); 
+    Type getTypeById(final Long id);
 
+    /**
+     * Retrieves the list of Identifier Types.  CANNOT be NULL.  CAN be EMPTY (though that would be weird).
+     * 
+     * @return the list of identifier types.
+     */
     List<IdentifierType> getIdentifierTypes();
 
     IdentifierType findIdentifierType(String identifierName);

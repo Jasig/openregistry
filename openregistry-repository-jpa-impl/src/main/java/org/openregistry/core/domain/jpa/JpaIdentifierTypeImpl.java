@@ -22,9 +22,10 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
- * Unique Contraints assumes that the identifier type name must be unique
+ * Unique Constraints assumes that the identifier type name must be unique
  *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
@@ -32,8 +33,7 @@ import java.util.ArrayList;
  *
  */
 @javax.persistence.Entity(name="identifier_type")
-@Table(name="prd_identifier_types",
-		uniqueConstraints= @UniqueConstraint(columnNames={"name"}))
+@Table(name="prd_identifier_types", uniqueConstraints= @UniqueConstraint(columnNames={"name"}))
 @Audited
 public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 
@@ -49,12 +49,60 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
     @OneToMany(fetch=FetchType.LAZY, mappedBy="type")
     private List<JpaIdentifierImpl> identifiers = new ArrayList<JpaIdentifierImpl>();
 
-    public JpaIdentifierTypeImpl() {
+    @Column(name="format", nullable = false, length=100)
+    private String format;
 
+    @Column(name="private", nullable = false)
+    private boolean privateIdentifier = false;
+
+    @Column(name="modifiable",nullable = false)
+    private boolean modifiable = true;
+
+    @Column(name="deleted", nullable = false)
+    private boolean deleted = false;
+
+    @Column(name="description",nullable = false, length=200)
+    private String description;
+
+    private transient Pattern pattern;
+
+    @Override
+    protected Long getId() {
+        return this.id;
     }
 
-    public Long getId() {
-        return this.id;
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
+
+    @Override
+    public String getFormatAsString() {
+        return this.format;
+    }
+
+    @Override
+    public Pattern getFormatAsPattern() {
+        if (pattern == null) {
+            this.pattern = Pattern.compile(this.format);
+        }
+                
+        return this.pattern;
+    }
+
+    @Override
+    public boolean isPrivate() {
+        return this.privateIdentifier;
+    }
+
+    @Override
+    public boolean isModifiable() {
+        return this.modifiable;
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return this.deleted;
     }
 
     public String getName() {
