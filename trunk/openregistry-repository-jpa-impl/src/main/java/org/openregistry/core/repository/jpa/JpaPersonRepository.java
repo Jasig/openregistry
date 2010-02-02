@@ -22,6 +22,7 @@ import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.repository.*;
 import org.openregistry.core.service.*;
 import org.springframework.stereotype.*;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -68,29 +69,35 @@ public class JpaPersonRepository implements PersonRepository {
         final String givenName = searchCriteria.getGivenName();
         final String familyName = searchCriteria.getFamilyName();
         final Date birthDate = searchCriteria.getDateOfBirth();
+        final String searchCriteriaName = searchCriteria.getName();
 
         final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
 
         final CriteriaQuery<JpaPersonImpl> c =criteriaBuilder.createQuery(JpaPersonImpl.class);
         final Root<JpaPersonImpl> person = c.from(JpaPersonImpl.class);
         final Join<JpaPersonImpl,JpaNameImpl> name = person.join(JpaPersonImpl_.names);
-        c.select(person)
-                .where(criteriaBuilder.like(name.get(JpaNameImpl_.given), givenName))
-                .where(criteriaBuilder.and(criteriaBuilder.like(name.get(JpaNameImpl_.family), familyName)));
 
         if (birthDate != null) {
             c.select(person).where(criteriaBuilder.and(criteriaBuilder.equal(person.get(JpaPersonImpl_.dateOfBirth), birthDate)));
         }
 
-        final List<JpaPersonImpl> persons = this.entityManager.createQuery(c).getResultList();
-
-        final List<Person> realPeople = new ArrayList<Person>();
-
-        for (final JpaPersonImpl jpaPerson : persons) {
-            realPeople.add(jpaPerson);
+        if (StringUtils.hasText(givenName) && StringUtils.hasText(familyName)) {
+            c.select(person)
+                    .where(criteriaBuilder.like(name.get(JpaNameImpl_.given), givenName + "%"))
+                    .where(criteriaBuilder.and(criteriaBuilder.like(name.get(JpaNameImpl_.family), familyName + "%")));
+        } else if (StringUtils.hasText(givenName)) {
+            c.select(person).where(criteriaBuilder.like(name.get(JpaNameImpl_.given), givenName + "%"));
+        } else if (StringUtils.hasText(familyName)) {
+            c.select(person).where(criteriaBuilder.and(criteriaBuilder.like(name.get(JpaNameImpl_.family), familyName + "%")));
+        } else {
+            c.select(person)
+                    .where(criteriaBuilder.like(name.get(JpaNameImpl_.given), searchCriteriaName + "%"))
+                    .where(criteriaBuilder.or(criteriaBuilder.like(name.get(JpaNameImpl_.family), searchCriteriaName + "%")));
         }
 
-        return realPeople;
+        final List<JpaPersonImpl> persons = this.entityManager.createQuery(c).getResultList();
+
+        return new ArrayList<Person>(persons);
     }
 
     public List<Person> findByFamilyName(final String family) throws RepositoryAccessException {

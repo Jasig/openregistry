@@ -16,6 +16,7 @@
 package org.openregistry.core.domain;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 /**
  * @author Scott Battaglia
@@ -24,7 +25,57 @@ import java.io.Serializable;
  */
 public interface IdentifierType extends Serializable {
 
-    Long getId();
-
+    /**
+     * The short name of the identifier.
+     *
+     * @return the short name of the identifier.  Cannot be NULL.
+     */
     String getName();
+
+    /**
+     * A text description that can be used for tool tips, etc.
+     *
+     * @return the text description.  Cannot be null.
+     */
+    String getDescription();
+
+    /**
+     * The format of the identifier.  Should be a Java-compatible regular expression.
+     *
+     * @return the format.  Cannot be null.
+     */
+    String getFormatAsString();
+
+    /**
+     * Returns the format as a Pattern.
+     *
+     * @return the pattern.  CANNOT be NULL.
+     */
+    Pattern getFormatAsPattern();
+
+
+    /**
+     * Determines whether this values is for internal consumption or if it should be published in a public directory, etc.
+     *
+     * @return true if it should be, false otherwise.
+     */
+    boolean isPrivate();
+
+    /**
+     * Determines whether one is allowed to change the identifier for any reason other than administrative mistake.
+     *
+     * @return true if you can, false otherwise.
+     */
+    boolean isModifiable();
+
+    /**
+     * Determines whether this type of identifier has been deprecated and deleted.
+     *
+     * @return true if it was, false otherwise.  If its deleted, no new values should be assigned from it.
+     */
+    boolean isDeleted();
+
+    
+
+    
 }

@@ -19,6 +19,7 @@ import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.SorRole;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * @version $Revision$ $Date$
@@ -108,6 +109,35 @@ public class MockPerson implements Person {
                 return new IdentifierType() {
                     public Long getId() {
                         return 1L;
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "description";
+                    }
+
+                    @Override
+                    public String getFormatAsString() {
+                        return "\\d+";
+                    }
+
+                    public Pattern getFormatAsPattern() {
+                        return null;
+                    }
+
+                    @Override
+                    public boolean isPrivate() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isModifiable() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isDeleted() {
+                        return false;
                     }
 
                     public String getName() {

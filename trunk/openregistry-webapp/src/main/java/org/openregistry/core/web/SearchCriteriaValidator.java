@@ -15,6 +15,8 @@
  */
 package org.openregistry.core.web;
 
+import org.openregistry.core.service.SearchCriteria;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Validator;
 import org.springframework.validation.Errors;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
@@ -32,13 +34,21 @@ import javax.validation.Validation;
 @Named("searchCriteriaValidator")
 public final class SearchCriteriaValidator implements Validator {
 
-    private SpringValidatorAdapter validator = new SpringValidatorAdapter(Validation.buildDefaultValidatorFactory().getValidator());
-
     public final void validate(final Object o, final Errors errors) {
-        this.validator.validate(o, errors);
+        final SearchCriteria searchCriteria = (SearchCriteria) o;
+
+        if (StringUtils.hasText(searchCriteria.getIdentifierValue()) ||
+            StringUtils.hasText(searchCriteria.getName()) ||
+            StringUtils.hasText(searchCriteria.getFamilyName()) ||
+            StringUtils.hasText(searchCriteria.getGivenName()) ||
+            searchCriteria.getDateOfBirth() != null) {
+            return;
+        }
+
+        errors.reject("search.criteria.empty");
     }
 
     public boolean supports(final Class aClass) {
-        return true;
+        return aClass.isAssignableFrom(SearchCriteriaValidator.class);
     }
 }
