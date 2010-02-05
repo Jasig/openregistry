@@ -45,7 +45,7 @@ public interface Type extends Serializable {
     enum AddressTypes {CAMPUS, HOME, OFFICE}
 
     // TODO, not sure if CELL is actually a good choice
-    enum PhoneTypes {LANDLINE, CELL}
+    enum PhoneTypes {LANDLINE, CELL, PAGER, FAX, OTHER}
 
     enum NameTypes {LEGAL, FORMAL, AKA, MAIDEN, FKA}
 
