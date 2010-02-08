@@ -203,5 +203,11 @@ public interface SorPerson {
      */
     SorRole findSorRoleById(Long roleId);
 
+    /**
+     *
+     * Performs standardization/normalization on sorPerson fields.
+     *
+     */
+    void standardizeNormalize();
 
 }

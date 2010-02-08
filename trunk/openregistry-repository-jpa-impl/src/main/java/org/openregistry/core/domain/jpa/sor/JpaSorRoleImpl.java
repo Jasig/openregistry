@@ -383,4 +383,8 @@ public final class JpaSorRoleImpl extends Entity implements SorRole {
     public void moveToPerson(JpaSorPersonImpl person){
         this.person = person;
     }
+
+    public void standardizeNormalize(){
+      //TBD
+    }
 }

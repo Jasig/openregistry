@@ -279,4 +279,16 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
         return result;
     }
+
+    /**
+     *
+     * Performs standardization/normalization on sorPerson fields.
+     *
+     */
+    public void standardizeNormalize(){
+        if (this.gender != null) this.gender = this.gender.toUpperCase();
+        if (this.ssn != null) this.ssn = this.ssn.replaceAll("-","");
+        for(Name n: this.names) ((JpaSorNameImpl)n).standardizeNormalize();
+        for(SorRole r : this.roles) r.standardizeNormalize();
+    }
 }
