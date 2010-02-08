@@ -233,4 +233,7 @@ public class MockSorRole extends Entity implements SorRole {
         result = 31 * result + (terminationReason != null ? terminationReason.hashCode() : 0);
         return result;
     }
+
+   public void standardizeNormalize(){
+   }
 }

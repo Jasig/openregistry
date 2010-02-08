@@ -229,4 +229,8 @@ public final class JpaSorNameImpl extends AbstractNameImpl {
     public void moveToPerson(JpaSorPersonImpl person){
         this.person = person;
     }
+
+    public void standardizeNormalize(){
+
+    }
 }

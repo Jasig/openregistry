@@ -212,4 +212,7 @@ public class MockSorPerson extends Entity implements SorPerson {
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
         return result;
     }
+
+    public void standardizeNormalize(){
+    }
 }

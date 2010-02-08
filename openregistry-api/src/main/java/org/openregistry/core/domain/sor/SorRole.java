@@ -124,4 +124,6 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
 
     String getLocalCode();
 
+    void standardizeNormalize();
+
 }
