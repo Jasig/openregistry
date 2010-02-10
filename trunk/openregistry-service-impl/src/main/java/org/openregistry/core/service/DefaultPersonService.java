@@ -51,7 +51,7 @@ public class DefaultPersonService implements PersonService {
 
     private final IdentifierGenerator identifierGenerator;
 
-    private final Validator validator;
+    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Resource(name = "personFactory")
     private ObjectFactory<Person> personObjectFactory;
@@ -63,12 +63,11 @@ public class DefaultPersonService implements PersonService {
     private List<IdentifierAssigner> identifierAssigners = new ArrayList<IdentifierAssigner>();
 
     @Inject
-    public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler, final Validator validator) {
+    public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler) {
         this.personRepository = personRepository;
         this.referenceRepository = referenceRepository;
         this.identifierGenerator = identifierGenerator;
         this.reconciler = reconciler;
-        this.validator = validator;
     }
 
     public void setPersonObjectFactory(final ObjectFactory<Person> personObjectFactory) {
@@ -81,6 +80,10 @@ public class DefaultPersonService implements PersonService {
 
     public void setIdentifierAssigners(final List<IdentifierAssigner> identifierAssigners) {
         this.identifierAssigners = identifierAssigners;
+    }
+
+    public void setValidator(final Validator validator) {
+        this.validator = validator;
     }
 
     @Transactional

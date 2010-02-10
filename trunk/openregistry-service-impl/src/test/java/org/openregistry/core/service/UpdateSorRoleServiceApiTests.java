@@ -66,7 +66,7 @@ public class UpdateSorRoleServiceApiTests {
 
     @Test(expected = IllegalArgumentException.class)
     public void sorPersonAndSorRoleArgumentsCannotBeNull() {
-        PersonService ps = new DefaultPersonService(null, null, null, null, null);
+        PersonService ps = new DefaultPersonService(null, null, null, null);
         ps.updateSorRole(null, null);
     }
 
@@ -75,7 +75,8 @@ public class UpdateSorRoleServiceApiTests {
         Set mockValidationErrors = MockitoUtils.oneMinimalisticMockConstraintViolation();
         when(this.mockValidator.validate(eq(mockSorRole))).thenReturn(mockValidationErrors);
 
-        PersonService ps = new DefaultPersonService(null, null, null, null,  this.mockValidator);
+        final DefaultPersonService ps = new DefaultPersonService(null, null, null, null);
+        ps.setValidator(this.mockValidator);
 
         ServiceExecutionResult<SorRole> result = ps.updateSorRole(this.mockSorPerson, this.mockSorRole);
         assertFalse(result.succeeded());
@@ -91,7 +92,8 @@ public class UpdateSorRoleServiceApiTests {
         when(this.mockPersonRepository.saveSorRole(eq(this.mockSorRole))).thenReturn(this.mockSorRole);
         when(this.mockPersonRepository.findByInternalId(eq(1L))).thenReturn(this.mockPerson);
 
-        PersonService ps = new DefaultPersonService(this.mockPersonRepository, null, null, null, this.mockValidator);
+        final DefaultPersonService ps = new DefaultPersonService(this.mockPersonRepository, null, null, null);
+        ps.setValidator(this.mockValidator);
         ServiceExecutionResult<SorRole> result = ps.updateSorRole(this.mockSorPerson, this.mockSorRole);
         assertTrue(result.succeeded());
         assertTrue(result.getValidationErrors().isEmpty());

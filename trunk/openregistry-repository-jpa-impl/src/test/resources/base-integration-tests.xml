@@ -59,8 +59,4 @@
     <bean id="referenceRepository" class="org.openregistry.core.repository.jpa.JpaReferenceRepository" />
 
     <bean id="systemOfRecordRepository" class="org.jasig.openregistry.test.repository.MockSystemOfRecordRepository" />
-
-    <bean id="validator" class="org.openregistry.core.service.OpenRegistrySoRValidator" />
-
-
 </beans>

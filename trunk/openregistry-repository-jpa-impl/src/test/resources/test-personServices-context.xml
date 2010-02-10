@@ -28,7 +28,6 @@
         <constructor-arg index="1" ref="referenceRepository" />
         <constructor-arg index="2" ref="identifierGenerator" />
         <constructor-arg index="3" ref="reconciler" />
-        <constructor-arg index="4" ref="validator" />
         <property name="personObjectFactory" ref="personFactory" />
     </bean>
 
