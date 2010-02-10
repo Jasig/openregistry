@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.domain.jpa.sor;
 
+import org.openregistry.core.domain.annotation.Gender;
 import org.openregistry.core.domain.annotation.Required;
 import org.openregistry.core.domain.annotation.RequiredSize;
 import org.openregistry.core.domain.sor.SorPerson;
@@ -81,6 +82,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     @Column(name="gender",length=1,nullable=true)
     @Required(property = "person.gender", message = "genderRequiredMsg")
     @Size(min=1,max=1,message = "genderRequiredMsg")
+    @Gender
     private String gender;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
@@ -90,7 +92,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     @Valid
     private List<Name> names = new ArrayList<Name>();
 
-    @Column(name="ssn",nullable=true)
+    @Column(name="ssn",nullable=true,length = 9)
     @Required(property = "person.ssn")
     private String ssn;
 
