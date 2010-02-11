@@ -41,10 +41,10 @@ import java.net.URL;
  */
 @javax.persistence.Entity(name="sorUrl")
 @Table(name="prs_urls")
-@TypeDefs({@TypeDef(name="URLUserType",typeClass = URLUserType.class)})
+@TypeDef(name="URLUserType",typeClass = URLUserType.class)
 // TODO commented out because MySql blows up: uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"}))
 @Audited
-public final class JpaSorUrlImpl extends Entity implements Url {
+public class JpaSorUrlImpl extends Entity implements Url {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_urls_seq")
