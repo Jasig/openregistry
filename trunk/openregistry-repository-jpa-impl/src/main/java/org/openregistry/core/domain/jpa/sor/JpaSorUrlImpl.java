@@ -15,12 +15,15 @@
  */
 package org.openregistry.core.domain.jpa.sor;
 
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.Url;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
+import org.openregistry.core.repository.hibernate.URLUserType;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -38,6 +41,7 @@ import java.net.URL;
  */
 @javax.persistence.Entity(name="sorUrl")
 @Table(name="prs_urls")
+@TypeDefs({@TypeDef(name="URLUserType",typeClass = URLUserType.class)})
 // TODO commented out because MySql blows up: uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"}))
 @Audited
 public final class JpaSorUrlImpl extends Entity implements Url {
@@ -53,6 +57,7 @@ public final class JpaSorUrlImpl extends Entity implements Url {
     @AllowedTypes(property = "url.type")
     private JpaTypeImpl type;
 
+    @org.hibernate.annotations.Type(type="URLUserType")
     @Column(name="url",length=500,nullable = false)
     @NotNull
     private URL url;

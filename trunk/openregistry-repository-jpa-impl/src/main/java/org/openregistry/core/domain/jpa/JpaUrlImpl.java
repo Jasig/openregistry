@@ -15,10 +15,13 @@
  */
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.openregistry.core.domain.Url;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
+import org.openregistry.core.repository.hibernate.URLUserType;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -33,6 +36,7 @@ import java.net.URL;
  */
 @javax.persistence.Entity(name="url")
 @Table(name="prc_urls")
+@TypeDefs({@TypeDef(name="URLUserType",typeClass = URLUserType.class)})
 // TODO disabled for now: uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"})
 
 @Audited
@@ -48,6 +52,7 @@ public class JpaUrlImpl extends Entity implements Url {
     private JpaTypeImpl type;
 
     @Column(name="url",length=500,nullable = false)
+    @org.hibernate.annotations.Type(type="URLUserType")
     private URL url;
 
     @ManyToOne(optional=false)
