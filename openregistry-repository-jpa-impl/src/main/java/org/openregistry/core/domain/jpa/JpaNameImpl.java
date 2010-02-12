@@ -15,12 +15,9 @@
  */
 package org.openregistry.core.domain.jpa;
 
-import org.openregistry.core.domain.AbstractNameImpl;
-import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.Type;
-import org.openregistry.core.domain.internal.Entity;
-import org.springframework.util.Assert;
-import org.hibernate.envers.Audited;
+import org.hibernate.envers.*;
+import org.openregistry.core.domain.*;
+import org.springframework.util.*;
 
 import javax.persistence.*;
 
@@ -41,7 +38,7 @@ public class JpaNameImpl extends AbstractNameImpl {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_names_seq")
     @SequenceGenerator(name="prc_names_seq",sequenceName="prc_names_seq",initialValue=1,allocationSize=50)
     private Long id;
-    
+
     @ManyToOne(optional=false)
     @JoinColumn(name="name_t", nullable=false)
     private JpaTypeImpl type;
@@ -82,7 +79,7 @@ public class JpaNameImpl extends AbstractNameImpl {
     public Long getId() {
         return this.id;
     }
-    
+
     public Type getType() {
         return this.type;
     }
@@ -106,7 +103,7 @@ public class JpaNameImpl extends AbstractNameImpl {
     public String getSuffix() {
         return this.suffix;
     }
-    
+
     public void setType(final Type type) {
         Assert.isInstanceOf(JpaTypeImpl.class, type);
         this.type = (JpaTypeImpl) type;
@@ -164,7 +161,7 @@ public class JpaNameImpl extends AbstractNameImpl {
         construct(builder, "", this.given, " ");
         if (this.middle != null) construct(builder, "", this.middle, " ");
         if (this.family != null) construct(builder, "", this.family, " ");
-        if (this.suffix != null) construct(builder, ",", this.suffix, "");
+        if (this.suffix != null && !this.suffix.isEmpty()) construct(builder, ",", this.suffix, "");
 
         return builder.toString();
     }
@@ -176,7 +173,7 @@ public class JpaNameImpl extends AbstractNameImpl {
         construct(builder, "", this.given, " ");
         construct(builder, "", this.middle, " ");
         construct(builder, "", this.family, "");
-        construct(builder, ",", this.suffix, "");
+        if (this.suffix != null && !this.suffix.isEmpty()) construct(builder, ",", this.suffix, "");
 
         return builder.toString();
     }
