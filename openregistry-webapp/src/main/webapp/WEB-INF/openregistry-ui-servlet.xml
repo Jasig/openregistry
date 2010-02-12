@@ -31,6 +31,14 @@
     <flow:flow-executor id="flowExecutor" flow-registry="flowRegistry"/>
 
     <flow:flow-registry id="flowRegistry" flow-builder-services="flowBuilderServices">
+        <flow:flow-location path="/WEB-INF/or-flows/home.xml" id="home"/>
+        <flow:flow-location path="/WEB-INF/or-flows/find-person.xml" id="find"/>
+        <flow:flow-location path="/WEB-INF/or-flows/view-person-detail.xml" id="viewPersonDetail"/>
+        <flow:flow-location path="/WEB-INF/or-flows/update-person.xml" id="updateSorPerson" />
+        <flow:flow-location path="/WEB-INF/or-flows/logout.xml" id="logout"/>
+        <flow:flow-location path="/WEB-INF/or-flows/addPerson.xml" id="addSorPerson"/>
+
+
         <flow:flow-location path="/WEB-INF/flows/main.xml" id="main"/>
         <flow:flow-location path="/WEB-INF/flows/addPerson.xml" id="addPerson"/>
         <flow:flow-location path="/WEB-INF/flows/delete-person.xml" id="deletePerson" />
@@ -51,7 +59,7 @@
             p:defaultThemeName="theme" />
 
     <bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource" />
-    
+
     <bean id="mvcViewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
         <property name="viewResolvers">
             <list>
