@@ -57,6 +57,8 @@
 	<link rel="stylesheet" href="css/print.css" type="text/css" media="print" />
 </head>
 
+<%--<c:redirect url="/viewPersonDetail.htm"/>--%>
+
 <body class="" id="home">
 	<h1 id="app-name">Registry</h1>
 
