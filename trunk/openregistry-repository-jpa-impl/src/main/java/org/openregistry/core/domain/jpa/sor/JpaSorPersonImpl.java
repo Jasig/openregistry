@@ -44,65 +44,73 @@ import java.util.*;
 /**
  * Implementation of the SoR Person.
  * Unique constraints assumes each person can have only one sorPerson from any given SOR
+ *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-@javax.persistence.Entity(name="sorPerson")
-@Table(name="prs_sor_persons", uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id","person_id"}))
+@javax.persistence.Entity(name = "sorPerson")
+@Table(name = "prs_sor_persons", uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id", "person_id"}))
 @Audited
 public class JpaSorPersonImpl extends Entity implements SorPerson {
 
     protected static final Logger logger = LoggerFactory.getLogger(JpaSorPersonImpl.class);
 
     @Id
-    @Column(name="record_id")
+    @Column(name = "record_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_sor_persons_seq")
-    @SequenceGenerator(name="prs_sor_persons_seq",sequenceName="prs_sor_persons_seq",initialValue=1,allocationSize=50)
+    @SequenceGenerator(name = "prs_sor_persons_seq", sequenceName = "prs_sor_persons_seq", initialValue = 1, allocationSize = 50)
     private Long recordId;
 
-    @Column(name="id")
+    @Column(name = "id")
     @Required(property = "person.sorId")
     private String sorId;
 
-    @Column(name="source_sor_id", nullable = false)
+    @Column(name = "source_sor_id", nullable = false)
     @NotNull
-    @Size(min=1)
+    @Size(min = 1)
     private String sourceSor;
 
-    @Column(name="person_id")
+    @Column(name = "person_id")
     private Long personId;
 
-    @Column(name="date_of_birth",nullable=false)
+    @Column(name = "date_of_birth", nullable = false)
     @Temporal(TemporalType.DATE)
-    @Required(property="person.dateOfBirth", message="dateOfBirthRequiredMsg")
+    @Required(property = "person.dateOfBirth", message = "dateOfBirthRequiredMsg")
     @Past
     private Date dateOfBirth;
 
-    @Column(name="gender",length=1,nullable=true)
+    @Column(name = "gender", length = 1, nullable = true)
     @Required(property = "person.gender", message = "genderRequiredMsg")
-    @Size(min=1,max=1,message = "genderRequiredMsg")
+    @Size(min = 1, max = 1, message = "genderRequiredMsg")
     @Gender
     private String gender;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @Fetch(value = FetchMode.SUBSELECT)
     @RequiredSize(property = "person.names")
     @Valid
     private List<Name> names = new ArrayList<Name>();
 
-    @Column(name="ssn",nullable=true,length = 9)
+    @Column(name = "ssn", nullable = true, length = 9)
     @Required(property = "person.ssn")
     private String ssn;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person",fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @Fetch(value = FetchMode.SUBSELECT)
     @Valid
     private List<SorRole> roles = new ArrayList<SorRole>();
 
-    public List<SorRole> getRoles(){
+    //TODO: to whom it may concern - change DB objects names as desired, if necessary
+    @ElementCollection
+    @CollectionTable(name = "prs_sor_persons_local_attributes", joinColumns = @JoinColumn(name = "sor_person_record_id"))
+    @MapKeyColumn(name = "attribute_type")
+    @Column(name = "attribute_value")
+    private Map<String, String> sorLocalAttributes = new HashMap<String, String>();
+
+    public List<SorRole> getRoles() {
         return this.roles;
     }
 
@@ -163,11 +171,11 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     public void addName(Name name) {
         Assert.isInstanceOf(JpaSorNameImpl.class, name);
         this.names.add(name);
-        ((JpaSorNameImpl)name).moveToPerson(this);
+        ((JpaSorNameImpl) name).moveToPerson(this);
     }
-    
+
     public Name addName(Type type) {
-    	Assert.isInstanceOf(JpaTypeImpl.class, type);
+        Assert.isInstanceOf(JpaTypeImpl.class, type);
         final JpaSorNameImpl jpaSorName = new JpaSorNameImpl(this);
         jpaSorName.setType(type);
         this.names.add(jpaSorName);
@@ -187,38 +195,39 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     }
 
     // TODO not sure if this should be here
-    public String getFormattedName(){
+
+    public String getFormattedName() {
         final StringBuilder builder = new StringBuilder();
         // TODO fix this next line
         builder.append(this.getNames().iterator().next().getFormattedName());
         return builder.toString();
     }
 
-	public Long getPersonId() {
-		return this.personId;
-	}
+    public Long getPersonId() {
+        return this.personId;
+    }
 
-	public void setPersonId(Long personId) {
-		this.personId = personId;
-	}
+    public void setPersonId(Long personId) {
+        this.personId = personId;
+    }
 
-	public SorRole addRole(final RoleInfo roleInfo) {
+    public SorRole addRole(final RoleInfo roleInfo) {
         Assert.isInstanceOf(JpaRoleInfoImpl.class, roleInfo);
         final JpaSorRoleImpl jpaRole = new JpaSorRoleImpl((JpaRoleInfoImpl) roleInfo, this);
         this.roles.add(jpaRole);
         return jpaRole;
     }
 
-    public void addRole(final SorRole role){
+    public void addRole(final SorRole role) {
         this.roles.add(role);
         Assert.isInstanceOf(JpaSorRoleImpl.class, role);
-        ((JpaSorRoleImpl)role).moveToPerson(this);
+        ((JpaSorRoleImpl) role).moveToPerson(this);
     }
 
     public SorRole pickOutRole(String code) {
         //TODO: Is this the correct assumption???
-        for(SorRole r : this.roles) {
-            if(r.getRoleInfo().getCode().equals(code)) {
+        for (SorRole r : this.roles) {
+            if (r.getRoleInfo().getCode().equals(code)) {
                 return r;
             }
         }
@@ -245,6 +254,16 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
             }
         }
         return null;
+    }
+
+
+    public Map<String, String> getSorLocalAttributes() {
+        return this.sorLocalAttributes;
+    }
+
+
+    public void setSorLocalAttributes(Map<String, String> attributes) {
+        this.sorLocalAttributes = attributes;
     }
 
     @Override
@@ -283,14 +302,12 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     }
 
     /**
-     *
      * Performs standardization/normalization on sorPerson fields.
-     *
      */
-    public void standardizeNormalize(){
+    public void standardizeNormalize() {
         if (this.gender != null) this.gender = this.gender.toUpperCase();
-        if (this.ssn != null) this.ssn = this.ssn.replaceAll("-","");
-        for(Name n: this.names) ((JpaSorNameImpl)n).standardizeNormalize();
-        for(SorRole r : this.roles) r.standardizeNormalize();
+        if (this.ssn != null) this.ssn = this.ssn.replaceAll("-", "");
+        for (Name n : this.names) ((JpaSorNameImpl) n).standardizeNormalize();
+        for (SorRole r : this.roles) r.standardizeNormalize();
     }
 }

@@ -21,6 +21,7 @@ import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Date;
 
@@ -209,5 +210,17 @@ public interface SorPerson {
      *
      */
     void standardizeNormalize();
+
+    /**
+     * Retrieves a collection of K->V un-typed attributes that SoR might pass along
+     *
+     * <p> SoRs and the target OR installation should agree on the common attributes and their keys,
+     * for example in local batch jobs configurations, etc.
+     *
+     * @return Map representing K->V attributes that a target SoR wishes to expose
+     */
+    Map<String, String> getSorLocalAttributes();
+    
+    void setSorLocalAttributes(Map<String, String> attributes);
 
 }

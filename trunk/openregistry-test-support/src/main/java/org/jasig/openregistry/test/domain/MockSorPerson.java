@@ -52,6 +52,8 @@ public class MockSorPerson extends Entity implements SorPerson {
 
     private List<SorRole> roles = new ArrayList<SorRole>();
 
+    private Map<String, String> sorLocalAttributes = new HashMap<String, String>();
+
     public void setId(final Long id) {
         this.id = id;
     }
@@ -176,6 +178,14 @@ public class MockSorPerson extends Entity implements SorPerson {
             }
         }
         return null;
+    }
+
+    public Map<String, String> getSorLocalAttributes() {
+        return this.sorLocalAttributes;
+    }
+
+    public void setSorLocalAttributes(Map<String, String> attributes) {
+        this.sorLocalAttributes = attributes;
     }
 
     @Override
