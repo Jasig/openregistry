@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2009 Jasig, Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <on-start>
+    	<evaluate expression="reconciliationCriteriaFactory.getObject()" result="flowScope.personSearch" />
+    </on-start>
+
+    <!-- By default, the first state is the start state. -->
+    <action-state id="createName">
+        <evaluate expression="personSearch.getSorPerson().addName(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@NAME, @org.openregistry.core.domain.Type$NameTypes@FORMAL))" />
+        <transition to="addPerson" />
+    </action-state>
+
+    <view-state id="addPerson" model="personSearch" view="openregistry.person.add.insert">
+        <on-entry>
+            <set name="flowScope.menuItem" value="'Add a Person'" />
+        </on-entry>
+        <on-render>
+            <set name="viewScope.command" value="'personSearch'" />
+        </on-render>
+        <transition on="submitAddPerson" to="reconciliationAddPerson" bind="true" validate="true">
+            <!-- TODO do we need this? -->
+            <set name="flowScope.personToAdd" value="personSearch.getSorPerson()" />
+        </transition>
+        <transition on="cancelAddPerson" to="cancelCreatePerson" />
+    </view-state>
+
+    <action-state id="reconciliationAddPerson">
+        <evaluate expression="personSearchAction.addSorPerson(personSearch,flowRequestContext)" />
+        <transition on="success" to="getSorPerson" />
+        <transition on="validationError" to="addPerson" />
+        <transition on="reconciliation" to="viewMatches" />
+    </action-state>
+
+    <view-state id="viewMatches" view="openregistry.person.add.matches" model="flowScope.reconciliationResult">
+        <on-render>
+            <set name="viewScope.command" value="'personSearch'" />
+        </on-render>
+        <transition on="submitAddPerson" to="checkForViewMatchAddErrors" >
+            <evaluate expression="personSearchAction.addSorPerson(personSearch, messageContext)" result="flowScope.serviceExecutionResult"/>
+        </transition>
+        <transition on="submitAddRole" to="addRole">
+            <evaluate expression="personService.findByPersonIdAndSorIdentifier(requestParameters.personId, 'or-webapp')" result="flowScope.sorPerson" />
+        </transition>
+        <transition on="cancelAddPerson" to="cancelCreatePerson"/>
+    </view-state>
+
+    <decision-state id="checkForViewMatchAddErrors">
+        <if test="flowScope.serviceExecutionResult.validationErrors.size() > 0" then="viewMatches" else="checkAddPersonAnyway" />
+    </decision-state>
+
+    <decision-state id="checkAddPersonAnyway">
+        <if test="flowScope.serviceExecutionResult.succeeded()" then="getSorPerson" else="viewMatches" />
+    </decision-state>
+
+    <action-state id="getSorPerson">
+        <evaluate expression="personService.findByPersonIdAndSorIdentifier(flowScope.serviceExecutionResult.getTargetObject().getId(), 'or-webapp')" result="flowScope.sorPerson" />
+        <transition to="addRole" />
+    </action-state>
+
+    <subflow-state id="addRole" subflow="add-role" >
+        <input name="sorPerson" value="flowScope.sorPerson"/>
+        <output name="role"/>
+        <transition on="roleWasAdded" to="roleAddedSucceeded">
+             <evaluate expression="personSearchAction.setConfirmationMessage(flowScope.serviceExecutionResult, flowScope.reconciliationResult, messageContext)" />
+        </transition>
+    </subflow-state>
+
+    <view-state id="roleAddedSucceeded" view="openregistry.main">
+        <transition to="personWasAdded" />
+    </view-state>
+
+    <end-state id="personWasAdded" />
+    <end-state id="cancelCreatePerson" view="flowRedirect:addPerson" />
+</flow>
