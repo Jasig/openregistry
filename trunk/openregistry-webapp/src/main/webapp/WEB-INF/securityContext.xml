@@ -119,7 +119,7 @@
         <property name="serviceProperties" ref="serviceProperties"/>
         <property name="ticketValidator">
             <bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
-                <constructor-arg index="0" ref="casServerHost" />                                                                                                                                                   
+                <constructor-arg index="0" ref="casServerHost" />
                 <property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage"/>
                 <property name="proxyCallbackUrl" ref="casProxyReceptorUrl" />
             </bean>
@@ -139,7 +139,12 @@
         <sec:user name="nmond" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
         <sec:user name="steiner" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
         <sec:user name="dkopylen" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-    </sec:user-service>
+        <sec:user name="rosey" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+          <sec:user name="grahamb" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+        <sec:user name="santos" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+        <sec:user name="robert" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER,ROLE" />
+
+  </sec:user-service>
 
     <!-- #########################################################################################
          # BASIC AUTH AUTHENTICATION COMPONENTS                                                  #
