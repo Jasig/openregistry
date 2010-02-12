@@ -43,7 +43,7 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Login - OpenRegistry - Rutgers University</title>
+	<title>Login - Registry - Rutgers University</title>
 
     <link rel="stylesheet" href="<spring:theme code='styleSheet3'/>" type="text/css"/>
 
@@ -58,16 +58,16 @@
 </head>
 
 <body class="" id="home">
-	<h1 id="app-name">OpenRegistry</h1>
+	<h1 id="app-name">Registry</h1>
 
 	<div id="content">
 		<div class="box">
-			<h2>OpenRegistry Login</h2>
+			<h2>Registry Login</h2>
 			<p class="login"><a href="main.htm">Continue to <em>NetID Login</em></a></p>
 
 			<h3>About</h3>
-			<p><a href="http://oit.rutgers.edu/" target="_blank">Office of Information Technology (OIT)</a> supports OpenRegistry</p>
-			<p>OpenRegistry is Rutgers Person Registry System.  It stores data about people affiliated with the university.</p>
+			<p><a href="http://oit.rutgers.edu/" target="_blank">Office of Information Technology (OIT)</a> supports Registry</p>
+			<p>Registry is Rutgers Person Registry System.  It stores data about people affiliated with the university.</p>
 
 			<h3>Features</h3>
 			<ul>
@@ -77,7 +77,7 @@
 		</div>
 
 		<div id="sidebar">
-<!--			<h3>OpenRegistry Announcements</h3>
+<!--			<h3>Registry Announcements</h3>
 			<p>Schedule of Classes for Fall 2009 will be available on May 5, 2009.</p>
 
 			<h3>Available Semesters</h3>
@@ -89,17 +89,17 @@
 
 			<h3>System Requirements</h3>
 			<ul>
-				<li><span style="color:#555;">OpenRegistry is best viewed in the latest versions of major browsers. This includes Firefox 3, Safari 3 and Internet Explorer 8. Please view our <a href="https://eas.rutgers.edu/eas-browser-recommendations.html">Browser Recommendations</a> page for more details.</span></li>
-				<li><span style="color:#555;">JavaScript must be enabled in browser for OpenRegistry to function.</span></li>
+				<li><span style="color:#555;">Registry is best viewed in the latest versions of major browsers. This includes Firefox 3, Safari 3 and Internet Explorer 8. Please view our <a href="https://eas.rutgers.edu/eas-browser-recommendations.html">Browser Recommendations</a> page for more details.</span></li>
+				<li><span style="color:#555;">JavaScript must be enabled in browser for Registry to function.</span></li>
 			</ul>
 
-			<h3>OpenRegistry Support</h3>
+			<h3>Registry Support</h3>
 			<p>For questions, comments or suggestions contact <a href="mailto:idm_support@ess.rutgers.edu">idm_support@ess.rutgers.edu</a>.</p>
-			<p>There are several <a href="known_issues.html">known issues</a> within OpenRegistry that our visitors should be aware of.</p>
+			<p>There are several <a href="known_issues.html">known issues</a> within Registry that our visitors should be aware of.</p>
 			<!--p>Your input is very important. Please take a moment to fill out a short <a href="#">survey</a> and help us improve CSP.</p -->
 
 			<h3>Security</h3>
-			<p>For security reasons, we ask that all users log out of OpenRegistry after completing their tasks and close the browser. This will clear out any traces of sensitive information that may be used to compromise user's personal information.</p>
+			<p>For security reasons, we ask that all users log out of Registry after completing their tasks and close the browser. This will clear out any traces of sensitive information that may be used to compromise user's personal information.</p>
 
 			<h3>Disclaimer</h3>
 			<p>
