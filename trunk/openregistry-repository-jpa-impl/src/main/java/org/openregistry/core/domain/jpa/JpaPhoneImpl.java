@@ -15,10 +15,9 @@
  */
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.envers.*;
+import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.internal.Entity;
-import org.openregistry.core.domain.Phone;
-import org.openregistry.core.domain.Type;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
@@ -137,7 +136,7 @@ public class JpaPhoneImpl extends Entity implements Phone {
     public void setExtension(final String extension) {
         this.extension = extension;
     }
-    
+
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         if (this.countryCode != null && this.countryCode != "") {
@@ -149,7 +148,7 @@ public class JpaPhoneImpl extends Entity implements Phone {
         	builder.append(this.areaCode);
         	builder.append(PHONE_SEP);
         }
-        if (this.number.charAt(3) != '-') {
+		if (this.number.length() > 2 && this.number.charAt(3) != '-') {
         	builder.append(this.number.substring(0, 3));
         	builder.append(PHONE_SEP);
         	builder.append(this.number.substring(3));
