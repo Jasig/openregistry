@@ -18,7 +18,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<link rel="stylesheet" href="<spring:theme code='findPersonSheet'/>" type="text/css" />
+<link rel="stylesheet" href="<spring:theme code='addPersonSheet'/>" type="text/css" />
 
 <form:form modelAttribute="personSearch">
 			<fieldset id="addperson">
@@ -30,9 +30,9 @@
 
                 <fieldset>
 					<div class="row">
-						<label for="c1_prefix" class="prefix"><spring:message code="prefix.label"/></label>
+						<form:label cssClass="above" for="prefix" path="sorPerson.names[0].prefix"><spring:message code="prefix.label"/></form:label>
                         <div class="select prefix">
-                            <form:select path="sorPerson.names[0].prefix" id="c1_prefix" size="1" tabindex="1">
+                            <form:select path="sorPerson.names[0].prefix" id="prefix" size="1" tabindex="1">
                                 <form:option value="" label=""/>
 							    <form:option value="Mrs" label="Mrs."/>
                                 <form:option value="Miss" label="Miss"/>
@@ -42,24 +42,24 @@
 							</form:select>
                         </div>
 
-						<label><spring:message code="firstName.label"/><em>*</em></label>
-						<form:input path="sorPerson.names[0].given" id="c1_firstName" size="10" maxlength="30" tabindex="2" />
+						<form:label cssClass="above" for="first_name" path="sorPerson.names[0].given"><spring:message code="firstName.label"/><em>*</em></form:label>
+						<form:input path="sorPerson.names[0].given" id="first_name" size="10" maxlength="30" tabindex="2" />
 
-                        <label><spring:message code="middleName.label" /></label>
-                        <form:input path="sorPerson.names[0].middle" id="c1_middleName" size="10" maxlength="30" tabindex="3" />
+                        <form:label cssClass="above" for="middle_name" path="sorPerson.names[0].middle"><spring:message code="middleName.label" /></form:label>
+                        <form:input path="sorPerson.names[0].middle" id="middle_name" size="10" maxlength="30" tabindex="3" />
 
-                        <label><spring:message code="lastName.label" /><em>*</em></label>
-                        <form:input path="sorPerson.names[0].family" id="c1_lastName" size="10" maxlength="30" tabindex="4" />
+                        <form:label cssClass="above" for="last_name" path="sorPerson.names[0].family"><spring:message code="lastName.label" /><em>*</em></form:label>
+                        <form:input path="sorPerson.names[0].family" id="last_name" size="10" maxlength="30" tabindex="4" />
 
-                        <label><spring:message code="suffix.label" /></label>
-                        <form:input path="sorPerson.names[0].suffix" id="c1_suffix" size="5" maxlength="5" tabindex="5" />
+                        <form:label cssClass="above" for="suffix" path="sorPerson.names[0].suffix"><spring:message code="suffix.label" /></form:label>
+                        <form:input path="sorPerson.names[0].suffix" id="suffix" size="5" maxlength="5" tabindex="5" />
                     </div>
 
                     <div class="row">
 
-						<label for="c1_gender" class="gender"><spring:message code="gender.label" /> <em>*</em></label>
+						<form:label cssClass="above" for="gender" path="sorPerson.gender"><spring:message code="gender.label" /> <em>*</em></form:label>
 						<div class="select gender">
-                            <form:select path="sorPerson.gender" id="c1_gender" size="1" tabindex="6">
+                            <form:select path="sorPerson.gender" id="gender" size="1" tabindex="6">
                                 <form:option value="" label=""/>
                                 <form:option value="F" label="Female"/>
 							    <form:option value="M" label="Male"/>
@@ -68,24 +68,24 @@
                    </div>
 
                    <div class="row">
-						<label for="c1_dateOfBirth" class="dateOfBirth"><spring:message code="dateOfBirth.label"/><em>*</em></label>
-						<form:input path="sorPerson.dateOfBirth" id="c1_dateOfBirth" size="10" maxlength="10" tabindex="7" />
+						<form:label for="dateOfBirth" cssClass="above" path="sorPerson.dateOfBirth"><spring:message code="dateOfBirth.label"/><em>*</em></form:label>
+						<form:input path="sorPerson.dateOfBirth" id="dateOfBirth" size="10" maxlength="10" tabindex="7" />
                    </div>
 
                     <div class="row">
-                        <label for="c1_SSN"><spring:message code="ssn.label"/></label>
-                        <form:input path="sorPerson.ssn" id="c1_ssn" size="9" maxlength="9" tabindex="8" />
+                        <form:label for="ssn" cssClass="above" path="sorPerson.ssn"><spring:message code="ssn.label"/></form:label>
+                        <form:input path="sorPerson.ssn" id="ssn" size="9" maxlength="9" tabindex="8" />
                     </div>
 
                     <div class="row">
-                        <label for="c1_email"><spring:message code="email.label"/></label>
-                        <form:input path="emailAddress" id="c1_email" size="20" maxlength="30" tabindex="9" />
+                        <form:label for="email" cssClass="above" path="emailAddress"><spring:message code="email.label"/></form:label>
+                        <form:input path="emailAddress" id="email" size="20" maxlength="30" tabindex="9" />
                     </div>
 
                     <div class="row">
 
-						<label for="c1_phone" class="cccode"><spring:message code="phoneNumber.label"/></label>
-						<form:input path="phoneNumber" id="c1_phone" size="15" maxlength="15" tabindex="10" />
+						<form:label for="phone" cssClass="above" path="phoneNumber"><spring:message code="phoneNumber.label"/></form:label>
+						<form:input path="phoneNumber" id="phone" size="15" maxlength="15" tabindex="10" />
 
 					</div>
 

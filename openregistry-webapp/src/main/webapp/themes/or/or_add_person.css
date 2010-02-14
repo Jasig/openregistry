@@ -62,9 +62,9 @@ input[type=text], input[type=password] {
 		font-family: inherit;
 		display: inline;
 		border: 1px solid #ccc;
-		height: 20px;
+		height: 10px;
 		padding: 10px;
-		font-size: 16px;
+		font-size: 12px;
 	}
 
 	input[type=text]:hover, input[type=password]:hover {

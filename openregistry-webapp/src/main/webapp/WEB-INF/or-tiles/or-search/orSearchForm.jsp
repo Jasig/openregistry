@@ -39,15 +39,15 @@
             <legend>Find a Person</legend>
             <div class="field_set group">
                 <div>
-                     <form:label class="above" for="person_identifier" path="identifierValue">Identifier</form:label>
+                     <form:label cssClass="above" for="person_identifier" path="identifierValue">Identifier</form:label>
                     <form:input path="identifierValue" cssErrorClass="formerror" name="person_identifier" id="person_identifier"/>
                 </div>
                 <div>
-                    <form:label class="above" for="person_name" path="name"><spring:message code="person.biodem.names.label" /></form:label>
+                    <form:label cssClass="above" for="person_name" path="name"><spring:message code="person.biodem.names.label" /></form:label>
                     <form:input path="name" cssErrorClass="formerror" name="person_name" id="person_name" />
                 </div>
                 <div>
-                    <form:label class="above" for="person_dob" path="dateOfBirth"><spring:message code="person.biodem.dateOfBirth.label" /></form:label>
+                    <form:label cssClass="above" for="person_dob" path="dateOfBirth"><spring:message code="person.biodem.dateOfBirth.label" /></form:label>
                     <form:input path="dateOfBirth" cssErrorClass="formerror" name="person_dob" id="person_dob" placeholder="yyyy-mm-dd"/>
                 </div>
                 <div id="find_submit_container">
