@@ -168,10 +168,10 @@
 
     .box{
         padding:10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
+        /*border: 1px solid #ccc;*/
+        /*border-radius: 4px;*/
+        /*-webkit-border-radius: 4px;*/
+        /*-moz-border-radius: 4px;*/
     }
 
     .padded{
@@ -272,6 +272,10 @@
 	}
 
     tr {
+        padding: 5px;
+    }
+
+    td {
         padding: 5px;
     }
 

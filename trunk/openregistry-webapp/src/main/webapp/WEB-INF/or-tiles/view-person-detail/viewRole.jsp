@@ -26,18 +26,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<link rel="stylesheet" href="<spring:theme code='findPersonSheet'/>" type="text/css" />
 
 <div id="view-role">
     <h3><spring:message code="viewRolePage.heading"/></h3>
 
     <div class="padded"><strong><spring:message code="person.label" /></strong> <c:out value="${formattedName}" /></div>
 
-    <div class="padded"> <strong><c:out value="${viewRoleTitle}" />:</strong><c:out value="${role.title}" />/<c:out value="${role.organizationalUnit.name}" />/<c:out value="${role.campus.name}" /></div>
+    <div class="padded"> <strong><c:out value="${viewRoleTitle}" />: </strong><c:out value="${role.title}" />/<c:out value="${role.organizationalUnit.name}" />/<c:out value="${role.campus.name}" /></div>
 
     <div class="box">
     <h5><spring:message code="roleInformation.heading" /></h5>
-    <table id="find_person_results_table">
+    <table>
         <thead>
         <tr class="appHeadingRow">
             <th><spring:message code="personStatus.label" /></th>
@@ -159,7 +158,7 @@
             </table>
 
         </c:when>
-        <c:otherwise><spring:message code="noUrlsDefined.label" /><br /><br /></c:otherwise>
+        <c:otherwise><spring:message code="noUrlsDefined.label" /></c:otherwise>
     </c:choose>
 </div>
 
@@ -193,7 +192,7 @@
                 </tbody>
             </table>
         </c:when>
-        <c:otherwise><spring:message code="noLeavesDefined.label" /><br /><br /></c:otherwise>
+        <c:otherwise><spring:message code="noLeavesDefined.label" /></c:otherwise>
     </c:choose>
 </div>
 
