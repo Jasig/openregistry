@@ -27,7 +27,7 @@
         <transition to="viewCompletePerson" />
     </subflow-state>
 
-    <view-state id="viewCompletePerson" model="person" view="openregistry.view.complete.person">
+    <view-state id="viewCompletePerson" model="person" view="openregistry.view.person.detail">
         <on-entry>
             <evaluate expression="personService.getSorPersonsFor(person)" result="flowScope.sorPersons"/>
             <set name="viewScope.command" value="'person'" />

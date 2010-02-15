@@ -95,7 +95,7 @@
         <put-attribute name="body" value="/WEB-INF/tiles/new-activationKey/newActivationKey.jsp" />
     </definition>
 
-    <definition name="openregistry.view.complete.person" template="/WEB-INF/layouts/base.jsp">
+    <definition name="openregistry.view.person.detail" template="/WEB-INF/layouts/base.jsp">
         <put-attribute name="titleCode" value="viewCompletePerson.title" type="string" />
         <put-attribute name="body" value="/WEB-INF/tiles/view-complete-person/viewCompletePerson.jsp" />
     </definition>
