@@ -45,7 +45,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Login - Registry - Rutgers University</title>
 
-    <link rel="stylesheet" href="<spring:theme code='styleSheet3'/>" type="text/css"/>
+    <link rel="stylesheet" href="<spring:theme code='styleSheet1'/>" type="text/css"/>
 
     <style>
 		#home p.login a:link, #home p.login a:visited {-moz-border-radius:10px; -webkit-border-radius:10px; background:#fff; border:1px solid #fea; color:#57c; display:block; margin:0 auto; padding:10px 0 !important; width:99%; text-align:center;}
