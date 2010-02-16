@@ -24,4 +24,6 @@
     <bean class="org.openregistry.core.service.identifier.NoOpIdentifierGenerator" id="identifierGenerator" />
 
     <bean class="org.openregistry.core.service.identifier.TestIdentifierAssigner" id="netIdAssigner" />
+
+    <bean class="org.openregistry.core.service.identifier.SSNIdentifierAssigner" id="ssnAssigner" />
 </beans>
