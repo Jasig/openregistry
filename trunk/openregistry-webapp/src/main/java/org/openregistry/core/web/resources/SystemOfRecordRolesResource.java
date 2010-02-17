@@ -144,9 +144,9 @@ public class SystemOfRecordRolesResource {
     }
 
     //Java needs Tuples. Scala, where are you?!!!!!
-    private Map<String, Object> findPersonAndRoleOrThrowNotFoundException(String sorSourceId, String sorPersonId, String sorRoleId) {
+    private Map<String, Object> findPersonAndRoleOrThrowNotFoundException(final String sorSourceId, final String sorPersonId, final String sorRoleId) {
         //Poor simulation of Tuple 'pair'. Oh, well
-        Map<String, Object> ret = new HashMap<String, Object>(2);
+        final Map<String, Object> ret = new HashMap<String, Object>(2);
         final SorPerson sorPerson = this.personService.findBySorIdentifierAndSource(sorSourceId, sorPersonId);
         if (sorPerson == null) {
             //HTTP 404
