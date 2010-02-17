@@ -74,7 +74,7 @@ public final class XmlSystemOfRecordRepository implements SystemOfRecordReposito
     }
 
     public void reload() {
-        logger.info("There are currently [" + soRSpecifications.size() + "] specs load.  Reloading now.");
+        logger.info("There are currently [" + soRSpecifications.size() + "] specs loaded.  Reloading now.");
         final List<SoRSpecification> soRSpecifications = new ArrayList<SoRSpecification>();
 
         for (final File file : this.file.listFiles(new FileFilter() {
