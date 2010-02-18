@@ -26,11 +26,13 @@
         <div id="search_results">
         <h2><spring:message code="find.person.headers.results" /></h2>
             <p class="instructions">${resultsSize} results were found for your query:</p>
-        <display:table name="searchResults" id="personMatch" htmlId="find_person_results_table" requestURI="">
+        <display:table name="searchResults" id="personMatch" htmlId="find_person_results_table" requestURI="" >
             <display:setProperty name="basic.msg.empty_list" value="Your search returned no results." />
             <display:setProperty name="css.tr.even" value="even-rows" />
             <display:column property="person.preferredName" title="Name" sortable="true" href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"/>
-            <display:column property="person.id" title="ID"/>
+            <display:column title="ID">
+                <%=((org.openregistry.core.service.reconciliation.PersonMatch)personMatch).getPerson().pickOutIdentifier((String) request.getAttribute("preferredPersonIdentifierType")).getValue()%>
+            </display:column>
             <display:column title="Roles" sortable="true">
                 <c:forEach var="role" items="${personMatch.person.roles}">
                     ${role.displayableName}<br/>

@@ -65,8 +65,9 @@ public class JpaPersonRepository implements PersonRepository {
         final Root<JpaPersonImpl> person = c.from(JpaPersonImpl.class);
         final Join<JpaPersonImpl,JpaIdentifierImpl> identifier = person.join(JpaPersonImpl_.identifiers);
 
-        c.select(person).where(criteriaBuilder.equal(identifier.get(JpaIdentifierImpl_.value), identifierValue + "%"));
-        
+        c.select(person).where(criteriaBuilder.like(identifier.get(JpaIdentifierImpl_.value), identifierValue + "%"));
+
+        final Query query = this.entityManager.createQuery(c);
         final List<JpaPersonImpl> persons = this.entityManager.createQuery(c).getResultList();
 
         return new ArrayList<Person>(persons);
@@ -89,6 +90,7 @@ public class JpaPersonRepository implements PersonRepository {
         final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
 
         final CriteriaQuery<JpaPersonImpl> c =criteriaBuilder.createQuery(JpaPersonImpl.class);
+        c.distinct(true);
         final Root<JpaPersonImpl> person = c.from(JpaPersonImpl.class);
         final Join<JpaPersonImpl,JpaNameImpl> name = person.join(JpaPersonImpl_.names);
 

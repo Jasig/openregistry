@@ -19,6 +19,7 @@ import org.openregistry.core.domain.Type;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,9 @@ import javax.servlet.http.HttpServletResponse;
 public final class ReferenceRepositoryHandlerInterceptor extends HandlerInterceptorAdapter {
 
     private final ReferenceRepository referenceRepository;
+
+    @Resource
+    private String preferredPersonIdentifierType;
 
     @Inject
     public ReferenceRepositoryHandlerInterceptor(final ReferenceRepository referenceRepository) {
@@ -56,6 +60,7 @@ public final class ReferenceRepositoryHandlerInterceptor extends HandlerIntercep
         request.setAttribute("statusTypes", this.referenceRepository.getTypesBy(Type.DataTypes.STATUS));
         request.setAttribute("terminationTypes", this.referenceRepository.getTypesBy(Type.DataTypes.TERMINATION));
         request.setAttribute("urlTypes", this.referenceRepository.getTypesBy(Type.DataTypes.URL));
+        request.setAttribute("preferredPersonIdentifierType", this.preferredPersonIdentifierType);
 
         return true;
     }
