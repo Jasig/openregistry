@@ -52,8 +52,20 @@ public final class ApplicationConversionService extends DefaultConversionService
     @Override
     protected void addDefaultConverters() {
 	    super.addDefaultConverters();
+        // short date
 	    StringToDate dateConverter = new StringToDate();
 	    dateConverter.setPattern("MM/dd/yyyy");
+
+        final StringToDate internationalConverterWithHyphen = new StringToDate();
+        dateConverter.setPattern("yyyy-MM-dd");
+
+        final StringToDate internationalConverterWithSlash = new StringToDate();
+        dateConverter.setPattern("yyyy/MM/dd");
+
+        addConverter("internationalWithHyphen", internationalConverterWithHyphen);
+        addConverter("internationalWithSlash", internationalConverterWithSlash);
+
+
 	    addConverter("shortDate", dateConverter);
         addConverter(dateConverter);
         addConverter(new UrlConverter());
