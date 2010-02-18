@@ -79,7 +79,6 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
         this.name = name.trim();
 
         if (!this.name.contains(" ") && !this.name.contains(",")) {
-//            this.familyName = this.name;
             return;
         }
 
