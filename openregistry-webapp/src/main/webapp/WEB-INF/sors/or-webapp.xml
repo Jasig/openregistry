@@ -1,1 +1,39 @@
-<specification><id>or-webapp</id><name>Test SoR</name><description>This is a test SoR.</description></specification>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<specification>
+   <name>or-webapp</name>
+    <id>or-webapp</id>
+   <requiredProperties>
+      <property>person.dateOfBirth</property>
+      <property>person.gender</property>
+   </requiredProperties>
+   <disallowedProperties>
+      <!--<property>my.bar</property>-->
+      <!--<property>foo.bar</property>-->
+   </disallowedProperties>
+   <allowedInterfaces>
+      <interface>HUMAN</interface>
+      <!--<interface>BATCH</interface>-->
+   </allowedInterfaces>
+   <!--<notificationSchemes>-->
+      <!--<entry>-->
+         <!--<key>HUMAN</key>-->
+         <!--<value>email</value>-->
+      <!--</entry>-->
+      <!--<entry>-->
+         <!--<key>BATCH</key>-->
+         <!--<value>letter</value>-->
+      <!--</entry>-->
+   <!--</notificationSchemes>-->
+   <!--<allowedValuesForProperties>-->
+      <!--<allowedValuesForProperty>-->
+         <!--<property>test.property</property>-->
+         <!--<values>-->
+            <!--<value>BAR</value>-->
+            <!--<value>FOO</value>-->
+         <!--</values>-->
+      <!--</allowedValuesForProperty>-->
+   <!--</allowedValuesForProperties>-->
+   <sizesForCollectionProperties>
+      <collection property="person.names" max="20" min="1"/>
+   </sizesForCollectionProperties>
+</specification>

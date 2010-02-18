@@ -34,7 +34,7 @@
 
 <div id="search_form">
     <form:form commandName="searchCriteria" method="post" id="orForm">
-        <form:errors path="*" element="p" id="globalErrors" />
+        <form:errors path="*" element="div" id="message" cssClass="error" htmlEscape="false"/>
         <fieldset>
             <legend>Find a Person</legend>
             <div class="field_set group">
@@ -45,6 +45,7 @@
                 <div>
                     <form:label cssClass="above" for="person_name" path="name"><spring:message code="person.biodem.names.label" /></form:label>
                     <form:input path="name" cssErrorClass="formerror" name="person_name" id="person_name" />
+                    <form:errors path="name" />
                 </div>
                 <div>
                     <form:label cssClass="above" for="person_dob" path="dateOfBirth"><spring:message code="person.biodem.dateOfBirth.label" /></form:label>

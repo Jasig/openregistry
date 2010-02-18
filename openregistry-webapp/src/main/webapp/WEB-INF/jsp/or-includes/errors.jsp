@@ -22,6 +22,7 @@
   Time: 4:56:10 PM
   To change this template use File | Settings | File Templates.
 --%>
+This is the errors.jsp
 <c:if test="${not empty command}">
 	<spring:hasBindErrors name="${command}"/>
 	<spring:bind path="${command}.*">
