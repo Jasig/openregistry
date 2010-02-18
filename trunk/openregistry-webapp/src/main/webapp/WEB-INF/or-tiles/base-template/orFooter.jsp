@@ -16,12 +16,7 @@
 
 --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: rosey
-  Date: Feb 2, 2010
-  Time: 1:53:20 PM
---%>
 <div id="footer">
     <p><spring:message code="footer.text" /></p>
+    <!--<p><a href="http://www.ja-sig.org/wiki/display/ORUM/Home">Documentation</a> | <a href="http://www.ja-sig.org/issues/browse/OR">Issue Tracker</a> | <a href="http://www.ja-sig.org/wiki/display/JSG/OpenRegistry+Project+Lists">Mailing Lists</a> </p>-->
 </div>

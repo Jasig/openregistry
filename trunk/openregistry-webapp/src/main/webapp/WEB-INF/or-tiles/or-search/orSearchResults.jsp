@@ -31,7 +31,7 @@
             <display:setProperty name="css.tr.even" value="even-rows" />
             <display:column property="person.preferredName" title="Name" sortable="true" href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"/>
             <display:column title="ID">
-                <%=((org.openregistry.core.service.reconciliation.PersonMatch)personMatch).getPerson().pickOutIdentifier((String) request.getAttribute("preferredPersonIdentifierType")).getValue()%>
+                ${personMatch.person.primaryIdentifiersByType[preferredPersonIdentifierType].value}
             </display:column>
             <display:column title="Roles" sortable="true">
                 <c:forEach var="role" items="${personMatch.person.roles}">

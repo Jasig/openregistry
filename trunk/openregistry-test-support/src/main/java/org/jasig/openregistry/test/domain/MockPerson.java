@@ -260,13 +260,17 @@ public class MockPerson implements Person {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public Identifier pickOutIdentifier(final String name) {
+    @Override
+    public Map<String, Identifier> getPrimaryIdentifiersByType() {
+        final Map<String,Identifier> primaryIdentifiers = new HashMap<String,Identifier>();
+
         for (final Identifier identifier : getIdentifiers()) {
-            if (identifier.getType().getName().equals(name)) {
-                return identifier;
+            if (identifier.isPrimary()) {
+                primaryIdentifiers.put(identifier.getType().getName(), identifier);
             }
         }
-        return null;
+
+        return primaryIdentifiers;
     }
 
     public ActivationKey generateNewActivationKey(Date start, Date end) {

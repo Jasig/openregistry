@@ -25,11 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Person entity mapped to a persistence store with JPA annotations.
@@ -182,13 +178,17 @@ public class JpaPersonImpl extends Entity implements Person {
         return null;
     }
 
-    public Identifier pickOutIdentifier(String name) {
-        for(Identifier i : this.identifiers) {
-            if(i.getType().getName().equals(name)) {
-                return i;
+    @Override
+    public Map<String, Identifier> getPrimaryIdentifiersByType() {
+        final Map<String, Identifier> primaryIdentifiers = new HashMap<String,Identifier>();
+
+        for (final Identifier identifier : this.identifiers) {
+            if (identifier.isPrimary()) {
+                primaryIdentifiers.put(identifier.getType().getName(), identifier);
             }
         }
-        return null;
+
+        return primaryIdentifiers;
     }
 
     public synchronized ActivationKey generateNewActivationKey(final Date start, final Date end) {

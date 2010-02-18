@@ -28,6 +28,7 @@ import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -44,7 +45,8 @@ public final class PersonSearchAction extends AbstractPersonServiceAction {
     //TODO don't hardcode. OR-55
     private final String SOR_INDENTIFIER = "or-webapp";
 
-    private final String identifierType = "NETID";
+    @Resource
+    private String preferredPersonIdentifierType;
 
     @Inject
     public PersonSearchAction(final PersonService personService) {
@@ -91,7 +93,7 @@ public final class PersonSearchAction extends AbstractPersonServiceAction {
         }
 
         final Person person = serviceExecutionResult.getTargetObject();
-        final Identifier netId = person.pickOutIdentifier(this.identifierType);
+        final Identifier netId = person.getPrimaryIdentifiersByType().get(this.preferredPersonIdentifierType);
 
         if (person.getCurrentActivationKey() != null) {
             final MessageResolver message = new MessageBuilder().info().code("personAddedFinalConfirm").arg(netId.getValue()).arg(person.getCurrentActivationKey().asString()).build();
@@ -108,5 +110,9 @@ public final class PersonSearchAction extends AbstractPersonServiceAction {
 
     public boolean hasSorPersonRecord(final Person p, final String sourceSorId) {
         return getPersonService().findByPersonIdAndSorIdentifier(p.getId(), sourceSorId) != null;
+    }
+
+    public void setPreferredPersonIdentifierType(final String preferredPersonIdentifierType) {
+        this.preferredPersonIdentifierType = preferredPersonIdentifierType;
     }
 }
