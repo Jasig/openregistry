@@ -52,7 +52,11 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         ActivationKey key = mock(ActivationKey.class);
         when(key.asString()).thenReturn("mock***activation###key");
         when(mockPerson.getIdentifiers()).thenReturn(ids);
-        when(mockPerson.pickOutIdentifier("NETID")).thenReturn((Identifier) ids.iterator().next());
+
+        final Map<String,Identifier> identifierMap = mock(Map.class);
+        when(identifierMap.get("NETID")).thenReturn((Identifier) ids.iterator().next());
+        when(mockPerson.getPrimaryIdentifiersByType()).thenReturn(identifierMap);
+        
         when(mockPerson.getCurrentActivationKey()).thenReturn(key);
 
         //Stubbing 'person exists' result
@@ -131,12 +135,20 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         Person mockPerson1 = mock(Person.class);
         Set ids1 = buildMockIdentifiers("-p1");
         when(mockPerson1.getIdentifiers()).thenReturn(ids1);
-        when(mockPerson1.pickOutIdentifier("NETID")).thenReturn((Identifier) ids1.iterator().next());
+
+        final Map<String,Identifier> identifierMap = mock(Map.class);
+        when(identifierMap.get("NETID")).thenReturn((Identifier) ids1.iterator().next());
+        when(mockPerson1.getPrimaryIdentifiersByType()).thenReturn(identifierMap);
+
+
 
         Person mockPerson2 = mock(Person.class);
         Set ids2 = buildMockIdentifiers("-p2");
         when(mockPerson2.getIdentifiers()).thenReturn(ids2);
-        when(mockPerson2.pickOutIdentifier("NETID")).thenReturn((Identifier) ids2.iterator().next());
+
+        final Map<String,Identifier> identifierMap2 = mock(Map.class);
+        when(identifierMap2.get("NETID")).thenReturn((Identifier) ids2.iterator().next());
+        when(mockPerson2.getPrimaryIdentifiersByType()).thenReturn(identifierMap2);
 
         PersonMatch mockMatch1 = mock(PersonMatch.class);
         PersonMatch mockMatch2 = mock(PersonMatch.class);
@@ -150,7 +162,10 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
         Person mockPerson1 = mock(Person.class);
         Set ids1 = buildMockIdentifiers("-p1");
         when(mockPerson1.getIdentifiers()).thenReturn(ids1);
-        when(mockPerson1.pickOutIdentifier("NETID")).thenReturn((Identifier) ids1.iterator().next());
+        final Map<String,Identifier> identifierMap = mock(Map.class);
+     
+        when(identifierMap.get("NETID")).thenReturn((Identifier) ids1.iterator().next());
+        when(mockPerson1.getPrimaryIdentifiersByType()).thenReturn(identifierMap);
 
         PersonMatch mockMatch1 = mock(PersonMatch.class);
         when(mockMatch1.getPerson()).thenReturn(mockPerson1);

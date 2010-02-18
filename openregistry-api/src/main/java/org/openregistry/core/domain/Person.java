@@ -15,10 +15,7 @@
  */
 package org.openregistry.core.domain;
 
-import java.util.Set;
-import java.util.Collection;
-import java.util.List;
-import java.util.Date;
+import java.util.*;
 import java.io.Serializable;
 
 import org.openregistry.core.domain.sor.SorRole;
@@ -148,11 +145,11 @@ public interface Person extends Serializable {
     Role findRoleBySoRRoleId(Long sorRoleId);
 
     /**
-     * Pick out the specific Identifier from the collection of identifiers for this person.
-     * @param name
-     * @return Identifier
+     * Returns a Map of the primary identifiers, in a key/value pair with type.
+     *
+     * @return the map, keyed on Identifier Type of primary identifiers.  CANNOT be NULL. CAN be EMPTY.
      */
-    Identifier pickOutIdentifier(String name);
+    Map<String,Identifier> getPrimaryIdentifiersByType();
 
     /**
      * Generates a new Activation Key.  If there are any current activation keys, they

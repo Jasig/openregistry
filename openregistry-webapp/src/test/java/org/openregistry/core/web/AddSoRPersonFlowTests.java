@@ -83,6 +83,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
         this.messageContext = new DefaultMessageContext(staticMessageSource);
         this.personSearchAction = new PersonSearchAction(this.personService);
+        this.personSearchAction.setPreferredPersonIdentifierType("NETID");
         this.referenceRepository = new MockReferenceRepository();
         this.reconciliationCriteriaFactory = new MockReconciliationCriteriaFactory();
     }
@@ -180,8 +181,12 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         when(serviceExecutionResult.getTargetObject()).thenReturn(person);
 
         when(person.getId()).thenReturn(1L);
+
         final Identifier identifier = mock(Identifier.class, RETURNS_SMART_NULLS);
-        when(person.pickOutIdentifier("NETID")).thenReturn(identifier);
+        final Map<String,Identifier> identifiersByType = mock(Map.class, RETURNS_SMART_NULLS);
+
+        when(identifiersByType.get("NETID")).thenReturn(identifier);
+        when(person.getPrimaryIdentifiersByType()).thenReturn(identifiersByType);
 
         when (identifier.getValue()).thenReturn("FOOBAR");
         final ActivationKey activationKey = mock(ActivationKey.class, RETURNS_SMART_NULLS);
@@ -233,7 +238,10 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
         when(person.getId()).thenReturn(1L);
         final Identifier identifier = mock(Identifier.class, RETURNS_SMART_NULLS);
-        when(person.pickOutIdentifier("NETID")).thenReturn(identifier);
+        final Map<String,Identifier> identifiersByType = mock(Map.class, RETURNS_SMART_NULLS);
+
+        when(identifiersByType.get("NETID")).thenReturn(identifier);
+        when(person.getPrimaryIdentifiersByType()).thenReturn(identifiersByType);
 
         when (identifier.getValue()).thenReturn("FOOBAR");
         final ActivationKey activationKey = mock(ActivationKey.class, RETURNS_SMART_NULLS);

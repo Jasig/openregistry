@@ -140,4 +140,9 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
             this.deletedDate = null;
         }
     }
+
+    @Override
+    public String toString() {
+        return this.value;
+    }
 }

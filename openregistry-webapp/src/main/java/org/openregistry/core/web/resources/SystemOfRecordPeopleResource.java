@@ -208,7 +208,7 @@ public final class SystemOfRecordPeopleResource {
     }
 
     private URI buildPersonResourceUri(final Person person) {
-        final Identifier identifier = person.pickOutIdentifier(this.preferredPersonIdentifierType);
+        final Identifier identifier = person.getPrimaryIdentifiersByType().get(this.preferredPersonIdentifierType);
 
         Assert.notNull(identifier, "The person must have at least one id of the preferred configured type which is <" + this.preferredPersonIdentifierType + ">");
         return this.uriInfo.getAbsolutePathBuilder().path(this.preferredPersonIdentifierType).path(identifier.getValue()).build();
