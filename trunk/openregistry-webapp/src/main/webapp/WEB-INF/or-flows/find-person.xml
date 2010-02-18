@@ -31,6 +31,9 @@
             <set name="viewScope.errorMessage" value="flashScope.errorMessage" />
             <set name="viewScope.searchResults" value="flowScope.searchResults" />
         </on-entry>
+        <on-render>
+            <set name="viewScope.commandName" value="'searchCriteria'" />
+        </on-render>
         <transition on="submit" bind="true" validate="true">
             <evaluate expression="personService.searchForPersonBy(searchCriteria)" result-type="java.util.List" result="flowScope.searchResults" />
             <set name="viewScope.searchResults" value="flowScope.searchResults" />
@@ -60,7 +63,4 @@
     <end-state id="personSelected">
         <output name="person" value="person"/>
     </end-state>
-
-
-
 </flow>

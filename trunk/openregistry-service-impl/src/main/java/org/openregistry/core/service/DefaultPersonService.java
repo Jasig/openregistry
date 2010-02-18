@@ -327,7 +327,7 @@ public class DefaultPersonService implements PersonService {
                 }
             }
 
-            final List<Person> persons = this.personRepository.findByUnknownIdentifier(searchCriteria.getIdentifierValue());
+            final List<Person> persons = this.personRepository.findByUnknownIdentifier(identifierValue);
             return createMatches(persons);
         }
 
