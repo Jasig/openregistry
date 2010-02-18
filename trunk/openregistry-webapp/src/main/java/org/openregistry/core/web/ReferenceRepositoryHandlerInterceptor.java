@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Makes the reference data available to the views.
+ *
  * @version $Revision$ $Date$
  * @since 0.1-M2
  */

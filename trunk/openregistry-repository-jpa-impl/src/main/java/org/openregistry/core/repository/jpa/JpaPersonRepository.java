@@ -25,10 +25,7 @@ import org.springframework.stereotype.*;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.*;
 
 /**
@@ -94,22 +91,32 @@ public class JpaPersonRepository implements PersonRepository {
         final Root<JpaPersonImpl> person = c.from(JpaPersonImpl.class);
         final Join<JpaPersonImpl,JpaNameImpl> name = person.join(JpaPersonImpl_.names);
 
+        final Predicate pBirthDate;
         if (birthDate != null) {
-            c.select(person).where(criteriaBuilder.and(criteriaBuilder.equal(person.get(JpaPersonImpl_.dateOfBirth), birthDate)));
+            pBirthDate = criteriaBuilder.equal(person.get(JpaPersonImpl_.dateOfBirth), birthDate);
+        } else {
+            pBirthDate = null;
         }
 
+        final Predicate combined;
+
         if (StringUtils.hasText(givenName) && StringUtils.hasText(familyName)) {
-            c.select(person)
-                    .where(criteriaBuilder.like(name.get(JpaNameImpl_.given), givenName + "%"))
-                    .where(criteriaBuilder.and(criteriaBuilder.like(name.get(JpaNameImpl_.family), familyName + "%")));
-        } else if (StringUtils.hasText(givenName)) {
-            c.select(person).where(criteriaBuilder.like(name.get(JpaNameImpl_.given), givenName + "%"));
-        } else if (StringUtils.hasText(familyName)) {
-            c.select(person).where(criteriaBuilder.and(criteriaBuilder.like(name.get(JpaNameImpl_.family), familyName + "%")));
+            final Predicate pGivenName = criteriaBuilder.like(name.get(JpaNameImpl_.given), givenName + "%");
+            final Predicate pFamilyName = criteriaBuilder.like(name.get(JpaNameImpl_.family), familyName + "%");
+
+            combined = criteriaBuilder.and(pGivenName, pFamilyName);
         } else {
-            c.select(person)
-                    .where(criteriaBuilder.like(name.get(JpaNameImpl_.given), searchCriteriaName + "%"))
-                    .where(criteriaBuilder.or(criteriaBuilder.like(name.get(JpaNameImpl_.family), searchCriteriaName + "%")));
+            final Predicate pGivenName = criteriaBuilder.like(name.get(JpaNameImpl_.given), searchCriteriaName + "%");
+            final Predicate pFamilyName = criteriaBuilder.like(name.get(JpaNameImpl_.family), searchCriteriaName + "%");
+            combined = criteriaBuilder.or(pGivenName, pFamilyName);
+        }
+
+        if (pBirthDate != null && combined != null) {
+            c.select(person).where(criteriaBuilder.and(pBirthDate, combined));
+        } else if (pBirthDate != null) {
+            c.select(person).where(pBirthDate);
+        } else {
+            c.select(person).where(combined);
         }
 
         final List<JpaPersonImpl> persons = this.entityManager.createQuery(c).getResultList();

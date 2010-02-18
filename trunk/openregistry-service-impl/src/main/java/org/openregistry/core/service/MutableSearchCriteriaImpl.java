@@ -74,10 +74,12 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
     }
 
     public void setName(final String name) {
+        this.familyName = null;
+        this.givenName = null;
         this.name = name.trim();
 
         if (!this.name.contains(" ") && !this.name.contains(",")) {
-            this.familyName = this.name;
+//            this.familyName = this.name;
             return;
         }
 
@@ -99,6 +101,7 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
         toStringCreator.append("dateOfBirth", this.dateOfBirth);
         toStringCreator.append("familyName", this.familyName);
         toStringCreator.append("givenName", this.givenName);
+        toStringCreator.append("name", this.name);
         return toStringCreator.toString();
     }
 }
