@@ -43,9 +43,9 @@
 
         <%--insert the errors and info files--%>
         <div id="content">
-            <c:set var="command" value="${command}" />
-            <jsp:directive.include file="/WEB-INF/jsp/or-includes/errors.jsp" />
-            <jsp:directive.include file="/WEB-INF/jsp/or-includes/info.jsp" />
+            <%--<c:set var="command" value="${command}" />--%>
+            <%--<jsp:directive.include file="/WEB-INF/jsp/or-includes/errors.jsp" />--%>
+            <%--<jsp:directive.include file="/WEB-INF/jsp/or-includes/info.jsp" />--%>
 
             <%--insert the main content of this page--%>
             <tiles:insertAttribute name="body"/>

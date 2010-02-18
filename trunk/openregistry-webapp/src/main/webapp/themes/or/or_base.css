@@ -102,11 +102,12 @@
 		text-align: center;
 		font-size: 0.8em;
         width: 100%;
+        padding-top:100px;
         /*background: #CCC;*/
-        position: absolute;
-        bottom: 0 !important;
-        bottom: -1px;
-        height: 40px;
+        /*position: absolute;*/
+        /*bottom: 0 !important;*/
+        /*bottom: -1px;*/
+        /*height: 40px;*/
 
 	}
 
@@ -255,6 +256,11 @@
 		background: #750B11;
 	}
 
+    select {
+        background-color:white;
+
+    }
+
 /* TABLES ------------------------------------------------------------------------------------- */
 
     table {
@@ -292,7 +298,7 @@
 	#message {
 		width: 750px;
 		margin-bottom: 20px;
-		padding: 0 0.7em;
+		padding: 0.7em;
 		border-radius: 4px;
 		-webkit-border-radius: 4px;
 		-moz-border-radius: 4px;
@@ -313,6 +319,10 @@
 		border: 1px solid #CD0A0A;
 		color: #fff;
 	}
+
+    #message div {
+        height: 40px;
+    }
 
 
 

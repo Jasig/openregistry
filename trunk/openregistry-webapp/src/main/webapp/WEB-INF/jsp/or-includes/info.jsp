@@ -22,6 +22,7 @@
   Time: 4:56:10 PM
   To change this template use File | Settings | File Templates.
 --%>
+This is the info.jsp
 <c:if test='${not empty infoModel}'>
 	<p class="highlight" id="message">
 		<h2><c:out value="${infoModel}"/></h2>

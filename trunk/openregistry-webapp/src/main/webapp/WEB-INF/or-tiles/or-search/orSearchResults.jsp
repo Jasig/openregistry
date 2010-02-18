@@ -29,7 +29,7 @@
         <display:table name="searchResults" id="personMatch" htmlId="find_person_results_table" requestURI="">
             <display:setProperty name="basic.msg.empty_list" value="Your search returned no results." />
             <display:setProperty name="css.tr.even" value="even-rows" />
-            <display:column property="person.preferredName" title="Name" sortable="true"/>
+            <display:column property="person.preferredName" title="Name" sortable="true" href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"/>
             <display:column property="person.id" title="ID"/>
             <display:column title="Roles" sortable="true">
                 <c:forEach var="role" items="${personMatch.person.roles}">
