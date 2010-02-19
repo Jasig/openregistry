@@ -81,7 +81,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     private Date dateOfBirth;
 
     @Column(name = "gender", length = 1, nullable = true)
-    @Required(property = "person.gender", message = "genderRequiredMsg")
+    @Required(property = "person.gender", message = "{genderRequiredMsg}")
     @Size(min = 1, max = 1, message = "genderRequiredMsg")
     @Gender
     private String gender;
