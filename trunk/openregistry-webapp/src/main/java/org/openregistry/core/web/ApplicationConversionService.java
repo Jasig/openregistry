@@ -15,6 +15,7 @@
  */
 package org.openregistry.core.web;
 
+import org.openregistry.core.web.converters.TrimStringToStringConverter;
 import org.springframework.binding.convert.converters.StringToDate;
 import org.springframework.binding.convert.service.DefaultConversionService;
 import org.springframework.beans.factory.InitializingBean;
@@ -43,6 +44,8 @@ public final class ApplicationConversionService extends DefaultConversionService
 
     private final PersonRepository personRepository;
 
+    private String defaultDateFormat = "yyyy-MM-dd";
+
     @Inject
     public ApplicationConversionService(final PersonRepository personRepository, final ReferenceRepository referenceRepository) {
         this.personRepository = personRepository;
@@ -56,18 +59,7 @@ public final class ApplicationConversionService extends DefaultConversionService
 	    StringToDate dateConverter = new StringToDate();
 	    dateConverter.setPattern("MM/dd/yyyy");
 
-        final StringToDate internationalConverterWithHyphen = new StringToDate();
-        dateConverter.setPattern("yyyy-MM-dd");
-
-        final StringToDate internationalConverterWithSlash = new StringToDate();
-        dateConverter.setPattern("yyyy/MM/dd");
-
-        addConverter("internationalWithHyphen", internationalConverterWithHyphen);
-        addConverter("internationalWithSlash", internationalConverterWithSlash);
-
-
 	    addConverter("shortDate", dateConverter);
-        addConverter(dateConverter);
         addConverter(new UrlConverter());
     }
 
@@ -79,6 +71,15 @@ public final class ApplicationConversionService extends DefaultConversionService
         addConverter(new RoleInfoConverter(this.referenceRepository));
         addConverter(new TypeConverter(this.referenceRepository));
         addConverter(new IdentifierTypeConverter(this.referenceRepository));
-    } 
 
+        final StringToDate dateConverter = new StringToDate();
+        dateConverter.setPattern(this.defaultDateFormat);
+        
+        addConverter(dateConverter);
+        addConverter(new TrimStringToStringConverter());
+    }
+
+    public void setDefaultDateFormat(final String dateFormat) {
+        this.defaultDateFormat = dateFormat;
+    }
 }
