@@ -27,14 +27,14 @@
             <spring:message code="requiredFields.heading" /><span style="color:#b00;">*</span>.
         </p>
         <br />
-        <%--<form:errors path="*" element="div" id="message" cssClass="error" htmlEscape="false"/>--%>
+        <form:errors path="*" element="div" id="message" cssClass="error" htmlEscape="false"/>
         <fieldset>
             <div class="field_set group">
                 <div>
-                    <form:label cssClass="above" for="prefix" path="sorPerson.names[0].prefix" cssErrorClass="labelError">
+                    <form:label cssClass="above" path="sorPerson.names[0].prefix" cssErrorClass="labelError">
                         <spring:message code="prefix.label" />
                     </form:label>
-                    <form:select path="sorPerson.names[0].prefix" id="prefix" size="1" tabindex="1">
+                    <form:select path="sorPerson.names[0].prefix" size="1" tabindex="1">
                         <form:option value="" label="" />
                         <form:option value="Mrs" label="Mrs." />
                         <form:option value="Miss" label="Miss" />
@@ -45,18 +45,18 @@
                 </div>
                 <div>
 
-                    <form:label cssClass="above" for="first_name" path="sorPerson.names[0].given" cssErrorClass="labelError"><spring:message code="firstName.label" /><em>*</em></form:label>
-                    <form:input path="sorPerson.names[0].given" id="first_name" size="10" maxlength="30" tabindex="2" cssErrorClass="fieldError"/>
+                    <form:label cssClass="above"  path="sorPerson.names[0].given" cssErrorClass="labelError"><spring:message code="firstName.label" /><em>*</em></form:label>
+                    <form:input path="sorPerson.names[0].given"  size="10" maxlength="30" tabindex="2" cssErrorClass="fieldError"/>
                 </div>
                 <div>
 
-                    <form:label cssClass="above" for="middle_name" path="sorPerson.names[0].middle" cssErrorClass="labelError"><spring:message code="middleName.label" /></form:label>
-                    <form:input path="sorPerson.names[0].middle" id="middle_name" size="10" maxlength="30" tabindex="3" cssErrorClass="fieldError"/>
+                    <form:label cssClass="above"  path="sorPerson.names[0].middle" cssErrorClass="labelError"><spring:message code="middleName.label" /></form:label>
+                    <form:input path="sorPerson.names[0].middle" size="10" maxlength="30" tabindex="3" cssErrorClass="fieldError"/>
                 </div>
                 <div>
 
-                    <form:label cssClass="above" for="last_name" path="sorPerson.names[0].family" cssErrorClass="labelError"><spring:message code="lastName.label" /><em>*</em></form:label>
-                    <form:input path="sorPerson.names[0].family" id="last_name" size="10" maxlength="30" tabindex="4" cssErrorClass="fieldError" />
+                    <form:label cssClass="above"  path="sorPerson.names[0].family" cssErrorClass="labelError"><spring:message code="lastName.label" /><em>*</em></form:label>
+                    <form:input path="sorPerson.names[0].family" size="10" maxlength="30" tabindex="4" cssErrorClass="fieldError" />
                 </div>
 
             </div>
@@ -64,9 +64,9 @@
 
                 <div class="padded">
 
-                    <form:label cssClass="above" for="gender" path="sorPerson.gender" cssErrorClass="labelError"><spring:message code="gender.label" />
+                    <form:label cssClass="above" path="sorPerson.gender" cssErrorClass="labelError"><spring:message code="gender.label" />
                         <em>*</em></form:label>
-                    <form:select path="sorPerson.gender" id="gender" size="1" tabindex="6">
+                    <form:select path="sorPerson.gender" size="1" tabindex="6">
                         <form:option value="" label="" />
                         <form:option value="F" label="Female" />
                         <form:option value="M" label="Male" />
@@ -74,24 +74,24 @@
                 </div>
 
                 <div class="padded">
-                    <form:label for="dateOfBirth" cssClass="above" path="sorPerson.dateOfBirth" cssErrorClass="labelError"><spring:message code="dateOfBirth.label" /><em>*</em></form:label>
-                    <form:input path="sorPerson.dateOfBirth" id="dateOfBirth" size="10" maxlength="10" tabindex="7" cssErrorClass="fieldError"/>
+                    <form:label cssClass="above" path="sorPerson.dateOfBirth" cssErrorClass="labelError"><spring:message code="dateOfBirth.label" /><em>*</em></form:label>
+                    <form:input path="sorPerson.dateOfBirth" size="10" maxlength="10" tabindex="7" cssErrorClass="fieldError" placeholder="yyyy-mm-dd"/>
                 </div>
 
                 <div class="padded">
-                    <form:label for="ssn" cssClass="above" path="sorPerson.ssn" cssErrorClass="labelError"><spring:message code="ssn.label" /></form:label>
-                    <form:input path="sorPerson.ssn" id="ssn" size="9" maxlength="9" tabindex="8" cssErrorClass="fieldError"/>
+                    <form:label  cssClass="above" path="sorPerson.ssn" cssErrorClass="labelError"><spring:message code="ssn.label" /></form:label>
+                    <form:input path="sorPerson.ssn"  size="9" maxlength="9" tabindex="8" cssErrorClass="fieldError"/>
                 </div>
 
                 <div class="padded">
-                    <form:label for="email" cssClass="above" path="emailAddress" cssErrorClass="labelError"><spring:message code="email.label" /></form:label>
-                    <form:input path="emailAddress" id="email" size="20" maxlength="30" tabindex="9" cssErrorClass="fieldError"/>
+                    <form:label cssClass="above" path="emailAddress" cssErrorClass="labelError"><spring:message code="email.label" /></form:label>
+                    <form:input path="emailAddress" size="20" maxlength="30" tabindex="9" cssErrorClass="fieldError"/>
                 </div>
 
                 <div class="padded">
 
-                    <form:label for="phone" cssClass="above" path="phoneNumber" cssErrorClass="labelError"><spring:message code="phoneNumber.label" /></form:label>
-                    <form:input path="phoneNumber" id="phone" size="15" maxlength="15" tabindex="10" cssErrorClass="fieldError"/>
+                    <form:label cssClass="above" path="phoneNumber" cssErrorClass="labelError"><spring:message code="phoneNumber.label" /></form:label>
+                    <form:input path="phoneNumber" size="15" maxlength="15" tabindex="10" cssErrorClass="fieldError"/>
 
                 </div>
             </div>

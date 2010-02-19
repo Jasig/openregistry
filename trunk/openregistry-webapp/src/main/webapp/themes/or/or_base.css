@@ -91,6 +91,7 @@
 	#content {
         margin-left: 200px;
         padding-bottom: 40px;
+        min-height:500px;
 
     }
 

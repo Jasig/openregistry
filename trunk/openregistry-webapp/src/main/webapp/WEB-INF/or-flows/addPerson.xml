@@ -32,6 +32,15 @@
     </action-state>
 
     <view-state id="addPerson" model="reconciliationCriteria" view="openregistry.person.add.insert">
+        <binder>
+            <binding property="sorPerson.names[0].given" />
+            <binding property="sorPerson.names[0].middle" />
+            <binding property="sorPerson.gender" />
+            <binding property="sorPerson.ssn" />
+            <binding property="emailAddress" />
+            <binding property="phoneNumber" />
+            <binding property="sorPerson.dateOfBirth" converter="internationalWithHyphen" />
+        </binder>
         <on-entry>
             <set name="flowScope.menuItem" value="'Add a Person'" />
         </on-entry>
