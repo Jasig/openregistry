@@ -27,7 +27,7 @@
         <binder>
             <binding property="identifierValue" />
             <binding property="name" />
-            <binding property="dateOfBirth" converter="internationalWithHyphen" />
+            <binding property="dateOfBirth"/>
         </binder>
         <on-entry>
             <set name="flowScope.menuItem" value="'Find a Person'" />
