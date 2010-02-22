@@ -35,6 +35,7 @@
 
     <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
         <sec:filter-chain-map path-type="ant">
+            <sec:filter-chain pattern="/home.htm" filters="none" />
             <sec:filter-chain pattern="/images/**" filters="none" />
             <sec:filter-chain pattern="/js/**" filters="none" />
             <sec:filter-chain pattern="/css/**" filters="none" />
