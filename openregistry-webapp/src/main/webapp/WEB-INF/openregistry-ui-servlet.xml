@@ -93,6 +93,7 @@
                <prop key="/errors/404.htm">urlViewController</prop>
                <prop key="/welcome.htm">urlViewController</prop>
                <prop key="/home.htm">urlViewController</prop>
+               <prop key="/main.htm">urlViewController</prop>
            </props>
        </property>
         <property name="order" value="1" />
