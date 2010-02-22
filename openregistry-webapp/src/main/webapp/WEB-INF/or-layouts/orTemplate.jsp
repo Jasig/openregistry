@@ -37,25 +37,11 @@
 
     <div id="main">
 
-        <%--insert the generic navigation tile--%>
-        <%--<tiles:insertAttribute name="nav" />--%>
-       <tiles:insertDefinition name="openregistry.navigation"/>
-
-        <%--insert the errors and info files--%>
-        <div id="content">
-            <%--<c:set var="command" value="${command}" />--%>
-            <%--<jsp:directive.include file="/WEB-INF/jsp/or-includes/errors.jsp" />--%>
-            <%--<jsp:directive.include file="/WEB-INF/jsp/or-includes/info.jsp" />--%>
-
-            <%--insert the main content of this page--%>
-            <tiles:insertAttribute name="body"/>
-
-        </div>
-
+            <tiles:insertAttribute name="content"/>
 
         <%--insert the generic footer tile--%>
         <%--<tiles:insertAttribute name="footer" />--%>
         <tiles:insertTemplate template="/WEB-INF/or-tiles/base-template/orFooter.jsp"/>
-
+    </div>
 </body>
 </html>

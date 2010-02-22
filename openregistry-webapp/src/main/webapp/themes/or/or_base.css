@@ -54,7 +54,7 @@
 /* MAIN, MAIN>NAV, MAIN>CONTENT */
 	#main {
 		margin: 20px auto;
-		width: 1000px;
+		width: 100%;
 		/*min-height: 300px;*/
         position: fixed;
         min-height: 100%;

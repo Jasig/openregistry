@@ -29,52 +29,45 @@
 
 <div id="calculated-person">
 
-<div class="padded"><strong><spring:message code="officialName.heading" /></strong> ${person.officialName.longFormattedName}</div>
+<%--<div class="padded"><strong><spring:message code="officialName.heading" /></strong> ${person.officialName.longFormattedName}</div>--%>
 
-    <strong><spring:message code="viewCalculatedPerson.heading" /></strong>
     <table>
         <thead>
         <tr>
-            <th><spring:message code="property.label" /></th>
-            <th colspan="5"><spring:message code="value.label" /></th>
+            <th colspan="2"><spring:message code="viewCalculatedPerson.heading" /></th>
         </tr>
         </thead>
         <tbody class="zebra">
         <c:forEach var="name" items="${person.names}" varStatus="sorPersonLoopStatus">
             <tr>
-                <td><spring:message code="nameColumn.label" /> <b>(${name.type.description})</b></td>
-                <td><spring:message code="vcpFirst.label" /> <b>${name.given}</b></td>
-                <td><spring:message code="vcpLast.label" /> <b>${name.family}</b></td>
-                <td><spring:message code="vcpMiddle.label" /> <b>${name.middle}</b></td>
-                <td><spring:message code="vcpPrefix.label" /> <b>${name.prefix}</b></td>
-                <td><spring:message code="vcpSuffix.label" /> <b>${name.suffix}</b></td>
+                <td>${name.type.description} <spring:message code="nameColumn.label" /> </strong> </td>
+                <td>${name.longFormattedName}</td>
             </tr>
         </c:forEach>
         <tr>
             <td><spring:message code="dateOfBirth.label" /></td>
-            <td colspan="5"><fmt:formatDate value="${person.dateOfBirth}" dateStyle="long" /></td>
+            <td><fmt:formatDate value="${person.dateOfBirth}" dateStyle="long" /></td>
         </tr>
         <tr>
             <td><spring:message code="gender.label" /></td>
-            <td colspan="5"><spring:message code="${person.gender}.genderDisplayValue" /></td>
+            <td><spring:message code="${person.gender}.genderDisplayValue" /></td>
         </tr>
         <c:forEach var="identifier" items="${person.identifiers}" varStatus="sorPersonLoopStatus">
             <tr>
-                <td><spring:message code="identifier.heading" /><b>${identifier.type.name}</b></td>
-                <td colspan="5">${identifier.value}
-                    <c:if test="${identifier.primary}"> <b>(<spring:message code="primary.label" />)</b> </c:if>
-                    <c:if test="${identifier.deleted}"> <b>(<spring:message code="deleted.label" />)</b> </c:if>
+                <td>${identifier.type.name}</td>
+                <td>${identifier.value}
+                    <c:if test="${identifier.primary}"> (<spring:message code="primary.label" />)</c:if>
+                    <c:if test="${identifier.deleted}"> (<spring:message code="deleted.label" />)</c:if>
                 </td>
             </tr>
         </c:forEach>
         <c:forEach var="role" items="${person.roles}">
             <tr>
                 <td><spring:message code="role.label" /> (<b>${role.personStatus.description}</b>)</td>
-                <td colspan="3">
+                <td>
                     <a href="${flowExecutionUrl}&_eventId=submitViewRole&roleCode=${role.code}&formattedName=${person.officialName.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a>
+                     <fmt:formatDate value="${role.start}" /> <spring:message code="vcpTo.label" /> <fmt:formatDate value="${role.end}" />
                 </td>
-                <td colspan="2"><fmt:formatDate value="${role.start}" /> <spring:message code="vcpTo.label" />
-                    <fmt:formatDate value="${role.end}" /></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -82,57 +75,54 @@
 </div>
 <c:forEach var="sorPerson" items="${sorPersons}" varStatus="sorPersonLoopStatus">
     <div class="sor-person">
-    <strong><spring:message code="source.heading" /></strong> <c:out value="${sorPerson.sourceSor}" />
+
     <table>
         <thead>
         <tr>
-            <th><spring:message code="property.label" /></th>
-            <th colspan="5"><spring:message code="value.label" /></th>
+            <th colspan="2"><spring:message code="source.heading" /> <c:out value="${sorPerson.sourceSor}" /> <a href="${flowExecutionUrl}&_eventId=updateSorPerson&sorPersonIndex=${sorPersonLoopStatus.index}"><button>Edit</button></a></th>
         </tr>
         </thead>
         <tbody class="zebra">
         <tr>
             <td><spring:message code="sorId.label" /></td>
-            <td colspan="5">${sorPerson.sorId}</td>
+            <td>${sorPerson.sorId}</td>
         </tr>
         <c:forEach var="sorName" items="${sorPerson.names}" varStatus="nameLoopStatus">
-            <tr>
-                <td><spring:message code="nameColumn.label" /> <b>(${sorName.type.description})</b></td>
-                <td><spring:message code="vcpFirst.label" /> <b>${sorName.given}</b></td>
-                <td><spring:message code="vcpLast.label" /> <b>${sorName.family}</b></td>
-                <td><spring:message code="vcpMiddle.label" /> <b>${sorName.middle}</b></td>
-                <td><spring:message code="vcpPrefix.label" /> <b>${sorName.prefix}</b></td>
-                <td><spring:message code="vcpSuffix.label" /> <b>${sorName.suffix}</b></td>
-            </tr>
+            <tr><td colspan="2"><strong>${sorName.type.description} <spring:message code="nameColumn.label" /></strong></td></tr>
+                <tr><td><spring:message code="vcpFirst.label" /> </td><td>${sorName.given}</td></tr>
+                <tr><td><spring:message code="vcpLast.label" /> </td><td>${sorName.family}</td></tr>
+               <tr> <td><spring:message code="vcpMiddle.label" /> </td><td>${sorName.middle}</td></tr>
+               <tr> <td><spring:message code="vcpPrefix.label" /> </td><td>${sorName.prefix}</td></tr>
+               <tr> <td><spring:message code="vcpSuffix.label" /> </td><td>${sorName.suffix}</td></tr>
         </c:forEach>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
         <tr>
             <td><spring:message code="dateOfBirth.label" /></td>
-            <td colspan="5"><fmt:formatDate value="${sorPerson.dateOfBirth}" /></td>
+            <td><fmt:formatDate value="${sorPerson.dateOfBirth}" /></td>
         </tr>
         <tr>
             <td><spring:message code="gender.label" /></td>
-            <td colspan="5"><spring:message code="${sorPerson.gender}.genderDisplayValue" /></td>
+            <td><spring:message code="${sorPerson.gender}.genderDisplayValue" /></td>
 
         </tr>
         <tr>
             <td><spring:message code="ssn.label" /></td>
-            <td colspan="5">${sorPerson.ssn}</td>
+            <td>${sorPerson.ssn}</td>
         </tr>
         <c:forEach var="role" items="${sorPerson.roles}">
             <tr>
                 <td><spring:message code="role.label" /> <b>(${role.personStatus.description})</b></td>
                 <td colspan="3">
                     <a href="${flowExecutionUrl}&_eventId=submitViewSoRRole&sorSource=${sorPerson.sourceSor}&roleCode=${role.code}&formattedName=${sorPerson.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a>
+                <fmt:formatDate value="${role.start}" /> <spring:message code="vcpTo.label" /> <fmt:formatDate value="${role.end}" />
                 </td>
-                <td colspan="2"><fmt:formatDate value="${role.start}" /> <spring:message code="vcpTo.label" />
-                    <fmt:formatDate value="${role.end}" /></td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
 
     <%--pass the index of the iteration so that we can grab the correct sorPerson when passing to the update sorPerson flow--%>
-    <div><a href="${flowExecutionUrl}&_eventId=updateSorPerson&sorPersonIndex=${sorPersonLoopStatus.index}"><button>Edit</button></a></div>
+    <%--<div><a href="${flowExecutionUrl}&_eventId=updateSorPerson&sorPersonIndex=${sorPersonLoopStatus.index}"><button>Edit</button></a></div>--%>
 </c:forEach>
 </div>
 
