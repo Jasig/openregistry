@@ -15,36 +15,8 @@
     limitations under the License.
 
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-<head>
-    <link rel="stylesheet" href="<spring:theme code='baseSheet'/>" type="text/css"/>
-    <!--[if IE]><link rel="stylesheet" type="text/css" href="<spring:theme code='ieSheet'/>" media="all"/><![endif]-->
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <tiles:useAttribute id="key" name="titleCode"/>
-    <title>OpenRegistry &raquo; <spring:message code="${key}" /> </title>
-</head>
-<body>
-
-    <%--insert the generic header tile--%>
-    <%--<tiles:insertAttribute name="header" />--%>
-    <tiles:insertTemplate template="/WEB-INF/or-tiles/base-template/orHeader.jsp"/>
-
-
-    <div id="main">
-
+<div id="content">
         You aren't really logged out, this is just a placeholder page until logout is properly implemented
-
-        </div>
-
-
-        <%--insert the generic footer tile--%>
-        <%--<tiles:insertAttribute name="footer" />--%>
-        <tiles:insertTemplate template="/WEB-INF/or-tiles/base-template/orFooter.jsp"/>
-
-</body>
-</html>
+</div>
+ 

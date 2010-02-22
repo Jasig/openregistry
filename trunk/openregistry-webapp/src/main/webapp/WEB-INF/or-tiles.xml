@@ -21,19 +21,25 @@
 
     <!--New OR Tiles-->
 
-    <definition name="openregistry.home" template="/WEB-INF/or-layouts/orBase.jsp">
+    <definition name="openregistry.base" template="/WEB-INF/or-layouts/orTemplate.jsp">
+        <put-attribute name="content" value="/WEB-INF/or-tiles/base-template/orBase.jsp"/>
+    </definition>
+
+    <definition name="openregistry.home" extends="openregistry.base">
         <put-attribute name="titleCode" value="home.title" type="string"/>
-        <put-attribute name="body" value="/WEB-INF/or-tiles/home/orHome.jsp"/>
+
+        <put-attribute name="body" value="/WEB-INF/or-tiles/home/orHome.jsp" cascade="true"/>
     </definition>
 
-    <definition name="openregistry.logout" template="/WEB-INF/or-tiles/logout/orLogout.jsp">
+    <definition name="openregistry.logout" template="/WEB-INF/or-layouts/orTemplate.jsp">
         <put-attribute name="titleCode" value="logout.title" type="string"/>
+        <put-attribute name="content" value="/WEB-INF/or-tiles/logout/orLogout.jsp"/>
     </definition>
 
 
-    <definition name="openregistry.search" template="/WEB-INF/or-layouts/orBase.jsp">
+    <definition name="openregistry.search" extends="openregistry.base">
         <put-attribute name="titleCode" value="search.title" type="string" />
-        <put-attribute name="body" value="openregistry.search.content"/>
+        <put-attribute name="body" value="openregistry.search.content" cascade="true"/>
     </definition>
 
     <definition name="openregistry.search.content" template="/WEB-INF/layouts/search.jsp">
@@ -49,39 +55,39 @@
         </put-list-attribute>
     </definition>
 
-    <definition name="openregistry.view.person.detail" template="/WEB-INF/or-layouts/orBase.jsp">
+    <definition name="openregistry.view.person.detail" extends="openregistry.base">
         <put-attribute name="titleCode" value="person.detail.title" type="string"/>
-        <put-attribute name="body" value="/WEB-INF/or-tiles/view-person-detail/viewPersonDetail.jsp" />
+        <put-attribute name="body" value="/WEB-INF/or-tiles/view-person-detail/viewPersonDetail.jsp" cascade="true"/>
     </definition>
 
-    <definition name="openregistry.person.view.role" template="/WEB-INF/or-layouts/orBase.jsp">
+    <definition name="openregistry.person.view.role" extends="openregistry.base">
         <put-attribute name="titleCode" value="viewRole.title" type="string" />
-        <put-attribute name="body" value="/WEB-INF/or-tiles/view-person-detail/viewRole.jsp" />
+        <put-attribute name="body" value="/WEB-INF/or-tiles/view-person-detail/viewRole.jsp" cascade="true"/>
     </definition>
 
-    <definition name="openregistry.person.update.update" template="/WEB-INF/or-layouts/orBase.jsp">
+    <definition name="openregistry.person.update.update" extends="openregistry.base">
         <put-attribute name="titleCode" value="updatePerson.title" type="string" />
-        <put-attribute name="body" value="/WEB-INF/or-tiles/update-person/updatePerson.jsp" />
+        <put-attribute name="body" value="/WEB-INF/or-tiles/update-person/updatePerson.jsp" cascade="true" />
     </definition>
 
-    <definition name="openregistry.person.add.insert" template="/WEB-INF/or-layouts/orBase.jsp">
+    <definition name="openregistry.person.add.insert" extends="openregistry.base">
         <put-attribute name="titleCode" value="addSorPerson.title" type="string" />
-        <put-attribute name="body" value="/WEB-INF/or-tiles/add-person/input.jsp" />
+        <put-attribute name="body" value="/WEB-INF/or-tiles/add-person/input.jsp" cascade="true" />
     </definition>
 
-    <definition name="openregistry.person.add.found" template="/WEB-INF/or-layouts/orBase.jsp">
+    <definition name="openregistry.person.add.found" extends="openregistry.base">
         <put-attribute name="titleCode" value="addSorPerson.title" type="string" />
-        <put-attribute name="body" value="/WEB-INF/tiles/add-person/found.jsp" />
+        <put-attribute name="body" value="/WEB-INF/tiles/add-person/found.jsp" cascade="true"/>
     </definition>
 
-    <definition name="openregistry.person.add.matches" template="/WEB-INF/or-layouts/orBase.jsp">
+    <definition name="openregistry.person.add.matches" extends="openregistry.base">
         <put-attribute name="titleCode" value="personMatches.title" type="string" />
-        <put-attribute name="body" value="/WEB-INF/or-tiles/add-person/matches.jsp" />
+        <put-attribute name="body" value="/WEB-INF/or-tiles/add-person/matches.jsp" cascade="true"/>
     </definition>
 
-    <definition name="openregistry.main" template="/WEB-INF/or-layouts/orBase.jsp">
+    <definition name="openregistry.main" extends="openregistry.base">
         <put-attribute name="titleCode" value="welcome.title" type="string" />
-        <put-attribute name="body" value="/WEB-INF/or-tiles/home/orHome.jsp" />
+        <put-attribute name="body" value="/WEB-INF/or-tiles/home/orHome.jsp" cascade="true"/>
     </definition>
 
 

@@ -58,6 +58,12 @@
                     <form:label cssClass="above"  path="sorPerson.names[0].family" cssErrorClass="labelError"><spring:message code="lastName.label" /><em>*</em></form:label>
                     <form:input path="sorPerson.names[0].family" size="10" maxlength="30" tabindex="4" cssErrorClass="fieldError" />
                 </div>
+                <div>
+
+                    <form:label cssClass="above"  path="sorPerson.names[0].suffix" cssErrorClass="labelError"><spring:message code="suffix.label" /></form:label>
+                    <form:input path="sorPerson.names[0].suffix" size="10" maxlength="30" tabindex="4" cssErrorClass="fieldError" />
+                </div>
+
 
             </div>
             <div style="clear:both">
