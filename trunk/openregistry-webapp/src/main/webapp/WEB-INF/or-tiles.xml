@@ -79,6 +79,12 @@
         <put-attribute name="body" value="/WEB-INF/or-tiles/add-person/matches.jsp" />
     </definition>
 
+    <definition name="openregistry.main" template="/WEB-INF/or-layouts/orBase.jsp">
+        <put-attribute name="titleCode" value="welcome.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/or-tiles/home/orHome.jsp" />
+    </definition>
+
+
     <definition name="errors/404" template="/WEB-INF/or-layouts/default2.jsp">
         <put-attribute name="titleCode" value="errors.404.title" type="string" cascade="true" />
         <put-attribute name="head" value="/WEB-INF/or-tiles/defaultHead.jsp" />
