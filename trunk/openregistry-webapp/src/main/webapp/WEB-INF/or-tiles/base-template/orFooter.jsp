@@ -18,5 +18,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div id="footer">
     <p><spring:message code="footer.text" /></p>
-    <!--<p><a href="http://www.ja-sig.org/wiki/display/ORUM/Home">Documentation</a> | <a href="http://www.ja-sig.org/issues/browse/OR">Issue Tracker</a> | <a href="http://www.ja-sig.org/wiki/display/JSG/OpenRegistry+Project+Lists">Mailing Lists</a> </p>-->
+    <p><a href="http://www.ja-sig.org/wiki/display/ORUM/Home">Documentation</a> | <a href="http://www.ja-sig.org/issues/browse/OR">Issue Tracker</a> | <a href="http://www.ja-sig.org/wiki/display/JSG/OpenRegistry+Project+Lists">Mailing Lists</a></p>
 </div>

@@ -25,10 +25,9 @@
         <put-attribute name="content" value="/WEB-INF/or-tiles/base-template/orBase.jsp"/>
     </definition>
 
-    <definition name="openregistry.home" extends="openregistry.base">
+    <definition name="home" template="/WEB-INF/or-layouts/orTemplate.jsp">
         <put-attribute name="titleCode" value="home.title" type="string"/>
-
-        <put-attribute name="body" value="/WEB-INF/or-tiles/home/orHome.jsp" cascade="true"/>
+        <put-attribute name="content" value="/WEB-INF/or-tiles/home/orHome.jsp" cascade="true"/>
     </definition>
 
     <definition name="openregistry.logout" template="/WEB-INF/or-layouts/orTemplate.jsp">

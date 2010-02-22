@@ -24,11 +24,6 @@
     <var name="searchCriteria" class="org.openregistry.core.service.MutableSearchCriteriaImpl" />
 
     <view-state id="searchForPerson" model="searchCriteria" view="openregistry.search">
-        <binder>
-            <binding property="identifierValue" />
-            <binding property="name" />
-            <binding property="dateOfBirth"/>
-        </binder>
         <on-entry>
             <set name="flowScope.menuItem" value="'Find a Person'" />
             <set name="viewScope.success" value="externalContext.requestParameterMap['success']" />
