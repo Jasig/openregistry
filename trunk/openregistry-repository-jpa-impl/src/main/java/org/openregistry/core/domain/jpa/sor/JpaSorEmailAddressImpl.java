@@ -21,6 +21,7 @@ import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.hibernate.envers.Audited;
+import org.openregistry.core.domain.normalization.Capitalization;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -35,7 +36,7 @@ import javax.validation.constraints.NotNull;
 @javax.persistence.Entity(name="sorEmailAddress")
     @Table(name="prs_emails", uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
-public final class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
+public class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_emails_seq")
@@ -50,6 +51,7 @@ public final class JpaSorEmailAddressImpl extends Entity implements EmailAddress
 
     @Column(name="address",nullable=false,length=100)
     @NotNull
+    @Capitalization(property="emailAddress.address")
     private String address;
 
     @ManyToOne(optional=false)

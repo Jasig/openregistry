@@ -20,6 +20,7 @@ import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.annotation.*;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.*;
+import org.openregistry.core.domain.normalization.PhoneNumber;
 import org.springframework.util.*;
 
 import javax.persistence.*;
@@ -63,14 +64,18 @@ public final class JpaSorPhoneImpl extends Entity implements Phone {
 
     @Column(name="country_code",nullable=false,length=5)
     @NotNull
+    @Digits(integer = 5, fraction = 0)
     private String countryCode;
 
     @Column(name="area_code",nullable=false,length=5)
     @NotNull
+    @Digits(integer = 5, fraction = 0)
     private String areaCode;
 
     @Column(name="phone_number",nullable=false,length=10)
     @NotNull
+    @Digits(integer = 10, fraction = 0)
+    @PhoneNumber
     private String number;
 
     @Column(name="extension", nullable=true,length=5)
