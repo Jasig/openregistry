@@ -20,8 +20,6 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<link rel="stylesheet" href="<spring:theme code='findPersonSheet'/>" type="text/css" />
-
 <h2>Find a Person</h2>
 
 <p class="instructions">Enter your search criteria in the fields below and click <strong>Find Person</strong>.

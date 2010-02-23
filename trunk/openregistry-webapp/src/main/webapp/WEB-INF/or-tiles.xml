@@ -42,6 +42,7 @@
 
 
     <definition name="openregistry.search" extends="openregistry.base">
+        <put-attribute name="additionalCssFile" type="string" value="css/or_find_person.css" />
         <put-attribute name="titleCode" value="search.title" type="string" />
         <put-attribute name="body" value="openregistry.search.content" cascade="true"/>
     </definition>

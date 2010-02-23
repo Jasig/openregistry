@@ -22,6 +22,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <link rel="stylesheet" href="<spring:theme code='baseSheet'/>" type="text/css"/>
+    <tiles:useAttribute name="additionalCssFile" id="customCssFile" ignore="true" />
+    <c:if test="${not empty customCssFile}">
+        <link rel="stylesheet" href="${customCssFile}" type="text/css" />
+    </c:if>
     <!--[if IE]><link rel="stylesheet" type="text/css" href="<spring:theme code='ieSheet'/>" media="all"/><![endif]-->
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -34,10 +38,9 @@
     <%--<tiles:insertAttribute name="header" />--%>
     <tiles:insertTemplate template="/WEB-INF/or-tiles/base-template/orHeader.jsp"/>
 
-
     <div id="main">
 
-            <tiles:insertAttribute name="content"/>
+        <tiles:insertAttribute name="content"/>
 
         <%--insert the generic footer tile--%>
         <%--<tiles:insertAttribute name="footer" />--%>
