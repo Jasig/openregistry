@@ -21,6 +21,9 @@ import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.normalization.Capitalization;
+import org.openregistry.core.domain.normalization.FirstName;
+import org.openregistry.core.domain.normalization.LastName;
 import org.springframework.util.Assert;
 import org.hibernate.envers.Audited;
 
@@ -31,7 +34,6 @@ import javax.validation.constraints.Size;
 /**
  * Implementation of the Name domain object that conforms to the tables for the Systems of Record
  *
- * TODO: fix stubs
  * TODO: add unique constraints with new type
  *
  * @author Scott Battaglia
@@ -41,7 +43,7 @@ import javax.validation.constraints.Size;
 @javax.persistence.Entity(name="sorName")
 @Table(name="prs_names")
 @Audited
-public final class JpaSorNameImpl extends AbstractNameImpl {
+public class JpaSorNameImpl extends AbstractNameImpl {
 
     @Id
     @Column(name="id")
@@ -56,20 +58,27 @@ public final class JpaSorNameImpl extends AbstractNameImpl {
     private JpaTypeImpl type;
 
     @Column(name="prefix", nullable=true, length=5)
+    @Capitalization(property = "role.prefix")
     private String prefix;
 
     @NotNull
     @Size(min=1)
     @Column(name="given_name",nullable=false,length=100)
+    @Capitalization(property = "role.given")
+    @FirstName
     private String given;
 
     @Column(name="middle_name",nullable=true,length=100)
+    @Capitalization(property = "role.middle")
     private String middle;
 
     @Column(name="family_name",nullable=true,length=100)
+    @Capitalization(property = "role.family")
+    @LastName
     private String family;
 
     @Column(name="suffix",nullable=true,length=5)
+    @Capitalization(property = "role.suffix")
     private String suffix;
 
     @ManyToOne(optional = false)
@@ -207,23 +216,20 @@ public final class JpaSorNameImpl extends AbstractNameImpl {
     }
 
 	public boolean isOfficialName() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public boolean isPreferredName() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void setOfficialName(final boolean officialName) {
-		// TODO Auto-generated method stub
+        throw new UnsupportedOperationException("setting the official name is not supported on SoR objects.");
 
 	}
 
 	public void setPreferredName(final boolean preferredName) {
-		// TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("setting the preferred name is not supported on SoR objects.");
 	}
 
     public void moveToPerson(JpaSorPersonImpl person){

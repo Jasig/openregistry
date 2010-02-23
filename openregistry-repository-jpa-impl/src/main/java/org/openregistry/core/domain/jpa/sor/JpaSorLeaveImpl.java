@@ -35,7 +35,7 @@ import java.util.Date;
 @javax.persistence.Entity(name="sorLoa")
 @Table(name="prs_leaves_of_absence")
 @Audited
-public final class JpaSorLeaveImpl extends Entity implements Leave {
+public class JpaSorLeaveImpl extends Entity implements Leave {
 
     @Id
     @Column(name="id")
