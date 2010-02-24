@@ -21,7 +21,7 @@ import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.hibernate.envers.Audited;
-import org.openregistry.core.domain.normalization.Capitalization;
+import org.openregistry.core.domain.normalization.Capitalize;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -51,7 +51,7 @@ public class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
 
     @Column(name="address",nullable=false,length=100)
     @NotNull
-    @Capitalization(property="emailAddress.address")
+    @Capitalize(property="emailAddress.address")
     private String address;
 
     @ManyToOne(optional=false)

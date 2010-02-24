@@ -25,7 +25,7 @@ import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.jpa.JpaRegionImpl;
 import org.openregistry.core.domain.jpa.JpaCountryImpl;
 import org.hibernate.envers.Audited;
-import org.openregistry.core.domain.normalization.Capitalization;
+import org.openregistry.core.domain.normalization.Capitalize;
 import org.openregistry.core.domain.normalization.StreetName;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -58,16 +58,16 @@ public class JpaSorAddressImpl extends Entity implements Address {
 
     @Column(name="line1", nullable = true,length=100)
     @NotNull
-    @Capitalization(property="address.line1")
+    @Capitalize(property="address.line1")
     @StreetName
     private String line1;
 
     @Column(name="line2", nullable = true,length=100)
-    @Capitalization(property = "address.line2")
+    @Capitalize(property = "address.line2")
     private String line2;
 
     @Column(name="line3", nullable = true,length=100)
-    @Capitalization(property = "address.line3")
+    @Capitalize(property = "address.line3")
     private String line3;
 
     @ManyToOne
@@ -81,7 +81,7 @@ public class JpaSorAddressImpl extends Entity implements Address {
 
     @Column(name="city",length=100,nullable = false)
     @NotNull
-    @Capitalization(property = "address.city")
+    @Capitalize(property = "address.city")
     private String city;
 
     @Column(name="postal_code",length=9, nullable = false)

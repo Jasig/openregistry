@@ -205,13 +205,6 @@ public interface SorPerson {
     SorRole findSorRoleById(Long roleId);
 
     /**
-     *
-     * Performs standardization/normalization on sorPerson fields.
-     *
-     */
-    void standardizeNormalize();
-
-    /**
      * Retrieves a collection of K->V un-typed attributes that SoR might pass along
      *
      * <p> SoRs and the target OR installation should agree on the common attributes and their keys,

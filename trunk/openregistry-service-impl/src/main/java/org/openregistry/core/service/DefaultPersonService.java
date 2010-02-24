@@ -231,7 +231,6 @@ public class DefaultPersonService implements PersonService {
             return new GeneralServiceExecutionResult<SorRole>(validationErrors);
         }
 
-        sorRole.standardizeNormalize();
         sorRole.setSourceSorIdentifier(sorPerson.getSourceSor());
 
         final SorPerson newSorPerson = this.personRepository.saveSorPerson(sorPerson);
@@ -257,8 +256,6 @@ public class DefaultPersonService implements PersonService {
         if (!validationErrors.isEmpty()) {
             return new GeneralServiceExecutionResult<Person>(validationErrors);
         }
-
-        reconciliationCriteria.getSorPerson().standardizeNormalize();
 
         final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
 
@@ -506,8 +503,6 @@ public class DefaultPersonService implements PersonService {
             return new GeneralServiceExecutionResult<SorPerson>(validationErrors);
         }
 
-        sorPerson.standardizeNormalize();
-
         //do reconciliationCheck to make sure that modifications do not cause person to reconcile to a different person
         if (!this.reconciler.reconcilesToSamePerson(sorPerson)) throw new IllegalStateException();
 
@@ -534,8 +529,6 @@ public class DefaultPersonService implements PersonService {
         if (!validationErrors.isEmpty()) {
             return new GeneralServiceExecutionResult<SorRole>(validationErrors);
         }
-
-        sorRole.standardizeNormalize();
 
         final SorRole savedSorRole = this.personRepository.saveSorRole(sorRole);
 
