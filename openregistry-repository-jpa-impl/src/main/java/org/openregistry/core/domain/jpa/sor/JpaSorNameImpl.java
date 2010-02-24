@@ -17,11 +17,9 @@ package org.openregistry.core.domain.jpa.sor;
 
 import org.openregistry.core.domain.AbstractNameImpl;
 import org.openregistry.core.domain.annotation.AllowedTypes;
-import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
-import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
-import org.openregistry.core.domain.normalization.Capitalization;
+import org.openregistry.core.domain.normalization.Capitalize;
 import org.openregistry.core.domain.normalization.FirstName;
 import org.openregistry.core.domain.normalization.LastName;
 import org.springframework.util.Assert;
@@ -58,27 +56,27 @@ public class JpaSorNameImpl extends AbstractNameImpl {
     private JpaTypeImpl type;
 
     @Column(name="prefix", nullable=true, length=5)
-    @Capitalization(property = "role.prefix")
+    @Capitalize(property = "role.prefix")
     private String prefix;
 
     @NotNull
     @Size(min=1)
     @Column(name="given_name",nullable=false,length=100)
-    @Capitalization(property = "role.given")
+    @Capitalize(property = "role.given")
     @FirstName
     private String given;
 
     @Column(name="middle_name",nullable=true,length=100)
-    @Capitalization(property = "role.middle")
+    @Capitalize(property = "role.middle")
     private String middle;
 
     @Column(name="family_name",nullable=true,length=100)
-    @Capitalization(property = "role.family")
+    @Capitalize(property = "role.family")
     @LastName
     private String family;
 
     @Column(name="suffix",nullable=true,length=5)
-    @Capitalization(property = "role.suffix")
+    @Capitalize(property = "role.suffix")
     private String suffix;
 
     @ManyToOne(optional = false)
@@ -234,9 +232,5 @@ public class JpaSorNameImpl extends AbstractNameImpl {
 
     public void moveToPerson(JpaSorPersonImpl person){
         this.person = person;
-    }
-
-    public void standardizeNormalize(){
-
     }
 }

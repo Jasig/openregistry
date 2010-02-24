@@ -90,7 +90,8 @@
 
     <bean id="openregistryMessageSourceAccessor" class="org.openregistry.aspect.OpenRegistryMessageSourceAccessor"/>
 
-    <!-- Messaging integration configuration -->
+    <!--
+    <- Messaging integration configuration
     <bean id="integrationGateway" class="org.openregistry.integration.internal.CamelIntegrationGateway"/>        
 
     <lang:groovy id="identifierChangeEventNotification"
@@ -98,5 +99,6 @@
         <lang:property name="integrationGateway" ref="integrationGateway"/>
         <lang:property name="identifierChangeEventDestinationUri"
                        value="activemq:topic:openregistry.identifier-change.out"/>
-    </lang:groovy>     
+    </lang:groovy>
+         -->
 </beans>
