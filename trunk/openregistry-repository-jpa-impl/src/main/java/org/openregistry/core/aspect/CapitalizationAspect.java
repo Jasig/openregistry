@@ -1,5 +1,6 @@
 package org.openregistry.core.aspect;
 
+import org.apache.commons.lang.WordUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -19,7 +20,7 @@ import java.util.Map;
 @Aspect
 public final class CapitalizationAspect {
 
-    public static enum Capitalization {UPPER, LOWER, NORMAL, NONE}
+    public static enum Capitalization {UPPER, LOWER, CAPITALIZE, NONE}
 
     private Capitalization capitalization = Capitalization.NONE;
 
@@ -50,7 +51,7 @@ public final class CapitalizationAspect {
             case LOWER:
                 return joinPoint.proceed(new Object[] {doLowerCaseCapitalization(newValue)});
 
-            case NORMAL:
+            case CAPITALIZE:
                 return joinPoint.proceed(new Object[] {doNormalCaseCapitalization(newValue)});
 
             default:
@@ -75,26 +76,6 @@ public final class CapitalizationAspect {
     }
 
     protected String doNormalCaseCapitalization(final String value) {
-        if (!value.contains(" ")) {
-            // we just need to capitalized the first letter and lowercase everything else
-        }
-
-        final StringBuilder builder = new StringBuilder(value.length());
-        final String[] separated = value.split(" ");
-
-        for (final String v : separated) {
-            final String start = v.substring(0,1);
-
-            builder.append(start.toUpperCase());
-
-            if (v.length() > 1) {
-                final String rest = v.substring(1);
-                builder.append(rest.toLowerCase());
-            }
-
-            builder.append(" ");
-        }
-        final String finalString = builder.toString();
-        return finalString.substring(0, finalString.length()-1);
+        return WordUtils.capitalize(value);
     }
 }
