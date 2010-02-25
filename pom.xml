@@ -487,6 +487,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <jaxb.impl.version>2.1.10</jaxb.impl.version>
         <stax.api.version>1.0.1</stax.api.version>
         <stax.version>1.2.0</stax.version>
+        <commons.lang.version>2.4</commons.lang.version>
     </properties>
 
     <pluginRepositories>
