@@ -76,6 +76,6 @@ public final class CapitalizationAspect {
     }
 
     protected String doNormalCaseCapitalization(final String value) {
-        return WordUtils.capitalize(value);
+        return WordUtils.capitalizeFully(value);
     }
 }

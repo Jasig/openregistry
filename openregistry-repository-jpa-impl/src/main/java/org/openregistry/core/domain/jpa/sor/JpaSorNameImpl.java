@@ -56,27 +56,27 @@ public class JpaSorNameImpl extends AbstractNameImpl {
     private JpaTypeImpl type;
 
     @Column(name="prefix", nullable=true, length=5)
-    @Capitalize(property = "role.prefix")
+    @Capitalize(property = "name.prefix")
     private String prefix;
 
     @NotNull
     @Size(min=1)
     @Column(name="given_name",nullable=false,length=100)
-    @Capitalize(property = "role.given")
+    @Capitalize(property = "name.given")
     @FirstName
     private String given;
 
     @Column(name="middle_name",nullable=true,length=100)
-    @Capitalize(property = "role.middle")
+    @Capitalize(property = "name.middle")
     private String middle;
 
     @Column(name="family_name",nullable=true,length=100)
-    @Capitalize(property = "role.family")
+    @Capitalize(property = "name.family")
     @LastName
     private String family;
 
     @Column(name="suffix",nullable=true,length=5)
-    @Capitalize(property = "role.suffix")
+    @Capitalize(property = "name.suffix")
     private String suffix;
 
     @ManyToOne(optional = false)
