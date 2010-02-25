@@ -12,24 +12,32 @@ import org.aspectj.lang.annotation.Aspect;
  * @since 0.1
  */
 @Aspect
-public final class FirstNameAspect {
+public final class FirstNameAspect extends AbstractDisablableAspect {
 
-    private boolean disable = false;
+//    private SpellChecker spellChecker 
 
-    @Around("set(@org.openregistry.core.domain.normalization.FirstName * *)")
+//    @Around("set(@org.openregistry.core.domain.normalization.FirstName * *)")
     public Object transformFieldValue(final ProceedingJoinPoint joinPoint) throws Throwable {
         final String value = (String) joinPoint.getArgs()[0];
 
-        if (this.disable || value == null || value.isEmpty()) {
+        if (isDisabled() || value == null || value.isEmpty()) {
             return joinPoint.proceed();
         }
 
+/*        final String[] spellcheckedWords = this.spellChecker.suggestSimilar(value, 1);
+        if (spellcheckedWords != null && spellcheckedWords.length > 0) {
+            final String spellCheckedWord = spellcheckedWords[0];
+
+            if (value.equalsIgnoreCase(spellCheckedWord)) {
+                return joinPoint.proceed(new Object[] {spellCheckedWord});
+            }
+        }
+  */
+        
+
+
         // TODO we need Dave's algorithm
         return joinPoint.proceed();
-    }
-
-    public void setDisable(final boolean disable) {
-        this.disable = disable;
     }
 }
 

@@ -12,23 +12,17 @@ import org.aspectj.lang.annotation.Aspect;
  * @since 0.1
  */
 @Aspect
-public final class LastNameAspect {
-
-    private boolean disable = false;
+public final class LastNameAspect extends AbstractDisablableAspect {
 
     @Around("set(@org.openregistry.core.domain.normalization.LastName * *)")
     public Object transformFieldValue(final ProceedingJoinPoint joinPoint) throws Throwable {
         final String value = (String) joinPoint.getArgs()[0];
 
-        if (this.disable || value == null || value.isEmpty()) {
+        if (isDisabled() || value == null || value.isEmpty()) {
             return joinPoint.proceed();
         }
 
         // TODO we need Dave's algorithm
         return joinPoint.proceed();
-    }
-
-    public void setDisable(final boolean disable) {
-        this.disable = disable;
     }
 }
