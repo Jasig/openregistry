@@ -62,6 +62,9 @@
                           value="org.hibernate.envers.event.AuditEventListener" />
                 <property name="org.hibernate.envers.auditTablePrefix" value="aud_" />
                 <property name="org.hibernate.envers.auditTableSuffix" value="" />
+                <property name="javax.persistence.validation.group.pre-insert" value="" />
+                <property name="javax.persistence.validation.group.pre-update" value="" />
+                <property name="javax.persistence.validation.group.pre-remove" value="" />
             </properties>
         </persistence-unit>
 </persistence>
