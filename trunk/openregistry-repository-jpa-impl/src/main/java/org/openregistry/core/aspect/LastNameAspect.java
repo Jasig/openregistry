@@ -1,5 +1,6 @@
 package org.openregistry.core.aspect;
 
+import org.apache.commons.lang.WordUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,7 +13,7 @@ import org.aspectj.lang.annotation.Aspect;
  * @since 0.1
  */
 @Aspect
-public final class LastNameAspect extends AbstractDisablableAspect {
+public final class LastNameAspect extends AbstractNameAspect {
 
     @Around("set(@org.openregistry.core.domain.normalization.LastName * *)")
     public Object transformFieldValue(final ProceedingJoinPoint joinPoint) throws Throwable {
@@ -22,7 +23,19 @@ public final class LastNameAspect extends AbstractDisablableAspect {
             return joinPoint.proceed();
         }
 
-        // TODO we need Dave's algorithm
-        return joinPoint.proceed();
+        final String overrideValue = getCustomMapping().get(value);
+
+        if (overrideValue != null) {
+            return joinPoint.proceed(new Object[] {overrideValue});
+        }
+
+        final String casifyValue = WordUtils.capitalizeFully(value);
+
+        if (casifyValue.startsWith("Mc") && casifyValue.length() > 2) {
+            return joinPoint.proceed(new Object[] {"Mc" + WordUtils.capitalizeFully(casifyValue.substring(3))});
+
+        }
+
+        return joinPoint.proceed(new Object[] {casifyValue});
     }
 }

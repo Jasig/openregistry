@@ -23,6 +23,6 @@ public class CapitalizationTests extends TestCase {
         final Name name = person.addName();
         name.setGiven("given");
 
-        assertEquals("given", name.getGiven());
+        assertEquals("Given", name.getGiven());
     }
 }

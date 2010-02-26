@@ -1,5 +1,6 @@
 package org.openregistry.core.aspect;
 
+import org.apache.commons.lang.WordUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,11 +13,9 @@ import org.aspectj.lang.annotation.Aspect;
  * @since 0.1
  */
 @Aspect
-public final class FirstNameAspect extends AbstractDisablableAspect {
+public final class FirstNameAspect extends AbstractNameAspect {
 
-//    private SpellChecker spellChecker 
-
-//    @Around("set(@org.openregistry.core.domain.normalization.FirstName * *)")
+    @Around("set(@org.openregistry.core.domain.normalization.FirstName * *)")
     public Object transformFieldValue(final ProceedingJoinPoint joinPoint) throws Throwable {
         final String value = (String) joinPoint.getArgs()[0];
 
@@ -24,20 +23,14 @@ public final class FirstNameAspect extends AbstractDisablableAspect {
             return joinPoint.proceed();
         }
 
-/*        final String[] spellcheckedWords = this.spellChecker.suggestSimilar(value, 1);
-        if (spellcheckedWords != null && spellcheckedWords.length > 0) {
-            final String spellCheckedWord = spellcheckedWords[0];
+        // TODO replace this with a dictionary or something else that doesn't require explicit configuration
+        final String overrideValue = getCustomMapping().get(value);
 
-            if (value.equalsIgnoreCase(spellCheckedWord)) {
-                return joinPoint.proceed(new Object[] {spellCheckedWord});
-            }
+        if (overrideValue != null) {
+            return joinPoint.proceed(new Object[] {overrideValue});
         }
-  */
-        
 
-
-        // TODO we need Dave's algorithm
-        return joinPoint.proceed();
+        return joinPoint.proceed(new Object[] {WordUtils.capitalizeFully(value)});
     }
 }
 

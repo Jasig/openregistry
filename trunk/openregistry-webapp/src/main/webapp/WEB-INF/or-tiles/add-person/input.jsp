@@ -20,7 +20,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <link rel="stylesheet" href="<spring:theme code='addPersonSheet'/>" type="text/css" />
 
-<form:form modelAttribute="reconciliationCriteria">
+<form:form modelAttribute="reconciliationCriteria" commandName="reconciliationCriteria" method="post">
     <fieldset>
         <legend><span><spring:message code="addPersonPage.heading" /></span></legend>
         <p class="instructions">
