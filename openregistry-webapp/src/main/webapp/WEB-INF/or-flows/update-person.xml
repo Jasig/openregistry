@@ -27,6 +27,7 @@
 
     <view-state id="updatePerson" model="sorPerson" view="openregistry.person.update.update">
         <on-entry>
+            <set name="flowScope.menuItem" value="'Find a Person'" />
             <set name="viewScope.command" value="'sorPerson'" />
         </on-entry>
         <transition on="submitAddName" >

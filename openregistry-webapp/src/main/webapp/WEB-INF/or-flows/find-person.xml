@@ -25,6 +25,7 @@
 
     <view-state id="searchForPerson" model="searchCriteria" view="openregistry.search">
         <on-entry>
+            <!--Setting the menuItem highlights the current selection in the Navigation Menu-->            
             <set name="flowScope.menuItem" value="'Find a Person'" />
             <set name="viewScope.success" value="externalContext.requestParameterMap['success']" />
             <set name="viewScope.cancelled" value="externalContext.requestParameterMap['cancel']" />
@@ -45,22 +46,22 @@
         </transition>
     </view-state>
 
-    <decision-state id="readResults">
-        <if test="searchResults.size eq 0" then="noOneFound" />
-        <if test="searchResults.size eq 1" then="onePerson" else="searchForPerson" />
-    </decision-state>
+    <!--<decision-state id="readResults">-->
+        <!--<if test="searchResults.size eq 0" then="noOneFound" />-->
+        <!--<if test="searchResults.size eq 1" then="onePerson" else="searchForPerson" />-->
+    <!--</decision-state>-->
 
-    <action-state id="noOneFound">
-        <set name="flashScope.errorMessage" value="resourceBundle.noMatchesFoundMessage" />
-        <transition to="searchForPerson" />
-    </action-state>
+    <!--<action-state id="noOneFound">-->
+        <!--<set name="flashScope.errorMessage" value="resourceBundle.noMatchesFoundMessage" />-->
+        <!--<transition to="searchForPerson" />-->
+    <!--</action-state>-->
 
-    <action-state id="onePerson">
-        <evaluate expression="flowScope.searchResults.get(0).person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
-        <transition to="personSelected" />
-    </action-state>
+    <!--<action-state id="onePerson">-->
+        <!--<evaluate expression="flowScope.searchResults.get(0).person" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />-->
+        <!--<transition to="personSelected" />-->
+    <!--</action-state>-->
 
     <end-state id="personSelected">
-        <output name="person" value="person"/>
+        <output name="person" value="flowScope.person"/>
     </end-state>
 </flow>

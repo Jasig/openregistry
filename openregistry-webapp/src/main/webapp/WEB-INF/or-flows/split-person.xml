@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2009 Jasig, Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+    <input name="sorPerson"/>
+    <input name="person"/>
+
+    <view-state id="splitPerson" model="person" view="openregistry.person.split">
+        <on-entry>
+            <!--<evaluate expression="personService.getSorPersonsFor(person)" result="flowScope.sorPersons"/>-->
+            <set name="viewScope.command" value="'person'" />
+            <set name="flowScope.sorPerson" value="sorPerson" />
+            <set name="flowScope.fromPerson" value="person" />
+        </on-entry>
+        <transition on="move" to="searchForToPerson"/>
+            <!--<set name="flowScope.sourceSorId" value="requestParameters.sorPersonSorId" />-->
+            <!--<evaluate expression="personService.findByPersonIdAndSorIdentifier(person.id,sourceSorId)" result-type="org.openregistry.core.domain.sor.SorPerson" result="flowScope.sorPerson" />-->
+        <!--</transition>-->
+        <transition on="moveToNewPerson" to="doSplitToNewPerson"/>
+            <!--<set name="flowScope.sourceSorId" value="requestParameters.sorPersonSorId" />-->
+            <!--<evaluate expression="personService.findByPersonIdAndSorIdentifier(person.id,sourceSorId)" result-type="org.openregistry.core.domain.sor.SorPerson" result="flowScope.sorPerson" />-->
+        <!--</transition>-->
+        <transition on="cancel" to="moveCancelled" />
+    </view-state>
+
+    <subflow-state id="searchForToPerson" subflow="find" >
+        <input name="taskTitleCode" value="'splitPersonTo.title'"/>
+        <output name="person" />
+        <transition to="doSplit" />
+    </subflow-state>
+
+    <action-state id="doSplit">
+        <on-entry>
+            <set name="flowScope.toPerson" value="person" />
+        </on-entry>
+        <evaluate expression="personAction.moveSystemOfRecordPerson(fromPerson, toPerson, sorPerson)" result="flowScope.resultMessage"/>
+        <transition to="splitFeedback" />
+    </action-state>
+
+    <action-state id="doSplitToNewPerson">
+        <evaluate expression="personAction.moveSystemOfRecordPersonToNewPerson(fromPerson, sorPerson)" result="flowScope.resultMessage"/>
+        <transition to="splitFeedback" />
+    </action-state>
+
+    <view-state id="splitFeedback" view="openregistry.complete">
+        <on-entry>
+            <set name="flowScope.infoModel" value="flowScope.resultMessage" />
+        </on-entry>
+        <transition to="splitDone" />
+    </view-state>
+
+    <end-state id="splitDone" />
+    <end-state id="moveCancelled" />
+
+</flow>

@@ -79,7 +79,12 @@
     <table>
         <thead>
         <tr>
-            <th colspan="2"><spring:message code="source.heading" /> <c:out value="${sorPerson.sourceSor}" /> <a href="${flowExecutionUrl}&_eventId=updateSorPerson&sorPersonIndex=${sorPersonLoopStatus.index}"><button>Edit</button></a></th>
+            <th colspan="2">
+                <spring:message code="source.heading" />
+                <c:out value="${sorPerson.sourceSor}" />
+                <a href="${flowExecutionUrl}&_eventId=updateSorPerson&sorPersonIndex=${sorPersonLoopStatus.index}"><button>Edit</button></a>
+                <a href="${flowExecutionUrl}&_eventId=moveSorPerson&sorPersonIndex=${sorPersonLoopStatus.index}"><button>Move</button></a>
+            </th>
         </tr>
         </thead>
         <tbody class="zebra">
