@@ -59,18 +59,6 @@
         <property name="systemOfRecordRepository" ref="systemOfRecordRepository" />
     </bean>
 
-    <bean name="capitalizationAspect"
-          class="org.openregistry.core.aspect.CapitalizationAspect"
-          factory-method="aspectOf">
-        <property name="defaultCapitalization" value="CAPITALIZE" />
-        <property name="overrideCapitalization">
-            <map>
-                <entry key="name.given" value="NONE" />
-                <entry key="name.family" value="NONE" />
-            </map>
-        </property>
-    </bean>
-
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource">
         <property name="jpaVendorAdapter">
