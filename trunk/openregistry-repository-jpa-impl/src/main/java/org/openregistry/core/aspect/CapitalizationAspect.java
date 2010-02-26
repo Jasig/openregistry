@@ -22,7 +22,7 @@ public final class CapitalizationAspect {
 
     public static enum Capitalization {UPPER, LOWER, CAPITALIZE, NONE}
 
-    private Capitalization capitalization = Capitalization.NONE;
+    private Capitalization capitalization = Capitalization.CAPITALIZE;
 
     private Map<String, Capitalization> overrideCapitalization = new HashMap<String,Capitalization>();
 

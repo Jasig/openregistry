@@ -24,7 +24,7 @@
     <bean name="capitalizationAspect"
           class="org.openregistry.core.aspect.CapitalizationAspect"
           factory-method="aspectOf">
-        <property name="defaultCapitalization" value="CAPITALIZE" />
+        <property name="defaultCapitalization" value="NONE" />
         <property name="overrideCapitalization">
             <map>
                 <entry key="name.given" value="NONE" />
@@ -36,12 +36,12 @@
     <bean name="firstNameAspect"
           class="org.openregistry.core.aspect.FirstNameAspect"
           factory-method="aspectOf">
-        <property name="disabled" value="false" />
+        <property name="disabled" value="true" />
     </bean>
 
     <bean name="lastNameAspect"
           class="org.openregistry.core.aspect.LastNameAspect"
           factory-method="aspectOf">
-        <property name="disabled" value="false" />
+        <property name="disabled" value="true" />
     </bean>
 </beans>

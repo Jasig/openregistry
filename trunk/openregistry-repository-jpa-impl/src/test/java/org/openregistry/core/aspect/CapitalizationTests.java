@@ -18,11 +18,29 @@ import static org.junit.Assert.*;
 public class CapitalizationTests extends TestCase {
 
     @Test
-    public void testUppercase() {
+    public void testFirstNameCapitalization() {
         final JpaSorPersonImpl person = new JpaSorPersonImpl();
         final Name name = person.addName();
         name.setGiven("given");
 
         assertEquals("Given", name.getGiven());
+    }
+
+    @Test
+    public void testFirstNameCapitalizationNull() {
+        final JpaSorPersonImpl person = new JpaSorPersonImpl();
+        final Name name = person.addName();
+        name.setGiven(null);
+
+        assertNull(name.getGiven());
+    }
+
+    @Test
+    public void testCapitalization() {
+        final JpaSorPersonImpl person = new JpaSorPersonImpl();
+        final Name name = person.addName();
+        name.setSuffix("jr.");
+
+        assertEquals("Jr.", name.getSuffix());
     }
 }
