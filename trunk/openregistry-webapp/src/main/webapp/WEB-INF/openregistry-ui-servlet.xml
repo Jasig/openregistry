@@ -36,19 +36,18 @@
         <flow:flow-location path="/WEB-INF/or-flows/update-person.xml" id="updateSorPerson" />
         <flow:flow-location path="/WEB-INF/or-flows/logout.xml" id="logout"/>
         <flow:flow-location path="/WEB-INF/or-flows/addPerson.xml" id="addSorPerson"/>
+        <flow:flow-location path="/WEB-INF/or-flows/split-person.xml" id="splitPerson" />
 
-
-        <flow:flow-location path="/WEB-INF/flows/addPerson.xml" id="addPerson"/>
-        <flow:flow-location path="/WEB-INF/flows/delete-person.xml" id="deletePerson" />
-        <flow:flow-location path="/WEB-INF/flows/update-person.xml" id="updatePerson" />
-        <flow:flow-location path="/WEB-INF/flows/update-role.xml" id="updateRole" />
-        <flow:flow-location path="/WEB-INF/flows/add-role.xml" id="add-role" />
-        <flow:flow-location path="/WEB-INF/flows/search-person.xml" id="searchForPerson" />
-        <flow:flow-location path="/WEB-INF/flows/manage-person-roles.xml" id="managePersonRoles" />
-        <flow:flow-location path="/WEB-INF/flows/split-person.xml" id="splitPerson" />
-        <flow:flow-location path="/WEB-INF/flows/join-person.xml" id="joinPerson" />
-        <flow:flow-location path="/WEB-INF/flows/new-activationKey.xml" id="newActivationKey" />
-        <flow:flow-location path="/WEB-INF/flows/view-complete-person.xml" id="viewCompletePerson" />
+        <!--<flow:flow-location path="/WEB-INF/flows/addPerson.xml" id="addPerson"/>-->
+        <!--<flow:flow-location path="/WEB-INF/flows/delete-person.xml" id="deletePerson" />-->
+        <!--<flow:flow-location path="/WEB-INF/flows/update-person.xml" id="updatePerson" />-->
+        <!--<flow:flow-location path="/WEB-INF/flows/update-role.xml" id="updateRole" />-->
+        <!--<flow:flow-location path="/WEB-INF/flows/add-role.xml" id="add-role" />-->
+        <!--<flow:flow-location path="/WEB-INF/flows/search-person.xml" id="searchForPerson" />-->
+        <!--<flow:flow-location path="/WEB-INF/flows/manage-person-roles.xml" id="managePersonRoles" />-->
+        <!--<flow:flow-location path="/WEB-INF/flows/join-person.xml" id="joinPerson" />-->
+        <!--<flow:flow-location path="/WEB-INF/flows/new-activationKey.xml" id="newActivationKey" />-->
+        <!--<flow:flow-location path="/WEB-INF/flows/view-complete-person.xml" id="viewCompletePerson" />-->
     </flow:flow-registry>
 
     <flow:flow-builder-services id="flowBuilderServices" conversion-service="applicationConversionService" view-factory-creator="mvcViewFactoryCreator" />

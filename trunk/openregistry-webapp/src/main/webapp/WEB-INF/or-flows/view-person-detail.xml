@@ -29,6 +29,7 @@
     <view-state id="viewPersonDetail" model="person" view="openregistry.view.person.detail">
         <on-entry>
             <evaluate expression="personService.getSorPersonsFor(person)" result="flowScope.sorPersons"/>
+            <set name="flowScope.menuItem" value="'Find a Person'" />
             <set name="viewScope.command" value="'person'" />
             <set name="flowScope.fromPerson" value="person" />
         </on-entry>
@@ -50,6 +51,11 @@
             <set name="requestScope.sorPersonIndex" value="requestParameters.sorPersonIndex" type="int"/>
             <evaluate expression="flowScope.sorPersons[sorPersonIndex]" result="flowScope.sorPerson"/>
         </transition>
+        <transition on="moveSorPerson" to="moveSorPerson">
+            <set name="requestScope.sorPersonIndex" value="requestParameters.sorPersonIndex" type="int"/>
+            <evaluate expression="flowScope.sorPersons[sorPersonIndex]" result="flowScope.sorPerson"/>
+        </transition>
+
         <transition on="submitNewSearch" to="newSearch" />
 
     </view-state>
@@ -68,6 +74,13 @@
         <input name="identifiers" value="flowScope.fromPerson.identifiers"/>
         <transition to="viewPersonDetail"/>
     </subflow-state>
+
+    <subflow-state id="moveSorPerson" subflow="splitPerson">
+        <input name="sorPerson" value="flowScope.sorPerson" />        
+        <input name="person" value="flowScope.fromPerson" />
+        <transition to="viewPersonDetail"/>
+    </subflow-state>
+
 
     <end-state id="newSearch" />
 

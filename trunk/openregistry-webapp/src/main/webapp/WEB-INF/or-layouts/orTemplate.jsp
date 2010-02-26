@@ -30,7 +30,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <tiles:useAttribute id="key" name="titleCode"/>
-    <title>OpenRegistry &raquo; <spring:message code="${key}" /> </title>
+    <title>OpenRegistry &raquo; <spring:message code="${key}" text="OpenRegistry"/> </title>
 </head>
 <body>
 

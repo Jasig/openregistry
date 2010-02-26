@@ -20,13 +20,26 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<h2>Find a Person</h2>
+<h2>Manage People</h2>
 
-<p class="instructions">Enter your search criteria in the fields below and click <strong>Find Person</strong>.
+<div class="instructions">
+    <ul>
+        <li>Enter your search criteria in the fields below and click <strong>Find Person</strong>.</li>
+        <li>Matching persons will appear below.</li>
+        <li>Select a person to perform any of the following actions:
+            <ul>
+                <li>View a person's complete details</li>
+                <li>Update the Person</li>
+                <li>Move an Sor Person record to another calculated person</li>
+                <li>Move all Sor Person Records to another calculated person</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
 
 <div id="search_form">
-    <!-- TODO: replace this with the commandName variable from the find-person.xml -->
-    <form:form commandName="searchCriteria" method="post" id="orForm">
+    <form:form commandName="${commandName}" method="post" id="orForm">
         <form:errors path="*" element="div" id="message" cssClass="error" htmlEscape="false"/>
         <fieldset>
             <legend>Find a Person</legend>

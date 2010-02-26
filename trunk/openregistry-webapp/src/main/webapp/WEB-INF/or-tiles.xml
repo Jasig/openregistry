@@ -43,7 +43,7 @@
 
     <definition name="openregistry.search" extends="openregistry.base">
         <put-attribute name="additionalCssFile" type="string" value="css/or_find_person.css" />
-        <put-attribute name="titleCode" value="search.title" type="string" />
+        <put-attribute name="titleCode" value="search.title" type="string" cascade="true" />
         <put-attribute name="body" value="openregistry.search.content" cascade="true"/>
     </definition>
 
@@ -61,7 +61,7 @@
     </definition>
 
     <definition name="openregistry.view.person.detail" extends="openregistry.base">
-        <put-attribute name="titleCode" value="person.detail.title" type="string"/>
+        <put-attribute name="titleCode" value="manage.people" type="string"/>
         <put-attribute name="body" value="/WEB-INF/or-tiles/view-person-detail/viewPersonDetail.jsp" cascade="true"/>
     </definition>
 
@@ -90,9 +90,14 @@
         <put-attribute name="body" value="/WEB-INF/or-tiles/add-person/matches.jsp" cascade="true"/>
     </definition>
 
-    <definition name="openregistry.main" extends="openregistry.base">
-        <put-attribute name="titleCode" value="welcome.title" type="string" />
-        <put-attribute name="body" value="/WEB-INF/or-tiles/home/orHome.jsp" cascade="true"/>
+    <definition name="openregistry.person.split" extends="openregistry.base">
+        <put-attribute name="titleCode" value="splitPerson.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/or-tiles/split-person/selectSorRecords.jsp" cascade="true"/>
+    </definition>
+
+    <definition name="openregistry.complete" extends="openregistry.base">
+        <put-attribute name="titleCode" value="operation.complete" type="string" />
+        <put-attribute name="body" value="/WEB-INF/or-tiles/operation-complete/orComplete.jsp" cascade="true"/>
     </definition>
 
 
