@@ -105,7 +105,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
 
     //TODO: to whom it may concern - change DB objects names as desired, if necessary
     @ElementCollection
-    @CollectionTable(name = "prs_sor_persons_local_attrib", joinColumns = @JoinColumn(name = "sor_person_record_id"))
+    @CollectionTable(name = "prs_sor_persons_loc_attr", joinColumns = @JoinColumn(name = "sor_person_record_id"))
     @MapKeyColumn(name = "attribute_type")
     @Column(name = "attribute_value")
     private Map<String, String> sorLocalAttributes = new HashMap<String, String>();
