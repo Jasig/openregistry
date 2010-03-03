@@ -42,9 +42,6 @@ import javax.inject.Named;
 @Named("personSearchAction")
 public final class PersonSearchAction extends AbstractPersonServiceAction {
 
-    //TODO don't hardcode. OR-55
-    private final String SOR_INDENTIFIER = "or-webapp";
-
     @Resource
     private String preferredPersonIdentifierType;
 
@@ -54,7 +51,7 @@ public final class PersonSearchAction extends AbstractPersonServiceAction {
     }
 
     public String addSorPerson(final ReconciliationCriteria reconciliationCriteria, final RequestContext context) {
-        reconciliationCriteria.getSorPerson().setSourceSor(SOR_INDENTIFIER);
+        reconciliationCriteria.getSorPerson().setSourceSor(AbstractPersonServiceAction.STATIC_SOR_NAME);
         try {
             final ServiceExecutionResult<Person> result = getPersonService().addPerson(reconciliationCriteria);
             
@@ -73,7 +70,7 @@ public final class PersonSearchAction extends AbstractPersonServiceAction {
     }
 
      public ServiceExecutionResult addSorPerson(final ReconciliationCriteria reconciliationCriteria, final MessageContext context) {
-        reconciliationCriteria.getSorPerson().setSourceSor(SOR_INDENTIFIER);
+        reconciliationCriteria.getSorPerson().setSourceSor(AbstractPersonServiceAction.STATIC_SOR_NAME);
         final ServiceExecutionResult<Person> result = getPersonService().forceAddPerson(reconciliationCriteria);
         getSpringErrorValidationErrorConverter().convertValidationErrors(result.getValidationErrors(), context);
 
