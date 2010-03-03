@@ -104,7 +104,18 @@ public final class XmlBasedSoRSpecificationImpl implements SoRSpecification {
     public boolean isWithinRequiredSize(final String property, final Collection collection) {
         for (final XmlBasedPropertySizeHelperImpl helper : this.minMaxPropertySizes) {
             if (helper.supportsProperty(property)) {
-                return helper.isWithinRequiredRangeForProperty(collection);
+                return helper.isWithinRequiredRangeForProperty(collection.size());
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean isWithinRequiredSize(final String property, final Map map) {
+        for (final XmlBasedPropertySizeHelperImpl helper : this.minMaxPropertySizes) {
+            if (helper.supportsProperty(property)) {
+                return helper.isWithinRequiredRangeForProperty(map.size());
             }
         }
 
