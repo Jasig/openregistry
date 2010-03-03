@@ -22,9 +22,9 @@ import org.openregistry.core.domain.jpa.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -133,8 +133,11 @@ public final class JpaReferenceRepository implements ReferenceRepository {
 
     @Transactional
     public Type findType(final DataTypes type, final String value) {
-        // TODO check for JavaDoc
-        return (Type) this.entityManager.createQuery("select r from type r where dataType=:dataType and description=:description").setParameter("dataType",type.name()).setParameter("description",value).getSingleResult();
+        try {
+            return (Type) this.entityManager.createQuery("select r from type r where dataType=:dataType and description=:description").setParameter("dataType",type.name()).setParameter("description",value).getSingleResult();
+        } catch (final NoResultException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Transactional
