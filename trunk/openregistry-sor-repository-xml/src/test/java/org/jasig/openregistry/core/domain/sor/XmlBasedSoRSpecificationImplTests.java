@@ -273,7 +273,6 @@ public final class XmlBasedSoRSpecificationImplTests extends TestCase {
         assertFalse(soRSpecification.isRequiredProperty("t3"));
     }
 
-    // TODO write more tests
     @Test
     public void testMarshallWithRequiredAndDisallowedProperties() throws Exception {
         final SoRSpecification soRSpecification = getSoRSpecificationFromString("<specification><id>TEST</id><name>TEST</name><description>This is a test sentence.</description><requiredProperties><property>t1</property><property>t2</property></requiredProperties><disallowedProperties><property>d1</property><property>d2</property></disallowedProperties></specification>");

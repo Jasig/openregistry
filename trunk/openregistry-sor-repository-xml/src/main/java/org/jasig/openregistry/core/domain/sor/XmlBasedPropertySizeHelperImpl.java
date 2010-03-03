@@ -52,7 +52,7 @@ public final class XmlBasedPropertySizeHelperImpl {
         return this.property.equals(property);
     }
 
-    public boolean isWithinRequiredRangeForProperty(final Collection collection) {
-        return collection.size() >= this.min && collection.size() <= this.max;
+    public boolean isWithinRequiredRangeForProperty(final int size) {
+        return size >= this.min && size <= this.max;
     }
 }
