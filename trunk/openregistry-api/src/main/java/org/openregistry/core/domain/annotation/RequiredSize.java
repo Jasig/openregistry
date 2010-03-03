@@ -15,7 +15,8 @@
  */
 package org.openregistry.core.domain.annotation;
 
-import org.openregistry.core.domain.validation.RequiredSizeConstraintValidator;
+import org.openregistry.core.domain.validation.CollectionRequiredSizeConstraintValidator;
+import org.openregistry.core.domain.validation.MapRequiredSizeConstraintValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -34,7 +35,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Retention(RUNTIME)
 @Target({FIELD, METHOD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
-@Constraint(validatedBy = RequiredSizeConstraintValidator.class)
+@Constraint(validatedBy = {CollectionRequiredSizeConstraintValidator.class, MapRequiredSizeConstraintValidator.class})
 public @interface RequiredSize {
 
     String property();
