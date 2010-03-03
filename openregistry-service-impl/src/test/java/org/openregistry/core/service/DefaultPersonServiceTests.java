@@ -349,8 +349,6 @@ public class DefaultPersonServiceTests {
         assertEquals(1, person.getRoles().size());
     }
 
-    //TODO need to add test cases for conditionally required fields.
-
 	/**
 	 * DELETE SOR ROLE TESTS
 	 */

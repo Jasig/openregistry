@@ -121,7 +121,6 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractInte
         this.entityManager.flush();
         final String lockValue = this.simpleJdbcTemplate.queryForObject("select act_key_lock from prc_persons where id = ?", String.class, this.person.getId());
         assertEquals(LOCK_VALUE, lockValue);
-        // TODO how to test if lock expiration date was set correctly
         assertEquals(1,countRowsInTable("prc_persons"));
     }
 
@@ -141,7 +140,6 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractInte
         this.entityManager.flush();
         final String lockValue = this.simpleJdbcTemplate.queryForObject("select act_key_lock from prc_persons where id = ?", String.class, this.person.getId());
         assertEquals(LOCK_VALUE, lockValue);
-        // TODO how to test if lock was set correctly
         assertEquals(1,countRowsInTable("prc_persons"));
     }
 

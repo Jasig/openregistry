@@ -19,7 +19,8 @@ import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Identifier;
 
 /**
- * TODO: DOCUMENT ME!
+ * Handles when one of the identifiers changes and third-parties need to be notified.
+ *
  * @since 1.0
  */
 public interface IdentifierChangeService {
