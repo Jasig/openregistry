@@ -15,10 +15,12 @@
  */
 package org.openregistry.core.service;
 
+import org.aspectj.lang.Aspects;
 import org.jasig.openregistry.test.domain.*;
 import org.jasig.openregistry.test.repository.*;
 import org.jasig.openregistry.test.service.*;
 import org.junit.*;
+import org.openregistry.aspect.SoRSpecificationThreadLocalAspect;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.repository.*;
@@ -62,7 +64,8 @@ public class DefaultPersonServiceTests {
         this.personService.setPersonObjectFactory(this.objectFactory);
         reconciliationCriteria = new MockReconciliationCriteria();
         setReconciliationCriteria(reconciliationCriteria);
-    }
+        final SoRSpecificationThreadLocalAspect aspect = Aspects.aspectOf(SoRSpecificationThreadLocalAspect.class);
+        aspect.setSystemOfRecordRepository(new MockSystemOfRecordRepository());    }
 
     void setReconciliationCriteria(ReconciliationCriteria reconciliationCriteria){
         SorPerson sorPerson = reconciliationCriteria.getSorPerson();

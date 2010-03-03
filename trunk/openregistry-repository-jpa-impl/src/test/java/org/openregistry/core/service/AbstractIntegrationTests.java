@@ -15,8 +15,10 @@
  */
 package org.openregistry.core.service;
 
+import org.aspectj.lang.Aspects;
 import org.jasig.openregistry.test.repository.MockSystemOfRecordRepository;
 import org.junit.Before;
+import org.openregistry.aspect.SoRSpecificationThreadLocalAspect;
 import org.openregistry.core.domain.sor.SystemOfRecordHolder;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
@@ -34,6 +36,7 @@ public abstract class AbstractIntegrationTests extends AbstractTransactionalJUni
         this.simpleJdbcTemplate.update("insert into drd_organizational_units(id, campus_id, organizational_unit_t, code, name) values(1, 1, 3, 'cod', 'Department')");
         this.simpleJdbcTemplate.update("insert into prd_roles(id, title, organizational_unit_id, campus_id, affiliation_t, code) values(1, 'Title', 1, 1, 3, 'Code')");
 
-        SystemOfRecordHolder.setCurrentSystemOfRecord(new MockSystemOfRecordRepository().findSoRSpecificationById("test"));
+        final SoRSpecificationThreadLocalAspect aspect = Aspects.aspectOf(SoRSpecificationThreadLocalAspect.class);
+        aspect.setSystemOfRecordRepository(new MockSystemOfRecordRepository());
     }
 }

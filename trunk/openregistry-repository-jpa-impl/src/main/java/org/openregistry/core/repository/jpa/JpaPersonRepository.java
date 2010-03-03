@@ -74,10 +74,6 @@ public class JpaPersonRepository implements PersonRepository {
         return (SorPerson) this.entityManager.createQuery("Select s from sorPerson s where s.sourceSor = :sorSource and s.personId = :personId").setParameter("sorSource", sorSource).setParameter("personId", personId).getSingleResult();
     }
 
-    public SorRole findSorRoleByInternalId(final Long id) throws RepositoryAccessException {
-        return this.entityManager.find(JpaSorRoleImpl.class, id);
-    }
-
     public List<Person> searchByCriteria(final SearchCriteria searchCriteria) throws RepositoryAccessException {
         final String givenName = searchCriteria.getGivenName();
         final String familyName = searchCriteria.getFamilyName();

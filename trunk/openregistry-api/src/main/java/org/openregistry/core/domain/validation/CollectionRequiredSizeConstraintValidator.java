@@ -26,7 +26,7 @@ import java.util.Collection;
  * @version $Revision$ $Date$
  * @since 0.1
  */
-public final class RequiredSizeConstraintValidator extends AbstractSystemOfRecordConstraintValidator<RequiredSize, Collection> {
+public final class CollectionRequiredSizeConstraintValidator extends AbstractSystemOfRecordConstraintValidator<RequiredSize, Collection> {
 
     private String property;
 

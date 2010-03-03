@@ -38,8 +38,6 @@ public final class JpaUrlImplTests {
         assertNull(url.getType());
         assertNull(url.getUrl());
 
-        // TODO why is Url.getId() exposed?
-
         final URL testUrl = new URL("http://www.cnn.com");
         final Type type = new JpaTypeImpl();
 

@@ -117,11 +117,6 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
-    public Region getRegionById(final Long id) {
-        return this.entityManager.find(JpaRegionImpl.class, id);
-    }
-
-    @Transactional
     public Type getTypeById(final Long id) {
         return this.entityManager.find(JpaTypeImpl.class, id);
     }
@@ -138,6 +133,7 @@ public final class JpaReferenceRepository implements ReferenceRepository {
 
     @Transactional
     public Type findType(final DataTypes type, final String value) {
+        // TODO check for JavaDoc
         return (Type) this.entityManager.createQuery("select r from type r where dataType=:dataType and description=:description").setParameter("dataType",type.name()).setParameter("description",value).getSingleResult();
     }
 
