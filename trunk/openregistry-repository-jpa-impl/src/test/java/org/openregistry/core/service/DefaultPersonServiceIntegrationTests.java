@@ -38,7 +38,6 @@ import java.util.*;
  * @version $Revision$ $Date$
  * @since 0.1
  *
- * TODO: add check for merged properties after business rules execution.
  */
 
 @ContextConfiguration(locations = {"classpath:test-personServices-context.xml"})
