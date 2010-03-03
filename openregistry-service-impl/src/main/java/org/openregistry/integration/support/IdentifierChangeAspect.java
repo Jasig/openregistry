@@ -31,8 +31,6 @@ import javax.inject.Inject;
  * @since 1.0
  */
 @Aspect
-// TODO disabled for now.
-// @Component
 public class IdentifierChangeAspect {
 
     @Inject

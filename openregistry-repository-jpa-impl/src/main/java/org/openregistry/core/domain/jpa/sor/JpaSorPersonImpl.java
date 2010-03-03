@@ -218,12 +218,6 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         return jpaRole;
     }
 
-    public void addRole(final SorRole role) {
-        this.roles.add(role);
-        Assert.isInstanceOf(JpaSorRoleImpl.class, role);
-        ((JpaSorRoleImpl) role).moveToPerson(this);
-    }
-
     public SorRole pickOutRole(String code) {
         //TODO: Is this the correct assumption???
         for (SorRole r : this.roles) {

@@ -151,15 +151,6 @@ public interface SorPerson {
 	SorRole addRole(RoleInfo roleInfo);
 
     /**
-     * // TODO we need to remove this method.
-     *
-     * Adds an SoR Role (and returns it) role already exists it is being added to the person.
-     *
-     * @param role the role to add.
-     */
-    void addRole(SorRole role);
-
-    /**
      * Retrieves the identifier of the Calculated Person associated with this System of Record person.  Portions of the
      * System of Record Person were used to calculate this Calculated Person.
      *
