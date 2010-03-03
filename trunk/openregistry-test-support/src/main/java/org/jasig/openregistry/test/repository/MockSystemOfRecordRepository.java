@@ -46,6 +46,11 @@ public final class MockSystemOfRecordRepository implements SystemOfRecordReposit
                 return true;
             }
 
+            @Override
+            public boolean isWithinRequiredSize(String property, Map map) {
+                return true;
+            }
+
             public boolean isInboundInterfaceAllowed(Interfaces interfaces) {
                 return true;
             }

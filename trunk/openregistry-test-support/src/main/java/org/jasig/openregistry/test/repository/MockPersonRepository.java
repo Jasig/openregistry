@@ -40,10 +40,6 @@ public class MockPersonRepository implements PersonRepository {
         this(persons, new SorPerson[] {});
     }
 
-    public SorRole findSorRoleByInternalId(Long id) throws RepositoryAccessException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     public MockPersonRepository(final Person[] persons, final SorPerson[] sorPersons) {
         this.persons.addAll(Arrays.asList(persons));
         this.sorPersons.addAll(Arrays.asList(sorPersons));
