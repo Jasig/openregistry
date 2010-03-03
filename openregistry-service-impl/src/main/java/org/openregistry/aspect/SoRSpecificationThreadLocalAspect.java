@@ -18,7 +18,7 @@ public final class SoRSpecificationThreadLocalAspect {
 
     private SystemOfRecordRepository systemOfRecordRepository;
 
-    @Around("(execution (public * org.openregistry.core.service.PersonService+.*(..))) && args(sorPerson)")
+    @Around("(execution (public * org.openregistry.core.service.PersonService+.*(..))) && args(sorPerson, ..)")
     public  Object populateThreadLocalForSoRSpecification(final ProceedingJoinPoint proceedingJoinPoint, final SorPerson sorPerson) throws Throwable {
         try {
             final SoRSpecification soRSpecification = sorPerson != null ? this.systemOfRecordRepository.findSoRSpecificationById(sorPerson.getSourceSor()) : null;
@@ -29,7 +29,7 @@ public final class SoRSpecificationThreadLocalAspect {
         }
     }
 
-    @Around("(execution (public * org.openregistry.core.service.PersonService+.*(..))) && args(reconciliationCriteria)")
+    @Around("(execution (public * org.openregistry.core.service.PersonService+.*(..))) && args(reconciliationCriteria, ..)")
     public  Object populateThreadLocalForSoRSpecification(final ProceedingJoinPoint proceedingJoinPoint, final ReconciliationCriteria reconciliationCriteria) throws Throwable {
         try {
             final SoRSpecification soRSpecification =  reconciliationCriteria != null ? this.systemOfRecordRepository.findSoRSpecificationById(reconciliationCriteria.getSorPerson().getSourceSor()) : null;
