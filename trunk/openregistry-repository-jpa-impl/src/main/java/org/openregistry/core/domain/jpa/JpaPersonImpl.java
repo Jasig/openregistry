@@ -99,8 +99,13 @@ public class JpaPersonImpl extends Entity implements Person {
     	return null;
     }
 
-    // TODO this should check to see if we have one already
     public Name addOfficialName(){
+        for (final Name name : this.names) {
+            if (name.isOfficialName()) {
+                throw new IllegalStateException("We've already got an official name!");
+            }
+        }
+
         final JpaNameImpl name = new JpaNameImpl(this);
         this.names.add(name);
         name.setOfficialName(true);
@@ -114,7 +119,7 @@ public class JpaPersonImpl extends Entity implements Person {
 
     public Name getPreferredName() {
        	Set<? extends Name> names = this.getNames();
-    	for(Name name: names) {
+    	for(final Name name: names) {
     		if (name.isPreferredName()) {
     			return name;
     		}
@@ -122,8 +127,13 @@ public class JpaPersonImpl extends Entity implements Person {
     	return null;
     }
 
-    // TODO this should check to see if we have one already
-    public Name addPreferredName(){
+    public Name addPreferredName() {
+        for (final Name name : this.names) {
+            if (name.isPreferredName()) {
+                throw new IllegalStateException("We've already got a preferred name set.");
+            }
+        }
+        
         final JpaNameImpl name = new JpaNameImpl(this);
         this.names.add(name);
         name.setPreferredName(true);
