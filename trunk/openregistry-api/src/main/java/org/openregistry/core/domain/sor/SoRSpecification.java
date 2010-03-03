@@ -107,4 +107,16 @@ public interface SoRSpecification {
      * @return true if its the required size, false if not.
      */
     boolean isWithinRequiredSize(String property, Collection collection);
+
+    /**
+     * Determines whether an SoR provided a collection of objects of the appropriate size.
+     * <p>
+     * Note, that if the property is not found in the SoR's specification, the assumption is that there
+     * is no restriction.
+     * @param property the property to check
+     * @param map the map to determine the size of
+     * @return true if its the required size, false if not.
+     */
+    boolean isWithinRequiredSize(String property, Map map);
+
 }

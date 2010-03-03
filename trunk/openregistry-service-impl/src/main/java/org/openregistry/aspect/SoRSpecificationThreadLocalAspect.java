@@ -20,32 +20,23 @@ public final class SoRSpecificationThreadLocalAspect {
 
     @Around("(execution (public * org.openregistry.core.service.PersonService+.*(..))) && args(sorPerson)")
     public  Object populateThreadLocalForSoRSpecification(final ProceedingJoinPoint proceedingJoinPoint, final SorPerson sorPerson) throws Throwable {
-        if (this.systemOfRecordRepository != null) {
-            try {
-                final SoRSpecification soRSpecification = this.systemOfRecordRepository.findSoRSpecificationById(sorPerson.getSourceSor());
-                SystemOfRecordHolder.setCurrentSystemOfRecord(soRSpecification);
-                return proceedingJoinPoint.proceed();
-            } finally {
-                SystemOfRecordHolder.clearCurrentSystemOfRecord();
-            }
-        } else {
+        try {
+            final SoRSpecification soRSpecification = sorPerson != null ? this.systemOfRecordRepository.findSoRSpecificationById(sorPerson.getSourceSor()) : null;
+            SystemOfRecordHolder.setCurrentSystemOfRecord(soRSpecification);
             return proceedingJoinPoint.proceed();
+        } finally {
+            SystemOfRecordHolder.clearCurrentSystemOfRecord();
         }
     }
 
     @Around("(execution (public * org.openregistry.core.service.PersonService+.*(..))) && args(reconciliationCriteria)")
     public  Object populateThreadLocalForSoRSpecification(final ProceedingJoinPoint proceedingJoinPoint, final ReconciliationCriteria reconciliationCriteria) throws Throwable {
-        if (this.systemOfRecordRepository != null) {
-            try {
-                // TODO: this is a bit of a hack to make sure the tests pass.
-                final SoRSpecification soRSpecification = this.systemOfRecordRepository.findSoRSpecificationById(reconciliationCriteria.getSorPerson().getSourceSor());
-                SystemOfRecordHolder.setCurrentSystemOfRecord(soRSpecification);
-                return proceedingJoinPoint.proceed();
-            } finally {
-                SystemOfRecordHolder.clearCurrentSystemOfRecord();
-            }
-        } else {
+        try {
+            final SoRSpecification soRSpecification =  reconciliationCriteria != null ? this.systemOfRecordRepository.findSoRSpecificationById(reconciliationCriteria.getSorPerson().getSourceSor()) : null;
+            SystemOfRecordHolder.setCurrentSystemOfRecord(soRSpecification);
             return proceedingJoinPoint.proceed();
+        } finally {
+            SystemOfRecordHolder.clearCurrentSystemOfRecord();
         }
     }
 
