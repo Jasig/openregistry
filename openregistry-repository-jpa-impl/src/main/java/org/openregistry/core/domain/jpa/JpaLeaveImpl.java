@@ -31,9 +31,6 @@ import java.util.Date;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name="loa")
-
-// TODO does this table need UniqueConstraints?  A role could have multiple LOA entries if the start and end dates don't overlap.
-
 @Table(name="prc_leaves_of_absence")
 @Audited
 public class JpaLeaveImpl extends Entity implements Leave {
