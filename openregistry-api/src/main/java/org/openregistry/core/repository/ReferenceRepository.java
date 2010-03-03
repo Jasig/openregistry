@@ -56,8 +56,6 @@ public interface ReferenceRepository {
 
     List<Region> getRegions();
 
-    Region getRegionById(Long id);
-
     Region getRegionByCodeAndCountryId(String code, String countryCode);
 
     /**
@@ -68,7 +66,7 @@ public interface ReferenceRepository {
      * @param value the value (i.e. Retired)
      * @return the Type object.
      *
-     * // TODO add an error to this javadoc and implementation
+     * @throws IllegalArgumentException if the Type can't be found.
      */
     Type findType(Type.DataTypes type, String value);
 
