@@ -204,7 +204,5 @@ public interface SorPerson {
      * @return Map representing K->V attributes that a target SoR wishes to expose
      */
     Map<String, String> getSorLocalAttributes();
-    
-    void setSorLocalAttributes(Map<String, String> attributes);
 
 }

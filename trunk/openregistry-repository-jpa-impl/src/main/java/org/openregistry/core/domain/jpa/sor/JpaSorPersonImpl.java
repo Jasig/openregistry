@@ -255,14 +255,8 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         return null;
     }
 
-
     public Map<String, String> getSorLocalAttributes() {
         return this.sorLocalAttributes;
-    }
-
-
-    public void setSorLocalAttributes(Map<String, String> attributes) {
-        this.sorLocalAttributes = attributes;
     }
 
     @Override
