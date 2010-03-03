@@ -23,7 +23,6 @@ public final class FirstNameAspect extends AbstractNameAspect {
             return joinPoint.proceed();
         }
 
-        // TODO replace this with a dictionary or something else that doesn't require explicit configuration
         final String overrideValue = getCustomMapping().get(value);
 
         if (overrideValue != null) {

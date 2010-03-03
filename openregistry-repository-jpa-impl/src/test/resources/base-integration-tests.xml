@@ -45,6 +45,10 @@
             <map>
                 <entry key="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
                 <entry key="hibernate.hbm2ddl.auto" value="update"/>
+                <entry key="javax.persistence.validation.group.pre-insert" value="" />
+                <entry key="javax.persistence.validation.group.pre-update" value="" />
+                <entry key="javax.persistence.validation.group.pre-remove" value="" />
+                <entry key="javax.persistence.validation.group.pre-persist" value="" />
             </map>
         </property>
     </bean>

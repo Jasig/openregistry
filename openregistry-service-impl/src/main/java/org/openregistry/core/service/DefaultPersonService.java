@@ -250,7 +250,7 @@ public class DefaultPersonService implements PersonService {
                 this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()) != null) {
             throw new IllegalStateException("CANNOT ADD SAME SOR RECORD.");
         }
-        // TODO this might fail because it doesn't match.
+
         final Set validationErrors = this.validator.validate(reconciliationCriteria);
 
         if (!validationErrors.isEmpty()) {
