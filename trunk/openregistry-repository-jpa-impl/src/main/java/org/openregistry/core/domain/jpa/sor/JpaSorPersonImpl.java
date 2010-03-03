@@ -195,12 +195,18 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     }
 
     // TODO not sure if this should be here
-
     public String getFormattedName() {
-        final StringBuilder builder = new StringBuilder();
-        // TODO fix this next line
-        builder.append(this.getNames().iterator().next().getFormattedName());
-        return builder.toString();
+        for (final Name name : this.names) {
+            if (name.isPreferredName()) {
+                return name.getFormattedName();
+            }
+        }
+
+        if (this.names.size() > 0) {
+            return this.names.get(0).getFormattedName();
+        }
+
+        throw new IllegalStateException("No names found!");
     }
 
     public Long getPersonId() {
