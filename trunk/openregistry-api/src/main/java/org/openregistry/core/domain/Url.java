@@ -28,7 +28,6 @@ import java.io.Serializable;
  */
 public interface Url extends Serializable {
 
-    // TODO this should not be exposed
     Long getId();
     
     /**
