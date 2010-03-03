@@ -31,10 +31,8 @@ import javax.persistence.*;
  */
 @javax.persistence.Entity(name="phone")
 
-// TODO should a phone number be able to appear twice?  Can someone choose to use their cell number as "mobile" and "office"?
 @Table(name="prc_phones",
 		uniqueConstraints= {
-				@UniqueConstraint(columnNames={"country_code", "area_code", "phone_number"}),
 				@UniqueConstraint(columnNames={"phone_t", "address_t", "role_record_id"})
 		})
 @Audited
