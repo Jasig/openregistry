@@ -65,6 +65,7 @@
                 <property name="javax.persistence.validation.group.pre-insert" value="" />
                 <property name="javax.persistence.validation.group.pre-update" value="" />
                 <property name="javax.persistence.validation.group.pre-remove" value="" />
+                <property name="javax.persistence.validation.group.pre-persist" value="" />
             </properties>
         </persistence-unit>
 </persistence>
