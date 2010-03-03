@@ -31,6 +31,8 @@ import java.util.List;
  */
 public abstract class AbstractPersonServiceAction {
 
+    protected final static String STATIC_SOR_NAME = "or-webapp"; // TODO don't hardcode this.  Just consolidated for the moment. (OR-55)                
+
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     private SpringErrorValidationErrorConverter converter = new SpringErrorValidationErrorConverter();

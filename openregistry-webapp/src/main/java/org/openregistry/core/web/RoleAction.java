@@ -60,7 +60,7 @@ public final class RoleAction extends AbstractPersonServiceAction {
      */
     protected SorRole addRole(final SorPerson sorPerson, final RoleInfo roleInfo){
         final SorRole sorRole = sorPerson.addRole(roleInfo);
-        sorRole.setSourceSorIdentifier("or-webapp"); // TODO Don't hardcode OR-55
+        sorRole.setSourceSorIdentifier(AbstractPersonServiceAction.STATIC_SOR_NAME);
         sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE));
         final EmailAddress emailAddress = sorRole.addEmailAddress();
         emailAddress.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.CAMPUS));

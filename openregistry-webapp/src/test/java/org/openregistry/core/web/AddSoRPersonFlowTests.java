@@ -194,7 +194,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
         when(activationKey.asString()).thenReturn("foobar");
 
-        when(this.personService.findByPersonIdAndSorIdentifier(1L, "or-webapp")).thenReturn(criteria.getSorPerson());
+        when(this.personService.findByPersonIdAndSorIdentifier(1L, OR_WEBAPP_IDENTIFIER)).thenReturn(criteria.getSorPerson());
         when(this.personService.addPerson(criteria)).thenReturn(serviceExecutionResult);
 
         setCurrentState("addPerson");
@@ -248,7 +248,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         when(person.getCurrentActivationKey()).thenReturn(activationKey);
 
         when(activationKey.asString()).thenReturn("foobar");
-        when(this.personService.findByPersonIdAndSorIdentifier(1L, "or-webapp")).thenReturn(criteria.getSorPerson());
+        when(this.personService.findByPersonIdAndSorIdentifier(1L, OR_WEBAPP_IDENTIFIER)).thenReturn(criteria.getSorPerson());
 
         final ReconciliationException reconciliationException = mock(ReconciliationException.class, RETURNS_SMART_NULLS);
         final List personMatchList = mock(List.class);
@@ -280,7 +280,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         when(reconciliationException.multiplePeopleFound()).thenReturn(true);
         when(reconciliationException.getReconciliationType()).thenReturn(ReconciliationResult.ReconciliationType.EXACT);
         when(this.personService.addPerson(criteria)).thenThrow(reconciliationException);
-        when(this.personService.findByPersonIdAndSorIdentifier(1L, "or-webapp")).thenReturn(criteria.getSorPerson());
+        when(this.personService.findByPersonIdAndSorIdentifier(1L, OR_WEBAPP_IDENTIFIER)).thenReturn(criteria.getSorPerson());
 
 
         setCurrentState("addPerson");
