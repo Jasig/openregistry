@@ -117,7 +117,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name="sponsor_id")
     @NotNull(message="sponsorRequiredMsg")
-    private JpaSorSponsorImpl sponsor;
+    private JpaSorSponsorImpl sponsor = new JpaSorSponsorImpl(this);
 
     @Column(name="affiliation_date",nullable=false)
     @Temporal(TemporalType.DATE)
@@ -206,13 +206,6 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     public void setPersonStatus(final Type personStatus) {
         Assert.isInstanceOf(JpaTypeImpl.class, personStatus);
         this.personStatus = (JpaTypeImpl) personStatus;
-    }
-
-    // TODO this is not setSponsor.  Setters should be for JavaBean properties
-    public SorSponsor setSponsor() {
-       	final JpaSorSponsorImpl sponsor = new JpaSorSponsorImpl(this);
-        this.sponsor = sponsor;
-        return sponsor;
     }
 
     public SorSponsor getSponsor() {

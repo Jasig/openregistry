@@ -495,7 +495,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         sorRole.setPercentage(50);
         sorRole.setStart(new Date());
         sorRole.setPersonStatus(this.referenceRepository.getTypeById(1L));
-        final SorSponsor sponsor = sorRole.setSponsor();
+        final SorSponsor sponsor = sorRole.getSponsor();
         sponsor.setSponsorId(1L);
         sponsor.setType(this.referenceRepository.getTypeById(1L));
 
@@ -550,7 +550,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
-        final SorSponsor sorSponsor = role.setSponsor();
+        final SorSponsor sorSponsor = role.getSponsor();
         sorSponsor.setSponsorId(1L);
         sorSponsor.setType(this.referenceRepository.getTypeById(1L));
 
@@ -592,7 +592,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
-        final SorSponsor sorSponsor = role.setSponsor();
+        final SorSponsor sorSponsor = role.getSponsor();
         sorSponsor.setSponsorId(1L);
         sorSponsor.setType(this.referenceRepository.getTypeById(1L));
 
@@ -636,7 +636,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
-        final SorSponsor sorSponsor = role.setSponsor();
+        final SorSponsor sorSponsor = role.getSponsor();
         sorSponsor.setSponsorId(1L);
         sorSponsor.setType(this.referenceRepository.getTypeById(1L));
 
@@ -675,7 +675,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
-        final SorSponsor sorSponsor = role.setSponsor();
+        final SorSponsor sorSponsor = role.getSponsor();
         sorSponsor.setSponsorId(1L);
         sorSponsor.setType(this.referenceRepository.getTypeById(1L));
 
