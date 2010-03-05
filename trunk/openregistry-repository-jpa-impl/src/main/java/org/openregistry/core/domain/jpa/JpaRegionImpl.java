@@ -30,7 +30,7 @@ import java.util.List;
  *
  */
 @javax.persistence.Entity(name="region")
-@Table(name="ctd_regions")
+@Table(name="ctd_regions", uniqueConstraints = {@UniqueConstraint(columnNames = {"country_id", "code"})})
 @Audited
 public class JpaRegionImpl extends Entity implements Region {
 

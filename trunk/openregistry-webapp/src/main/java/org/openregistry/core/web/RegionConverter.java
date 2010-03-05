@@ -15,25 +15,15 @@
  */
 package org.openregistry.core.web;
 
-import org.springframework.binding.convert.converters.StringToObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Region;
 import org.openregistry.core.repository.ReferenceRepository;
 
-import java.util.List;
-import java.util.Iterator;
-
 /**
- * Created by IntelliJ IDEA.
- * User: nmond
- * Date: Apr 28, 2009
- * Time: 3:33:37 PM
- * To change this template use File | Settings | File Templates.
+ * Converts a Region from its code to the actual object, and back.
+ *
+ * @version $Revision$ $Date$
+ * @since 0.1
  */
-// TODO: do we need another method of ReferenceRepository
 public final class RegionConverter extends AbstractConverter {
 
     public RegionConverter(final ReferenceRepository referenceRepository) {
@@ -43,13 +33,7 @@ public final class RegionConverter extends AbstractConverter {
     @Override
     protected Object toObject(String string, Class targetClass) throws Exception {
         final String trimmedText = string.trim();
-
-        for (final Region region : getReferenceRepository().getRegions()) {
-            if (region.getCode().trim().equals(trimmedText) || region.getName().trim().equals(trimmedText)){
-                return region;
-            }
-        }
-        return null;
+        return getReferenceRepository().getRegionByCodeOrName(trimmedText);
     }
 
     @Override
