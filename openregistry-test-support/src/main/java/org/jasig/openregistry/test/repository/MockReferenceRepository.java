@@ -124,6 +124,11 @@ public final class MockReferenceRepository implements ReferenceRepository {
         return null;
     }
 
+    @Override
+    public Region getRegionByCodeOrName(final String code) {
+        return null;
+    }
+
     public Type getTypeById(final Long id) {
         return null;
     }

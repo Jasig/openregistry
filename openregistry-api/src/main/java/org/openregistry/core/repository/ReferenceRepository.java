@@ -59,6 +59,15 @@ public interface ReferenceRepository {
     Region getRegionByCodeAndCountryId(String code, String countryCode);
 
     /**
+     * Retrieves a region by code or name.  If there's more than one match, this MUST return NULL, indicating no
+     * distinct match.
+     *
+     * @param code the code to check
+     * @return the region, or null.
+     */
+    Region getRegionByCodeOrName(String code);
+
+    /**
      * Find a Type based on the original {@link org.openregistry.core.domain.Type.DataTypes} and the value we're
      * looking for.  If the Type doesn't exist, an error should be thrown.
      *

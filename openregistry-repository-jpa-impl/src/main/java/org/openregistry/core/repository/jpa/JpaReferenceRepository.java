@@ -19,12 +19,17 @@ import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.Type.DataTypes;
 import org.openregistry.core.domain.jpa.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -32,6 +37,8 @@ import java.util.List;
  */
 @Repository(value = "referenceRepository")
 public final class JpaReferenceRepository implements ReferenceRepository {
+
+    protected Logger log = LoggerFactory.getLogger(getClass());
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -112,8 +119,24 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
-        public Region getRegionByCodeAndCountryId(final String code, final String countryCode) {
-            return (Region)this.entityManager.createQuery("select r from region r join r.country c where r.code = :code and c.code = :countryCode order by r.name, c.code").setParameter("code", code).setParameter("countryCode", countryCode).getSingleResult();
+    public Region getRegionByCodeAndCountryId(final String code, final String countryCode) {
+        return (Region)this.entityManager.createQuery("select r from region r join r.country c where r.code = :code and c.code = :countryCode order by r.name, c.code").setParameter("code", code).setParameter("countryCode", countryCode).getSingleResult();
+    }
+
+    public Region getRegionByCodeOrName(final String code) {
+        final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+
+        final CriteriaQuery<JpaRegionImpl> c =criteriaBuilder.createQuery(JpaRegionImpl.class);
+        c.distinct(true);
+        final Root<JpaRegionImpl> region = c.from(JpaRegionImpl.class);
+        c.where(criteriaBuilder.or(criteriaBuilder.equal(region.get(JpaRegionImpl_.code), code), criteriaBuilder.like(region.get(JpaRegionImpl_.name), code)));
+
+        try {
+            return this.entityManager.createQuery(c).getSingleResult();
+        } catch (final Exception e) {
+            log.debug(e.getMessage(), e);
+            return null;
+        }
     }
 
     @Transactional
