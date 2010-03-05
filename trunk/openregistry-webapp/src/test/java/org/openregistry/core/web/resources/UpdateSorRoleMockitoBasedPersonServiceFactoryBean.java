@@ -52,12 +52,12 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
         //Stubbing 'good' sor role
         final SorRole mockGoodSorRole = mock(SorRole.class);
         when(mockGoodSorRole.getCode()).thenReturn("GOOD");
-        when(mockGoodSorRole.setSponsor()).thenReturn(mockSorSponsor);
+        when(mockGoodSorRole.getSponsor()).thenReturn(mockSorSponsor);
 
         //Stubbing 'bad' sor role
         final SorRole mockBadSorRole = mock(SorRole.class);
         when(mockBadSorRole.getCode()).thenReturn("BAD");
-        when(mockBadSorRole.setSponsor()).thenReturn(mockSorSponsor);
+        when(mockBadSorRole.getSponsor()).thenReturn(mockSorSponsor);
 
         //Stubbing service execution result with validation errors
         final ServiceExecutionResult<SorRole> goodExecutionResult = mock(ServiceExecutionResult.class, "good execution result");
