@@ -59,6 +59,12 @@
         <property name="systemOfRecordRepository" ref="systemOfRecordRepository" />
     </bean>
 
+    <bean name="LogAspect"
+        class="org.openregistry.aspect.LogAspect"
+        factory-method="aspectOf">
+        <property name="messageSource" ref="messageSource" />
+    </bean>
+
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource">
         <property name="jpaVendorAdapter">
