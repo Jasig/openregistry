@@ -47,7 +47,6 @@
         </sec:filter-chain-map>
     </bean>
 
-
     <bean id="filterInvocationInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor"
         p:authenticationManager-ref="authenticationManager"
         p:accessDecisionManager-ref="accessDecisionManager">
@@ -83,15 +82,10 @@
         </constructor-arg>
     </bean>
 
-    <bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
-        <property name="providers">
-            <list>
-                <ref bean="daoAuthenticationProvider" />
-                <ref bean="casAuthenticationProvider" />
-
-            </list>
-        </property>
-    </bean>
+    <sec:authentication-manager alias="authenticationManager">
+        <sec:authentication-provider ref="daoAuthenticationProvider" />
+        <sec:authentication-provider ref="casAuthenticationProvider " />
+    </sec:authentication-manager>
 
     <!-- #########################################################################################
          # CAS AUTHENTICATION COMPONENTS                                                         #
