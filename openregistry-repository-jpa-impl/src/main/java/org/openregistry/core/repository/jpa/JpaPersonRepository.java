@@ -174,8 +174,6 @@ public class JpaPersonRepository implements PersonRepository {
         this.entityManager.remove(person);
     }
 
-    // TODO The next 5 methods are for supporting the new reconciler code....these should be replaced with something more general
-
     public List<Person> findByEmailAddressAndPhoneNumber(final String email, final String countryCode, final String areaCode, final String number, final String extension) {
     	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e, IN(r.phones) ph where e.address = :email and ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number and ph.extension = :extension").setParameter("email", email).setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).setParameter("extension", extension).getResultList();
     }

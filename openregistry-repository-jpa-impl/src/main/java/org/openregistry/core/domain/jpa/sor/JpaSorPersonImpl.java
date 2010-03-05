@@ -193,7 +193,6 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         return nameToFind;
     }
 
-    // TODO not sure if this should be here
     public String getFormattedName() {
         for (final Name name : this.names) {
             if (name.isPreferredName()) {
