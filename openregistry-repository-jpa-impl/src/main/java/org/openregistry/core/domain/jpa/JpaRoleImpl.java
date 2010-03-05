@@ -266,7 +266,7 @@ public final class JpaRoleImpl extends Entity implements Role {
 
     public void expireNow(final Type terminationReason, final boolean orphaned) {
         Assert.isInstanceOf(JpaTypeImpl.class, terminationReason);
-        Assert.isNull(this.end, "this role has already been expired.");
+        Assert.isTrue(this.end == null || this.end.compareTo(new Date()) < 0, "this role has already been expired.");
         this.end = new Date();
         this.terminationReason = terminationReason;
         if (orphaned) {

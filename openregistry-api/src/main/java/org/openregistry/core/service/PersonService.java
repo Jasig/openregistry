@@ -66,14 +66,6 @@ public interface PersonService {
     SorPerson findBySorIdentifierAndSource(final String sorSource, final String sorId);
 
     /**
-     * For a particular Sor Person record for the specified sourceSorIdentifier.
-     * @param fromPerson
-     * @param toPerson
-     * @return  SorPerson
-     */
-    SorPerson hasSorRecordFromSameSource(Person fromPerson, Person toPerson);
-
-    /**
      * Retrieves the SoR Records for a particular calculated person.
      *
      * @param person the calculated person.  CANNOT BE NULL.

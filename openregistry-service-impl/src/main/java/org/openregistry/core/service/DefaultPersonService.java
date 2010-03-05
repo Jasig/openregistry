@@ -105,7 +105,7 @@ public class DefaultPersonService implements PersonService {
         try {
             return this.personRepository.findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
         } catch (final Exception e) {
-            // TODO we need to log this better.
+            logger.debug(e.getMessage(), e);
             return null;
         }
     }
@@ -203,7 +203,6 @@ public class DefaultPersonService implements PersonService {
             person.getRoles().remove(role);
         } else {
             final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationTypeToUse);
-            // TODO THIS IS BAD!!!  isTerminated probably does not do what we want it to do.
             if (!role.isTerminated()) {
                 role.expireNow(terminationReason, true);
             }
@@ -467,8 +466,7 @@ public class DefaultPersonService implements PersonService {
         final SorPerson registrySorPerson = this.findByPersonIdAndSorIdentifier(person.getId(), sorPerson.getSourceSor());
 
         if (registrySorPerson != null) {
-            // TODO: replace this with what should happen
-            throw new IllegalStateException("THIS SHOULD NOT HAPPEN.");
+            throw new IllegalStateException("Oops! An error occured. A person already exists from this SoR linked to this ID!");
         }
 
         if (!StringUtils.hasText(sorPerson.getSorId())) {
@@ -641,13 +639,6 @@ public class DefaultPersonService implements PersonService {
         // TODO recalculate names for person losing role? Anything else?
         this.personRepository.savePerson(fromPerson);
         this.personRepository.savePerson(toPerson);
-    }
-
-    public SorPerson hasSorRecordFromSameSource(Person fromPerson, Person toPerson) {
-        SorPerson sorPerson = null;
-
-        //TODO need to complete this.
-        return sorPerson;
     }
 
     public boolean expireRole(SorRole role) {
