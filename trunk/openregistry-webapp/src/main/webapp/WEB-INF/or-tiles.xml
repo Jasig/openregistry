@@ -42,7 +42,7 @@
 
 
     <definition name="openregistry.search" extends="openregistry.base">
-        <put-attribute name="additionalCssFile" type="string" value="css/or_find_person.css" />
+        <put-attribute name="additionalCssFile" type="string" value="css/or_find_person.css" cascade="true"/>
         <put-attribute name="titleCode" value="search.title" type="string" cascade="true" />
         <put-attribute name="body" value="openregistry.search.content" cascade="true"/>
     </definition>
@@ -56,6 +56,7 @@
         <put-list-attribute name="navItems">
             <item value="Find a Person" link="/openregistry/viewPersonDetail.htm" />
             <item value="Add a Person" link="/openregistry/addSorPerson.htm" />
+            <item value="New Activation Key" link="/openregistry/newActivationKey.htm" />
             <item value="Logout" link="/openregistry/logout.htm"/>
         </put-list-attribute>
     </definition>
@@ -71,11 +72,13 @@
     </definition>
 
     <definition name="openregistry.person.update.update" extends="openregistry.base">
+        <put-attribute name="additionalCssFile" type="string" value="themes/or/or_update_person.css" cascade="true" />
         <put-attribute name="titleCode" value="updatePerson.title" type="string" />
         <put-attribute name="body" value="/WEB-INF/or-tiles/update-person/updatePerson.jsp" cascade="true" />
     </definition>
 
     <definition name="openregistry.person.add.insert" extends="openregistry.base">
+        <put-attribute name="additionalCssFile" type="string" value="themes/or/or_add_person.css" cascade="true" />
         <put-attribute name="titleCode" value="addSorPerson.title" type="string" />
         <put-attribute name="body" value="/WEB-INF/or-tiles/add-person/input.jsp" cascade="true" />
     </definition>
@@ -97,7 +100,13 @@
 
     <definition name="openregistry.complete" extends="openregistry.base">
         <put-attribute name="titleCode" value="operation.complete" type="string" />
-        <put-attribute name="body" value="/WEB-INF/or-tiles/operation-complete/orComplete.jsp" cascade="true"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/or-includes/info.jsp" cascade="true"/>
+    </definition>
+
+    <definition name="openregistry.generate.activationKey" extends="openregistry.base">
+        <put-attribute name="additionalCssFile" type="string" value="themes/or/or_new_activation_key.css" cascade="true" />
+        <put-attribute name="titleCode" value="generateActivationKey.title" type="string" />
+        <put-attribute name="body" value="/WEB-INF/or-tiles/new-activationKey/newActivationKey.jsp" cascade="true"/>
     </definition>
 
 

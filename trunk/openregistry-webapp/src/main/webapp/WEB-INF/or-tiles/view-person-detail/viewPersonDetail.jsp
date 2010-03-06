@@ -40,7 +40,7 @@
         <tbody class="zebra">
         <c:forEach var="name" items="${person.names}" varStatus="sorPersonLoopStatus">
             <tr>
-                <td>${name.type.description} <spring:message code="nameColumn.label" /> </strong> </td>
+                <td>${name.type.description} <spring:message code="nameColumn.label" /></td>
                 <td>${name.longFormattedName}</td>
             </tr>
         </c:forEach>
@@ -65,7 +65,7 @@
             <tr>
                 <td><spring:message code="role.label" /> (<b>${role.personStatus.description}</b>)</td>
                 <td>
-                    <a href="${flowExecutionUrl}&_eventId=submitViewRole&roleCode=${role.code}&formattedName=${person.officialName.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a>
+                    <a href="${flowExecutionUrl}&_eventId=submitViewRole&roleCode=${role.code}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a>
                      <fmt:formatDate value="${role.start}" /> <spring:message code="vcpTo.label" /> <fmt:formatDate value="${role.end}" />
                 </td>
             </tr>
@@ -73,6 +73,7 @@
         </tbody>
     </table>
 </div>
+
 <c:forEach var="sorPerson" items="${sorPersons}" varStatus="sorPersonLoopStatus">
     <div class="sor-person">
 
@@ -123,13 +124,14 @@
                 </td>
             </tr>
         </c:forEach>
-        </tbody>
-    </table>
+         </tbody>
 
+
+    </table>
+    </div>
     <%--pass the index of the iteration so that we can grab the correct sorPerson when passing to the update sorPerson flow--%>
     <%--<div><a href="${flowExecutionUrl}&_eventId=updateSorPerson&sorPersonIndex=${sorPersonLoopStatus.index}"><button>Edit</button></a></div>--%>
 </c:forEach>
-</div>
 
 <div class="center"><a href="${flowExecutionUrl}&_eventId=submitNewSearch"><button>New Search</button></a></div>
 <%--<div class="row fm-v" style="clear:both;">--%>

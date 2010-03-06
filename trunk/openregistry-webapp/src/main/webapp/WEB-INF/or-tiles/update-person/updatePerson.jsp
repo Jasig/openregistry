@@ -47,7 +47,7 @@
                         <th><spring:message code="lastName.label" /></th>
                         <th><spring:message code="suffix.label" /></th>
                         <th><spring:message code="type.label" /></th>
-                        <th><spring:message code="action.label" /></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody class="zebra">
