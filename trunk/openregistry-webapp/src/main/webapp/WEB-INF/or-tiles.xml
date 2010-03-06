@@ -54,10 +54,10 @@
 
     <definition name="openregistry.navigation" template="/WEB-INF/or-tiles/base-template/orNav.jsp">
         <put-list-attribute name="navItems">
-            <item value="Find a Person" link="/openregistry/viewPersonDetail.htm" />
-            <item value="Add a Person" link="/openregistry/addSorPerson.htm" />
-            <item value="New Activation Key" link="/openregistry/newActivationKey.htm" />
-            <item value="Logout" link="/openregistry/logout.htm"/>
+            <item value="Find a Person" link="viewPersonDetail.htm" />
+            <item value="Add a Person" link="addSorPerson.htm" />
+            <item value="New Activation Key" link="newActivationKey.htm" />
+            <item value="Logout" link="logout.htm"/>
         </put-list-attribute>
     </definition>
 

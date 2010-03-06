@@ -46,7 +46,7 @@
                     <li>
                 </c:otherwise>
             </c:choose>
-            <a href="${item.link}">${item.value}</a>
+            <a href="<c:url value="${item.link}" />">${item.value}</a>
             </li>
         </c:forEach>
     </ul>
