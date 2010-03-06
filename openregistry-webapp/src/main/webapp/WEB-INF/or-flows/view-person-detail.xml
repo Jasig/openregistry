@@ -64,7 +64,7 @@
         <on-entry>
             <set name="viewScope.command" value="'role'" />
             <set name="viewScope.sponsorValue" value="flowScope.sponsorPerson.getOfficialName().getFormattedName()" />
-            <set name="viewScope.formattedName" value="requestParameters.formattedName" />
+            <set name="viewScope.formattedName" value="flowScope.fromPerson.getOfficialName().getFormattedName()" />
         </on-entry>
         <transition on="submitBack" to="viewPersonDetail"/>
     </view-state>
@@ -76,7 +76,7 @@
     </subflow-state>
 
     <subflow-state id="moveSorPerson" subflow="splitPerson">
-        <input name="sorPerson" value="flowScope.sorPerson" />        
+        <input name="sorPerson" value="flowScope.sorPerson" />
         <input name="person" value="flowScope.fromPerson" />
         <transition to="viewPersonDetail"/>
     </subflow-state>

@@ -27,18 +27,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
-<form:form modelAttribute="person">
-    <fieldset id="selectSorPerson">
-        <legend><span><spring:message code="selectSorPagePage.heading"/></span></legend>
-        <br/>
-
-    <fieldset>
-            <label>
+            <div>
                 <spring:message code="sor.heading"/> <c:out value="${sorPerson.sourceSor}" />
                 <a href="${flowExecutionUrl}&_eventId=move"><button>To Existing</button></a>
                 <a href="${flowExecutionUrl}&_eventId=moveToNewPerson"><button>To New</button></a>
-            </label>
+            </div>
                 <div>
                     <table class="data" cellspacing="0" width="80%">
                         <thead>
@@ -70,10 +63,5 @@
                         </tbody>
                     </table>
         </div>
-		</fieldset>
-		</fieldset>
 
     <div><a href="${flowExecutionUrl}&_eventId=cancel"><button>Cancel</button></a></div>
-
-
-</form:form>

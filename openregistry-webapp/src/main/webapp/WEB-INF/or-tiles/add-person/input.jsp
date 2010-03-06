@@ -18,7 +18,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<link rel="stylesheet" href="<spring:theme code='addPersonSheet'/>" type="text/css" />
+<%--<link rel="stylesheet" href="<spring:theme code='addPersonSheet'/>" type="text/css" />--%>
 
 <form:form modelAttribute="reconciliationCriteria" commandName="reconciliationCriteria" method="post">
     <fieldset>
@@ -26,7 +26,7 @@
         <p class="instructions">
             <spring:message code="requiredFields.heading" /><span style="color:#b00;">*</span>.
         </p>
-        <br />
+
         <form:errors path="*" element="div" id="message" cssClass="error" htmlEscape="false"/>
         <fieldset>
             <div class="field_set group">

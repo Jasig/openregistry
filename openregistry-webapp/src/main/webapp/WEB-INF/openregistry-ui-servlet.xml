@@ -37,6 +37,7 @@
         <flow:flow-location path="/WEB-INF/or-flows/logout.xml" id="logout"/>
         <flow:flow-location path="/WEB-INF/or-flows/addPerson.xml" id="addSorPerson"/>
         <flow:flow-location path="/WEB-INF/or-flows/split-person.xml" id="splitPerson" />
+        <flow:flow-location path="/WEB-INF/or-flows/new-activationKey.xml" id="newActivationKey" />
 
         <!--<flow:flow-location path="/WEB-INF/flows/addPerson.xml" id="addPerson"/>-->
         <!--<flow:flow-location path="/WEB-INF/flows/delete-person.xml" id="deletePerson" />-->
@@ -46,7 +47,6 @@
         <!--<flow:flow-location path="/WEB-INF/flows/search-person.xml" id="searchForPerson" />-->
         <!--<flow:flow-location path="/WEB-INF/flows/manage-person-roles.xml" id="managePersonRoles" />-->
         <!--<flow:flow-location path="/WEB-INF/flows/join-person.xml" id="joinPerson" />-->
-        <!--<flow:flow-location path="/WEB-INF/flows/new-activationKey.xml" id="newActivationKey" />-->
         <!--<flow:flow-location path="/WEB-INF/flows/view-complete-person.xml" id="viewCompletePerson" />-->
     </flow:flow-registry>
 

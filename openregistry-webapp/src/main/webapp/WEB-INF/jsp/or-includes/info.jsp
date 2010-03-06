@@ -22,17 +22,31 @@
   Time: 4:56:10 PM
   To change this template use File | Settings | File Templates.
 --%>
-This is the info.jsp
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
+
+<div id="content">
+    <h2>${titleCode}</h2>
+
+
 <c:if test='${not empty infoModel}'>
-	<p class="highlight" id="message">
-		<h2><c:out value="${infoModel}"/></h2>
+    <div id="message" class="highlight">
+        <h2><c:out value="${infoModel}"/></h2>
 	</div>
 </c:if>
 
 <c:forEach items="${flowRequestContext.messageContext.allMessages}" var="message">
-    <c:if test="${message.severity eq 'Info'}">
-      <div class="highlight" id="message">
-        <h2><c:out value="${message.text}"/></h2>
-      </div>
-    </c:if>
+    <c:choose>
+        <c:when test="${message.severity eq 'Error'}">
+            <c:set var="cssClass" value="'error'"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="cssClass" value="'highlight'"/>
+        </c:otherwise>
+    </c:choose>
+    <div class="${cssClass}" id="message">
+      <h2><c:out value="${message.text}"/></h2>
+    </div>
+
 </c:forEach>
+</div>
