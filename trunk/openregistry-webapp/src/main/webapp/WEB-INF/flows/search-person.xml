@@ -25,15 +25,20 @@
 
     <view-state id="searchForPerson" model="searchCriteria" view="openregistry.search">
         <on-entry>
+            <set name="flowScope.menuItem" value="'Find a Person'" />
             <set name="viewScope.success" value="externalContext.requestParameterMap['success']" />
             <set name="viewScope.cancelled" value="externalContext.requestParameterMap['cancel']" />
             <set name="viewScope.errorMessage" value="flashScope.errorMessage" />
             <set name="viewScope.searchResults" value="flowScope.searchResults" />
             <set name="flowScope.taskTitleCode" value="taskTitleCode" />
         </on-entry>
+        <on-render>
+            <set name="viewScope.commandName" value="'searchCriteria'" />
+        </on-render>
         <transition on="submit" bind="true" validate="true">
             <evaluate expression="personService.searchForPersonBy(searchCriteria)" result-type="java.util.List" result="flowScope.searchResults" />
             <set name="viewScope.searchResults" value="flowScope.searchResults" />
+            <evaluate expression="searchResults.size()" result="viewScope.resultsSize"/>
             <render fragments="searchResults" />
         </transition>
         <transition on="display" to="personSelected" validate="false">

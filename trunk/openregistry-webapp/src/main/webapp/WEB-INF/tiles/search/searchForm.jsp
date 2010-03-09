@@ -15,44 +15,42 @@
     limitations under the License.
 
 --%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<c:if test="${errorMessage != null}"><div id="status" class="box"><p>${errorMessage}</p></div><script type="text/javascript">setTimeout("createFadeOutEffect()", 5000);</script></c:if>
-<c:if test="${success != null}"><div id="status" class="box"><p><strong><spring:message code="deleteSuccess" /></strong></p></div><script type="text/javascript">setTimeout("createFadeOutEffect()", 5000);</script></c:if>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<div>
-   <h2><strong><span style="padding:10px;"/><spring:message code="delete.person.headers.find" /></strong></h2>
-   <form:form commandName="searchCriteria" method="post" id="orForm">
-       <form:errors path="*" element="p" id="globalErrors" />
-       <ul>
-           <li class="container">
-               <form:label path="givenName"><spring:message code="person.biodem.names.label" /></form:label>
-               <span>
-               <form:input path="givenName" cssErrorClass="formerror" />
-               <form:label path="givenName"><spring:message code="person.biodem.names.given.label" /></form:label>
-               </span>
+<fieldset>
+        <legend><span><spring:message code="search.title"/></span></legend>
+        <br/>
 
-               <span>
-               <form:input path="familyName" cssErrorClass="formerror" />
-                <form:label path="familyName"><spring:message code="person.diodem.names.family.label" /></form:label>
-               </span>
-           </li>
-           <li class="container">
-               <form:label path="dateOfBirth"><spring:message code="person.biodem.dateOfBirth.label" /></form:label>
-              <span>
-               <form:input path="dateOfBirth" cssErrorClass="formerror" />
-              </span>
-           </li>
-           <li class="container">
-               <form:label path="identifierValue" for="identifierValue">Identifier</form:label>
-               <span>
-               <form:input path="identifierValue" cssErrorClass="formerror" />
-              </span>
-           </li>
-           <li>
-               <input type="hidden" name="_eventId" value="submit" />
-               <button id="submitButton">Search</button></li>
-       </ul>
-   </form:form>
+<p class="instructions">Enter your search criteria in the fields below and click <strong>Find Person</strong>.
+
+<div id="search_form">
+    <!-- TODO: replace this with the commandName variable from the find-person.xml -->
+    <form:form commandName="searchCriteria" method="post" id="orForm">
+        <form:errors path="*" element="div" id="message" cssClass="error" htmlEscape="false"/>
+
+        <fieldset class="fm-h">
+
+            <div class="row">
+                <div>
+                    <form:label for="c1_ident" cssClass="ident"  path="identifierValue">Identifier</form:label>
+                    <form:input id="c1_ident" cssClass="ident"   path="identifierValue" cssErrorClass="formerror" />
+
+                    <form:label for="c1_nme" cssClass="nme" path="name"><spring:message code="person.biodem.names.label" /></form:label>
+                    <form:input id="c1_nme" cssClass="nme"  path="name" cssErrorClass="formerror" />
+                    <form:errors path="name" />
+
+                    <form:label for="c1_dob" cssClass="dob" path="dateOfBirth"><spring:message code="person.biodem.dateOfBirth.label" /></form:label>
+                    <form:input id="c1_dob" cssClass="dob"  path="dateOfBirth" cssErrorClass="formerror" placeholder="yyyy-mm-dd"/>
+                </div>
+                <div id="find_submit_container">
+                    <input type="hidden" name="_eventId" value="submit" />
+                    <button id="submitButton">Find Person</button>
+                </div>
+            </div>
+        </fieldset>
+    </form:form>
 </div>
+</fieldset>
