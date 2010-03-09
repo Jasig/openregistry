@@ -38,7 +38,6 @@
         <transition on="submit" bind="true" validate="true">
             <evaluate expression="personService.searchForPersonBy(searchCriteria)" result-type="java.util.List" result="flowScope.searchResults" />
             <set name="viewScope.searchResults" value="flowScope.searchResults" />
-            <evaluate expression="searchResults.size()" result="viewScope.resultsSize"/>
             <render fragments="searchResults" />
         </transition>
         <transition on="display" to="personSelected" validate="false">
