@@ -19,30 +19,45 @@
 
 .openregistry#update fieldset fieldset {margin:0;}
 
+/* headings */
 .openregistry#update label.desc {display:block; clear:both; line-height:1.5; padding-top:1em; width:100%; color:#777; font-size:1.2em; font-weight:900;}
 .openregistry#update label.desc em {font-size:10px;}
 
 openregistry#update label.desc2 {display:block; clear:both; line-height:1.5; padding-top:.5em; width:100%; color:#000; font-size:1.2em; font-weight:900;}
 .openregistry#update label.desc2 em2 {font-size:12px; color:#777;}
 
+/* multi column layout */
 .openregistry#update #ecn1 {float:left; width:100%;}
 .openregistry#update #ecn1 label.desc {color:#000;}
 
-.openregistry#update #ecn2 {position:absolute; float:none; left:50%; width:48%;}
-.openregistry#update #ecn3 {clear:both;}
+/* general */
 
 .openregistry#update div.row {position:relative; height:3.3em;}
-.openregistry#update div.row label {clear:none; float:none; display:block; position:absolute; left:0; top:2.5em; margin:0; text-align:left; width:auto; font-size:10px;}
-
-p#one-required {position:absolute; left:66%; font-size:10px;}
-
-.openregistry#update input[type="text"] {padding:3px 0; text-indent:3px;}
+.openregistry#update div.row label {clear:none; float:none; text-align:left; font:11px Arial,sans-serif; display:block;}
+.openregistry#update input[type="text"] {padding:3px 0; text-indent:3px; margin-right:4px;}
 
 div.select {border:1px solid red; border-color:#999 #eee #eee #999; float:left;}
 	select {font-size:1.1em; font-family:Verdana,sans-serif; border-style:solid; border-color:#fff;}
 
 legend span span {color:#777; font-weight:400; font-size:1em; display:inline;}
 .openregistry#update #content p.info {border:0; background:transparent url(../images/info-s.gif) no-repeat 0 0;font-size:1.1em;}
+
+
+/* Open Registry Find a Person */
+
+.openregistry input.ident {width:15%; font-weight: bold;}
+
+.openregistry label.nme {position:absolute; left:15.4%; margin-left:5px; top:5px; font-weight: bold;}
+.openregistry input.nme {width:15%; margin-left:3px;}
+
+.openregistry label.dob {position:absolute; left:31%; margin-left:10px; top:5px; font-weight: bold;}
+.openregistry input.dob {width:10%; margin-left:3px;}
+
+.openregistry table { width: 80%;}
+.openregistry thead { background: #ccc;}
+
+.openregistry tbody.zebra tr:nth-child(even) {background-color: #eee;}
+.even-rows{background-color: #eee;}
 
 /****** Heading */
 .openregistry#update div.row label.name {display:block; clear:both; line-height:1.5; padding-top:1em; width:100%; color:#777; font-size:1.2em; font-weight:900; left:11%; margin-left:5px;}
@@ -110,22 +125,13 @@ legend span span {color:#777; font-weight:400; font-size:1em; display:inline;}
 .openregistry#update div.row label.identifierValue {left:7%; margin-left:1px;}
 #c1_IdentifierValue {float:left; margin-left:3px;}
 
-/*
-.openregistry#update div.row label.dateOfBirth {left:8%;margin-left:2px;}
-*/
 #c1_dateOfBirth {width:16%;}
 #c1_preferredName {width:16%;}
-
-/*
-.openregistry#update div.row label.genderUpdate {left:16%; margin-left:4px;}
-#c1_genderUpdate {float:left; margin-left:5px;}
-*/
 
 #c1_ssn {width:16%;}
 #c1_ruid {width:16%;}
 
 #c1_email {width:40%;}
-#c1_hideDir {margin-left:3px;}
 #e_cell {clear:left; float:left; margin-top:0; width:80%;}
 
 input.btn-submit {margin-top:0;font-weight:900}
@@ -138,13 +144,3 @@ input.btn-cancel {margin-top:0;font-weight:900;left:22%; margin-left:2px;}
 .rowAltColor {
 	background-color: #eee;
 }
-
-div#searchheader {display:block; font-size:1.3em; font-weight:900; color:#d21033; text-transform:uppercase;}
-fieldset2 {margin:2em 0;  padding:10px;}
-/* Safari 2.x specific fixes */
-html[xmlns*=""] body:last-child div.select {border:0 !important;}
-html[xmlns*=""] body:last-child div.row label.state {margin-left:3px !important;}
-html[xmlns*=""] body:last-child div.row label.zip {margin-left:6px !important;}
-html[xmlns*=""] body:last-child div.row label.work {margin-left:3px !important;}
-html[xmlns*=""] body:last-child div.row label.cell {margin-left:6px !important;}
-html[xmlns*=""] body:last-child div.row label.phone {margin-left:12.3em !important;} 

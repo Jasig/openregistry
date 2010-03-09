@@ -20,19 +20,28 @@
 
 <c:choose>
     <c:when test="${searchResults eq null}">
-        
-    </c:when>
-    <c:when test="${empty searchResults}">
-        <h2><strong></strong><spring:message code="delete.person.headers.results" /><strong></strong></h2>
-        <p><strong>Your search returned no results.</strong></p>        
+
     </c:when>
     <c:otherwise>
-        <h2><spring:message code="delete.person.headers.results" /></h2>
-        <display:table name="searchResults" id="personMatch">
-            <display:column title="&nbsp;">${personMatch_rowNum}</display:column>
-            <display:column title="Name"><a href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}">${personMatch.person.preferredName}</a></display:column>
+        <fieldset>
+        <legend><span><spring:message code="find.person.headers.results"/></span></legend>
+        </fieldset>
+        <div id="search_results">
+            <p class="instructions">${resultsSize} results were found for your query:</p>
+        <display:table name="searchResults" id="personMatch" htmlId="find_person_results_table" requestURI="" >
+            <display:setProperty name="basic.msg.empty_list" value="Your search returned no results." />
+            <display:setProperty name="css.tr.even" value="even-rows" />
+            <display:column title="&nbsp;"><a href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"><button>Details</button></a></display:column>
+            <display:column property="person.preferredName" title="Name" sortable="true" href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"/>
+            <display:column title="ID">
+                ${personMatch.person.primaryIdentifiersByType[preferredPersonIdentifierType].value}
+            </display:column>
+            <display:column title="Roles" sortable="true">
+                <c:forEach var="role" items="${personMatch.person.roles}">
+                    ${role.displayableName}<br/>
+                </c:forEach>
+            </display:column>
             <display:column property="person.gender" title="Gender" />
-
         </display:table>
     </c:otherwise>
 </c:choose>

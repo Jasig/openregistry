@@ -31,7 +31,7 @@
 
 	<h1 id="app-name">OpenRegistry</h1>
     	<ul id="nav-system">
-		<li id="home"><a href="." title="home page"><spring:message code="home.label" /></a></li>
+		<li id="home"><a href="main.htm" title="home page"><spring:message code="home.label" /></a></li>
 		<li id="logout"><a href="logout.htm" title="log out of current session"><spring:message code="logout.label" /></a></li>
 	</ul>
 
@@ -40,6 +40,7 @@
    		<jsp:directive.include file="/WEB-INF/jsp/includes/errors.jsp" />
    		<jsp:directive.include file="/WEB-INF/jsp/includes/info.jsp" />
         <tiles:insertAttribute name="body" />
+        <tiles:insertAttribute name="body2" ignore="true" />
 	</div>
     <div id="footer">
 		<p><spring:message code="footer.copyright.text" /></p>
