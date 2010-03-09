@@ -17,7 +17,6 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
-
 <c:choose>
     <c:when test="${searchResults eq null}">
 
@@ -25,7 +24,7 @@
     <c:otherwise>
         <div id="search_results">
         <h2><spring:message code="find.person.headers.results" /></h2>
-            <p class="instructions">${resultsSize} results were found for your query:</p>
+            <p class="instructions">${fn:length(searchResults)} results were found for your query:</p>
         <display:table name="searchResults" id="personMatch" htmlId="find_person_results_table" requestURI="" >
             <display:setProperty name="basic.msg.empty_list" value="Your search returned no results." />
             <display:setProperty name="css.tr.even" value="even-rows" />
