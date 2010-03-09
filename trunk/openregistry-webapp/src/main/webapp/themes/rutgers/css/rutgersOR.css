@@ -56,8 +56,10 @@ legend span span {color:#777; font-weight:400; font-size:1em; display:inline;}
 .openregistry table { width: 80%;}
 .openregistry thead { background: #ccc;}
 
+/*
 .openregistry tbody.zebra tr:nth-child(even) {background-color: #eee;}
 .even-rows{background-color: #eee;}
+*/
 
 /****** Heading */
 .openregistry#update div.row label.name {display:block; clear:both; line-height:1.5; padding-top:1em; width:100%; color:#777; font-size:1.2em; font-weight:900; left:11%; margin-left:5px;}
