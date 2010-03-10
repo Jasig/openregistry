@@ -2,7 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
+	<parent>
+        <artifactId>openregistry</artifactId>
+        <groupId>org.jasig.openregistry</groupId>
+        <version>0.1-RC1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
 	<groupId>org.openregistry.tools</groupId>
 	<artifactId>ortool</artifactId>
 	<packaging>jar</packaging>
@@ -41,7 +46,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.4</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -51,18 +56,11 @@
 			<type>jar</type>
 		</dependency>
 		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>1.4</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.14</version>
+			<version>${log4j.version}</version>
 			<type>jar</type>
-		</dependency>
-		
+		</dependency>		
 	</dependencies>
 
 	<build>
