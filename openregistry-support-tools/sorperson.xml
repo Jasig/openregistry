@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<open-registry-person sor-person-id="501" >
+    <dob>1983-02-11</dob>
+    <ssn>123456788</ssn>
+    <gender>F</gender>
+    <names>
+       <name type="FORMAL" first="Sharon" last="Hertz" />
+    </names>
+   <reconciliation>
+	<emails>
+		<email>shertz@gmail</email>
+        </emails>
+        <address>
+                <address-line1>123 Main St.</address-line1>
+                <address-line2>Suite 5</address-line2>
+                <city>New Brunswick</city>
+                <region>NJ</region>
+                <postal-code>08819</postal-code>
+        </address>
+        <phones>
+                <phone>908-445-3355</phone>
+        </phones>
+   </reconciliation>
+</open-registry-person>
