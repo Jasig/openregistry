@@ -75,9 +75,16 @@
 					<inherited>false</inherited>
 					<configuration>
 						<descriptorRefs>
-
 							<descriptorRef>jar-with-dependencies</descriptorRef>
 						</descriptorRefs>
+                        <archive>
+						    <index>true</index>
+						    <manifest>
+							    <mainClass>org.openregistry.tools.rest.ORRESTTool</mainClass>
+							    <addClasspath>true</addClasspath>
+							    <classpathPrefix>lib/</classpathPrefix>
+						    </manifest>
+					    </archive>
 					</configuration>
 				</plugin>
 			</plugins>
