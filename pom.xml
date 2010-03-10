@@ -12,6 +12,7 @@
         <module>openregistry-webapp</module>
         <module>openregistry-sor-repository-xml</module>
         <module>openregistry-test-support</module>
+        <module>openregistry-support-tools</module>
     </modules>
     <name>Jasig OpenRegistry</name>
     <description>Registry System</description>
