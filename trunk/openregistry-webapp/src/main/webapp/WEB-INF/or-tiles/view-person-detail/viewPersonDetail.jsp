@@ -27,9 +27,37 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    $('#clickMe').click(function() {
+        $.post('<c:url value="/api/v1/people/${preferredPersonIdentifierType}/${person.primaryIdentifiersByType[preferredPersonIdentifierType].value}/activation" />', {}, function(data, textStatus, XMLHttpRequest) {
+            var location = XMLHttpRequest.getResponseHeader('Location');
+            var activationKey = location.substring(location.lastIndexOf("/")+1);
+
+            $('#activationKeyDialog').html(activationKey);
+            $('#activationKeyDialog').dialog({
+                show: 'slide',
+			    modal: true,
+			    buttons: {
+				    Ok: function() {
+					    $(this).dialog('close');
+				    }
+			    }
+		    });
+        })
+    })
+});
+</script>
+
 <div id="calculated-person">
 
 <%--<div class="padded"><strong><spring:message code="officialName.heading" /></strong> ${person.officialName.longFormattedName}</div>--%>
+
+    <div>
+        <a href="#" id="clickMe">Generate Activation Key</a>
+    </div>
+
+    <div id="activationKeyDialog" title="Activation Key" class="orDialogBox"></div>
 
     <table>
         <thead>
