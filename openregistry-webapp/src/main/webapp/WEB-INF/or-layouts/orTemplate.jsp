@@ -27,10 +27,13 @@
         <link rel="stylesheet" href="${customCssFile}" type="text/css" />
     </c:if>
     <!--[if IE]><link rel="stylesheet" type="text/css" href="<spring:theme code='ieSheet'/>" media="all"/><![endif]-->
+    <link rel="stylesheet" href="<c:url value="/css/jquery-ui-1.8rc3.custom.css" />" />
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <tiles:useAttribute id="key" name="titleCode"/>
     <title>OpenRegistry &raquo; <spring:message code="${key}" text="OpenRegistry"/> </title>
+    <script type="text/javascript" src="<c:url value="/js/jquery-1.4.1.js" /> "></script>
+    <script type="text/javascript" src="<c:url value="/js/jquery-ui-1.8rc3.custom.min.js" />"></script>
 </head>
 <body>
 

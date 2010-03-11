@@ -103,13 +103,6 @@
         <put-attribute name="body" value="/WEB-INF/jsp/or-includes/info.jsp" cascade="true"/>
     </definition>
 
-    <definition name="openregistry.generate.activationKey" extends="openregistry.base">
-        <put-attribute name="additionalCssFile" type="string" value="themes/or/or_new_activation_key.css" cascade="true" />
-        <put-attribute name="titleCode" value="generateActivationKey.title" type="string" />
-        <put-attribute name="body" value="/WEB-INF/or-tiles/new-activationKey/newActivationKey.jsp" cascade="true"/>
-    </definition>
-
-
     <definition name="errors/404" template="/WEB-INF/or-layouts/default2.jsp">
         <put-attribute name="titleCode" value="errors.404.title" type="string" cascade="true" />
         <put-attribute name="head" value="/WEB-INF/or-tiles/defaultHead.jsp" />
