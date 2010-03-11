@@ -45,6 +45,8 @@ public interface Type extends Serializable {
     enum AddressTypes {CAMPUS, HOME, OFFICE}
 
     enum PhoneTypes {LANDLINE, CELL, PAGER, FAX, OTHER}
+    
+    enum EmailTypes {HOME, CAMPUS}
 
     enum NameTypes {LEGAL, FORMAL, AKA, MAIDEN, FKA}
 
