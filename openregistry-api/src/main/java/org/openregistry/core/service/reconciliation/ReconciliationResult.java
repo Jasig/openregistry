@@ -34,6 +34,7 @@ public interface ReconciliationResult extends Serializable {
      * EXACT - means we are reasonably confident this is the one person.
      * NONE - means we could not find any matches
      * MAYBE - means one or more possible possible matches
+     * MISMATCH - means we were given an Identifier which only we can generate but we didn't find it in the Registry
      *
      */
     enum ReconciliationType {EXACT, NONE, MAYBE, MISMATCH}
