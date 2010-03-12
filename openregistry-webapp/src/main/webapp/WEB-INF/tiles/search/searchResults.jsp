@@ -31,8 +31,7 @@
         <display:table name="searchResults" id="personMatch" htmlId="find_person_results_table" requestURI="" >
             <display:setProperty name="basic.msg.empty_list" value="Your search returned no results." />
             <display:setProperty name="css.tr.even" value="even-rows" />
-            <display:column title="&nbsp;"><a href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"><button>Details</button></a></display:column>
-            <display:column property="person.preferredName" title="Name" sortable="true" href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"/>
+            <display:column title="Name" sortable="true" ><a href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"><c:out value="${personMatch.person.preferredName}"/></a></display:column>
             <display:column title="ID">
                 ${personMatch.person.primaryIdentifiersByType[preferredPersonIdentifierType].value}
             </display:column>
