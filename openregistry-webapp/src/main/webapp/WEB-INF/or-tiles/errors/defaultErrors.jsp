@@ -15,21 +15,11 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.springframework.security.core.AuthenticationException" %>
-<%@ page import="org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter" %>
-
-<html>
-<head>
-    <title>Login to CAS failed!</title>
-</head>
-
-<body>
-<h2>Login to CAS failed!</h2>
-
-<font color="red">
-    Your CAS credentials were rejected.<br/><br/>
-    Reason: <%= ((AuthenticationException) session.getAttribute(AbstractAuthenticationProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY)).getMessage() %>
-</font>
-
-</body>
-</html>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<tiles:useAttribute id="key" name="titleCode"  />
+<tiles:useAttribute id="body" name="bodyValue"  />
+<div class="errors" id="status">
+    <h2><spring:message code="${key}" /></h2>
+    <p><spring:message code="${body}" /></p>
+</div>
