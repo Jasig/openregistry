@@ -17,30 +17,25 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
-<c:choose>
-    <c:when test="${searchResults eq null}">
 
-    </c:when>
-    <c:otherwise>
+    <c:if test="${searchResults ne null}">
         <div id="search_results">
-        <h2><spring:message code="find.person.headers.results" /></h2>
-            <p class="instructions">${fn:length(searchResults)} results were found for your query:</p>
+        <h3><spring:message code="find.person.headers.results" /></h3>
+<!--        <p class="instructions">${fn:length(searchResults)} results were found for your query:</p> -->
+
         <display:table name="searchResults" id="personMatch" htmlId="find_person_results_table" requestURI="" >
             <display:setProperty name="basic.msg.empty_list" value="Your search returned no results." />
             <display:setProperty name="css.tr.even" value="even-rows" />
-            <display:column title="Name" sortable="true" >
-              <a href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"> ${personMatch.person.preferredName}</a>
-            </display:column>
-            <display:column title="ID">
-                ${personMatch.person.primaryIdentifiersByType[preferredPersonIdentifierType].value}
-            </display:column>
+            <display:column>${personMatch_rowNum}.</display:column>
+            <display:column title="Name" sortable="true" ><a href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"> ${personMatch.person.preferredName}</a></display:column>
+            <display:column title="ID">${personMatch.person.primaryIdentifiersByType[preferredPersonIdentifierType].value}</display:column>
             <display:column title="Roles" sortable="true">
                 <c:forEach var="role" items="${personMatch.person.roles}">
                     ${role.displayableName}<br/>
                 </c:forEach>
             </display:column>
             <display:column property="person.gender" title="Gender" />
-            <display:column title="&nbsp;"><a href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}">${personMatch_rowNum-1}<button>Details</button></a></display:column>
+            <display:column title="&nbsp;"><a href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"><button>Details</button></a></display:column>
         </display:table>
-    </c:otherwise>
-</c:choose>
+            </div>
+    </c:if>

@@ -38,6 +38,7 @@ input[type=text], input[type=password] {
 
 #search_results {
 	margin-top: 25px;
+    overflow: auto;
 }
 
 #find_person_results_table {

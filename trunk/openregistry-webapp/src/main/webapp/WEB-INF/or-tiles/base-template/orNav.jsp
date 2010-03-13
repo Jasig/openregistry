@@ -28,26 +28,17 @@
 <div id="nav">
     <c:set var="current" value="Page Value" scope="page" />
 
-
-        <c:if test="${not empty menuItem}">
-            <c:set var="current" value="${menuItem}" scope="page" />
-        </c:if>
-
-    <%--Current is = ${current}--%>
-
-    <tiles:importAttribute name="navItems" />
+    <h2>Department:</h2>
     <ul>
-        <c:forEach var="item" items="${navItems}">
-            <c:choose>
-                <c:when test="${current eq item.value }">
-                    <li class="current">
-                </c:when>
-                <c:otherwise>
-                    <li>
-                </c:otherwise>
-            </c:choose>
-            <a href="<c:url value="${item.link}" />">${item.value}</a>
-            </li>
-        </c:forEach>
+        <li id="addSorPersontitle"><a href="<c:url value="/addSorPerson.htm" />"><spring:message code="addSorPerson.title" /></a></li>
+    </ul>
+
+    <h2>Help Desk:</h2>
+    <ul>
+        <li id="searchtitle"><a href="<c:url value="/viewPersonDetail.htm" />"><spring:message code="search.title" /></a></li>
+    </ul>
+
+    <ul>
+        <li><a href="<c:url value="/logout.htm" />">Logout</a></li>
     </ul>
 </div>

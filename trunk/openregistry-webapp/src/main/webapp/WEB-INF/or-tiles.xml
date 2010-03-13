@@ -42,7 +42,7 @@
 
 
     <definition name="openregistry.search" extends="openregistry.base">
-        <put-attribute name="additionalCssFile" type="string" value="css/or_find_person.css" cascade="true"/>
+        <put-attribute name="additionalCssFile" type="string" value="/css/or_find_person.css" cascade="true"/>
         <put-attribute name="titleCode" value="search.title" type="string" cascade="true" />
         <put-attribute name="body" value="openregistry.search.content" cascade="true"/>
     </definition>
@@ -72,13 +72,13 @@
     </definition>
 
     <definition name="openregistry.person.update.update" extends="openregistry.base">
-        <put-attribute name="additionalCssFile" type="string" value="themes/or/or_update_person.css" cascade="true" />
+        <put-attribute name="additionalCssFile" type="string" value="/css/or_update_person.css" cascade="true" />
         <put-attribute name="titleCode" value="updatePerson.title" type="string" />
         <put-attribute name="body" value="/WEB-INF/or-tiles/update-person/updatePerson.jsp" cascade="true" />
     </definition>
 
     <definition name="openregistry.person.add.insert" extends="openregistry.base">
-        <put-attribute name="additionalCssFile" type="string" value="themes/or/or_add_person.css" cascade="true" />
+        <put-attribute name="additionalCssFile" type="string" value="/css/or_add_person.css" cascade="true" />
         <put-attribute name="titleCode" value="addSorPerson.title" type="string" />
         <put-attribute name="body" value="/WEB-INF/or-tiles/add-person/input.jsp" cascade="true" />
     </definition>
@@ -103,18 +103,21 @@
         <put-attribute name="body" value="/WEB-INF/jsp/or-includes/info.jsp" cascade="true"/>
     </definition>
 
-    <definition name="errors/404" template="/WEB-INF/or-layouts/default2.jsp">
-        <put-attribute name="titleCode" value="errors.404.title" type="string" cascade="true" />
-        <put-attribute name="head" value="/WEB-INF/or-tiles/defaultHead.jsp" />
-        <put-attribute name="bodyValue" value="errors.404.body" type="string" cascade="true" />
-        <put-attribute name="content" value="/WEB-INF/or-tiles/errors.jsp" />
+    <definition name="errors/403" template="/WEB-INF/or-layouts/orTemplate.jsp">
+        <put-attribute name="titleCode" value="errors.403.title" type="string" cascade="true" />
+        <put-attribute name="content" value="/WEB-INF/or-tiles/errors/403error.jsp" />
     </definition>
 
-    <definition name="errors/500" template="/WEB-INF/or-layouts/default2.jsp">
+    <definition name="errors/404" template="/WEB-INF/or-layouts/orTemplate.jsp">
+        <put-attribute name="titleCode" value="errors.404.title" type="string" cascade="true" />
+        <put-attribute name="bodyValue" value="errors.404.body" type="string" cascade="true" />
+        <put-attribute name="content" value="/WEB-INF/or-tiles/errors/defaultErrors.jsp" />
+    </definition>
+
+    <definition name="errors/500" template="/WEB-INF/or-layouts/orTemplate.jsp">
         <put-attribute name="titleCode" value="errors.500.title" type="string" cascade="true" />
-        <put-attribute name="head" value="/WEB-INF/or-tiles/defaultHead.jsp" />
         <put-attribute name="bodyValue" value="errors.500.body" type="string" cascade="true" />
-        <put-attribute name="content" value="/WEB-INF/or-tiles/errors.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/or-tiles/errors/defaultErrors.jsp"/>
     </definition>
 
 </tiles-definitions>

@@ -21,19 +21,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-    <link rel="stylesheet" href="<spring:theme code='baseSheet'/>" type="text/css"/>
+    <link rel="stylesheet" href="<c:url value="/css/or_base.css" />" type="text/css"/>
     <tiles:useAttribute name="additionalCssFile" id="customCssFile" ignore="true" />
     <c:if test="${not empty customCssFile}">
         <link rel="stylesheet" href="${customCssFile}" type="text/css" />
     </c:if>
-    <!--[if IE]><link rel="stylesheet" type="text/css" href="<spring:theme code='ieSheet'/>" media="all"/><![endif]-->
+    <!--[if IE]><link rel="stylesheet" type="text/css" href="<c:url value="/css/or_ie.css" />" media="all"/><![endif]-->
     <link rel="stylesheet" href="<c:url value="/css/jquery-ui-1.8rc3.custom.css" />" />
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <tiles:useAttribute id="key" name="titleCode"/>
+    <tiles:useAttribute id="key" name="titleCode" classname="java.lang.String" />
     <title>OpenRegistry &raquo; <spring:message code="${key}" text="OpenRegistry"/> </title>
     <script type="text/javascript" src="<c:url value="/js/jquery-1.4.1.js" /> "></script>
     <script type="text/javascript" src="<c:url value="/js/jquery-ui-1.8rc3.custom.min.js" />"></script>
+
+    <style type="text/css">
+        #<%=key.replace(".", "")%> a {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
