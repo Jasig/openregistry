@@ -8,27 +8,15 @@
         <version>0.1-RC1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-	<groupId>org.openregistry.tools</groupId>
-	<artifactId>ortool</artifactId>
+	<groupId>org.jasig.openregistry</groupId>
+	<artifactId>openregistry-support-tools</artifactId>
 	<packaging>jar</packaging>
-	<version>1</version>
-	<name>Commandline</name>
+	<name>OpenRegistry Support Tools</name>
 	<description>
 		<![CDATA[
       This project is tool for testing REST calls run with "java -jar".
     ]]>
 	</description>
-	<properties>
-		<maven.test.failure.ignore>true</maven.test.failure.ignore>
-	</properties>
-	<profiles>
-		<profile>
-			<id>strict</id>
-			<properties>
-				<maven.test.failure.ignore>false</maven.test.failure.ignore>
-			</properties>
-		</profile>
-	</profiles>
 	
 	<dependencies>
 		<dependency>
