@@ -29,7 +29,7 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-    $('#clickMe').click(function() {
+    $('#activationKeyLink').click(function() {
         $.post('<c:url value="/api/v1/people/${preferredPersonIdentifierType}/${person.primaryIdentifiersByType[preferredPersonIdentifierType].value}/activation" />', {}, function(data, textStatus, XMLHttpRequest) {
             var location = XMLHttpRequest.getResponseHeader('Location');
             var activationKey = location.substring(location.lastIndexOf("/")+1);
@@ -53,11 +53,10 @@ jQuery(document).ready(function() {
 
 <%--<div class="padded"><strong><spring:message code="officialName.heading" /></strong> ${person.officialName.longFormattedName}</div>--%>
 
-    <div>
-        <a href="#" id="clickMe">Generate Activation Key</a>
+    <div style="text-align:center;">
+        <a href="#" id="activationKeyLink" class="button"><button>Generate New Activation Key</button></a>
     </div>
-
-    <div id="activationKeyDialog" title="Activation Key" class="orDialogBox"></div>
+    <div id="activationKeyDialog" title="Activation Key"></div>
 
     <table>
         <thead>

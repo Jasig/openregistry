@@ -27,7 +27,7 @@
         <link rel="stylesheet" href="${customCssFile}" type="text/css" />
     </c:if>
     <!--[if IE]><link rel="stylesheet" type="text/css" href="<c:url value="/css/or_ie.css" />" media="all"/><![endif]-->
-    <link rel="stylesheet" href="<c:url value="/css/jquery-ui-1.8rc3.custom.css" />" />
+    <link rel="stylesheet" href="<c:url value="/css/ui-lightness/jquery-ui-1.8rc3.custom.css" />" />
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <tiles:useAttribute id="key" name="titleCode" classname="java.lang.String" />
