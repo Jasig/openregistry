@@ -101,7 +101,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.1</version>
+				<version>1.1.1</version>
 				<configuration>
 					<mainClass>edu.rutgers.enterprise.openregistry.ORRESTTool</mainClass>
 				</configuration>
@@ -123,15 +123,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>Codehaus</id>
-			<url>http://repository.codehaus.org/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-	
 </project>
