@@ -3,21 +3,14 @@ package org.openregistry.tools.rest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.http.*;
-import org.apache.http.client.*;
-import org.apache.http.client.params.*;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpRequest;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpPost;
@@ -26,9 +19,7 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.entity.FileEntity;
-import org.apache.http.auth.params.*;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.util.EntityUtils; 
+import org.apache.http.util.EntityUtils;
 
 
 public class ORRESTTool
