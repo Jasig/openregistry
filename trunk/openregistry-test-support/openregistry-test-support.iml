@@ -28,6 +28,8 @@
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-core:3.0.1.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-asm:3.0.1.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.4-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.4-SNAPSHOT" level="project" />
   </component>
 </module>
 
