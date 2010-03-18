@@ -44,6 +44,10 @@ public class MockName extends AbstractNameImpl {
     	// nothing else to do
     }
 
+    public MockName(final Type type) {
+        this.type = type;
+    }
+
     public Long getId() {
         return this.id;
     }

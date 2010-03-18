@@ -17,6 +17,8 @@ package org.openregistry.core.service;
 
 import org.openregistry.core.domain.sor.SorPerson;
 
+import java.util.List;
+
 /**
  * Chooses which value of a field should be persisted.
  *
@@ -28,9 +30,11 @@ public interface FieldElector<T> {
     /**
      * Elects the value to store for this particular field (i.e. Date).
      *
-     * @param newestPerson the latest addition to the list of SoR People.
-     * @param sorPersons the SoR Persons to check
-     * @return the value that's been elected.
+     * @param newestPerson the latest addition to the list of SoR People.  CAN be NULL if this was a DELETE.
+     * @param sorPersons the SoR Persons to check. CAN be EMPTY but NOT NULL.
+     * @param deletion flags whether this election was called because someone was deleted.  This means that the
+     * newestPerson is the last person deleted.
+     * @return the value that's been elected.  CAN be NULL.
      */
-    T elect(SorPerson newestPerson, SorPerson[] sorPersons);
+    T elect(SorPerson newestPerson, List<SorPerson> sorPersons, boolean deletion);
 }

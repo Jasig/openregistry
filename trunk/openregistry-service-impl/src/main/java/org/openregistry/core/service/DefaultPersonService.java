@@ -53,6 +53,16 @@ public class DefaultPersonService implements PersonService {
 
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
+    private FieldElector<Date> birthDateFieldElector = new DefaultBirthDateFieldElector();
+
+    private FieldElector<String> genderFieldElector = new DefaultGenderFieldElector();
+
+    private FieldElector<Name> preferredNameFieldElector = new DefaultNameFieldSelector();
+
+    private FieldElector<Name> officialNameFieldElector = new DefaultNameFieldSelector();
+
+    private enum RecalculationType {DELETE, ADD, UPDATE};
+
     @Resource(name = "personFactory")
     private ObjectFactory<Person> personObjectFactory;
 
@@ -84,6 +94,22 @@ public class DefaultPersonService implements PersonService {
 
     public void setValidator(final Validator validator) {
         this.validator = validator;
+    }
+
+    public void setBirthDateFieldElector(final FieldElector<Date> birthDateFieldElector) {
+        this.birthDateFieldElector = birthDateFieldElector;
+    }
+
+    public void setGenderFieldElector(final FieldElector<String> genderFieldElector) {
+        this.genderFieldElector = genderFieldElector;
+    }
+
+    public void setPreferredNameFieldElector(final FieldElector<Name> preferredNameFieldElector) {
+        this.preferredNameFieldElector = preferredNameFieldElector;
+    }
+
+    public void setOfficialNameFieldElector(final FieldElector<Name> officialNameFieldElector) {
+        this.officialNameFieldElector = officialNameFieldElector;
     }
 
     @Transactional
@@ -176,6 +202,8 @@ public class DefaultPersonService implements PersonService {
 
         this.personRepository.deleteSorPerson(sorPerson);
         this.personRepository.savePerson(person);
+
+        recalculatePersonBiodemInfo(person, sorPerson, RecalculationType.DELETE, mistake);
         return true;
     }
 
@@ -245,8 +273,7 @@ public class DefaultPersonService implements PersonService {
     public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
 
-        if (reconciliationCriteria.getSorPerson().getSorId() != null &&
-                this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()) != null) {
+        if (reconciliationCriteria.getSorPerson().getSorId() != null && this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()) != null) {
             throw new IllegalStateException("CANNOT ADD SAME SOR RECORD.");
         }
 
@@ -298,8 +325,7 @@ public class DefaultPersonService implements PersonService {
         for (final PersonMatch personMatch : result.getMatches()) {
             if (personMatch.getPerson().getId().equals(person.getId())) {
                 addSorPersonAndLink(reconciliationCriteria, person);
-                Person savedPerson = this.personRepository.findByInternalId(person.getId());
-                savedPerson = recalculatePersonBiodemInfo(savedPerson);
+                final Person savedPerson = this.personRepository.findByInternalId(person.getId());
                 return new GeneralServiceExecutionResult<Person>(savedPerson);
             }
         }
@@ -331,161 +357,6 @@ public class DefaultPersonService implements PersonService {
         return createMatches(persons);
     }
 
-    protected List<PersonMatch> createMatches(final List<Person> people) {
-        final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
-        for (final Person person : people) {
-            final PersonMatch p = new PersonMatchImpl(person, 50, new ArrayList<FieldMatch>());
-            personMatches.add(p);
-        }
-
-        return personMatches;
-    }
-
-    // TODO Need to update the calculated person. Need to establish rules to do this. OR-59
-    protected Person recalculatePersonBiodemInfo(final Person person) {
-        //* 1. Choosing the appropriate names (and removing any unused names)
-        //* 2. Transitioning SorPerson information to Calculated Person (i.e. choosing)
-        //for now, clear names
-        //add all names from all sor records as long as they are different from already added names
-        if (person.getNames() != null) person.getNames().clear();
-
-        copySorNamesToPerson(person);
-        electOfficialAndPreferredName(person);
-
-        this.personRepository.savePerson(person);
-        return (person);
-    }
-
-    /**
-     * Copy SorNames to Calculated Person
-     *
-     * @param person
-     */
-    protected void copySorNamesToPerson(Person person) {
-        final List<SorPerson> sorPersons = this.personRepository.getSoRRecordsForPerson(person);
-        for (final SorPerson sorPerson : sorPersons) {
-            for (final Name sorName : sorPerson.getNames()) {
-                boolean alreadyAdded = false;
-                if (person.getNames() != null) {
-                    for (final Name calculatedName : person.getNames()) {
-                        if (calculatedName.sameAs(sorName)) {
-                            alreadyAdded = true;
-                        }
-                    }
-                }
-                if (!alreadyAdded) {
-                    Name personName = person.addName();
-                    personName.setFamily(sorName.getFamily());
-                    personName.setGiven(sorName.getGiven());
-                    personName.setMiddle(sorName.getMiddle());
-                    personName.setPrefix(sorName.getPrefix());
-                    personName.setSuffix(sorName.getSuffix());
-                    personName.setType(sorName.getType());
-                }
-            }
-        }
-    }
-
-   /**
-    * First implementation for name election.  Will elect the first formal or legal name found for official name
-    * Will elect the preferredName to be the official Name.
-    *
-    * @param person
-    */
-   //TODO this will need to take into consideration SOR.
-    protected void electOfficialAndPreferredName(Person person){
-        if (person.getNames() == null) return;
-        for (final Name name : person.getNames()) {
-            if (name.getType().getDescription().equals(Type.NameTypes.FORMAL.name())
-                   || name.getType().getDescription().equals(Type.NameTypes.LEGAL.name())){
-                name.setOfficialName(true);
-                name.setPreferredName(true);
-                return;
-            }
-        }
-
-        // if official Name not set select first name added as official and preferred
-        if (person.getNames() != null) {
-            Name name = person.getNames().iterator().next();
-            name.setOfficialName(true);
-            name.setPreferredName(true);
-        }
-    }
-
-    /**
-     * Current workflow for converting an SorPerson into the actual Person.
-     *
-     * @param reconciliationCriteria the original search criteria.
-     * @return the newly saved Person.
-     */
-    protected Person saveSorPersonAndConvertToCalculatedPerson(final ReconciliationCriteria reconciliationCriteria) {
-        if (!StringUtils.hasText(reconciliationCriteria.getSorPerson().getSorId())) {
-            reconciliationCriteria.getSorPerson().setSorId(this.identifierGenerator.generateNextString());
-        }
-
-        // Save Sor Person
-        final SorPerson sorPerson = this.personRepository.saveSorPerson(reconciliationCriteria.getSorPerson());
-
-        // Construct actual person from Sor Information
-        final Person person = constructPersonFromSorData(sorPerson);
-
-        // Now connect the SorPerson to the actual person
-        sorPerson.setPersonId(person.getId());
-
-        return person;
-    }
-
-    protected Person constructPersonFromSorData(SorPerson sorPerson) {
-        // Construct actual person from Sor Information
-        final Person person = this.personObjectFactory.getObject();
-        person.setDateOfBirth(sorPerson.getDateOfBirth());
-        person.setGender(sorPerson.getGender());
-
-        for (final Name sorName : sorPerson.getNames()) {
-            Name name = person.addName();
-            name.setFamily(sorName.getFamily());
-            name.setGiven(sorName.getGiven());
-            name.setMiddle(sorName.getMiddle());
-            name.setPrefix(sorName.getPrefix());
-            name.setSuffix(sorName.getSuffix());
-            name.setType(sorName.getType());
-        }
-
-        this.electOfficialAndPreferredName(person);
-
-        // Assign identifiers, including SSN from the SoR Person
-        for (final IdentifierAssigner ia : this.identifierAssigners) {
-            ia.addIdentifierTo(sorPerson, person);
-        }
-
-        return this.personRepository.savePerson(person);
-    }
-
-    protected Person addSorPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) {
-        final SorPerson sorPerson = reconciliationCriteria.getSorPerson();
-        final SorPerson registrySorPerson = this.findByPersonIdAndSorIdentifier(person.getId(), sorPerson.getSourceSor());
-
-        if (registrySorPerson != null) {
-            throw new IllegalStateException("Oops! An error occured. A person already exists from this SoR linked to this ID!");
-        }
-
-        if (!StringUtils.hasText(sorPerson.getSorId())) {
-            sorPerson.setSorId(this.identifierGenerator.generateNextString());
-        }
-
-        sorPerson.setPersonId(person.getId());
-        this.personRepository.saveSorPerson(sorPerson);
-
-        return person;
-    }
-
-    protected Person addNewSorPersonAndLinkWithMatchedCalculatedPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
-        Assert.isTrue(result.getMatches().size() == 1, "ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
-
-        final Person person = result.getMatches().iterator().next().getPerson();
-        return addSorPersonAndLink(reconciliationCriteria, person);
-    }
-
     /**
      * Persists an SorPerson on update.
      *
@@ -494,7 +365,6 @@ public class DefaultPersonService implements PersonService {
      */
     @Transactional
     public ServiceExecutionResult<SorPerson> updateSorPerson(final SorPerson sorPerson) {
-
         final Set validationErrors = this.validator.validate(sorPerson);
 
         if (!validationErrors.isEmpty()) {
@@ -502,19 +372,19 @@ public class DefaultPersonService implements PersonService {
         }
 
         //do reconciliationCheck to make sure that modifications do not cause person to reconcile to a different person
-        if (!this.reconciler.reconcilesToSamePerson(sorPerson)) throw new IllegalStateException();
+        if (!this.reconciler.reconcilesToSamePerson(sorPerson)) {
+            throw new IllegalStateException();
+        }
 
         // Save Sor Person
-        logger.info("PersonService:updateSorPerson: updating person...");
-        SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
+        final SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
 
         final Person person = this.findPersonById(savedSorPerson.getPersonId());
         Assert.notNull(person, "person cannot be null.");
 
-        recalculatePersonBiodemInfo(person);
+        recalculatePersonBiodemInfo(person, sorPerson, RecalculationType.UPDATE, false);
 
         return new GeneralServiceExecutionResult<SorPerson>(savedSorPerson);
-
     }
 
     @Transactional
@@ -600,8 +470,9 @@ public class DefaultPersonService implements PersonService {
     @Transactional
     public boolean moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson movingSorPerson) {
         // create the new person in the registry
-        Person toPerson = constructPersonFromSorData(movingSorPerson);
-        return moveSystemOfRecordPerson(fromPerson, toPerson, movingSorPerson);
+        // Person toPerson = constructPersonFromSorData(movingSorPerson);
+        // TODO broke this in order to clean everything else up
+        return moveSystemOfRecordPerson(fromPerson, this.personObjectFactory.getObject(), movingSorPerson);
     }
 
     /**
@@ -655,5 +526,139 @@ public class DefaultPersonService implements PersonService {
         role.setEnd(cal.getTime());
         return true;
     }
+
+    protected List<PersonMatch> createMatches(final List<Person> people) {
+        final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
+        for (final Person person : people) {
+            final PersonMatch p = new PersonMatchImpl(person, 50, new ArrayList<FieldMatch>());
+            personMatches.add(p);
+        }
+
+        return personMatches;
+    }
+
+    protected Person recalculatePersonBiodemInfo(final Person person, final SorPerson sorPerson, final RecalculationType recalculationType, boolean mistake) {
+        final List<SorPerson> sorPersons = this.personRepository.getSoRRecordsForPerson(person);
+
+        if (recalculationType == RecalculationType.ADD || (recalculationType == RecalculationType.DELETE && !mistake)) {
+            sorPersons.add(sorPerson);
+        }
+
+        copySorNamesToPerson(person, sorPersons);
+
+        final Date birthDate = this.birthDateFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        final String gender = this.genderFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        final Name preferredName = this.preferredNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        final Name officialName = this.officialNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+
+        person.setDateOfBirth(birthDate);
+        person.setGender(gender);
+
+        boolean preferred = false;
+        boolean official = false;
+
+        for (final Name name : person.getNames()) {
+            if (!preferred && name.sameAs(preferredName)) {
+                name.setPreferredName(true);
+                preferred = true;
+            }
+
+            if (!official && name.sameAs(officialName)) {
+                name.setOfficialName(true);
+                official = true;
+            }
+
+            if (official && preferred) {
+                break;
+            }
+        }
+
+        return this.personRepository.savePerson(person);
+    }
+
+    /**
+     * Copy SorNames to Calculated Person
+     *
+     * @param person
+     * @param sorPersons
+     */
+    protected void copySorNamesToPerson(final Person person, final List<SorPerson> sorPersons) {
+        person.getNames().clear();
+        
+        for (final SorPerson sorPerson : sorPersons) {
+            for (final Name sorName : sorPerson.getNames()) {
+                boolean alreadyAdded = false;
+
+                for (final Name calculatedName : person.getNames()) {
+                    if (calculatedName.sameAs(sorName)) {
+                        alreadyAdded = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyAdded) {
+                    final Name personName = person.addName(sorName.getType());
+                    personName.setFamily(sorName.getFamily());
+                    personName.setGiven(sorName.getGiven());
+                    personName.setMiddle(sorName.getMiddle());
+                    personName.setPrefix(sorName.getPrefix());
+                    personName.setSuffix(sorName.getSuffix());
+                }
+            }
+        }
+    }
+
+    /**
+     * Current workflow for converting an SorPerson into the actual Person.
+     *
+     * @param reconciliationCriteria the original search criteria.
+     * @return the newly saved Person.
+     */
+    protected Person saveSorPersonAndConvertToCalculatedPerson(final ReconciliationCriteria reconciliationCriteria) {
+        if (!StringUtils.hasText(reconciliationCriteria.getSorPerson().getSorId())) {
+            reconciliationCriteria.getSorPerson().setSorId(this.identifierGenerator.generateNextString());
+        }
+
+        // Save Sor Person
+        final SorPerson sorPerson = this.personRepository.saveSorPerson(reconciliationCriteria.getSorPerson());
+        final Person savedPerson = recalculatePersonBiodemInfo(this.personObjectFactory.getObject(), sorPerson, RecalculationType.ADD, false);
+
+        for (final IdentifierAssigner ia : this.identifierAssigners) {
+            ia.addIdentifierTo(sorPerson, savedPerson);
+        }
+
+        final Person newPerson = this.personRepository.savePerson(savedPerson);
+
+        // Now connect the SorPerson to the actual person
+        sorPerson.setPersonId(newPerson.getId());
+        this.personRepository.saveSorPerson(sorPerson);
+
+        return newPerson;
+    }
+
+    protected Person addSorPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) {
+        final SorPerson sorPerson = reconciliationCriteria.getSorPerson();
+        final SorPerson registrySorPerson = this.findByPersonIdAndSorIdentifier(person.getId(), sorPerson.getSourceSor());
+
+        if (registrySorPerson != null) {
+            throw new IllegalStateException("Oops! An error occurred. A person already exists from this SoR linked to this ID!");
+        }
+
+        if (!StringUtils.hasText(sorPerson.getSorId())) {
+            sorPerson.setSorId(this.identifierGenerator.generateNextString());
+        }
+
+        sorPerson.setPersonId(person.getId());
+        final SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
+        return recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
+    }
+
+    protected Person addNewSorPersonAndLinkWithMatchedCalculatedPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
+        Assert.isTrue(result.getMatches().size() == 1, "ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
+
+        final Person person = result.getMatches().iterator().next().getPerson();
+        return addSorPersonAndLink(reconciliationCriteria, person);
+    }
+
 
 }

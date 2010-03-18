@@ -540,14 +540,14 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <ognl.version>2.7.3</ognl.version>
         <tiles.version>2.1.4</tiles.version>
         <jsp.version>2.0</jsp.version>
-        <hibernate.version>3.5.0-Beta-3</hibernate.version>
+        <hibernate.version>3.5.0-CR-2</hibernate.version>
         <javassist.version>3.8.0.GA</javassist.version>
         <hsqldb.version>1.8.0.10</hsqldb.version>
         <jersey.version>1.1.4.1</jersey.version>
         <el.api.version>1.0</el.api.version>
         <mockito.version>1.8.1</mockito.version>
         <ehcache.version>1.7.1</ehcache.version>
-        <hibernate.validator.version>4.0.1.GA</hibernate.validator.version>
+        <hibernate.validator.version>4.0.2.GA</hibernate.validator.version>
         <javax.validation.version>1.0.0.GA</javax.validation.version>
         <javax.inject.version>1</javax.inject.version>
         <hibernate.tools.version>3.2.4.GA</hibernate.tools.version>
