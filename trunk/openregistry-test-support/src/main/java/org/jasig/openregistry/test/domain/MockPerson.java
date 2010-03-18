@@ -16,6 +16,7 @@
 package org.jasig.openregistry.test.domain;
 
 import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorRole;
 
 import java.util.*;
@@ -88,11 +89,26 @@ public class MockPerson implements Person {
         this.names.add(name);
         return name;
     }
-    
+
     public Name addName(Type type) {
         final MockName name = new MockName(type);
         this.names.add(name);
         return name;
+    }
+
+    @Override
+    public void addName(final SorName sorName) {
+        final MockName name = new MockName();
+        name.setType(sorName.getType());
+        name.setGiven(sorName.getGiven());
+        name.setFamily(sorName.getFamily());
+        name.setMiddle(sorName.getMiddle());
+        name.setPrefix(sorName.getPrefix());
+        name.setSuffix(sorName.getSuffix());
+        name.setSourceNameId(sorName.getId());
+        this.names.add(name);
+
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public List<Role> getRoles() {

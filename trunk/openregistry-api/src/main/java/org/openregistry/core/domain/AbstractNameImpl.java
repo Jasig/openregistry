@@ -15,6 +15,8 @@
  */
 package org.openregistry.core.domain;
 
+import org.openregistry.core.domain.sor.SorName;
+
 /**
  * Provides a common implementation of the sameAs method.
  *
@@ -23,7 +25,7 @@ package org.openregistry.core.domain;
  */
 public abstract class AbstractNameImpl implements Name {
 
-    public final boolean sameAs(final Name name) {
+    public final boolean sameAs(final SorName name) {
         if (name == null) {
             return false;
         }

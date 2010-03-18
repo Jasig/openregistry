@@ -17,9 +17,8 @@ package org.openregistry.core.aspect;
 
 import junit.framework.TestCase;
 import org.junit.Test;
-import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.jpa.JpaPersonImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorPersonImpl;
+import org.openregistry.core.domain.sor.SorName;
 
 import static org.junit.Assert.*;
 
@@ -35,7 +34,7 @@ public class CapitalizationTests extends TestCase {
     @Test
     public void testFirstNameCapitalization() {
         final JpaSorPersonImpl person = new JpaSorPersonImpl();
-        final Name name = person.addName();
+        final SorName name =  person.addName();
         name.setGiven("given");
 
         assertEquals("Given", name.getGiven());
@@ -44,7 +43,7 @@ public class CapitalizationTests extends TestCase {
     @Test
     public void testFirstNameCapitalizationNull() {
         final JpaSorPersonImpl person = new JpaSorPersonImpl();
-        final Name name = person.addName();
+        final SorName name = person.addName();
         name.setGiven(null);
 
         assertNull(name.getGiven());
@@ -53,7 +52,7 @@ public class CapitalizationTests extends TestCase {
     @Test
     public void testCapitalization() {
         final JpaSorPersonImpl person = new JpaSorPersonImpl();
-        final Name name = person.addName();
+        final SorName name = person.addName();
         name.setSuffix("jr.");
 
         assertEquals("Jr.", name.getSuffix());

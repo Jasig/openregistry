@@ -75,7 +75,7 @@ public interface SorPerson {
      * There MUST be at least ONE name returned.
      * @return the names, minimum of one.  CANNOT be null.
      */
-    List<Name> getNames();
+    List<SorName> getNames();
 
     /**
      * The official date of birth that this System of Record is aware of.
@@ -107,19 +107,17 @@ public interface SorPerson {
      *
      * @return the name that was added.
      */
-    Name addName();
+    // TODO where are we using this?
+    SorName addName();
 
-    /**
-     * Adds a name to the set of names.
-     */
-    void addName(Name name);
-    
     /**
      * Adds a name with the given type to the set of names.
      *
+     * @param type the type of name to add.
+     *
      * @return the name that was added.
      */
-    Name addName(Type type);
+    SorName addName(Type type);
 
     /**
      * Finds an SoR Name (and returns it) based on the Name Id provided.
@@ -127,7 +125,7 @@ public interface SorPerson {
      * @param id the id of the name.
      * @return the SorName, if found, otherwise, null.
      */
-    Name findNameByNameId(final Long id);
+    SorName findNameByNameId(final Long id);
 
     /**
      * The SSN of the person.   Can be null.

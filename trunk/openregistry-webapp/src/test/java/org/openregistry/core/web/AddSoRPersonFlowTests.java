@@ -19,6 +19,7 @@ import org.jasig.openregistry.test.domain.MockReconciliationCriteriaFactory;
 import org.jasig.openregistry.test.repository.MockReferenceRepository;
 import org.junit.Test;
 import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.repository.*;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
@@ -112,11 +113,9 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         sorPerson.setSourceSor(sor);
         sorPerson.setSsn(ssn);
 
-        final Name name = sorPerson.addName(this.referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
+        final SorName name = sorPerson.addName(this.referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
         name.setFamily(lastName);
         name.setGiven(firstName);
-        name.setOfficialName(true);
-
        
         return reconciliationCriteria;
     }

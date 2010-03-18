@@ -16,7 +16,9 @@
 package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.internal.Entity;
+import org.openregistry.core.domain.jpa.sor.JpaSorNameImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
+import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.*;
 import org.hibernate.envers.Audited;
@@ -75,18 +77,19 @@ public class JpaPersonImpl extends Entity implements Person {
     	return this.names;
     }
 
-    public Name addName() {
+
+    public void addName(final SorName sorName) {
+        Assert.isInstanceOf(JpaSorNameImpl.class, sorName);
     	final JpaNameImpl name = new JpaNameImpl(this);
+        // TODO we should probably use a constructor, but the important thing is these setters are not exposed.
+    	name.setType(sorName.getType());
+        name.setGiven(sorName.getGiven());
+        name.setFamily(sorName.getFamily());
+        name.setMiddle(sorName.getMiddle());
+        name.setPrefix(sorName.getPrefix());
+        name.setSuffix(sorName.getSuffix());
+        name.setSourceNameId(sorName.getId());
     	this.names.add(name);
-    	return name;
-    }
-    
-    public Name addName(Type type) {
-       	Assert.isInstanceOf(JpaTypeImpl.class, type);
-    	final JpaNameImpl name = new JpaNameImpl(this);
-    	name.setType(type);
-    	this.names.add(name);
-    	return name;
     }
 
     public Name getOfficialName() {
@@ -97,19 +100,6 @@ public class JpaPersonImpl extends Entity implements Person {
     		}
     	}
     	return null;
-    }
-
-    public Name addOfficialName(){
-        for (final Name name : this.names) {
-            if (name.isOfficialName()) {
-                throw new IllegalStateException("We've already got an official name!");
-            }
-        }
-
-        final JpaNameImpl name = new JpaNameImpl(this);
-        this.names.add(name);
-        name.setOfficialName(true);
-        return name;
     }
 
     //TODO really don't need this.  Should replace code with getOfficialName().getFormattedName()
@@ -125,19 +115,6 @@ public class JpaPersonImpl extends Entity implements Person {
     		}
     	}
     	return null;
-    }
-
-    public Name addPreferredName() {
-        for (final Name name : this.names) {
-            if (name.isPreferredName()) {
-                throw new IllegalStateException("We've already got a preferred name set.");
-            }
-        }
-        
-        final JpaNameImpl name = new JpaNameImpl(this);
-        this.names.add(name);
-        name.setPreferredName(true);
-        return name;
     }
 
     public String getGender() {

@@ -15,6 +15,8 @@
  */
 package org.openregistry.core.service;
 
+import org.jasig.openregistry.test.domain.MockSorName;
+import org.openregistry.core.domain.jpa.sor.JpaSorNameImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.openregistry.core.repository.PersonRepository;
 import org.openregistry.core.repository.ReferenceRepository;
@@ -70,8 +72,11 @@ public final class DefaultActivationServiceIntegrationTests extends AbstractInte
         final Identifier identifier = person.addIdentifier(identifierType, IDENTIFIER_VALUE);
         identifier.setDeleted(false);
         identifier.setPrimary(true);
-        final Name name = person.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
-        name.setGiven("Scott");
+        final JpaSorNameImpl jpaName = new JpaSorNameImpl();
+        jpaName.setGiven("Scott");
+        jpaName.setType(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
+        jpaName.setId(1L);
+        person.addName(jpaName);
         this.person = this.personRepository.savePerson(person);
     }
 

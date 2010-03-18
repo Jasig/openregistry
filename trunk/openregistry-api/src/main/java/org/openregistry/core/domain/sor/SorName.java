@@ -13,25 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openregistry.core.domain;
+package org.openregistry.core.domain.sor;
 
-import org.openregistry.core.domain.sor.SorName;
-
-import java.io.Serializable;
+import org.openregistry.core.domain.Type;
 
 /**
- * Represents a calculated name.  With a calculated name, there is very little that can change, thus the minimum
- * set of setters.
- * <p>
- * Also, shares a link back to the parent SoR Name.
- * 
+ * Represents a name as defined by an SoR.  These names are user-modifiable, thus why they expose
+ * setters for all of their properties.
+ *
  * @version $Revision$ $Date$
- * @since 1.0.0
+ * @since 0.1-M1
  */
-public interface Name extends Serializable {
+public interface SorName {
+
+    void setType(Type type);
+
+    void setPrefix(String prefix);
+
+    void setGiven(String given);
+
+    void setMiddle(String middle);
+
+    void setFamily(String family);
+
+    void setSuffix(String suffix);
 
     Long getId();
-    
+
     Type getType();
 
     String getPrefix();
@@ -43,24 +51,10 @@ public interface Name extends Serializable {
     String getFamily();
 
     String getSuffix();
-    
-    void setOfficialName(boolean officialName);
-    
-    boolean isOfficialName();
 
-    void setPreferredName(boolean preferredName);
-    
-    boolean isPreferredName();
-    
     String getFormattedName();
 
     String getLongFormattedName();
-    
+
     String toString();
-
-    boolean sameAs(SorName name);
-
-    Long getSourceNameId();
-
-    void setSourceNameId(Long sourceId);
 }

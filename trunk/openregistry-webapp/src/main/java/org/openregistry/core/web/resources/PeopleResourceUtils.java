@@ -22,6 +22,7 @@ import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
+import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
@@ -44,7 +45,7 @@ public final class PeopleResourceUtils {
         rc.getSorPerson().setSorId(request.systemOfRecordPersonId);
 
         for (final PersonRequestRepresentation.Name requestName : request.names) {
-            final Name name = rc.getSorPerson().addName();
+            final SorName name = rc.getSorPerson().addName();
             updateName(name, requestName, referenceRepository);
         }
         rc.getSorPerson().setDateOfBirth(request.dateOfBirth);
@@ -77,7 +78,7 @@ public final class PeopleResourceUtils {
         return rc;
     }
 
-	private static void updateName(final Name name, final PersonRequestRepresentation.Name n, final ReferenceRepository referenceRepository) {
+	private static void updateName(final SorName name, final PersonRequestRepresentation.Name n, final ReferenceRepository referenceRepository) {
         name.setFamily(n.lastName);
         name.setGiven(n.firstName);
         name.setMiddle(n.middleName);
@@ -129,7 +130,7 @@ public final class PeopleResourceUtils {
         sorPerson.getNames().clear();
 
         for (final PersonRequestRepresentation.Name n : request.names) {
-            final Name name = sorPerson.addName();
+            final SorName name = sorPerson.addName();
             updateName(name, n, referenceRepository);
         }
 
