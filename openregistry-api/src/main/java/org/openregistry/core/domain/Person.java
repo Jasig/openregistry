@@ -18,6 +18,7 @@ package org.openregistry.core.domain;
 import java.util.*;
 import java.io.Serializable;
 
+import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorRole;
 
 /**
@@ -46,18 +47,10 @@ public interface Person extends Serializable {
     Set<? extends Name> getNames();
 
     /**
-     * Adds an EMPTY name to the collection of names.  These names should then be populated.
-     * 
-     * @return an EMPTY name.  CANNOT return NULL.
+     * Adds a new name based off the SorName.
+     * @param sorName the name to add.   CANNOT be NULL.
      */
-    Name addName();
-    
-    /**
-     * Adds a name with the given type to the set of names.
-     *
-     * @return the name that was added.
-     */
-    Name addName(Type type);
+    void addName(SorName sorName);
 
     /**
      * Get a collection of roles associated with this person
@@ -122,10 +115,6 @@ public interface Person extends Serializable {
      * @return the new identifier.
      */
     Identifier addIdentifier(IdentifierType identifierType, String value);
-
-    Name addOfficialName();
-
-    Name addPreferredName();
 
     /**
      * Pick out the specific <code>Role</code> identified by provided role code

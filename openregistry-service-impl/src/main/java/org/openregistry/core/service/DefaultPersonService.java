@@ -57,9 +57,9 @@ public class DefaultPersonService implements PersonService {
 
     private FieldElector<String> genderFieldElector = new DefaultGenderFieldElector();
 
-    private FieldElector<Name> preferredNameFieldElector = new DefaultNameFieldSelector();
+    private FieldElector<SorName> preferredNameFieldElector = new DefaultNameFieldSelector();
 
-    private FieldElector<Name> officialNameFieldElector = new DefaultNameFieldSelector();
+    private FieldElector<SorName> officialNameFieldElector = new DefaultNameFieldSelector();
 
     private enum RecalculationType {DELETE, ADD, UPDATE};
 
@@ -104,11 +104,11 @@ public class DefaultPersonService implements PersonService {
         this.genderFieldElector = genderFieldElector;
     }
 
-    public void setPreferredNameFieldElector(final FieldElector<Name> preferredNameFieldElector) {
+    public void setPreferredNameFieldElector(final FieldElector<SorName> preferredNameFieldElector) {
         this.preferredNameFieldElector = preferredNameFieldElector;
     }
 
-    public void setOfficialNameFieldElector(final FieldElector<Name> officialNameFieldElector) {
+    public void setOfficialNameFieldElector(final FieldElector<SorName> officialNameFieldElector) {
         this.officialNameFieldElector = officialNameFieldElector;
     }
 
@@ -411,7 +411,7 @@ public class DefaultPersonService implements PersonService {
 
     @Transactional
     public boolean removeSorName(SorPerson sorPerson, Long nameId) {
-        Name name = sorPerson.findNameByNameId(nameId);
+        SorName name = sorPerson.findNameByNameId(nameId);
         if (name == null) return false;
 
         // remove name from the set (annotation in set to delete orphans)
@@ -548,8 +548,8 @@ public class DefaultPersonService implements PersonService {
 
         final Date birthDate = this.birthDateFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final String gender = this.genderFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
-        final Name preferredName = this.preferredNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
-        final Name officialName = this.officialNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        final SorName preferredName = this.preferredNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        final SorName officialName = this.officialNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
 
         person.setDateOfBirth(birthDate);
         person.setGender(gender);
@@ -586,7 +586,7 @@ public class DefaultPersonService implements PersonService {
         person.getNames().clear();
         
         for (final SorPerson sorPerson : sorPersons) {
-            for (final Name sorName : sorPerson.getNames()) {
+            for (final SorName sorName : sorPerson.getNames()) {
                 boolean alreadyAdded = false;
 
                 for (final Name calculatedName : person.getNames()) {
@@ -597,12 +597,7 @@ public class DefaultPersonService implements PersonService {
                 }
 
                 if (!alreadyAdded) {
-                    final Name personName = person.addName(sorName.getType());
-                    personName.setFamily(sorName.getFamily());
-                    personName.setGiven(sorName.getGiven());
-                    personName.setMiddle(sorName.getMiddle());
-                    personName.setPrefix(sorName.getPrefix());
-                    personName.setSuffix(sorName.getSuffix());
+                    person.addName(sorName);
                 }
             }
         }

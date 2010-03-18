@@ -16,6 +16,7 @@
 package org.openregistry.core.web.resources;
 
 import org.jasig.openregistry.test.util.MockitoUtils;
+import org.openregistry.core.domain.sor.SorName;
 import org.springframework.beans.factory.FactoryBean;
 
 import static org.mockito.Mockito.*;
@@ -45,7 +46,7 @@ public class UpdateSorPersonMockitoBasedPersonServiceFactoryBean implements Fact
     public void init() throws Exception {
 
         //Stubbing Name
-        final Name mockName = mock(Name.class);
+        final SorName mockName = mock(SorName.class);
 
         //Subbing a set of execution errors
         Set<ConstraintViolation> mockSetWithNoErrors = mock(Set.class, "withNoErrors");

@@ -40,6 +40,8 @@ public class MockName extends AbstractNameImpl {
 
     private boolean preferredName = false;
 
+    private Long sourceId;
+
     public MockName() {
     	// nothing else to do
     }
@@ -75,29 +77,15 @@ public class MockName extends AbstractNameImpl {
     public String getSuffix() {
         return this.suffix;
     }
-    
-    public void setType(final Type type) {
-        this.type = type;
+
+    @Override
+    public Long getSourceNameId() {
+        return this.sourceId;
     }
 
-    public void setPrefix(final String prefix) {
-        this.prefix = prefix;
-    }
-
-    public void setGiven(final String given) {
-        this.given = given;
-    }
-
-    public void setMiddle(final String middle) {
-        this.middle = middle;
-    }
-
-    public void setFamily(final String family) {
-        this.family = family;
-    }
-
-    public void setSuffix(final String suffix) {
-        this.suffix = suffix;
+    @Override
+    public void setSourceNameId(final Long sourceId) {
+        this.sourceId = sourceId;
     }
 
     public void setOfficialName(final boolean officialName) {
@@ -189,5 +177,37 @@ public class MockName extends AbstractNameImpl {
         result = 31 * result + (officialName ? 1 : 0);
         result = 31 * result + (preferredName ? 1 : 0);
         return result;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public void setGiven(String given) {
+        this.given = given;
+    }
+
+    public void setMiddle(String middle) {
+        this.middle = middle;
+    }
+
+    public void setFamily(String family) {
+        this.family = family;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
+
+    public void setSourceId(Long sourceId) {
+        this.sourceId = sourceId;
     }
 }

@@ -74,7 +74,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         sorPerson.setSourceSor(sor);
         sorPerson.setSsn(ssn);
 
-        final Name name = sorPerson.addName(this.referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
+        final SorName name = sorPerson.addName(this.referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
         name.setFamily(lastName);
         name.setGiven(firstName);
 

@@ -18,6 +18,7 @@ package org.openregistry.core.domain.jpa.sor;
 import org.openregistry.core.domain.annotation.Gender;
 import org.openregistry.core.domain.annotation.Required;
 import org.openregistry.core.domain.annotation.RequiredSize;
+import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.Name;
@@ -91,7 +92,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     @Fetch(value = FetchMode.SUBSELECT)
     @RequiredSize(property = "person.names")
     @Valid
-    private List<Name> names = new ArrayList<Name>();
+    private List<SorName> names = new ArrayList<SorName>();
 
     @Column(name = "ssn", nullable = true, length = 9)
     @Required(property = "person.ssn")
@@ -137,7 +138,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         this.sourceSor = sorIdentifier;
     }
 
-    public List<Name> getNames() {
+    public List<SorName> getNames() {
         return this.names;
     }
 
@@ -161,19 +162,13 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         this.gender = gender;
     }
 
-    public Name addName() {
+    public SorName addName() {
         final JpaSorNameImpl jpaSorName = new JpaSorNameImpl(this);
         this.names.add(jpaSorName);
         return jpaSorName;
     }
 
-    public void addName(Name name) {
-        Assert.isInstanceOf(JpaSorNameImpl.class, name);
-        this.names.add(name);
-        ((JpaSorNameImpl) name).moveToPerson(this);
-    }
-
-    public Name addName(Type type) {
+    public SorName addName(Type type) {
         Assert.isInstanceOf(JpaTypeImpl.class, type);
         final JpaSorNameImpl jpaSorName = new JpaSorNameImpl(this);
         jpaSorName.setType(type);
@@ -181,26 +176,18 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         return jpaSorName;
     }
 
-    public synchronized Name findNameByNameId(final Long id) {
-        Name nameToFind = null;
-        for (final Name name : this.names) {
+    public synchronized SorName findNameByNameId(final Long id) {
+        for (final SorName name : this.names) {
             final Long nameId = name.getId();
             if (nameId != null && nameId.equals(id)) {
-                nameToFind = name;
-                break;
+                return name;
             }
         }
-        return nameToFind;
+        return null;
     }
 
     public String getFormattedName() {
-        for (final Name name : this.names) {
-            if (name.isPreferredName()) {
-                return name.getFormattedName();
-            }
-        }
-
-        if (this.names.size() > 0) {
+        if (!this.names.isEmpty()) {
             return this.names.get(0).getFormattedName();
         }
 

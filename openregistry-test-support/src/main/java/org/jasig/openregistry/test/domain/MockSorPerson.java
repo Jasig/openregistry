@@ -19,6 +19,7 @@ import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
+import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 
@@ -46,7 +47,7 @@ public class MockSorPerson extends Entity implements SorPerson {
 
     private String gender;
 
-    private List<Name> names = new ArrayList<Name>();
+    private List<SorName> names = new ArrayList<SorName>();
 
     private String ssn;
 
@@ -86,7 +87,7 @@ public class MockSorPerson extends Entity implements SorPerson {
         this.sourceSorIdentifier = sorIdentifier;
     }
 
-    public List<Name> getNames() {
+    public List<SorName> getNames() {
         return this.names;
     }
 
@@ -110,33 +111,32 @@ public class MockSorPerson extends Entity implements SorPerson {
         this.gender = gender;
     }
 
-    public Name addName() {
-        final MockName sorName = new MockName();
+    public SorName addName() {
+        final MockSorName sorName = new MockSorName();
         this.names.add(sorName);
         return sorName;
     }
 
-    public void addName(Name name) {
+    public void addName(final SorName name) {
         this.names.add(name);
     }
     
-    public Name addName(Type type) {
-        final MockName sorName = new MockName();
+    public SorName addName(Type type) {
+        final MockSorName sorName = new MockSorName();
         sorName.setType(type);
         this.names.add(sorName);
         return sorName;
     }
 
-    public synchronized Name findNameByNameId(final Long id) {
+    public synchronized SorName findNameByNameId(final Long id) {
         Name nameToFind = null;
-        for (final Name name : this.names) {
+        for (final SorName name : this.names) {
             final Long nameId = name.getId();
             if (nameId != null && nameId.equals(id)) {
-                nameToFind = name;
-                break;
+                return name;
             }
         }
-        return nameToFind;
+        return null;
     }
 
 	public Long getPersonId() {

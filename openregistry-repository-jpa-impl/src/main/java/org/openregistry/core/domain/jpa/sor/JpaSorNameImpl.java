@@ -22,6 +22,7 @@ import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.normalization.Capitalize;
 import org.openregistry.core.domain.normalization.FirstName;
 import org.openregistry.core.domain.normalization.LastName;
+import org.openregistry.core.domain.sor.SorName;
 import org.springframework.util.Assert;
 import org.hibernate.envers.Audited;
 
@@ -41,7 +42,7 @@ import javax.validation.constraints.Size;
 @javax.persistence.Entity(name="sorName")
 @Table(name="prs_names")
 @Audited
-public class JpaSorNameImpl extends AbstractNameImpl {
+public class JpaSorNameImpl implements SorName {
 
     @Id
     @Column(name="id")
@@ -89,6 +90,10 @@ public class JpaSorNameImpl extends AbstractNameImpl {
 
     public JpaSorNameImpl(final JpaSorPersonImpl person) {
         this.person = person;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public Long getId() {
@@ -212,23 +217,6 @@ public class JpaSorNameImpl extends AbstractNameImpl {
             builder.append(delimiter);
         }
     }
-
-	public boolean isOfficialName() {
-		return false;
-	}
-
-	public boolean isPreferredName() {
-		return false;
-	}
-
-	public void setOfficialName(final boolean officialName) {
-        throw new UnsupportedOperationException("setting the official name is not supported on SoR objects.");
-
-	}
-
-	public void setPreferredName(final boolean preferredName) {
-        throw new UnsupportedOperationException("setting the preferred name is not supported on SoR objects.");
-	}
 
     public void moveToPerson(JpaSorPersonImpl person){
         this.person = person;

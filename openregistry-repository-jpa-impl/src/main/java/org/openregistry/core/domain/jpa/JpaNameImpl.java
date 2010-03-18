@@ -68,6 +68,9 @@ public class JpaNameImpl extends AbstractNameImpl {
     @Column(name="is_preferred_name", nullable=false)
     private Boolean preferredName = false;
 
+    @Column(name="name_source_id", nullable=false)
+    private Long sourceId;
+
     public JpaNameImpl() {
     	// nothing else to do
     }
@@ -127,6 +130,16 @@ public class JpaNameImpl extends AbstractNameImpl {
 
     public void setSuffix(final String suffix) {
         this.suffix = suffix;
+    }
+
+    @Override
+    public Long getSourceNameId() {
+        return this.sourceId;
+    }
+
+    @Override
+    public void setSourceNameId(final Long sourceId) {
+        this.sourceId = sourceId;
     }
 
     public void setOfficialName(final boolean officialName) {
