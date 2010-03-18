@@ -37,6 +37,8 @@ public class MockPerson implements Person {
 
     private long id = 1L;
 
+    private Set<MockName> names = new HashSet<MockName>();
+
     public MockPerson() {
         this("testId", false, false);
     }
@@ -78,15 +80,19 @@ public class MockPerson implements Person {
     }
 
     public Set<? extends Name> getNames() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.names;
     }
 
     public Name addName() {
-        return new MockName();  //To change body of implemented methods use File | Settings | File Templates.
+        final MockName name = new MockName();
+        this.names.add(name);
+        return name;
     }
     
     public Name addName(Type type) {
-        return new MockName();  //To change body of implemented methods use File | Settings | File Templates.
+        final MockName name = new MockName(type);
+        this.names.add(name);
+        return name;
     }
 
     public List<Role> getRoles() {

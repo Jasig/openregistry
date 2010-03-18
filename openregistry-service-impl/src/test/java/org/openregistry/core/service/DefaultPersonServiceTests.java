@@ -194,6 +194,9 @@ public class DefaultPersonServiceTests {
 		final MockSorRole sorRole = (MockSorRole) sorPerson.addRole((RoleInfo) null);
 		sorRole.setId(1L);
         sorRole.setSorId("500");
+        final Name name = sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
+        name.setGiven("given");
+        
 
         mockPerson.addRole(sorRole);
 
@@ -203,6 +206,9 @@ public class DefaultPersonServiceTests {
         sorPerson1.setId(2L);
         sorRole1.setId(2L);
         sorRole1.setSorId("600");
+
+        final Name name1 = sorPerson1.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
+        name1.setGiven("given");
 
         mockPerson.addRole(sorRole1);
 
@@ -237,6 +243,8 @@ public class DefaultPersonServiceTests {
         sorPerson.setPersonId(1L);
 		MockSorRole sorRole = new MockSorRole(1L);
 		sorPerson.addRole(sorRole);
+        final Name name = sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
+        name.setGiven("given");
 
 		MockRole mockRole = new MockRole(1L);
 		mockRole.setSorRoleId(sorRole.getId());

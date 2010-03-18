@@ -134,7 +134,7 @@ public class MockPersonRepository implements PersonRepository {
         final List<SorPerson> sorPersons = new ArrayList<SorPerson>();
 
         for (final SorPerson sorPerson : this.sorPersons) {
-            if (sorPerson.getPersonId().equals(person.getId())) {
+            if (person.getId().equals(sorPerson.getPersonId())) {
                 sorPersons.add(sorPerson);
             }
         }
