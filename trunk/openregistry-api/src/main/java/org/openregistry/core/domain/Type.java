@@ -33,7 +33,7 @@ public interface Type extends Serializable {
     /**
      * The default list of enumerations that the system understands.
      */
-    enum DataTypes {ADDRESS, AFFILIATION, CAMPUS, EMAIL, LEAVE, NAME, ORGANIZATIONAL_UNIT, PERSON, PERSON_STATUS, 
+    enum DataTypes {ADDRESS, AFFILIATION, CAMPUS, EMAIL, LEAVE, NAME, ORGANIZATIONAL_UNIT, PERSON, 
     	PHONE, SPONSOR, STATUS, TERMINATION, URL}
 
     enum TerminationTypes {FIRED, EXPIRED, UNSPECIFIED}
@@ -45,8 +45,6 @@ public interface Type extends Serializable {
     enum AddressTypes {CAMPUS, HOME, OFFICE}
 
     enum PhoneTypes {LANDLINE, CELL, PAGER, FAX, OTHER}
-    
-    enum EmailTypes {HOME, CAMPUS}
 
     enum NameTypes {LEGAL, FORMAL, AKA, MAIDEN, FKA}
 
