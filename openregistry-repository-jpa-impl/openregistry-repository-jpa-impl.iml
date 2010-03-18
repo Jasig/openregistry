@@ -31,6 +31,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/groovy" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -107,6 +108,8 @@
     <orderEntry type="library" exported="" name="Maven: org.apache.lucene:lucene-spellchecker:3.0.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.apache.lucene:lucene-core:3.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.4-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.4-SNAPSHOT" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>
