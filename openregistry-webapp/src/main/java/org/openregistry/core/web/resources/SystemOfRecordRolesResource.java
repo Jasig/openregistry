@@ -230,7 +230,7 @@ public class SystemOfRecordRolesResource {
         for (final RoleRepresentation.Email e : emailsRepresentation) {
             final EmailAddress email = sorRole.addEmailAddress();
             email.setAddress(e.address);
-            email.setAddressType(referenceRepository.findType(Type.DataTypes.EMAIL, e.type));
+            email.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, e.type));
         }
 
     }
