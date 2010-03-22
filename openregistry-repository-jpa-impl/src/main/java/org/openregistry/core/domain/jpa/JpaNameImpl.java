@@ -71,8 +71,8 @@ public class JpaNameImpl extends AbstractNameImpl {
     @Column(name="name_source_id", nullable=false)
     private Long sourceId;
 
-    @Column(name="soundex",nullable = false,length=201)
-    private String soundex;
+    @Column(name="comparison_value",nullable = false,length=201)
+    private String comparisonValue;
 
     public JpaNameImpl() {
     	// nothing else to do
@@ -223,6 +223,6 @@ public class JpaNameImpl extends AbstractNameImpl {
 
     @Override
     public String getComparisonValue() {
-        return this.soundex;
+        return this.comparisonValue;
     }
 }
