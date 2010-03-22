@@ -71,6 +71,9 @@ public class JpaNameImpl extends AbstractNameImpl {
     @Column(name="name_source_id", nullable=false)
     private Long sourceId;
 
+    @Column(name="soundex",nullable = false,length=201)
+    private String soundex;
+
     public JpaNameImpl() {
     	// nothing else to do
     }
@@ -118,6 +121,7 @@ public class JpaNameImpl extends AbstractNameImpl {
 
     public void setGiven(final String given) {
         this.given = given;
+        generateSoundEx();
     }
 
     public void setMiddle(final String middle) {
@@ -126,6 +130,7 @@ public class JpaNameImpl extends AbstractNameImpl {
 
     public void setFamily(final String family) {
         this.family = family;
+        generateSoundEx();
     }
 
     public void setSuffix(final String suffix) {
@@ -214,5 +219,10 @@ public class JpaNameImpl extends AbstractNameImpl {
         if (suffix != null ? !suffix.equals(that.suffix) : that.suffix != null) return false;
 
         return true;
+    }
+
+    @Override
+    public String getSoundEx() {
+        return this.soundex;
     }
 }

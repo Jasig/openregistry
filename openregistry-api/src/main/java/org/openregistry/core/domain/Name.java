@@ -63,4 +63,13 @@ public interface Name extends Serializable {
     Long getSourceNameId();
 
     void setSourceNameId(Long sourceId);
+
+    /**
+     * Returns the SoundEx for this name.  The SoundEx algorithm is defined here:
+     *
+     * http://en.wikipedia.org/wiki/Soundex
+     * 
+     * @return the sound ex.  CAN ONLY be NULL if neither Given or Family name is not set.
+     */
+    String getSoundEx();
 }
