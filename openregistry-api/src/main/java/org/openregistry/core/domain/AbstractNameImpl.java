@@ -1,5 +1,6 @@
 package org.openregistry.core.domain;
 
+import org.apache.commons.codec.language.DoubleMetaphone;
 import org.apache.commons.codec.language.Soundex;
 import org.openregistry.core.domain.sor.SorName;
 
@@ -12,8 +13,8 @@ import org.openregistry.core.domain.sor.SorName;
 public abstract class AbstractNameImpl implements Name {
 
     protected final String generateSoundEx() {
-        final Soundex soundex = new Soundex();
-        return soundex.soundex((getGiven() + " " + getFamily()).trim());
+        final DoubleMetaphone dmp = new DoubleMetaphone();
+        return dmp.encode((getGiven() + " " + getFamily()).trim());
     }
 
    public final boolean sameAs(final SorName name) {
