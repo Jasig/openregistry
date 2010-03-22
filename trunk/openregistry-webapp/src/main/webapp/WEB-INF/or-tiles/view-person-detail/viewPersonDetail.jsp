@@ -50,13 +50,37 @@ jQuery(document).ready(function() {
 </script>
 
 <div id="calculated-person">
-
-<%--<div class="padded"><strong><spring:message code="officialName.heading" /></strong> ${person.officialName.longFormattedName}</div>--%>
-
-    <div style="text-align:center;">
-        <a href="#" id="activationKeyLink" class="button"><button>Generate New Activation Key</button></a>
-    </div>
+    <div style="text-align:center;"><a href="#" id="activationKeyLink" class="button"><button>Generate New Activation Key</button></a></div>
     <div id="activationKeyDialog" title="Activation Key"></div>
+
+    <h2>Summary</h2>
+    <c:set var="officialName" value="${person.officialName}"  />
+    <c:set var="preferredName" value="${person.preferredName}" />
+    <p><strong><spring:message code="officialName.heading" /></strong>: <c:if test="${not empty officialName.prefix}"><span title="Prefix">${officialName.prefix}</span></c:if>
+    <c:if test="${not empty officialName.given}"><span title="Given">${officialName.given}</span></c:if>
+    <c:if test="${not empty officialName.middle}"><span title="Middle">${officialName.middle}</span></c:if>
+    <c:if test="${not empty officialName.family}"><span title="Family">${officialName.family}</span></c:if><c:if test="${not empty officialName.suffix}">, <span title="Suffix">${officialName.suffix}</span></c:if>
+    </p>
+
+    <!-- TODO what about other names? -->
+
+    <p><strong>Preferred Name</strong>: <c:if test="${not empty preferredName.prefix}"><span title="Prefix">${preferredName.prefix}</span></c:if>
+    <c:if test="${not empty preferredName.given}"><span title="Given">${preferredName.given}</span></c:if>
+    <c:if test="${not empty preferredName.middle}"><span title="Middle">${preferredName.middle}</span></c:if>
+    <c:if test="${not empty preferredName.family}"><span title="Family">${preferredName.family}</span></c:if><c:if test="${not empty preferredName.suffix}">, <span title="Suffix">${preferredName.suffix}</span></c:if>
+    </p>
+
+    <p><strong><spring:message code="dateOfBirth.label" />:</strong> <fmt:formatDate value="${person.dateOfBirth}" dateStyle="long" /></p>
+    <p><strong><spring:message code="gender.label" />:</strong> <spring:message code="${person.gender}.genderDisplayValue" /></p>
+    <p><strong>Contact Email: </strong></p>
+    <p><strong>Contact Phone: </strong></p>
+
+    <h2>Identifiers</h2>
+    
+    <h2>Active Roles</h2>
+
+    <h2>Expired Roles</h2>
+    
 
     <table>
         <thead>
@@ -72,12 +96,8 @@ jQuery(document).ready(function() {
             </tr>
         </c:forEach>
         <tr>
-            <td><spring:message code="dateOfBirth.label" /></td>
-            <td><fmt:formatDate value="${person.dateOfBirth}" dateStyle="long" /></td>
-        </tr>
-        <tr>
-            <td><spring:message code="gender.label" /></td>
-            <td><spring:message code="${person.gender}.genderDisplayValue" /></td>
+            <td></td>
+            <td></td>
         </tr>
         <c:forEach var="identifier" items="${person.identifiers}" varStatus="sorPersonLoopStatus">
             <tr>
@@ -100,65 +120,6 @@ jQuery(document).ready(function() {
         </tbody>
     </table>
 </div>
-
-<c:forEach var="sorPerson" items="${sorPersons}" varStatus="sorPersonLoopStatus">
-    <div class="sor-person">
-
-    <table>
-        <thead>
-        <tr>
-            <th colspan="2">
-                <spring:message code="source.heading" />
-                <c:out value="${sorPerson.sourceSor}" />
-                <a href="${flowExecutionUrl}&_eventId=updateSorPerson&sorPersonIndex=${sorPersonLoopStatus.index}"><button>Edit</button></a>
-                <a href="${flowExecutionUrl}&_eventId=moveSorPerson&sorPersonIndex=${sorPersonLoopStatus.index}"><button>Move</button></a>
-            </th>
-        </tr>
-        </thead>
-        <tbody class="zebra">
-        <tr>
-            <td><spring:message code="sorId.label" /></td>
-            <td>${sorPerson.sorId}</td>
-        </tr>
-        <c:forEach var="sorName" items="${sorPerson.names}" varStatus="nameLoopStatus">
-            <tr><td colspan="2"><strong>${sorName.type.description} <spring:message code="nameColumn.label" /></strong></td></tr>
-                <tr><td><spring:message code="vcpFirst.label" /> </td><td>${sorName.given}</td></tr>
-                <tr><td><spring:message code="vcpLast.label" /> </td><td>${sorName.family}</td></tr>
-               <tr> <td><spring:message code="vcpMiddle.label" /> </td><td>${sorName.middle}</td></tr>
-               <tr> <td><spring:message code="vcpPrefix.label" /> </td><td>${sorName.prefix}</td></tr>
-               <tr> <td><spring:message code="vcpSuffix.label" /> </td><td>${sorName.suffix}</td></tr>
-        </c:forEach>
-        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-        <tr>
-            <td><spring:message code="dateOfBirth.label" /></td>
-            <td><fmt:formatDate value="${sorPerson.dateOfBirth}" /></td>
-        </tr>
-        <tr>
-            <td><spring:message code="gender.label" /></td>
-            <td><spring:message code="${sorPerson.gender}.genderDisplayValue" /></td>
-
-        </tr>
-        <tr>
-            <td><spring:message code="ssn.label" /></td>
-            <td>${sorPerson.ssn}</td>
-        </tr>
-        <c:forEach var="role" items="${sorPerson.roles}">
-            <tr>
-                <td><spring:message code="role.label" /> <b>(${role.personStatus.description})</b></td>
-                <td colspan="3">
-                    <a href="${flowExecutionUrl}&_eventId=submitViewSoRRole&sorSource=${sorPerson.sourceSor}&roleCode=${role.code}&formattedName=${sorPerson.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a>
-                <fmt:formatDate value="${role.start}" /> <spring:message code="vcpTo.label" /> <fmt:formatDate value="${role.end}" />
-                </td>
-            </tr>
-        </c:forEach>
-         </tbody>
-
-
-    </table>
-    </div>
-    <%--pass the index of the iteration so that we can grab the correct sorPerson when passing to the update sorPerson flow--%>
-    <%--<div><a href="${flowExecutionUrl}&_eventId=updateSorPerson&sorPersonIndex=${sorPersonLoopStatus.index}"><button>Edit</button></a></div>--%>
-</c:forEach>
 
 <div class="center"><a href="${flowExecutionUrl}&_eventId=submitNewSearch"><button>New Search</button></a></div>
 <%--<div class="row fm-v" style="clear:both;">--%>
