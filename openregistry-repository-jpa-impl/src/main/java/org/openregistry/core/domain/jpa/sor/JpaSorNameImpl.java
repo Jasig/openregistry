@@ -29,6 +29,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * Implementation of the Name domain object that conforms to the tables for the Systems of Record
@@ -42,7 +43,7 @@ import javax.validation.constraints.Size;
 @javax.persistence.Entity(name="sorName")
 @Table(name="prs_names")
 @Audited
-public class JpaSorNameImpl implements SorName {
+public class JpaSorNameImpl implements SorName, Serializable {
 
     @Id
     @Column(name="id")
