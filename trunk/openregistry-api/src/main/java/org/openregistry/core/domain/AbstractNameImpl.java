@@ -1,31 +1,23 @@
-/**
- * Copyright (C) 2009 Jasig, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.openregistry.core.domain;
 
+import org.apache.commons.codec.language.Soundex;
 import org.openregistry.core.domain.sor.SorName;
+import org.springframework.util.StringUtils;
 
 /**
- * Provides a common implementation of the sameAs method.
+ * Abstract name class to support Soundex and Same As.
  *
  * @version $Revision$ $Date$
  * @since 0.1
  */
 public abstract class AbstractNameImpl implements Name {
 
-    public final boolean sameAs(final SorName name) {
+    protected final String generateSoundEx() {
+        final Soundex soundex = new Soundex();
+        return soundex.soundex((getGiven() + " " + getFamily()).trim());
+    }
+
+   public final boolean sameAs(final SorName name) {
         if (name == null) {
             return false;
         }

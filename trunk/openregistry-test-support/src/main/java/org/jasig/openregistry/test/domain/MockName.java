@@ -210,4 +210,9 @@ public class MockName extends AbstractNameImpl {
     public void setSourceId(Long sourceId) {
         this.sourceId = sourceId;
     }
+
+    @Override
+    public String getSoundEx() {
+        return null;
+    }
 }
