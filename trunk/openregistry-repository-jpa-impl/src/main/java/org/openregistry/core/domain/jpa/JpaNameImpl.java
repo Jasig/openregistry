@@ -222,7 +222,7 @@ public class JpaNameImpl extends AbstractNameImpl {
     }
 
     @Override
-    public String getSoundEx() {
+    public String getComparisonValue() {
         return this.soundex;
     }
 }

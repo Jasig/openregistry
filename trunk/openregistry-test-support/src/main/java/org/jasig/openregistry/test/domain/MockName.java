@@ -212,7 +212,7 @@ public class MockName extends AbstractNameImpl {
     }
 
     @Override
-    public String getSoundEx() {
+    public String getComparisonValue() {
         return null;
     }
 }

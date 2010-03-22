@@ -65,11 +65,14 @@ public interface Name extends Serializable {
     void setSourceNameId(Long sourceId);
 
     /**
-     * Returns the SoundEx for this name.  The SoundEx algorithm is defined here:
+     * Returns a value to determine similarities.  One example is the SoundEx algorithm is defined here:
      *
      * http://en.wikipedia.org/wiki/Soundex
+     *
+     * Other options include:
+     * http://en.wikipedia.org/wiki/Double_Metaphone
      * 
-     * @return the sound ex.  CAN ONLY be NULL if neither Given or Family name is not set.
+     * @return the value.  CAN ONLY be NULL if neither Given or Family name is not set.
      */
-    String getSoundEx();
+    String getComparisonValue();
 }
