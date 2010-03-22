@@ -2,7 +2,6 @@ package org.openregistry.core.domain;
 
 import org.apache.commons.codec.language.Soundex;
 import org.openregistry.core.domain.sor.SorName;
-import org.springframework.util.StringUtils;
 
 /**
  * Abstract name class to support Soundex and Same As.
