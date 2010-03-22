@@ -20,6 +20,40 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var cache = {};
+        $('#name').autocomplete({
+            source: function(request, response) {
+                if (cache.term == request.term && cache.content) {
+					response(cache.content);
+				}
+
+                if (new RegExp(cache.term).test(request.term) && cache.content && cache.content.length < 13) {
+					var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+					response($.grep(cache.content, function(value) {
+	    				return matcher.test(value.value)
+					}));
+				}
+
+                $.ajax({
+					url: "<c:url value="/nameSearch.htm" />",
+					dataType: "json",
+					data: request,
+					success: function(data) {
+						cache.term = request.term;
+						cache.content = data;
+						response(data);
+					}
+				});
+            },
+            minLength: 3
+
+        });
+
+    });
+</script>
+
 <h2>Manage People</h2>
 
 <div class="instructions">
