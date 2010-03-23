@@ -125,7 +125,7 @@ public class JpaNameImpl extends AbstractNameImpl {
 
     public void setGiven(final String given) {
         this.given = given;
-        generateSoundEx();
+        this.comparisonValue = generateSoundEx();
     }
 
     public void setMiddle(final String middle) {
@@ -134,7 +134,7 @@ public class JpaNameImpl extends AbstractNameImpl {
 
     public void setFamily(final String family) {
         this.family = family;
-        generateSoundEx();
+        this.comparisonValue = generateSoundEx();
     }
 
     public void setSuffix(final String suffix) {
