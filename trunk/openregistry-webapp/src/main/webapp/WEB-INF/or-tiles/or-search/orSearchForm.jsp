@@ -41,7 +41,7 @@
 				}
 
                 $.ajax({
-					url: "<c:url value="/nameSearch.htm" />",
+					url: "<c:url value="/nameSearch.json" />",
 					dataType: "json",
 					data: request,
 					success: function(data) {
@@ -88,7 +88,7 @@
                 </div>
                 <div>
                     <form:label cssClass="above" path="name"><spring:message code="person.biodem.names.label" /></form:label>
-                    <form:input path="name" cssErrorClass="formerror" />
+                    <form:input path="name" cssErrorClass="formerror" autocomplete="false" />
                     <form:errors path="name" />
                 </div>
                 <div>

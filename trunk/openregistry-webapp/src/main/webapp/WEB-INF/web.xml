@@ -74,6 +74,12 @@
     </servlet-mapping>
 
     <servlet-mapping>
+        <servlet-name>openregistry-ui</servlet-name>
+        <url-pattern>*.json</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
         <servlet-name>openregistry-rest</servlet-name>
         <url-pattern>/api/v1/*</url-pattern>
     </servlet-mapping>

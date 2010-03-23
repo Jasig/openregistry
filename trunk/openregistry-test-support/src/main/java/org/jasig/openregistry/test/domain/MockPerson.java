@@ -299,6 +299,11 @@ public class MockPerson implements Person {
         return primaryIdentifiers;
     }
 
+    @Override
+    public Map<String, Deque<Identifier>> getIdentifiersByType() {
+        return new HashMap<String, Deque<Identifier>>();
+    }
+
     public ActivationKey generateNewActivationKey(Date start, Date end) {
         this.activationKey = new MockActivationKey(UUID.randomUUID().toString(), start, end);
         return this.activationKey;

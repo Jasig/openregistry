@@ -46,7 +46,7 @@ public final class AjaxController {
     @Inject
     private PersonService personService;
 
-    @RequestMapping(value="/nameSearch.htm", method = RequestMethod.GET)
+    @RequestMapping(value="/nameSearch.json", method = RequestMethod.GET)
     public void nameSearch(@RequestParam("term") final String term, final Writer writer) throws IOException {
         final MutableSearchCriteriaImpl searchCriteria = new MutableSearchCriteriaImpl();
         searchCriteria.setName(term);
