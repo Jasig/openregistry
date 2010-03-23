@@ -43,6 +43,8 @@ jQuery(document).ready(function() {
 		    });
         })
     })
+
+    $('.accordion').accordion({collapsible: true});
 });
 </script>
 
@@ -75,13 +77,46 @@ jQuery(document).ready(function() {
     <h2>Identifiers</h2>
     
     <h2>Active Roles</h2>
-    <div class="accordion"
+    <div class="accordion">
     <c:forEach var="role" items="${person.roles}">
-
+        <c:if test="${not role.terminated}">
+        <h3><a href="#">${role.title}</a></h3>
+        <div>
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+        </div>
+        </c:if>
     </c:forEach>
+    </div>
 
     <h2>Expired Roles</h2>
-    
+    <div class="accordion">
+    <c:forEach var="role" items="${person.roles}">
+        <c:if test="${role.terminated}">
+        <h3><a href="#">${role.title}</a></h3>
+        <div>
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+        </div>
+        </c:if>
+    </c:forEach>
+    </div>
 
     <table>
         <thead>
