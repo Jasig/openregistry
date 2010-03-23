@@ -42,9 +42,34 @@ jQuery(document).ready(function() {
 			    }
 		    });
         })
-    })
+    });
 
     $('.accordion').accordion({collapsible: true});
+    $('#content span').qtip({content: {text: false}, position: {
+	            corner: {
+		            target: 'topMiddle',
+		            tooltip: 'bottomLeft'
+	            },
+	            adjust: {
+		            screen: true
+	            }
+            },
+            style: {tip: 'bottomLeft', name: 'dark'}});
+
+    <c:forEach items="${person.identifiersByType}" var="entry">
+        $('#${entry.key}-content').hide();
+        $('#${entry.key}').qtip({content: $('#${entry.key}-content'),
+            position: {
+	            corner: {
+		            target: 'topMiddle',
+		            tooltip: 'bottomLeft'
+	            },
+	            adjust: {
+		            screen: true
+	            }
+            },
+            style: {tip: 'bottomLeft', name: 'dark'}});
+    </c:forEach>
 });
 </script>
 
@@ -75,6 +100,26 @@ jQuery(document).ready(function() {
     <p><strong>Contact Phone: </strong></p>
 
     <h2>Identifiers</h2>
+    <c:forEach var="identifierEntry" items="${person.identifiersByType}">
+        <c:forEach var="identifier" items="${identifierEntry.value}" varStatus="status">
+            <c:choose>
+                <c:when test="${status.first}">
+                <a class="tooltip" id="${identifier.type.name}">${identifier.type.name}: ${identifier.value}</a>
+                <div id="${identifier.type.name}-content">
+                    some text goes here for display
+                    <ul>
+                </c:when>
+                <c:otherwise>
+                    <li>${identifier.value}</li>
+                </c:otherwise>
+            </c:choose>
+            <c:if test="${status.last}">
+                    </ul>
+                </div>
+            </c:if>
+        </c:forEach>
+    </c:forEach>
+
     
     <h2>Active Roles</h2>
     <div class="accordion">
@@ -82,13 +127,6 @@ jQuery(document).ready(function() {
         <c:if test="${not role.terminated}">
         <h3><a href="#">${role.title}</a></h3>
         <div>
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
             Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
             Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
             Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
@@ -106,55 +144,10 @@ jQuery(document).ready(function() {
             Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
             Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
             Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
         </div>
         </c:if>
     </c:forEach>
     </div>
-
-    <table>
-        <thead>
-        <tr>
-            <th colspan="2"><spring:message code="viewCalculatedPerson.heading" /></th>
-        </tr>
-        </thead>
-        <tbody class="zebra">
-        <c:forEach var="name" items="${person.names}" varStatus="sorPersonLoopStatus">
-            <tr>
-                <td>${name.type.description} <spring:message code="nameColumn.label" /></td>
-                <td>${name.longFormattedName}</td>
-            </tr>
-        </c:forEach>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <c:forEach var="identifier" items="${person.identifiers}" varStatus="sorPersonLoopStatus">
-            <tr>
-                <td>${identifier.type.name}</td>
-                <td>${identifier.value}
-                    <c:if test="${identifier.primary}"> (<spring:message code="primary.label" />)</c:if>
-                    <c:if test="${identifier.deleted}"> (<spring:message code="deleted.label" />)</c:if>
-                </td>
-            </tr>
-        </c:forEach>
-        <c:forEach var="role" items="${person.roles}">
-            <tr>
-                <td><spring:message code="role.label" /> (<b>${role.personStatus.description}</b>)</td>
-                <td>
-                    <a href="${flowExecutionUrl}&_eventId=submitViewRole&roleCode=${role.code}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a>
-                     <fmt:formatDate value="${role.start}" /> <spring:message code="vcpTo.label" /> <fmt:formatDate value="${role.end}" />
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
 </div>
 
 <div class="center"><a href="${flowExecutionUrl}&_eventId=submitNewSearch"><button>New Search</button></a></div>

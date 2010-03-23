@@ -38,6 +38,7 @@
     <title>OpenRegistry &raquo; <spring:message code="${key}" text="OpenRegistry"/> </title>
     <script type="text/javascript" src="<c:url value="/js/jquery-1.4.1.js" /> "></script>
     <script type="text/javascript" src="<c:url value="/js/jquery-ui-1.8rc3.custom.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/js/jquery.qtip-1.0.0-rc3.min.js" />"></script>
 
     <style type="text/css">
         #<%=key.replace(".", "")%> a {

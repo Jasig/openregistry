@@ -44,6 +44,7 @@ import java.util.*;
 @Table(name="prc_persons")
 @Audited
 public class JpaPersonImpl extends Entity implements Person {
+
     protected static final Logger logger = LoggerFactory.getLogger(JpaPersonImpl.class);
 
     @Id
@@ -180,6 +181,29 @@ public class JpaPersonImpl extends Entity implements Person {
         }
 
         return primaryIdentifiers;
+    }
+
+    @Override
+    public Map<String, Deque<Identifier>> getIdentifiersByType() {
+        final Map<String, Deque<Identifier>> identifiersByType = new HashMap<String, Deque<Identifier>>();
+
+        for (final Identifier identifier : this.identifiers) {
+            final String identifierType = identifier.getType().getName();
+            Deque<Identifier> listIdentifiers = identifiersByType.get(identifierType);
+
+            if (listIdentifiers == null) {
+                listIdentifiers = new ArrayDeque<Identifier>();
+                identifiersByType.put(identifierType, listIdentifiers);
+            }
+
+            if (identifier.isPrimary()) {
+                listIdentifiers.addFirst(identifier);
+            } else {
+                listIdentifiers.addLast(identifier);
+            }
+        }
+
+        return identifiersByType;
     }
 
     public synchronized ActivationKey generateNewActivationKey(final Date start, final Date end) {

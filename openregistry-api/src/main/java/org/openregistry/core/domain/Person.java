@@ -145,6 +145,12 @@ public interface Person extends Serializable {
     Map<String,Identifier> getPrimaryIdentifiersByType();
 
     /**
+     * Returns a list of identifiers grouped by type.  The 
+     * @return the map of identifiers, with each list sorted by primary, then non-primary.  CANNOT be NULL. CAN be EMPTY.
+     */
+    Map<String, Deque<Identifier>> getIdentifiersByType();
+
+    /**
      * Generates a new Activation Key.  If there are any current activation keys, they
      * are removed and replaced with this new one.
      *
