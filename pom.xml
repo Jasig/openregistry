@@ -614,20 +614,6 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
             <id>website</id>
             <url>file:///jasig/htdocs/developer.ja-sig.org/projects/openregistry</url>
         </site>
-
-        <snapshotRepository>
-            <id>jasig.snapshot.repo</id>
-            <layout>default</layout>
-            <name>Jasig Snapshot Repository</name>
-            <url>http://developer.jasig.org/repo/content/repositories/m2-snapshot/</url>
-        </snapshotRepository>
-
-        <repository>
-            <id>jasig.repo</id>
-            <layout>default</layout>
-            <name>Jasig Maven2 Repository</name>
-            <url>http://developer.jasig.org/repo/content/repositories/m2/</url>
-        </repository>
     </distributionManagement>
 
     <repositories>
