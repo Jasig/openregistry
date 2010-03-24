@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="<c:url value="/css/or_base.css" />" type="text/css"/>
     <tiles:useAttribute name="additionalCssFile" id="customCssFile" ignore="true" />
     <c:if test="${not empty customCssFile}">
-        <link rel="stylesheet" href="${customCssFile}" type="text/css" />
+        <link rel="stylesheet" href="<c:url value="${customCssFile}" />" type="text/css" />
     </c:if>
     <!--[if IE]><link rel="stylesheet" type="text/css" href="<c:url value="/css/or_ie.css" />" media="all"/><![endif]-->
     <link rel="stylesheet" href="<c:url value="/css/ui-lightness/jquery-ui-1.8rc3.custom.css" />" />
