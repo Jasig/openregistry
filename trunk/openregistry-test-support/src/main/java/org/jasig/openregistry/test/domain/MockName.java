@@ -216,7 +216,12 @@ public class MockName extends AbstractNameImpl {
     }
 
     @Override
-    public String getComparisonValue() {
+    public String getGivenComparisonValue() {
+        return null;
+    }
+
+    @Override
+    public String getFamilyComparisonValue() {
         return null;
     }
 }

@@ -47,7 +47,7 @@ import javax.validation.Valid;
 @javax.persistence.Entity(name = "role")
 @Table(name = "prc_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"person_id","role_id"}))
 @Audited
-public final class JpaRoleImpl extends Entity implements Role {
+public final class  JpaRoleImpl extends Entity implements Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_role_records_seq")
@@ -260,6 +260,16 @@ public final class JpaRoleImpl extends Entity implements Role {
         return ((this.end != null) && (this.end.compareTo(new Date()) >= 0));
     }
 
+    @Override
+    public boolean isNotYetActive() {
+        return this.start.compareTo(new Date()) > 0;
+    }
+
+    @Override
+    public boolean isActive() {
+        return !isNotYetActive() && !isTerminated();
+    }
+
     public String getCode() {
         return this.roleInfo.getCode();
     }
@@ -311,5 +321,11 @@ public final class JpaRoleImpl extends Entity implements Role {
         }
 
         this.addSponsor(sorRole.getSponsor());
+    }
+
+    @Override
+    public int compareTo(final Role o) {
+        // TODO implement
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

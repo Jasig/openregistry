@@ -68,7 +68,7 @@ public class JpaPersonImpl extends Entity implements Person {
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
-    @Column(name="gender",length=1,nullable=false)
+    @Column(name="gender",length=1,nullable=true)
     private String gender;
 
     @Embedded
@@ -265,5 +265,4 @@ public class JpaPersonImpl extends Entity implements Person {
         }
         return null;
     }
-
 }

@@ -31,9 +31,9 @@ import org.openregistry.core.domain.sor.SorName;
  */
 public abstract class AbstractNameImpl implements Name {
 
-    protected final String generateSoundEx() {
+    protected final String generateSoundEx(final String comparison) {
         final DoubleMetaphone dmp = new DoubleMetaphone();
-        return dmp.encode((getGiven() + " " + getFamily()).trim());
+        return dmp.encode(comparison);
     }
 
    public final boolean sameAs(final SorName name) {

@@ -80,7 +80,22 @@ public class MockRole extends Entity implements Role {
 		return false;
 	}
 
-	public void setSorRoleId(Long sorRoleId) {
+    @Override
+    public boolean isNotYetActive() {
+        return false;
+    }
+
+    @Override
+    public boolean isActive() {
+        return true;
+    }
+
+    @Override
+    public int compareTo(Role o) {
+        return 0;
+    }
+
+    public void setSorRoleId(Long sorRoleId) {
 		this.sorRoleId = sorRoleId;
 	}
 

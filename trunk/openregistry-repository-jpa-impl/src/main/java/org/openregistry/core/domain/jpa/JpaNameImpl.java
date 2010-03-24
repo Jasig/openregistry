@@ -75,8 +75,12 @@ public class JpaNameImpl extends AbstractNameImpl {
     @Column(name="name_source_id", nullable=false)
     private Long sourceId;
 
-    @Column(name="comparison_value",nullable = false,length=201)
-    private String comparisonValue;
+    @Column(name="given_comparison_value",nullable = false,length=100)
+    private String givenComparisonValue;
+
+    @Column(name="family_comparison_value",nullable = true,length=100)
+    private String familyComparisonValue;
+
 
     public JpaNameImpl() {
     	// nothing else to do
@@ -125,7 +129,7 @@ public class JpaNameImpl extends AbstractNameImpl {
 
     public void setGiven(final String given) {
         this.given = given;
-        this.comparisonValue = generateSoundEx();
+        this.givenComparisonValue = generateSoundEx(this.given);
     }
 
     public void setMiddle(final String middle) {
@@ -134,7 +138,7 @@ public class JpaNameImpl extends AbstractNameImpl {
 
     public void setFamily(final String family) {
         this.family = family;
-        this.comparisonValue = generateSoundEx();
+        this.familyComparisonValue = generateSoundEx(this.family);
     }
 
     public void setSuffix(final String suffix) {
@@ -226,7 +230,12 @@ public class JpaNameImpl extends AbstractNameImpl {
     }
 
     @Override
-    public String getComparisonValue() {
-        return this.comparisonValue;
+    public String getGivenComparisonValue() {
+        return this.givenComparisonValue;
+    }
+
+    @Override
+    public String getFamilyComparisonValue() {
+        return this.familyComparisonValue;
     }
 }

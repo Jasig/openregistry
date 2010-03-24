@@ -76,7 +76,19 @@ public interface Name extends Serializable {
      * Other options include:
      * http://en.wikipedia.org/wiki/Double_Metaphone
      * 
-     * @return the value.  CAN ONLY be NULL if neither Given or Family name is not set.
+     * @return the value.  CAN ONLY be NULL if Given is not set.
      */
-    String getComparisonValue();
+    String getGivenComparisonValue();
+
+    /**
+     * Returns a value to determine similarities.  One example is the SoundEx algorithm is defined here:
+     *
+     * http://en.wikipedia.org/wiki/Soundex
+     *
+     * Other options include:
+     * http://en.wikipedia.org/wiki/Double_Metaphone
+     *
+     * @return the value.  CAN ONLY be NULL if Given is not set.
+     */
+    String getFamilyComparisonValue();
 }
