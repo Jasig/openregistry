@@ -32,7 +32,7 @@ import org.openregistry.core.domain.sor.SorSponsor;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public interface Role extends RoleInfo, Serializable, DateRange {
+public interface Role extends RoleInfo, Serializable, DateRange, Comparable<Role> {
 
     Set<Address> getAddresses();
 
@@ -60,6 +60,23 @@ public interface Role extends RoleInfo, Serializable, DateRange {
      * @return true if the role is terminated, false otherwise, i.e. the role is active
      */
     boolean isTerminated();
+
+    /**
+     * Returns true if the start date has not occurred yet.
+     * <p>
+     * Note, a terminated role will still be denoted as not yet active.
+     * 
+     * @return true if the start date has not occurred yet.  False otherwise.
+     */
+    boolean isNotYetActive();
+
+    /**
+     * Returns true if the current date is between the start and end date, or after the start date if there is no
+     * end date yet.
+     *
+     * @return true if its active, false otherwise.
+     */
+    boolean isActive();
 
     /**
      * Returns the Sor role identifier, if one has been set.  If there is a calculated role, this MUST be set.
