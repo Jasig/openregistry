@@ -27,9 +27,15 @@
 <head>
     <link rel="stylesheet" href="<spring:theme code='styleSheet1'/>" type="text/css"/>
     <link rel="stylesheet" href="<spring:theme code='styleSheet2'/>" type="text/css"/>
+    <link rel="stylesheet" href="<c:url value="/css/ui-lightness/jquery-ui-1.8rc3.custom.css" />" />
+
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
     <tiles:useAttribute id="key" name="titleCode"/>
     <title>OpenRegistry <spring:message code="${key}" /> </title>
+    <script type="text/javascript" src="<c:url value="/js/jquery-1.4.1.js" /> "></script>
+    <script type="text/javascript" src="<c:url value="/js/jquery-ui-1.8rc3.custom.min.js" />"></script>
+
 </head>
 <body class="openregistry" id="update">
 

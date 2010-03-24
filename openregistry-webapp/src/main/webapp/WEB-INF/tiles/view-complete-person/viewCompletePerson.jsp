@@ -31,7 +31,35 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<form:form modelAttribute="person">
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    $('#activationKeyLink').click(function() {
+        $.post('<c:url value="/api/v1/people/${preferredPersonIdentifierType}/${person.primaryIdentifiersByType[preferredPersonIdentifierType].value}/activation" />', {}, function(data, textStatus, XMLHttpRequest) {
+            var location = XMLHttpRequest.getResponseHeader('Location');
+            var activationKey = location.substring(location.lastIndexOf("/")+1);
+
+            $('#activationKeyDialog').html(activationKey);
+            $('#activationKeyDialog').dialog({
+                show: 'slide',
+			    modal: true,
+			    buttons: {
+				    Ok: function() {
+					    $(this).dialog('close');
+				    }
+			    }
+		    });
+        })
+    })
+
+    $('.accordion').accordion({collapsible: true});
+});
+</script>
+
+<div id="calculated-person">
+    <div style="text-align:center;">
+        <a href="#" id="activationKeyLink" class="button"><button>Generate New Activation Key</button></a>
+    </div>
+    <div id="activationKeyDialog" title="Activation Key"></div>
     <fieldset id="selectSorPerson">
         <legend><span><spring:message code="viewCompletePersonPage.heading"/></span></legend>
         <br/>
@@ -134,7 +162,7 @@
                     </table>
         </c:forEach>
         </div>
-
+</div>
 		</fieldset>
 		</fieldset>
 
@@ -142,4 +170,3 @@
 			<input style="float:left;" type="submit" id="fm-newSearch-submit1" name="_eventId_submitNewSearch" class="btn-submit" value="New Search" tabindex="11"/>
 		</div>
 
-</form:form>
