@@ -92,7 +92,13 @@ public class LogAspect {
         try {
 
             if (log.isInfoEnabled()) {
-                final Object arg0  = proceedingJoinPoint.getArgs()[0];
+                final Object arg0;
+
+                if (proceedingJoinPoint.getArgs().length > 0) {
+                    arg0 = proceedingJoinPoint.getArgs()[0];
+                } else {
+                    arg0 = null;
+                }
                 final String argumentString = arg0 == null ? "null" : arg0.toString();
                 log.info(this.messageSourceAccessor.getMessage(TRACE_METHOD_BEGIN, new Object[] {methodName, argumentString}, Locale.getDefault()));
             }
