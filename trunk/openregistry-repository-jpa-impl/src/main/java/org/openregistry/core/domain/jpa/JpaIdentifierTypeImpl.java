@@ -50,9 +50,6 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
     @Column(name="name",nullable = false, length = 100)
     private String name;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="type")
-    private List<JpaIdentifierImpl> identifiers = new ArrayList<JpaIdentifierImpl>();
-
     @Column(name="format", nullable = false, length=100)
     private String format;
 
@@ -115,9 +112,5 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 
     public String toString() {
         return this.name;
-    }
-
-    public List<JpaIdentifierImpl> getIdentifiers() {
-        return this.identifiers;
     }
 }

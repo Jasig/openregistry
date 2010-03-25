@@ -49,7 +49,7 @@
     <context:component-scan base-package="org.openregistry.core.repository"/>
     <context:component-scan base-package="org.openregistry.integration.support"/>
 
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:annotation-driven transaction-manager="transactionManager" mode="aspectj" />
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
     <jee:jndi-lookup id="hibernateDialect" jndi-name="conf/HibernateDialect" expected-type="java.lang.String"/>
     <jee:jndi-lookup id="preferredPersonIdentifierType" jndi-name="conf/restapi/preferredPersonIdentifierType" expected-type="java.lang.String" />
@@ -85,7 +85,7 @@
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
-          p:entityManagerFactory-ref="entityManagerFactory"/>
+        p:entityManagerFactory-ref="entityManagerFactory"/>
 
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
