@@ -531,6 +531,7 @@ public class DefaultPersonService implements PersonService {
         return true;
     }
 
+    @Transactional
     protected List<PersonMatch> createMatches(final List<Person> people) {
         final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
         for (final Person person : people) {
@@ -541,6 +542,7 @@ public class DefaultPersonService implements PersonService {
         return personMatches;
     }
 
+    @Transactional
     protected Person recalculatePersonBiodemInfo(final Person person, final SorPerson sorPerson, final RecalculationType recalculationType, boolean mistake) {
         final List<SorPerson> sorPersons = this.personRepository.getSoRRecordsForPerson(person);
 
@@ -586,6 +588,7 @@ public class DefaultPersonService implements PersonService {
      * @param person
      * @param sorPersons
      */
+    @Transactional
     protected void copySorNamesToPerson(final Person person, final List<SorPerson> sorPersons) {
         person.getNames().clear();
         
@@ -613,6 +616,7 @@ public class DefaultPersonService implements PersonService {
      * @param reconciliationCriteria the original search criteria.
      * @return the newly saved Person.
      */
+    @Transactional
     protected Person saveSorPersonAndConvertToCalculatedPerson(final ReconciliationCriteria reconciliationCriteria) {
         if (!StringUtils.hasText(reconciliationCriteria.getSorPerson().getSorId())) {
             reconciliationCriteria.getSorPerson().setSorId(this.identifierGenerator.generateNextString());
@@ -635,6 +639,7 @@ public class DefaultPersonService implements PersonService {
         return newPerson;
     }
 
+    @Transactional
     protected Person addSorPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) {
         final SorPerson sorPerson = reconciliationCriteria.getSorPerson();
         final SorPerson registrySorPerson = this.findByPersonIdAndSorIdentifier(person.getId(), sorPerson.getSourceSor());
@@ -652,6 +657,7 @@ public class DefaultPersonService implements PersonService {
         return recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
     }
 
+    @Transactional
     protected Person addNewSorPersonAndLinkWithMatchedCalculatedPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
         Assert.isTrue(result.getMatches().size() == 1, "ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
 

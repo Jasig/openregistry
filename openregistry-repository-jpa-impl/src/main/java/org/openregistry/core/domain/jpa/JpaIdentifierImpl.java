@@ -84,8 +84,6 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
         this(person);
         this.type = jpaIdentifierType;
         this.value = value;
-
-        this.type.getIdentifiers().add(this);
     }
 
     protected Long getId() {
