@@ -75,7 +75,7 @@ public class JpaNameImpl extends AbstractNameImpl {
     @Column(name="name_source_id", nullable=false)
     private Long sourceId;
 
-    @Column(name="given_comparison_value",nullable = false,length=100)
+    @Column(name="given_comparison_value",nullable = true,length=100)
     private String givenComparisonValue;
 
     @Column(name="family_comparison_value",nullable = true,length=100)
