@@ -43,6 +43,7 @@ import java.util.*;
  * @since 1.0.0
  */
 @Named("personService")
+@Transactional(propagation=Propagation.REQUIRED, rollbackFor = Exception.class)
 public class DefaultPersonService implements PersonService {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -116,12 +117,10 @@ public class DefaultPersonService implements PersonService {
         this.officialNameFieldElector = officialNameFieldElector;
     }
 
-    @Transactional
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
     }
 
-    @Transactional
     public Person findPersonByIdentifier(final String identifierType, final String identifierValue) {
         try {
             return this.personRepository.findByIdentifier(identifierType, identifierValue);
@@ -130,7 +129,6 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
-    @Transactional
     public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier) {
         try {
             return this.personRepository.findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
@@ -140,7 +138,6 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
-    @Transactional
     public SorPerson findBySorIdentifierAndSource(final String sorSource, final String sorId) {
         try {
             return this.personRepository.findBySorIdentifierAndSource(sorSource, sorId);
@@ -150,14 +147,12 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Override
-    @Transactional
     public List<SorPerson> getSorPersonsFor(final Person person) {
         Assert.notNull(person);
         return this.personRepository.getSoRRecordsForPerson(person);
     }
 
     @Override
-    @Transactional
     public List<SorPerson> getSorPersonsFor(final Long personId) {
         return getSorPersonsFor(this.personRepository.findByInternalId(personId));
     }
@@ -165,7 +160,6 @@ public class DefaultPersonService implements PersonService {
     /**
      * This does not explicitly delete the names because its assumed the recalculation will clean it up.
      */
-    @Transactional
     public boolean deleteSystemOfRecordPerson(final SorPerson sorPerson, final boolean mistake, final String terminationTypes) {
         Assert.notNull(sorPerson, "sorPerson cannot be null.");
         final String terminationTypeToUse = terminationTypes != null ? terminationTypes : Type.TerminationTypes.UNSPECIFIED.name();
@@ -211,7 +205,6 @@ public class DefaultPersonService implements PersonService {
         return true;
     }
 
-    @Transactional
     public boolean deleteSystemOfRecordPerson(final String sorSource, final String sorId, final boolean mistake, final String terminationTypes) {
         Assert.notNull(sorSource, "sorSource cannot be null.");
         Assert.notNull(sorId, "sorId cannot be null.");
@@ -220,7 +213,6 @@ public class DefaultPersonService implements PersonService {
         return sorPerson != null && deleteSystemOfRecordPerson(sorPerson, mistake, terminationTypes);
     }
 
-    @Transactional
     public boolean deleteSystemOfRecordRole(final SorPerson sorPerson, final SorRole sorRole, final boolean mistake, final String terminationTypes) throws IllegalArgumentException {
         Assert.notNull(sorRole, "sorRole cannot be null.");
         Assert.notNull(sorPerson, "soPerson cannot be null.");
@@ -246,7 +238,6 @@ public class DefaultPersonService implements PersonService {
         return true;
     }
 
-    @Transactional
     public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
         Assert.notNull(sorPerson, "SorPerson cannot be null.");
         Assert.notNull(sorRole, "SorRole cannot be null.");
@@ -273,7 +264,6 @@ public class DefaultPersonService implements PersonService {
         return new GeneralServiceExecutionResult<SorRole>(newSorRole);
     }
 
-    @Transactional
     public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
 
@@ -301,7 +291,6 @@ public class DefaultPersonService implements PersonService {
         throw new ReconciliationException(result);
     }
 
-    @Transactional
     public ServiceExecutionResult<Person> forceAddPerson(final ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException, IllegalStateException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null.");
         final ReconciliationResult result = this.criteriaCache.get(reconciliationCriteria);
@@ -315,7 +304,6 @@ public class DefaultPersonService implements PersonService {
         return new GeneralServiceExecutionResult<Person>(saveSorPersonAndConvertToCalculatedPerson(reconciliationCriteria));
     }
 
-    @Transactional
     public ServiceExecutionResult<Person> addPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) throws IllegalArgumentException, IllegalStateException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null.");
         Assert.notNull(person, "person cannot be null.");
@@ -337,7 +325,6 @@ public class DefaultPersonService implements PersonService {
         throw new IllegalStateException("Person not found in ReconciliationResult.");
     }
 
-    @Transactional
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
         if (StringUtils.hasText(searchCriteria.getIdentifierValue())) {
             final String identifierValue = searchCriteria.getIdentifierValue();
@@ -367,7 +354,6 @@ public class DefaultPersonService implements PersonService {
      * @param sorPerson the person to update.
      * @return serviceExecutionResult.
      */
-    @Transactional
     public ServiceExecutionResult<SorPerson> updateSorPerson(final SorPerson sorPerson) {
         final Set validationErrors = this.validator.validate(sorPerson);
 
@@ -391,7 +377,6 @@ public class DefaultPersonService implements PersonService {
         return new GeneralServiceExecutionResult<SorPerson>(savedSorPerson);
     }
 
-    @Transactional
     public ServiceExecutionResult<SorRole> updateSorRole(final SorPerson sorPerson, final SorRole sorRole) {
         Assert.notNull(sorPerson, "sorPerson cannot be null.");
         Assert.notNull(sorRole, "sorRole cannot be null.");
@@ -413,7 +398,6 @@ public class DefaultPersonService implements PersonService {
         return new GeneralServiceExecutionResult<SorRole>(savedSorRole);
     }
 
-    @Transactional
     public boolean removeSorName(SorPerson sorPerson, Long nameId) {
         SorName name = sorPerson.findNameByNameId(nameId);
         if (name == null) return false;
@@ -433,7 +417,6 @@ public class DefaultPersonService implements PersonService {
      * @param toPerson   person receiving sor records.
      * @return Result of move. Validation errors if they occurred or the Person receiving sor records.
      */
-    @Transactional
     public boolean moveAllSystemOfRecordPerson(Person fromPerson, Person toPerson) {
         // get the list of sor person records that will be moving.
         List<SorPerson> sorPersonList = personRepository.getSoRRecordsForPerson(fromPerson);
@@ -456,7 +439,6 @@ public class DefaultPersonService implements PersonService {
      * @param toPerson   person receiving sor record.
      * @return Success or failure.
      */
-    @Transactional
     public boolean moveSystemOfRecordPerson(Person fromPerson, Person toPerson, SorPerson movingSorPerson) {
         movingSorPerson.setPersonId(toPerson.getId());
         updateCalculatedPersonsOnMoveOfSor(toPerson, fromPerson, movingSorPerson);
@@ -471,7 +453,6 @@ public class DefaultPersonService implements PersonService {
      * @param movingSorPerson record that is moving.
      * @return Success or failure.
      */
-    @Transactional
     public boolean moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson movingSorPerson) {
         // create the new person in the registry
         // Person toPerson = constructPersonFromSorData(movingSorPerson);
@@ -531,7 +512,6 @@ public class DefaultPersonService implements PersonService {
         return true;
     }
 
-    @Transactional
     protected List<PersonMatch> createMatches(final List<Person> people) {
         final List<PersonMatch> personMatches = new ArrayList<PersonMatch>();
         for (final Person person : people) {
@@ -542,7 +522,6 @@ public class DefaultPersonService implements PersonService {
         return personMatches;
     }
 
-    @Transactional
     protected Person recalculatePersonBiodemInfo(final Person person, final SorPerson sorPerson, final RecalculationType recalculationType, boolean mistake) {
         final List<SorPerson> sorPersons = this.personRepository.getSoRRecordsForPerson(person);
 
@@ -588,7 +567,6 @@ public class DefaultPersonService implements PersonService {
      * @param person
      * @param sorPersons
      */
-    @Transactional
     protected void copySorNamesToPerson(final Person person, final List<SorPerson> sorPersons) {
         person.getNames().clear();
         
@@ -616,7 +594,6 @@ public class DefaultPersonService implements PersonService {
      * @param reconciliationCriteria the original search criteria.
      * @return the newly saved Person.
      */
-    @Transactional
     protected Person saveSorPersonAndConvertToCalculatedPerson(final ReconciliationCriteria reconciliationCriteria) {
         if (!StringUtils.hasText(reconciliationCriteria.getSorPerson().getSorId())) {
             reconciliationCriteria.getSorPerson().setSorId(this.identifierGenerator.generateNextString());
@@ -639,7 +616,6 @@ public class DefaultPersonService implements PersonService {
         return newPerson;
     }
 
-    @Transactional
     protected Person addSorPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) {
         final SorPerson sorPerson = reconciliationCriteria.getSorPerson();
         final SorPerson registrySorPerson = this.findByPersonIdAndSorIdentifier(person.getId(), sorPerson.getSourceSor());
@@ -657,7 +633,6 @@ public class DefaultPersonService implements PersonService {
         return recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
     }
 
-    @Transactional
     protected Person addNewSorPersonAndLinkWithMatchedCalculatedPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
         Assert.isTrue(result.getMatches().size() == 1, "ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
 

@@ -48,14 +48,19 @@
     <context:component-scan base-package="org.openregistry.core"/>
     <context:component-scan base-package="org.openregistry.core.repository"/>
     <context:component-scan base-package="org.openregistry.integration.support"/>
+<!--    <context:load-time-weaver aspectj-weaving="on" /> -->
 
-    <tx:annotation-driven transaction-manager="transactionManager" mode="aspectj" />
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
     <jee:jndi-lookup id="hibernateDialect" jndi-name="conf/HibernateDialect" expected-type="java.lang.String"/>
     <jee:jndi-lookup id="preferredPersonIdentifierType" jndi-name="conf/restapi/preferredPersonIdentifierType" expected-type="java.lang.String" />
 
     <!-- To create proxies for IdentifierChangeAspect which itself is being 'component-scanned' (for now; and others later) -->
-    <aop:aspectj-autoproxy/>
+    <aop:aspectj-autoproxy />
+
+    <bean id="annotationTransactionAspect" factory-method="aspectOf"
+        class="org.springframework.transaction.aspectj.AnnotationTransactionAspect">
+        <property name="transactionManager" ref="transactionManager"></property>
+    </bean>
 
     <bean name="SoRSpecificationThreadLocalAspect"
         class="org.openregistry.aspect.SoRSpecificationThreadLocalAspect"
