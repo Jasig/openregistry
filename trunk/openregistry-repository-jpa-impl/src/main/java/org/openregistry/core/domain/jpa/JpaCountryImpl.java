@@ -54,9 +54,6 @@ public class JpaCountryImpl extends Entity implements Country {
     @OneToMany(cascade= CascadeType.ALL, mappedBy="country",targetEntity = JpaRegionImpl.class)
     private List<Region> regions;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="country")
-    private List<JpaAddressImpl> addresses;
-
     public Long getId() {
         return this.id;
     }

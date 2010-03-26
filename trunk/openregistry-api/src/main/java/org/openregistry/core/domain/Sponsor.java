@@ -56,19 +56,4 @@ public interface Sponsor extends Serializable {
      * @param id the Sponsor ID value.  CANNOT be null.
      */
     void setSponsorId(Long id);
-    
-    /**
-     * Returns the set of roles for this Sponsor
-     * 
-     * @return roles
-     */
-    Set<Role> getRoles();
-    
-    /**
-     * Add a role to this Sponsor
-     * 
-     * @param role role to be added
-     */
-    void addRole(Role role);
-
 }

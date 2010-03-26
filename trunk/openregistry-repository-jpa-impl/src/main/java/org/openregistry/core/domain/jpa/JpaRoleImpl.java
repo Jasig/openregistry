@@ -210,7 +210,7 @@ public final class  JpaRoleImpl extends Entity implements Role {
 
     protected void addSponsor(final SorSponsor sorSponsor) {
         if (sponsor == null) {
-            this.sponsor = new JpaSponsorImpl(this);
+            this.sponsor = new JpaSponsorImpl();
         }
         this.sponsor.setSponsorId(sorSponsor.getSponsorId());
         this.sponsor.setType(sorSponsor.getType());

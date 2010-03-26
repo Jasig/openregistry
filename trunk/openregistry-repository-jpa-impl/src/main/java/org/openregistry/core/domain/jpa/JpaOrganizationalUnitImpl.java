@@ -64,9 +64,6 @@ public class JpaOrganizationalUnitImpl extends Entity implements OrganizationalU
     @JoinColumn(name="parent_organizational_unit_id")
     private JpaOrganizationalUnitImpl organizationalUnit;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "organizationalUnit")
-    private List<JpaRoleInfoImpl> roleInfos = new ArrayList<JpaRoleInfoImpl>();
-
     public Long getId() {
         return this.id;
     }

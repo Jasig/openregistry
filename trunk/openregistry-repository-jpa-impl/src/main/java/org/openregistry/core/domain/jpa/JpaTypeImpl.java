@@ -51,40 +51,6 @@ public class JpaTypeImpl extends Entity implements Type {
     @Column(name="description",nullable = false, length=100)
     private String description;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="type")
-    private List<JpaAddressImpl> addresses;
-    
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="type")
-    private List<JpaNameImpl> names;
-
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="organizationalUnitType")
-    private List<JpaOrganizationalUnitImpl> organizationalUnits;
-
-    @OneToMany(fetch=FetchType.LAZY,mappedBy = "type")
-    private List<JpaEmailAddressImpl> emailAddresses;
-
-    @OneToMany(fetch=FetchType.LAZY,mappedBy="reason")
-    private List<JpaLeaveImpl> leaves;
-
-    @OneToMany(fetch=FetchType.LAZY,mappedBy="phoneType")
-    private List<JpaPhoneImpl> phoneTypes;
-
-    @OneToMany(fetch=FetchType.LAZY,mappedBy="addressType")
-    private List<JpaPhoneImpl> phoneAddressTypes;
-
-    @OneToMany(fetch=FetchType.LAZY,mappedBy="personStatus")
-    private List<JpaRoleImpl> rolePersonStatuses;
-
-    @OneToMany(fetch=FetchType.LAZY,mappedBy="affiliationType")
-    private List<JpaRoleInfoImpl> roleInfoAffiliationTypes;
-
-    @OneToMany(fetch=FetchType.LAZY,mappedBy="type")
-    private List<JpaUrlImpl> urls;
-
-    @OneToMany(fetch=FetchType.LAZY,mappedBy="terminationReason")
-    private List<JpaRoleImpl> roleTerminationTypes;
-
-
     public Long getId() {
         return this.id;
     }
@@ -96,6 +62,4 @@ public class JpaTypeImpl extends Entity implements Type {
     public String getDescription() {
         return this.description;
     }
-
-
 }
