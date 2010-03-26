@@ -57,15 +57,8 @@ public class JpaSponsorImpl extends Entity implements Sponsor {
     @Column(name="sponsor_id")
     private Long sponsorId;
 
-    @OneToMany(mappedBy = "sponsor", targetEntity = JpaRoleImpl.class)
-    private Set<Role> roles = new HashSet<Role>();
-
 	public JpaSponsorImpl() {
 		// nothing to do
-	}
-
-	public JpaSponsorImpl(final JpaRoleImpl role) {
-		this.roles.add(role);
 	}
 
 	protected Long getId() {
@@ -88,14 +81,5 @@ public class JpaSponsorImpl extends Entity implements Sponsor {
 	public void setType(final Type type) {
         Assert.isInstanceOf(JpaTypeImpl.class, type);
 	    this.sponsorType = (JpaTypeImpl)type;
-	}
-
-	public void addRole(final Role role) {
-        Assert.isInstanceOf(JpaRoleImpl.class, role);
-		this.roles.add(role);
-	}
-
-	public Set<Role> getRoles() {
-		return this.roles;
 	}
 }

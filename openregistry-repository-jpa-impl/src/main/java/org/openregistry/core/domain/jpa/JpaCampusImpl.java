@@ -52,12 +52,6 @@ public class JpaCampusImpl extends Entity implements Campus {
     @Column(name="name", length=100, nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="campus")
-    private List<JpaRoleInfoImpl> roleInfos;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "campus")
-    private List<JpaOrganizationalUnitImpl> organizationalUnits;
-
     public Long getId() {
         return this.id;
     }

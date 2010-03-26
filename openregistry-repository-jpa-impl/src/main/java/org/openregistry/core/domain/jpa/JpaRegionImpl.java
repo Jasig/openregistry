@@ -53,9 +53,6 @@ public class JpaRegionImpl extends Entity implements Region {
     @JoinColumn(name="country_id", nullable=false)
     private JpaCountryImpl country;
 
-    @OneToMany(mappedBy = "region", fetch = FetchType.LAZY)
-    private List<JpaAddressImpl> addresses;
-
     protected Long getId() {
         return this.id;
     }

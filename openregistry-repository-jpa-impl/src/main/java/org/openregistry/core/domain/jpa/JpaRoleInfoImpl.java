@@ -61,9 +61,6 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
     @Column(name="code",nullable = false,length = 5)
     private String code;
 
-    @OneToMany(mappedBy = "roleInfo")
-    private List<JpaRoleImpl> roles = new ArrayList<JpaRoleImpl>();
-
     public Long getId() {
         return this.id;
     }
