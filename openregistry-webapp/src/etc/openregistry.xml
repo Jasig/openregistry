@@ -51,7 +51,7 @@
 		name="conf/HibernateDialect"
 		override="false"
 		type="java.lang.String"
-		value="org.hibernate.dialect.MySQL5Dialect" />
+		value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 
     <Environment
         description=""
