@@ -51,6 +51,9 @@
             <class>org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorSponsorImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorUrlImpl</class>
+
+            <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+
             <properties>
                 <property name="hibernate.ejb.event.post-insert"
                           value="org.hibernate.envers.event.AuditEventListener" />
@@ -66,10 +69,13 @@
                           value="org.hibernate.envers.event.AuditEventListener" />
                 <property name="org.hibernate.envers.auditTablePrefix" value="aud_" />
                 <property name="org.hibernate.envers.auditTableSuffix" value="" />
+                <property name="hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider" />
+                <property name="hibernate.cache.use_minimal_puts" value="false" />
                 <property name="javax.persistence.validation.group.pre-insert" value="" />
                 <property name="javax.persistence.validation.group.pre-update" value="" />
                 <property name="javax.persistence.validation.group.pre-remove" value="" />
                 <property name="javax.persistence.validation.group.pre-persist" value="" />
             </properties>
         </persistence-unit>
+
 </persistence>

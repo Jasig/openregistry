@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 @javax.persistence.Entity(name="identifier_type")
 @Table(name="prd_identifier_types", uniqueConstraints= @UniqueConstraint(columnNames={"name"}))
 @Audited
+@Cacheable(true)
 public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 
     @Id
