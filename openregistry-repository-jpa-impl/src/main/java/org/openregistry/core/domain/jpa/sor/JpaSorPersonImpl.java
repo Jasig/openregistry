@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa.sor;
 
+import org.hibernate.annotations.*;
 import org.openregistry.core.domain.annotation.Gender;
 import org.openregistry.core.domain.annotation.Required;
 import org.openregistry.core.domain.annotation.RequiredSize;
@@ -32,13 +33,13 @@ import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -57,6 +58,7 @@ import java.util.*;
 @javax.persistence.Entity(name = "sorPerson")
 @Table(name = "prs_sor_persons", uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id", "person_id"}))
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prs_sor_persons", indexes = {@Index(name = "SOR_PERSON_SOURCE_AND_ID_INDEX", columnNames = {"source_sor_id", "id"})})
 public class JpaSorPersonImpl extends Entity implements SorPerson {
 
     protected static final Logger logger = LoggerFactory.getLogger(JpaSorPersonImpl.class);
