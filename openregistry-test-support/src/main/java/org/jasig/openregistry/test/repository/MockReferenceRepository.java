@@ -126,6 +126,10 @@ public final class MockReferenceRepository implements ReferenceRepository {
         return null;
     }
 
+    public RoleInfo getRoleInfoByOrganizationalUnitAndTitle(final OrganizationalUnit ou, final String title) {
+        return null;
+    }
+
     public Region getRegionByCodeAndCountryId(final String code, final String countryCode) {
         return null;
     }

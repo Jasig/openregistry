@@ -113,6 +113,11 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
     
     @Transactional
+    public RoleInfo getRoleInfoByOrganizationalUnitAndTitle(final OrganizationalUnit ou, final String title) {
+       	return (RoleInfo)this.entityManager.createQuery("select r from roleInfo r where r.organizationalUnit = :ou and r.title = :title order by r.title").setParameter("ou", ou).setParameter("title", title).getSingleResult();
+    }
+    
+    @Transactional
     public List<Region> getRegions() {
         return (List<Region>) this.entityManager.createQuery("select r from region r").getResultList();
     }

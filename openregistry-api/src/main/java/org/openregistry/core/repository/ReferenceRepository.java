@@ -76,6 +76,9 @@ public interface ReferenceRepository {
      */
     Region getRegionByCodeOrName(String code);
 
+    // TODO we need to revisit whether we actually need this or not.
+     RoleInfo getRoleInfoByOrganizationalUnitAndTitle(OrganizationalUnit ou, String title);
+
     /**
      * Find a Type based on the original {@link org.openregistry.core.domain.Type.DataTypes} and the value we're
      * looking for.  If the Type doesn't exist, an error should be thrown.
