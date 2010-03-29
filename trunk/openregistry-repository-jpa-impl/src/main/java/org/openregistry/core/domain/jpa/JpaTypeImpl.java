@@ -24,7 +24,6 @@ import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Unique constraints assumes that each data type/description combination only appears once
@@ -38,6 +37,7 @@ import java.util.List;
 	uniqueConstraints = @UniqueConstraint(columnNames = {"data_type","description"})
 )
 @Audited
+@Cacheable(true)
 public class JpaTypeImpl extends Entity implements Type {
 
     @Id
