@@ -38,11 +38,11 @@ import java.util.HashMap;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public final class JpaReconciliationCriteriaImpl implements ReconciliationCriteria {
+public class JpaReconciliationCriteriaImpl implements ReconciliationCriteria {
 
     @NotNull
     @Valid
-    private JpaSorPersonImpl sorPerson = new JpaSorPersonImpl();
+	protected JpaSorPersonImpl sorPerson = new JpaSorPersonImpl();
 
     @RequiredSize(property="reconciliation.identifiersByType")
     private Map<IdentifierType, String> identifiersByType = new HashMap<IdentifierType, String>();
