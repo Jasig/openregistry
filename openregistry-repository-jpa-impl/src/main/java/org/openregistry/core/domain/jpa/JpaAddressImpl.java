@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.*;
 import org.openregistry.core.domain.Address;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.Region;
@@ -28,6 +29,7 @@ import org.hibernate.envers.Audited;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
+import javax.persistence.Table;
 
 /**
  * UniqueConstraint assumes that there is only one entry for a given address type for each role
@@ -42,6 +44,7 @@ import javax.persistence.*;
 @Table(	name="prc_addresses",
 		uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prc_addresses", indexes = @Index(name = "ADDRESS_INDEX", columnNames = {"line1", "city", "postal_code"}))
 public class JpaAddressImpl extends Entity implements Address {
 
     @Id

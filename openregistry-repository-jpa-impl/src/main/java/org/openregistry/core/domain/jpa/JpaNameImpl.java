@@ -19,11 +19,15 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.*;
 import org.hibernate.envers.*;
 import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.Type;
 import org.springframework.util.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Unique Constraints assumes that only one official name and one preferred name per person id may exist
@@ -35,6 +39,11 @@ import javax.persistence.*;
 @Table(name="prc_names")
 
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prc_names", indexes = {
+        @Index(name = "NAME_GIVEN_INDEX", columnNames = "given_name"),
+        @Index(name = "NAME_FAMILY_INDEX", columnNames = "family_name"),
+        @Index(name = "NAME_GIVEN_FAMILY_INDEX", columnNames = {"given_name", "family_name"})
+})
 public class JpaNameImpl extends AbstractNameImpl {
 
     @Id

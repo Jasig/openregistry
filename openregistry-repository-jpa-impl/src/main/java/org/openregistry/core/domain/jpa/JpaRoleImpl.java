@@ -48,7 +48,7 @@ import javax.validation.Valid;
 @javax.persistence.Entity(name = "role")
 @Table(name = "prc_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"person_id","role_id"}))
 @Audited
-public final class  JpaRoleImpl extends Entity implements Role {
+public class JpaRoleImpl extends Entity implements Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_role_records_seq")
