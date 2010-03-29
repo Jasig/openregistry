@@ -19,6 +19,8 @@
 
 package org.openregistry.core.domain;
 
+import org.openregistry.core.domain.sor.SystemOfRecord;
+
 import java.io.Serializable;
 
 /**
@@ -71,5 +73,10 @@ public interface RoleInfo extends Serializable {
      */
     String getDisplayableName();
 
-    Long getId();
+    /**
+     * Returns the System of Record that this Role is associated with. CANNOT be NULL.
+     *
+     * @return the system of record.  CANNOT be NULL.
+     */
+    SystemOfRecord getSystemOfRecord();
 }

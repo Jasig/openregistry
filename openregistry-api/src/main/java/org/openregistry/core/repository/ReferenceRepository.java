@@ -53,11 +53,16 @@ public interface ReferenceRepository {
     List<RoleInfo> getRoleInfos();
 
     RoleInfo getRoleInfoById(Long id);
-    
-    RoleInfo getRoleInfoByCode(String code);
-    
-    RoleInfo getRoleInfoByOrganizationalUnitAndTitle(OrganizationalUnit ou, String title);
 
+    /**
+     * Retrieves a role info by its known code and the system of record its associated with.
+     *
+     * @param systemOfRecordId the String identifier for the system of record.
+     * @param code the code the role goes by.
+     * @return the role if found, otherwise null.
+     */
+    RoleInfo getRoleInfoByCode(String systemOfRecordId, String code);
+    
     List<Region> getRegions();
 
     Region getRegionByCodeAndCountryId(String code, String countryCode);

@@ -296,6 +296,7 @@ public class DefaultPersonServiceTests {
 
 		MockRole mockRole1 = new MockRole(2L);
 		mockRole1.setSorRoleId(sorRole1.getId());
+        mockRole1.setCode("FOO");
 		mockPerson.addRole(mockRole1);
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson, sorPerson1});
@@ -308,7 +309,7 @@ public class DefaultPersonServiceTests {
 		Person person = personRepository.findByIdentifier("NETID","testId");
 		assertNotNull(person);
 		assertEquals("Not just one role left",person.getRoles().size(),1);
-		assertEquals(person.getRoles().get(0).getId(),new Long(2));
+		assertEquals("FOO", person.getRoles().get(0).getCode());
     }
 
     // test delete SoR Person with it being a mistake (and only one SoR) (i.e. were the appropriate roles, and names removed? from the calculated person?)

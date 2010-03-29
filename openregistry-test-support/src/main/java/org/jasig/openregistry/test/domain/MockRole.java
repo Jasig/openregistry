@@ -42,6 +42,8 @@ public class MockRole extends Entity implements Role {
 
     private Date end;
 
+    private String code;
+
     public MockRole(final SorRole sorRole) {
         this.sorRoleId = sorRole.getId();
         this.end = sorRole.getEnd();
@@ -162,7 +164,7 @@ public class MockRole extends Entity implements Role {
 	}
 
 	public String getCode() {
-		return null;
+		return this.code;
 	}
 
 	public String getDisplayableName() {
@@ -182,7 +184,7 @@ public class MockRole extends Entity implements Role {
 	}
 
     public void setCode(String code) {
-        //NOP
+        this.code = code;
     }
 
     public void expireNow(final Type terminationReason, final boolean orphaned) {
@@ -221,5 +223,10 @@ public class MockRole extends Entity implements Role {
         result = 31 * result + (sorRoleId != null ? sorRoleId.hashCode() : 0);
         result = 31 * result + (end != null ? end.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public SystemOfRecord getSystemOfRecord() {
+        return null;
     }
 }

@@ -16,21 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package org.openregistry.core.web;
 
-import org.springframework.binding.convert.converters.StringToObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Region;
-import org.openregistry.core.domain.Campus;
 import org.openregistry.core.domain.RoleInfo;
+import org.openregistry.core.domain.sor.SystemOfRecordHolder;
 import org.openregistry.core.repository.ReferenceRepository;
-
-import java.util.List;
-import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -47,10 +37,11 @@ public final class RoleInfoConverter extends AbstractConverter {
 
     @Override
     protected Object toObject(final String string, final Class targetClass) throws Exception {
-        final RoleInfo roleInfo = getReferenceRepository().getRoleInfoById(Long.valueOf(string));
+        // TODO we need to make sure that this thing is actually available. It might not be yet.
+        final RoleInfo roleInfo = getReferenceRepository().getRoleInfoByCode(SystemOfRecordHolder.getCurrentSystemOfRecord().getSoR(), string);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("RoleInfoConverter: trying to convert to object: roleInfoID: "+ roleInfo.getId());
+            logger.debug("RoleInfoConverter: trying to convert to object: Role Info Code: "+ roleInfo.getCode());
         }
         
         return roleInfo;
@@ -58,6 +49,6 @@ public final class RoleInfoConverter extends AbstractConverter {
 
     @Override
     protected String getToStringInternal(final Object o) {
-        return ((RoleInfo) o).getId().toString();
+        return ((RoleInfo) o).getCode();
     }
 }

@@ -52,7 +52,8 @@ public final class RoleAction extends AbstractPersonServiceAction {
     }
 
     public SorRole initSorRole(final SorPerson sorPerson, final String roleInfoCode) {
-        final RoleInfo roleInfo = referenceRepository.getRoleInfoByCode(roleInfoCode);
+        // TODO was the source sor set already?
+        final RoleInfo roleInfo = referenceRepository.getRoleInfoByCode(sorPerson.getSourceSor(), roleInfoCode);
         return addRole(sorPerson, roleInfo);
     }
 
