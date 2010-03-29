@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
@@ -39,6 +40,7 @@ import java.util.Date;
 
 @Table(name="prc_identifiers", uniqueConstraints= @UniqueConstraint(columnNames={"identifier_t", "identifier"}))
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prc_identifiers", indexes = {@Index(name="ID_ID_TYPE_INDEX", columnNames = {"identifier", "identifier_t"}), @Index(name="ID_IDENTIFIER_INDEX", columnNames = {"identifier"})})
 public class JpaIdentifierImpl extends Entity implements Identifier {
 
     @Id

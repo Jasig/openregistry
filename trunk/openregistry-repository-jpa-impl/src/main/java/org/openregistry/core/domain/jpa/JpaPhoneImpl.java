@@ -19,11 +19,14 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.*;
 import org.hibernate.envers.*;
 import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 
 import javax.persistence.*;
+import javax.persistence.Table;
 
 /**
  * Unique constraints also assumes that one full phone number should not appear twice
@@ -40,6 +43,7 @@ import javax.persistence.*;
 				@UniqueConstraint(columnNames={"phone_t", "address_t", "role_record_id"})
 		})
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prc_phones", indexes = {@Index(name = "PHONE_INDEX", columnNames = {"country_code", "area_code", "phone_number"})})
 public class JpaPhoneImpl extends Entity implements Phone {
 
     @Id

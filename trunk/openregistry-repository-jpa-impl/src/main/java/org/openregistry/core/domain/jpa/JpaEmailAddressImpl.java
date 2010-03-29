@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
@@ -37,6 +38,7 @@ import javax.persistence.*;
 @Table(name="prc_emails") //,
 //		uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prc_emails", indexes = @Index(name="EMAIL_ADDRESS_INDEX", columnNames = "address"))
 public class JpaEmailAddressImpl extends Entity implements EmailAddress {
 
     @Id

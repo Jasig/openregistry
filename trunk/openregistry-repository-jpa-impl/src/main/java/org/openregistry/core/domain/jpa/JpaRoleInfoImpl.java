@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.OrganizationalUnit;
 import org.openregistry.core.domain.Campus;
@@ -36,6 +37,7 @@ import javax.persistence.*;
 @javax.persistence.Entity(name="roleInfo")
 @Table(name="prd_roles")
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prd_roles", indexes = @Index(name="ROLE_CODE_SOR_INDEX", columnNames = {"code", "system_of_record_id"}))
 public class JpaRoleInfoImpl extends Entity implements RoleInfo {
 
     @Id

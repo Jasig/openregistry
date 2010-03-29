@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.Country;
 import org.openregistry.core.domain.Region;
 import org.openregistry.core.domain.internal.Entity;
@@ -37,6 +38,10 @@ import java.util.ArrayList;
 @javax.persistence.Entity(name="country")
 @Table(name="ctd_countries")
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "ctd_countries", indexes = {
+        @Index(name="COUNTRY_NAME_INDEX", columnNames = "name"),
+        @Index(name="COUNTRY_CODE_INDEX", columnNames = "code")
+})
 public class JpaCountryImpl extends Entity implements Country {
 
     @Id

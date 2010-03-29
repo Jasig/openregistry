@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
@@ -40,6 +41,7 @@ import java.util.regex.Pattern;
 @Table(name="prd_identifier_types", uniqueConstraints= @UniqueConstraint(columnNames={"name"}))
 @Audited
 @Cacheable(true)
+@org.hibernate.annotations.Table(appliesTo = "prd_identifier_types", indexes = @Index(name="ID_TYPE_NAME_INDEX", columnNames = "name"))
 public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 
     @Id
@@ -47,7 +49,7 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prd_identifier_types_seq")
     @SequenceGenerator(name="prd_identifier_types_seq",sequenceName="prd_identifier_types_seq",initialValue=1,allocationSize=50)
     private Long id;
-
+    
     @Column(name="name",nullable = false, length = 100)
     private String name;
 

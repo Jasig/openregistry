@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
@@ -38,6 +39,7 @@ import javax.persistence.*;
 )
 @Audited
 @Cacheable(true)
+@org.hibernate.annotations.Table(indexes = {@Index(name="TYPE_INDEX", columnNames = "data_type"), @Index(name = "TYPE_DESCRIPTION_INDEX", columnNames = {"data_type", "description"})}, appliesTo = "ctx_data_types")
 public class JpaTypeImpl extends Entity implements Type {
 
     @Id
@@ -47,7 +49,7 @@ public class JpaTypeImpl extends Entity implements Type {
 
     @Column(name="data_type", nullable = false, length =100)
     private String dataType;
-
+    
     @Column(name="description",nullable = false, length=100)
     private String description;
 

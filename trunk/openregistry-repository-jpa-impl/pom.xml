@@ -162,15 +162,6 @@
             <type>jar</type>
             <scope>test</scope>
         </dependency>
-
-        <!-- lucene dependencies for First and Last Name purposes -->
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-spellchecker</artifactId>
-            <version>${lucene.version}</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -185,9 +176,20 @@
                         <path location="target/classes"/>
                     </classpath>
                     <jpaconfiguration persistenceunit="OpenRegistryPersistence" propertyfile="src/test/resources/hibernate.properties" />
-                    <hbm2ddl export="true" update="true" drop="false" create="true" outputfilename="or_schema.ddl" delimiter=";" format="true" haltonerror="false" console="true" />
+                    <hbm2ddl export="false" update="false" drop="false" create="true" outputfilename="or_schema.ddl" delimiter=";" format="true" haltonerror="true" console="true" />
                   </hibernatetool>
               </configuration>
+                <!--
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc14</artifactId>
+                        <version>10.2.0.1.0</version>
+                        <scope>compile</scope>
+                        <type>jar</type>
+                    </dependency>
+                </dependencies>
+                -->
             </plugin>
                     <!--
             <plugin>
