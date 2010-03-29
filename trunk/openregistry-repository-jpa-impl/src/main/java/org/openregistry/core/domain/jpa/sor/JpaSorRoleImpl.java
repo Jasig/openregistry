@@ -377,6 +377,11 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return this.emailAddresses;
     }
 
+    @Override
+    public SystemOfRecord getSystemOfRecord() {
+        return this.roleInfo.getSystemOfRecord();
+    }
+
     public void moveToPerson(JpaSorPersonImpl person){
         this.person = person;
     }

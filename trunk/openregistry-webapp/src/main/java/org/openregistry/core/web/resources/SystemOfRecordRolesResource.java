@@ -108,7 +108,7 @@ public class SystemOfRecordRolesResource {
         final SorRole sorRole = (SorRole) pair.get("role");
         final SorPerson sorPerson = (SorPerson) pair.get("person");
 
-        updateSorRoleWithIncomingData(sorRole, roleRepresentation);
+        updateSorRoleWithIncomingData(sorPerson, sorRole, roleRepresentation);
         ServiceExecutionResult<SorRole> result = this.personService.updateSorRole(sorPerson, sorRole);
         if (!result.getValidationErrors().isEmpty()) {
             //HTTP 400
@@ -171,8 +171,8 @@ public class SystemOfRecordRolesResource {
         return ret;
     }
 
-    private void updateSorRoleWithIncomingData(final SorRole sorRole, final RoleRepresentation roleRepresentation) {
-        validRoleInfoForCodeOrThrowBadDataException(roleRepresentation.roleCode);
+    private void updateSorRoleWithIncomingData(final SorPerson person, final SorRole sorRole, final RoleRepresentation roleRepresentation) {
+        validRoleInfoForCodeOrThrowBadDataException(person.getSourceSor(), roleRepresentation.roleCode);
         //TODO discuss with Scott how to 'update' role code???
         //sorRole.setCode(roleRepresentation.roleCode);
         copyBasicRoleDataFromIncomingRepresentation(sorRole, roleRepresentation);
@@ -198,7 +198,7 @@ public class SystemOfRecordRolesResource {
     }
 
     private SorRole buildSorRoleFrom(final SorPerson person, final RoleRepresentation roleRepresentation) {
-        RoleInfo roleInfo = validRoleInfoForCodeOrThrowBadDataException(roleRepresentation.roleCode);
+        RoleInfo roleInfo = validRoleInfoForCodeOrThrowBadDataException(person.getSourceSor(), roleRepresentation.roleCode);
         final SorRole sorRole = person.addRole(roleInfo);
         if (roleRepresentation.roleId != null) sorRole.setSorId(roleRepresentation.roleId);
         sorRole.setSourceSorIdentifier(person.getSourceSor());
@@ -210,8 +210,8 @@ public class SystemOfRecordRolesResource {
         return sorRole;
     }
 
-    private RoleInfo validRoleInfoForCodeOrThrowBadDataException(String roleCode) {
-        RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(roleCode);
+    private RoleInfo validRoleInfoForCodeOrThrowBadDataException(final String systemOfRecordId, final String roleCode) {
+        RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(systemOfRecordId, roleCode);
         if (roleInfo == null) {
             throw new WebApplicationException(
                     new RuntimeException(String.format("The role identified by role code [%s] does not exist", roleCode)), 400);

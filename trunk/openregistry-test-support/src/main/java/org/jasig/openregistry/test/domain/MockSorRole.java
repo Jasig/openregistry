@@ -23,6 +23,7 @@ import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.internal.*;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorSponsor;
+import org.openregistry.core.domain.sor.SystemOfRecord;
 
 import java.util.*;
 
@@ -240,4 +241,9 @@ public class MockSorRole extends Entity implements SorRole {
 
    public void standardizeNormalize(){
    }
+
+    @Override
+    public SystemOfRecord getSystemOfRecord() {
+        return null;
+    }
 }

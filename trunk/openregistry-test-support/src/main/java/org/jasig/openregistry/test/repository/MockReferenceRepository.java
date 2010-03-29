@@ -22,6 +22,7 @@ package org.jasig.openregistry.test.repository;
 import org.jasig.openregistry.test.domain.MockType;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.Type.DataTypes;
+import org.openregistry.core.domain.sor.SystemOfRecord;
 import org.openregistry.core.repository.ReferenceRepository;
 
 import java.util.List;
@@ -80,7 +81,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
         return null;
     }
 
-    public RoleInfo getRoleInfoByCode(final String code) {
+    public RoleInfo getRoleInfoByCode(final String systemOfRecordId, final String code) {
         return new RoleInfo() {
             public String getTitle() {
                 return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -113,11 +114,12 @@ public final class MockReferenceRepository implements ReferenceRepository {
             public Long getId() {
                 return null;  //To change body of implemented methods use File | Settings | File Templates.
             }
-        };
-    }
 
-    public RoleInfo getRoleInfoByOrganizationalUnitAndTitle(final OrganizationalUnit ou, final String title) {
-        return null;
+            @Override
+            public SystemOfRecord getSystemOfRecord() {
+                return null;
+            }
+        };
     }
 
     public List<Region> getRegions() {

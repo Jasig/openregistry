@@ -25,6 +25,7 @@ import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorSponsor;
 import org.hibernate.envers.Audited;
+import org.openregistry.core.domain.sor.SystemOfRecord;
 import org.springframework.util.Assert;
 
 import java.util.Date;
@@ -321,6 +322,11 @@ public final class  JpaRoleImpl extends Entity implements Role {
         }
 
         this.addSponsor(sorRole.getSponsor());
+    }
+
+    @Override
+    public SystemOfRecord getSystemOfRecord() {
+        return this.roleInfo.getSystemOfRecord();
     }
 
     @Override

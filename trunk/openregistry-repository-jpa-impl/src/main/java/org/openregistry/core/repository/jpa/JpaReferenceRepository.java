@@ -108,15 +108,10 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
     
     @Transactional
-    public RoleInfo getRoleInfoByCode(final String code) {
-    	return (RoleInfo)this.entityManager.createQuery("select r from roleInfo r where r.code = :code order by r.title").setParameter("code", code).getSingleResult();
+    public RoleInfo getRoleInfoByCode(final String systemOfRecordId, final String code) {
+    	return (RoleInfo) this.entityManager.createQuery("select r from roleInfo r where r.code = :code and r.systemOfRecord.sorId = :sorId").setParameter("code", code).setParameter("sorId", systemOfRecordId).getSingleResult();
     }
     
-    @Transactional
-    public RoleInfo getRoleInfoByOrganizationalUnitAndTitle(final OrganizationalUnit ou, final String title) {
-       	return (RoleInfo)this.entityManager.createQuery("select r from roleInfo r where r.organizationalUnit = :ou and r.title = :title order by r.title").setParameter("ou", ou).setParameter("title", title).getSingleResult();
-    }
-
     @Transactional
     public List<Region> getRegions() {
         return (List<Region>) this.entityManager.createQuery("select r from region r").getResultList();
@@ -161,7 +156,7 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     @Transactional
     public Type findType(final DataTypes type, final String value) {
         try {
-            return (Type) this.entityManager.createQuery("select r from type r where dataType=:dataType and description=:description").setParameter("dataType",type.name()).setParameter("description",value).getSingleResult();
+            return (Type) this.entityManager.createQuery("select r from type r where r.dataType=:dataType and r.description=:description").setParameter("dataType",type.name()).setParameter("description",value).getSingleResult();
         } catch (final NoResultException e) {
             throw new IllegalArgumentException(e);
         }

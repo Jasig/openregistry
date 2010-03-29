@@ -25,10 +25,10 @@ import org.openregistry.core.domain.Campus;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
+import org.openregistry.core.domain.jpa.sor.JpaSystemOfRecordImpl;
+import org.openregistry.core.domain.sor.SystemOfRecord;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @since 1.0
@@ -57,6 +57,10 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
     @ManyToOne(optional = false)
     @JoinColumn(name="affiliation_t")
     private JpaTypeImpl affiliationType;
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "system_of_record_id")
+    private JpaSystemOfRecordImpl systemOfRecord;
 
     @Column(name="code",nullable = false,length = 5)
     private String code;
@@ -95,5 +99,11 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
 
     public String toString(){
         return getId() != null ? getId().toString() : super.toString();
+    }
+
+    @Override
+    public SystemOfRecord getSystemOfRecord() {
+        return this.systemOfRecord;
+
     }
 }
