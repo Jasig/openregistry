@@ -74,14 +74,31 @@ public class JpaPersonImpl extends Entity implements Person {
     @Embedded
     private JpaActivationKeyImpl activationKey = new JpaActivationKeyImpl();
 
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "contact_email_id")
+    private JpaContactEmailAddressImpl emailAddress = new JpaContactEmailAddressImpl();
+
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "contact_phone_id")
+    private JpaContactPhoneImpl phoneNumber = new JpaContactPhoneImpl();
+
     public Long getId() {
         return this.id;
+    }
+
+    @Override
+    public EmailAddress getPreferredContactEmailAddress() {
+        return this.emailAddress;
+    }
+
+    @Override
+    public Phone getPreferredContactPhoneNumber() {
+        return this.phoneNumber;
     }
 
     public Set<? extends Name> getNames() {
     	return this.names;
     }
-
 
     public void addName(final SorName sorName) {
         Assert.isInstanceOf(JpaSorNameImpl.class, sorName);

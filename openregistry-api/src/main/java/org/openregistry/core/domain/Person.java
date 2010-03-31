@@ -184,4 +184,17 @@ public interface Person extends Serializable {
      */
     void removeCurrentActivationKey();
 
+    /**
+     * The preferred email by which the person wishes to be contacted.
+     *
+     * @return the email address the person wishes to be contacted by.  CAN be NULL.
+     */
+    EmailAddress getPreferredContactEmailAddress();
+
+    /**
+     * The preferred phone number by which the person wishes to be contacted.
+     *
+     * @return the phone number by which the person wishes to be called.  CAN be NULL.
+     */
+    Phone getPreferredContactPhoneNumber();
 }
