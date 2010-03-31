@@ -44,6 +44,10 @@ public class MockPerson implements Person {
 
     private Set<MockName> names = new HashSet<MockName>();
 
+    private MockEmailAddress mockEmailAddress = new MockEmailAddress();
+
+    private MockPhoneNumber mockPhoneNumber = new MockPhoneNumber();
+
     public MockPerson() {
         this("testId", false, false);
     }
@@ -78,6 +82,16 @@ public class MockPerson implements Person {
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    @Override
+    public EmailAddress getPreferredContactEmailAddress() {
+        return this.mockEmailAddress;
+    }
+
+    @Override
+    public Phone getPreferredContactPhoneNumber() {
+        return this.mockPhoneNumber;
     }
 
     public void addRole(final Role role) {

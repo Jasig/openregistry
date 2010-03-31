@@ -132,11 +132,11 @@ public class MockSorRole extends Entity implements SorRole {
 	}
 
 	public List<Phone> getPhones() {
-		return null;
+		return new ArrayList<Phone>();
 	}
 
 	public List<EmailAddress> getEmailAddresses() {
-		return null;
+		return new ArrayList<EmailAddress>();
 	}
 
 	public EmailAddress removeEmailAddressById(Long id) {

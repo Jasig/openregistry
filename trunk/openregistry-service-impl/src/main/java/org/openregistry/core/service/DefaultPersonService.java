@@ -66,7 +66,11 @@ public class DefaultPersonService implements PersonService {
 
     private FieldElector<SorName> officialNameFieldElector = new DefaultNameFieldSelector();
 
-    private enum RecalculationType {DELETE, ADD, UPDATE};
+    private FieldElector<EmailAddress> preferredContactEmailAddressFieldElector = new DefaultPreferredEmailContactFieldSelector();
+
+    private FieldElector<Phone> preferredContactPhoneNumberFieldElector = new DefaultPreferredPhoneContactFieldSelector();
+
+    private enum RecalculationType {DELETE, ADD, UPDATE}
 
     @Resource(name = "personFactory")
     private ObjectFactory<Person> personObjectFactory;
@@ -535,9 +539,36 @@ public class DefaultPersonService implements PersonService {
         final String gender = this.genderFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final SorName preferredName = this.preferredNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final SorName officialName = this.officialNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        final EmailAddress emailAddress = this.preferredContactEmailAddressFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        final Phone phone = this.preferredContactPhoneNumberFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
 
         person.setDateOfBirth(birthDate);
         person.setGender(gender);
+
+        if (emailAddress != null) {
+            person.getPreferredContactEmailAddress().setAddress(emailAddress.getAddress());
+            person.getPreferredContactEmailAddress().setAddressType(emailAddress.getAddressType());
+        } else {
+            person.getPreferredContactEmailAddress().setAddress(null);
+            person.getPreferredContactEmailAddress().setAddressType(null);
+        }
+
+        // TODO we should move this to the actual phone number class
+        if (phone != null) {
+            person.getPreferredContactPhoneNumber().setAddressType(phone.getAddressType());
+            person.getPreferredContactPhoneNumber().setAreaCode(phone.getAreaCode());
+            person.getPreferredContactPhoneNumber().setCountryCode(phone.getCountryCode());
+            person.getPreferredContactPhoneNumber().setExtension(phone.getExtension());
+            person.getPreferredContactPhoneNumber().setNumber(phone.getNumber());
+            person.getPreferredContactPhoneNumber().setPhoneType(phone.getPhoneType());
+        } else {
+            person.getPreferredContactPhoneNumber().setAddressType(null);
+            person.getPreferredContactPhoneNumber().setAreaCode(null);
+            person.getPreferredContactPhoneNumber().setCountryCode(null);
+            person.getPreferredContactPhoneNumber().setExtension(null);
+            person.getPreferredContactPhoneNumber().setNumber(null);
+            person.getPreferredContactPhoneNumber().setPhoneType(null);
+        }
 
         boolean preferred = false;
         boolean official = false;

@@ -24,6 +24,7 @@ import org.hibernate.envers.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import javax.persistence.Table;
@@ -145,12 +146,12 @@ public class JpaPhoneImpl extends Entity implements Phone {
 
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        if (this.countryCode != null && this.countryCode != "") {
+        if (StringUtils.hasText(this.countryCode)) {
         	builder.append("+");
         	builder.append(this.countryCode);
         	builder.append(" ");
         }
-        if (this.areaCode != null && this.areaCode != "") {
+        if (StringUtils.hasText(this.areaCode)) {
         	builder.append(this.areaCode);
         	builder.append(PHONE_SEP);
         }
@@ -161,7 +162,7 @@ public class JpaPhoneImpl extends Entity implements Phone {
         } else {
         	builder.append(this.number);
         }
-        if (this.extension != null && this.extension != "") {
+        if (StringUtils.hasText(this.extension)) {
         	builder.append(" x");
         	builder.append(this.extension);
         }

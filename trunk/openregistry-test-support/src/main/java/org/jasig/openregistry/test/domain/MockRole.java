@@ -114,11 +114,11 @@ public class MockRole extends Entity implements Role {
 	}
 
 	public Set<Phone> getPhones() {
-		return null;
+		return new HashSet<Phone>();
 	}
 
 	public Set<EmailAddress> getEmailAddresses() {
-		return null;
+		return new HashSet<EmailAddress>();
 	}
 
 	public EmailAddress addEmailAddress() {
