@@ -89,6 +89,14 @@ public class DefaultPersonService implements PersonService {
         this.reconciler = reconciler;
     }
 
+    public void setPreferredContactEmailAddressFieldElector(final FieldElector<EmailAddress> preferredContactEmailAddressFieldElector) {
+        this.preferredContactEmailAddressFieldElector = preferredContactEmailAddressFieldElector;
+    }
+
+    public void setPreferredContactPhoneNumberFieldElector(final FieldElector<Phone> preferredContactPhoneNumberFieldElector) {
+        this.preferredContactPhoneNumberFieldElector = preferredContactPhoneNumberFieldElector;
+    }
+
     public void setPersonObjectFactory(final ObjectFactory<Person> personObjectFactory) {
         this.personObjectFactory = personObjectFactory;
     }
