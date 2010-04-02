@@ -1,5 +1,6 @@
 package org.jasig.openregistry.test.domain;
 
+import org.openregistry.core.domain.ContactEmailAddress;
 import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
 
@@ -7,7 +8,7 @@ import org.openregistry.core.domain.Type;
  * @version $Revision$ $Date$
  * @since 0.1
  */
-public class MockEmailAddress implements EmailAddress {
+public class MockEmailAddress implements ContactEmailAddress {
 
     private Type type;
 
@@ -36,5 +37,22 @@ public class MockEmailAddress implements EmailAddress {
     @Override
     public void setAddressType(final Type type) {
         this.type = type;
+    }
+
+    @Override
+    public void clear() {
+        this.type = null;
+        this.address = null;
+    }
+
+    @Override
+    public void update(final EmailAddress emailAddress) {
+        if (emailAddress != null) {
+            this.type = emailAddress.getAddressType();
+            this.address = emailAddress.getAddress();
+            return;
+        }
+
+        clear();
     }
 }

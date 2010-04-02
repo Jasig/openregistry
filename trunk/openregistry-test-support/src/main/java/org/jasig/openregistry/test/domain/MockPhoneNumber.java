@@ -1,5 +1,6 @@
 package org.jasig.openregistry.test.domain;
 
+import org.openregistry.core.domain.ContactPhone;
 import org.openregistry.core.domain.Phone;
 import org.openregistry.core.domain.Type;
 
@@ -7,7 +8,7 @@ import org.openregistry.core.domain.Type;
  * @version $Revision$ $Date$
  * @since 0.1
  */
-public class MockPhoneNumber implements Phone {
+public class MockPhoneNumber implements ContactPhone {
 
     private Long id;
 
@@ -77,5 +78,30 @@ public class MockPhoneNumber implements Phone {
 
     public void setNumber(final String number) {
         this.number = number;
+    }
+
+    @Override
+    public void clear() {
+        this.number = null;
+        this.areaCode = null;
+        this.extension = null;
+        this.countryCode = null;
+        this.phoneType = null;
+        this.addressType = null;
+    }
+
+    @Override
+    public void update(final Phone phone) {
+        if (phone == null) {
+            clear();
+            return;
+        }
+
+        this.number = phone.getNumber();
+        this.areaCode = phone.getAreaCode();
+        this.extension = phone.getExtension();
+        this.countryCode = phone.getCountryCode();
+        this.phoneType = phone.getPhoneType();
+        this.addressType = phone.getAddressType();
     }
 }
