@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa;
 
 import org.hibernate.annotations.Index;
 import org.hibernate.envers.Audited;
+import org.openregistry.core.domain.ContactPhone;
 import org.openregistry.core.domain.Phone;
 import org.openregistry.core.domain.Type;
 import org.springframework.util.Assert;
@@ -18,7 +19,7 @@ import javax.persistence.*;
 @Table(name="prc_contact_phones")
 @Audited
 @org.hibernate.annotations.Table(appliesTo = "prc_contact_phones", indexes = {@Index(name = "CONTACT_PHONE_INDEX", columnNames = {"country_code", "area_code", "phone_number"})})
-public class JpaContactPhoneImpl implements Phone {
+public class JpaContactPhoneImpl implements ContactPhone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_contact_phones_seq")
@@ -136,5 +137,35 @@ public class JpaContactPhoneImpl implements Phone {
         	builder.append(this.extension);
         }
         return builder.toString();
+    }
+
+    @Override
+    public void clear() {
+        this.addressType = null;
+        this.areaCode = null;
+        this.countryCode = null;
+        this.extension = null;
+        this.number = null;
+        this.phoneType = null;
+
+    }
+
+    @Override
+    public void update(final Phone phone) {
+        if (phone == null) {
+            clear();
+            return;
+        }
+
+        Assert.isInstanceOf(JpaTypeImpl.class, phone.getAddressType());
+
+        this.addressType = (JpaTypeImpl) phone.getAddressType();
+        this.areaCode = phone.getAreaCode();
+        this.countryCode = phone.getCountryCode();
+        this.extension = phone.getExtension();
+        this.number = phone.getNumber();
+
+        Assert.isInstanceOf(JpaTypeImpl.class, phone.getPhoneType());
+        this.phoneType = (JpaTypeImpl) phone.getPhoneType();
     }
 }

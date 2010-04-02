@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa;
 
 import org.hibernate.annotations.Index;
 import org.hibernate.envers.Audited;
+import org.openregistry.core.domain.ContactEmailAddress;
 import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
 import org.springframework.util.Assert;
@@ -18,7 +19,7 @@ import javax.persistence.*;
 @Table(name="prc_contact_emails")
 @Audited
 @org.hibernate.annotations.Table(appliesTo = "prc_contact_emails", indexes = @Index(name="CONTACT_EMAIL_ADDRESS_INDEX", columnNames = "address"))
-public class JpaContactEmailAddressImpl implements EmailAddress {
+public class JpaContactEmailAddressImpl implements ContactEmailAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_contact_emails_seq")
@@ -62,5 +63,23 @@ public class JpaContactEmailAddressImpl implements EmailAddress {
         
         Assert.isInstanceOf(JpaTypeImpl.class, type);
         this.type = (JpaTypeImpl) type;
+    }
+
+    @Override
+    public void clear() {
+        this.type = null;
+        this.address = null;
+    }
+
+    @Override
+    public void update(final EmailAddress emailAddress) {
+        if (emailAddress == null) {
+            clear();
+            return;
+        }
+
+        this.address = emailAddress.getAddress();
+        Assert.isInstanceOf(JpaTypeImpl.class, emailAddress.getAddressType());
+        this.type = (JpaTypeImpl) emailAddress.getAddressType();
     }
 }

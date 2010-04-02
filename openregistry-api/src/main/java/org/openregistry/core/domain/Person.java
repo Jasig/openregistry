@@ -189,12 +189,12 @@ public interface Person extends Serializable {
      *
      * @return the email address the person wishes to be contacted by.  CAN be NULL.
      */
-    EmailAddress getPreferredContactEmailAddress();
+    ContactEmailAddress getPreferredContactEmailAddress();
 
     /**
      * The preferred phone number by which the person wishes to be contacted.
      *
      * @return the phone number by which the person wishes to be called.  CAN be NULL.
      */
-    Phone getPreferredContactPhoneNumber();
+    ContactPhone getPreferredContactPhoneNumber();
 }
