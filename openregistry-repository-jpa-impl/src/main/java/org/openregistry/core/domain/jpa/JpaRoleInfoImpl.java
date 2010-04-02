@@ -60,7 +60,7 @@ public class JpaRoleInfoImpl extends Entity implements RoleInfo {
     @JoinColumn(name="affiliation_t")
     private JpaTypeImpl affiliationType;
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=false, fetch = FetchType.LAZY)
     @JoinColumn(name = "system_of_record_id")
     private JpaSystemOfRecordImpl systemOfRecord;
 
