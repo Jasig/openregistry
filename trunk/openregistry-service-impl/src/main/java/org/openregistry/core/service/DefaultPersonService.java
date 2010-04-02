@@ -552,31 +552,8 @@ public class DefaultPersonService implements PersonService {
 
         person.setDateOfBirth(birthDate);
         person.setGender(gender);
-
-        if (emailAddress != null) {
-            person.getPreferredContactEmailAddress().setAddress(emailAddress.getAddress());
-            person.getPreferredContactEmailAddress().setAddressType(emailAddress.getAddressType());
-        } else {
-            person.getPreferredContactEmailAddress().setAddress(null);
-            person.getPreferredContactEmailAddress().setAddressType(null);
-        }
-
-        // TODO we should move this to the actual phone number class
-        if (phone != null) {
-            person.getPreferredContactPhoneNumber().setAddressType(phone.getAddressType());
-            person.getPreferredContactPhoneNumber().setAreaCode(phone.getAreaCode());
-            person.getPreferredContactPhoneNumber().setCountryCode(phone.getCountryCode());
-            person.getPreferredContactPhoneNumber().setExtension(phone.getExtension());
-            person.getPreferredContactPhoneNumber().setNumber(phone.getNumber());
-            person.getPreferredContactPhoneNumber().setPhoneType(phone.getPhoneType());
-        } else {
-            person.getPreferredContactPhoneNumber().setAddressType(null);
-            person.getPreferredContactPhoneNumber().setAreaCode(null);
-            person.getPreferredContactPhoneNumber().setCountryCode(null);
-            person.getPreferredContactPhoneNumber().setExtension(null);
-            person.getPreferredContactPhoneNumber().setNumber(null);
-            person.getPreferredContactPhoneNumber().setPhoneType(null);
-        }
+        person.getPreferredContactEmailAddress().update(emailAddress);
+        person.getPreferredContactPhoneNumber().update(phone);
 
         boolean preferred = false;
         boolean official = false;
