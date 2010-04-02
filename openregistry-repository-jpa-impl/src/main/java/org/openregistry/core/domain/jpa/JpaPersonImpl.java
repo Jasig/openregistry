@@ -87,12 +87,12 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     @Override
-    public EmailAddress getPreferredContactEmailAddress() {
+    public ContactEmailAddress getPreferredContactEmailAddress() {
         return this.emailAddress;
     }
 
     @Override
-    public Phone getPreferredContactPhoneNumber() {
+    public ContactPhone getPreferredContactPhoneNumber() {
         return this.phoneNumber;
     }
 

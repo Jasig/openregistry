@@ -85,12 +85,12 @@ public class MockPerson implements Person {
     }
 
     @Override
-    public EmailAddress getPreferredContactEmailAddress() {
+    public ContactEmailAddress getPreferredContactEmailAddress() {
         return this.mockEmailAddress;
     }
 
     @Override
-    public Phone getPreferredContactPhoneNumber() {
+    public ContactPhone getPreferredContactPhoneNumber() {
         return this.mockPhoneNumber;
     }
 
