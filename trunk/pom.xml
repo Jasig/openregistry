@@ -606,7 +606,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <ognl.version>2.7.3</ognl.version>
         <tiles.version>2.1.4</tiles.version>
         <jsp.version>2.0</jsp.version>
-        <hibernate.version>3.5.0-CR-2</hibernate.version>
+        <hibernate.version>3.5.0-Final</hibernate.version>
         <javassist.version>3.8.0.GA</javassist.version>
         <hsqldb.version>1.8.0.10</hsqldb.version>
         <jersey.version>1.1.4.1</jersey.version>
