@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package org.openregistry.core.domain.jpa.sor;
 
+import org.hibernate.annotations.Index;
 import org.hibernate.envers.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.annotation.*;
@@ -34,11 +34,9 @@ import javax.validation.constraints.*;
  * Unique constraints also assumes that one full phone number should not appear twice
  * Unique constraints assumes that each role has only one phone type per address
  *
- * Created by IntelliJ IDEA.
- * User: Nancy Mond
- * Date: Apr 7, 2009
- * Time: 2:49:19 PM
- * To change this template use File | Settings | File Templates.
+ * @author Nancy Mond
+ * @version $Revision$ $Date$
+ * @since 0.1
  */
 @javax.persistence.Entity(name="sorPhone")
 @Table(name="prs_phones",
@@ -47,7 +45,8 @@ import javax.validation.constraints.*;
 				@UniqueConstraint(columnNames={"phone_t", "address_t", "role_record_id"})
 		})
 @Audited
-public final class JpaSorPhoneImpl extends Entity implements Phone {
+@org.hibernate.annotations.Table(appliesTo = "prs_phones", indexes = @Index(name = "PRS_PHONE_ROLE_INDEX", columnNames = "role_record_id"))
+public class JpaSorPhoneImpl extends Entity implements Phone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_phones_seq")

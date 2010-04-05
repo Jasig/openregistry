@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa.sor;
 
+import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.AbstractNameImpl;
 import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
@@ -47,6 +48,7 @@ import java.io.Serializable;
 @javax.persistence.Entity(name="sorName")
 @Table(name="prs_names")
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prs_names", indexes = @Index(name = "PRS_NAME_PERSON_INDEX", columnNames = "sor_person_id"))
 public class JpaSorNameImpl implements SorName, Serializable {
 
     @Id

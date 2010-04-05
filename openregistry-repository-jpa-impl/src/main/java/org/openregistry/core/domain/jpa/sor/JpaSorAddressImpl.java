@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa.sor;
 
+import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.Address;
@@ -47,6 +48,7 @@ import javax.validation.constraints.NotNull;
 @javax.persistence.Entity(name="sorAddress")
 @Table(name="prs_addresses", uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prs_addresses", indexes = @Index(name = "PRS_ADDRESS_ROLE_INDEX", columnNames = "role_record_id"))
 public class JpaSorAddressImpl extends Entity implements Address {
 
     @Id
