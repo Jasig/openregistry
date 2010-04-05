@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa.sor;
 
+import org.hibernate.annotations.Index;
 import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
@@ -39,6 +40,7 @@ import java.util.Date;
 @javax.persistence.Entity(name="sorLoa")
 @Table(name="prs_leaves_of_absence")
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prs_leaves_of_absence", indexes = @Index(name = "PRS_LOA_ROLE_INDEX", columnNames = "role_record_id"))
 public class JpaSorLeaveImpl extends Entity implements Leave {
 
     @Id
