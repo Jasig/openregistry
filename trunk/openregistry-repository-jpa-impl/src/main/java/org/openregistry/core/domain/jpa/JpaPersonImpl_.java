@@ -17,6 +17,8 @@ public abstract class JpaPersonImpl_ {
 	public static volatile SingularAttribute<JpaPersonImpl, Date> dateOfBirth;
 	public static volatile SingularAttribute<JpaPersonImpl, String> gender;
 	public static volatile SingularAttribute<JpaPersonImpl, JpaActivationKeyImpl> activationKey;
+	public static volatile SingularAttribute<JpaPersonImpl, JpaContactEmailAddressImpl> emailAddress;
+	public static volatile SingularAttribute<JpaPersonImpl, JpaContactPhoneImpl> phoneNumber;
 
 }
 
