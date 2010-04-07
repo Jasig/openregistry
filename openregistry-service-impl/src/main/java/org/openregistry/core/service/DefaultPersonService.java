@@ -384,7 +384,7 @@ public class DefaultPersonService implements PersonService {
         final Person person = this.findPersonById(savedSorPerson.getPersonId());
         Assert.notNull(person, "person cannot be null.");
 
-        recalculatePersonBiodemInfo(person, sorPerson, RecalculationType.UPDATE, false);
+        recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
 
         return new GeneralServiceExecutionResult<SorPerson>(savedSorPerson);
     }
