@@ -24,8 +24,11 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
         version="2.0">
         <persistence-unit name="OpenRegistryPersistence" transaction-type="RESOURCE_LOCAL">
+            <class>org.openregistry.core.domain.jpa.JpaActivationKeyImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaAddressImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaCampusImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaContactEmailAddressImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaContactPhoneImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaCountryImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaEmailAddressImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaIdentifierImpl</class>
@@ -41,16 +44,17 @@
             <class>org.openregistry.core.domain.jpa.JpaSponsorImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaTypeImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaUrlImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorAddressImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorEmailAddressImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorLeaveImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorNameImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorPersonImpl</class>
-            <class>org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorPhoneImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorSponsorImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorUrlImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaSystemOfRecordImpl</class>
 
             <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 
