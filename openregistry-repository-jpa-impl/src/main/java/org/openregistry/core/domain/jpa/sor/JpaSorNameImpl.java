@@ -159,7 +159,7 @@ public class JpaSorNameImpl implements SorName, Serializable {
     public String getFormattedName(){
         final StringBuilder builder = new StringBuilder();
 
-        construct(builder, "", this.family, ",");
+        construct(builder, "", this.family, ", ");
         construct(builder, "", this.given, "");
 
         return builder.toString();
@@ -169,10 +169,10 @@ public class JpaSorNameImpl implements SorName, Serializable {
         final StringBuilder builder = new StringBuilder();
 
         if (this.prefix != null) construct(builder, "", this.prefix, " ");
-        construct(builder, "", this.given, " ");
-        if (this.middle != null) construct(builder, "", this.middle, " ");
-        if (this.family != null) construct(builder, "", this.family, " ");
-        if (this.suffix != null) construct(builder, ",", this.suffix, "");
+        construct(builder, "", this.given, "");
+        if (this.middle != null) construct(builder, " ", this.middle, "");
+        if (this.family != null) construct(builder, " ", this.family, "");
+        if (this.suffix != null && !this.suffix.isEmpty()) construct(builder, ", ", this.suffix, "");
 
         return builder.toString();
     }
@@ -184,7 +184,7 @@ public class JpaSorNameImpl implements SorName, Serializable {
         construct(builder, "", this.given, " ");
         construct(builder, "", this.middle, " ");
         construct(builder, "", this.family, "");
-        construct(builder, ",", this.suffix, "");
+        if (this.suffix != null && !this.suffix.isEmpty()) construct(builder, ", ", this.suffix, "");
 
         return builder.toString();
     }
