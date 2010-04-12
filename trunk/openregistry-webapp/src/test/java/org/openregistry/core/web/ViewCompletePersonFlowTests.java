@@ -113,7 +113,7 @@ public final class ViewCompletePersonFlowTests extends AbstractXmlFlowExecutionT
         when(person.getId()).thenReturn(1L);
         when(person.getOfficialName()).thenReturn(name);
         when(name.getLongFormattedName()).thenReturn("Test Name");
-        when(name.getFormattedName()).thenReturn("Test Name");
+        when(name.getFormattedName()).thenReturn("Name, Test");
         when(personService.findByPersonIdAndSorIdentifier(1L, "source")).thenReturn(sorPerson);
         when(personService.findPersonById(1L)).thenReturn(person);
         when(sorPerson.pickOutRole("roleCode")).thenReturn(sorRole);
