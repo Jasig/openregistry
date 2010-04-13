@@ -22,6 +22,7 @@ package org.openregistry.core.aspect;
 import org.apache.commons.lang.WordUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 
 /**
  * Changes the name suffix to confirm to particular cases when capitalization is set to normal.
@@ -30,6 +31,7 @@ import org.aspectj.lang.annotation.Around;
  * @version $Revision: $ $Date: $
  * @since 0.1
  */
+@Aspect
 public class NameSuffixAspect extends AbstractNameAspect {
 	
 	@Around("set(@org.openregistry.core.domain.normalization.NameSuffix * *)")
