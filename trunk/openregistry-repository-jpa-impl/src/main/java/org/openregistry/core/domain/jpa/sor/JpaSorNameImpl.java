@@ -27,6 +27,7 @@ import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.normalization.Capitalize;
 import org.openregistry.core.domain.normalization.FirstName;
 import org.openregistry.core.domain.normalization.LastName;
+import org.openregistry.core.domain.normalization.NameSuffix;
 import org.openregistry.core.domain.sor.SorName;
 import org.springframework.util.Assert;
 import org.hibernate.envers.Audited;
@@ -85,6 +86,7 @@ public class JpaSorNameImpl implements SorName, Serializable {
 
     @Column(name="suffix",nullable=true,length=5)
     @Capitalize(property = "name.suffix")
+    @NameSuffix
     private String suffix;
 
     @ManyToOne(optional = false)
