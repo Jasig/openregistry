@@ -22,23 +22,19 @@ package org.openregistry.core.aspect;
 import org.apache.commons.lang.WordUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 
 /**
- * Changes the last name to confirm to particular cases when capitalization is set to normal.  If its set to UPPER or
- * LOWER, this should be disabled.
+ * Changes the name suffix to confirm to particular cases when capitalization is set to normal.
+ * If its set to UPPER or LOWER, this should be disabled.
  *
- * @version $Revision$ $Date$
+ * @version $Revision: $ $Date: $
  * @since 0.1
  */
-@Aspect
-public final class LastNameAspect extends AbstractNameAspect {
+public class NameSuffixAspect extends AbstractNameAspect {
 	
-	final char[] delimiters = {' ', '-', '\'', '.'};
-
-    @Around("set(@org.openregistry.core.domain.normalization.LastName * *)")
-    public Object transformFieldValue(final ProceedingJoinPoint joinPoint) throws Throwable {
-        final String value = (String) joinPoint.getArgs()[0];
+	@Around("set(@org.openregistry.core.domain.normalization.NameSuffix * *)")
+	public Object transformFieldValue(final ProceedingJoinPoint joinPoint) throws Throwable {
+		final String value = (String) joinPoint.getArgs()[0];
 
         if (isDisabled() || value == null || value.isEmpty()) {
             return joinPoint.proceed();
@@ -47,14 +43,14 @@ public final class LastNameAspect extends AbstractNameAspect {
         final String overrideValue = getCustomMapping().get(value);
 
         if (overrideValue != null) {
-            return joinPoint.proceed(new Object[] {overrideValue});
+           return joinPoint.proceed(new Object[] {overrideValue});
         }
-
-        final String casifyValue = WordUtils.capitalizeFully(value, delimiters);
-
-        if (casifyValue.startsWith("Mc") && casifyValue.length() > 2) {
-            return joinPoint.proceed(new Object[] {"Mc" + WordUtils.capitalizeFully(casifyValue.substring(3), delimiters)});
-
+	        
+        final String casifyValue;
+        if (value.matches("^[IiVv]+$")) { //TODO Generalize II - VIII
+        	casifyValue = value.toUpperCase();
+        } else {
+        	casifyValue = WordUtils.capitalizeFully(value);
         }
 
         return joinPoint.proceed(new Object[] {casifyValue});

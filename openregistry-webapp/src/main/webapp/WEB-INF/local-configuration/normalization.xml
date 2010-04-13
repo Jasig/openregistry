@@ -33,6 +33,8 @@
             <map>
                 <entry key="name.given" value="NONE" />
                 <entry key="name.family" value="NONE" />
+                <entry key="name.suffix" value="NONE" />
+                <entry key="emailAddress.address" value="LOWER" />
             </map>
         </property>
     </bean>
@@ -45,6 +47,12 @@
 
     <bean name="lastNameAspect"
           class="org.openregistry.core.aspect.LastNameAspect"
+          factory-method="aspectOf">
+        <property name="disabled" value="true" />
+    </bean>
+    
+    <bean name="nameSuffixAspect"
+          class="org.openregistry.core.aspect.NameSuffixAspect"
           factory-method="aspectOf">
         <property name="disabled" value="true" />
     </bean>
