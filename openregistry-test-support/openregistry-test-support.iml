@@ -11,13 +11,14 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="openregistry-api" exported="" />
-    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.8" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.slf4j:jcl-over-slf4j:1.5.8" level="project" />
+    <orderEntry type="library" exported="" name="Maven: commons-codec:commons-codec:1.4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.11" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.slf4j:jcl-over-slf4j:1.5.11" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: log4j:log4j:1.2.15" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: javax.mail:mail:1.4" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: javax.jms:jms:1.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.slf4j:slf4j-log4j12:1.5.8" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.slf4j:slf4j-log4j12:1.5.11" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.6.8" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.6.8" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.inject:javax.inject:1" level="project" />
