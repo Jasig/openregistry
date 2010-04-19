@@ -26,6 +26,18 @@
     <orderEntry type="library" exported="" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-aspects:3.0.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-beans:3.0.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-core:3.0.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-asm:3.0.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-context:3.0.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-aop:3.0.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-expression:3.0.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-context-support:3.0.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-test:3.0.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-tx:3.0.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0-CR-1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.4-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.4-SNAPSHOT" level="project" />
   </component>
