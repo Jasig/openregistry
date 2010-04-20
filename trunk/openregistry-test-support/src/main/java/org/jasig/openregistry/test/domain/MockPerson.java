@@ -40,7 +40,7 @@ public class MockPerson implements Person {
 
 	private List<Role> roles = new ArrayList<Role>();
 
-    private long id = -1L;
+    private long id = 1L;
 
     private Set<MockName> names = new HashSet<MockName>();
 
