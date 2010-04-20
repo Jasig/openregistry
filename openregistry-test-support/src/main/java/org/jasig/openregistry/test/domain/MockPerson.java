@@ -40,7 +40,7 @@ public class MockPerson implements Person {
 
 	private List<Role> roles = new ArrayList<Role>();
 
-    private long id = 1L;
+    private long id = -1L;
 
     private Set<MockName> names = new HashSet<MockName>();
 
@@ -358,5 +358,13 @@ public class MockPerson implements Person {
     @Override
     public int hashCode() {
         return 31 * (int) (id ^ (id >>> 32));
+    }
+
+    @Override
+    public String toString() {
+        return "MockPerson{" +
+                "id=" + id +
+                ", identifierValue='" + identifierValue + '\'' +
+                '}';
     }
 }
