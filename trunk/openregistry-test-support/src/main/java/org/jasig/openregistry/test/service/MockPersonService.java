@@ -11,9 +11,11 @@ import org.openregistry.core.service.SearchCriteria;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
-import org.openregistry.core.service.GeneralServiceExecutionResult;
 
+import javax.validation.ConstraintViolation;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @since 1.0
@@ -66,8 +68,28 @@ public class MockPersonService implements PersonService {
     }
 
     @Override
-    public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(SorPerson sorPerson, SorRole sorRole) throws IllegalArgumentException {
-        return new GeneralServiceExecutionResult<SorRole>(sorRole);
+    public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(SorPerson sorPerson, final SorRole sorRole) throws IllegalArgumentException {
+        return new ServiceExecutionResult<SorRole>() {
+            @Override
+            public Date getExecutionDate() {
+                return null;
+            }
+
+            @Override
+            public boolean succeeded() {
+                return true;
+            }
+
+            @Override
+            public SorRole getTargetObject() {
+                return sorRole;
+            }
+
+            @Override
+            public Set<ConstraintViolation> getValidationErrors() {
+                return null;
+            }
+        };
     }
 
     @Override
