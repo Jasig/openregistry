@@ -11,6 +11,7 @@ import org.openregistry.core.service.SearchCriteria;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
+import org.openregistry.core.service.GeneralServiceExecutionResult;
 
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class MockPersonService implements PersonService {
 
     @Override
     public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(SorPerson sorPerson, SorRole sorRole) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return new GeneralServiceExecutionResult<SorRole>(sorRole);
     }
 
     @Override
