@@ -21,7 +21,7 @@
         <module>openregistry-support-tools</module>
     </modules>
     <name>Jasig OpenRegistry</name>
-    <description>Registry System</description>
+    <description>Identity Management Registry System</description>
     <inceptionYear>2009</inceptionYear>
     <url>http://www.ja-sig.org/wiki/display/OR/Home</url>
     <packaging>pom</packaging>
