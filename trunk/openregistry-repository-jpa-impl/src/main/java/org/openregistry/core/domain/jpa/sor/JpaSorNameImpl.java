@@ -71,7 +71,7 @@ public class JpaSorNameImpl implements SorName, Serializable {
     @NotNull
     @Size(min=1)
     @Column(name="given_name",nullable=false,length=100)
-    @Capitalize(property = "name.given")
+    //@Capitalize(property = "name.given")
     @FirstName
     private String given;
 
@@ -80,12 +80,12 @@ public class JpaSorNameImpl implements SorName, Serializable {
     private String middle;
 
     @Column(name="family_name",nullable=true,length=100)
-    @Capitalize(property = "name.family")
+    //@Capitalize(property = "name.family")
     @LastName
     private String family;
 
     @Column(name="suffix",nullable=true,length=5)
-    @Capitalize(property = "name.suffix")
+    //@Capitalize(property = "name.suffix")
     @NameSuffix
     private String suffix;
 
