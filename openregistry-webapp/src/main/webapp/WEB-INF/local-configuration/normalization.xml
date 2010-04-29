@@ -42,18 +42,18 @@
     <bean name="firstNameAspect"
           class="org.openregistry.core.aspect.FirstNameAspect"
           factory-method="aspectOf">
-        <property name="disabled" value="true" />
+        <property name="disabled" value="false" />
     </bean>
 
     <bean name="lastNameAspect"
           class="org.openregistry.core.aspect.LastNameAspect"
           factory-method="aspectOf">
-        <property name="disabled" value="true" />
+        <property name="disabled" value="false" />
     </bean>
     
     <bean name="nameSuffixAspect"
           class="org.openregistry.core.aspect.NameSuffixAspect"
           factory-method="aspectOf">
-        <property name="disabled" value="true" />
+        <property name="disabled" value="false" />
     </bean>
 </beans>

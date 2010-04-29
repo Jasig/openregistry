@@ -23,8 +23,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import org.openregistry.core.domain.jpa.sor.JpaSorPersonImpl;
 import org.openregistry.core.domain.sor.SorName;
-
-import static org.junit.Assert.*;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,6 +32,7 @@ import static org.junit.Assert.*;
  * Time: 3:55:59 PM
  * To change this template use File | Settings | File Templates.
  */
+@ContextConfiguration(locations = {"classpath:test-capitalization-context.xml"})
 public class CapitalizationTests extends TestCase {
 
     @Test
@@ -43,7 +43,7 @@ public class CapitalizationTests extends TestCase {
 
         assertEquals("Given", name.getGiven());
     }
-
+    
     @Test
     public void testFirstNameCapitalizationNull() {
         final JpaSorPersonImpl person = new JpaSorPersonImpl();
@@ -51,6 +51,33 @@ public class CapitalizationTests extends TestCase {
         name.setGiven(null);
 
         assertNull(name.getGiven());
+    }
+    
+    @Test
+    public void testLastNameCapitalization() {
+        final JpaSorPersonImpl person = new JpaSorPersonImpl();
+        final SorName name =  person.addName();
+        name.setFamily("family");
+
+        assertEquals("Family", name.getFamily());
+    }
+    
+    @Test
+    public void testLastNameCapitalizationWithSpace() {
+        final JpaSorPersonImpl person = new JpaSorPersonImpl();
+        final SorName name =  person.addName();
+        name.setFamily("family name");
+
+        assertEquals("Family Name", name.getFamily());
+    }
+    
+    @Test
+    public void testLastNameCapitalizationWithDash() {
+        final JpaSorPersonImpl person = new JpaSorPersonImpl();
+        final SorName name =  person.addName();
+        name.setFamily("family-name");
+
+        assertEquals("Family-Name", name.getFamily());
     }
 
     @Test
