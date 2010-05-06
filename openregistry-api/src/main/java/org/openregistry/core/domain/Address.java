@@ -46,6 +46,10 @@ public interface Address extends Serializable {
 
     String getPostalCode();
 
+    String getBldgNo();
+
+    String getRoomNo();
+
     void setType(Type type);
 
     void setLine1(String line1);
@@ -61,6 +65,10 @@ public interface Address extends Serializable {
     void setCity(String city);
 
     void setPostalCode(String postalCode);
+
+    void setBldgNo(String bldgNo);
+
+    void setRoomNo(String roomNo);
 
     // TODO what is this used for versus a proper toString function?
     String getSingleLineAddress();
