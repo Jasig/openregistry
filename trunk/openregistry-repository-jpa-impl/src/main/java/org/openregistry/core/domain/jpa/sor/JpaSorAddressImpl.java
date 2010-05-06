@@ -76,6 +76,12 @@ public class JpaSorAddressImpl extends Entity implements Address {
     @Capitalize(property = "address.line3")
     private String line3;
 
+    @Column(name="bldg_no", nullable = true,length=10)
+    private String bldgNo;
+
+    @Column(name="room_no", nullable = true,length=11)
+    private String roomNo;
+
     @ManyToOne
     @JoinColumn(name="region_id")
     private JpaRegionImpl region;
@@ -126,6 +132,14 @@ public class JpaSorAddressImpl extends Entity implements Address {
         return this.line3;
     }
 
+    public String getBldgNo(){
+        return this.bldgNo;
+    }
+
+    public String getRoomNo(){
+        return this.roomNo;
+    }
+
     public Region getRegion() {
         return this.region;
     }
@@ -159,6 +173,14 @@ public class JpaSorAddressImpl extends Entity implements Address {
         this.line3 = line3;
     }
 
+    public void setBldgNo(String bldgNo){
+        this.bldgNo = bldgNo;
+    }
+
+    public void setRoomNo(String roomNo){
+        this.roomNo = roomNo;
+    }
+
     public void setRegion(final Region region) {
         Assert.isInstanceOf(JpaRegionImpl.class, region);
         this.region = (JpaRegionImpl) region;
@@ -188,6 +210,14 @@ public class JpaSorAddressImpl extends Entity implements Address {
         if (StringUtils.hasText(this.line3)) {
             builder.append(", ");
             builder.append(getLine3());
+        }
+        if (StringUtils.hasText(this.bldgNo)){
+            builder.append(", ");
+            builder.append(getBldgNo());
+        }
+        if (StringUtils.hasText(this.roomNo)){
+            builder.append(", ");
+            builder.append(getRoomNo());
         }
         if (StringUtils.hasText(this.city)) {
             builder.append(", ");

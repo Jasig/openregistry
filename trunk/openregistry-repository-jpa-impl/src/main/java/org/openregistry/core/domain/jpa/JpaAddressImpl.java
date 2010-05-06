@@ -65,6 +65,12 @@ public class JpaAddressImpl extends Entity implements Address {
     @Column(name="line3", nullable = true,length=100)
     private String line3;
 
+    @Column(name="bldg_no", nullable = true,length=10)
+    private String bldgNo;
+
+    @Column(name="room_no", nullable = true,length=11)
+    private String roomNo;
+
     @ManyToOne
     @JoinColumn(name="region_id")
     private JpaRegionImpl region;
@@ -111,6 +117,14 @@ public class JpaAddressImpl extends Entity implements Address {
         return this.line3;
     }
 
+    public String getBldgNo(){
+        return this.bldgNo;
+    }
+
+    public String getRoomNo(){
+        return this.roomNo;
+    }
+
     public Region getRegion() {
         return this.region;
     }
@@ -145,6 +159,14 @@ public class JpaAddressImpl extends Entity implements Address {
 
     public void setLine3(final String line3) {
         this.line3 = line3;
+    }
+
+    public void setBldgNo(String bldgNo){
+        this.bldgNo = bldgNo;
+    }
+
+    public void setRoomNo(String roomNo){
+        this.roomNo = roomNo;
     }
 
     public void setRegion(final Region region) {

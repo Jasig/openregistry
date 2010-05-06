@@ -11,6 +11,8 @@ public abstract class JpaAddressImpl_ {
 	public static volatile SingularAttribute<JpaAddressImpl, String> line1;
 	public static volatile SingularAttribute<JpaAddressImpl, String> line2;
 	public static volatile SingularAttribute<JpaAddressImpl, String> line3;
+	public static volatile SingularAttribute<JpaAddressImpl, String> bldgNo;
+	public static volatile SingularAttribute<JpaAddressImpl, String> roomNo;
 	public static volatile SingularAttribute<JpaAddressImpl, JpaRegionImpl> region;
 	public static volatile SingularAttribute<JpaAddressImpl, JpaCountryImpl> country;
 	public static volatile SingularAttribute<JpaAddressImpl, String> city;
