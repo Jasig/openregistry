@@ -47,7 +47,7 @@ public class JpaActivationKeyImpl implements ActivationKey {
 
     private static final SecureRandom secureRandom = new SecureRandom();
 
-    private static final int ID_LENGTH = 8;
+    private static final int ID_LENGTH = 10;
 
     private static final int TWENTY_MINUTES_AS_MILLISECONDS = 20 * 60 * 1000;
 
