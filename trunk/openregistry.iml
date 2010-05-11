@@ -58,8 +58,8 @@
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-tx:3.0.2.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0-CR-1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.6" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.4-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.4-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.4-groovy-1.7-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.4-groovy-1.7-SNAPSHOT" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>

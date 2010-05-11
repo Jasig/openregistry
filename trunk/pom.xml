@@ -120,7 +120,7 @@
                 <version>${spring.version}</version>
                 <type>jar</type>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
@@ -317,12 +317,12 @@
             <artifactId>spring-tx</artifactId>
         </dependency>
 
-           <dependency>
-                <groupId>org.hibernate.javax.persistence</groupId>
-                <artifactId>hibernate-jpa-2.0-api</artifactId>
-                <version>1.0.0-CR-1</version>
-            </dependency>
-        
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <version>1.0.0-CR-1</version>
+        </dependency>
+
 
         <!-- END standards dependencies -->
 
@@ -337,7 +337,7 @@
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-            <version>0.4-SNAPSHOT</version>
+            <version>${spock.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -354,7 +354,7 @@
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-spring</artifactId>
-            <version>0.4-SNAPSHOT</version>
+            <version>${spock.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -515,22 +515,21 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
             <plugin>
                 <groupId>org.codehaus.gmaven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
+                <!-- Notice I upgraded it to 1.2 -->
+                <!-- Details here http://repo1.maven.org/maven2/org/codehaus/gmaven/gmaven-plugin/1.2/gmaven-plugin-1.2.pom -->
                 <version>1.2</version>
-                <configuration>
-                    <providerSelection>1.6</providerSelection>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.gmaven.runtime</groupId>
+                        <artifactId>gmaven-runtime-1.7</artifactId>
+                        <version>1.2</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.spockframework</groupId>
                 <artifactId>spock-maven</artifactId>
-                <version>0.4-SNAPSHOT</version>
+                <version>${spock.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -592,7 +591,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <spring.security.version>3.0.2.RELEASE</spring.security.version>
         <junit.version>4.6</junit.version>
         <servlet.version>2.5</servlet.version>
-        <groovy.version>1.7.1</groovy.version>
+        <groovy.version>1.7.2</groovy.version>
         <jstl.version>1.1.2</jstl.version>
         <standard.version>1.1.2</standard.version>
         <log4j.version>1.2.15</log4j.version>
@@ -623,7 +622,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <stax.version>1.2.0</stax.version>
         <commons.lang.version>2.4</commons.lang.version>
         <lucene.version>3.0.1</lucene.version>
-        <spock.version>0.4-SNAPSHOT</spock.version>
+        <spock.version>0.4-groovy-1.7-SNAPSHOT</spock.version>
         <commons.codec.version>1.4</commons.codec.version>
     </properties>
 
