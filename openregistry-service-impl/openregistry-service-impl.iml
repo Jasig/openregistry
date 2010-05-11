@@ -39,9 +39,7 @@
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-test:3.0.2.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0-CR-1" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.springframework:spring-jms:3.0.2.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.codehaus.groovy:groovy-all:1.7.1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: jline:jline:0.9.94" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.fusesource.jansi:jansi:1.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.codehaus.groovy:groovy-all:1.7.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.apache.camel:camel-core:2.2.0" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.fusesource.commonman:commons-management:1.0" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.apache.activemq:activemq-camel:5.2.0" level="project" />
@@ -62,8 +60,8 @@
     <orderEntry type="module" module-name="openregistry-test-support" scope="TEST" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.8.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.6" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.4-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.4-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.4-groovy-1.7-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.4-groovy-1.7-SNAPSHOT" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>
