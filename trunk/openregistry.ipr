@@ -552,6 +552,7 @@
       <module fileurl="file://$PROJECT_DIR$/openregistry-repository-jpa-impl/openregistry-repository-jpa-impl.iml" filepath="$PROJECT_DIR$/openregistry-repository-jpa-impl/openregistry-repository-jpa-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-service-impl/openregistry-service-impl.iml" filepath="$PROJECT_DIR$/openregistry-service-impl/openregistry-service-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" filepath="$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" />
+      <module fileurl="file://$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" filepath="$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-test-support/openregistry-test-support.iml" filepath="$PROJECT_DIR$/openregistry-test-support/openregistry-test-support.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" filepath="$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-support-tools/ortool.iml" filepath="$PROJECT_DIR$/openregistry-support-tools/ortool.iml" />
@@ -3282,28 +3283,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/backport-util-concurrent/backport-util-concurrent/2.1/backport-util-concurrent-2.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.spockframework:spock-core:0.4-groovy-1.7-SNAPSHOT">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-core/0.4-groovy-1.7-SNAPSHOT/spock-core-0.4-groovy-1.7-SNAPSHOT.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-core/0.4-groovy-1.7-SNAPSHOT/spock-core-0.4-groovy-1.7-SNAPSHOT-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-core/0.4-groovy-1.7-SNAPSHOT/spock-core-0.4-groovy-1.7-SNAPSHOT-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.spockframework:spock-spring:0.4-groovy-1.7-SNAPSHOT">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-spring/0.4-groovy-1.7-SNAPSHOT/spock-spring-0.4-groovy-1.7-SNAPSHOT.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-spring/0.4-groovy-1.7-SNAPSHOT/spock-spring-0.4-groovy-1.7-SNAPSHOT-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-spring/0.4-groovy-1.7-SNAPSHOT/spock-spring-0.4-groovy-1.7-SNAPSHOT-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.codehaus.groovy:groovy-all:1.7.2">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2.jar!/" />
@@ -3313,6 +3292,28 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.spockframework:spock-core:0.5-groovy-1.7-SNAPSHOT">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-core/0.5-groovy-1.7-SNAPSHOT/spock-core-0.5-groovy-1.7-SNAPSHOT.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-core/0.5-groovy-1.7-SNAPSHOT/spock-core-0.5-groovy-1.7-SNAPSHOT-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-core/0.5-groovy-1.7-SNAPSHOT/spock-core-0.5-groovy-1.7-SNAPSHOT-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.spockframework:spock-spring:0.5-groovy-1.7-SNAPSHOT">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-spring/0.5-groovy-1.7-SNAPSHOT/spock-spring-0.5-groovy-1.7-SNAPSHOT.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-spring/0.5-groovy-1.7-SNAPSHOT/spock-spring-0.5-groovy-1.7-SNAPSHOT-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-spring/0.5-groovy-1.7-SNAPSHOT/spock-spring-0.5-groovy-1.7-SNAPSHOT-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
