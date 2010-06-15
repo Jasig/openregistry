@@ -91,7 +91,7 @@
     <orderEntry type="module" module-name="openregistry-service-impl" scope="TEST" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-web:3.0.2.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-jms:3.0.2.RELEASE" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.codehaus.groovy:groovy-all:1.7.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.codehaus.groovy:groovy-all:1.7.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.camel:camel-core:2.2.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.fusesource.commonman:commons-management:1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:activemq-camel:5.2.0" level="project" />

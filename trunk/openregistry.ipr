@@ -185,7 +185,7 @@
             </element>
             <element id="library" level="project" name="Maven: org.springframework:spring-web:3.0.2.RELEASE" />
             <element id="library" level="project" name="Maven: org.springframework:spring-jms:3.0.2.RELEASE" />
-            <element id="library" level="project" name="Maven: org.codehaus.groovy:groovy-all:1.7.2" />
+            <element id="library" level="project" name="Maven: org.codehaus.groovy:groovy-all:1.7.3" />
             <element id="library" level="project" name="Maven: org.apache.camel:camel-core:2.2.0" />
             <element id="library" level="project" name="Maven: org.fusesource.commonman:commons-management:1.0" />
             <element id="library" level="project" name="Maven: org.apache.activemq:activemq-camel:5.2.0" />
@@ -551,7 +551,6 @@
       <module fileurl="file://$PROJECT_DIR$/openregistry-api/openregistry-api.iml" filepath="$PROJECT_DIR$/openregistry-api/openregistry-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-repository-jpa-impl/openregistry-repository-jpa-impl.iml" filepath="$PROJECT_DIR$/openregistry-repository-jpa-impl/openregistry-repository-jpa-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-service-impl/openregistry-service-impl.iml" filepath="$PROJECT_DIR$/openregistry-service-impl/openregistry-service-impl.iml" />
-      <module fileurl="file://$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" filepath="$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" filepath="$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-test-support/openregistry-test-support.iml" filepath="$PROJECT_DIR$/openregistry-test-support/openregistry-test-support.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" filepath="$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" />
@@ -3283,17 +3282,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/backport-util-concurrent/backport-util-concurrent/2.1/backport-util-concurrent-2.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codehaus.groovy:groovy-all:1.7.2">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.2/groovy-all-1.7.2-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.spockframework:spock-core:0.5-groovy-1.7-SNAPSHOT">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-core/0.5-groovy-1.7-SNAPSHOT/spock-core-0.5-groovy-1.7-SNAPSHOT.jar!/" />
@@ -3314,6 +3302,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/spockframework/spock-spring/0.5-groovy-1.7-SNAPSHOT/spock-spring-0.5-groovy-1.7-SNAPSHOT-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.codehaus.groovy:groovy-all:1.7.3">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.3/groovy-all-1.7.3.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.3/groovy-all-1.7.3-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.3/groovy-all-1.7.3-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
