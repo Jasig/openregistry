@@ -52,6 +52,8 @@ public interface Type extends Serializable {
 
     enum NameTypes {LEGAL, FORMAL, AKA, MAIDEN, FKA}
 
+    enum AffiliationTypes {FACULTY, STAFF, STUDENT, ADMIT_COMING, SUMMER_STUDENT, WINTER_STUDENT, STUDENT_WORKER, CE_STUDENT, GUEST, ALUM, RETIREE, FOUNDATION}
+
     /**
      * The internal identifier of the type.
      *
