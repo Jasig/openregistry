@@ -75,5 +75,6 @@ public interface Type extends Serializable {
      */
     String getDescription();
 
+    boolean isSameAs(Type other);
     
 }
