@@ -68,7 +68,6 @@ public class JpaPersonRepository implements PersonRepository {
 
         c.select(person).where(criteriaBuilder.like(identifier.get(JpaIdentifierImpl_.value), identifierValue + "%"));
 
-        final Query query = this.entityManager.createQuery(c);
         final List<JpaPersonImpl> persons = this.entityManager.createQuery(c).getResultList();
 
         return new ArrayList<Person>(persons);
@@ -76,6 +75,10 @@ public class JpaPersonRepository implements PersonRepository {
 
     public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSource) {
         return (SorPerson) this.entityManager.createQuery("Select s from sorPerson s where s.sourceSor = :sorSource and s.personId = :personId").setParameter("sorSource", sorSource).setParameter("personId", personId).getSingleResult();
+    }
+    
+    public SorPerson findSorBySSN(final String ssn) {
+    	return (SorPerson) this.entityManager.createQuery("Select s from sorPerson s where s.ssn = :ssn").setParameter("ssn", ssn).getSingleResult();
     }
 
     public List<Person> searchByCriteria(final SearchCriteria searchCriteria) throws RepositoryAccessException {

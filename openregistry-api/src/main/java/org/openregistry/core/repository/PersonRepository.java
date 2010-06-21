@@ -93,6 +93,14 @@ public interface PersonRepository {
      * @return the person, if found.  false otherwise.
      */
     SorPerson findByPersonIdAndSorIdentifier(Long personId, String sorSourceIdentifier);
+    
+    /**
+     * Locates System of Record person based on the SSN attribute
+     * 
+     * @param ssn the SSN
+     * @return the person, if found.  false otherwise.
+     */
+    SorPerson findSorBySSN(String ssn);
 
     /**
      * Searches for a person based on some or all of the supplied criteria.
