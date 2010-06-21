@@ -127,4 +127,28 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
     String getLocalCode();
 
     void addOrUpdateEmail(String emailAddress, Type emailType);
+
+    /**
+     * Determine if this role has been terminated for an associated Person
+     *
+     * @return true if the role is terminated, false otherwise, i.e. the role is active
+     */
+    boolean isTerminated();
+
+    /**
+     * Returns true if the start date has not occurred yet.
+     * <p>
+     * Note, a terminated role will still be denoted as not yet active.
+     *
+     * @return true if the start date has not occurred yet.  False otherwise.
+     */
+    boolean isNotYetActive();
+
+    /**
+     * Returns true if the current date is between the start and end date, or after the start date if there is no
+     * end date yet.
+     *
+     * @return true if its active, false otherwise.
+     */
+    boolean isActive();
 }
