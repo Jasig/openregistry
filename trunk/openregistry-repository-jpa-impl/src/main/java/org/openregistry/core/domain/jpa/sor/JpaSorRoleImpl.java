@@ -388,6 +388,20 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         this.person = person;
     }
 
+    public boolean isTerminated() {
+        return ((this.end != null) && (this.end.compareTo(new Date()) >= 0));
+    }
+
+    @Override
+    public boolean isNotYetActive() {
+        return this.start.compareTo(new Date()) > 0;
+    }
+
+    @Override
+    public boolean isActive() {
+        return !isNotYetActive() && !isTerminated();
+    }
+
     @Override
     public void addOrUpdateEmail(String emailAddress, Type emailType) {
         boolean updated = false;

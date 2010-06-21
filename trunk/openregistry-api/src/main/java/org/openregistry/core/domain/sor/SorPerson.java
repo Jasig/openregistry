@@ -207,4 +207,6 @@ public interface SorPerson {
      */
     Map<String, String> getSorLocalAttributes();
 
+    List<SorRole> findOpenRolesByAffiliation(Type affiliationType);
+
 }
