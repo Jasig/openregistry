@@ -176,4 +176,15 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     public IdentifierType findIdentifierType(final String identifierName){
         return (IdentifierType) this.entityManager.createQuery("select distinct r from identifier_type r where name=:name").setParameter("name", identifierName).getSingleResult();
     }
+
+    @Override
+    public boolean isValid(DataTypes type, String value) {
+        try {
+            findType(type, value);
+            return true;
+        }
+        catch(IllegalArgumentException e) {
+            return false;
+        }
+    }
 }
