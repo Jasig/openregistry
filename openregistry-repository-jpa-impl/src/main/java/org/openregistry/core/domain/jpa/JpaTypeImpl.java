@@ -64,4 +64,9 @@ public class JpaTypeImpl extends Entity implements Type {
     public String getDescription() {
         return this.description;
     }
+
+    @Override
+    public boolean isSameAs(Type other) {
+        return (this.dataType.equals(other.getDataType()) && this.description.equals(other.getDescription()));
+    }
 }
