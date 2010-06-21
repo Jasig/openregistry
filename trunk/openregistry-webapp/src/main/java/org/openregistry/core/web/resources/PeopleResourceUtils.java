@@ -140,7 +140,7 @@ public final class PeopleResourceUtils {
 
     }
 
-    protected static Type processNameType(final ReferenceRepository referenceRepository, final String nameType) {
+    public static Type processNameType(final ReferenceRepository referenceRepository, final String nameType) {
         if (nameType != null) {
             final Type type = referenceRepository.findType(Type.DataTypes.NAME, nameType);
             if (type != null) {
