@@ -112,4 +112,6 @@ public interface ReferenceRepository {
      * @return the list of types.  CANNOT be NULL.  CAN be empty.
      */
     List<Type> getTypesBy(final Type.DataTypes type);
+
+    boolean isValid(Type.DataTypes type, String value);
 }
