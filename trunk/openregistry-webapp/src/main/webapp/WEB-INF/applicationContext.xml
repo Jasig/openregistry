@@ -78,13 +78,13 @@
           p:dataSource-ref="dataSource">
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
-                  p:generateDdl="true"
+                  p:generateDdl="false"
                   p:showSql="false"/>
         </property>
         <property name="jpaPropertyMap">
             <map>
                 <entry key="hibernate.dialect" value-ref="hibernateDialect"/>
-                <entry key="hibernate.hbm2ddl.auto" value="update"/>
+                <!-- <entry key="hibernate.hbm2ddl.auto" value="update"/> -->
             </map>
         </property>
     </bean>
