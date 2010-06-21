@@ -193,6 +193,11 @@ public class MockSorPerson extends Entity implements SorPerson {
     }
 
     @Override
+    public List<SorRole> findOpenRolesByAffiliation(Type affiliationType) {
+        throw new UnsupportedOperationException("This mock does not implement this method yet");
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

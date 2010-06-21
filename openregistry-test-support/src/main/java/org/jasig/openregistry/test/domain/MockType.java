@@ -48,6 +48,11 @@ public class MockType implements Type {
 	}
 
     @Override
+    public boolean isSameAs(Type other) {
+        throw new UnsupportedOperationException("This mock does not implement this method yet");
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

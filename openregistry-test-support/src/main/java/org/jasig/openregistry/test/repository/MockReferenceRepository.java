@@ -170,11 +170,21 @@ public final class MockReferenceRepository implements ReferenceRepository {
                 public String toString() {
                     return String.format("%s - %s", getDataType(), getDescription());
                 }
+
+                @Override
+                public boolean isSameAs(Type other) {
+                    throw new UnsupportedOperationException("This mock does not implement this method yet");
+                }
             };
         }
         else {
             return new MockType("test", "test");
         }
+    }
+
+    @Override
+    public boolean isValid(DataTypes type, String value) {
+        throw new UnsupportedOperationException("This mock does not implement this method yet");
     }
 
     public List<IdentifierType> getIdentifierTypes() {
