@@ -252,6 +252,17 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     }
 
     @Override
+    public List<SorRole> findOpenRolesByAffiliation(Type affiliationType) {
+        List<SorRole> rolesToReturn = new ArrayList<SorRole>();
+        for(SorRole r : this.roles) {
+            if(r.getAffiliationType().isSameAs(affiliationType) && r.isActive()) {
+                rolesToReturn.add(r);
+            }
+        }
+        return rolesToReturn;
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof JpaSorPersonImpl)) return false;
