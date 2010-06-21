@@ -125,4 +125,6 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
     Campus getCampus();
 
     String getLocalCode();
+
+    void addOrUpdateEmail(String emailAddress, Type emailType);
 }

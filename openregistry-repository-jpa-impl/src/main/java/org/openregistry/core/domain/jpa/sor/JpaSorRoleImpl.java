@@ -43,72 +43,72 @@ import java.util.*;
  * @version $Revision$ $Date$
  * @since 0.1
  */
-@javax.persistence.Entity(name="sorRole")
-@Table(name="prs_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id","id"}))
+@javax.persistence.Entity(name = "sorRole")
+@Table(name = "prs_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id", "id"}))
 @org.hibernate.annotations.Table(appliesTo = "prs_role_records", indexes = @Index(name = "PRS_ROLE_SOR_PERSON_INDEX", columnNames = "sor_person_id"))
 @Audited
 public class JpaSorRoleImpl extends Entity implements SorRole {
 
     @Id
-    @Column(name="record_id")
+    @Column(name = "record_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_role_records_seq")
-    @SequenceGenerator(name="prs_role_records_seq",sequenceName="prs_role_records_seq",initialValue=1,allocationSize=50)
+    @SequenceGenerator(name = "prs_role_records_seq", sequenceName = "prs_role_records_seq", initialValue = 1, allocationSize = 50)
     private Long recordId;
 
-    @Column(name="id")
+    @Column(name = "id")
     @NotNull
-    @Size(min=1)
+    @Size(min = 1)
     private String sorId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorUrlImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.EAGER, targetEntity = JpaSorUrlImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @RequiredSize(property = "role.urls")
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Url> urls = new ArrayList<Url>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorEmailAddressImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.EAGER, targetEntity = JpaSorEmailAddressImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @RequiredSize(property = "role.emailAddresses")
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorPhoneImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.EAGER, targetEntity = JpaSorPhoneImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @RequiredSize(property = "role.phones")
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Phone> phones = new ArrayList<Phone>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch = FetchType.EAGER, targetEntity = JpaSorAddressImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.EAGER, targetEntity = JpaSorAddressImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @RequiredSize(property = "role.addresses")
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Address> addresses = new ArrayList<Address>();
 
-    @Column(name="source_sor_id", nullable = false)
+    @Column(name = "source_sor_id", nullable = false)
     @NotNull
-    @Size(min=1)
+    @Size(min = 1)
     private String sourceSorIdentifier;
 
-	@ManyToOne(optional = false)
-    @JoinColumn(name="sor_person_id", nullable=false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "sor_person_id", nullable = false)
     private JpaSorPersonImpl person;
 
-    @Column(name="percent_time",nullable=false)
+    @Column(name = "percent_time", nullable = false)
     @DecimalMin(value = "0")
     @DecimalMax(value = "100")
     private int percentage;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name="person_status_t")
+    @JoinColumn(name = "person_status_t")
     @NotNull
     @AllowedTypes(property = "role.personStatus")
     private JpaTypeImpl personStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="sorRole",fetch=FetchType.EAGER, targetEntity = JpaSorLeaveImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.EAGER, targetEntity = JpaSorLeaveImpl.class)
     @RequiredSize(property = "role.leaves")
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
@@ -120,21 +120,21 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     private JpaRoleInfoImpl roleInfo;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name="sponsor_id")
-    @NotNull(message="sponsorRequiredMsg")
+    @JoinColumn(name = "sponsor_id")
+    @NotNull(message = "sponsorRequiredMsg")
     private JpaSorSponsorImpl sponsor = new JpaSorSponsorImpl(this);
 
-    @Column(name="affiliation_date",nullable=false)
+    @Column(name = "affiliation_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    @NotNull(message="startDateRequiredMsg")
+    @NotNull(message = "startDateRequiredMsg")
     private Date start;
 
-    @Column(name="termination_date")
+    @Column(name = "termination_date")
     @Temporal(TemporalType.DATE)
     private Date end;
 
     @ManyToOne()
-    @JoinColumn(name="termination_t")
+    @JoinColumn(name = "termination_t")
     private JpaTypeImpl terminationReason;
 
     public JpaSorRoleImpl() {
@@ -172,7 +172,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return this.sorId;
     }
 
-    public void setSorId(String sorId){
+    public void setSorId(String sorId) {
         this.sorId = sorId;
     }
 
@@ -185,7 +185,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     }
 
     public RoleInfo getRoleInfo() {
-    	return this.roleInfo;
+        return this.roleInfo;
     }
 
     public String getTitle() {
@@ -216,6 +216,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     public SorSponsor getSponsor() {
         return this.sponsor;
     }
+
     public Type getTerminationReason() {
         return this.terminationReason;
     }
@@ -241,11 +242,11 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         this.end = date;
     }
 
-	public Address addAddress() {
-	    final JpaSorAddressImpl jpaAddress = new JpaSorAddressImpl(this);
-	    this.addresses.add(jpaAddress);
-	    return jpaAddress;
-	}
+    public Address addAddress() {
+        final JpaSorAddressImpl jpaAddress = new JpaSorAddressImpl(this);
+        this.addresses.add(jpaAddress);
+        return jpaAddress;
+    }
 
     public synchronized Address removeAddressById(final Long id) {
         Address addressToDelete = null;
@@ -265,20 +266,20 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return null;
     }
 
-    public Address getAddress(long id){
-        for(Address a : this.addresses) {
-            if(a.getId() == id) {
+    public Address getAddress(long id) {
+        for (Address a : this.addresses) {
+            if (a.getId() == id) {
                 return a;
             }
         }
         return null;
     }
 
-	public EmailAddress addEmailAddress() {
-	    final JpaSorEmailAddressImpl jpaEmailAddress = new JpaSorEmailAddressImpl(this);
-	    this.emailAddresses.add(jpaEmailAddress);
-	    return jpaEmailAddress;
-	}
+    public EmailAddress addEmailAddress() {
+        final JpaSorEmailAddressImpl jpaEmailAddress = new JpaSorEmailAddressImpl(this);
+        this.emailAddresses.add(jpaEmailAddress);
+        return jpaEmailAddress;
+    }
 
     public synchronized EmailAddress removeEmailAddressById(final Long id) {
         EmailAddress emailAddressToDelete = null;
@@ -298,11 +299,11 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return null;
     }
 
-	public Phone addPhone() {
-	    final JpaSorPhoneImpl jpaPhone = new JpaSorPhoneImpl(this);
-	    this.phones.add(jpaPhone);
-	    return jpaPhone;
-	}
+    public Phone addPhone() {
+        final JpaSorPhoneImpl jpaPhone = new JpaSorPhoneImpl(this);
+        this.phones.add(jpaPhone);
+        return jpaPhone;
+    }
 
     public synchronized Phone removePhoneById(final Long id) {
         Phone phoneToDelete = null;
@@ -322,11 +323,11 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return null;
     }
 
-	public Url addUrl() {
-	    final JpaSorUrlImpl jpaUrl = new JpaSorUrlImpl(this);
-	    this.urls.add(jpaUrl);
-	    return jpaUrl;
-	}
+    public Url addUrl() {
+        final JpaSorUrlImpl jpaUrl = new JpaSorUrlImpl(this);
+        this.urls.add(jpaUrl);
+        return jpaUrl;
+    }
 
     public synchronized Url removeURLById(final Long id) {
         Url urlToDelete = null;
@@ -346,33 +347,33 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return null;
     }
 
-	public List<Address> getAddresses() {
-		return this.addresses;
-	}
+    public List<Address> getAddresses() {
+        return this.addresses;
+    }
 
-	public List<Leave> getLeaves() {
-		return this.leaves;
-	}
+    public List<Leave> getLeaves() {
+        return this.leaves;
+    }
 
-	public List<Phone> getPhones() {
-		return this.phones;
-	}
+    public List<Phone> getPhones() {
+        return this.phones;
+    }
 
-	public List<Url> getUrls() {
-		return this.urls;
-	}
+    public List<Url> getUrls() {
+        return this.urls;
+    }
 
-	public Campus getCampus() {
-		return this.roleInfo.getCampus();
-	}
+    public Campus getCampus() {
+        return this.roleInfo.getCampus();
+    }
 
-	public String getLocalCode() {
+    public String getLocalCode() {
         return this.roleInfo.getCode();
-	}
+    }
 
-	public OrganizationalUnit getOrganizationalUnit() {
-		return this.roleInfo.getOrganizationalUnit();
-	}
+    public OrganizationalUnit getOrganizationalUnit() {
+        return this.roleInfo.getOrganizationalUnit();
+    }
 
     public List<EmailAddress> getEmailAddresses() {
         return this.emailAddresses;
@@ -383,7 +384,24 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return this.roleInfo.getSystemOfRecord();
     }
 
-    public void moveToPerson(JpaSorPersonImpl person){
+    public void moveToPerson(JpaSorPersonImpl person) {
         this.person = person;
+    }
+
+    @Override
+    public void addOrUpdateEmail(String emailAddress, Type emailType) {
+        boolean updated = false;
+        for (EmailAddress e : this.emailAddresses) {
+            if (e.getAddressType().isSameAs(emailType)) {
+                e.setAddress(emailAddress);
+                updated = true;
+                break;
+            }
+        }
+        if (!updated) {
+            EmailAddress e = addEmailAddress();
+            e.setAddressType(emailType);
+            e.setAddress(emailAddress);
+        }
     }
 }
