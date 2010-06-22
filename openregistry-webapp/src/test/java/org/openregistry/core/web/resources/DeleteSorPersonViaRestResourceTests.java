@@ -44,17 +44,17 @@ public class DeleteSorPersonViaRestResourceTests extends JerseyTestSupport {
 
     @Test
     public void deletingNonExistingSorPerson() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(404, NON_EXISTING_SOR_PERSON_TEST_URI, "DELETE");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(404, NON_EXISTING_SOR_PERSON_TEST_URI, DELETE_HTTP_METHOD);
     }
 
     @Test
     public void postAndGetNotAllowedOnSorPersonResource() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(405, EXISTING_SOR_PERSON_TEST_URI, "GET");
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(405, EXISTING_SOR_PERSON_TEST_URI, "POST");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(405, EXISTING_SOR_PERSON_TEST_URI, GET_HTTP_METHOD);
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(405, EXISTING_SOR_PERSON_TEST_URI, POST_HTTP_METHOD);
     }
 
     @Test
     public void deletingExistingSorPerson() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, EXISTING_SOR_PERSON_TEST_URI, "DELETE");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, EXISTING_SOR_PERSON_TEST_URI, DELETE_HTTP_METHOD);
     }
 }
