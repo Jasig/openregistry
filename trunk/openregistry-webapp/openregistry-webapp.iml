@@ -135,10 +135,20 @@
     <orderEntry type="library" exported="" name="Maven: org.codehaus.jackson:jackson-core-asl:1.1.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: com.sun.jersey.contribs:jersey-spring:1.3" level="project" />
     <orderEntry type="library" exported="" name="Maven: com.sun.xml.stream:sjsxp:1.0.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.sun.jersey:jersey-test-framework:1.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.jersey.jersey-test-framework:jersey-test-framework-grizzly:1.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.jersey.jersey-test-framework:jersey-test-framework-core:1.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.jersey:jersey-client:1.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.glassfish:javax.servlet:3.0-b66" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-servlet-webserver:1.9.18-i" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-http:1.9.18-i" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-framework:1.9.18-i" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-utils:1.9.18-i" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-rcm:1.9.18-i" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-portunif:1.9.18-i" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-http-servlet:1.9.18-i" level="project" />
     <orderEntry type="module" module-name="openregistry-test-support" scope="TEST" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.8.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.5-groovy-1.7-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.5-groovy-1.7-SNAPSHOT" level="project" />
   </component>

@@ -28,10 +28,8 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <context:component-scan base-package="org.openregistry.core.web.resources">
-        <context:exclude-filter type="aspectj" expression="org.openregistry.core.web.resources.activation..*"/>
-    </context:component-scan>
-
+    <context:component-scan base-package="org.openregistry.core.web.resources"/>
+    
     <!-- All these beans will be autowired into 'PeopleResource' -->    
     <bean class="org.jasig.openregistry.test.repository.MockReferenceRepository" id="referenceRepository" />
     <bean class="org.openregistry.core.service.NullIdentifierChangeServiceFactoryBean" id="identifierChangeService" />
@@ -39,6 +37,33 @@
 
     <bean id="preferredPersonIdentifierType" class="java.lang.String">
         <constructor-arg index="0" value="NETID"/>
+    </bean>
+
+    <bean id="personRepository" class="org.jasig.openregistry.test.repository.MockPersonRepository">
+        <constructor-arg index="0">
+            <list>
+                <bean class="org.jasig.openregistry.test.domain.MockPerson" />
+                <bean class="org.jasig.openregistry.test.domain.MockPerson">
+                    <constructor-arg index="0" value="valid" />
+                    <constructor-arg index="1" value="false" />
+                    <constructor-arg index="2" value="false" />
+                </bean>
+                <bean class="org.jasig.openregistry.test.domain.MockPerson">
+                    <constructor-arg index="0" value="notActive" />
+                    <constructor-arg index="1" value="true" />
+                    <constructor-arg index="2" value="false" />
+                </bean>
+                <bean class="org.jasig.openregistry.test.domain.MockPerson">
+                    <constructor-arg index="0" value="expired" />
+                    <constructor-arg index="1" value="false" />
+                    <constructor-arg index="2" value="true" />
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="activationService" class="org.openregistry.core.service.DefaultActivationService">
+        <constructor-arg index="0" ref="personRepository"/>
     </bean>
     
 

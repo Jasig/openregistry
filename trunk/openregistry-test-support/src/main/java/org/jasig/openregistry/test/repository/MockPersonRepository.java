@@ -200,4 +200,9 @@ public class MockPersonRepository implements PersonRepository {
 			String number) {
 		return new ArrayList<Person>();
 	}
+
+    @Override
+    public SorPerson findSorBySSN(String ssn) {
+        throw new UnsupportedOperationException("This mock does not implement this method yet");    
+    }
 }

@@ -46,22 +46,22 @@ public class DeleteSorRoleViaRestResourceTests extends JerseyTestSupport {
 
     @Test
     public void nonExistingSorPerson() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(404, NON_EXISTING_PERSON_TEST_URI, "DELETE");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(404, NON_EXISTING_PERSON_TEST_URI, DELETE_HTTP_METHOD);
     }
 
     @Test
     public void nonExistingSorRole() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(404, NON_EXISTING_ROLE_TEST_URI, "DELETE");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(404, NON_EXISTING_ROLE_TEST_URI, DELETE_HTTP_METHOD);
     }
 
     @Test
     public void postAndGetNotAllowedOnSorRoleResource() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(405, GOOD_TEST_URI, "GET");
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(405, GOOD_TEST_URI, "POST");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(405, GOOD_TEST_URI, GET_HTTP_METHOD);
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(405, GOOD_TEST_URI, POST_HTTP_METHOD);
     }
 
     @Test
     public void successfulDelete() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, GOOD_TEST_URI, "DELETE");
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(204, GOOD_TEST_URI, DELETE_HTTP_METHOD);
     }
 }
