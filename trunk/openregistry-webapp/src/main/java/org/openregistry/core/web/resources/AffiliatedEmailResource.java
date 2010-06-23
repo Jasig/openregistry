@@ -64,20 +64,14 @@ public class AffiliatedEmailResource {
                             ("The request URI is malformed. Please see the documentation and construct the correct request URI.")))
                     .type(MediaType.APPLICATION_XML).build();
         }
-        Type emailAddressType = null;
-        try {
-            emailAddressType = this.referenceRepository.findType(Type.DataTypes.ADDRESS, emailType);
-        }
-        catch (IllegalArgumentException e) {
+        Type emailAddressType = this.referenceRepository.findType(Type.DataTypes.ADDRESS, emailType);
+        if (emailAddressType == null) {
             return Response.status(400)
                     .entity(new ErrorsResponseRepresentation(Arrays.asList("The provided email type is invalid.")))
                     .type(MediaType.APPLICATION_XML).build();
         }
-        Type affiliationType = null;
-        try {
-            affiliationType = this.referenceRepository.findType(Type.DataTypes.AFFILIATION, affiliation);
-        }
-        catch (IllegalArgumentException e) {
+        Type affiliationType = this.referenceRepository.findType(Type.DataTypes.AFFILIATION, affiliation);
+        if (affiliationType == null) {
             return Response.status(400)
                     .entity(new ErrorsResponseRepresentation(Arrays.asList("The provided affiliation type is invalid.")))
                     .type(MediaType.APPLICATION_XML).build();
