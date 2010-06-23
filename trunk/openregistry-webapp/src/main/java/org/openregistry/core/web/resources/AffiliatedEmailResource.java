@@ -1,8 +1,10 @@
 package org.openregistry.core.web.resources;
 
+import org.openregistry.core.domain.Type;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.EmailService;
 import org.openregistry.core.service.PersonService;
+import org.openregistry.core.web.resources.representations.ErrorsResponseRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Arrays;
 
 /**
  * RESTful <i>controller</i> resource used to expose functionality of updating or adding, or retrieving emails
@@ -54,6 +57,32 @@ public class AffiliatedEmailResource {
                                      @QueryParam("identifierType") String identifierType,
                                      @QueryParam("identifier") String identifier,
                                      @QueryParam("affiliation") String affiliation) {
+
+        if (emailType == null || identifierType == null || identifier == null || affiliation == null) {
+            return Response.status(400)
+                    .entity(new ErrorsResponseRepresentation(Arrays.asList
+                            ("The request URI is malformed. Please see the documentation and construct the correct request URI.")))
+                    .type(MediaType.APPLICATION_XML).build();
+        }
+        Type emailAddressType = null;
+        try {
+            emailAddressType = this.referenceRepository.findType(Type.DataTypes.ADDRESS, emailType);
+        }
+        catch (IllegalArgumentException e) {
+            return Response.status(400)
+                    .entity(new ErrorsResponseRepresentation(Arrays.asList("The provided email type is invalid.")))
+                    .type(MediaType.APPLICATION_XML).build();
+        }
+        Type affiliationType = null;
+        try {
+            affiliationType = this.referenceRepository.findType(Type.DataTypes.AFFILIATION, affiliation);
+        }
+        catch (IllegalArgumentException e) {
+            return Response.status(400)
+                    .entity(new ErrorsResponseRepresentation(Arrays.asList("The provided affiliation type is invalid.")))
+                    .type(MediaType.APPLICATION_XML).build();
+        }
+
         //TODO: Work in progress...
         return Response.ok(String.format("EMAIL: %s, EMAIL TYPE: %s", emailAddress, emailType)).build();
     }
