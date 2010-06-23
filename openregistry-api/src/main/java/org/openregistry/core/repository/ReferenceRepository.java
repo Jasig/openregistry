@@ -113,5 +113,5 @@ public interface ReferenceRepository {
      */
     List<Type> getTypesBy(final Type.DataTypes type);
 
-    boolean isValid(Type.DataTypes type, String value);
+    Type findValidType(Type.DataTypes type, String value);
 }
