@@ -1,9 +1,14 @@
 package org.openregistry.core.web.resources;
 
+import com.sun.jersey.api.NotFoundException;
+import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.EmailService;
 import org.openregistry.core.service.PersonService;
+import org.openregistry.core.service.ServiceExecutionResult;
+import org.openregistry.core.utils.ValidationUtils;
 import org.openregistry.core.web.resources.representations.ErrorsResponseRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,25 +64,50 @@ public class AffiliatedEmailResource {
                                      @QueryParam("affiliation") String affiliation) {
 
         if (emailType == null || identifierType == null || identifier == null || affiliation == null) {
-            return Response.status(400)
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST)
                     .entity(new ErrorsResponseRepresentation(Arrays.asList
                             ("The request URI is malformed. Please see the documentation and construct the correct request URI.")))
                     .type(MediaType.APPLICATION_XML).build();
         }
-        Type emailAddressType = this.referenceRepository.findType(Type.DataTypes.ADDRESS, emailType);
+        Type emailAddressType = this.referenceRepository.findValidType(Type.DataTypes.ADDRESS, emailType);
         if (emailAddressType == null) {
-            return Response.status(400)
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST)
                     .entity(new ErrorsResponseRepresentation(Arrays.asList("The provided email type is invalid.")))
                     .type(MediaType.APPLICATION_XML).build();
         }
-        Type affiliationType = this.referenceRepository.findType(Type.DataTypes.AFFILIATION, affiliation);
+        Type affiliationType = this.referenceRepository.findValidType(Type.DataTypes.AFFILIATION, affiliation);
         if (affiliationType == null) {
-            return Response.status(400)
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST)
                     .entity(new ErrorsResponseRepresentation(Arrays.asList("The provided affiliation type is invalid.")))
                     .type(MediaType.APPLICATION_XML).build();
         }
 
-        //TODO: Work in progress...
-        return Response.ok(String.format("EMAIL: %s, EMAIL TYPE: %s", emailAddress, emailType)).build();
+        Person person = this.personService.findPersonByIdentifier(identifierType, identifier);
+        if (person == null) {
+            //HTTP 404
+            throw new NotFoundException("The person cannot be found in the registry.");
+        }
+        ServiceExecutionResult<SorPerson> result =
+                this.emailService.saveOrCreateAffiliatedEmailForSelectedSorPerson(person, emailAddress, emailAddressType, affiliationType);
+
+        if (!result.succeeded()) {
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST).
+                    entity(new ErrorsResponseRepresentation(ValidationUtils.buildValidationErrorsResponseAsList(result.getValidationErrors())))
+                    .type(MediaType.APPLICATION_XML).build();
+        }
+        if (result.getTargetObject() == null) {
+            //HTTP 409
+            return Response.status(Response.Status.CONFLICT)
+                    .entity(new ErrorsResponseRepresentation(
+                            Arrays.asList("The provided email could not be processed due to internal state conflict for this person")))
+                    .type(MediaType.APPLICATION_XML).build();
+        }
+
+        //HTTP 200
+        return Response.ok("The provided email has been processed successfully.").build();
     }
 }
