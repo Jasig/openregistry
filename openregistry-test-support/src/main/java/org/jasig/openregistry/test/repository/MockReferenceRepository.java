@@ -183,7 +183,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
     }
 
     @Override
-    public boolean findValidType(DataTypes type, String value) {
+    public Type findValidType(DataTypes type, String value) {
         throw new UnsupportedOperationException("This mock does not implement this method yet");
     }
 
