@@ -20,6 +20,7 @@
 package org.openregistry.core.domain.jpa.sor;
 
 import org.hibernate.annotations.Index;
+import org.hibernate.validator.constraints.Email;
 import org.openregistry.core.domain.annotation.AllowedTypes;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.EmailAddress;
@@ -57,7 +58,7 @@ public class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
 
     @Column(name="address",nullable=false,length=100)
     @NotNull
-    @Capitalize(property="emailAddress.address")
+    @Email
     private String address;
 
     @ManyToOne(optional=false)

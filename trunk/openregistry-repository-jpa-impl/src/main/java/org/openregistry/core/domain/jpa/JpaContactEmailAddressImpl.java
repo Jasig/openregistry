@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa;
 
 import org.hibernate.annotations.Index;
 import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.Email;
 import org.openregistry.core.domain.ContactEmailAddress;
 import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
@@ -32,6 +33,7 @@ public class JpaContactEmailAddressImpl implements ContactEmailAddress {
     private JpaTypeImpl type;
 
     @Column(name="address",nullable=true,length=100)
+    @Email
     private String address;
 
     @Override

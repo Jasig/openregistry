@@ -20,6 +20,7 @@
 package org.openregistry.core.domain.jpa;
 
 import org.hibernate.annotations.Index;
+import org.hibernate.validator.constraints.Email;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
@@ -51,6 +52,7 @@ public class JpaEmailAddressImpl extends Entity implements EmailAddress {
     private JpaTypeImpl type;
 
     @Column(name="address",nullable=false,length=100)
+    @Email
     private String address;
 
     @ManyToOne(optional=false)
