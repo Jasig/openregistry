@@ -41,7 +41,7 @@ public final class ValidationUtils {
         }
         final List<String> errs = new ArrayList<String>(validationErrors.size());
         for (final ConstraintViolation violation : validationErrors) {
-            errs.add(String.format("The [%s] field value is invalid.", violation.getPropertyPath().toString()));
+            errs.add(String.format("%s: [%s]", violation.getMessage(), violation.getInvalidValue()));
         }
         return errs;
     }
