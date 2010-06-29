@@ -7,6 +7,7 @@ import org.springframework.web.context.ContextLoaderListener;
 
 import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @since 1.0
@@ -41,5 +42,38 @@ public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
     public void requiredRequestParamsMissing() {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(400, RESOURCE_UNDER_TEST_URI,
                 POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, new HashMap<String, String>());
+    }
+
+    @Test
+    public void invalidEmailType() {
+        Map<String, String> requestParams = new HashMap<String, String>();
+        requestParams.put("emailType", "invalid");
+        requestParams.put("identifierType", "NETID");
+        requestParams.put("identifier", "existent-person");
+        requestParams.put("affiliation", "valid");
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(400, RESOURCE_UNDER_TEST_URI,
+                POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, requestParams);
+    }
+
+    @Test
+    public void invalidAffiliationType() {
+        Map<String, String> requestParams = new HashMap<String, String>();
+        requestParams.put("emailType", "valid");
+        requestParams.put("identifierType", "NETID");
+        requestParams.put("identifier", "existent-person");
+        requestParams.put("affiliation", "invalid");
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(400, RESOURCE_UNDER_TEST_URI,
+                POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, requestParams);
+    }
+
+    @Test
+    public void nonExistentPerson() {
+        Map<String, String> requestParams = new HashMap<String, String>();
+        requestParams.put("emailType", "valid");
+        requestParams.put("identifierType", "NETID");
+        requestParams.put("identifier", "non-existent-person");
+        requestParams.put("affiliation", "valid");
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(404, RESOURCE_UNDER_TEST_URI,
+                POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, requestParams);
     }
 }
