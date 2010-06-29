@@ -42,7 +42,8 @@ public final class MockitoUtils {
         final Path mockPath = Mockito.mock(Path.class);
         Mockito.when(mockPath.toString()).thenReturn("test.property.path");
         Mockito.when(mockConstraintViolation.getPropertyPath()).thenReturn(mockPath);
-
+        Mockito.when(mockConstraintViolation.getMessage()).thenReturn("mockConstraintViolation: error message");
+        Mockito.when(mockConstraintViolation.getInvalidValue()).thenReturn("mockConstraintViolation: invalid value");
         Set<ConstraintViolation> setWithErrors = new TreeSet<ConstraintViolation>();
         setWithErrors.add(mockConstraintViolation);
         return setWithErrors;

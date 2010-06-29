@@ -19,14 +19,20 @@
 
 package org.openregistry.core.web.resources;
 
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
 
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+
 import static org.junit.Assert.*;
 
 import java.net.URI;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A support abstract class containing common pieces of <code>JerseyClient</code> API boilerplate code that all
@@ -53,15 +59,20 @@ public abstract class JerseyTestSupport extends JerseyTest {
     }
 
     protected final ClientResponse handleClientRequestForUriPathAndHttpMethodAndEntity(URI uri, String httpMethod, Object entity) {
-        final ClientRequest req = ClientRequest.create().build(uri, httpMethod);
-        req.setEntity(entity);
+        final ClientRequest req = ClientRequest.create().entity(entity).build(uri, httpMethod);
+        return client().handle(req);
+    }
+
+    protected final ClientResponse handleClientRequestForUriPathAndHttpMethodAndMediaTypeAndEntity(URI uri, String httpMethod,
+                                                                                                   MediaType mediaType, Object entity) {
+        final ClientRequest req = ClientRequest.create().entity(entity, mediaType).build(uri, httpMethod);
         return client().handle(req);
     }
 
     protected final ClientResponse assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(int statusCode, String uriPath,
                                                                                              String httpMethod, Object entity) {
 
-        final ClientResponse response = handleClientRequestForUriPathAndHttpMethodAndEntity(pathToURI(uriPath), httpMethod, entity);        
+        final ClientResponse response = handleClientRequestForUriPathAndHttpMethodAndEntity(pathToURI(uriPath), httpMethod, entity);
         assertEquals(statusCode, response.getStatus());
         return response;
     }
@@ -72,6 +83,20 @@ public abstract class JerseyTestSupport extends JerseyTest {
 
         final ClientResponse response = handleClientRequestForUriPathAndHttpMethodAndEntity(pathToURIWithQueryParam(uriPath, paramKey, paramValue),
                 httpMethod, entity);
+        assertEquals(statusCode, response.getStatus());
+        return response;
+    }
+
+    protected final ClientResponse assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(int statusCode,
+                                                                                                                        String uriPath,
+                                                                                                                        String httpMethod,
+                                                                                                                        MediaType mediaType,
+                                                                                                                        Object entity,
+                                                                                                                        Map<String, String> params) {
+
+        final ClientResponse response =
+                handleClientRequestForUriPathAndHttpMethodAndMediaTypeAndEntity(pathToURIWithQueryParams(uriPath, params),
+                        httpMethod, mediaType, entity);
         assertEquals(statusCode, response.getStatus());
         return response;
     }
@@ -88,5 +113,15 @@ public abstract class JerseyTestSupport extends JerseyTest {
 
     protected final URI pathToURIWithQueryParam(String uriPath, String paramKey, String paramValue) {
         return resource().path(uriPath).queryParam(paramKey, paramValue).getURI();
+    }
+
+    protected final URI pathToURIWithQueryParams(String uriPath, Map<String, String> params) {
+        Set<Map.Entry<String, String>> paramEntries = params.entrySet();
+        MultivaluedMap<String, String> paramsMap = new MultivaluedMapImpl();
+        for (Map.Entry<String, String> param : paramEntries) {
+            paramsMap.putSingle(param.getKey(), param.getValue());
+
+        }
+        return resource().path(uriPath).queryParams(paramsMap).getURI();
     }
 }
