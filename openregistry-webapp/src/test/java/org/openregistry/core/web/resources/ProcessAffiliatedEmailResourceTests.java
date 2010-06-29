@@ -31,4 +31,15 @@ public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(415, RESOURCE_UNDER_TEST_URI,
                 POST_HTTP_METHOD, MediaType.APPLICATION_XML_TYPE, WELL_FORMED_EMAIL, new HashMap<String, String>());
     }
+
+    @Test
+    public void methodNotAllowed() {
+        assertStatusCodeEqualsForRequestUriAndHttpMethod(405, RESOURCE_UNDER_TEST_URI, PUT_HTTP_METHOD);
+    }
+
+    @Test
+    public void requiredRequestParamsMissing() {
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(400, RESOURCE_UNDER_TEST_URI,
+                POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, new HashMap<String, String>());
+    }
 }
