@@ -31,7 +31,7 @@
     <import resource="basePeopleResourceApplicationContext.xml"/>
 
     <!-- will be autowired into 'PeopleResource' (imported from the base app ctx) TODO: Change to the real impl for this use case-->
-    <bean class="org.openregistry.core.web.resources.AddNewPersonMockitoBasedPersonServiceFactoryBean" init-method="init" id="personService"/>
+    <bean class="org.openregistry.core.web.resources.ProcessAffiliationEmailMockitoBasedPersonServiceFactoryBean" init-method="init"/>
 
     <!-- The constructor args are auto-injected. No need to specify here, even though the Spring-aware XML editor complains -->
     <bean id="emailService" class="org.openregistry.core.service.DefaultEmailService"/>

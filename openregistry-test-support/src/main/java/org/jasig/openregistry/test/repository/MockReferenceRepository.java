@@ -184,7 +184,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
 
     @Override
     public Type findValidType(DataTypes type, String value) {
-        throw new UnsupportedOperationException("This mock does not implement this method yet");
+        return "valid".equals(value) ? new MockType("test", "test") : null;
     }
 
     public List<IdentifierType> getIdentifierTypes() {
