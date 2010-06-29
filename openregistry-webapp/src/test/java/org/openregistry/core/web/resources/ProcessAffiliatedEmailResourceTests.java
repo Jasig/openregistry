@@ -16,7 +16,11 @@ public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
 
     private static final String RESOURCE_UNDER_TEST_URI = "/affiliated-email";
 
-    private static final String WELL_FORMED_EMAIL = "test@email.com";
+    private static final String WELL_FORMED_EMAIL = "good@email.com";
+
+    private static final String MALFORMED_EMAIL = "bad-email.com";
+
+    private static final String EMAIL_WITH_CONFLICT = "conflict@email.com";
 
     public ProcessAffiliatedEmailResourceTests() {
         super(new WebAppDescriptor.Builder("org.openregistry.core.web.resources")
@@ -74,6 +78,39 @@ public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
         requestParams.put("identifier", "non-existent-person");
         requestParams.put("affiliation", "valid");
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(404, RESOURCE_UNDER_TEST_URI,
+                POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, requestParams);
+    }
+
+    @Test
+    public void malformedEmail() {
+        Map<String, String> requestParams = new HashMap<String, String>();
+        requestParams.put("emailType", "valid");
+        requestParams.put("identifierType", "NETID");
+        requestParams.put("identifier", "existent-person");
+        requestParams.put("affiliation", "valid");
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(400, RESOURCE_UNDER_TEST_URI,
+                POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, MALFORMED_EMAIL, requestParams);
+    }
+
+    @Test
+    public void internalConflict() {
+        Map<String, String> requestParams = new HashMap<String, String>();
+        requestParams.put("emailType", "valid");
+        requestParams.put("identifierType", "NETID");
+        requestParams.put("identifier", "existent-person");
+        requestParams.put("affiliation", "valid");
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(409, RESOURCE_UNDER_TEST_URI,
+                POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, EMAIL_WITH_CONFLICT, requestParams);
+    }
+
+    @Test
+    public void success() {
+        Map<String, String> requestParams = new HashMap<String, String>();
+        requestParams.put("emailType", "valid");
+        requestParams.put("identifierType", "NETID");
+        requestParams.put("identifier", "existent-person");
+        requestParams.put("affiliation", "valid");
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(200, RESOURCE_UNDER_TEST_URI,
                 POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, requestParams);
     }
 }
