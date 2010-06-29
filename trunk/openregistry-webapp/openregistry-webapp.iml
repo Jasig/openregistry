@@ -148,7 +148,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-portunif:1.9.18-i" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.sun.grizzly:grizzly-http-servlet:1.9.18-i" level="project" />
     <orderEntry type="module" module-name="openregistry-test-support" scope="TEST" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.8.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.8.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.5-groovy-1.7-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.5-groovy-1.7-SNAPSHOT" level="project" />
   </component>

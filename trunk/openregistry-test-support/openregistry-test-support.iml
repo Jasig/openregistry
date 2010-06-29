@@ -36,7 +36,7 @@
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-test:3.0.3.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.springframework:spring-tx:3.0.3.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0-CR-1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.mockito:mockito-all:1.8.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.mockito:mockito-all:1.8.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.5-groovy-1.7-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.5-groovy-1.7-SNAPSHOT" level="project" />
