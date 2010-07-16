@@ -32,6 +32,4 @@
 
     <bean class="org.openregistry.core.web.resources.ProcessAffiliationEmailMockitoBasedPersonServiceFactoryBean" init-method="init"/>
 
-    <bean class="org.jasig.openregistry.test.service.MockEmailService"/>
-
 </beans>

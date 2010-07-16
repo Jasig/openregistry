@@ -65,6 +65,8 @@
     <bean id="activationService" class="org.openregistry.core.service.DefaultActivationService">
         <constructor-arg index="0" ref="personRepository"/>
     </bean>
+
+    <bean class="org.jasig.openregistry.test.service.MockEmailService"/>
     
 
 </beans>
