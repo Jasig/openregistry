@@ -139,10 +139,13 @@
     </bean>
 
     <sec:user-service id="casUserService">
-        <sec:user name="battags" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
         <sec:user name="nmond" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
         <sec:user name="steiner" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
         <sec:user name="dkopylen" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+        <sec:user name="llevkovi" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+        <sec:user name="msidd" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+        <sec:user name="nlaparo" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
+        <sec:user name="oalmatar" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
         <sec:user name="rosey" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
         <sec:user name="grahamb" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
         <sec:user name="santos" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
