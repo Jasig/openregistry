@@ -22,7 +22,6 @@ package org.jasig.openregistry.test.domain;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.internal.*;
 import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.domain.sor.SystemOfRecord;
 
 import java.util.*;
@@ -43,6 +42,8 @@ public class MockSorRole extends Entity implements SorRole {
 	private String sourceSorIdentifier;
 
 	private Type terminationReason;
+
+    private Type sponsorType;
 
 	public MockSorRole() {
 	}
@@ -99,13 +100,22 @@ public class MockSorRole extends Entity implements SorRole {
 		return null;
 	}
 
-	public SorSponsor setSponsor() {
-		return null;
+	public void setSponsorId(Long id) {
+
 	}
 
-	public SorSponsor getSponsor() {
-		return null;
+	public Long getSponsorId() {
+		return 1L;
 	}
+
+    public void setSponsorType(Type type) {
+        this.sponsorType = type;
+	}
+
+	public Type getSponsorType() {
+		return sponsorType;
+	}
+
 
 	public Type getTerminationReason() {
 		return terminationReason;

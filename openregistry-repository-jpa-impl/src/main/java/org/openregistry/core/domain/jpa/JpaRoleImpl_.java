@@ -19,7 +19,8 @@ public abstract class JpaRoleImpl_ {
 	public static volatile SetAttribute<JpaRoleImpl, EmailAddress> emailAddresses;
 	public static volatile SetAttribute<JpaRoleImpl, Phone> phones;
 	public static volatile SetAttribute<JpaRoleImpl, Address> addresses;
-	public static volatile SingularAttribute<JpaRoleImpl, JpaSponsorImpl> sponsor;
+	public static volatile SingularAttribute<JpaRoleImpl, Long> sponsorId;
+	public static volatile SingularAttribute<JpaRoleImpl, Type> sponsorType;
 	public static volatile SingularAttribute<JpaRoleImpl, Integer> percentage;
 	public static volatile SingularAttribute<JpaRoleImpl, Type> personStatus;
 	public static volatile SetAttribute<JpaRoleImpl, Leave> leaves;

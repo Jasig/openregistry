@@ -276,6 +276,14 @@ public class MockPerson implements Person {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    public String getDisclosure() {
+        return null;
+    }
+
+    public void setDisclosure(final String disclosure) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public Identifier addIdentifier() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
