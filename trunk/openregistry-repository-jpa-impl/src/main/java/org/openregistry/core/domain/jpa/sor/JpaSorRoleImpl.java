@@ -119,10 +119,14 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     @NotNull
     private JpaRoleInfoImpl roleInfo;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "sponsor_id")
-    @NotNull(message = "sponsorRequiredMsg")
-    private JpaSorSponsorImpl sponsor = new JpaSorSponsorImpl(this);
+    @Column(name="sponsor_id")
+    @NotNull
+    private Long sponsorId;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name="sponsor_t")
+    @NotNull
+    private JpaTypeImpl sponsorType;
 
     @Column(name = "affiliation_date", nullable = false)
     @Temporal(TemporalType.DATE)
@@ -213,10 +217,6 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         this.personStatus = (JpaTypeImpl) personStatus;
     }
 
-    public SorSponsor getSponsor() {
-        return this.sponsor;
-    }
-
     public Type getTerminationReason() {
         return this.terminationReason;
     }
@@ -241,6 +241,23 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     public void setEnd(final Date date) {
         this.end = date;
     }
+
+    public Long getSponsorId() {
+		return this.sponsorId;
+	}
+
+	public Type getSponsorType() {
+		return this.sponsorType;
+	}
+
+	public void setSponsorId(final Long id) {
+		this.sponsorId = id;
+	}
+
+	public void setSponsorType(final Type type) {
+        Assert.isInstanceOf(JpaTypeImpl.class, type);
+        this.sponsorType = (JpaTypeImpl)type;
+	}
 
     public Address addAddress() {
         final JpaSorAddressImpl jpaAddress = new JpaSorAddressImpl(this);

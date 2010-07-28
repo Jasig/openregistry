@@ -24,7 +24,6 @@ import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.repository.ReferenceRepository;
@@ -74,8 +73,7 @@ public final class RoleAction extends AbstractPersonServiceAction {
         phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.CAMPUS));
         final Address address = sorRole.addAddress();
         address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.CAMPUS));
-        final SorSponsor sponsor = sorRole.getSponsor();
-        sponsor.setType(referenceRepository.findType(Type.DataTypes.SPONSOR, Type.SponsorTypes.PERSON));  // TODO handle other types OR-57
+        sorRole.setSponsorType(referenceRepository.findType(Type.DataTypes.SPONSOR, Type.SponsorTypes.PERSON));  // TODO handle other types OR-57
 
         //provide default values for start and end date of role
         final Calendar cal = Calendar.getInstance();

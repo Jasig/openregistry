@@ -225,8 +225,7 @@ public class SystemOfRecordRolesResource {
         sorRole.setStart(roleRepresentation.startDate);
         if (roleRepresentation.endDate != null) sorRole.setEnd(roleRepresentation.endDate);
         if (roleRepresentation.percentage != null) sorRole.setPercentage(Integer.parseInt(roleRepresentation.percentage));
-        setSponsorInfo(sorRole.getSponsor(),
-                this.referenceRepository.findType(Type.DataTypes.SPONSOR, roleRepresentation.sponsorType), roleRepresentation);
+        setSponsorInfo(sorRole, this.referenceRepository.findType(Type.DataTypes.SPONSOR, roleRepresentation.sponsorType), roleRepresentation);
 
     }
 
@@ -270,12 +269,12 @@ public class SystemOfRecordRolesResource {
     }
 
     //TODO: NEED TO REVIEW THE IMPLEMENTATION OF THIS METHOD
-    private void setSponsorInfo(SorSponsor sponsor, Type type, RoleRepresentation roleRepresentation) {
-        sponsor.setType(type);
+    private void setSponsorInfo(SorRole sorRole, Type type, RoleRepresentation roleRepresentation) {
+        sorRole.setSponsorType(type);
         if (type.getDescription().equals(Type.SponsorTypes.ORG_UNIT.name())) {
             try {
                 OrganizationalUnit org = referenceRepository.getOrganizationalUnitByCode(roleRepresentation.sponsorId);
-                sponsor.setSponsorId(org.getId());
+                sorRole.setSponsorId(org.getId());
             }
             catch (Exception ex) {
                 throw new NotFoundException(
@@ -288,7 +287,7 @@ public class SystemOfRecordRolesResource {
                     roleRepresentation.sponsorIdType != null ? roleRepresentation.sponsorIdType : this.preferredPersonIdentifierType;
             try {
                 Person person = this.personService.findPersonByIdentifier(sponsorIdType, roleRepresentation.sponsorId);
-                sponsor.setSponsorId(person.getId());
+                sorRole.setSponsorId(person.getId());
             }
             catch (Exception ex) {
                 throw new NotFoundException(

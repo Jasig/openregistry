@@ -4,11 +4,8 @@ import java.util.Date;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-import org.openregistry.core.domain.Address;
-import org.openregistry.core.domain.EmailAddress;
-import org.openregistry.core.domain.Leave;
-import org.openregistry.core.domain.Phone;
-import org.openregistry.core.domain.Url;
+
+import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 
@@ -27,8 +24,9 @@ public abstract class JpaSorRoleImpl_ {
 	public static volatile SingularAttribute<JpaSorRoleImpl, JpaTypeImpl> personStatus;
 	public static volatile ListAttribute<JpaSorRoleImpl, Leave> leaves;
 	public static volatile SingularAttribute<JpaSorRoleImpl, JpaRoleInfoImpl> roleInfo;
-	public static volatile SingularAttribute<JpaSorRoleImpl, JpaSorSponsorImpl> sponsor;
-	public static volatile SingularAttribute<JpaSorRoleImpl, Date> start;
+	public static volatile SingularAttribute<JpaSorRoleImpl, Long> sponsorId;
+	// put this back public static volatile SingularAttribute<JpaSorRoleImpl, JpaTypeImpl> sponsorType;
+    public static volatile SingularAttribute<JpaSorRoleImpl, Date> start;
 	public static volatile SingularAttribute<JpaSorRoleImpl, Date> end;
 	public static volatile SingularAttribute<JpaSorRoleImpl, JpaTypeImpl> terminationReason;
 

@@ -23,7 +23,6 @@ import org.jasig.openregistry.test.util.MockitoUtils;
 import org.mockito.ArgumentMatcher;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.sor.SorSponsor;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.springframework.beans.factory.FactoryBean;
@@ -50,18 +49,15 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
         Set<ConstraintViolation> mockSetWithNoErrors = mock(Set.class, "withNoErrors");        
         when(mockSetWithNoErrors.isEmpty()).thenReturn(true);
 
-        //Stubbing SorSponsor
-        final SorSponsor mockSorSponsor = mock(SorSponsor.class);
-
         //Stubbing 'good' sor role
         final SorRole mockGoodSorRole = mock(SorRole.class);
         when(mockGoodSorRole.getCode()).thenReturn("GOOD");
-        when(mockGoodSorRole.getSponsor()).thenReturn(mockSorSponsor);
+        when(mockGoodSorRole.getSponsorId()).thenReturn(1L);
 
         //Stubbing 'bad' sor role
         final SorRole mockBadSorRole = mock(SorRole.class);
         when(mockBadSorRole.getCode()).thenReturn("BAD");
-        when(mockBadSorRole.getSponsor()).thenReturn(mockSorSponsor);
+        when(mockBadSorRole.getSponsorId()).thenReturn(1L);
 
         //Stubbing service execution result with validation errors
         final ServiceExecutionResult<SorRole> goodExecutionResult = mock(ServiceExecutionResult.class, "good execution result");

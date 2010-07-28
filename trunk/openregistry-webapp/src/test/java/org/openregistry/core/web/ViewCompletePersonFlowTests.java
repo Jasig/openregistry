@@ -42,7 +42,6 @@ import org.springframework.webflow.engine.Flow;
 import org.springframework.webflow.engine.EndState;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.sor.SorSponsor;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.binding.mapping.MappingResults;
 import org.springframework.binding.mapping.Mapper;
@@ -107,7 +106,6 @@ public final class ViewCompletePersonFlowTests extends AbstractXmlFlowExecutionT
         final Person person = mock(Person.class, RETURNS_SMART_NULLS);
         final SorPerson sorPerson = mock(SorPerson.class, RETURNS_SMART_NULLS);
         final SorRole sorRole = mock(SorRole.class, RETURNS_SMART_NULLS);
-        final SorSponsor sorSponsor = mock(SorSponsor.class, RETURNS_SMART_NULLS);
         final Name name = mock(Name.class, RETURNS_SMART_NULLS);
 
         when(person.getId()).thenReturn(1L);
@@ -117,8 +115,7 @@ public final class ViewCompletePersonFlowTests extends AbstractXmlFlowExecutionT
         when(personService.findByPersonIdAndSorIdentifier(1L, "source")).thenReturn(sorPerson);
         when(personService.findPersonById(1L)).thenReturn(person);
         when(sorPerson.pickOutRole("roleCode")).thenReturn(sorRole);
-        when(sorRole.getSponsor()).thenReturn(sorSponsor);
-        when(sorSponsor.getSponsorId()).thenReturn(1L);
+        when(sorRole.getSponsorId()).thenReturn(1L);
 
         setCurrentState("viewCompletePerson");
         getFlowScope().put("person", person);

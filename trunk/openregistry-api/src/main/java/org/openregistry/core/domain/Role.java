@@ -23,7 +23,6 @@ import java.io.Serializable;
 import java.util.Set;
 
 import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.sor.SorSponsor;
 
 /**
  * Entity representing canonical roles associated with resources and persons in the Open Registry system
@@ -36,7 +35,13 @@ public interface Role extends RoleInfo, Serializable, DateRange, Comparable<Role
 
     Set<Address> getAddresses();
 
-    Sponsor getSponsor();
+    Long getSponsorId();
+
+    Type getSponsorType();
+
+    void setSponsorType(Type sponsorType);
+
+    void setSponsorId(Long sponsorId);
 
     int getPercentage();
 

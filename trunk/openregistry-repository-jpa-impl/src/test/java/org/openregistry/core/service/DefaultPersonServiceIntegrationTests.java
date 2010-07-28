@@ -503,9 +503,8 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         sorRole.setPercentage(50);
         sorRole.setStart(new Date());
         sorRole.setPersonStatus(this.referenceRepository.getTypeById(1L));
-        final SorSponsor sponsor = sorRole.getSponsor();
-        sponsor.setSponsorId(1L);
-        sponsor.setType(this.referenceRepository.getTypeById(1L));
+        sorRole.setSponsorId(1L);
+        sorRole.setSponsorType(this.referenceRepository.getTypeById(1L));
 
         final EmailAddress emailAddress = sorRole.addEmailAddress();
         emailAddress.setAddress("scott@scott.com");
@@ -516,8 +515,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertTrue(serviceExecutionResult.getValidationErrors().isEmpty());
         assertEquals(1, countRowsInTable("prs_role_records"));
         assertEquals(1, countRowsInTable("prc_role_records"));
-        assertEquals(1, countRowsInTable("prs_sponsors"));
-        assertEquals(1, countRowsInTable("prc_sponsors"));
         assertEquals(1, countRowsInTable("prs_emails"));
         assertEquals(1, countRowsInTable("prc_emails"));
 
@@ -530,8 +527,6 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         this.entityManager.flush();
         assertEquals(1, countRowsInTable("prs_role_records"));
         assertEquals(1, countRowsInTable("prc_role_records"));
-        assertEquals(1, countRowsInTable("prs_sponsors"));
-        assertEquals(1, countRowsInTable("prc_sponsors"));
         assertEquals(1, countRowsInTable("prs_emails"));
         assertEquals(1, countRowsInTable("prc_emails"));
 
@@ -558,9 +553,9 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
-        final SorSponsor sorSponsor = role.getSponsor();
-        sorSponsor.setSponsorId(1L);
-        sorSponsor.setType(this.referenceRepository.getTypeById(1L));
+
+        role.setSponsorId(1L);
+        role.setSponsorType(this.referenceRepository.getTypeById(1L));
 
         final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
         entityManager.flush();
@@ -600,9 +595,8 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
-        final SorSponsor sorSponsor = role.getSponsor();
-        sorSponsor.setSponsorId(1L);
-        sorSponsor.setType(this.referenceRepository.getTypeById(1L));
+        role.setSponsorId(1L);
+        role.setSponsorType(this.referenceRepository.getTypeById(1L));
 
         final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
         entityManager.flush();
@@ -644,9 +638,8 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
-        final SorSponsor sorSponsor = role.getSponsor();
-        sorSponsor.setSponsorId(1L);
-        sorSponsor.setType(this.referenceRepository.getTypeById(1L));
+        role.setSponsorId(1L);
+        role.setSponsorType(this.referenceRepository.getTypeById(1L));
 
         final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
         entityManager.flush();
@@ -683,9 +676,8 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
-        final SorSponsor sorSponsor = role.getSponsor();
-        sorSponsor.setSponsorId(1L);
-        sorSponsor.setType(this.referenceRepository.getTypeById(1L));
+        role.setSponsorId(1L);
+        role.setSponsorType(this.referenceRepository.getTypeById(1L));
 
         final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
         entityManager.flush();

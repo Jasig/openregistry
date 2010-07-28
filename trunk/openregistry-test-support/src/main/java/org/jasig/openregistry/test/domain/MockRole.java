@@ -44,6 +44,8 @@ public class MockRole extends Entity implements Role {
 
     private String code;
 
+    private Type sponsorType;
+
     public MockRole(final SorRole sorRole) {
         this.sorRoleId = sorRole.getId();
         this.end = sorRole.getEnd();
@@ -66,12 +68,20 @@ public class MockRole extends Entity implements Role {
 		return null;
 	}
 
-	public Sponsor addSponsor(SorSponsor sorSponsor) {
-		return null;
+	public void setSponsorId(Long id) {
+
 	}
 
-	public Sponsor getSponsor() {
-		return null;
+	public Long getSponsorId() {
+		return 1L;
+	}
+
+    public void setSponsorType(Type type) {
+        this.sponsorType = type;
+	}
+
+	public Type getSponsorType() {
+		return sponsorType;
 	}
 
 	public Type getTerminationReason() {

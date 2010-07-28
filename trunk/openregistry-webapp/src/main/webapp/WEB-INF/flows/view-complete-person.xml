@@ -43,13 +43,13 @@
             <set name="flowScope.viewRoleTitle" value="requestParameters.sorSource" />
             <evaluate expression="personService.findByPersonIdAndSorIdentifier(person.id, sorSource)" result="requestScope.sorPerson"/>
             <evaluate expression="sorPerson.pickOutRole(roleCode)" result="flowScope.role"/>
-            <evaluate expression="personService.findPersonById(role.sponsor.sponsorId)" result="flowScope.sponsorPerson" />
+            <evaluate expression="personService.findPersonById(role.sponsorId)" result="flowScope.sponsorPerson" />
         </transition>
         <transition on="submitViewRole" to="viewRole" >
             <set name="requestScope.roleCode" value="requestParameters.roleCode" />
             <set name="flowScope.viewRoleTitle" value="'Calculated Role'" />
             <evaluate expression="person.pickOutRole(roleCode)" result="flowScope.role"/>
-            <evaluate expression="personService.findPersonById(role.sponsor.sponsorId)" result="flowScope.sponsorPerson" />
+            <evaluate expression="personService.findPersonById(role.sponsorId)" result="flowScope.sponsorPerson" />
         </transition>
         <transition on="submitNewSearch" to="newSearch" />
     </view-state>

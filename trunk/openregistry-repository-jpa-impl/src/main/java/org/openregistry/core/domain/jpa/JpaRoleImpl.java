@@ -23,7 +23,6 @@ import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.sor.SorSponsor;
 import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.sor.SystemOfRecord;
 import org.springframework.util.Assert;
@@ -71,10 +70,12 @@ public class JpaRoleImpl extends Entity implements Role {
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Address> addresses = new HashSet<Address>();
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "sponsor_id")
-    @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-    private JpaSponsorImpl sponsor;
+    @Column(name="sponsor_id", nullable = false)
+    private Long sponsorId;
+
+    @ManyToOne(optional = false, targetEntity = JpaTypeImpl.class)
+    @JoinColumn(name="sponsor_t")
+    private Type sponsorType;
 
     @Column(name = "percent_time", nullable = false)
     private int percentage;
@@ -209,18 +210,22 @@ public class JpaRoleImpl extends Entity implements Role {
         return this.roleInfo.getAffiliationType();
     }
 
-    protected void addSponsor(final SorSponsor sorSponsor) {
-        if (sponsor == null) {
-            this.sponsor = new JpaSponsorImpl();
-        }
-        this.sponsor.setSponsorId(sorSponsor.getSponsorId());
-        this.sponsor.setType(sorSponsor.getType());
-    }
+    public Long getSponsorId() {
+		return this.sponsorId;
+	}
 
-    public Sponsor getSponsor() {
-        return this.sponsor;
-    }
+	public Type getSponsorType() {
+		return this.sponsorType;
+	}
 
+	public void setSponsorId(final Long id) {
+		this.sponsorId = id;
+	}
+
+	public void setSponsorType(final Type type) {
+        Assert.isInstanceOf(JpaTypeImpl.class, type);
+	    this.sponsorType = type;
+	}
     public int getPercentage() {
         return this.percentage;
     }
@@ -321,7 +326,8 @@ public class JpaRoleImpl extends Entity implements Role {
         	addUrl(url);
         }
 
-        this.addSponsor(sorRole.getSponsor());
+        this.setSponsorId(sorRole.getSponsorId());
+        this.setSponsorType(sorRole.getSponsorType());
     }
 
     @Override

@@ -86,7 +86,13 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
 
     RoleInfo getRoleInfo();
 
-    SorSponsor getSponsor();
+    Long getSponsorId();
+
+    Type getSponsorType();
+
+    void setSponsorType(Type sponsorType);
+    
+    void setSponsorId(Long sponsorId);
 
     Type getTerminationReason();
 
