@@ -39,7 +39,7 @@ import javax.persistence.*;
 )
 @Audited
 @Cacheable(true)
-@org.hibernate.annotations.Table(indexes = {@Index(name="TYPE_INDEX", columnNames = "data_type"), @Index(name = "TYPE_DESCRIPTION_INDEX", columnNames = {"data_type", "description"})}, appliesTo = "ctx_data_types")
+@org.hibernate.annotations.Table(indexes = {@Index(name="TYPE_INDEX", columnNames = "data_type")}, appliesTo = "ctx_data_types")
 public class JpaTypeImpl extends Entity implements Type {
 
     @Id
