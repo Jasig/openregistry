@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 @Table(name="prd_identifier_types", uniqueConstraints= @UniqueConstraint(columnNames={"name"}))
 @Audited
 @Cacheable(true)
-@org.hibernate.annotations.Table(appliesTo = "prd_identifier_types", indexes = @Index(name="ID_TYPE_NAME_INDEX", columnNames = "name"))
+@org.hibernate.annotations.Table(appliesTo = "prd_identifier_types")
 public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 
     @Id
