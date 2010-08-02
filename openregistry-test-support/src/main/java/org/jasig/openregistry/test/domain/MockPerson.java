@@ -24,7 +24,6 @@ import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorRole;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * @version $Revision$ $Date$
@@ -33,10 +32,6 @@ import java.util.regex.Pattern;
 public class MockPerson implements Person {
 
     private ActivationKey activationKey = new MockActivationKey(UUID.randomUUID().toString(), new Date(), new Date());
-
-    private final String identifierType = "NETID";
-
-    private final String identifierValue;
 
 	private List<Role> roles = new ArrayList<Role>();
 
@@ -47,13 +42,20 @@ public class MockPerson implements Person {
     private MockEmailAddress mockEmailAddress = new MockEmailAddress();
 
     private MockPhoneNumber mockPhoneNumber = new MockPhoneNumber();
+    
+    private final Set<Identifier> identifiers = new HashSet<Identifier>();
 
+    /**
+     * Generates a new active, non-expired person with Identifier of type NETID
+     */
     public MockPerson() {
         this("testId", false, false);
     }
 
+    /**
+     * Generates a person with Identifier of type NETID with supplied value
+     */
     public MockPerson(final String identifierValue, final boolean notActive, final boolean expired) {
-        this.identifierValue = identifierValue;
 
         if (notActive && expired) {
             throw new IllegalArgumentException("You're crazy!");
@@ -74,6 +76,7 @@ public class MockPerson implements Person {
         }
 
         this.activationKey = new MockActivationKey("key", startDate, endDate);
+        this.addIdentifier(new MockIdentifierType("NETID", false), identifierValue);
     }
 
     public Long getId() {
@@ -140,116 +143,7 @@ public class MockPerson implements Person {
     }
 
     public Set<Identifier> getIdentifiers() {
-        final Set<Identifier> identifiers = new HashSet<Identifier>();
-
-        final Identifier id = new Identifier() {
-
-            private final Date creationDate = new Date();
-            public IdentifierType getType() {
-                return new IdentifierType() {
-                    public Long getId() {
-                        return 1L;
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return "description";
-                    }
-
-                    @Override
-                    public String getFormatAsString() {
-                        return "\\d+";
-                    }
-
-                    public Pattern getFormatAsPattern() {
-                        return null;
-                    }
-
-                    @Override
-                    public boolean isPrivate() {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean isModifiable() {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean isDeleted() {
-                        return false;
-                    }
-
-                    public String getName() {
-                        return identifierType;
-                    }
-
-                    public boolean equals(final Object o) {
-                        if (o == null) {
-                            return false;
-                        }
-
-                        if (!(o instanceof IdentifierType)) {
-                            return false;
-                        }
-
-                        final IdentifierType idType = (IdentifierType) o;
-                        return getName().equals(idType.getName());
-                    }
-                 };
-             }
-
-            @Override
-            public Date getCreationDate() {
-                return this.creationDate;
-            }
-
-            @Override
-            public Date getDeletedDate() {
-                return null;
-            }
-
-            public String getValue() {
-                return identifierValue;
-            }
-
-            public boolean isPrimary() {
-                return true;
-            }
-
-            public boolean isDeleted() {
-                return false;
-            }
-
-            public void setPrimary(boolean value) {
-
-            }
-
-            public void setDeleted(final boolean value) {
-
-            }
-
-            public boolean equals(final Object o) {
-                if (o == null) {
-                    return false;
-                }
-
-                if (!(o instanceof Identifier)) {
-                    return false;
-                }
-
-                final Identifier id = (Identifier) o;
-
-                return (identifierValue.equals(id.getValue()) && getType().equals(id.getType()));
-            }
-        };
-
-        identifiers.add(id);
-        return identifiers;
-    }
-
-    public Identifier addIdentifier(IdentifierType identifierType, String value) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+       return identifiers;
     }
 
     public Name getPreferredName() {
@@ -275,7 +169,6 @@ public class MockPerson implements Person {
     public void setGender(String gender) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
-
     public String getDisclosure() {
         return null;
     }
@@ -283,11 +176,41 @@ public class MockPerson implements Person {
     public void setDisclosure(final String disclosure) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
-
-    public Identifier addIdentifier() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    
+    public Identifier addIdentifier(IdentifierType identifierType, String value) {
+    	MockIdentifier mid = new MockIdentifier(this, identifierType, value);
+    	this.identifiers.add(mid);
+    	return mid; 
     }
 
+	@Override
+	public Identifier setIdentifierNotified(IdentifierType identifierType, Date date) {
+		if (!identifierType.isNotifiable()) {
+			throw new IllegalArgumentException("Only notifiable identifiers can have a notification date set");
+		}
+		Identifier identiferToUpdate = null;
+		Deque<Identifier> idsForType = this.getIdentifiersByType().get(identifierType.getName());
+		
+		if (idsForType != null) {
+			for (Identifier id : idsForType) {
+				if (id.getNotificationDate() == null) {
+					if (identiferToUpdate == null) {
+						identiferToUpdate = id;
+					} else {
+						throw new IllegalStateException("More than one identifier needing notification has been found"); 
+					}
+				}
+			}
+		}
+		if (identiferToUpdate != null) {
+			identiferToUpdate.setNotificationDate(date);
+		} else {
+			throw new IllegalStateException("Identifier to be updated was not found");
+		}
+	
+		return identiferToUpdate;
+	}
+	
     public Name addOfficialName() {
         MockName name = new MockName();
         name.setOfficialName(true);
@@ -305,7 +228,12 @@ public class MockPerson implements Person {
     }
 
     public Role pickOutRole(String code) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        for(final Role r : this.roles) {
+            if(r.getCode().equals(code)) {
+                return r;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -323,7 +251,25 @@ public class MockPerson implements Person {
 
     @Override
     public Map<String, Deque<Identifier>> getIdentifiersByType() {
-        return new HashMap<String, Deque<Identifier>>();
+        final Map<String, Deque<Identifier>> identifiersByType = new HashMap<String, Deque<Identifier>>();
+
+        for (final Identifier identifier : this.identifiers) {
+            final String identifierType = identifier.getType().getName();
+            Deque<Identifier> listIdentifiers = identifiersByType.get(identifierType);
+
+            if (listIdentifiers == null) {
+                listIdentifiers = new ArrayDeque<Identifier>();
+                identifiersByType.put(identifierType, listIdentifiers);
+            }
+
+            if (identifier.isPrimary()) {
+                listIdentifiers.addFirst(identifier);
+            } else {
+                listIdentifiers.addLast(identifier);
+            }
+        }
+
+        return identifiersByType;
     }
 
     public ActivationKey generateNewActivationKey(Date start, Date end) {
@@ -370,9 +316,7 @@ public class MockPerson implements Person {
 
     @Override
     public String toString() {
-        return "MockPerson{" +
-                "id=" + id +
-                ", identifierValue='" + identifierValue + '\'' +
-                '}';
+        return "MockPerson{" + "id=" + id + '}';
     }
+
 }
