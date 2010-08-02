@@ -12,6 +12,7 @@ public abstract class JpaIdentifierTypeImpl_ {
 	public static volatile SingularAttribute<JpaIdentifierTypeImpl, Boolean> privateIdentifier;
 	public static volatile SingularAttribute<JpaIdentifierTypeImpl, Boolean> modifiable;
 	public static volatile SingularAttribute<JpaIdentifierTypeImpl, Boolean> deleted;
+	public static volatile SingularAttribute<JpaIdentifierTypeImpl, Boolean> notifiable;
 	public static volatile SingularAttribute<JpaIdentifierTypeImpl, String> description;
 
 }

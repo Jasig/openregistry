@@ -80,6 +80,11 @@ public interface IdentifierType extends Serializable {
     boolean isDeleted();
 
     
-
+    /**
+     * Determines whether this type of identifier supports notifying the Person of its creation.
+     *
+     * @return true if notifications are supported, false otherwise.
+     */
+    boolean isNotifiable();
     
 }
