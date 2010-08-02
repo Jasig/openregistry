@@ -120,6 +120,18 @@ public interface Person extends Serializable {
      */
     Identifier addIdentifier(IdentifierType identifierType, String value);
 
+     /**
+     * Sets the notified date on the primary identifier of specified type to the supplied value
+     * @param identifierType the type of identifier that is being updated
+     * @param date the date when notification was sent
+     * @return the updated identifier
+	 * @throws IllegalArgumentException if identifierType argument is null
+	 * @throws IllegalStateException if notifications do not apply to the supplied identifier type,
+	 * or if a primary identifier of the supplied type can't be found, or if more than one exists
+	 */
+    Identifier setIdentifierNotified(IdentifierType identifierType, Date date)
+    	throws IllegalArgumentException, IllegalStateException;
+    
     /**
      * Pick out the specific <code>Role</code> identified by provided role code
      * from the collection of this person's roles

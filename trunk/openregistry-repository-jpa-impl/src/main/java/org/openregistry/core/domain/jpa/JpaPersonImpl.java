@@ -177,6 +177,23 @@ public class JpaPersonImpl extends Entity implements Person {
         return jpaIdentifier;
     }
 
+	public Identifier setIdentifierNotified(IdentifierType identifierType, Date date) 
+		throws IllegalStateException, IllegalArgumentException {
+
+		if (identifierType == null) {
+			throw new IllegalArgumentException("Identifier type must be supplied");
+		}
+		
+		Identifier identiferToUpdate = this.getPrimaryIdentifiersByType().get(identifierType.getName());
+		if (identiferToUpdate != null && identiferToUpdate.getNotificationDate() == null) {
+			identiferToUpdate.setNotificationDate(date);
+		} else {
+			throw new IllegalStateException("Identifier to be updated was not found");
+		}
+
+		return identiferToUpdate;
+	}
+	
     public Role pickOutRole(final String code) {
         //TODO: Is this the correct assumption???
         for(final Role r : this.roles) {
@@ -282,4 +299,5 @@ public class JpaPersonImpl extends Entity implements Person {
         }
         return null;
     }
+
 }
