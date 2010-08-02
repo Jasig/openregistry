@@ -25,7 +25,7 @@ public abstract class JpaSorRoleImpl_ {
 	public static volatile ListAttribute<JpaSorRoleImpl, Leave> leaves;
 	public static volatile SingularAttribute<JpaSorRoleImpl, JpaRoleInfoImpl> roleInfo;
 	public static volatile SingularAttribute<JpaSorRoleImpl, Long> sponsorId;
-	// put this back public static volatile SingularAttribute<JpaSorRoleImpl, JpaTypeImpl> sponsorType;
+	public static volatile SingularAttribute<JpaSorRoleImpl, JpaTypeImpl> sponsorType;
     public static volatile SingularAttribute<JpaSorRoleImpl, Date> start;
 	public static volatile SingularAttribute<JpaSorRoleImpl, Date> end;
 	public static volatile SingularAttribute<JpaSorRoleImpl, JpaTypeImpl> terminationReason;
