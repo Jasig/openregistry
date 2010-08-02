@@ -53,15 +53,25 @@ public interface Identifier extends Serializable {
      * The date the identifier was created.  CANNOT be null.
      * <p>
      * This *should* be set at creation time and not actually set.
-     * @return the creation date.
+     * @return a copy of the creation date
      */
     Date getCreationDate();
 
     /**
      * The date the identifier was deleted.  CANNOT be null if deleted is true.
-     * @return the deletion date, if deleted is true.  This should be set when isDeleted is called, and not separately.
+     * @return a copy of the deletion date, if deleted is true.  This should be set when isDeleted is called, and not separately.
      */
     Date getDeletedDate();
+        
+	/**
+     * The date the Person was notified about this identifier.  
+     * Will be null if the Person has not been notified.
+     * This is only applicable to identifiers which have an IdentifierType with isNotifiable() == true
+     * @return a copy of the notification date.
+     * @throws IllegalStateException if this identifier is not of a notifiable type
+     */
+    Date getNotificationDate () throws IllegalStateException;
+
    
     void setPrimary(boolean value);
 
@@ -72,4 +82,11 @@ public interface Identifier extends Serializable {
      * @param value whether it was deleted or not.
      */
     void setDeleted(boolean value);
+    
+    /**
+     * Sets the date on which the notification about this identifier was sent
+     * @param date
+     * @throws IllegalStateException if trying to set the date on an identifier that is not of a "notifiable" type
+     */
+    void setNotificationDate(Date date) throws IllegalStateException;
 }
