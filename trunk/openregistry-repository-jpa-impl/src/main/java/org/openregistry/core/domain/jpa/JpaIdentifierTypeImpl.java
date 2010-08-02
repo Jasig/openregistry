@@ -25,8 +25,6 @@ import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
@@ -64,6 +62,9 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 
     @Column(name="deleted", nullable = false)
     private boolean deleted = false;
+
+    @Column(name="notifiable",nullable = false)
+    private boolean notifiable = false;
 
     @Column(name="description",nullable = false, length=200)
     private String description;
@@ -103,6 +104,11 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
     public boolean isModifiable() {
         return this.modifiable;
     }
+    
+	@Override
+	public boolean isNotifiable() {
+		return this.notifiable;
+	}
 
     @Override
     public boolean isDeleted() {
@@ -116,4 +122,5 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
     public String toString() {
         return this.name;
     }
+
 }
