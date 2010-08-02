@@ -42,6 +42,8 @@ public class MockSorRole extends Entity implements SorRole {
 	private String sourceSorIdentifier;
 
 	private Type terminationReason;
+	
+	private List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
 
     private Type sponsorType;
 
@@ -116,7 +118,6 @@ public class MockSorRole extends Entity implements SorRole {
 		return sponsorType;
 	}
 
-
 	public Type getTerminationReason() {
 		return terminationReason;
 	}
@@ -146,7 +147,7 @@ public class MockSorRole extends Entity implements SorRole {
 	}
 
 	public List<EmailAddress> getEmailAddresses() {
-		return new ArrayList<EmailAddress>();
+		return emailAddresses;
 	}
 
 	public EmailAddress removeEmailAddressById(Long id) {
@@ -154,7 +155,7 @@ public class MockSorRole extends Entity implements SorRole {
 	}
 
 	public EmailAddress addEmailAddress() {
-		return null;
+        return null;
 	}
 
 	public Phone addPhone() {
@@ -225,8 +226,21 @@ public class MockSorRole extends Entity implements SorRole {
 
     @Override
     public void addOrUpdateEmail(String emailAddress, Type emailType) {
-        throw new UnsupportedOperationException("This mock does not implement this method yet");
-    }
+        boolean updated = false;
+        for (EmailAddress e : this.emailAddresses) {
+            if (e.getAddressType().isSameAs(emailType)) {
+                e.setAddress(emailAddress);
+                updated = true;
+                break;
+            }
+        }
+        if (!updated) {
+            EmailAddress e = new MockEmailAddress();
+            e.setAddressType(emailType);
+            e.setAddress(emailAddress);
+            this.emailAddresses.add(e);
+        }
+   }
 
     @Override
     public boolean isTerminated() {
