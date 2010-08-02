@@ -26,6 +26,7 @@ import org.hibernate.envers.Audited;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+
 import java.util.Date;
 
 /**
@@ -73,7 +74,11 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @Column(name="deleted_date", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
-
+    
+    @Column(name="notification_date", nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date notificationDate;
+    
     public JpaIdentifierImpl() {
         // nothing to do
     }
@@ -93,7 +98,8 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     }
 
     public IdentifierType getType() {
-        return this.type;
+    	// safe to return a reference since the type should be immutable
+    	return this.type;
     }
 
     public String getValue() {
@@ -110,18 +116,25 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
 
     @Override
     public Date getCreationDate() {
-        return this.creationDate;
+        return (this.creationDate == null) ? null : new Date(this.creationDate.getTime());
     }
 
     @Override
     public Date getDeletedDate() {
-        return this.deletedDate;
+        return (this.deletedDate == null) ? null : new Date(this.deletedDate.getTime());
     }
 
-    public void setType(final IdentifierType type) {
-        Assert.isInstanceOf(JpaIdentifierTypeImpl.class, type, "Requires type JpaIdentifierTypeImpl.");
-        this.type = (JpaIdentifierTypeImpl) type;
-    }
+    /**
+     * @throws IllegalStateException if this identifier is not of a notifiable type
+     * @see org.openregistry.core.domain.Identifier#getNotificationDate()
+     */
+	public Date getNotificationDate() throws IllegalStateException {
+		if (this.type == null || !this.type.isNotifiable()) {
+			throw new IllegalStateException ("Only identifiers with notifiable IdentifierType may have notification dates");
+		} else {
+			return (this.notificationDate == null) ? null : new Date(this.notificationDate.getTime());
+		}
+	}
 
     public void setValue(String value) {
         this.value = value;
@@ -144,6 +157,22 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
             this.deletedDate = null;
         }
     }
+
+    /**
+     * @throws IllegalStateException if the type of this identifier is not notifiable
+     * @see org.openregistry.core.domain.Identifier#setNotificationDate(java.util.Date)
+     */
+	public void setNotificationDate(Date date) throws IllegalStateException {
+		if (date != null) {
+			if (this.type == null || !this.type.isNotifiable()) {
+				throw new IllegalStateException ("Only identifiers with notifiable IdentifierType may have notification dates");
+			} else {
+				this.notificationDate = new Date(date.getTime());
+			}
+		} else {
+			this.notificationDate = null;
+		}
+	}
 
     @Override
     public String toString() {
