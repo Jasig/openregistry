@@ -67,4 +67,7 @@
     <bean id="referenceRepository" class="org.openregistry.core.repository.jpa.JpaReferenceRepository" />
 
     <bean id="systemOfRecordRepository" class="org.jasig.openregistry.test.repository.MockSystemOfRecordRepository" />
+    
+    <bean id="mockMailSender" class="org.jasig.openregistry.test.service.MockMailSender" />
+    
 </beans>
