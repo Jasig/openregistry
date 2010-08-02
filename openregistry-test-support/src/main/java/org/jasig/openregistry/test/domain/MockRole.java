@@ -43,6 +43,8 @@ public class MockRole extends Entity implements Role {
     private Date end;
 
     private String code;
+    
+    private Set <EmailAddress> emailAddresses = new HashSet<EmailAddress>();
 
     private Type sponsorType;
 
@@ -50,6 +52,9 @@ public class MockRole extends Entity implements Role {
         this.sorRoleId = sorRole.getId();
         this.end = sorRole.getEnd();
         this.terminationReason = sorRole.getTerminationReason();
+        for (EmailAddress ea : sorRole.getEmailAddresses()) {
+        	this.addEmailAddress(ea);
+         }
     }
 
 	public MockRole(Long id) {
@@ -128,7 +133,7 @@ public class MockRole extends Entity implements Role {
 	}
 
 	public Set<EmailAddress> getEmailAddresses() {
-		return new HashSet<EmailAddress>();
+		return emailAddresses;
 	}
 
 	public EmailAddress addEmailAddress() {
@@ -136,7 +141,11 @@ public class MockRole extends Entity implements Role {
 	}
 
 	public EmailAddress addEmailAddress(EmailAddress sorEmailAddress) {
-		return null;
+		MockEmailAddress ea = new MockEmailAddress();
+		ea.setAddress(sorEmailAddress.getAddress());
+		ea.setAddressType(sorEmailAddress.getAddressType());
+		emailAddresses.add(ea);
+		return ea;
 	}
 
 
