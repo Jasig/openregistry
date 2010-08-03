@@ -254,18 +254,14 @@ public class DefaultPersonService implements PersonService {
         Assert.notNull(sorPerson, "SorPerson cannot be null.");
         Assert.notNull(sorRole, "SorRole cannot be null.");
 
-        // check if the SoR Role has an ID assigned to it already
-        if (!StringUtils.hasText(sorRole.getSorId())) {
-            sorRole.setSorId(this.identifierGenerator.generateNextString());
-        }
+        // check if the SoR Role has an ID assigned to it already and assign source sor
+        setRoleIdAndSource(sorRole, sorPerson.getSourceSor());
 
         final Set validationErrors = this.validator.validate(sorRole);
 
         if (!validationErrors.isEmpty()) {
             return new GeneralServiceExecutionResult<SorRole>(validationErrors);
         }
-
-        sorRole.setSourceSorIdentifier(sorPerson.getSourceSor());
 
         final SorPerson newSorPerson = this.personRepository.saveSorPerson(sorPerson);
         final Person person = this.personRepository.findByInternalId(newSorPerson.getPersonId());
@@ -378,13 +374,26 @@ public class DefaultPersonService implements PersonService {
             throw new IllegalStateException();
         }
 
+        // Iterate over any sorRoles setting sorid and source id if not specified by SoR.
+        for (final SorRole sorRole : sorPerson.getRoles()){
+            setRoleIdAndSource(sorRole, sorPerson.getSourceSor());
+        }
+        
         // Save Sor Person
         final SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
 
-        final Person person = this.findPersonById(savedSorPerson.getPersonId());
+        Person person = this.findPersonById(savedSorPerson.getPersonId());
+
         Assert.notNull(person, "person cannot be null.");
 
-        recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
+        // Iterate over sorRoles, some may be new or updated.
+        for (final SorRole savedSorRole:savedSorPerson.getRoles()){
+            Role role = person.findRoleBySoRRoleId(savedSorRole.getId());
+            if (role == null) person.addRole(savedSorRole);
+            else role.recalculate(savedSorRole); // role may have been updated, so recalculate.
+        }
+
+        person = recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
 
         return new GeneralServiceExecutionResult<SorPerson>(savedSorPerson);
     }
@@ -615,12 +624,25 @@ public class DefaultPersonService implements PersonService {
             reconciliationCriteria.getSorPerson().setSorId(this.identifierGenerator.generateNextString());
         }
 
+        logger.info("Executing new code!!!!!!");
+
+        // Iterate over any sorRoles setting sorid and source id
+        for (final SorRole sorRole : reconciliationCriteria.getSorPerson().getRoles()){
+            setRoleIdAndSource(sorRole, reconciliationCriteria.getSorPerson().getSourceSor());
+        }
+
         // Save Sor Person
         final SorPerson sorPerson = this.personRepository.saveSorPerson(reconciliationCriteria.getSorPerson());
         final Person savedPerson = recalculatePersonBiodemInfo(this.personObjectFactory.getObject(), sorPerson, RecalculationType.ADD, false);
 
         for (final IdentifierAssigner ia : this.identifierAssigners) {
             ia.addIdentifierTo(sorPerson, savedPerson);
+        }
+
+        // Create calculated roles.
+        for (final SorRole newSorRole : sorPerson.getRoles()){
+            logger.info("Executing new code: Adding calculated role!!!!!!");
+            savedPerson.addRole(newSorRole);
         }
 
         final Person newPerson = this.personRepository.savePerson(savedPerson);
@@ -644,8 +666,19 @@ public class DefaultPersonService implements PersonService {
             sorPerson.setSorId(this.identifierGenerator.generateNextString());
         }
 
+        // Iterate over any sorRoles setting sorid and source id
+        for (final SorRole sorRole : sorPerson.getRoles()){
+            setRoleIdAndSource(sorRole, sorPerson.getSourceSor());
+        }
+
         sorPerson.setPersonId(person.getId());
         final SorPerson savedSorPerson = this.personRepository.saveSorPerson(sorPerson);
+
+        // Create calculated roles.
+        for (final SorRole newSorRole : savedSorPerson.getRoles()){
+            person.addRole(newSorRole);
+        }
+
         return recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
     }
 
@@ -656,5 +689,14 @@ public class DefaultPersonService implements PersonService {
         return addSorPersonAndLink(reconciliationCriteria, person);
     }
 
+    private void setRoleIdAndSource(SorRole sorRole, String sorSource){
+        if (!StringUtils.hasText(sorRole.getSorId())) {
+                sorRole.setSorId(this.identifierGenerator.generateNextString());
+        }
+
+        if (!StringUtils.hasText(sorRole.getSourceSorIdentifier())) {
+            sorRole.setSourceSorIdentifier(sorSource);
+        }
+    }
 
 }
