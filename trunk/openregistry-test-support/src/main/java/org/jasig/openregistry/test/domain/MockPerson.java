@@ -184,31 +184,20 @@ public class MockPerson implements Person {
     }
 
 	@Override
-	public Identifier setIdentifierNotified(IdentifierType identifierType, Date date) {
+	public void setIdentifierNotified(IdentifierType identifierType, Date date) {
 		if (!identifierType.isNotifiable()) {
 			throw new IllegalArgumentException("Only notifiable identifiers can have a notification date set");
 		}
-		Identifier identiferToUpdate = null;
-		Deque<Identifier> idsForType = this.getIdentifiersByType().get(identifierType.getName());
-		
-		if (idsForType != null) {
-			for (Identifier id : idsForType) {
-				if (id.getNotificationDate() == null) {
-					if (identiferToUpdate == null) {
-						identiferToUpdate = id;
-					} else {
-						throw new IllegalStateException("More than one identifier needing notification has been found"); 
-					}
-				}
-			}
+		if (identifierType == null) {
+			throw new IllegalArgumentException("Identifier type must be supplied");
 		}
-		if (identiferToUpdate != null) {
+		
+		Identifier identiferToUpdate = this.getPrimaryIdentifiersByType().get(identifierType.getName());
+		if (identiferToUpdate != null && identiferToUpdate.getNotificationDate() == null) {
 			identiferToUpdate.setNotificationDate(date);
 		} else {
 			throw new IllegalStateException("Identifier to be updated was not found");
 		}
-	
-		return identiferToUpdate;
 	}
 	
     public Name addOfficialName() {
