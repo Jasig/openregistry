@@ -386,11 +386,15 @@ public class DefaultPersonService implements PersonService {
 
         Assert.notNull(person, "person cannot be null.");
 
-        // Iterate over sorRoles, some may be new or updated.
+        // Iterate over sorRoles. SorRoles may be new or updated.
         for (final SorRole savedSorRole:savedSorPerson.getRoles()){
             Role role = person.findRoleBySoRRoleId(savedSorRole.getId());
-            if (role == null) person.addRole(savedSorRole);
-            else role.recalculate(savedSorRole); // role may have been updated, so recalculate.
+            if (role == null) {
+                person.addRole(savedSorRole);
+            }
+            else {
+                role.recalculate(savedSorRole); // role may have been updated, so recalculate.
+            }
         }
 
         person = recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
@@ -641,7 +645,6 @@ public class DefaultPersonService implements PersonService {
 
         // Create calculated roles.
         for (final SorRole newSorRole : sorPerson.getRoles()){
-            logger.info("Executing new code: Adding calculated role!!!!!!");
             savedPerson.addRole(newSorRole);
         }
 
