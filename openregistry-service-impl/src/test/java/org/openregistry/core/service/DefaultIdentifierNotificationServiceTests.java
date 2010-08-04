@@ -64,7 +64,9 @@ public class DefaultIdentifierNotificationServiceTests {
     	person.addName(createMockSorName("Firstname", "Lastname"));
     	person.getPreferredContactEmailAddress().setAddress("test-preferred@test.test");
     	IdentifierType identifierType = new MockIdentifierType("testNotifiableId", true);
-    	person.addIdentifier(identifierType, "notifiableId");
+    	Identifier id = person.addIdentifier(identifierType, "notifiableId");
+    	id.setPrimary(true);
+    	
     	mockPersonRepository.getPersons().clear();
     	mockPersonRepository.getPersons().add(person);
     	
@@ -78,7 +80,9 @@ public class DefaultIdentifierNotificationServiceTests {
     	person.addName(createMockSorName("Firstname", "Lastname"));
     	person.getPreferredContactEmailAddress().setAddress("test-preferred@test.test");
     	IdentifierType identifierType = new MockIdentifierType("testNotifiableId", true);
-    	person.addIdentifier(identifierType, "notifiableId");
+    	Identifier id = person.addIdentifier(identifierType, "notifiableId");
+    	id.setPrimary(true);
+    	
     	mockPersonRepository.getPersons().clear();
     	mockPersonRepository.getPersons().add(person);
     	
@@ -92,7 +96,9 @@ public class DefaultIdentifierNotificationServiceTests {
     	person.addName(createMockSorName("Firstname", "Lastname"));
     	person.getPreferredContactEmailAddress().setAddress("test-preferred@test.test");
     	IdentifierType identifierType = new MockIdentifierType("testNotifiableId", true);
-    	person.addIdentifier(identifierType, "notifiableId");
+    	Identifier id = person.addIdentifier(identifierType, "notifiableId");
+    	id.setPrimary(true);
+    	
     	mockPersonRepository.getPersons().clear();
     	mockPersonRepository.getPersons().add(person);
     	
@@ -112,7 +118,8 @@ public class DefaultIdentifierNotificationServiceTests {
     	
     	// add identifier
     	IdentifierType identifierType = new MockIdentifierType("testNotifiableId", true);
-    	person.addIdentifier(identifierType, "notifiableId");
+    	Identifier id = person.addIdentifier(identifierType, "notifiableId");
+    	id.setPrimary(true);
     	
     	// add role with a home email address
     	SorRole sorRole = new MockSorRole();
