@@ -164,9 +164,11 @@ public class JpaPersonImplTests extends AbstractTransactionalJUnit4SpringContext
     	person.addIdentifier(notifiableType, NOTIFIABLE_IDENTIFIER_VALUE);
     	person.addIdentifier(nonNotifiableType, NON_NOTIFIABLE_IDENTIFIER_VALUE);
     	
-    	assertNull("Notification date must be null before update", findIdentifier(person, notifiableType, NOTIFIABLE_IDENTIFIER_VALUE).getNotificationDate());
-    	Identifier returnedId = person.setIdentifierNotified(notifiableType, notificationDate);
-
+    	Identifier returnedId = findIdentifier(person, notifiableType, NOTIFIABLE_IDENTIFIER_VALUE);
+    	assertNull("Notification date must be null before update", returnedId.getNotificationDate());
+    	person.setIdentifierNotified(notifiableType, notificationDate);
+    	
+    	returnedId = findIdentifier(person, notifiableType, NOTIFIABLE_IDENTIFIER_VALUE);
     	// verify that the date has been set
     	assertNotNull("Notification date should be set", returnedId.getNotificationDate());
     	assertTrue("This identifier must be primary", returnedId.isPrimary());
@@ -185,7 +187,8 @@ public class JpaPersonImplTests extends AbstractTransactionalJUnit4SpringContext
     	Identifier id = person.addIdentifier(notifiableType, NOTIFIABLE_IDENTIFIER_VALUE);
     	
     	// Set the date on first identifier
-    	Identifier returnedId = person.setIdentifierNotified(notifiableType, notificationDate);
+    	person.setIdentifierNotified(notifiableType, notificationDate);
+    	Identifier returnedId = findIdentifier(person, notifiableType, NOTIFIABLE_IDENTIFIER_VALUE);
     	
     	// verify that the date has been set
     	assertNotNull("Notification date should be set", returnedId.getNotificationDate());
@@ -201,7 +204,9 @@ public class JpaPersonImplTests extends AbstractTransactionalJUnit4SpringContext
     	secondId.setPrimary(true);
     	
     	// Set the date on second identifier
-    	Identifier secondReturnedId = person.setIdentifierNotified(notifiableType, notificationDate);
+    	person.setIdentifierNotified(notifiableType, notificationDate);
+    	Identifier secondReturnedId = findIdentifier(person, notifiableType, secondIdValue);
+    	
     	assertNotNull("Notification date should be set", secondReturnedId.getNotificationDate());
     	assertTrue("Notification date should be set to the correct date", secondReturnedId.getNotificationDate().equals(notificationDate));
     	assertTrue("This identifier must be primary", secondReturnedId.isPrimary());
