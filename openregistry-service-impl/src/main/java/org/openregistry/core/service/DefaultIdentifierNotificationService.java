@@ -91,18 +91,24 @@ public class DefaultIdentifierNotificationService implements
 		} else {
 			// Locate the identifier of supplied type that requires notification		
 			// and update the identifier
-			Identifier idToNotifyAbout = person.setIdentifierNotified(identifierType, this.dateGenerator.getNewDate());
+			Identifier idToNotifyAbout = person.getPrimaryIdentifiersByType().get(identifierType.getName());
 			
 			if (idToNotifyAbout == null) {
 				throw new IllegalStateException("An identifier to send notification about was not found"); 
 			} else {
-				// Retrieve the latest person data
-				Person personToUpdate = this.personRepository.findByIdentifier(identifierType.getName(), idToNotifyAbout.getValue());
-				if (personToUpdate == null) {
-					throw new IllegalStateException("Unable to retrieve person data from the database");
-				} else {
-					this.notificationStrategy.notifyPerson(person, role, addressType, idToNotifyAbout, activationKeyString);
-					this.personRepository.savePerson(personToUpdate);		
+				// Otherwise, if the notification date has already been set, do nothing
+				if (idToNotifyAbout.getNotificationDate() == null) {
+					
+					// Retrieve the latest person data
+					Person personToUpdate = this.personRepository.findByIdentifier(identifierType.getName(), idToNotifyAbout.getValue());
+				
+					if (personToUpdate == null) {
+						throw new IllegalStateException("Unable to retrieve person data from the database");
+					} else {
+						person.setIdentifierNotified(identifierType, this.dateGenerator.getNewDate());
+						this.notificationStrategy.notifyPerson(person, role, addressType, idToNotifyAbout, activationKeyString);
+						this.personRepository.savePerson(personToUpdate);		
+					}
 				}
 			}
 		}
