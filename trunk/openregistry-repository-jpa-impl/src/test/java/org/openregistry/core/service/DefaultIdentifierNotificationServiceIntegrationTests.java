@@ -22,7 +22,6 @@ package org.openregistry.core.service;
 import static org.junit.Assert.*;
 
 import java.util.Date;
-import java.util.Deque;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -32,16 +31,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Type;
-import org.openregistry.core.domain.jpa.JpaRoleImpl;
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorPersonImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorName;
-import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -139,6 +135,52 @@ public class DefaultIdentifierNotificationServiceIntegrationTests extends
     	assertNull("The notified date on Net ID must be null before notification", person.getIdentifiersByType().get(netIdIdentifierType.getName()).getFirst().getNotificationDate());
 
     	this.identifierNotificationService.sendAccountActivationNotification(person, netIdIdentifierType, person.getRoles().get(0), homeEmailType);
+    	
+    	Person notifiedPerson = this.personService.findPersonByIdentifier(netIdIdentifierType.getName(), NET_ID_VALUE);
+    	assertNotNull("The notified date on Net ID must not be null after successful notification", notifiedPerson.getIdentifiersByType().get(netIdIdentifierType.getName()).getFirst().getNotificationDate());
+     }
+    
+    @Test
+    @Rollback
+    public void testSuccessfullyNotifyUserWithTwoRoles() {
+    	
+    	Person person = this.constructPersonWithNetId("Firstname", "LastName", "test@test.test", NET_ID_VALUE);
+		
+    	// add a second role
+    	JpaRoleInfoImpl roleInfo = (JpaRoleInfoImpl) this.referenceRepository.getRoleInfoById(new Long(2));
+
+    	final ReconciliationCriteria reconciliationCriteria = new JpaReconciliationCriteriaImpl();
+    	final JpaSorPersonImpl sorPerson = (JpaSorPersonImpl) reconciliationCriteria.getSorPerson();
+        sorPerson.setDateOfBirth(new Date(0));
+        sorPerson.setGender("M");
+        sorPerson.setSourceSor("TEST_SOR_2");
+       
+		JpaSorRoleImpl sorRole = new JpaSorRoleImpl(roleInfo, sorPerson);
+		sorRole.setStart(new Date(0));
+		sorRole.setPersonStatus(this.referenceRepository.getTypeById(new Long(998)));
+		sorRole.setSponsorType(this.referenceRepository.getTypeById(new Long(5))); // see AbstractIntegrationTests.java
+		sorRole.setSponsorId(new Long(0));
+		sorRole.addOrUpdateEmail("test@test.test", homeEmailType);
+		person.addRole(sorRole);
+
+    	assertNull("The notified date on Net ID must be null before notification", person.getIdentifiersByType().get(netIdIdentifierType.getName()).getFirst().getNotificationDate());
+
+    	this.identifierNotificationService.sendAccountActivationNotification(person, netIdIdentifierType, person.getRoles().get(0), homeEmailType);
+
+    	Date notificationDate = person.getIdentifiersByType().get(netIdIdentifierType.getName()).getFirst().getNotificationDate();
+    	assertNotNull("The notified date on Net ID must not be null after the first notification", notificationDate);
+
+    	try {
+			Thread.sleep(2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+    	//this.identifierNotificationService.sendAccountActivationNotification(person, netIdIdentifierType, person.getRoles().get(1), homeEmailType);
+    	
+    	Date secondNotificationDate = person.getIdentifiersByType().get(netIdIdentifierType.getName()).getFirst().getNotificationDate();
+    	assertNotNull("The notified date on Net ID must not be null after the second notification", secondNotificationDate);
+    	
+    	assertEquals("Notification date must not change after second notification", notificationDate.getTime(), secondNotificationDate.getTime());
     	
     	Person notifiedPerson = this.personService.findPersonByIdentifier(netIdIdentifierType.getName(), NET_ID_VALUE);
     	assertNotNull("The notified date on Net ID must not be null after successful notification", notifiedPerson.getIdentifiersByType().get(netIdIdentifierType.getName()).getFirst().getNotificationDate());
