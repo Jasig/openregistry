@@ -124,12 +124,12 @@ public interface Person extends Serializable {
      * Sets the notified date on the primary identifier of specified type to the supplied value
      * @param identifierType the type of identifier that is being updated
      * @param date the date when notification was sent
-     * @return the updated identifier
 	 * @throws IllegalArgumentException if identifierType argument is null
 	 * @throws IllegalStateException if notifications do not apply to the supplied identifier type,
-	 * or if a primary identifier of the supplied type can't be found, or if more than one exists
+	 * if a primary identifier of the supplied type can't be found, or if the notifier already has 
+	 * a notification date
 	 */
-    Identifier setIdentifierNotified(IdentifierType identifierType, Date date)
+    void setIdentifierNotified(IdentifierType identifierType, Date date)
     	throws IllegalArgumentException, IllegalStateException;
     
     /**
