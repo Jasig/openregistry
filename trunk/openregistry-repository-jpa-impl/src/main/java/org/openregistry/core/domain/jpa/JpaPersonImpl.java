@@ -177,7 +177,7 @@ public class JpaPersonImpl extends Entity implements Person {
         return jpaIdentifier;
     }
 
-	public Identifier setIdentifierNotified(IdentifierType identifierType, Date date) 
+	public void setIdentifierNotified(IdentifierType identifierType, Date date) 
 		throws IllegalStateException, IllegalArgumentException {
 
 		if (identifierType == null) {
@@ -190,8 +190,6 @@ public class JpaPersonImpl extends Entity implements Person {
 		} else {
 			throw new IllegalStateException("Identifier to be updated was not found");
 		}
-
-		return identiferToUpdate;
 	}
 	
     public Role pickOutRole(final String code) {
