@@ -48,6 +48,7 @@
             <sec:filter-chain pattern="/**/*.htm*" filters="httpSessionContextIntegrationFilter,logoutFilter,casProcessingFilter,securityContextHolderAwareRequestFilter,casExceptionTranslationFilter,filterInvocationInterceptor"/>
             <sec:filter-chain pattern="/**/people/**/activation*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
             <sec:filter-chain pattern="/**/people/**/activation/*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
+            <sec:filter-chain pattern="/**/sor/**/people*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
         </sec:filter-chain-map>
     </bean>
 
@@ -55,8 +56,9 @@
         p:authenticationManager-ref="authenticationManager"
         p:accessDecisionManager-ref="accessDecisionManager">
         <property name="securityMetadataSource">
-            <sec:filter-security-metadata-source path-type="ant">
-                <sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />
+            <sec:filter-security-metadata-source use-expressions="true">
+               <sec:intercept-url pattern="/**/sor/**/people*" access="hasAnyRole('ROLE_PI','ROLE_ADMIN') and fullyAuthenticated"/>  
+              <sec:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN') and fullyAuthenticated"/>              
             </sec:filter-security-metadata-source>
         </property>
     </bean>
@@ -65,8 +67,8 @@
         <property name="allowIfAllAbstainDecisions" value="false"/>
         <property name="decisionVoters">
             <list>
-                <bean class="org.springframework.security.access.vote.RoleVoter"
-                    p:rolePrefix=""/>
+                <bean class="org.springframework.security.access.vote.RoleVoter"/>
+                	<ref bean="expressionVoter"/>
                 <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
             </list>
         </property>
@@ -87,7 +89,7 @@
     </bean>
 
     <sec:authentication-manager alias="authenticationManager">
-        <sec:authentication-provider ref="daoAuthenticationProvider" />
+        <!-- CAS is the only authentication provider-->
         <sec:authentication-provider ref="casAuthenticationProvider " />
     </sec:authentication-manager>
 
@@ -119,7 +121,7 @@
     </bean>
 
     <bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
-        <property name="userDetailsService" ref="casUserService"/>
+        <property name="authenticationUserDetailsService" ref="authenticationUserDetailsService"/>
         <property name="serviceProperties" ref="serviceProperties"/>
         <property name="ticketValidator">
             <bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
@@ -136,25 +138,31 @@
     <bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">
         <property name="service" ref="casServiceUrl" />
         <property name="sendRenew" ref="casRenew" />
-    </bean>
+    </bean>  
 
-    <sec:user-service id="casUserService">
-        <sec:user name="nmond" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-        <sec:user name="steiner" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-        <sec:user name="dkopylen" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-        <sec:user name="llevkovi" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-        <sec:user name="msidd" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-        <sec:user name="nlaparo" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-        <sec:user name="oalmatar" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-        <sec:user name="rosey" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-        <sec:user name="grahamb" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-        <sec:user name="santos" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER" />
-        <sec:user name="robert" password="NOT_USED" authorities="ROLE_ADMIN,ROLE_USER,ROLE" />
-  </sec:user-service>
+    <!-- user detail service for CAS authentiated users -->
+    <bean id="authenticationUserDetailsService" class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+		<property name="userDetailsService" ref="jdbcUserService"/>
+
+	</bean>
+    <bean id="jdbcUserService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="enableGroups" value="true"/>
+		<property name="enableAuthorities" value="false"/>		
+	</bean>
+    <!-- Expression voter for using expressions in authorization configuration-->
+    <bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" id="expressionHandler"/>
+	<bean class="org.springframework.security.web.access.expression.WebExpressionVoter" id="expressionVoter">
+		<property name="expressionHandler" ref="expressionHandler"/>
+	</bean>
+
+    
 
     <!-- #########################################################################################
-         # BASIC AUTH AUTHENTICATION COMPONENTS                                                  #
+         # BASIC AUTH AUTHENTICATION COMPONENTS        For REST API                               #
          ######################################################################################### -->
+    <!--From application configuration point of view rest api authentication is simple http , but princiapl with user name '_cas_stateless_' trigger CASAuthenticationProvider to validate the
+      ticket (provided as principal passwor)-->
     <bean id="basicExceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter"
             p:authenticationEntryPoint-ref="authenticationEntryPoint" />
 
@@ -166,10 +174,4 @@
     <bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint"
         p:realmName="OpenRegistry RESTful API" />
 
-    <bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider"
-        p:userDetailsService-ref="basicUserService" />
-
-    <sec:user-service id="basicUserService">
-        <sec:user name="rats" password="RAT1234" authorities="ROLE_ADMIN" />
-    </sec:user-service>
 </beans>
