@@ -12,9 +12,9 @@ import java.util.Map;
 /**
  * @since 1.0
  */
-public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
+public class ProcessEmailResourceTests extends JerseyTestSupport {
 
-    private static final String RESOURCE_UNDER_TEST_URI = "/affiliated-email";
+    private static final String RESOURCE_UNDER_TEST_URI = "/email";
 
     private static final String WELL_FORMED_EMAIL = "good@email.com";
 
@@ -22,10 +22,10 @@ public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
 
     private static final String EMAIL_WITH_CONFLICT = "conflict@email.com";
 
-    public ProcessAffiliatedEmailResourceTests() {
+    public ProcessEmailResourceTests() {
         super(new WebAppDescriptor.Builder("org.openregistry.core.web.resources")
                 .contextPath("openregistry")
-                .contextParam("contextConfigLocation", "classpath:testPOSTAffiliatedEmailViaRESTApplicationContext.xml")
+                .contextParam("contextConfigLocation", "classpath:testPOSTEmailViaRESTApplicationContext.xml")
                 .servletClass(SpringServlet.class)
                 .contextListenerClass(ContextLoaderListener.class)
                 .build());
@@ -55,6 +55,7 @@ public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
         requestParams.put("identifierType", "NETID");
         requestParams.put("identifier", "existent-person");
         requestParams.put("affiliation", "valid");
+        requestParams.put("sor", "existent-sor");
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(400, RESOURCE_UNDER_TEST_URI,
                 POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, requestParams);
     }
@@ -66,6 +67,7 @@ public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
         requestParams.put("identifierType", "NETID");
         requestParams.put("identifier", "existent-person");
         requestParams.put("affiliation", "invalid");
+        requestParams.put("sor", "existent-sor");
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(400, RESOURCE_UNDER_TEST_URI,
                 POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, requestParams);
     }
@@ -77,6 +79,7 @@ public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
         requestParams.put("identifierType", "NETID");
         requestParams.put("identifier", "non-existent-person");
         requestParams.put("affiliation", "valid");
+        requestParams.put("sor", "existent-sor");
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(404, RESOURCE_UNDER_TEST_URI,
                 POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, requestParams);
     }
@@ -88,6 +91,7 @@ public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
         requestParams.put("identifierType", "NETID");
         requestParams.put("identifier", "existent-person");
         requestParams.put("affiliation", "valid");
+        requestParams.put("sor", "existent-sor");
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(400, RESOURCE_UNDER_TEST_URI,
                 POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, MALFORMED_EMAIL, requestParams);
     }
@@ -99,6 +103,7 @@ public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
         requestParams.put("identifierType", "NETID");
         requestParams.put("identifier", "existent-person");
         requestParams.put("affiliation", "valid");
+        requestParams.put("sor", "existent-sor");
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(409, RESOURCE_UNDER_TEST_URI,
                 POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, EMAIL_WITH_CONFLICT, requestParams);
     }
@@ -110,6 +115,7 @@ public class ProcessAffiliatedEmailResourceTests  extends JerseyTestSupport {
         requestParams.put("identifierType", "NETID");
         requestParams.put("identifier", "existent-person");
         requestParams.put("affiliation", "valid");
+        requestParams.put("sor", "existent-sor");
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(200, RESOURCE_UNDER_TEST_URI,
                 POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, requestParams);
     }

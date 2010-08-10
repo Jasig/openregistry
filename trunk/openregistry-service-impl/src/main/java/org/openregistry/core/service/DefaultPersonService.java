@@ -159,6 +159,21 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Override
+    public SorPerson findByIdentifierAndSource(String identifierType, String identifierValue, String sorSource) {
+        Person p = this.findPersonByIdentifier(identifierType, identifierValue);
+        if(p == null) {
+            return null;
+        }
+        List<SorPerson> sorPeople = this.getSorPersonsFor(p);
+        for(SorPerson sorPerson : sorPeople) {
+            if(sorSource.equals(sorPerson.getSourceSor())) {
+                return sorPerson;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public List<SorPerson> getSorPersonsFor(final Person person) {
         Assert.notNull(person);
         return this.personRepository.getSoRRecordsForPerson(person);

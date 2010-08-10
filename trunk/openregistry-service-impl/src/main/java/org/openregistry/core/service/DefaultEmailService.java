@@ -13,10 +13,11 @@ import java.util.List;
 
 /**
  * Default implementation of <code>EmailService</code> building on the lower level <code>PersonService</code>
+ *
  * @since 1.0
  */
 @Named("emailService")
-@Transactional(propagation= Propagation.REQUIRED, rollbackFor = Exception.class)
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 public class DefaultEmailService implements EmailService {
 
     private PersonService personService;
@@ -27,38 +28,17 @@ public class DefaultEmailService implements EmailService {
     }
 
     @Override
-    public ServiceExecutionResult<SorPerson> saveOrCreateAffiliatedEmailForSelectedSorPerson(Person calculatedPerson,
-                                                                                             String emailAddress,
-                                                                                             Type emailType, Type affiliationType) {
-
-        SorPerson p = findFirstSorPersonMatchingRoleAffiliation(calculatedPerson, affiliationType);
-        if(p == null) {
-            return new GeneralServiceExecutionResult<SorPerson>((SorPerson)null);
+    public ServiceExecutionResult<SorPerson> saveOrCreateEmailForSorPersonWithRoleIdentifiedByAffiliation(SorPerson sorPerson,
+                                                                                                          String emailAddress,
+                                                                                                          Type emailType,
+                                                                                                          Type affiliationType) {
+        List<SorRole> openRoles = sorPerson.findOpenRolesByAffiliation(affiliationType);
+        if (openRoles.isEmpty()) {
+            return new GeneralServiceExecutionResult<SorPerson>((SorPerson) null);
         }
-        List<SorRole> openRoles = p.findOpenRolesByAffiliation(affiliationType);
-        if(openRoles.isEmpty()) {
-            return new GeneralServiceExecutionResult<SorPerson>((SorPerson)null);    
-        }
-        for(SorRole r : openRoles) {
+        for (SorRole r : openRoles) {
             r.addOrUpdateEmail(emailAddress, emailType);
         }
-        return this.personService.updateSorPerson(p);        
-    }
-
-    private SorPerson findFirstSorPersonMatchingRoleAffiliation(Person calculatedPerson, Type affiliationType) {
-        List<SorPerson> sorPeople = this.personService.getSorPersonsFor(calculatedPerson);
-        if(sorPeople.isEmpty()) {
-            return null;
-        }
-        for(SorPerson sorPerson : sorPeople) {
-            for(SorRole r : sorPerson.getRoles()) {
-                if(r.getAffiliationType().isSameAs(affiliationType)) {
-                    //Short-circuit first person matching the given role's affiliation, as was discussed with
-                    //the Rutgers team
-                    return sorPerson;
-                }
-            }
-        }
-        return null;
+        return this.personService.updateSorPerson(sorPerson);
     }
 }

@@ -43,6 +43,11 @@ public class MockPersonService implements PersonService {
     }
 
     @Override
+    public SorPerson findByIdentifierAndSource(String identifierType, String identifierValue, String sorSource) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
     public List<SorPerson> getSorPersonsFor(Person person) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
