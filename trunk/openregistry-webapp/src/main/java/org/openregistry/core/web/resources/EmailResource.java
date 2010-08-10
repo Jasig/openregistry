@@ -55,6 +55,16 @@ public class EmailResource {
         this.emailService = emailService;
     }
 
+    public Response findEmail(@QueryParam("sor") String sor,
+                              @QueryParam("emailType") String emailType,
+                              @QueryParam("identifierType") String identifierType,
+                              @QueryParam("identifier") String identifier,
+                              @QueryParam("affiliation") String affiliation) {
+
+        //TODO: IMPLEMENT ME!
+        return null;
+    }
+
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     public Response addOrUpdateEmail(String emailAddress,
@@ -64,36 +74,15 @@ public class EmailResource {
                                      @QueryParam("identifier") String identifier,
                                      @QueryParam("affiliation") String affiliation) {
 
-        if (emailType == null || identifierType == null || identifier == null || affiliation == null || sor == null) {
-            //HTTP 400
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(new ErrorsResponseRepresentation(Arrays.asList
-                            ("The request URI is malformed. Please see the documentation and construct the correct request URI.")))
-                    .type(MediaType.APPLICATION_XML).build();
-        }
-        Type emailAddressType = this.referenceRepository.findValidType(Type.DataTypes.ADDRESS, emailType);
-        if (emailAddressType == null) {
-            //HTTP 400
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(new ErrorsResponseRepresentation(Arrays.asList("The provided email type is invalid.")))
-                    .type(MediaType.APPLICATION_XML).build();
-        }
-        Type affiliationType = this.referenceRepository.findValidType(Type.DataTypes.AFFILIATION, affiliation);
-        if (affiliationType == null) {
-            //HTTP 400
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(new ErrorsResponseRepresentation(Arrays.asList("The provided affiliation type is invalid.")))
-                    .type(MediaType.APPLICATION_XML).build();
+        Data data = getProcessingData(emailType,identifierType,identifier, affiliation, sor);
+        if(data.response != null) {
+            return data.response;
         }
 
-        SorPerson sorPerson = this.personService.findByIdentifierAndSource(identifierType, identifier, sor);
-        if (sorPerson == null) {
-            //HTTP 404
-            throw new NotFoundException("The person cannot be found in the registry or is not attached to the provided SOR");
-        }
         ServiceExecutionResult<SorPerson> result =
-                this.emailService.saveOrCreateEmailForSorPersonWithRoleIdentifiedByAffiliation(sorPerson, emailAddress, emailAddressType,
-                        affiliationType);
+                this.emailService.saveOrCreateEmailForSorPersonWithRoleIdentifiedByAffiliation(data.sorPerson, emailAddress,
+                        data.emailAddressType,
+                        data.affiliationType);
 
         if (!result.succeeded()) {
             //HTTP 400
@@ -111,5 +100,70 @@ public class EmailResource {
 
         //HTTP 200
         return Response.ok("The provided email has been processed successfully.").build();
+    }
+
+    private Object[] validateType(Type.DataTypes type, String typeValue, String errorMessage) {
+        Object[] retVal = new Object[2];
+        Type validatedType = this.referenceRepository.findValidType(type, typeValue);
+        if (validatedType == null) {
+            //HTTP 400        
+            retVal[1] = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new ErrorsResponseRepresentation(Arrays.asList("The provided affiliation type is invalid.")))
+                    .type(MediaType.APPLICATION_XML).build();
+            return retVal;
+        }
+        retVal[0] = validatedType;
+        return retVal;
+    }
+
+    private Response validateRequiredRequestQueryParams(String emailType, String identifierType, String identifier, String affiliation,
+                                                        String sor) {
+        if (emailType == null || identifierType == null || identifier == null || affiliation == null || sor == null) {
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new ErrorsResponseRepresentation(Arrays.asList
+                            ("The request URI is malformed. Please see the documentation and construct the correct request URI.")))
+                    .type(MediaType.APPLICATION_XML).build();
+        }
+        return null;
+    }
+
+    private Data getProcessingData(String emailType, String identifierType, String identifier, String affiliation,
+                                                        String sor) {
+
+        Data d = new Data();
+        Response r = validateRequiredRequestQueryParams(emailType,identifierType,identifier, affiliation, sor);
+        if(r != null) {
+            d.response = r;
+            return d;
+        }
+
+        Object[] tvr = validateType(Type.DataTypes.ADDRESS, emailType, "The provided email type is invalid");
+        if (tvr[1] != null) {
+            d.response = (Response) tvr[1];
+            return d;
+        }
+        d.emailAddressType = (Type)tvr[0];
+        tvr = validateType(Type.DataTypes.AFFILIATION, affiliation, "The provided affiliation type is invalid");
+        if (tvr[1] != null) {
+            d.response = (Response) tvr[1];
+            return d;
+        }
+        d.affiliationType = (Type)tvr[0];
+
+        SorPerson sorPerson = this.personService.findByIdentifierAndSource(identifierType, identifier, sor);
+        if (sorPerson == null) {
+            //HTTP 404
+            throw new NotFoundException("The person cannot be found in the registry or is not attached to the provided SOR");
+        }
+        d.sorPerson = sorPerson;
+        return d;
+    }
+
+    private static class Data {
+        Response response;
+        Type emailAddressType;
+        Type affiliationType;
+        SorPerson sorPerson;
     }
 }
