@@ -50,7 +50,7 @@ public interface PersonService {
      * @param identifierValue the value of the identifier
      * @return the person, if found.  NULL otherwise.
      */
-    Person findPersonByIdentifier(String identifierType, String identifierValue);
+    Person findPersonByIdentifier(final String identifierType, final String identifierValue);
 
     /**
      * For a particular Sor Person record for the specified sourceSorIdentifier.
@@ -68,6 +68,15 @@ public interface PersonService {
      */
 
     SorPerson findBySorIdentifierAndSource(final String sorSource, final String sorId);
+
+    /**
+     * Find SorPerson by a particular calculated person identifier and sor source id
+     * @param identifierType the type of identifier
+     * @param identifierValue the value of the identifier
+     * @param sorSource
+     * @return  SorPerson if found or null otherwise
+     */
+    SorPerson findByIdentifierAndSource(final String identifierType, final String identifierValue, final String sorSource);
 
     /**
      * Retrieves the SoR Records for a particular calculated person.

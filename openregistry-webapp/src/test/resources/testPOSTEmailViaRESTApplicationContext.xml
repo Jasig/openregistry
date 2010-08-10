@@ -30,6 +30,6 @@
 
     <import resource="basePeopleResourceApplicationContext.xml"/>
 
-    <bean class="org.openregistry.core.web.resources.ProcessAffiliationEmailMockitoBasedPersonServiceFactoryBean" init-method="init"/>
+    <bean class="org.openregistry.core.web.resources.ProcessEmailMockitoBasedPersonServiceFactoryBean" init-method="init"/>
 
 </beans>

@@ -11,8 +11,8 @@ import org.openregistry.core.domain.sor.SorPerson;
  */
 public interface EmailService {
 
-    ServiceExecutionResult<SorPerson> saveOrCreateAffiliatedEmailForSelectedSorPerson(Person calculatedPerson, String emailAddress,
-                                                                                      Type emailType,
-                                                                                      Type affiliationType);
+    ServiceExecutionResult<SorPerson> saveOrCreateEmailForSorPersonWithRoleIdentifiedByAffiliation(SorPerson sorPerson, String emailAddress,
+                                                                                                   Type emailType,
+                                                                                                   Type affiliationType);
 
 }

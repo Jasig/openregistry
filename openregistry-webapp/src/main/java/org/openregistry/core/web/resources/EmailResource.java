@@ -34,8 +34,8 @@ import java.util.Arrays;
  */
 @Named
 @Singleton
-@Path("/affiliated-email")
-public class AffiliatedEmailResource {
+@Path("/email")
+public class EmailResource {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -46,9 +46,9 @@ public class AffiliatedEmailResource {
     private final EmailService emailService;
 
     @Inject
-    public AffiliatedEmailResource(EmailService emailService,
-                                   PersonService personService,
-                                   ReferenceRepository referenceRepository) {
+    public EmailResource(EmailService emailService,
+                         PersonService personService,
+                         ReferenceRepository referenceRepository) {
 
         this.personService = personService;
         this.referenceRepository = referenceRepository;
@@ -58,12 +58,13 @@ public class AffiliatedEmailResource {
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     public Response addOrUpdateEmail(String emailAddress,
+                                     @QueryParam("sor") String sor,
                                      @QueryParam("emailType") String emailType,
                                      @QueryParam("identifierType") String identifierType,
                                      @QueryParam("identifier") String identifier,
                                      @QueryParam("affiliation") String affiliation) {
 
-        if (emailType == null || identifierType == null || identifier == null || affiliation == null) {
+        if (emailType == null || identifierType == null || identifier == null || affiliation == null || sor == null) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(new ErrorsResponseRepresentation(Arrays.asList
@@ -85,13 +86,14 @@ public class AffiliatedEmailResource {
                     .type(MediaType.APPLICATION_XML).build();
         }
 
-        Person person = this.personService.findPersonByIdentifier(identifierType, identifier);
-        if (person == null) {
+        SorPerson sorPerson = this.personService.findByIdentifierAndSource(identifierType, identifier, sor);
+        if (sorPerson == null) {
             //HTTP 404
-            throw new NotFoundException("The person cannot be found in the registry.");
+            throw new NotFoundException("The person cannot be found in the registry or is not attached to the provided SOR");
         }
         ServiceExecutionResult<SorPerson> result =
-                this.emailService.saveOrCreateAffiliatedEmailForSelectedSorPerson(person, emailAddress, emailAddressType, affiliationType);
+                this.emailService.saveOrCreateEmailForSorPersonWithRoleIdentifiedByAffiliation(sorPerson, emailAddress, emailAddressType,
+                        affiliationType);
 
         if (!result.succeeded()) {
             //HTTP 400
