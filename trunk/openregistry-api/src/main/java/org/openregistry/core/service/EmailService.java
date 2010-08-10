@@ -15,4 +15,8 @@ public interface EmailService {
                                                                                                    Type emailType,
                                                                                                    Type affiliationType);
 
+    String findEmailForSorPersonWithRoleIdentifiedByAffiliation(SorPerson sorPerson,
+                                                                Type emailType,
+                                                                Type affiliationType);
+
 }

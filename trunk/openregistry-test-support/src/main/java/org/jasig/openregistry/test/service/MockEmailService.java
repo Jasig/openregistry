@@ -26,6 +26,11 @@ public class MockEmailService implements EmailService {
     private static final String EMAIL_WITH_CONFLICT = "conflict@email.com";
 
     @Override
+    public String findEmailForSorPersonWithRoleIdentifiedByAffiliation(SorPerson sorPerson, Type emailType, Type affiliationType) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public ServiceExecutionResult<SorPerson> saveOrCreateEmailForSorPersonWithRoleIdentifiedByAffiliation
             (SorPerson sorPerson, String emailAddress, Type emailType, Type affiliationType) {
         if (WELL_FORMED_EMAIL.equals(emailAddress)) {

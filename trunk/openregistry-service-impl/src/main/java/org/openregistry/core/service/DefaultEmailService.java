@@ -1,5 +1,6 @@
 package org.openregistry.core.service;
 
+import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.SorPerson;
@@ -25,6 +26,31 @@ public class DefaultEmailService implements EmailService {
     @Inject
     public DefaultEmailService(PersonService personService) {
         this.personService = personService;
+    }
+
+    @Override
+    public String findEmailForSorPersonWithRoleIdentifiedByAffiliation(SorPerson sorPerson,
+                                                                       Type emailType,
+                                                                       Type affiliationType) {
+
+        List<SorRole> openRoles = sorPerson.findOpenRolesByAffiliation(affiliationType);
+        if (openRoles.isEmpty()) {
+            return null;
+        }
+        //TODO: confirm if this is the correct behavior. If not, how to handle it otherwise i.e. affiliation could have multiple roles?
+        String returnEmailValue = null;
+        for (SorRole r : openRoles) {
+            for(EmailAddress e : r.getEmailAddresses()) {
+                if(emailType.isSameAs(e.getAddressType())) {
+                    returnEmailValue = e.getAddress();
+                    break;
+                }
+            }
+            if(returnEmailValue != null) {
+                break;
+            }
+        }
+        return returnEmailValue;
     }
 
     @Override
