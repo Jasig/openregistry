@@ -33,30 +33,30 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.11" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.slf4j:jcl-over-slf4j:1.5.11" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: log4j:log4j:1.2.15" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: javax.mail:mail:1.4" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: javax.activation:activation:1.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: javax.jms:jms:1.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Maven: org.slf4j:slf4j-log4j12:1.5.11" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjrt:1.6.8" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.aspectj:aspectjweaver:1.6.8" level="project" />
-    <orderEntry type="library" exported="" name="Maven: javax.inject:javax.inject:1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
-    <orderEntry type="library" exported="" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-aspects:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-beans:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-core:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-asm:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-context:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-aop:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Maven: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-expression:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-context-support:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-test:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.springframework:spring-tx:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0-CR-1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.5.11" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:jcl-over-slf4j:1.5.11" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: log4j:log4j:1.2.15" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: javax.mail:mail:1.4" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: javax.activation:activation:1.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: javax.jms:jms:1.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:slf4j-log4j12:1.5.11" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.6.8" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.6.8" level="project" />
+    <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
+    <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
+    <orderEntry type="library" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aspects:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-core:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-asm:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-expression:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context-support:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-test:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-tx:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0-CR-1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.5-groovy-1.7-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.5-groovy-1.7-SNAPSHOT" level="project" />
