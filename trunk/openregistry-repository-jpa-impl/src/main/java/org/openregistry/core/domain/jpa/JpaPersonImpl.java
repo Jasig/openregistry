@@ -20,6 +20,7 @@
 package org.openregistry.core.domain.jpa;
 
 import org.openregistry.core.domain.internal.Entity;
+import org.openregistry.core.domain.jpa.sor.JpaSorDisclosureSettingsImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorNameImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
 import org.openregistry.core.domain.sor.SorName;
@@ -71,6 +72,9 @@ public class JpaPersonImpl extends Entity implements Person {
     @Column(name="gender",length=1,nullable=true)
     private String gender;
 
+    @OneToOne(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaDisclosureSettingsImpl.class)
+    private JpaDisclosureSettingsImpl disclosureSettings;
+    
     @Embedded
     private JpaActivationKeyImpl activationKey = new JpaActivationKeyImpl();
 
@@ -147,13 +151,43 @@ public class JpaPersonImpl extends Entity implements Person {
         return this.dateOfBirth;
     }
 
-    public void setGender(String gender){
+    /**
+     * @see org.openregistry.core.domain.Person#getDisclosureSettings()
+     */
+	public DisclosureSettings getDisclosureSettings() {
+		return this.disclosureSettings;
+	}
+
+	public void setGender(String gender){
         this.gender = gender;
     }
 
     public void setDateOfBirth(Date dateOfBirth){
         this.dateOfBirth = dateOfBirth;
     }
+
+    /**
+     * @see org.openregistry.core.domain.Person#setDisclosureSettings(org.openregistry.core.domain.DisclosureSettings)
+     */
+	public void setDisclosureSettings(DisclosureSettings ds) {
+		if (ds != null) {
+			if (ds instanceof JpaDisclosureSettingsImpl) {
+				this.disclosureSettings = (JpaDisclosureSettingsImpl)ds;
+			} else if (ds instanceof JpaSorDisclosureSettingsImpl) {
+				// convert from JpaDisclosureSettingsImpl to JpaSorDisclosureSettingsImpl
+				this.disclosureSettings = new JpaDisclosureSettingsImpl (
+					this,
+					ds.getDisclosureCode(),
+					ds.getLastUpdateDate(),
+					ds.isWithinGracePeriod()
+					);
+			} else {
+				throw new IllegalArgumentException("Disclosure settings parameter must be of type JpaDisclosureSettingsImpl or JpaSorDisclosureSettingsImpl");
+			}
+		} else {
+			this.disclosureSettings = null;
+		}
+	}
 
     public Role addRole(final SorRole sorRole) {
         Assert.isInstanceOf(JpaSorRoleImpl.class, sorRole);
@@ -297,5 +331,4 @@ public class JpaPersonImpl extends Entity implements Person {
         }
         return null;
     }
-
 }
