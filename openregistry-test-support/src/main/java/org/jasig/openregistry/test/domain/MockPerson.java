@@ -43,6 +43,8 @@ public class MockPerson implements Person {
 
     private MockPhoneNumber mockPhoneNumber = new MockPhoneNumber();
     
+    private MockDisclosureSettings mockDisclosureSettings;
+    
     private final Set<Identifier> identifiers = new HashSet<Identifier>();
 
     /**
@@ -307,5 +309,13 @@ public class MockPerson implements Person {
     public String toString() {
         return "MockPerson{" + "id=" + id + '}';
     }
+
+	public DisclosureSettings getDisclosureSettings() {
+		return this.mockDisclosureSettings;
+	}
+
+	public void setDisclosureSettings(DisclosureSettings disclosureSettings) {
+		this.mockDisclosureSettings = (MockDisclosureSettings)disclosureSettings;
+	}
 
 }
