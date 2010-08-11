@@ -70,6 +70,8 @@ public class DefaultPersonService implements PersonService {
 
     private FieldElector<Phone> preferredContactPhoneNumberFieldElector = new DefaultPreferredPhoneContactFieldSelector();
 
+    private FieldElector<DisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
+
     private enum RecalculationType {DELETE, ADD, UPDATE}
 
     @Resource(name = "personFactory")
@@ -577,11 +579,13 @@ public class DefaultPersonService implements PersonService {
         final SorName officialName = this.officialNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final EmailAddress emailAddress = this.preferredContactEmailAddressFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final Phone phone = this.preferredContactPhoneNumberFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
-
+        final DisclosureSettings disclosure = this.disclosureFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        	
         person.setDateOfBirth(birthDate);
         person.setGender(gender);
         person.getPreferredContactEmailAddress().update(emailAddress);
         person.getPreferredContactPhoneNumber().update(phone);
+        person.setDisclosureSettings(disclosure);
 
         boolean preferred = false;
         boolean official = false;
