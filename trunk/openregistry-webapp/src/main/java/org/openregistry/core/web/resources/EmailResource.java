@@ -15,10 +15,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
@@ -54,14 +51,26 @@ public class EmailResource {
         this.emailService = emailService;
     }
 
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
     public Response findEmail(@QueryParam("sor") String sor,
                               @QueryParam("emailType") String emailType,
                               @QueryParam("identifierType") String identifierType,
                               @QueryParam("identifier") String identifier,
                               @QueryParam("affiliation") String affiliation) {
 
-        //TODO: IMPLEMENT ME!
-        return null;
+        LocalData localData = extractProcessingDataFrom(emailType, identifierType, identifier, affiliation, sor);
+        if (localData.response != null) {
+            return localData.response;
+        }
+        String emailAddress = this.emailService.findEmailForSorPersonWithRoleIdentifiedByAffiliation(localData.sorPerson,
+                localData.emailAddressType, localData.affiliationType);
+        if (emailAddress == null) {
+            //HTTP 204
+            return Response.noContent().build();
+        }
+        //HTTP 200
+        return Response.ok(emailAddress).build();
     }
 
     @POST
@@ -154,6 +163,7 @@ public class EmailResource {
 
     //Structure that holds common data to be reused in different HTTP action methods
     //Since Java doesn't have Tuples (yet), this is a good convention for local re-use
+
     private static class LocalData {
         Response response;
         Type emailAddressType;
