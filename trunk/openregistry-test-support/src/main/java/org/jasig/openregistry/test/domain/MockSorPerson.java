@@ -19,6 +19,7 @@
 
 package org.jasig.openregistry.test.domain;
 
+import org.openregistry.core.domain.DisclosureSettings;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
@@ -51,7 +52,7 @@ public class MockSorPerson extends Entity implements SorPerson {
 
     private String gender;
 
-    private String disclosure;
+    private MockDisclosureSettings mockDisclosureSettings;
 
     private List<SorName> names = new ArrayList<SorName>();
 
@@ -117,12 +118,12 @@ public class MockSorPerson extends Entity implements SorPerson {
         this.gender = gender;
     }
 
-    public String getDisclosure() {
-        return this.disclosure;
+    public DisclosureSettings getDisclosureSettings() {
+        return this.mockDisclosureSettings;
     }
 
-    public void setDisclosure(final String disclosure) {
-        this.disclosure = disclosure;
+    public void setDisclosureSettings(final DisclosureSettings disclosure) {
+        this.mockDisclosureSettings = (MockDisclosureSettings)disclosure;
     }
 
     public SorName addName() {
