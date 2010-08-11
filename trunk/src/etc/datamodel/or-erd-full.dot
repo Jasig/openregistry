@@ -116,7 +116,7 @@ digraph ORDATAMODEL {
  <td bgcolor="yellow" colspan="3"><font point-size="14">ctx_data_types</font></td>
 </tr>
 <tr>
- <td align="left" colspan="3"><font point-size="12">Instantiations of data types.</font></td>
+ <td align="left" colspan="3"><font point-size="12">Instantiations of localData types.</font></td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">id</font></td>
@@ -757,7 +757,7 @@ digraph ORDATAMODEL {
 <tr>
  <td align="left"><font face="Courier" point-size="10">changeable</font></td>
  <td align="left"><font face="Courier" point-size="10">bool</font></td>
- <td align="left">If true, Identifiers of this Type can be changed for reasons other than data correction</td>
+ <td align="left">If true, Identifiers of this Type can be changed for reasons other than localData correction</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">deleted</font></td>
@@ -1040,7 +1040,7 @@ digraph ORDATAMODEL {
  <td bgcolor="yellow" colspan="3"><font point-size="14">prc_persons</font></td>
 </tr>
 <tr>
- <td align="left" colspan="3"><font point-size="12">Calculated "best" data for each Person.</font></td>
+ <td align="left" colspan="3"><font point-size="12">Calculated "best" localData for each Person.</font></td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">id</font></td>
@@ -1204,7 +1204,7 @@ digraph ORDATAMODEL {
  <td bgcolor="yellow" colspan="3"><font point-size="14">prs_role_records</font></td>
 </tr>
 <tr>
- <td align="left" colspan="3"><font point-size="12">Standardized per-role SOR data.</font></td>
+ <td align="left" colspan="3"><font point-size="12">Standardized per-role SOR localData.</font></td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">id</font></td>
@@ -1287,7 +1287,7 @@ digraph ORDATAMODEL {
  <td bgcolor="yellow" colspan="3"><font point-size="14">prs_role_records_alumni</font></td>
 </tr>
 <tr>
- <td align="left" colspan="3"><font point-size="12">Standardized Alumni specific role data.</font></td>
+ <td align="left" colspan="3"><font point-size="12">Standardized Alumni specific role localData.</font></td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
@@ -1315,7 +1315,7 @@ digraph ORDATAMODEL {
  <td bgcolor="yellow" colspan="3"><font point-size="14">prs_role_records_employee</font></td>
 </tr>
 <tr>
- <td align="left" colspan="3"><font point-size="12">Standardized Employee specific role data.</font></td>
+ <td align="left" colspan="3"><font point-size="12">Standardized Employee specific role localData.</font></td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
@@ -1343,7 +1343,7 @@ digraph ORDATAMODEL {
  <td bgcolor="yellow" colspan="3"><font point-size="14">prs_role_records_student</font></td>
 </tr>
 <tr>
- <td align="left" colspan="3"><font point-size="12">Standardized Student specific role data.</font></td>
+ <td align="left" colspan="3"><font point-size="12">Standardized Student specific role localData.</font></td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">role_record_id</font></td>
@@ -1371,7 +1371,7 @@ digraph ORDATAMODEL {
  <td bgcolor="yellow" colspan="3"><font point-size="14">prc_role_records</font></td>
 </tr>
 <tr>
- <td align="left" colspan="3"><font point-size="12">Calculated per-role data.</font></td>
+ <td align="left" colspan="3"><font point-size="12">Calculated per-role localData.</font></td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">id</font></td>
@@ -1381,7 +1381,7 @@ digraph ORDATAMODEL {
 <tr>
  <td align="left"><font face="Courier" point-size="10">person_id</font></td>
  <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Person this entry data belongs to (prc_persons:id)</td>
+ <td align="left">Person this entry localData belongs to (prc_persons:id)</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">affiliation_t</font></td>
@@ -1497,12 +1497,12 @@ digraph ORDATAMODEL {
  <td bgcolor="yellow" colspan="3"><font point-size="14">prs_sor_persons</font></td>
 </tr>
 <tr>
- <td align="left" colspan="3"><font point-size="12">Standardized unique person-per-SOR data.</font></td>
+ <td align="left" colspan="3"><font point-size="12">Standardized unique person-per-SOR localData.</font></td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">id</font></td>
  <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Identifier of this sor person data (NOT SORID)</td>
+ <td align="left">Identifier of this sor person localData (NOT SORID)</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">source_sor_id</font></td>
@@ -1512,7 +1512,7 @@ digraph ORDATAMODEL {
 <tr>
  <td align="left"><font face="Courier" point-size="10">person_id</font></td>
  <td align="left"><font face="Courier" point-size="10">int</font></td>
- <td align="left">Person this entry data belongs to once reconciled (prc_persons:id)</td>
+ <td align="left">Person this entry localData belongs to once reconciled (prc_persons:id)</td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">date_of_birth</font></td>
@@ -2715,7 +2715,7 @@ digraph ORDATAMODEL {
  <td bgcolor="yellow" colspan="3"><font point-size="14">prr_sis_csv</font></td>
 </tr>
 <tr>
- <td align="left" colspan="3"><font point-size="12">Example SOR feed for student data.  This data would be standardized before being used.</font></td>
+ <td align="left" colspan="3"><font point-size="12">Example SOR feed for student localData.  This localData would be standardized before being used.</font></td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">sorid</font></td>

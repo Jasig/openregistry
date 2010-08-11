@@ -115,7 +115,7 @@ digraph ORDATAMODEL {
  <td bgcolor="yellow" colspan="3"><font point-size="14">ctx_data_types</font></td>
 </tr>
 <tr>
- <td align="left" colspan="3"><font point-size="12">Instantiations of data types.</font></td>
+ <td align="left" colspan="3"><font point-size="12">Instantiations of localData types.</font></td>
 </tr>
 <tr>
  <td align="left"><font face="Courier" point-size="10">id</font></td>
