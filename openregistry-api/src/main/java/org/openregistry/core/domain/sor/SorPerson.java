@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.sor;
 
+import org.openregistry.core.domain.DisclosureSettings;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.RoleInfo;
@@ -144,6 +145,17 @@ public interface SorPerson {
      */
     void setSsn(String ssn);
 
+    /**
+     * @return disclosure settings for this person
+     */
+    DisclosureSettings getDisclosureSettings();
+    
+     /**
+     * Sets disclosure settings for this person
+     * @param disclosureSettings
+     */
+    void setDisclosureSettings(DisclosureSettings disclosureSettings);
+    
     /**
      * Adds an SoR Role (and returns it) based on the roleInfo.
      *

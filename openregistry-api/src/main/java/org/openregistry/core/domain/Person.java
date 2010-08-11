@@ -103,6 +103,11 @@ public interface Person extends Serializable {
     Date getDateOfBirth();
 
     /**
+     * @return disclosure settings for this person
+     */
+    DisclosureSettings getDisclosureSettings();
+    
+    /**
      * The date of birth, never null.
      *
      * @param dateOfBirth the date of birth.
@@ -111,6 +116,12 @@ public interface Person extends Serializable {
 
     void setGender(String gender);
 
+    /**
+     * Sets disclosure settings for this person
+     * @param disclosureSettings
+     */
+    void setDisclosureSettings(DisclosureSettings disclosureSettings);
+    
     /**
      * Constructs a new Identifier based on the provided type and value.
      *

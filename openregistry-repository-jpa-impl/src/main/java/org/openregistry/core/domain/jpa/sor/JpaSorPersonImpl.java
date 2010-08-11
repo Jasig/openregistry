@@ -26,9 +26,11 @@ import org.openregistry.core.domain.annotation.RequiredSize;
 import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
+import org.openregistry.core.domain.DisclosureSettings;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.jpa.JpaDisclosureSettingsImpl;
 import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.internal.Entity;
@@ -104,6 +106,9 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     @Required(property = "person.ssn")
     private String ssn;
 
+    @OneToOne(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorDisclosureSettingsImpl.class)
+    private JpaSorDisclosureSettingsImpl disclosureSettings;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @Fetch(value = FetchMode.SUBSELECT)
@@ -167,6 +172,24 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     public void setGender(final String gender) {
         this.gender = gender;
     }
+
+    /**
+     * @see org.openregistry.core.domain.sor.SorPerson#getDisclosureSettings()
+     */
+    public DisclosureSettings getDisclosureSettings() {
+		return this.disclosureSettings;
+	}
+
+	/**
+	 * @see org.openregistry.core.domain.sor.SorPerson#setDisclosureSettings(org.openregistry.core.domain.DisclosureSettings)
+	 */
+	public void setDisclosureSettings(DisclosureSettings ds) {
+		if (ds instanceof JpaSorDisclosureSettingsImpl) {
+			this.disclosureSettings = (JpaSorDisclosureSettingsImpl)ds;
+		} else {
+			throw new IllegalArgumentException("Disclosure settings parameter must be of type JpaDisclosureSettingsImpl");
+		}
+	}
 
     public SorName addName() {
         final JpaSorNameImpl jpaSorName = new JpaSorNameImpl(this);
