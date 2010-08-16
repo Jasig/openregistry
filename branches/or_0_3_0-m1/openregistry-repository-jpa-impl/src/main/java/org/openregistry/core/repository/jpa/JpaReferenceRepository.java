@@ -1,0 +1,193 @@
+/**
+ * Licensed to Jasig under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work
+ * for additional information regarding copyright ownership.
+ * Jasig licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a
+ * copy of the License at:
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+package org.openregistry.core.repository.jpa;
+
+import org.openregistry.core.repository.ReferenceRepository;
+import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.Type.DataTypes;
+import org.openregistry.core.domain.jpa.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
+
+/**
+ * Default implementation of temporary repository.
+ */
+@Repository(value = "referenceRepository")
+public final class JpaReferenceRepository implements ReferenceRepository {
+
+    protected Logger log = LoggerFactory.getLogger(getClass());
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Transactional
+    public List<Person> getPeople() {
+        return (List<Person>) this.entityManager.createQuery("select p from person p join p.names n where n.officialName = true order by n.family, n.given").getResultList();
+    }
+
+    @Transactional
+    public Person getPersonById(final Long id) {
+        return this.entityManager.find(JpaPersonImpl.class, id);
+    }
+
+    @Transactional
+    public List<OrganizationalUnit> getOrganizationalUnits() {
+        return (List<OrganizationalUnit>) this.entityManager.createQuery("select d from organizationalUnit d order by d.name").getResultList();
+    }
+
+    @Transactional
+    public OrganizationalUnit getOrganizationalUnitById(final Long id) {
+        return this.entityManager.find(JpaOrganizationalUnitImpl.class, id);
+    }
+
+    @Transactional
+    public OrganizationalUnit getOrganizationalUnitByCode(String code) {
+        return (OrganizationalUnit) this.entityManager.createQuery("select d from organizationalUnit d where d.localCode = :code order by d.name").setParameter("code", code).getSingleResult();
+    }
+
+    @Transactional
+    public List<Campus> getCampuses() {
+        return (List<Campus>) this.entityManager.createQuery("select c from campus c order by c.name").getResultList();
+    }
+
+    @Transactional
+    public Campus getCampusById(final Long id) {
+        return this.entityManager.find(JpaCampusImpl.class, id);
+    }
+
+    @Transactional
+    public Country getCountryById(final Long id) {
+        return this.entityManager.find(JpaCountryImpl.class, id);
+    }
+
+    @Transactional
+    public Country getCountryByCode(String code) {
+        return (Country) this.entityManager.createQuery("select c from country c where c.code = :code order by c.name").setParameter("code", code).getSingleResult();
+    }
+
+    @Transactional
+    public List<Country> getCountries() {
+        return (List<Country>) this.entityManager.createQuery("select c from country c").getResultList();
+    }
+
+    @Transactional
+    public List<RoleInfo> getRoleInfos() {
+        return (List<RoleInfo>) this.entityManager.createQuery("select r from roleInfo r order by r.title").getResultList();
+    }
+
+    @Transactional
+    public RoleInfo getRoleInfoById(final Long id) {
+        return this.entityManager.find(JpaRoleInfoImpl.class, id);
+    }
+
+    @Transactional
+    public RoleInfo getRoleInfoByCode(final String systemOfRecordId, final String code) {
+        return (RoleInfo) this.entityManager.createQuery("select r from roleInfo r where r.code = :code and r.systemOfRecord.sorId = :sorId").setParameter("code", code).setParameter("sorId", systemOfRecordId).getSingleResult();
+    }
+
+    @Transactional
+    public RoleInfo getRoleInfoByOrganizationalUnitAndTitle(final OrganizationalUnit ou, final String title) {
+        return (RoleInfo) this.entityManager.createQuery("select r from roleInfo r where r.organizationalUnit = :ou and r.title = :title order by r.title").setParameter("ou", ou).setParameter("title", title).getSingleResult();
+    }
+
+    @Transactional
+    public List<Region> getRegions() {
+        return (List<Region>) this.entityManager.createQuery("select r from region r").getResultList();
+    }
+
+    @Transactional
+    public Region getRegionByCodeAndCountryId(final String code, final String countryCode) {
+        return (Region) this.entityManager.createQuery("select r from region r join r.country c where r.code = :code and c.code = :countryCode order by r.name, c.code").setParameter("code", code).setParameter("countryCode", countryCode).getSingleResult();
+    }
+
+    public Region getRegionByCodeOrName(final String code) {
+        final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+
+        final CriteriaQuery<JpaRegionImpl> c = criteriaBuilder.createQuery(JpaRegionImpl.class);
+        c.distinct(true);
+        final Root<JpaRegionImpl> region = c.from(JpaRegionImpl.class);
+        c.where(criteriaBuilder.or(criteriaBuilder.equal(region.get(JpaRegionImpl_.code), code), criteriaBuilder.like(region.get(JpaRegionImpl_.name), code)));
+
+        try {
+            return this.entityManager.createQuery(c).getSingleResult();
+        }
+        catch (final Exception e) {
+            log.debug(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    @Transactional
+    public Type getTypeById(final Long id) {
+        return this.entityManager.find(JpaTypeImpl.class, id);
+    }
+
+    @Transactional
+    public List<Type> getTypesBy(final DataTypes type) {
+        return (List<Type>) this.entityManager.createQuery("select r from type r where r.dataType = :dataType").setParameter("dataType", type.name()).getResultList();
+    }
+
+    @Transactional
+    public Type findType(final DataTypes type, final Enum value) {
+        return findType(type, value.name());
+    }
+
+    @Transactional
+    public Type findType(final DataTypes type, final String value) {
+        try {
+            return (Type) this.entityManager.createQuery("select r from type r where r.dataType=:dataType and r.description=:description").setParameter("dataType", type.name()).setParameter("description", value).getSingleResult();
+        }
+        catch (final DataAccessException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    @Transactional
+    public List<IdentifierType> getIdentifierTypes() {
+        return (List<IdentifierType>) this.entityManager.createQuery("select r from identifier_type r").getResultList();
+    }
+
+    @Transactional
+    public IdentifierType findIdentifierType(final String identifierName) {
+        return (IdentifierType) this.entityManager.createQuery("select distinct r from identifier_type r where name=:name").setParameter("name", identifierName).getSingleResult();
+    }
+
+    @Override
+    public Type findValidType(DataTypes type, String value) {
+        try {
+            Type t = findType(type, value);
+            return t;
+        }
+        catch (IllegalArgumentException e) {
+            return null; 
+        }
+    }
+}

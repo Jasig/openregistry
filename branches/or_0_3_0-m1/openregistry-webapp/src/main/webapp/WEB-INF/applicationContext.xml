@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to Jasig under one or more contributor license
+    agreements. See the NOTICE file distributed with this work
+    for additional information regarding copyright ownership.
+    Jasig licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License. You may obtain a
+    copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on
+    an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/jee
+        http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        http://www.springframework.org/schema/lang
+        http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <context:component-scan base-package="org.openregistry.aspect" />
+    <context:component-scan base-package="org.openregistry.core"/>
+    <context:component-scan base-package="org.openregistry.core.repository"/>
+    <context:component-scan base-package="org.openregistry.integration.support"/>
+<!--    <context:load-time-weaver aspectj-weaving="on" /> -->
+
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/MyDataSource" resource-ref="true"/>
+    <jee:jndi-lookup id="hibernateDialect" jndi-name="conf/HibernateDialect" expected-type="java.lang.String"/>
+    <jee:jndi-lookup id="preferredPersonIdentifierType" jndi-name="conf/restapi/preferredPersonIdentifierType" expected-type="java.lang.String" />
+
+    <!-- To create proxies for IdentifierChangeAspect which itself is being 'component-scanned' (for now; and others later) -->
+    <aop:aspectj-autoproxy />
+
+    <bean id="annotationTransactionAspect" factory-method="aspectOf"
+        class="org.springframework.transaction.aspectj.AnnotationTransactionAspect">
+        <property name="transactionManager" ref="transactionManager"></property>
+    </bean>
+
+    <bean name="SoRSpecificationThreadLocalAspect"
+        class="org.openregistry.aspect.SoRSpecificationThreadLocalAspect"
+        factory-method="aspectOf">
+        <property name="systemOfRecordRepository" ref="systemOfRecordRepository" />
+    </bean>
+
+    <bean name="LogAspect"
+        class="org.openregistry.aspect.LogAspect"
+        factory-method="aspectOf">
+        <property name="messageSource" ref="messageSource" />
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+          p:dataSource-ref="dataSource">
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+                  p:generateDdl="false"
+                  p:showSql="false"/>
+        </property>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="hibernate.dialect" value-ref="hibernateDialect"/>
+                <!-- <entry key="hibernate.hbm2ddl.auto" value="update"/> -->
+            </map>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+        p:entityManagerFactory-ref="entityManagerFactory"/>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>messages</value>
+                <value>uilabels</value>
+                <value>org/openregistry/core/messages/log</value>
+                <value>http_errors</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--
+    <- Messaging integration configuration
+    <bean id="integrationGateway" class="org.openregistry.integration.internal.CamelIntegrationGateway"/>        
+
+    <lang:groovy id="identifierChangeEventNotification"
+                 script-source="classpath:org/openregistry/integration/DefaultIdentifierChangeEventNotificationService.groovy">
+        <lang:property name="integrationGateway" ref="integrationGateway"/>
+        <lang:property name="identifierChangeEventDestinationUri"
+                       value="activemq:topic:openregistry.identifier-change.out"/>
+    </lang:groovy>
+         -->
+</beans>

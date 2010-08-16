@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rest-client version="2.3"><request><http-version>1.1</http-version><URL>http://localhost:8080/openregistry/api/v1/people?force=y</URL><method>POST</method><body content-type="application/xml" charset="UTF-8">&lt;?xml version="1.0"?&gt;
+&lt;open-registry-person sor="123" sor-person-id="123" first-name="Joh" last-name="Do" email="j@gmail.com" phone="7326543322"&gt;
+
+    &lt;dob&gt;1977-06-11&lt;/dob&gt;
+    &lt;ssn&gt;123223456&lt;/ssn&gt;
+    &lt;gender&gt;m&lt;/gender&gt;
+    &lt;address-line1&gt;123 Main st.&lt;/address-line1&gt;
+    &lt;address-line2&gt;suite 5&lt;/address-line2&gt;
+    &lt;city&gt;New Brunswick&lt;/city&gt;
+    &lt;region&gt;NJ&lt;/region&gt;
+    &lt;postal-code&gt;23458&lt;/postal-code&gt;
+
+&lt;/open-registry-person&gt;</body></request></rest-client>
