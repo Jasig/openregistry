@@ -159,7 +159,7 @@
             <element id="library" level="project" name="Maven: javax.mail:mail:1.4" />
             <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
             <element id="library" level="project" name="Maven: javax.jms:jms:1.1" />
-            <element id="archive" name="openregistry-api-0.1-RC1-SNAPSHOT.jar">
+            <element id="archive" name="openregistry-api-0.3.0-M1-SNAPSHOT.jar">
               <element id="module-output" name="openregistry-api" />
             </element>
             <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.4" />
@@ -180,7 +180,7 @@
             <element id="library" level="project" name="Maven: org.springframework:spring-context-support:3.0.3.RELEASE" />
             <element id="library" level="project" name="Maven: org.springframework:spring-tx:3.0.3.RELEASE" />
             <element id="library" level="project" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0-CR-1" />
-            <element id="archive" name="openregistry-service-impl-0.1-RC1-SNAPSHOT.jar">
+            <element id="archive" name="openregistry-service-impl-0.3.0-M1-SNAPSHOT.jar">
               <element id="module-output" name="openregistry-service-impl" />
             </element>
             <element id="library" level="project" name="Maven: org.springframework:spring-web:3.0.3.RELEASE" />
@@ -203,10 +203,10 @@
             <element id="library" level="project" name="Maven: javax.xml.bind:jaxb-api:2.1" />
             <element id="library" level="project" name="Maven: javax.xml.stream:stax-api:1.0-2" />
             <element id="library" level="project" name="Maven: com.sun.xml.bind:jaxb-impl:2.1.10" />
-            <element id="archive" name="openregistry-sor-repository-xml-0.1-RC1-SNAPSHOT.jar">
+            <element id="archive" name="openregistry-sor-repository-xml-0.3.0-M1-SNAPSHOT.jar">
               <element id="module-output" name="openregistry-sor-repository-xml" />
             </element>
-            <element id="archive" name="openregistry-repository-jpa-impl-0.1-RC1-SNAPSHOT.jar">
+            <element id="archive" name="openregistry-repository-jpa-impl-0.3.0-M1-SNAPSHOT.jar">
               <element id="module-output" name="openregistry-repository-jpa-impl" />
             </element>
             <element id="library" level="project" name="Maven: org.hibernate:hibernate-envers:3.5.1-Final" />
