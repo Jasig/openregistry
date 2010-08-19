@@ -354,9 +354,7 @@ public class DefaultPersonService implements PersonService {
         throw new IllegalStateException("Person not found in ReconciliationResult.");
     }
      
-    @PostFilter("((filterObject.person.roles.?[organizationalUnit.id==191].size()>0) and hasRole('191')) or " +
-            "((filterObject.person.roles.?[organizationalUnit.id==171].size()>0) and hasRole('171')) ") 
-//            " or hasRole('ROLE_ADMIN')")
+    @PostFilter("hasPermission(filterObject, 'read')")
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
 //                                       SecurityContextHolder.getContext().getAuthentication().getAuthorities().
         if (StringUtils.hasText(searchCriteria.getIdentifierValue())) {
