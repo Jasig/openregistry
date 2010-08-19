@@ -27,6 +27,8 @@ import org.openregistry.core.service.reconciliation.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
 
@@ -34,6 +36,8 @@ import javax.annotation.Resource;
 import javax.inject.*;
 import javax.validation.*;
 import java.util.*;
+
+
 
 /**
  * Default implementation of the {@link PersonService}.
@@ -349,8 +353,12 @@ public class DefaultPersonService implements PersonService {
 
         throw new IllegalStateException("Person not found in ReconciliationResult.");
     }
-
+     
+    @PostFilter("((filterObject.person.roles.?[organizationalUnit.id==191].size()>0) and hasRole('191')) or " +
+            "((filterObject.person.roles.?[organizationalUnit.id==171].size()>0) and hasRole('171')) ") 
+//            " or hasRole('ROLE_ADMIN')")
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
+//                                       SecurityContextHolder.getContext().getAuthentication().getAuthorities().
         if (StringUtils.hasText(searchCriteria.getIdentifierValue())) {
             final String identifierValue = searchCriteria.getIdentifierValue();
             final List<IdentifierType> identifierTypes = this.referenceRepository.getIdentifierTypes();
