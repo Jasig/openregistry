@@ -28,6 +28,7 @@ import org.slf4j.*;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
@@ -270,7 +271,7 @@ public class DefaultPersonService implements PersonService {
         this.personRepository.savePerson(person);
         return true;
     }
-
+       @PreAuthorize("hasPermission(#sorRole, 'admin')")
     public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
         Assert.notNull(sorPerson, "SorPerson cannot be null.");
         Assert.notNull(sorRole, "SorRole cannot be null.");
