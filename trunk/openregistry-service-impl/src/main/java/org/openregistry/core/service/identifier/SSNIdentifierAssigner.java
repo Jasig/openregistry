@@ -26,14 +26,13 @@ import org.openregistry.core.repository.ReferenceRepository;
 
 import javax.inject.Inject;
 
-
 /**
  * SSN identifier assigner.
  *
  * @version $Revision$ $Date$
  * @since 0.1
  */
-public class SSNIdentifierAssigner implements IdentifierAssigner {
+public class SSNIdentifierAssigner extends AbstractIdentifierAssigner {
 
     private final String identifierType = "SSN";
 
@@ -45,11 +44,18 @@ public class SSNIdentifierAssigner implements IdentifierAssigner {
     }
 
     public void addIdentifierTo(final SorPerson sorPerson, final Person person) {
-		if (sorPerson.getSsn() != null){
-            final Identifier identifier = person.addIdentifier(referenceRepository.findIdentifierType(identifierType),sorPerson.getSsn());
-		    identifier.setDeleted(false);
-		    identifier.setPrimary(true);
-        }
+   		if (sorPerson.getSsn() != null) {
+   			final Identifier ssn = findPrimaryIdentifier(person, this.getIdentifierType());
+   			if (ssn == null) {
+     			final Identifier identifier = person.addIdentifier(referenceRepository.findIdentifierType(identifierType),sorPerson.getSsn());
+    			identifier.setDeleted(false);
+    			identifier.setPrimary(true);
+   			} else { // check that we aren't given a different SSN value
+   				if (! ssn.getValue().equals(sorPerson.getSsn())) {
+   					// TODO Throw error here!!!  or log
+   				}
+   			}
+    	}
     }
 
     public String getIdentifierType() {
