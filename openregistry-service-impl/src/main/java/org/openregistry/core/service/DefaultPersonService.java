@@ -420,6 +420,10 @@ public class DefaultPersonService implements PersonService {
                 role.recalculate(savedSorRole); // role may have been updated, so recalculate.
             }
         }
+        
+        for (final IdentifierAssigner ia : this.identifierAssigners) {
+            ia.addIdentifierTo(sorPerson, person);
+        }
 
         person = recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
 
