@@ -64,26 +64,26 @@ public class DefaultPersonService implements PersonService {
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Resource(name="birthDateFieldElector")
-    private FieldElector<Date> birthDateFieldElector;
+    private FieldElector<Date> birthDateFieldElector = new DefaultBirthDateFieldElector();
 
     @Resource(name="genderFieldElector")
-    private FieldElector<String> genderFieldElector;
+    private FieldElector<String> genderFieldElector = new DefaultGenderFieldElector();
 
     @Resource(name="preferredNameFieldElector")
-    private FieldElector<SorName> preferredNameFieldElector;
+    private FieldElector<SorName> preferredNameFieldElector = new DefaultNameFieldSelector();
 
     @Resource(name="officialNameFieldElector")
-    private FieldElector<SorName> officialNameFieldElector;
+    private FieldElector<SorName> officialNameFieldElector = new DefaultNameFieldSelector();
 
     private FieldElector<EmailAddress> preferredContactEmailAddressFieldElector = new DefaultPreferredEmailContactFieldSelector();
 
     private FieldElector<Phone> preferredContactPhoneNumberFieldElector = new DefaultPreferredPhoneContactFieldSelector();
 
     @Resource(name="disclosureFieldElector")
-    private FieldElector<DisclosureSettings> disclosureFieldElector;
+    private FieldElector<DisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
 
     @Resource(name="ssnFieldElector")
-    private FieldElector<String> ssnFieldElector;
+    private FieldElector<String> ssnFieldElector = new DefaultSSNFieldElector();
 
     private enum RecalculationType {DELETE, ADD, UPDATE}
 
