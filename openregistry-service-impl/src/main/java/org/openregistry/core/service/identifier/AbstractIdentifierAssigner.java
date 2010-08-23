@@ -10,9 +10,11 @@ public abstract class AbstractIdentifierAssigner implements IdentifierAssigner {
 	protected final Identifier findPrimaryIdentifier(Person person, String identifierType) {
 		Identifier identifier = null;
 		final Deque<Identifier> identifiersForThisType = person.getIdentifiersByType().get(identifierType);
-		for (final Identifier id : identifiersForThisType) {
-			if (id.isPrimary() && ! id.isDeleted()) {
-				identifier = id;
+		if (identifiersForThisType != null) {
+			for (final Identifier id : identifiersForThisType) {
+				if (id.isPrimary() && ! id.isDeleted()) {
+					identifier = id;
+				}
 			}
 		}
 		return identifier;
