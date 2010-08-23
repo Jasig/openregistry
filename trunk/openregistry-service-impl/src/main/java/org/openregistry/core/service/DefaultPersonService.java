@@ -63,19 +63,27 @@ public class DefaultPersonService implements PersonService {
 
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-    private FieldElector<Date> birthDateFieldElector = new DefaultBirthDateFieldElector();
+    @Resource(name="birthDateFieldElector")
+    private FieldElector<Date> birthDateFieldElector;
 
-    private FieldElector<String> genderFieldElector = new DefaultGenderFieldElector();
+    @Resource(name="genderFieldElector")
+    private FieldElector<String> genderFieldElector;
 
-    private FieldElector<SorName> preferredNameFieldElector = new DefaultNameFieldSelector();
+    @Resource(name="preferredNameFieldElector")
+    private FieldElector<SorName> preferredNameFieldElector;
 
-    private FieldElector<SorName> officialNameFieldElector = new DefaultNameFieldSelector();
+    @Resource(name="officialNameFieldElector")
+    private FieldElector<SorName> officialNameFieldElector;
 
     private FieldElector<EmailAddress> preferredContactEmailAddressFieldElector = new DefaultPreferredEmailContactFieldSelector();
 
     private FieldElector<Phone> preferredContactPhoneNumberFieldElector = new DefaultPreferredPhoneContactFieldSelector();
 
-    private FieldElector<DisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
+    @Resource(name="disclosureFieldElector")
+    private FieldElector<DisclosureSettings> disclosureFieldElector;
+
+    @Resource(name="ssnFieldElector")
+    private FieldElector<String> ssnFieldElector;
 
     private enum RecalculationType {DELETE, ADD, UPDATE}
 
@@ -118,22 +126,6 @@ public class DefaultPersonService implements PersonService {
 
     public void setValidator(final Validator validator) {
         this.validator = validator;
-    }
-
-    public void setBirthDateFieldElector(final FieldElector<Date> birthDateFieldElector) {
-        this.birthDateFieldElector = birthDateFieldElector;
-    }
-
-    public void setGenderFieldElector(final FieldElector<String> genderFieldElector) {
-        this.genderFieldElector = genderFieldElector;
-    }
-
-    public void setPreferredNameFieldElector(final FieldElector<SorName> preferredNameFieldElector) {
-        this.preferredNameFieldElector = preferredNameFieldElector;
-    }
-
-    public void setOfficialNameFieldElector(final FieldElector<SorName> officialNameFieldElector) {
-        this.officialNameFieldElector = officialNameFieldElector;
     }
 
     public Person findPersonById(final Long id) {
@@ -591,12 +583,14 @@ public class DefaultPersonService implements PersonService {
         final EmailAddress emailAddress = this.preferredContactEmailAddressFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final Phone phone = this.preferredContactPhoneNumberFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final DisclosureSettings disclosure = this.disclosureFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
-        	
+
         person.setDateOfBirth(birthDate);
         person.setGender(gender);
         person.getPreferredContactEmailAddress().update(emailAddress);
         person.getPreferredContactPhoneNumber().update(phone);
         person.setDisclosureSettings(disclosure);
+
+        //SSN election is happening in the ssn identifier assigner.
 
         boolean preferred = false;
         boolean official = false;
