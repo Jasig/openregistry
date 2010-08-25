@@ -96,6 +96,16 @@
         <put-attribute name="body" value="/WEB-INF/or-tiles/split-person/selectSorRecords.jsp" cascade="true"/>
     </definition>
 
+	<definition name="openregistry.person.update.selectRole" template="/WEB-INF/layouts/base.jsp">
+		<put-attribute name="titleCode" value="selectRoleToAdd.title" type="string" />
+		<put-attribute name="body" value="/WEB-INF/or-tiles/update-person/selectRole.jsp" />
+	</definition>
+
+	<definition name="openregistry.role.add" template="/WEB-INF/layouts/base.jsp">
+		<put-attribute name="titleCode" value="addRole.title" type="string" />
+		<put-attribute name="body" value="/WEB-INF/or-tiles/add-role/addRole.jsp" />
+	</definition>
+
     <definition name="openregistry.complete" extends="openregistry.base">
         <put-attribute name="titleCode" value="operation.complete" type="string" />
         <put-attribute name="body" value="/WEB-INF/jsp/or-includes/info.jsp" cascade="true"/>
