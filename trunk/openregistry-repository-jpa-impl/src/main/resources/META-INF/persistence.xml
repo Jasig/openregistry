@@ -30,6 +30,7 @@
             <class>org.openregistry.core.domain.jpa.JpaContactEmailAddressImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaContactPhoneImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaCountryImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaDisclosureSettingsImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaEmailAddressImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaIdentifierImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaIdentifierTypeImpl</class>
@@ -45,6 +46,7 @@
             <class>org.openregistry.core.domain.jpa.JpaUrlImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorAddressImpl</class>
+            <class>org.openregistry.core.domain.jpa.sor.JpaSorDisclosureSettingsImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorEmailAddressImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorLeaveImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorNameImpl</class>
