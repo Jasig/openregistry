@@ -27,6 +27,9 @@ import org.openregistry.core.service.reconciliation.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
 
@@ -34,6 +37,8 @@ import javax.annotation.Resource;
 import javax.inject.*;
 import javax.validation.*;
 import java.util.*;
+
+
 
 /**
  * Default implementation of the {@link PersonService}.
@@ -58,19 +63,27 @@ public class DefaultPersonService implements PersonService {
 
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
+    @Resource(name="birthDateFieldElector")
     private FieldElector<Date> birthDateFieldElector = new DefaultBirthDateFieldElector();
 
+    @Resource(name="genderFieldElector")
     private FieldElector<String> genderFieldElector = new DefaultGenderFieldElector();
 
+    @Resource(name="preferredNameFieldElector")
     private FieldElector<SorName> preferredNameFieldElector = new DefaultNameFieldSelector();
 
+    @Resource(name="officialNameFieldElector")
     private FieldElector<SorName> officialNameFieldElector = new DefaultNameFieldSelector();
 
     private FieldElector<EmailAddress> preferredContactEmailAddressFieldElector = new DefaultPreferredEmailContactFieldSelector();
 
     private FieldElector<Phone> preferredContactPhoneNumberFieldElector = new DefaultPreferredPhoneContactFieldSelector();
 
+    @Resource(name="disclosureFieldElector")
     private FieldElector<DisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
+
+    @Resource(name="ssnFieldElector")
+    private FieldElector<String> ssnFieldElector = new DefaultSSNFieldElector();
 
     private enum RecalculationType {DELETE, ADD, UPDATE}
 
@@ -113,22 +126,6 @@ public class DefaultPersonService implements PersonService {
 
     public void setValidator(final Validator validator) {
         this.validator = validator;
-    }
-
-    public void setBirthDateFieldElector(final FieldElector<Date> birthDateFieldElector) {
-        this.birthDateFieldElector = birthDateFieldElector;
-    }
-
-    public void setGenderFieldElector(final FieldElector<String> genderFieldElector) {
-        this.genderFieldElector = genderFieldElector;
-    }
-
-    public void setPreferredNameFieldElector(final FieldElector<SorName> preferredNameFieldElector) {
-        this.preferredNameFieldElector = preferredNameFieldElector;
-    }
-
-    public void setOfficialNameFieldElector(final FieldElector<SorName> officialNameFieldElector) {
-        this.officialNameFieldElector = officialNameFieldElector;
     }
 
     public Person findPersonById(final Long id) {
@@ -266,7 +263,7 @@ public class DefaultPersonService implements PersonService {
         this.personRepository.savePerson(person);
         return true;
     }
-
+       @PreAuthorize("hasPermission(#sorRole, 'admin')")
     public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
         Assert.notNull(sorPerson, "SorPerson cannot be null.");
         Assert.notNull(sorRole, "SorRole cannot be null.");
@@ -349,8 +346,10 @@ public class DefaultPersonService implements PersonService {
 
         throw new IllegalStateException("Person not found in ReconciliationResult.");
     }
-
+     
+    @PostFilter("hasPermission(filterObject, 'read')")
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
+//                                       SecurityContextHolder.getContext().getAuthentication().getAuthorities().
         if (StringUtils.hasText(searchCriteria.getIdentifierValue())) {
             final String identifierValue = searchCriteria.getIdentifierValue();
             final List<IdentifierType> identifierTypes = this.referenceRepository.getIdentifierTypes();
@@ -412,6 +411,10 @@ public class DefaultPersonService implements PersonService {
             else {
                 role.recalculate(savedSorRole); // role may have been updated, so recalculate.
             }
+        }
+        
+        for (final IdentifierAssigner ia : this.identifierAssigners) {
+            ia.addIdentifierTo(sorPerson, person);
         }
 
         person = recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
@@ -580,12 +583,14 @@ public class DefaultPersonService implements PersonService {
         final EmailAddress emailAddress = this.preferredContactEmailAddressFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final Phone phone = this.preferredContactPhoneNumberFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final DisclosureSettings disclosure = this.disclosureFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
-        	
+
         person.setDateOfBirth(birthDate);
         person.setGender(gender);
         person.getPreferredContactEmailAddress().update(emailAddress);
         person.getPreferredContactPhoneNumber().update(phone);
         person.setDisclosureSettings(disclosure);
+
+        //SSN election is happening in the ssn identifier assigner.
 
         boolean preferred = false;
         boolean official = false;

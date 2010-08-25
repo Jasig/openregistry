@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
     Licensed to Jasig under one or more contributor license
@@ -22,22 +21,9 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
-    <import resource="base-integration-tests.xml" />
-
-    <bean id="personService" class="org.openregistry.core.service.DefaultPersonService">
-        <constructor-arg index="0" ref="personRepository" />
-        <constructor-arg index="1" ref="referenceRepository" />
-        <constructor-arg index="2" ref="identifierGenerator" />
-        <constructor-arg index="3" ref="reconciler" />
-        <property name="personObjectFactory" ref="personFactory" />
-    </bean>
-
-    <bean id="reconciler" class="org.openregistry.core.service.reconciliation.NameReconciler" />
-
-    <bean id="identifierGenerator" class="org.openregistry.core.service.identifier.NoOpIdentifierGenerator" />
 
     <bean class="org.openregistry.core.service.DefaultBirthDateFieldElector" id="birthDateFieldElector" />
     <bean class="org.openregistry.core.service.DefaultGenderFieldElector" id="genderFieldElector" />
@@ -47,4 +33,5 @@
     <bean class="org.openregistry.core.service.DefaultPreferredPhoneContactFieldSelector" id="preferredContactPhoneNumberFieldElector" />
     <bean class="org.openregistry.core.service.DefaultDisclosureSettingsFieldElector" id="disclosureFieldElector" />
     <bean class="org.openregistry.core.service.DefaultSSNFieldElector" id="ssnFieldElector" />
+    
 </beans>

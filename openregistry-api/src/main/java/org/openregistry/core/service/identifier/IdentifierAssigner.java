@@ -23,8 +23,10 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.SorPerson;
 
 /**
- * Assigns an identifier to a person based the data provided from the system of record.  Its the job of the identifier
- * assigner to determine if it needs to add an identifier for a person or not.
+ * Assigns an identifier to a person based the data provided from the system of record.
+ * It's the job of the identifier assigner to determine if it needs to add an identifier for a person or not.
+ * 
+ * IdentifierAssigners should be able to be run multiple times without creating duplicate identifiers.
  *
  * @author Scott Battaglia
  * @version $Revision$ $Date$
@@ -33,9 +35,11 @@ import org.openregistry.core.domain.sor.SorPerson;
 public interface IdentifierAssigner {
 
     /**
-     * Adds the identifier to the particular person.  This is not necessarily saved until an explicit save call is made
-     * so identifier creation systems should not rely on the identifier table in OR to check whether a value
-     * was used or not.
+     * Adds the identifier to the particular person.  This is not necessarily saved until an explicit save call
+     * is made so identifier creation systems should not rely on the identifier table in OR to check whether a 
+     * value was used or not.
+     * 
+     * This method should not generate more than one primary, non-deleted identifier.
      *
      * @param sorPerson the original SoR person.
      * @param person the person to add the identifier to.

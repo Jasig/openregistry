@@ -30,7 +30,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <script type="text/javascript">
 jQuery(document).ready(function() {
     $('#activationKeyLink').click(function() {
@@ -56,10 +56,12 @@ jQuery(document).ready(function() {
 </script>
 
 <div id="calculated-person">
+  <sec:authorize access="hasRole('ROLE_GENERATE_KEY') and fullyAuthenticated">
     <div style="text-align:center;">
         <a href="#" id="activationKeyLink" class="button"><button>Generate New Activation Key</button></a>
     </div>
     <div id="activationKeyDialog" title="Activation Key"></div>
+  </sec:authorize>
     <fieldset id="selectSorPerson">
         <legend><span><spring:message code="viewCompletePersonPage.heading"/></span></legend>
         <br/>

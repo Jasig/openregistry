@@ -30,6 +30,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <form:form modelAttribute="person">
 
@@ -44,7 +45,11 @@
                 <li><a href="joinPerson.htm">Move All Sor Person Records</a></li>
                 <li><a href="newActivationKey.htm">Request New Activation Key</a></li>
   -->
-                <li><a href="viewCompletePerson.htm">View Complete Person</a></li>
+                <!-- Only the principal who is authorize to access the view complete person url
+                can see this link on the main page-->
+                <sec:authorize  url="/viewCompletePerson.htm">
+                   <li><a href="viewCompletePerson.htm">View Complete Person</a></li>
+                </sec:authorize>
             </ul>
 			<h2>Important Notices</h2>
 			<p>

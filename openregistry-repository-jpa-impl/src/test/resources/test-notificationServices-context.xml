@@ -57,5 +57,14 @@
     <bean id="reconciler" class="org.openregistry.core.service.reconciliation.NameReconciler" />
 
     <bean id="identifierGenerator" class="org.openregistry.core.service.identifier.NoOpIdentifierGenerator" />
+
+    <bean class="org.openregistry.core.service.DefaultBirthDateFieldElector" id="birthDateFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultGenderFieldElector" id="genderFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultNameFieldSelector" id="preferredNameFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultNameFieldSelector" id="officialNameFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultPreferredEmailContactFieldSelector" id="preferredContactEmailAddressFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultPreferredPhoneContactFieldSelector" id="preferredContactPhoneNumberFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultDisclosureSettingsFieldElector" id="disclosureFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultSSNFieldElector" id="ssnFieldElector" />
     
 </beans>

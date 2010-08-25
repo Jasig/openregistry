@@ -36,7 +36,7 @@ import java.security.SecureRandom;
  * @version $Revision$ $Date$
  * @since 0.1
  */
-public class TestIdentifierAssigner implements IdentifierAssigner {
+public class TestIdentifierAssigner extends AbstractIdentifierAssigner {
 
     /** The array of printable characters to be used in our random string. */
     private static final char[] PRINTABLE_CHARACTERS = "0123456789".toCharArray();
@@ -51,27 +51,30 @@ public class TestIdentifierAssigner implements IdentifierAssigner {
     }
 
     public void addIdentifierTo(final SorPerson sorPerson, final Person person) {
-        final Name name = person.getOfficialName();
+    	final Identifier primaryNetid = findPrimaryIdentifier(person, this.getIdentifierType());
+    	if (primaryNetid != null) { // don't set if already there
+    		final Name name = person.getOfficialName();
 
-        final StringBuilder builder = new StringBuilder();
+    		final StringBuilder builder = new StringBuilder();
 
-        if (StringUtils.hasText(name.getGiven())) {
-            builder.append(name.getGiven().substring(0,1));
-        }
+    		if (StringUtils.hasText(name.getGiven())) {
+    			builder.append(name.getGiven().substring(0,1));
+    		}
 
-        if (StringUtils.hasText(name.getMiddle())) {
-            builder.append(name.getMiddle().substring(0,1));
-        }
+    		if (StringUtils.hasText(name.getMiddle())) {
+    			builder.append(name.getMiddle().substring(0,1));
+    		}
 
-        if (StringUtils.hasText(name.getFamily())) {
+    		if (StringUtils.hasText(name.getFamily())) {
             builder.append(name.getFamily().substring(0,1));
-        }
+    		}
 
-        builder.append(constructNewValue());
+    		builder.append(constructNewValue());
 
-        final Identifier identifier = person.addIdentifier(referenceRepository.findIdentifierType(getIdentifierType()), builder.toString());
-        identifier.setDeleted(false);
-        identifier.setPrimary(true);
+    		final Identifier identifier = person.addIdentifier(referenceRepository.findIdentifierType(getIdentifierType()), builder.toString());
+    		identifier.setDeleted(false);
+    		identifier.setPrimary(true);
+    	}
     }
 
     public String getIdentifierType() {
