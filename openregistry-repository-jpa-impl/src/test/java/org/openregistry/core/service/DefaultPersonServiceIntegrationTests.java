@@ -419,7 +419,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
 
         this.entityManager.flush();
-        
+
         assertEquals(1, countRowsInTable("prc_persons"));
         assertEquals(1, countRowsInTable("prc_names"));
         assertEquals(2, countRowsInTable("prs_sor_persons"));

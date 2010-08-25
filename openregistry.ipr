@@ -265,6 +265,50 @@
         </element>
       </root>
     </artifact>
+    <artifact type="war" name="openregistrysfu:war">
+      <output-path>$PROJECT_DIR$/../openregistrysfu/target</output-path>
+      <root id="archive" name="openregistrysfu.war">
+        <element id="artifact" artifact-name="openregistrysfu:war exploded" />
+      </root>
+    </artifact>
+    <artifact type="exploded-war" name="openregistrysfu:war exploded">
+      <output-path>$PROJECT_DIR$/../openregistrysfu/target/openregistrysfu</output-path>
+      <root id="root">
+        <element id="javaee-facet-resources" facet="openregistrysfu/web/Web" />
+        <element id="directory" name="WEB-INF">
+          <element id="directory" name="classes">
+            <element id="module-output" name="openregistrysfu" />
+          </element>
+          <element id="directory" name="lib">
+            <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.5.11" />
+            <element id="library" level="project" name="Maven: org.slf4j:jcl-over-slf4j:1.5.11" />
+            <element id="library" level="project" name="Maven: log4j:log4j:1.2.15" />
+            <element id="library" level="project" name="Maven: javax.mail:mail:1.4" />
+            <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
+            <element id="library" level="project" name="Maven: javax.jms:jms:1.1" />
+            <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.5.11" />
+            <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.6.8" />
+            <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.6.8" />
+            <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
+            <element id="library" level="project" name="Maven: javax.validation:validation-api:1.0.0.GA" />
+            <element id="library" level="project" name="Maven: javax.annotation:jsr250-api:1.0" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-aspects:3.0.3.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-beans:3.0.3.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-core:3.0.3.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-asm:3.0.3.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-context:3.0.3.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-aop:3.0.3.RELEASE" />
+            <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-expression:3.0.3.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-context-support:3.0.3.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-test:3.0.3.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-tx:3.0.3.RELEASE" />
+            <element id="library" level="project" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0-CR-1" />
+          </element>
+        </element>
+        <element id="artifact" artifact-name="openregistry-webapp:war exploded" />
+      </root>
+    </artifact>
   </component>
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
@@ -365,6 +409,7 @@
       <facet-type id="web">
         <modules>
           <module name="openregistry-webapp" />
+          <module name="openregistrysfu" />
         </modules>
       </facet-type>
     </autodetection-disabled>
@@ -533,6 +578,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/../openregistrysfu/pom.xml" />
       </list>
     </option>
   </component>
@@ -554,6 +600,7 @@
       <module fileurl="file://$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" filepath="$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-test-support/openregistry-test-support.iml" filepath="$PROJECT_DIR$/openregistry-test-support/openregistry-test-support.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" filepath="$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../openregistrysfu/openregistrysfu.iml" filepath="$PROJECT_DIR$/../openregistrysfu/openregistrysfu.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-support-tools/ortool.iml" filepath="$PROJECT_DIR$/openregistry-support-tools/ortool.iml" />
     </modules>
   </component>
