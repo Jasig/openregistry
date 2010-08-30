@@ -157,6 +157,14 @@ public interface SorPerson {
     void setDisclosureSettings(DisclosureSettings disclosureSettings);
     
     /**
+     * Sets the information required to instantiate the DisclosureSettings object
+     * @param disclosureCode
+     * @param isWithinGracePeriod
+     * @param lastUpdatedDate
+     */
+    void setDisclosureSettingInfo(String disclosureCode, boolean isWithinGracePeriod, Date lastUpdatedDate);
+
+    /**
      * Adds an SoR Role (and returns it) based on the roleInfo.
      *
      * @param roleInfo the type of role to add.

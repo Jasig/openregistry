@@ -123,6 +123,14 @@ public interface Person extends Serializable {
     void setDisclosureSettings(DisclosureSettings disclosureSettings);
     
     /**
+     * Sets the information required to instantiate the DisclosureSettings object
+     * @param disclosureCode
+     * @param isWithinGracePeriod
+     * @param lastUpdatedDate
+     */
+    void setDisclosureSettingInfo(String disclosureCode, boolean isWithinGracePeriod, Date lastUpdatedDate);
+    
+    /**
      * Constructs a new Identifier based on the provided type and value.
      *
      * @param identifierType the identifier type

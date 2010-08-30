@@ -318,4 +318,10 @@ public class MockPerson implements Person {
 		this.mockDisclosureSettings = (MockDisclosureSettings)disclosureSettings;
 	}
 
+	public void setDisclosureSettingInfo(String disclosureCode,
+			boolean isWithinGracePeriod, Date lastUpdatedDate) {
+		this.mockDisclosureSettings = new MockDisclosureSettings
+			(disclosureCode, lastUpdatedDate, isWithinGracePeriod);
+	}
+
 }
