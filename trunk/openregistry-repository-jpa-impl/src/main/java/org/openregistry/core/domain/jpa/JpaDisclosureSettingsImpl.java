@@ -99,7 +99,8 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings {
 	 * @see org.openregistry.core.domain.DisclosureSettings#getLastUpdateDate()
 	 */
 	public Date getLastUpdateDate() {
-		return new Date(this.lastUpdateDate.getTime());
+		return (this.lastUpdateDate != null ) ?
+			new Date(this.lastUpdateDate.getTime()) : null;
 	}
 
 	/**
@@ -107,5 +108,26 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings {
 	 */
 	public boolean isWithinGracePeriod() {
 		return this.withinGracePeriod;
+	}
+	
+	/**
+	 * @see org.openregistry.core.domain.DisclosureSettings#setDisclosureCode(java.lang.String)
+	 */
+	public void setDisclosureCode(String code) {
+		this.disclosureCode = code;
+	}
+
+	/**
+	 * @see org.openregistry.core.domain.DisclosureSettings#setLastUpdateDate(java.util.Date)
+	 */
+	public void setLastUpdateDate(Date date) {
+		this.lastUpdateDate = (date != null) ? new Date(date.getTime()): null;
+	}
+
+	/**
+	 * @see org.openregistry.core.domain.DisclosureSettings#setWithinGracePeriod(boolean)
+	 */
+	public void setWithinGracePeriod(boolean within) {
+		this.withinGracePeriod = within;
 	}
 }
