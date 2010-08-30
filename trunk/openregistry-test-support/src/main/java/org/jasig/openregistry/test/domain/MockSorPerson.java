@@ -126,6 +126,12 @@ public class MockSorPerson extends Entity implements SorPerson {
         this.mockDisclosureSettings = (MockDisclosureSettings)disclosure;
     }
 
+	public void setDisclosureSettingInfo(String disclosureCode,
+			boolean isWithinGracePeriod, Date lastUpdatedDate) {
+		this.mockDisclosureSettings = new MockDisclosureSettings
+			(disclosureCode, lastUpdatedDate, isWithinGracePeriod);
+	}
+
     public SorName addName() {
         final MockSorName sorName = new MockSorName();
         this.names.add(sorName);

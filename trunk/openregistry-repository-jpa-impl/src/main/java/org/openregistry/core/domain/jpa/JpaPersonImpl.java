@@ -171,10 +171,9 @@ public class JpaPersonImpl extends Entity implements Person {
      */
 	public void setDisclosureSettings(DisclosureSettings ds) {
 		if (ds != null) {
-			if (ds instanceof JpaDisclosureSettingsImpl) {
-				this.disclosureSettings = (JpaDisclosureSettingsImpl)ds;
-			} else if (ds instanceof JpaSorDisclosureSettingsImpl) {
-				// convert from JpaDisclosureSettingsImpl to JpaSorDisclosureSettingsImpl
+			if (ds instanceof JpaDisclosureSettingsImpl || 
+				ds instanceof JpaSorDisclosureSettingsImpl) {
+				// copy and convert from JpaDisclosureSettingsImpl to JpaSorDisclosureSettingsImpl if necessary
 				this.disclosureSettings = new JpaDisclosureSettingsImpl (
 					this,
 					ds.getDisclosureCode(),
@@ -189,6 +188,15 @@ public class JpaPersonImpl extends Entity implements Person {
 		}
 	}
 
+	/**
+	 * @see org.openregistry.core.domain.sor.SorPerson#setDisclosureSettingInfo(java.lang.String, boolean, java.util.Date)
+	 */
+	public void setDisclosureSettingInfo(String disclosureCode,
+			boolean isWithinGracePeriod, Date lastUpdatedDate) {
+		this.disclosureSettings = new JpaDisclosureSettingsImpl
+			(this, disclosureCode, lastUpdatedDate, isWithinGracePeriod);
+	}
+	
     public Role addRole(final SorRole sorRole) {
         Assert.isInstanceOf(JpaSorRoleImpl.class, sorRole);
         final JpaRoleImpl jpaRole = new JpaRoleImpl((JpaSorRoleImpl) sorRole, this);
