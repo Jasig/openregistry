@@ -37,6 +37,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: com.sun:tools:1.5.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: displaytag:displaytag:1.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: commons-collections:commons-collections:3.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: commons-lang:commons-lang:2.3" level="project" />
@@ -55,25 +56,24 @@
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-aspects:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-beans:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-core:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-asm:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-context:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-aop:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aspects:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-core:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-asm:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-aop:3.0.4.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-expression:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-context-support:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-tx:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-expression:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context-support:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-tx:3.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0-CR-1" level="project" />
     <orderEntry type="module" module-name="openregistry-service-impl" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-web:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-jms:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-web:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jms:3.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:1.7.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.camel:camel-core:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.fusesource.commonman:commons-management:1.0" level="project" />
-    <orderEntry type="library" name="Maven: com.sun:tools:1.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.activemq:activemq-camel:5.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.camel:camel-jms:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.camel:camel-spring:2.2.0" level="project" />
@@ -114,9 +114,9 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.hibernate:hibernate-jpamodelgen:1.0.0-Beta-2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet.jsp:jsp-api:2.0" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-orm:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-jdbc:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-orm:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-jdbc:3.0.4.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.security:spring-security-cas-client:3.0.2.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.security:spring-security-web:3.0.2.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.jasig.cas:cas-client-core:3.1.10" level="project" />
