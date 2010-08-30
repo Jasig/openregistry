@@ -44,4 +44,22 @@ public interface DisclosureSettings {
 	 * @return the last date when the disclosure settings were updated
 	 */
 	public Date getLastUpdateDate();
+	
+	/**
+	 * Set the String code identifying this set of disclosure settings
+	 * @param code
+	 */
+	public void setDisclosureCode(String code);
+	
+	/**
+	 * @param within true if the person is within his or her grace period, when no
+	 * information would be shown until he or she sets the disclosure code
+	 */
+	public void setWithinGracePeriod(boolean within);
+	
+	/**
+	 * Set the last date when the disclosure settings were updated
+	 * @param date
+	 */
+	public void setLastUpdateDate(Date date);
 }
