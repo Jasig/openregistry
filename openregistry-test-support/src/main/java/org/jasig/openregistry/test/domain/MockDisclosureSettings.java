@@ -64,5 +64,27 @@ public class MockDisclosureSettings implements DisclosureSettings {
 	 */
 	public boolean isWithinGracePeriod() {
 		return withinGracePeriod;
+	}
+
+	/**
+	 * @see org.openregistry.core.domain.DisclosureSettings#setDisclosureCode(java.lang.String)
+	 */
+	public void setDisclosureCode(String code) {
+		this.disclosureCode = code;
+	}
+
+	/**
+	 * @see org.openregistry.core.domain.DisclosureSettings#setLastUpdateDate(java.util.Date)
+	 */
+	public void setLastUpdateDate(Date date) {
+		this.lastUpdateDate = (date !=null) ? new Date(date.getTime()) : null;
+		
+	}
+
+	/**
+	 * @see org.openregistry.core.domain.DisclosureSettings#setWithinGracePeriod(boolean)
+	 */
+	public void setWithinGracePeriod(boolean within) {
+		this.withinGracePeriod = within;
 	}	
 }
