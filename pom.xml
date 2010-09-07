@@ -652,7 +652,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <repository>
             <id>repository.jboss.org</id>
             <name>Jboss Maven2 Repository</name>
-            <url>http://repository.jboss.org/maven2</url>
+            <url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
