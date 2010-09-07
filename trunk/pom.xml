@@ -585,10 +585,10 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <activemq.version>5.2.0</activemq.version>
         <jsr250.version>1.0</jsr250.version>
         <aspectj.version>1.6.8</aspectj.version>
-        <camel.version>2.2.0</camel.version>
+        <camel.version>2.4.0</camel.version>
         <clover.version>2.6.3</clover.version>
         <spring.version>3.0.4.RELEASE</spring.version>
-        <spring.security.version>3.0.2.RELEASE</spring.security.version>
+        <spring.security.version>3.0.3.RELEASE</spring.security.version>
         <junit.version>4.6</junit.version>
         <servlet.version>2.5</servlet.version>
         <groovy.version>1.7.3</groovy.version>
@@ -605,13 +605,13 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <ognl.version>2.7.3</ognl.version>
         <tiles.version>2.1.4</tiles.version>
         <jsp.version>2.0</jsp.version>
-        <hibernate.version>3.5.1-Final</hibernate.version>
+        <hibernate.version>3.5.5-Final</hibernate.version>
         <javassist.version>3.8.0.GA</javassist.version>
         <hsqldb.version>1.8.0.10</hsqldb.version>
         <jersey.version>1.3</jersey.version>
         <el.api.version>1.0</el.api.version>
         <mockito.version>1.8.5</mockito.version>
-        <ehcache.version>1.7.1</ehcache.version>
+        <ehcache.version>2.2.0</ehcache.version>
         <hibernate.validator.version>4.0.2.GA</hibernate.validator.version>
         <javax.validation.version>1.0.0.GA</javax.validation.version>
         <javax.inject.version>1</javax.inject.version>
