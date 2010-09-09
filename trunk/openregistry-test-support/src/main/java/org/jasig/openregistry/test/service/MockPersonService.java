@@ -13,6 +13,7 @@ import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
 
 import javax.validation.ConstraintViolation;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +22,17 @@ import java.util.Set;
  * @since 1.0
  */
 public class MockPersonService implements PersonService {
+
+    private MockPerson providedMockPerson;
+
+    //Default ctor
+
+    public MockPersonService() {
+    }
+
+    public MockPersonService(MockPerson providedMockPerson) {
+        this.providedMockPerson = providedMockPerson;
+    }
 
     @Override
     public Person findPersonById(Long id) {
@@ -158,9 +170,6 @@ public class MockPersonService implements PersonService {
     }
 
     private ServiceExecutionResult<Person> simulateAddingAPerson() {
-        final MockPerson person = new MockPerson();
-        //Indicates that this is a test person
-        person.setId(-1000L);
         return new ServiceExecutionResult<Person>() {
             @Override
             public Date getExecutionDate() {
@@ -174,12 +183,12 @@ public class MockPersonService implements PersonService {
 
             @Override
             public Person getTargetObject() {
-                return person;
+                return providedMockPerson != null ? providedMockPerson : new MockPerson(-1000L);
             }
 
             @Override
             public Set<ConstraintViolation> getValidationErrors() {
-                return null;
+                return Collections.emptySet();
             }
         };
     }

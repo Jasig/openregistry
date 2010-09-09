@@ -81,6 +81,10 @@ public class MockPerson implements Person {
         this.addIdentifier(new MockIdentifierType("NETID", false), identifierValue);
     }
 
+    public MockPerson(long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return this.id;
     }
