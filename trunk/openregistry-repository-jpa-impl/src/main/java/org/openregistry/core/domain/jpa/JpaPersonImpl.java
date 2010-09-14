@@ -65,7 +65,7 @@ public class JpaPersonImpl extends Entity implements Person {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)
     private Set<JpaIdentifierImpl> identifiers = new HashSet<JpaIdentifierImpl>();
 
-    @Column(name="date_of_birth",nullable=false)
+    @Column(name="date_of_birth",nullable=true)
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 

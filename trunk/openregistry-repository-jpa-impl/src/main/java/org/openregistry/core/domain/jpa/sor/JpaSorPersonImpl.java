@@ -83,7 +83,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     @Column(name = "person_id")
     private Long personId;
 
-    @Column(name = "date_of_birth", nullable = false)
+    @Column(name = "date_of_birth", nullable = true)
     @Temporal(TemporalType.DATE)
     @Required(property = "person.dateOfBirth", message = "dateOfBirthRequiredMsg")
     @Past
