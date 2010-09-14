@@ -58,7 +58,7 @@
         <property name="securityMetadataSource">
             <sec:filter-security-metadata-source use-expressions="true">
                <sec:intercept-url pattern="/**/sor/**/people*" access="hasAnyRole('ROLE_PI','ROLE_ADMIN') and fullyAuthenticated"/>  
-              <sec:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN') and fullyAuthenticated"/>              
+              <sec:intercept-url pattern="/**"  access="hasAnyRole('ROLE_USER','ROLE_ADMIN') and fullyAuthenticated"/>              
             </sec:filter-security-metadata-source>
         </property>
     </bean>
@@ -173,5 +173,79 @@
 
     <bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint"
         p:realmName="OpenRegistry RESTful API" />
+
+        <!-- @Pre/@Post Method Advice Voters -->
+    <bean class="org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor" id="methodSecurityInterceptor">
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="accessDecisionManager" ref="methodAccessDecisionManager"/>
+		<property name="afterInvocationManager" ref="afterInvocationManager"/>
+        <property name="securityMetadataSource" ref="delegatingMetadataSource"/>
+	</bean>
+
+    <bean class="org.springframework.security.access.intercept.aopalliance.MethodSecurityMetadataSourceAdvisor" id="methodSecurityMetadataSourceAdvisor">
+		<constructor-arg ref="methodSecurityInterceptor"/>
+
+	</bean>
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" id="defaultAdvisorAutoProxyCreator">
+		<property name="beanName" value="methodSecurityMetadataSourceAdvisor"/>
+	</bean>
+
+    	<bean class="org.springframework.security.access.vote.AffirmativeBased" id="methodAccessDecisionManager">
+		<property name="decisionVoters">
+			<list>
+				<ref bean="preAdviceVoter"/>
+                <bean class="org.springframework.security.access.vote.RoleVoter"/>
+                <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+                <ref bean="jsr250Voter"/>
+
+			</list>
+		</property>
+	</bean>
+        <bean class="org.springframework.security.access.annotation.Jsr250Voter" id="jsr250Voter"/>
+    	<bean class="org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource" id="delegatingMetadataSource">
+		<property name="methodSecurityMetadataSources">
+			<list>
+				<ref local="prePostMetadataSource"/>
+			</list>
+		</property>
+	</bean>
+
+    <bean class="org.springframework.security.access.prepost.PreInvocationAuthorizationAdviceVoter" id="preAdviceVoter">
+        <constructor-arg ref="exprPreInvocationAdvice"/>
+    </bean>
+    <bean class="org.springframework.security.access.prepost.PostInvocationAdviceProvider" id="postAdviceProvider">
+        <constructor-arg ref="exprPostInvocationAdvice"/>
+    </bean>
+    <bean class="org.springframework.security.access.prepost.PrePostAnnotationSecurityMetadataSource" id="prePostMetadataSource">
+        <constructor-arg ref="exprAnnotationAttrFactory"/>
+    </bean>
+
+    <!-- @Pre/@Post Method Expression Handler -->
+    <bean class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler" id="methodExprHandler">
+        <property name="permissionEvaluator" ref="authorityPermissionEvaluator"/>
+  </bean>
+    <bean class="org.openregistry.core.service.security.auth.DefaultPermissionEvaluator" id="authorityPermissionEvaluator"/>
+
+
+
+    <bean class="org.springframework.security.access.expression.method.ExpressionBasedPreInvocationAdvice" id="exprPreInvocationAdvice">
+        <property name="expressionHandler" ref="methodExprHandler"/>
+    </bean>
+    <bean class="org.springframework.security.access.expression.method.ExpressionBasedPostInvocationAdvice" id="exprPostInvocationAdvice">
+        <constructor-arg ref="methodExprHandler"/>
+    </bean>
+    <bean class="org.springframework.security.access.expression.method.ExpressionBasedAnnotationAttributeFactory" id="exprAnnotationAttrFactory">
+        <constructor-arg ref="methodExprHandler"/>
+    </bean>
+
+	<bean class="org.springframework.security.access.intercept.AfterInvocationProviderManager" id="afterInvocationManager">
+		<property name="providers">
+			<list>
+				<ref local="postAdviceProvider"/>
+			</list>
+		</property>
+	</bean>
+     <!-- end pre post -->
+
 
 </beans>
