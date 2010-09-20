@@ -39,6 +39,7 @@ public final class AllowedTypeConstraintValidator extends AbstractSystemOfRecord
     }
 
     public boolean isValid(final Type type, final ConstraintValidatorContext constraintValidatorContext) {
-        return type == null || getSoRSpecification().isAllowedValueForProperty(this.property, type.getDataType());
+        //TODO getSorSpecification should not be returning null.  This check was put in until the problem with losing the reference to the spec during batch processing can be resolved.
+        return type == null || getSoRSpecification() == null || getSoRSpecification().isAllowedValueForProperty(this.property, type.getDataType());
     }
 }

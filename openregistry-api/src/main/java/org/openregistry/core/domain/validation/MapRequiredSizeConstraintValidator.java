@@ -39,6 +39,7 @@ public final class MapRequiredSizeConstraintValidator extends AbstractSystemOfRe
     }
 
     public boolean isValid(final Map o, final ConstraintValidatorContext constraintValidatorContext) {
-        return o == null || getSoRSpecification().isWithinRequiredSize(this.property, o);
+        //TODO getSorSpecification should not be returning null.  This check was put in until the problem with losing the reference to the spec during batch processing can be resolved.
+        return o == null || getSoRSpecification() == null || getSoRSpecification().isWithinRequiredSize(this.property, o);
     }
 }
