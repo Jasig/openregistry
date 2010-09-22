@@ -36,8 +36,8 @@ import javax.persistence.*;
  */
 
 @javax.persistence.Entity(name="emailAddress")
-@Table(name="prc_emails") //,
-//		uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
+@Table(name="prc_emails",
+		uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
 @org.hibernate.annotations.Table(appliesTo = "prc_emails", indexes = @Index(name="EMAIL_ADDRESS_INDEX", columnNames = "address"))
 public class JpaEmailAddressImpl extends Entity implements EmailAddress {

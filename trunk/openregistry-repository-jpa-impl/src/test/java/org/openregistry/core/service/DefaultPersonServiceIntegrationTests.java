@@ -510,6 +510,15 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         emailAddress.setAddress("scott@scott.com");
         emailAddress.setAddressType(this.referenceRepository.getTypeById(1L));
 
+        final Address address = sorRole.addAddress();
+        address.setLine1("123 ABC");
+        address.setCity("Any City");
+        address.setPostalCode("12345");
+        //dont need to set the region
+        //address.setRegion(this.referenceRepository.getRegionByCodeOrName("NJ"));
+        address.setCountry(this.referenceRepository.getCountryById(1L));
+        address.setType(this.referenceRepository.getTypeById(1L));
+
         final ServiceExecutionResult<SorRole> serviceExecutionResult = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
         this.entityManager.flush();
         assertTrue(serviceExecutionResult.getValidationErrors().isEmpty());
@@ -517,18 +526,30 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prc_role_records"));
         assertEquals(1, countRowsInTable("prs_emails"));
         assertEquals(1, countRowsInTable("prc_emails"));
+        assertEquals(1, countRowsInTable("prs_addresses"));
+        assertEquals(1, countRowsInTable("prc_addresses"));
 
         final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
         final SorRole sorRole1 = sorPerson1.findSorRoleBySorRoleId(serviceExecutionResult.getTargetObject().getSorId());
 
         sorRole1.setPercentage(100);
+        
+        for (final EmailAddress sorEmailAddress: sorRole1.getEmailAddresses()) {
+            sorEmailAddress.setAddress("scottie@scott.com");
+        }
 
+        for (final Address sorAddress: sorRole1.getAddresses()) {
+            sorAddress.setLine1("456 DEF");
+        }
+        
         this.personService.updateSorRole(sorPerson1, sorRole1);
         this.entityManager.flush();
         assertEquals(1, countRowsInTable("prs_role_records"));
         assertEquals(1, countRowsInTable("prc_role_records"));
         assertEquals(1, countRowsInTable("prs_emails"));
         assertEquals(1, countRowsInTable("prc_emails"));
+        assertEquals(1, countRowsInTable("prs_addresses"));
+        assertEquals(1, countRowsInTable("prc_addresses"));
 
         final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
         final Role role = person.getRoles().get(0);
