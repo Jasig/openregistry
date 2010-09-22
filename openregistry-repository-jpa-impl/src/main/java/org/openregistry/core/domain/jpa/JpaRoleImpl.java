@@ -34,6 +34,8 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.Valid;
 
+import org.slf4j.*;
+
 /**
  * Role entity mapped to a persistence store with JPA annotations.
  *
@@ -295,6 +297,8 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public void recalculate(final SorRole sorRole) {
+        Logger logger = LoggerFactory.getLogger(getClass());
+        logger.info("Role recalculate");
         this.personStatus = sorRole.getPersonStatus();
         this.start = sorRole.getStart();
         this.end = sorRole.getEnd();
@@ -302,9 +306,9 @@ public class JpaRoleImpl extends Entity implements Role {
         this.percentage =sorRole.getPercentage();
         this.terminationReason = sorRole.getTerminationReason();
 
-        this.addresses.clear();
-        this.phones.clear();
-        this.emailAddresses.clear();
+        //this.addresses.clear();
+        //this.phones.clear();
+        //this.emailAddresses.clear();
         this.urls.clear();
         this.leaves.clear();
 
@@ -312,14 +316,40 @@ public class JpaRoleImpl extends Entity implements Role {
             addLeave(leave);
         }
 
-        for (final Address address: sorRole.getAddresses()) {
-        	addAddress(address);
+	  //search for address first
+        for (final Address sorAddress: sorRole.getAddresses()) {
+            Address address = findAddress(sorAddress.getType());
+        	if (address == null){
+                addAddress(sorAddress);
+            } else {
+                logger.info("Recalculate: Found address");
+                address.setLine1(sorAddress.getLine1());
+                address.setLine2(sorAddress.getLine2());
+                address.setLine3(sorAddress.getLine3());
+                address.setCity(sorAddress.getCity());
+                address.setRegion(sorAddress.getRegion());
+                address.setPostalCode(sorAddress.getPostalCode());
+                address.setCountry(sorAddress.getCountry());
+            }
         }
-        for (final EmailAddress emailAddress: sorRole.getEmailAddresses()) {
-        	addEmailAddress(emailAddress);
+        for (final EmailAddress sorEmailAddress: sorRole.getEmailAddresses()) {
+            EmailAddress emailAddress = findEmailAddress(sorEmailAddress.getAddressType());
+        	if (emailAddress == null){
+        	    addEmailAddress(sorEmailAddress);
+            } else {
+                emailAddress.setAddress(sorEmailAddress.getAddress());
+            }
         }
-        for (final Phone phone: sorRole.getPhones()) {
-        	addPhone(phone);
+        for (final Phone sorPhone: sorRole.getPhones()) {
+            Phone phone = findPhone(sorPhone.getAddressType(), sorPhone.getPhoneType());
+            if (phone == null){
+        	    addPhone(sorPhone);
+            } else {
+                phone.setCountryCode(sorPhone.getCountryCode());
+                phone.setAreaCode(sorPhone.getAreaCode());
+                phone.setNumber(sorPhone.getNumber());
+                phone.setExtension(sorPhone.getExtension());
+            }
         }
 
         for (final Url url: sorRole.getUrls()) {
@@ -328,6 +358,28 @@ public class JpaRoleImpl extends Entity implements Role {
 
         this.setSponsorId(sorRole.getSponsorId());
         this.setSponsorType(sorRole.getSponsorType());
+    }
+
+    protected Address findAddress(Type type){
+        for (final Address address : this.addresses) {
+            if (address.getType().getDescription().equals(type.getDescription())) return address;
+        }
+        return null;
+    }
+
+    protected EmailAddress findEmailAddress(Type type){
+        for (final EmailAddress emailAddress : this.emailAddresses) {
+            if (emailAddress.getAddressType().getDescription().equals(type.getDescription())) return emailAddress;
+        }
+        return null;
+    }
+
+    protected Phone findPhone(Type addressType, Type phoneType){
+        for (final Phone phone : this.phones) {
+            if (phone.getAddressType().getDescription().equals(addressType.getDescription()) &&
+                phone.getPhoneType().getDescription().equals(phoneType.getDescription())) return phone;
+        }
+        return null;
     }
 
     @Override
