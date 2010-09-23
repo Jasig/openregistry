@@ -19,6 +19,7 @@ public abstract class JpaSorPersonImpl_ {
 	public static volatile SingularAttribute<JpaSorPersonImpl, String> gender;
 	public static volatile ListAttribute<JpaSorPersonImpl, SorName> names;
 	public static volatile SingularAttribute<JpaSorPersonImpl, String> ssn;
+	public static volatile SingularAttribute<JpaSorPersonImpl, JpaSorDisclosureSettingsImpl> disclosureSettings;
 	public static volatile ListAttribute<JpaSorPersonImpl, SorRole> roles;
 	public static volatile MapAttribute<JpaSorPersonImpl, String, String> sorLocalAttributes;
 
