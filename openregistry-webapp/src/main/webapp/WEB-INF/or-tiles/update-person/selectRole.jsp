@@ -36,7 +36,7 @@
 					<div class="row">
 						<label for="c1_affiliation" class="affiliation"><spring:message code="role.label"/><em>*</em></label>
                         <div class="select affiliation">
-                            <SELECT name="roleInfoCode">
+                            <SELECT name="roleInfoCode" id="c1_affiliation">
                                 <c:forEach var="roleInfoItem" items="${roleInfos}">
                                     <OPTION value="${roleInfoItem.code}">${roleInfoItem.displayableName}</OPTION>
                                 </c:forEach>
@@ -46,9 +46,10 @@
 			</fieldset>
 			</fieldset>
 			<div class="row fm-v" style="clear:both;">
-				<input style="float:left;" type="submit" id="fm-search-submit1" name="_eventId_submitSelectRole" class="btn-submit" value="Add Role" tabindex="3"/>
+				<input type="hidden" name="_eventId" value="submitSelectRole" />
+				<button id="fm-search-submit1">Add Role</button>
 			</div>
-        <fieldset class="fm-h" id="ecn1">
+        <fieldset class="fm-h" id="ecn2">
             <p style="margin-bottom:0;">${sorPerson.formattedName} <spring:message code="existingRoles.heading" /></p>
             <c:choose>
             <c:when test="${not empty sorPerson.roles}">
@@ -77,7 +78,7 @@
         </c:when>
             <c:otherwise><spring:message code="noRolesDefined.label"/><br/><br/></c:otherwise>
         </c:choose>
-            
+
         </fieldset>
 
 		</form:form>
