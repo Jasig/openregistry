@@ -41,6 +41,7 @@
         <flow:flow-location path="/WEB-INF/or-flows/logout.xml" id="logout"/>
         <flow:flow-location path="/WEB-INF/or-flows/addPerson.xml" id="addSorPerson"/>
         <flow:flow-location path="/WEB-INF/or-flows/split-person.xml" id="splitPerson" />
+		<flow:flow-location path="/WEB-INF/or-flows/add-role.xml" id="add-role" />
 
 <!--        <flow:flow-location path="/WEB-INF/flows/addPerson.xml" id="addPerson"/>
         <flow:flow-location path="/WEB-INF/flows/delete-person.xml" id="deletePerson" />
