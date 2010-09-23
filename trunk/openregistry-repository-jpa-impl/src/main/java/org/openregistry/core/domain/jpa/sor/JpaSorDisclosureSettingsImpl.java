@@ -28,6 +28,7 @@ import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -57,7 +58,7 @@ public class JpaSorDisclosureSettingsImpl implements DisclosureSettings {
     @SequenceGenerator(name = "prs_disclosure_records_seq", sequenceName = "prs_disclosure_records_seq", initialValue = 1, allocationSize = 50)
     private Long id;
 
-    @ManyToOne(optional=false)
+    @OneToOne(optional=false)
     @JoinColumn(name="sor_person_id")
     private JpaSorPersonImpl person;
 
