@@ -28,6 +28,7 @@ import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -57,7 +58,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings {
     @SequenceGenerator(name = "prc_disclosure_records_seq", sequenceName = "prc_disclosure_records_seq", initialValue = 1, allocationSize = 50)
     private Long id;
 
-    @ManyToOne(optional=false)
+    @OneToOne(optional=false)
     @JoinColumn(name="person_id")
     private JpaPersonImpl person;
 
