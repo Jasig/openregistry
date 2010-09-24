@@ -52,7 +52,7 @@ public class TestIdentifierAssigner extends AbstractIdentifierAssigner {
 
     public void addIdentifierTo(final SorPerson sorPerson, final Person person) {
     	final Identifier primaryNetid = findPrimaryIdentifier(person, this.getIdentifierType());
-    	if (primaryNetid != null) { // don't set if already there
+    	if (primaryNetid == null) { // don't set if already there
     		final Name name = person.getOfficialName();
 
     		final StringBuilder builder = new StringBuilder();
