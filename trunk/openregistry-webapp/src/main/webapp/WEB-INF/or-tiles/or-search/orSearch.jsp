@@ -19,9 +19,14 @@
 
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<div id="or-page-footer">
-	<div><spring:message code="footer.text" /></div>
-	<div><a href="http://www.ja-sig.org/wiki/display/ORUM/Home">Documentation</a> | <a href="http://www.ja-sig.org/issues/browse/OR">Issue Tracker</a> | <a href="http://www.ja-sig.org/wiki/display/JSG/OpenRegistry+Project+Lists">Mailing Lists</a></div>
+<tiles:insertAttribute name="searchForm" />
+<div id="searchResults">
+	<tiles:insertAttribute name="searchResults" flush="true" />
+</div>
+<div>
+	<a href="<c:url value="/addSorPerson.htm" />"><button><spring:message code="new.person.title" /></button></a>
 </div>

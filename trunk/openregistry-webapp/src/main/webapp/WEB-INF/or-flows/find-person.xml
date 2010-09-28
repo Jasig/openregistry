@@ -29,7 +29,7 @@
 
     <view-state id="searchForPerson" model="searchCriteria" view="openregistry.search">
         <on-entry>
-            <!--Setting the menuItem highlights the current selection in the Navigation Menu-->            
+            <!--Setting the menuItem highlights the current selection in the Navigation Menu-->
             <set name="flowScope.menuItem" value="'Find a Person'" />
             <set name="viewScope.success" value="externalContext.requestParameterMap['success']" />
             <set name="viewScope.cancelled" value="externalContext.requestParameterMap['cancel']" />
