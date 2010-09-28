@@ -47,11 +47,11 @@
 
     <definition name="openregistry.search" extends="openregistry.base">
         <put-attribute name="additionalCssFile" type="string" value="/css/or_find_person.css" cascade="true"/>
-        <put-attribute name="titleCode" value="search.title" type="string" cascade="true" />
+        <put-attribute name="titleCode" value="manage.people.title" type="string" cascade="true" />
         <put-attribute name="body" value="openregistry.search.content" cascade="true"/>
     </definition>
 
-    <definition name="openregistry.search.content" template="/WEB-INF/layouts/search.jsp">
+    <definition name="openregistry.search.content" template="/WEB-INF/or-tiles/or-search/orSearch.jsp">
         <put-attribute name="searchForm" value="/WEB-INF/or-tiles/or-search/orSearchForm.jsp" />
         <put-attribute name="searchResults" value="/WEB-INF/or-tiles/or-search/orSearchResults.jsp" />
     </definition>
@@ -83,12 +83,12 @@
 
     <definition name="openregistry.person.add.insert" extends="openregistry.base">
         <put-attribute name="additionalCssFile" type="string" value="/css/or_add_person.css" cascade="true" />
-        <put-attribute name="titleCode" value="addSorPerson.title" type="string" />
+        <put-attribute name="titleCode" value="new.person.title" type="string" />
         <put-attribute name="body" value="/WEB-INF/or-tiles/add-person/input.jsp" cascade="true" />
     </definition>
 
     <definition name="openregistry.person.add.found" extends="openregistry.base">
-        <put-attribute name="titleCode" value="addSorPerson.title" type="string" />
+        <put-attribute name="titleCode" value="new.person.title" type="string" />
         <put-attribute name="body" value="/WEB-INF/tiles/add-person/found.jsp" cascade="true"/>
     </definition>
 

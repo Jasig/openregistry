@@ -19,8 +19,7 @@
 
 --%>
 
-<div id="header-wrap">
-    <div id="header">
-        <h1>OpenRegistry</h1>
-    </div>
+<div id="or-page-header">
+	<div id="or-page-header-left-graphic"></div>
+	<div id="or-page-header-right-graphic"></div>
 </div>

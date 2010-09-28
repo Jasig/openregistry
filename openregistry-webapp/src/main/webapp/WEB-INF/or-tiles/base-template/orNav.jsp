@@ -32,17 +32,8 @@
 <div id="nav">
     <c:set var="current" value="Page Value" scope="page" />
 
-    <h2>Department:</h2>
     <ul>
-        <li id="addSorPersontitle"><a href="<c:url value="/addSorPerson.htm" />"><spring:message code="addSorPerson.title" /></a></li>
-    </ul>
-
-    <h2>Help Desk:</h2>
-    <ul>
-        <li id="searchtitle"><a href="<c:url value="/viewPersonDetail.htm" />"><spring:message code="search.title" /></a></li>
-    </ul>
-
-    <ul>
-        <li><a href="<c:url value="/logout.htm" />">Logout</a></li>
+        <%--<li id="addSorPersontitle"><a href="<c:url value="/addSorPerson.htm" />"><spring:message code="new.person.title" /></a></li>--%>
+        <li id="searchtitle"><a href="<c:url value="/viewPersonDetail.htm" />"><spring:message code="manage.people.title" /></a></li>
     </ul>
 </div>

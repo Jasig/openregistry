@@ -58,48 +58,31 @@
     });
 </script>
 
-<h2>Manage People</h2>
+<div class="or-section-title1" style="margin:5px;">Manage People</div>
 
-<div class="instructions">
-    <ul>
-        <li>Enter your search criteria in the fields below and click <strong>Find Person</strong>.</li>
-        <li>Matching persons will appear below.</li>
-        <li>Select a person to perform any of the following actions:
-            <ul>
-                <li>View a person's complete details</li>
-                <li>Update the Person</li>
-                <li>Move an Sor Person record to another calculated person</li>
-                <li>Move all Sor Person Records to another calculated person</li>
-            </ul>
-        </li>
-    </ul>
-</div>
-
-
-<div id="search_form">
-    <form:form commandName="${commandName}" method="post" id="orForm">
-        <form:errors path="*" element="div" id="message" cssClass="error" htmlEscape="false"/>
-        <fieldset>
-            <legend>Find a Person</legend>
-            <div class="field_set group">
-                <div>
-                     <form:label cssClass="above" path="identifierValue">Identifier</form:label>
-                    <form:input path="identifierValue" cssErrorClass="formerror" />
-                </div>
-                <div>
-                    <form:label cssClass="above" path="name"><spring:message code="person.biodem.names.label" /></form:label>
-                    <form:input path="name" cssErrorClass="formerror" autocomplete="false" />
-                    <form:errors path="name" />
-                </div>
-                <div>
-                    <form:label cssClass="above" path="dateOfBirth"><spring:message code="person.biodem.dateOfBirth.label" /></form:label>
-                    <form:input path="dateOfBirth" cssErrorClass="formerror" placeholder="yyyy-mm-dd"/>
-                </div>
-                <div id="find_submit_container">
-                    <input type="hidden" name="_eventId" value="submit" />
-                    <button id="submitButton">Find Person</button>
-                </div>
-            </div>
-        </fieldset>
-    </form:form>
+<div id="search_form" style="margin-bottom: 5px;">
+	<form:form commandName="${commandName}" method="post" id="orForm">
+		<form:errors path="*" element="div" id="message" cssClass="error" htmlEscape="false" />
+		<fieldset>
+			<div class="field_set group">
+				<div>
+					<form:label cssClass="above" path="identifierValue">Identifier</form:label>
+					<form:input path="identifierValue" cssErrorClass="formerror" />
+				</div>
+				<div>
+					<form:label cssClass="above" path="name"><spring:message code="person.biodem.names.label" /></form:label>
+					<form:input path="name" cssErrorClass="formerror" autocomplete="false" />
+					<form:errors path="name" />
+				</div>
+				<div>
+					<form:label cssClass="above" path="dateOfBirth"><spring:message code="person.biodem.dateOfBirth.label" /></form:label>
+					<form:input path="dateOfBirth" cssErrorClass="formerror" placeholder="yyyy-mm-dd"/>
+				</div>
+				<div id="find_submit_container">
+					<input type="hidden" name="_eventId" value="submit" />
+					<button id="submitButton">Find Person</button>
+				</div>
+			</div>
+		</fieldset>
+	</form:form>
 </div>

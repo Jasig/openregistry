@@ -75,85 +75,118 @@ jQuery(document).ready(function() {
 </script>
 
 <div id="calculated-person">
-
     <c:set var="officialName" value="${person.officialName}"  />
     <c:set var="preferredName" value="${person.preferredName}" />
-        <h2><strong><c:if test="${not empty officialName.prefix}"><span title="Prefix">${officialName.prefix}</span></c:if>
-    <c:if test="${not empty officialName.given}"><span title="Given">${officialName.given}</span></c:if>
-    <c:if test="${not empty officialName.middle}"><span title="Middle">${officialName.middle}</span></c:if>
-    <c:if test="${not empty officialName.family}"><span title="Family">${officialName.family}</span></c:if><c:if test="${not empty officialName.suffix}">, <span title="Suffix">${officialName.suffix}</span></c:if></strong></h2>
-    <div align="left" style="text-transform: lowercase;">official name</div>
+	<div class="group">
+		<div class="or-field-container" style="width:305px;">
+			<div class="or-field-label-above">Official Name</div>
+			<div class="or-field-content">
+				<c:if test="${not empty officialName.prefix}"><span title="Prefix" class="or-section-title1">${officialName.prefix}</span></c:if>
+				<c:if test="${not empty officialName.given}"><span title="Given" class="or-section-title1">${officialName.given}</span></c:if>
+				<c:if test="${not empty officialName.middle}"><span title="Middle" class="or-section-title1">${officialName.middle}</span></c:if>
+				<c:if test="${not empty officialName.family}"><span title="Family" class="or-section-title1">${officialName.family}</span></c:if>
+				<c:if test="${not empty officialName.suffix}">, <span title="Suffix" class="or-section-title1">${officialName.suffix}</span></c:if>
+				<%--<c:if test="${person.gender == 'M'}"><img src="or-images/man-32.png" alt="Male" width="12" height="32"/></c:if>--%>
+				<%--<c:if test="${person.gender == 'F'}"><img src="or-images/woman-32.png" alt="Female" width="15" height="32"/></c:if>--%>
+			</div>
+		</div>
 
 
-    <!-- TODO what about other names? -->
-    <c:if test="${officialName ne preferredName}">
-    <p><strong>Preferred Name</strong>: <c:if test="${not empty preferredName.prefix}"><span title="Prefix">${preferredName.prefix}</span></c:if>
-    <c:if test="${not empty preferredName.given}"><span title="Given">${preferredName.given}</span></c:if>
-    <c:if test="${not empty preferredName.middle}"><span title="Middle">${preferredName.middle}</span></c:if>
-    <c:if test="${not empty preferredName.family}"><span title="Family">${preferredName.family}</span></c:if><c:if test="${not empty preferredName.suffix}">, <span title="Suffix">${preferredName.suffix}</span></c:if>
-    </p>
-    </c:if>
+		<!-- TODO what about other names? -->
+		<c:if test="${officialName ne preferredName}">
+			<div class="or-field-label-above" style="text-transform: lowercase;">Preferred Name</div>
+			<div class="or-field-content or-section-title1">
+				<c:if test="${not empty preferredName.prefix}"><span title="Prefix">${preferredName.prefix}</span></c:if>
+				<c:if test="${not empty preferredName.given}"><span title="Given">${preferredName.given}</span></c:if>
+				<c:if test="${not empty preferredName.middle}"><span title="Middle">${preferredName.middle}</span></c:if>
+				<c:if test="${not empty preferredName.family}"><span title="Family">${preferredName.family}</span></c:if>
+				<c:if test="${not empty preferredName.suffix}">, <span title="Suffix">${preferredName.suffix}</span></c:if>
+			</div>
+		</c:if>
 
-    <p><strong><spring:message code="dateOfBirth.label" />:</strong> <fmt:formatDate value="${person.dateOfBirth}" dateStyle="long" /></p>
-    <p><strong><spring:message code="gender.label" />:</strong> <spring:message code="${person.gender}.genderDisplayValue" /></p>
-    <p><strong>Contact Email: </strong></p>
-    <p><strong>Contact Phone: </strong></p>
+		<div class="or-field-container" style="width: 150px;">
+			<div class="or-field-label-above"><spring:message code="dateOfBirth.label" /></div>
+			<div class="or-field-content"><fmt:formatDate value="${person.dateOfBirth}" dateStyle="long" /></div>
+		</div>
+		<div class="or-field-container" style="width: 150px;">
+			<div class="or-field-label-above"><spring:message code="gender.label" /></div>
+			<div class="or-field-content"><spring:message code="${person.gender}.genderDisplayValue" /></div>
+		</div>
+	</div>
 
-    <div style="text-align: right;"><a href="#" id="activationKeyLink" class="button"><button>Generate New Activation Key</button></a></div>
+	<div class="group">
+		<div class="or-field-container" style="width: 150px;">
+			<div class="or-field-label-above">Contact Email</div>
+			<div class="or-field-content">&nbsp;</div>
+		</div>
+		<div class="or-field-container" style="width: 150px;">
+			<div class="or-field-label-above">Contact Phone</div>
+			<div class="or-field-content">&nbsp;</div>
+		</div>
+	</div>
+
+	<div class="group">
+		<div class="or-section-title2" style="margin-top: 5px;">Identifiers</div>
+		<c:forEach var="identifierEntry" items="${person.identifiersByType}">
+			<div class="group">
+				<c:forEach var="identifier" items="${identifierEntry.value}" varStatus="status">
+					<c:choose>
+						<c:when test="${status.first}">
+							<div class="or-field-container" style="width: 150px;">
+								<div class="or-field-label-above"><a class="tooltip" id="${identifier.type.name}">${identifier.type.name}:</a></div><div class="or-field-content">${identifier.value}</div>
+							</div>
+							<div id="${identifier.type.name}-content" class="or-field-container" style="width: 150px;">
+								<div class="or-field-label-above">Creation Date</div>
+								<div class="or-field-content"><fmt:formatDate value="${identifier.creationDate}" dateStyle="long" /></div>
+							</div>
+							<div class="or-field-container" style="width: 150px;">
+							<div class="or-field-label-above">Other Values:</div>
+							<div class="or-field-content">
+							<ul style="list-style:none;">
+							<c:if test="${fn:length(identifierEntry.value) eq 1}">
+								<li>None</li>
+							</c:if>
+						</c:when>
+						<c:otherwise>
+							<li>${identifier.value}</li>
+						</c:otherwise>
+					</c:choose>
+					<c:if test="${status.last}">
+						</ul>
+						</div>
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
+		</c:forEach>
+	</div>
+
+	<div class="or-section-title2" style="margin-top: 5px;">Roles</div>
+	<div class="accordion" style="font-size:0.7em;">
+		<c:forEach var="role" items="${person.roles}">
+			<h3 style="margin-bottom: 0;"><a href="#" class="${role.active ? 'active' : role.terminated ? 'terminated' : 'NotYetActive'}">${role.title} - <fmt:formatDate value="${role.start}" dateStyle="long" /> -
+				<c:choose>
+					<c:when test="${not empty role.end}">
+						<fmt:formatDate value="${role.end}" dateStyle="long" />
+					</c:when>
+					<c:otherwise>
+						Present
+					</c:otherwise>
+				</c:choose>
+			</a></h3>
+			<div>
+				Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+				Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+				Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+			</div>
+		</c:forEach>
+	</div>
+
+	<div><a href="#" id="activationKeyLink" class="button"><button>Generate New Activation Key</button></a></div>
     <div id="activationKeyDialog" title="Activation Key"></div>
-
-
-
-    <h2>Identifiers</h2>
-    <c:forEach var="identifierEntry" items="${person.identifiersByType}">
-        <c:forEach var="identifier" items="${identifierEntry.value}" varStatus="status">
-            <c:choose>
-                <c:when test="${status.first}">
-                <a class="tooltip" id="${identifier.type.name}">${identifier.type.name}: ${identifier.value}</a>
-                <div id="${identifier.type.name}-content">
-                    <p><strong>Creation Date: </strong> <fmt:formatDate value="${identifier.creationDate}" dateStyle="long" /></p>
-
-                    <p><strong>Other Values:</strong></p>
-                    <ul>
-                    <c:if test="${fn:length(identifierEntry.value) eq 1}">
-                        <li>None</li>
-                    </c:if>
-                </c:when>
-                <c:otherwise>
-                    <li>${identifier.value}</li>
-                </c:otherwise>
-            </c:choose>
-            <c:if test="${status.last}">
-                    </ul>
-                </div>
-            </c:if>
-        </c:forEach>
-    </c:forEach>
-
-
-    <h2>Roles</h2>
-    <div class="accordion">
-    <c:forEach var="role" items="${person.roles}">
-        <h3><a href="#" class="${role.active ? 'active' : role.terminated ? 'terminated' : 'NotYetActive'}">${role.title} - <fmt:formatDate value="${role.start}" dateStyle="long" /> - <c:choose>
-            <c:when test="${not empty role.end}">
-                <fmt:formatDate value="${role.end}" dateStyle="long" />
-            </c:when>
-            <c:otherwise>
-                Present
-            </c:otherwise>
-        </c:choose> </a></h3>
-        <div>
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-            Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-        </div>
-    </c:forEach>
-    </div>
-
-
 </div>
 
-<div class="center"><a href="${flowExecutionUrl}&_eventId=submitNewSearch"><button>New Search</button></a></div>
+<%--<div class="center"><a href="${flowExecutionUrl}&_eventId=submitNewSearch"><button>New Search</button></a></div>--%>
 <%--<div class="row fm-v" style="clear:both;">--%>
     <%--<input style="float:left;" type="submit" id="fm-newSearch-submit1" name="_eventId_submitNewSearch" class="btn-submit" value="New Search" tabindex="11" />--%>
 <%--</div>--%>

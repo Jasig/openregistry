@@ -25,19 +25,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-    <link rel="stylesheet" href="<c:url value="/css/or_base.css" />" type="text/css"/>
+    <link rel="stylesheet" href="<c:url value="/css/or_base.css" />" type="text/css" />
+	<link rel="stylesheet" href="<c:url value="/fluid/fss/css/fss-layout.css" />" type="text/css" />
     <tiles:useAttribute name="additionalCssFile" id="customCssFile" ignore="true" />
+<%--
     <c:if test="${not empty customCssFile}">
         <link rel="stylesheet" href="<c:url value="${customCssFile}" />" type="text/css" />
     </c:if>
+--%>
     <!--[if IE]><link rel="stylesheet" type="text/css" href="<c:url value="/css/or_ie.css" />" media="all"/><![endif]-->
-    <link rel="stylesheet" href="<c:url value="/css/ui-lightness/jquery-ui-1.8rc3.custom.css" />" />
+    <link rel="stylesheet" href="<c:url value="/css/ui-smoothness/jquery-ui-1.8.5.custom.css" />" />
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <tiles:useAttribute id="key" name="titleCode" classname="java.lang.String" />
     <title>OpenRegistry &raquo; <spring:message code="${key}" text="OpenRegistry"/> </title>
-    <script type="text/javascript" src="<c:url value="/js/jquery-1.4.1.js" /> "></script>
-    <script type="text/javascript" src="<c:url value="/js/jquery-ui-1.8rc3.custom.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/js/jquery-1.4.2.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/js/jquery-ui-1.8.5.custom.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/js/jquery.qtip-1.0.0-rc3.min.js" />"></script>
 
     <style type="text/css">
@@ -47,18 +50,22 @@
     </style>
 </head>
 <body>
+<div class="fl-container-950 fl-centered">
+	<div class="fl-container-flex header">
+		<tiles:insertTemplate template="/WEB-INF/or-tiles/base-template/orHeader.jsp"/>
+	</div>
 
-    <%--insert the generic header tile--%>
-    <%--<tiles:insertAttribute name="header" />--%>
-    <tiles:insertTemplate template="/WEB-INF/or-tiles/base-template/orHeader.jsp"/>
+	<div id="or-status-bar" class="or-status-bar status-bar">
+		<tiles:insertTemplate template="/WEB-INF/or-tiles/base-template/orStatusBar.jsp" />
+	</div>
 
-    <div id="main">
+	<div id="or-content" class="fl-container-flex content">
+		<tiles:insertAttribute name="content"/>
+	</div>
 
-        <tiles:insertAttribute name="content"/>
-
-        <%--insert the generic footer tile--%>
-        <%--<tiles:insertAttribute name="footer" />--%>
-        <tiles:insertTemplate template="/WEB-INF/or-tiles/base-template/orFooter.jsp"/>
-    </div>
+	<div class="fl-container-flex footer">
+		<tiles:insertTemplate template="/WEB-INF/or-tiles/base-template/orFooter.jsp"/>
+	</div>
+</div>
 </body>
 </html>
