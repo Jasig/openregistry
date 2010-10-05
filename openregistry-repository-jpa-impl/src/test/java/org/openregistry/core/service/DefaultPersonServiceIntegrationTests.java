@@ -542,7 +542,8 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
             sorAddress.setLine1("456 DEF");
         }
         
-        this.personService.updateSorRole(sorPerson1, sorRole1);
+        //this.personService.updateSorRole(sorPerson1, sorRole1);
+        this.personService.updateSorPerson(sorPerson1);
         this.entityManager.flush();
         assertEquals(1, countRowsInTable("prs_role_records"));
         assertEquals(1, countRowsInTable("prc_role_records"));
@@ -554,6 +555,70 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
         final Role role = person.getRoles().get(0);
         assertEquals(100, role.getPercentage());
+     }
+
+    // UPDATE SOR ROLE
+     @Test
+     @Rollback
+     public void testUpdateExistingSoRRoleAddFirstAddress() throws ReconciliationException {
+        final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
+
+        SorPerson sorPerson = criteria1.getSorPerson();
+        final SorRole sorRole = sorPerson.addRole(this.referenceRepository.getRoleInfoById(1L));
+
+        sorRole.setSorId("1");
+        sorRole.setSourceSorIdentifier("FOO");
+        sorRole.setPercentage(50);
+        sorRole.setStart(new Date());
+        sorRole.setPersonStatus(this.referenceRepository.getTypeById(1L));
+        sorRole.setSponsorId(1L);
+        sorRole.setSponsorType(this.referenceRepository.getTypeById(1L));
+
+        //add a person with one role
+        final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
+        this.entityManager.flush();
+
+        assertTrue(serviceExecutionResult1.getValidationErrors().isEmpty());
+        assertEquals(1, countRowsInTable("prc_persons"));
+        assertEquals(1, countRowsInTable("prc_names"));
+        assertEquals(1, countRowsInTable("prs_sor_persons"));
+        assertEquals(1, countRowsInTable("prs_names"));
+        assertEquals(1, countRowsInTable("prs_role_records"));
+        assertEquals(1, countRowsInTable("prc_role_records"));
+
+        sorPerson = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
+
+        assertNotNull(sorPerson);
+        assertEquals(1, sorPerson.getRoles().size());
+        final SorRole sorRole1 = sorPerson.getRoles().get(0);
+
+        sorRole1.setSorId("1");
+        sorRole1.setSourceSorIdentifier("FOO");
+        sorRole1.setPercentage(100);
+        sorRole1.setStart(new Date());
+        sorRole1.setPersonStatus(this.referenceRepository.getTypeById(1L));
+        sorRole1.setSponsorId(1L);
+        sorRole1.setSponsorType(this.referenceRepository.getTypeById(1L));
+
+        //add an address
+        final Address address = sorRole1.addAddress();
+        address.setLine1("123 ABC");
+        address.setCity("Any City");
+        address.setPostalCode("12345");
+        address.setCountry(this.referenceRepository.getCountryById(1L));
+        address.setType(this.referenceRepository.getTypeById(1L));
+
+        this.personService.updateSorPerson(sorPerson);
+        this.entityManager.flush();
+        assertEquals(1, countRowsInTable("prs_role_records"));
+        assertEquals(1, countRowsInTable("prc_role_records"));
+        assertEquals(1, countRowsInTable("prs_addresses"));
+        assertEquals(1, countRowsInTable("prc_addresses"));
+
+        final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
+        final Role role = person.getRoles().get(0);
+        //final Address address1 = role.getAddresses().get(0);
+        //assertEquals("Any City", address1.getCity());
      }
 
     @Test
