@@ -20,6 +20,8 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-core:3.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:3.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-orm:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:3.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:3.0.4.RELEASE" level="project" />
     <orderEntry type="module" module-name="openregistry-api" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.4" level="project" />

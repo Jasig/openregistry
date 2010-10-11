@@ -202,5 +202,13 @@ public class JpaPersonRepository implements PersonRepository {
     public List<Person> findByPhoneNumber(final String countryCode, final String areaCode, final String number) {
     	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.phones) ph where ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number").setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).getResultList();
     }
+
+    /**
+     * Expose underlying EntityManager
+     * @return EntityManager
+     */
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
 }
 
