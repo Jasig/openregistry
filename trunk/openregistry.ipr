@@ -183,6 +183,8 @@
             <element id="archive" name="openregistry-service-impl-1.0-RC1-SNAPSHOT.jar">
               <element id="module-output" name="openregistry-service-impl" />
             </element>
+            <element id="library" level="project" name="Maven: org.springframework:spring-orm:3.0.4.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:3.0.4.RELEASE" />
             <element id="library" level="project" name="Maven: org.springframework:spring-web:3.0.4.RELEASE" />
             <element id="library" level="project" name="Maven: org.springframework:spring-jms:3.0.4.RELEASE" />
             <element id="library" level="project" name="Maven: org.codehaus.groovy:groovy-all:1.7.3" />
@@ -231,8 +233,6 @@
             <element id="library" level="project" name="Maven: net.sf.jsr107cache:jsr107cache:1.0" />
             <element id="library" level="project" name="Maven: org.hibernate:hibernate-jpamodelgen:1.0.0-Beta-2" />
             <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:3.0.4.RELEASE" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-orm:3.0.4.RELEASE" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:3.0.4.RELEASE" />
             <element id="library" level="project" name="Maven: org.springframework.security:spring-security-cas-client:3.0.3.RELEASE" />
             <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:3.0.3.RELEASE" />
             <element id="library" level="project" name="Maven: org.jasig.cas:cas-client-core:3.1.10" />
@@ -471,7 +471,7 @@
         <option name="downloadSourcesEnabled" value="false" />
         <option name="downloadJavadocEnabled" value="false" />
         <option name="generateSourcesEnabled" value="false" />
-        <option name="settingsPath" value="$PROJECT_DIR$/../../../.m2/settings.xml" />
+        <option name="settingsPath" value="$USER_HOME_GRIFFON$/.m2/settings.xml" />
         <option name="searchFilter" value="" />
         <option name="disabledPoms">
           <value>
