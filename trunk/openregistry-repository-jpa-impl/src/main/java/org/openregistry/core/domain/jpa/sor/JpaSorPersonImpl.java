@@ -58,7 +58,8 @@ import java.util.*;
  * @since 1.0.0
  */
 @javax.persistence.Entity(name = "sorPerson")
-@Table(name = "prs_sor_persons", uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id", "person_id"}))
+@Table(name = "prs_sor_persons")
+//, uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id", "person_id"}))
 @Audited
 @org.hibernate.annotations.Table(appliesTo = "prs_sor_persons", indexes = {@Index(name = "SOR_PERSON_SOURCE_AND_ID_INDEX", columnNames = {"source_sor_id", "id"})})
 public class JpaSorPersonImpl extends Entity implements SorPerson {
