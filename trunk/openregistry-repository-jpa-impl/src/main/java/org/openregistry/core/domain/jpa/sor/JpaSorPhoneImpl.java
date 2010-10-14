@@ -41,7 +41,7 @@ import javax.validation.constraints.*;
 @javax.persistence.Entity(name="sorPhone")
 @Table(name="prs_phones",
 		uniqueConstraints= {
-				@UniqueConstraint(columnNames={"country_code", "area_code", "phone_number"}),
+				//@UniqueConstraint(columnNames={"country_code", "area_code", "phone_number"}),
 				@UniqueConstraint(columnNames={"phone_t", "address_t", "role_record_id"})
 		})
 @Audited
