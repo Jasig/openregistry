@@ -591,7 +591,11 @@ public class DefaultPersonService implements PersonService {
         person.setGender(gender);
         person.getPreferredContactEmailAddress().update(emailAddress);
         person.getPreferredContactPhoneNumber().update(phone);
-        person.setDisclosureSettings(disclosure);
+        if (person.getDisclosureSettings() == null) person.setDisclosureSettings(disclosure);
+        else {
+            person.getDisclosureSettings().setDisclosureCode(disclosure.getDisclosureCode());
+            person.getDisclosureSettings().setLastUpdateDate(disclosure.getLastUpdateDate());
+        }
 
         //SSN election is happening in the ssn identifier assigner.
 
@@ -662,6 +666,7 @@ public class DefaultPersonService implements PersonService {
             setRoleIdAndSource(sorRole, reconciliationCriteria.getSorPerson().getSourceSor());
         }
 
+        logger.info("Creating sorPerson: person_id: "+ reconciliationCriteria.getSorPerson().getPersonId());
         // Save Sor Person
         final SorPerson sorPerson = this.personRepository.saveSorPerson(reconciliationCriteria.getSorPerson());
         final Person savedPerson = recalculatePersonBiodemInfo(this.personObjectFactory.getObject(), sorPerson, RecalculationType.ADD, false);
