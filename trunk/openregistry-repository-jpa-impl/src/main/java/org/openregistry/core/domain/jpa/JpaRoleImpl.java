@@ -306,23 +306,46 @@ public class JpaRoleImpl extends Entity implements Role {
         this.percentage =sorRole.getPercentage();
         this.terminationReason = sorRole.getTerminationReason();
 
+        //The Easier way to recalculate is to clear the collections and just re-insert.  Unfortunately due to a document hibernate bug
+        //this implementation was not possible.  Bug causes a unique constraint violation. The inserts are done before the deletes.
+        //work around code below.
         //this.addresses.clear();
         //this.phones.clear();
         //this.emailAddresses.clear();
-        this.urls.clear();
-        this.leaves.clear();
+        //this.urls.clear();
 
+        //currently leaves not fully implemented
+        this.leaves.clear();
         for (final Leave leave : sorRole.getLeaves()) {
             addLeave(leave);
         }
 
-	  //search for address first
+        //put in code to work around Hibernate bug.
+        recalculateAddresses(sorRole);
+        recalculateEmailAddresses(sorRole);
+        recalculatePhones(sorRole);
+
+        this.setSponsorId(sorRole.getSponsorId());
+        this.setSponsorType(sorRole.getSponsorType());
+    }
+
+    protected void recalculateAddresses(SorRole sorRole){
+        //remove addresses from calculated role when they are not in sorRole.
+        //unique constraint guarantees that there can be only one address of a given type per role.
+        for (final Address cAddress: this.addresses) {
+            boolean foundAddress = false;
+            for (final Address sorAddress : sorRole.getAddresses()) {
+                if (sorAddress.getType().getDescription().equals(cAddress.getType().getDescription())) foundAddress = true;
+            }
+            if (!foundAddress) this.addresses.remove(cAddress);
+        }
+
+        //add or update roles that are in sorRole in the calculated role.
         for (final Address sorAddress: sorRole.getAddresses()) {
             Address address = findAddress(sorAddress.getType());
         	if (address == null){
                 addAddress(sorAddress);
             } else {
-                logger.info("Recalculate: Found address");
                 address.setLine1(sorAddress.getLine1());
                 address.setLine2(sorAddress.getLine2());
                 address.setLine3(sorAddress.getLine3());
@@ -332,6 +355,19 @@ public class JpaRoleImpl extends Entity implements Role {
                 address.setCountry(sorAddress.getCountry());
             }
         }
+    }
+
+    protected void recalculateEmailAddresses(SorRole sorRole){
+         //remove email addresses from calculated role when they are not in sorRole.
+        //unique constraint guarantees that there can be only one emailaddress of a given type per role.
+        for (final EmailAddress cEmailAddress: this.emailAddresses) {
+            boolean foundAddress = false;
+            for (final EmailAddress sorEmailAddress : sorRole.getEmailAddresses()) {
+                if (sorEmailAddress.getAddressType().getDescription().equals(cEmailAddress.getAddressType().getDescription())) foundAddress = true;
+            }
+            if (!foundAddress) this.emailAddresses.remove(cEmailAddress);
+        }
+
         for (final EmailAddress sorEmailAddress: sorRole.getEmailAddresses()) {
             EmailAddress emailAddress = findEmailAddress(sorEmailAddress.getAddressType());
         	if (emailAddress == null){
@@ -340,6 +376,19 @@ public class JpaRoleImpl extends Entity implements Role {
                 emailAddress.setAddress(sorEmailAddress.getAddress());
             }
         }
+    }
+
+    protected void recalculatePhones(SorRole sorRole){
+        //remove phones from calculated role when they are not in sorRole.
+        //unique constraint guarantees that there can be only one phone of a given type per role.
+        for (final Phone cPhone: this.phones) {
+            boolean found = false;
+            for (final Phone sorPhone : sorRole.getPhones()) {
+                if (sorPhone.getAddressType().getDescription().equals(cPhone.getAddressType().getDescription())) found = true;
+            }
+            if (!found) this.phones.remove(cPhone);
+        }
+
         for (final Phone sorPhone: sorRole.getPhones()) {
             Phone phone = findPhone(sorPhone.getAddressType(), sorPhone.getPhoneType());
             if (phone == null){
@@ -351,13 +400,26 @@ public class JpaRoleImpl extends Entity implements Role {
                 phone.setExtension(sorPhone.getExtension());
             }
         }
+    }
 
-        for (final Url url: sorRole.getUrls()) {
-        	addUrl(url);
+    protected void recalculateUrls(SorRole sorRole){
+         //remove email urls from calculated role when they are not in sorRole.
+        for (final Url cUrl: this.urls) {
+            boolean foundAddress = false;
+            for (final Url sorUrl : sorRole.getUrls()) {
+                if (sorUrl.getUrl().equals(cUrl)) foundAddress = true;
+            }
+            if (!foundAddress) this.urls.remove(cUrl);
         }
 
-        this.setSponsorId(sorRole.getSponsorId());
-        this.setSponsorType(sorRole.getSponsorType());
+        for (final Url sorUrl: sorRole.getUrls()) {
+            Url url = findUrl(sorUrl);
+        	if (url == null){
+        	    addUrl(sorUrl);
+            } else {
+                url.setUrl(sorUrl.getUrl());
+            }
+        }
     }
 
     protected Address findAddress(Type type){
@@ -378,6 +440,13 @@ public class JpaRoleImpl extends Entity implements Role {
         for (final Phone phone : this.phones) {
             if (phone.getAddressType().getDescription().equals(addressType.getDescription()) &&
                 phone.getPhoneType().getDescription().equals(phoneType.getDescription())) return phone;
+        }
+        return null;
+    }
+
+    protected Url findUrl(Url sorUrl){
+        for (final Url url : this.urls) {
+            if (sorUrl.equals(url)) return url;
         }
         return null;
     }
