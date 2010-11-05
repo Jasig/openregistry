@@ -1,4 +1,7 @@
-/* @override http://localhost:8080/openregistrysfu/css/or_base.css */
+/* @override 
+	http://localhost:8080/openregistrysfu/css/or_base.css
+	http://localhost:8080/openregistrysfu/themes/jasig/jasig-theme.css
+*/
 
 /**
  * Licensed to Jasig under one or more contributor license
@@ -122,18 +125,6 @@ blockquote,q{quotes:none;}
 
 #header h1 { margin: 0; }
 
-#search_form {
-	/*border: 1px solid #77aed2;*/
-	border-radius: 4px;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	/*padding: 0px;*/
-	/*margin: 5px;*/
-}
-#searchResults {
-	/*margin: 5px;*/
-}
-
 /* MAIN, MAIN>NAV, MAIN>CONTENT */
 #main {
 	margin: 20px auto;
@@ -148,13 +139,7 @@ blockquote,q{quotes:none;}
 }
 
 #nav {
-	/*background-color: silver;*/
-	/*border-radius: 4px;*/
-	/*-webkit-border-radius: 4px;*/
-	/*-moz-border-radius: 4px;*/
-	/*padding: 3px;*/
 	height: 20px;
-	/*margin-bottom: 10px;*/
 }
 
 #nav ul { list-style: none; }
@@ -277,10 +262,11 @@ a {
 	font-weight: bold;
 	padding:5px;
 }
-/* FORMS - DISPLAY ONLY ----------------------------------------------------------------------- */
+/* FORMS ----------------------------------------------------------------------- */
 fieldset {
 	border: 1px solid rgba(123,139,80,0.5);
 }
+
 legend {
 	background-color: rgba(123,139,80,0.25);
 	border: 1px solid rgba(123,139,80,0.5);
@@ -291,11 +277,11 @@ legend {
 	/*margin-bottom: 5px;*/
 	margin-right: 5px;
 	float: left;
+	min-height: 42px;
 	border: 1px solid rgba(123,139,80,0.5);
 }
 .or-field-label-above {
 	display: block;
-	/*font-size: .7em;*/
 	padding: 2px;
 	color: #7b8b50;
 	background-color: rgba(123,139,80,0.25);
@@ -306,9 +292,9 @@ legend {
 	margin: 3px;
 }
 
-/* FORMS & INPUTS ----------------------------------------------------------------------------- */
-
-/*legend { display: none; }*/
+.required-field-marker {
+	color: red;
+}
 
 .field_set div {
 	float: left;
@@ -323,6 +309,7 @@ input[type=text], input[type=password] {
 	font-family: inherit;
 	display: inline;
 	border: none;
+	padding: 1px 0 2px 0px;
 	/*padding: 2px;*/
 	/*font-size: 12px;*/
 }
@@ -336,18 +323,19 @@ input[type=text]:focus, input[type=password]:focus {
 	/*background: #D4DDE4;*/
 }
 
-input[type=select] {
-	border: 1px red solid;
-}
-
-label.above {
-	display: block;
-	color: #77aed2;
-	margin: 0 0 0px 2px;
-}
-
 select {
-	/*background-color:white;*/
+	border: 1px solid rgba(123,139,80,0.5);
+}
+
+.or-field-label-error-above {
+	display: block;
+	padding: 2px;
+	color: red;
+	background-color: rgba(123,139,80,0.25);
+}
+
+.or-field-content-error {
+
 }
 
 /* TABLES ------------------------------------------------------------------------------------- */
