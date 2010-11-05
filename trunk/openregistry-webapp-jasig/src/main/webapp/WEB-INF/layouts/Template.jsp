@@ -25,18 +25,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-    <link rel="stylesheet" href="<c:url value="/themes/jasig/jasig-theme.css" />" type="text/css" />
-    <link rel="stylesheet" href="<c:url value="/themes/jasig/jquery-ui-1.8.6.custom.css" />" />
 	<link rel="stylesheet" href="<c:url value="/fluid/fss/css/fss-layout.css" />" type="text/css" />
     <tiles:useAttribute name="additionalCssFile" id="customCssFile" ignore="true" />
     <!--[if IE]><link rel="stylesheet" type="text/css" href="<c:url value="/css/or_ie.css" />" media="all"/><![endif]-->
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <tiles:useAttribute id="key" name="titleCode" classname="java.lang.String" />
-    <title>OpenRegistry &raquo; <spring:message code="${key}" text="OpenRegistry"/> </title>
+    <title>OpenRegistry &raquo; <spring:message code="${key}" text="OpenRegistry"/></title>
+
     <script type="text/javascript" src="<c:url value="/js/jquery-1.4.2.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/js/jquery-ui-1.8.6.custom.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/js/jquery.qtip-1.0.0-rc3.min.js" />"></script>
+
+	<%-- The following files are for theming --%>
+	<link rel="stylesheet" href="<c:url value="/themes/jasig/jasig-theme.css" />" type="text/css" />
+	<link rel="stylesheet" href="<c:url value="/themes/jasig/jquery-ui-1.8.6.custom.css" />" />
+	<script type="text/javascript" src="<c:url value="/themes/jasig/jquery-ui-1.8.6.custom.min.js" />"></script>
 
     <style type="text/css">
         #<%=key.replace(".", "")%> a {
