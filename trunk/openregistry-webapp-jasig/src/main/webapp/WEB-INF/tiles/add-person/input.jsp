@@ -42,7 +42,7 @@
 		</h4>
         <div style="padding: 5px;">
             <p class="instructions">
-                <spring:message code="requiredFields.heading" /> <span class="required-field-marker">*</span>.
+                <spring:message code="requiredFields.heading" /> <span class="or-required-field-marker">*</span>.
             </p>
 
             <form:errors path="*" element="div" id="message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false"/>
@@ -61,7 +61,7 @@
                     </form:select>
                 </div>
                 <div class="or-field-container field-width-2">
-                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].given" cssErrorClass="or-field-label-error-above"><spring:message code="firstName.label" /><span class="required-field-marker">*</span></form:label>
+                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].given" cssErrorClass="or-field-label-error-above"><spring:message code="firstName.label" /><span class="or-required-field-marker">*</span></form:label>
                     <form:input path="sorPerson.names[0].given"  size="15" maxlength="30" tabindex="2" cssErrorClass="or-field-content-error" cssClass="or-field-content"/>
                 </div>
                 <div class="or-field-container field-width-2">
@@ -69,7 +69,7 @@
                     <form:input path="sorPerson.names[0].middle" size="15" maxlength="30" tabindex="3" cssErrorClass="or-field-content-error" cssClass="or-field-content"/>
                 </div>
                 <div class="or-field-container field-width-2">
-                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].family" cssErrorClass="or-field-label-error-above"><spring:message code="lastName.label" /><span class="required-field-marker">*</span></form:label>
+                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].family" cssErrorClass="or-field-label-error-above"><spring:message code="lastName.label" /><span class="or-required-field-marker">*</span></form:label>
                     <form:input path="sorPerson.names[0].family" size="15" maxlength="30" tabindex="4" cssErrorClass="or-field-content-error"  cssClass="or-field-content"/>
                 </div>
                 <div class="or-field-container field-width-2">
@@ -80,7 +80,7 @@
             <div class="field_set group" style="margin-bottom: 5px;">
                 <div class="or-field-container field-width-1">
                     <form:label cssClass="or-field-label-above" path="sorPerson.gender" cssErrorClass="or-field-label-error-above"><spring:message code="gender.label" />
-                        <span class="required-field-marker">*</span></form:label>
+                        <span class="or-required-field-marker">*</span></form:label>
                     <form:select path="sorPerson.gender" size="1" tabindex="6" cssClass="or-field-content dropdown-menu-width">
                         <form:option value="" label="" />
                         <form:option value="F" label="Female" />
@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="or-field-container field-width-2">
-                    <form:label cssClass="or-field-label-above" path="sorPerson.dateOfBirth" cssErrorClass="or-field-label-error-above"><spring:message code="dateOfBirth.label" /><span class="required-field-marker">*</span></form:label>
+                    <form:label cssClass="or-field-label-above" path="sorPerson.dateOfBirth" cssErrorClass="or-field-label-error-above"><spring:message code="dateOfBirth.label" /><span class="or-required-field-marker">*</span></form:label>
                     <form:input path="sorPerson.dateOfBirth" size="10" maxlength="10" tabindex="7" cssErrorClass="or-field-content-error" placeholder="yyyy-mm-dd" cssClass="or-field-content"/>
                 </div>
 
