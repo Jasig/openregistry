@@ -62,22 +62,22 @@
 
 <div id="search_form" style="margin-bottom: 5px;">
 	<form:form commandName="${commandName}" method="post" id="orForm">
-		<form:errors path="*" element="div" id="message" cssClass="error ui-state-error ui-corner-all" htmlEscape="false" />
+		<form:errors path="*" element="div" id="message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false" />
 		<fieldset id="searchFields">
             <legend>Filter</legend>
 			<div class="field_set group">
 				<div class="or-field-container">
-					<form:label cssClass="or-field-label-above" path="identifierValue">Identifier</form:label>
-					<form:input cssClass="or-field-content" path="identifierValue" cssErrorClass="formerror" placeholder="id" />
+					<form:label cssClass="or-field-label-above" cssErrorClass="or-field-label-error-above" path="identifierValue">Identifier</form:label>
+					<form:input cssClass="or-field-content" path="identifierValue" cssErrorClass="or-field-content-error" placeholder="id" />
 				</div>
 				<div class="or-field-container">
-					<form:label cssClass="or-field-label-above" path="name"><spring:message code="person.biodem.names.label" /></form:label>
-					<form:input cssClass="or-field-content" path="name" cssErrorClass="formerror" autocomplete="false" placeholder="first/last name"/>
+					<form:label cssClass="or-field-label-above" cssErrorClass="or-field-label-error-above" path="name"><spring:message code="person.biodem.names.label" /></form:label>
+					<form:input cssClass="or-field-content" path="name" cssErrorClass="or-field-content-error" autocomplete="false" placeholder="first/last name"/>
 					<form:errors path="name" />
 				</div>
 				<div class="or-field-container">
-					<form:label cssClass="or-field-label-above" path="dateOfBirth"><spring:message code="person.biodem.dateOfBirth.label" /></form:label>
-					<form:input cssClass="or-field-content" path="dateOfBirth" cssErrorClass="formerror" placeholder="yyyy-mm-dd"/>
+					<form:label cssClass="or-field-label-above" cssErrorClass="or-field-label-error-above" path="dateOfBirth"><spring:message code="person.biodem.dateOfBirth.label" /></form:label>
+					<form:input cssClass="or-field-content" path="dateOfBirth" cssErrorClass="or-field-content-error" placeholder="yyyy-mm-dd"/>
 				</div>
 				<div id="find_submit_container" class="clearfix">
 					<input type="hidden" name="_eventId" value="submit" />

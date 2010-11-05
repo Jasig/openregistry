@@ -45,7 +45,7 @@
                 <spring:message code="requiredFields.heading" /> <span class="required-field-marker">*</span>.
             </p>
 
-            <form:errors path="*" element="div" id="message" cssClass="error" htmlEscape="false"/>
+            <form:errors path="*" element="div" id="message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false"/>
             <div class="field_set group" style="margin-bottom: 5px;">
                 <div class="or-field-container field-width-1">
                     <form:label cssClass="or-field-label-above" path="sorPerson.names[0].prefix" cssErrorClass="or-field-label-error-above">
