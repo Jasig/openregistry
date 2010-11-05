@@ -274,7 +274,6 @@ legend {
 }
 
 .or-field-container {
-	/*margin-bottom: 5px;*/
 	margin-right: 5px;
 	float: left;
 	min-height: 42px;
@@ -292,7 +291,7 @@ legend {
 	margin: 3px;
 }
 
-.required-field-marker {
+.or-required-field-marker {
 	color: red;
 }
 
@@ -406,9 +405,6 @@ tbody.zebra tr:nth-child(even) {
 #message.highlight {
 	background: #FFEF8F;
 	border: 1px solid #F9DD34;
-}
-
-#message.error {
 }
 
 #message div {
