@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rest-client version="2.3">
+    <request>
+        <http-version>1.1</http-version>
+        <URL>http://localhost:8080/openregistry/api/v1/people/RCPID/22</URL>
+        <method>GET</method>
+        <headers>
+            <header key="Accept" value="application/xml"/>
+        </headers>
+    </request>
+</rest-client>
