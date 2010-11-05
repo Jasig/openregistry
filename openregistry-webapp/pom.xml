@@ -4,7 +4,7 @@
     <parent>
         <artifactId>openregistry</artifactId>
         <groupId>org.jasig.openregistry</groupId>
-        <version>1.0-RC1-SNAPSHOT</version>
+        <version>0.1-RC1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.openregistry</groupId>
@@ -56,7 +56,7 @@
             <artifactId>openregistry-repository-jpa-impl</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
-        </dependency>  
+        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>

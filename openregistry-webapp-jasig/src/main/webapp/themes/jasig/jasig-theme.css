@@ -1,0 +1,438 @@
+/* @override http://localhost:8080/openregistrysfu/css/or_base.css */
+
+/**
+ * Licensed to Jasig under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work
+ * for additional information regarding copyright ownership.
+ * Jasig licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a
+ * copy of the License at:
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+/*
+
+	NAME:	or_base.css
+	DESC:	Base CSS for generic OpenRegistry theme
+	AUTHOR:	Graham Ballantyne (grahamb@sfu.ca)
+
+
+	COLORS:
+		base: #D4DDE4
+		input background focus: #ecf6fe
+		input border focus/hover: #a6c6fd
+
+*/
+
+/* RESET -------------------------------------------------------------------------------------- */
+/* Based on Dan Cederholm's (simplebits.com) reset.css                                          */
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,a,abbr,acronym,address,big,cite,code,del,dfn,font,img,ens,kbd,q,s,samp,small,strike,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,form,label,table,caption,tbody,tfoot,thread,tr,th,td /* phew! */{margin:0;padding:0;font-size:0.95em;vertical-align:baseline;border:0;outline:0;background:transparent;font-weight:normal;font-style:normal; font-family: Verdana,Arial,sans-serif;}
+blockquote,q{quotes:none;}
+:focus{outline:0;}
+
+
+/* LAYOUT ------------------------------------------------------------------------------------- */
+/* HEADER */
+#or-page-header  {
+	height: 42px;
+	margin-top: 5px;
+	padding: 5px;
+	border-bottom: 5px solid #7b8b50;
+	background-color: white;
+}
+
+#or-page-header-left-graphic {
+	background-image: url(images/open-registry-logo.png);
+	background-repeat: no-repeat;
+	float: left;
+	width: 394px;
+	height: 40px;
+}
+
+#or-page-header-right-graphic {
+	background-image: url(images/Jasig-Incubator-logo-40.png);
+	background-repeat: no-repeat;
+	float: right;
+	width: 69px;
+	height: 40px;
+	margin-right: 5px;
+}
+
+#or-status-bar{
+	background-color: #77aed2;
+	height: 16px;
+	padding: 3px 5px;
+	font-size: .9em
+}
+
+#or-status-bar-left {
+	float: left;
+	width: 200px;
+	color: white;
+}
+
+#or-status-bar-right {
+	float: right;
+	width: 200px;
+	color: white;
+	text-align: right;
+}
+#or-status-bar-right a {
+	color: white;
+	text-decoration: none;
+}
+
+#or-content {
+	padding: 5px;
+	width: 940px;
+	background-color: white;
+}
+
+/* FOOTER */
+#or-page-footer {
+	text-align: center;
+	font-size: .7em;
+	background-color: #77aed2;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.or-section-title1 {
+	color: #7b8b50;
+	font-size: 1.1em;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+.or-section-title2 {
+	color: #7b8b50;
+	font-size: 1.0em;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+#header h1 { margin: 0; }
+
+#search_form {
+	/*border: 1px solid #77aed2;*/
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	/*padding: 0px;*/
+	/*margin: 5px;*/
+}
+#searchResults {
+	/*margin: 5px;*/
+}
+
+/* MAIN, MAIN>NAV, MAIN>CONTENT */
+#main {
+	margin: 20px auto;
+	width: 90%;
+/*min-height: 300px;*/
+	position: fixed;
+	min-height: 95%;
+/*height: auto !important;*/
+/*height: 100%;*/
+	padding-left:20px;
+
+}
+
+#nav {
+	/*background-color: silver;*/
+	/*border-radius: 4px;*/
+	/*-webkit-border-radius: 4px;*/
+	/*-moz-border-radius: 4px;*/
+	/*padding: 3px;*/
+	height: 20px;
+	/*margin-bottom: 10px;*/
+}
+
+#nav ul { list-style: none; }
+#nav ul li {
+	float: left;
+	width: 150px;
+	text-align: center;
+	font-size: .8em;
+}
+/*#nav ul li a { color: black; }*/
+
+#nav a:hover {
+	/*border-bottom: 1px dotted #333;*/
+	/*color: #333;*/
+}
+
+#nav li.current a {
+	/*font-weight: bold;*/
+	/*color: white;*/
+}
+
+#content {
+	min-height:500px;
+	/*border: 1px solid gray;*/
+	/*border-radius: 4px;*/
+	/*-webkit-border-radius: 4px;*/
+	/*-moz-border-radius: 4px;*/
+	background-color: white;
+}
+
+/* MISC & FIXES */
+.group:after {
+	content:  ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+
+/* TYPOGRAPHY --------------------------------------------------------------------------------- */
+
+body {
+	color: #333;
+	font-size: 100%;
+	height: 100%;
+	background-color: #a9a9a9;
+}
+
+html {
+	height: 80%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+h1 { font-size: 30px; }
+
+h2 { font-size: 24px; }
+
+h3 { font-size: 20px; }
+
+p {
+	margin: 0 0 1.2em 0;
+}
+
+.instructions {
+	margin: 0 0 5px 0;
+	font-size: 0.9em;
+}
+
+.instructions ul {
+	padding: 5px;
+}
+
+.instructions ul li {
+	margin-left: 20px;
+}
+
+#nav a {
+	/*color: #7f7f7f;*/
+	text-decoration: none;
+	font-weight: normal;
+}
+
+a {
+	text-decoration: none;
+}
+
+#calculated-person{
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.sor-person{
+	padding: 5px;
+}
+
+.box{
+	padding:10px;
+/*border: 1px solid #ccc;*/
+/*border-radius: 4px;*/
+/*-webkit-border-radius: 4px;*/
+/*-moz-border-radius: 4px;*/
+}
+
+.padded{
+	padding-bottom:10px;
+}
+
+.center{
+	text-align: center;
+}
+
+.headline{
+	background: #D4DDE4;
+	text-align: left;
+	font-weight: bold;
+	padding:5px;
+}
+/* FORMS - DISPLAY ONLY ----------------------------------------------------------------------- */
+fieldset {
+	border: 1px solid rgba(123,139,80,0.5);
+}
+legend {
+	background-color: rgba(123,139,80,0.25);
+	border: 1px solid rgba(123,139,80,0.5);
+	padding: 2px 5px;
+}
+
+.or-field-container {
+	/*margin-bottom: 5px;*/
+	margin-right: 5px;
+	float: left;
+	border: 1px solid rgba(123,139,80,0.5);
+}
+.or-field-label-above {
+	display: block;
+	/*font-size: .7em;*/
+	padding: 2px;
+	color: #7b8b50;
+	background-color: rgba(123,139,80,0.25);
+}
+.or-field-content {
+	/*font-size: 0.8em;*/
+	background-color: white;
+	margin: 3px;
+}
+
+/* FORMS & INPUTS ----------------------------------------------------------------------------- */
+
+/*legend { display: none; }*/
+
+.field_set div {
+	float: left;
+	/*padding: 0 15px 0 0;*/
+}
+
+.fieldset {
+	text-align: bottom;
+}
+
+input[type=text], input[type=password] {
+	font-family: inherit;
+	display: inline;
+	border: none;
+	/*padding: 2px;*/
+	/*font-size: 12px;*/
+}
+
+input[type=text]:hover, input[type=password]:hover {
+	/*border: 1px solid #a6c6fd;*/
+}
+
+input[type=text]:focus, input[type=password]:focus {
+	/*border: 1px solid #a6c6fd;*/
+	/*background: #D4DDE4;*/
+}
+
+input[type=select] {
+	border: 1px red solid;
+}
+
+label.above {
+	display: block;
+	color: #77aed2;
+	margin: 0 0 0px 2px;
+}
+
+select {
+	/*background-color:white;*/
+}
+
+/* TABLES ------------------------------------------------------------------------------------- */
+
+/*.or-result-table {
+	background-color: white;
+	border: 1px solid rgba(123,139,80,0.3);
+}*/
+
+.or-result-table div.table-title {
+	font-weight: bold;
+	font-size: 0.8em;
+	padding: 5px;
+	background-color: rgba(123,139,80,0.5);
+}
+
+.or-result-table table {
+	border-collapse: collapse;
+	width: 100%;
+}
+/*.or-result-table div.table-status {
+	padding: 5px;
+	font-size: 0.7em;
+}*/
+.or-result-table thead {
+	border-top: 1px solid #77aed2;
+	border-bottom: 1px solid #77aed2;
+	background: rgba(123,139,80,0.25);
+	/*font-size: 0.7em;*/
+}
+.or-result-table thead th {
+	border: 1px solid rgba(123,139,80,0.3);
+	text-align: left;
+	padding: 2px;
+	color: #7b8b50;
+}
+
+.or-result-table td {
+	border: 1px solid rgba(123,139,80,0.3);
+	/*font-size: 0.7em;*/
+	padding: 3px;
+}
+
+tbody.zebra tr:nth-child(even) {
+	background-color: #eee;
+}
+
+.even-rows{
+	background-color: rgba(123,139,80,0.25);
+}
+
+/* ERROR/MESSAGE AREAS------------------------------------------------------------------------- */
+
+#message {
+	/*width: 750px;*/
+	margin-bottom: 5px;
+	padding: 5px;
+	/*border-radius: 4px;*/
+	/*-webkit-border-radius: 4px;*/
+	/*-moz-border-radius: 4px;*/
+	font-size: 1.0em;
+}
+
+#message p {
+	margin: 1em 0px;
+}
+
+#message.highlight {
+	background: #FFEF8F;
+	border: 1px solid #F9DD34;
+}
+
+#message.error {
+}
+
+#message div {
+	height: 40px;
+}
+
+
+
+
+
+
+
+
+
+/*   ~gnb~   */
