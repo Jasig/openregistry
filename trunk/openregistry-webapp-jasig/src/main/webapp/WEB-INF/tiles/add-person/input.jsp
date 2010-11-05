@@ -22,7 +22,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%--<link rel="stylesheet" href="<spring:theme code='addPersonSheet'/>" type="text/css" />--%>
 
 <script type="text/javascript">
     $(function() {
@@ -30,21 +29,29 @@
     });
 </script>
 
+<style type="text/css">
+	.field-width-1 { width: 90px; }
+	.field-width-2 { width: 150px; }
+	.dropdown-menu-width { width: 80px; }
+</style>
+
 <form:form modelAttribute="reconciliationCriteria" commandName="reconciliationCriteria" method="post">
-    <div class="ui-widget ui-widget-content ui-corner-all"">
-        <h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding: 5px; margin-bottom:0;"><spring:message code="addPersonPage.heading" /></h4>
+    <div class="ui-widget ui-widget-content ui-corner-all">
+        <h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding: 5px; margin-bottom:0;">
+			<spring:message code="addPersonPage.heading" />
+		</h4>
         <div style="padding: 5px;">
             <p class="instructions">
-                <spring:message code="requiredFields.heading" /><span style="color:#b00;">*</span>.
+                <spring:message code="requiredFields.heading" /> <span class="required-field-marker">*</span>.
             </p>
 
             <form:errors path="*" element="div" id="message" cssClass="error" htmlEscape="false"/>
             <div class="field_set group" style="margin-bottom: 5px;">
-                <div class="or-field-container" style="width: 80px;">
-                    <form:label cssClass="or-field-label-above" path="sorPerson.names[0].prefix" cssErrorClass="labelError">
+                <div class="or-field-container field-width-1">
+                    <form:label cssClass="or-field-label-above" path="sorPerson.names[0].prefix" cssErrorClass="or-field-label-error-above">
                         <spring:message code="prefix.label" />
                     </form:label>
-                    <form:select path="sorPerson.names[0].prefix" size="1" tabindex="1" cssClass="or-field-content">
+                    <form:select path="sorPerson.names[0].prefix" size="1" tabindex="1" cssClass="or-field-content dropdown-menu-width">
                         <form:option value="" label="" />
                         <form:option value="Mrs" label="Mrs." />
                         <form:option value="Miss" label="Miss" />
@@ -53,58 +60,58 @@
                         <form:option value="Dr" label="Dr." />
                     </form:select>
                 </div>
-                <div class="or-field-container" style="width: 120px;">
-                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].given" cssErrorClass="labelError"><spring:message code="firstName.label" /><em>*</em></form:label>
-                    <form:input path="sorPerson.names[0].given"  size="15" maxlength="30" tabindex="2" cssErrorClass="fieldError" cssClass="or-field-content"/>
+                <div class="or-field-container field-width-2">
+                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].given" cssErrorClass="or-field-label-error-above"><spring:message code="firstName.label" /><span class="required-field-marker">*</span></form:label>
+                    <form:input path="sorPerson.names[0].given"  size="15" maxlength="30" tabindex="2" cssErrorClass="or-field-content-error" cssClass="or-field-content"/>
                 </div>
-                <div class="or-field-container" style="width: 120px;">
-                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].middle" cssErrorClass="labelError"><spring:message code="middleName.label" /></form:label>
-                    <form:input path="sorPerson.names[0].middle" size="15" maxlength="30" tabindex="3" cssErrorClass="fieldError" cssClass="or-field-content"/>
+                <div class="or-field-container field-width-2">
+                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].middle" cssErrorClass="or-field-label-error-above"><spring:message code="middleName.label" /></form:label>
+                    <form:input path="sorPerson.names[0].middle" size="15" maxlength="30" tabindex="3" cssErrorClass="or-field-content-error" cssClass="or-field-content"/>
                 </div>
-                <div class="or-field-container" style="width: 120px;">
-                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].family" cssErrorClass="labelError"><spring:message code="lastName.label" /><em>*</em></form:label>
-                    <form:input path="sorPerson.names[0].family" size="15" maxlength="30" tabindex="4" cssErrorClass="fieldError"  cssClass="or-field-content"/>
+                <div class="or-field-container field-width-2">
+                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].family" cssErrorClass="or-field-label-error-above"><spring:message code="lastName.label" /><span class="required-field-marker">*</span></form:label>
+                    <form:input path="sorPerson.names[0].family" size="15" maxlength="30" tabindex="4" cssErrorClass="or-field-content-error"  cssClass="or-field-content"/>
                 </div>
-                <div class="or-field-container" style="width: 120px;">
-                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].suffix" cssErrorClass="labelError"><spring:message code="suffix.label" /></form:label>
-                    <form:input path="sorPerson.names[0].suffix" size="15" maxlength="30" tabindex="4" cssErrorClass="fieldError"  cssClass="or-field-content"/>
+                <div class="or-field-container field-width-2">
+                    <form:label cssClass="or-field-label-above"  path="sorPerson.names[0].suffix" cssErrorClass="or-field-label-error-above"><spring:message code="suffix.label" /></form:label>
+                    <form:input path="sorPerson.names[0].suffix" size="15" maxlength="30" tabindex="5" cssErrorClass="or-field-content-error"  cssClass="or-field-content"/>
                 </div>
             </div>
             <div class="field_set group" style="margin-bottom: 5px;">
-                <div class="or-field-container" style="width: 80px;">
-                    <form:label cssClass="or-field-label-above" path="sorPerson.gender" cssErrorClass="labelError"><spring:message code="gender.label" />
-                        <em>*</em></form:label>
-                    <form:select path="sorPerson.gender" size="1" tabindex="6" cssClass="or-field-content">
+                <div class="or-field-container field-width-1">
+                    <form:label cssClass="or-field-label-above" path="sorPerson.gender" cssErrorClass="or-field-label-error-above"><spring:message code="gender.label" />
+                        <span class="required-field-marker">*</span></form:label>
+                    <form:select path="sorPerson.gender" size="1" tabindex="6" cssClass="or-field-content dropdown-menu-width">
                         <form:option value="" label="" />
                         <form:option value="F" label="Female" />
                         <form:option value="M" label="Male" />
                     </form:select>
                 </div>
 
-                <div class="or-field-container" style="width: 120px;">
-                    <form:label cssClass="or-field-label-above" path="sorPerson.dateOfBirth" cssErrorClass="labelError"><spring:message code="dateOfBirth.label" /><em>*</em></form:label>
-                    <form:input path="sorPerson.dateOfBirth" size="10" maxlength="10" tabindex="7" cssErrorClass="fieldError" placeholder="yyyy-mm-dd" cssClass="or-field-content"/>
+                <div class="or-field-container field-width-2">
+                    <form:label cssClass="or-field-label-above" path="sorPerson.dateOfBirth" cssErrorClass="or-field-label-error-above"><spring:message code="dateOfBirth.label" /><span class="required-field-marker">*</span></form:label>
+                    <form:input path="sorPerson.dateOfBirth" size="10" maxlength="10" tabindex="7" cssErrorClass="or-field-content-error" placeholder="yyyy-mm-dd" cssClass="or-field-content"/>
                 </div>
 
-                <div class="or-field-container" style="width: 120px;">
-                    <form:label  cssClass="or-field-label-above" path="sorPerson.ssn" cssErrorClass="labelError"><spring:message code="ssn.label" /></form:label>
-                    <form:input path="sorPerson.ssn"  size="9" maxlength="9" tabindex="8" cssErrorClass="fieldError" cssClass="or-field-content"/>
+                <div class="or-field-container field-width-2">
+                    <form:label  cssClass="or-field-label-above" path="sorPerson.ssn" cssErrorClass="or-field-label-error-above"><spring:message code="ssn.label" /></form:label>
+                    <form:input path="sorPerson.ssn"  size="9" maxlength="9" tabindex="8" cssErrorClass="or-field-content-error" cssClass="or-field-content"/>
                 </div>
 
-                <div class="or-field-container" style="width: 120px;">
-                    <form:label cssClass="or-field-label-above" path="emailAddress" cssErrorClass="labelError"><spring:message code="email.label" /></form:label>
-                    <form:input path="emailAddress" size="15" maxlength="20" tabindex="9" cssErrorClass="fieldError" cssClass="or-field-content"/>
+                <div class="or-field-container field-width-2">
+                    <form:label cssClass="or-field-label-above" path="emailAddress" cssErrorClass="or-field-label-error-above"><spring:message code="email.label" /></form:label>
+                    <form:input path="emailAddress" size="15" maxlength="20" tabindex="9" cssErrorClass="or-field-content-error" cssClass="or-field-content"/>
                 </div>
 
-                <div class="or-field-container" style="width: 120px;">
-                    <form:label cssClass="or-field-label-above" path="phoneNumber" cssErrorClass="labelError"><spring:message code="phoneNumber.label" /></form:label>
-                    <form:input path="phoneNumber" size="15" maxlength="15" tabindex="10" cssErrorClass="fieldError" cssClass="or-field-content" placeholder="xxx-xxx-xxxx"/>
+                <div class="or-field-container field-width-2">
+                    <form:label cssClass="or-field-label-above" path="phoneNumber" cssErrorClass="or-field-label-error-above"><spring:message code="phoneNumber.label" /></form:label>
+                    <form:input path="phoneNumber" size="15" maxlength="15" tabindex="10" cssErrorClass="or-field-content-error" cssClass="or-field-content" placeholder="xxx-xxx-xxxx"/>
                 </div>
             </div>
 
             <c:if test='${empty addSucceeded}'>
                 <input type="hidden" name="_eventId" value="submitAddPerson" />
-                <button id="addPersonButton">Add Person</button>
+                <button id="addPersonButton"><spring:message code="addPerson.button" /></button>
             </c:if>
         </div>
     </div>

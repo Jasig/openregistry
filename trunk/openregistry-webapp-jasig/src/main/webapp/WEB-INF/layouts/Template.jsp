@@ -41,11 +41,13 @@
 	<link rel="stylesheet" href="<c:url value="/themes/jasig/jquery-ui-1.8.6.custom.css" />" />
 	<script type="text/javascript" src="<c:url value="/themes/jasig/jquery-ui-1.8.6.custom.min.js" />"></script>
 
+<%--
     <style type="text/css">
         #<%=key.replace(".", "")%> a {
             font-weight: bold;
         }
     </style>
+--%>
 </head>
 <body>
 <div class="fl-container-950 fl-centered">
