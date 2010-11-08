@@ -1,7 +1,6 @@
-<%@ page import="org.springframework.security.core.Authentication" %>
-<%@ page import="org.springframework.security.core.context.SecurityContext" %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ page import="org.springframework.security.core.userdetails.User" %>
+<%@ page import="org.springframework.security.core.*" %>
+<%@ page import="org.springframework.security.core.context.*" %>
+<%@ page import="org.springframework.security.core.userdetails.*" %>
 <%--
 
 	Licensed to Jasig under one or more contributor license
@@ -23,6 +22,7 @@
 
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%
 	SecurityContext context = SecurityContextHolder.getContext();
@@ -30,4 +30,4 @@
 %>
 
 <div id="or-status-bar-left">Welcome <%= ((User)auth.getPrincipal()).getUsername() %></div>
-<div id="or-status-bar-right"><a href="<c:url value="/logout.htm" />">Logout</a></div>
+<div id="or-status-bar-right"><a href="<c:url value="/logout.htm" />"><spring:message code="logout.label" /></a></div>

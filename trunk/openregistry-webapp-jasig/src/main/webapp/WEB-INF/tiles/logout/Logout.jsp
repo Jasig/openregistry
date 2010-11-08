@@ -20,6 +20,5 @@
 --%>
 
 <div id="content">
-        You aren't really logged out, this is just a placeholder page until logout is properly implemented
+	You aren't really logged out, this is just a placeholder page until logout is properly implemented.
 </div>
- 

@@ -34,13 +34,14 @@
        $("#searchtitle").button();
     });
 </script>
+
 <div id="nav" class="ui-buttonset" style="height:30px;">
     <c:set var="current" value="Page Value" scope="page" />
 
     <ul>
         <li id="searchtitle">
             <a href="<c:url value="/viewPersonDetail.htm" />">
-                <spring:message code="manage.people.title" />
+                <spring:message code="manage.people.button" />
             </a>
         </li>
     </ul>

@@ -19,10 +19,11 @@
 
 --%>
 
-<%@ page import="org.springframework.security.core.AuthenticationException" %>
-<%@ page import="org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter" %>
+<%@ page import="org.springframework.security.core.*" %>
+<%@ page import="org.springframework.security.web.authentication.*" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <tiles:useAttribute id="key" name="titleCode"  />
 <div class="errors" id="status">
     <h2><spring:message code="${key}" /></h2>
