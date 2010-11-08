@@ -23,5 +23,9 @@
 
 <div id="or-page-footer">
 	<div><spring:message code="footer.text" /></div>
-	<div><a href="http://www.ja-sig.org/wiki/display/ORUM/Home">Documentation</a> | <a href="http://www.ja-sig.org/issues/browse/OR">Issue Tracker</a> | <a href="http://www.ja-sig.org/wiki/display/JSG/OpenRegistry+Project+Lists">Mailing Lists</a></div>
+	<div>
+		<a href="http://www.ja-sig.org/wiki/display/ORUM/Home">Documentation</a> |
+		<a href="http://www.ja-sig.org/issues/browse/OR">Issue Tracker</a> |
+		<a href="http://www.ja-sig.org/wiki/display/JSG/OpenRegistry+Project+Lists">Mailing Lists</a>
+	</div>
 </div>

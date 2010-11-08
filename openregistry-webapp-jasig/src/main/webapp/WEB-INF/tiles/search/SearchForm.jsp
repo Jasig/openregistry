@@ -25,22 +25,22 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <script type="text/javascript">
-    jQuery(document).ready(function() {
-        var cache = {};
-        $('#name').autocomplete({
-            source: function(request, response) {
-                if (cache.term == request.term && cache.content) {
+	jQuery(document).ready(function() {
+		var cache = {};
+		$('#name').autocomplete({
+			source: function(request, response) {
+				if (cache.term == request.term && cache.content) {
 					response(cache.content);
 				}
 
-                if (new RegExp(cache.term).test(request.term) && cache.content && cache.content.length < 13) {
+				if (new RegExp(cache.term).test(request.term) && cache.content && cache.content.length < 13) {
 					var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
 					response($.grep(cache.content, function(value) {
-	    				return matcher.test(value.value)
+						return matcher.test(value.value)
 					}));
 				}
 
-                $.ajax({
+				$.ajax({
 					url: "<c:url value="/nameSearch.json" />",
 					dataType: "json",
 					data: request,
@@ -50,24 +50,24 @@
 						response(data);
 					}
 				});
-            },
-            minLength: 3
-        });
-    });
+			},
+			minLength: 3
+		});
+	});
 
-    $(function() {
-       $("#submitButton").button();
-    });
+	$(function() {
+		$("#submitButton").button();
+	});
 </script>
 
 <div id="search_form" style="margin-bottom: 5px;">
 	<form:form commandName="${commandName}" method="post" id="orForm">
 		<form:errors path="*" element="div" id="message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false" />
 		<fieldset id="searchFields">
-            <legend>Filter</legend>
+			<legend><spring:message code="find.person.filter.legend" /></legend>
 			<div class="field_set group">
 				<div class="or-field-container">
-					<form:label cssClass="or-field-label-above" cssErrorClass="or-field-label-error-above" path="identifierValue">Identifier</form:label>
+					<form:label cssClass="or-field-label-above" cssErrorClass="or-field-label-error-above" path="identifierValue"><spring:message code="person.biodem.identifier.label" /></form:label>
 					<form:input cssClass="or-field-content" path="identifierValue" cssErrorClass="or-field-content-error" placeholder="id" />
 				</div>
 				<div class="or-field-container">
@@ -81,7 +81,7 @@
 				</div>
 				<div id="find_submit_container" class="clearfix">
 					<input type="hidden" name="_eventId" value="submit" />
-					<button id="submitButton">Find Person</button>
+					<button id="submitButton"><spring:message code="find.person.button" /></button>
 				</div>
 			</div>
 		</fieldset>

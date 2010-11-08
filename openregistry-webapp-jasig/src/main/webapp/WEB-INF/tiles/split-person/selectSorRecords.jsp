@@ -31,41 +31,41 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-            <div>
-                <spring:message code="sor.heading"/> <c:out value="${sorPerson.sourceSor}" />
-                <a href="${flowExecutionUrl}&_eventId=move"><button>To Existing</button></a>
-                <a href="${flowExecutionUrl}&_eventId=moveToNewPerson"><button>To New</button></a>
-            </div>
-                <div>
-                    <table class="data" cellspacing="0" width="80%">
-                        <thead>
-                            <tr>
-                                <th colspan="2">${person.officialName.formattedName}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="zebra">
-                        <c:forEach var="sorName" items="${sorPerson.names}" varStatus="loopStatus">
-                            <tr>
-                                <td><spring:message code="nameColumn.label"/></td>
-                                <td>${sorName.formattedName}</td>
-                            </tr>
-                        </c:forEach>
-                        <tr>
-                            <td><spring:message code="dateOfBirth.label"/></td>
-                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${sorPerson.dateOfBirth}"/></td>
-                        </tr>
-                        <tr>
-                            <td><spring:message code="gender.label" /></td>
-                            <td>${sorPerson.gender}</td>
-                        </tr>
-                        <c:forEach var="role" items="${sorPerson.roles}" >
-                            <tr>
-                                <td><spring:message code="role.label" /></td>
-                                <td>${role.title}/${role.organizationalUnit.name}/${role.campus.name}</td>
-                            </tr>
-                         </c:forEach>
-                        </tbody>
-                    </table>
-        </div>
+<div>
+	<spring:message code="sor.heading"/> <c:out value="${sorPerson.sourceSor}" />
+	<a href="${flowExecutionUrl}&_eventId=move"><button>To Existing</button></a>
+	<a href="${flowExecutionUrl}&_eventId=moveToNewPerson"><button>To New</button></a>
+</div>
+<div>
+	<table class="data" cellspacing="0" width="80%">
+		<thead>
+		<tr>
+			<th colspan="2">${person.officialName.formattedName}</th>
+		</tr>
+		</thead>
+		<tbody class="zebra">
+		<c:forEach var="sorName" items="${sorPerson.names}" varStatus="loopStatus">
+			<tr>
+				<td><spring:message code="nameColumn.label"/></td>
+				<td>${sorName.formattedName}</td>
+			</tr>
+		</c:forEach>
+		<tr>
+			<td><spring:message code="dateOfBirth.label"/></td>
+			<td><fmt:formatDate pattern="MM/dd/yyyy" value="${sorPerson.dateOfBirth}"/></td>
+		</tr>
+		<tr>
+			<td><spring:message code="gender.label" /></td>
+			<td>${sorPerson.gender}</td>
+		</tr>
+		<c:forEach var="role" items="${sorPerson.roles}" >
+			<tr>
+				<td><spring:message code="role.label" /></td>
+				<td>${role.title}/${role.organizationalUnit.name}/${role.campus.name}</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+</div>
 
-    <div><a href="${flowExecutionUrl}&_eventId=cancel"><button>Cancel</button></a></div>
+<div><a href="${flowExecutionUrl}&_eventId=cancel"><button><spring:message code="cancel.button" /></button></a></div>
