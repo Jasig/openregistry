@@ -44,7 +44,6 @@
         <put-attribute name="content" value="/WEB-INF/tiles/logout/Logout.jsp"/>
     </definition>
 
-
     <definition name="openregistry.search" extends="openregistry.base">
         <put-attribute name="titleCode" value="manage.people.title" type="string" cascade="true" />
         <put-attribute name="body" value="openregistry.search.content" cascade="true"/>

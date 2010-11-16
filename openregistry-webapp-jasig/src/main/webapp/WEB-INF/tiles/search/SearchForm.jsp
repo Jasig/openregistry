@@ -62,7 +62,7 @@
 
 <div id="search_form" style="margin-bottom: 5px;">
 	<form:form commandName="${commandName}" method="post" id="orForm">
-		<form:errors path="*" element="div" id="message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false" />
+		<form:errors path="*" element="div" id="or-message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false" />
 		<fieldset id="searchFields">
 			<legend><spring:message code="find.person.filter.legend" /></legend>
 			<div class="field_set group">

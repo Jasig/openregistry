@@ -123,10 +123,10 @@ blockquote,q{quotes:none;}
 	margin-bottom: 5px;
 }
 
-#header h1 { margin: 0; }
+#or-header h1 { margin: 0; }
 
 /* MAIN, MAIN>NAV, MAIN>CONTENT */
-#main {
+#or-main {
 	margin: 20px auto;
 	width: 90%;
 /*min-height: 300px;*/
@@ -138,25 +138,31 @@ blockquote,q{quotes:none;}
 
 }
 
-#nav {
+#or-nav {
 	height: 20px;
 }
+#or-nav a {
+	/*color: #7f7f7f;*/
+	text-decoration: none;
+	font-weight: normal;
+}
 
-#nav ul { list-style: none; }
-#nav ul li {
+
+#or-nav ul { list-style: none; }
+#or-nav ul li {
 	float: left;
 	width: 150px;
 	text-align: center;
 	font-size: .8em;
 }
-/*#nav ul li a { color: black; }*/
+/*#or-nav ul li a { color: black; }*/
 
-#nav a:hover {
+#or-nav a:hover {
 	/*border-bottom: 1px dotted #333;*/
 	/*color: #333;*/
 }
 
-#nav li.current a {
+#or-nav li.current a {
 	/*font-weight: bold;*/
 	/*color: white;*/
 }
@@ -208,23 +214,17 @@ p {
 	margin: 0 0 1.2em 0;
 }
 
-.instructions {
+.or-instructions {
 	margin: 0 0 5px 0;
 	font-size: 0.9em;
 }
 
-.instructions ul {
+.or-instructions ul {
 	padding: 5px;
 }
 
-.instructions ul li {
+.or-instructions ul li {
 	margin-left: 20px;
-}
-
-#nav a {
-	/*color: #7f7f7f;*/
-	text-decoration: none;
-	font-weight: normal;
 }
 
 a {
@@ -388,7 +388,7 @@ tbody.zebra tr:nth-child(even) {
 
 /* ERROR/MESSAGE AREAS------------------------------------------------------------------------- */
 
-#message {
+#or-message {
 	/*width: 750px;*/
 	margin-bottom: 5px;
 	padding: 5px;
@@ -398,16 +398,16 @@ tbody.zebra tr:nth-child(even) {
 	font-size: 1.0em;
 }
 
-#message p {
+#or-message p {
 	margin: 1em 0px;
 }
 
-#message.highlight {
+#or-message.highlight {
 	background: #FFEF8F;
 	border: 1px solid #F9DD34;
 }
 
-#message div {
+#or-message div {
 	height: 40px;
 }
 

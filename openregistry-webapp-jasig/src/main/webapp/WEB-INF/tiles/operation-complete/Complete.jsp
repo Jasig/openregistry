@@ -21,8 +21,7 @@
 
 <div id="content">
     <h2>${titleCode}</h2>
-    <div id="message" class="highlight">
+    <div id="or-message" class="highlight">
         ${infoModel}
     </div>
 </div>
- 

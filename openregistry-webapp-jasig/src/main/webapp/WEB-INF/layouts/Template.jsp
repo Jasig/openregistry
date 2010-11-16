@@ -37,9 +37,9 @@
     <script type="text/javascript" src="<c:url value="/js/jquery.qtip-1.0.0-rc3.min.js" />"></script>
 
 	<%-- The following files are for theming --%>
-	<link rel="stylesheet" href="<c:url value="/themes/jasig/jasig-theme.css" />" type="text/css" />
-	<link rel="stylesheet" href="<c:url value="/themes/jasig/jquery-ui-1.8.6.custom.css" />" />
-	<script type="text/javascript" src="<c:url value="/themes/jasig/jquery-ui-1.8.6.custom.min.js" />"></script>
+	<link rel="stylesheet" href="<spring:theme code='styleSheet1' />" type="text/css" />
+	<link rel="stylesheet" href="<spring:theme code='styleSheet2' />" type="text/css" />
+	<script type="text/javascript" src="<spring:theme code='javascript1' />"></script>
 
 <%--
     <style type="text/css">
@@ -51,7 +51,7 @@
 </head>
 <body>
 <div class="fl-container-950 fl-centered">
-	<div class="fl-container-flex header">
+	<div class="fl-container-flex or-header">
 		<tiles:insertTemplate template="/WEB-INF/tiles/base-template/Header.jsp"/>
 	</div>
 

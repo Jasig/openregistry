@@ -31,7 +31,7 @@ This is the errors.jsp
 	<spring:hasBindErrors name="${command}"/>
 	<spring:bind path="${command}.*">
 		<c:if test="${not empty status.errorMessages}">
-			<div class="error" id="message">
+			<div class="error" id="or-message">
 				<h2>Your changes have not been saved!</h2>
 				<p>Please fix the following errors and resubmit.</p>
 				<ul>

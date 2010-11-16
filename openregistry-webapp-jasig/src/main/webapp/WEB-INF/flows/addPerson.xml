@@ -37,10 +37,6 @@
     </action-state>
 
     <view-state id="addPerson" model="reconciliationCriteria" view="openregistry.person.add.insert">
-        <on-entry>
-            <!--Setting the menuItem highlights the current selection in the Navigation Menu-->
-            <set name="flowScope.menuItem" value="'Add a Person'"/>
-        </on-entry>
         <on-render>
             <set name="viewScope.command" value="'reconciliationCriteria'"/>
         </on-render>
