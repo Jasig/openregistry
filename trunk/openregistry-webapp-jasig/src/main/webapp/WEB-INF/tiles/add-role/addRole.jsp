@@ -33,11 +33,11 @@
 <form:form modelAttribute="role" commandName="role" method="post">
 	<h2><spring:message code="addRolePage.heading" /></h2>
 
-	<p class="instructions">
+	<p class="or-instructions">
 		<spring:message code="requiredFields.heading" /><span class="or-required-field-marker">*</span>.
 	</p>
 
-	<form:errors path="*" element="div" id="message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false"/>
+	<form:errors path="*" element="div" id="or-message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false"/>
 	<fieldset class="fm-h" id="ecn1">
 		<label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="addRole.label"/></span><em2><c:out value="${role.affiliationType.description}"/></em2></label>
 		<label class="desc2" for="c1_startdate"><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="title.label" /></span><em2><c:out value="${role.title}"/></em2></label>

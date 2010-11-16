@@ -35,7 +35,7 @@
     });
 </script>
 
-<div id="nav" class="ui-buttonset" style="height:30px;">
+<div id="or-nav" class="ui-buttonset" style="height:30px;">
     <c:set var="current" value="Page Value" scope="page" />
 
     <ul>

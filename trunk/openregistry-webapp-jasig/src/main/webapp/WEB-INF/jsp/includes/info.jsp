@@ -34,7 +34,7 @@
 
 
 <c:if test='${not empty infoModel}'>
-    <div id="message" class="highlight">
+    <div id="or-message" class="highlight">
         <h2><c:out value="${infoModel}"/></h2>
 	</div>
 </c:if>
@@ -48,7 +48,7 @@
             <c:set var="cssClass" value="'highlight'"/>
         </c:otherwise>
     </c:choose>
-    <div class="${cssClass}" id="message">
+    <div class="${cssClass}" id="or-message">
       <h2><c:out value="${message.text}"/></h2>
     </div>
 

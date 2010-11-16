@@ -41,11 +41,11 @@
 			<spring:message code="addPersonPage.heading" />
 		</h4>
         <div style="padding: 5px;">
-            <p class="instructions">
+            <p class="or-instructions">
                 <spring:message code="requiredFields.heading" /> <span class="or-required-field-marker">*</span>.
             </p>
 
-            <form:errors path="*" element="div" id="message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false"/>
+            <form:errors path="*" element="div" id="or-message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false"/>
             <div class="field_set group" style="margin-bottom: 5px;">
                 <div class="or-field-container field-width-1">
                     <form:label cssClass="or-field-label-above" path="sorPerson.names[0].prefix" cssErrorClass="or-field-label-error-above">
@@ -116,3 +116,4 @@
         </div>
     </div>
 </form:form>
+<div style="font-size:0.6em; color:#bbb;">form: add-person</div>
