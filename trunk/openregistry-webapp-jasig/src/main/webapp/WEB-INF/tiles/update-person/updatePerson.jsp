@@ -106,8 +106,8 @@
 								<a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}">${role.title}/${role.organizationalUnit.name}</a>
 							</td>
 							<td>${role.campus.name}</td>
-							<td><fmt:formatDate pattern="MM/dd/yyyy" value="${role.start}" /></td>
-							<td><fmt:formatDate pattern="MM/dd/yyyy" value="${role.end}" /></td>
+							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${role.start}" /></td>
+							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${role.end}" /></td>
 							<td>
 								<a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}"><spring:message code="edit.label" /></a>
 							</td>
@@ -172,3 +172,4 @@
 		<a href="${flowExecutionUrl}&_eventId=backNoChange"><button>Back</button></a>
 	</div>
 </form:form>
+<div class="or-form-name">Form: updatePerson</div>

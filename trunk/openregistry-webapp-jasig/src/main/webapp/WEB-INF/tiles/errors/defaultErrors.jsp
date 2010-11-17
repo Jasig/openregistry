@@ -25,6 +25,6 @@
 <tiles:useAttribute id="key" name="titleCode"  />
 <tiles:useAttribute id="body" name="bodyValue"  />
 <div class="or-error-message ui-state-error ui-corner-all" id="status">
-    <h2><spring:message code="${key}" /></h2>
-    <p><spring:message code="${body}" /></p>
+	<h2><spring:message code="${key}" /></h2>
+	<p><spring:message code="${body}" /></p>
 </div>

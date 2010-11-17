@@ -20,8 +20,9 @@
 --%>
 
 <div id="content">
-    <h2>${titleCode}</h2>
-    <div id="or-message" class="highlight">
-        ${infoModel}
-    </div>
+	<h2>${titleCode}</h2>
+	<div id="or-message" class="highlight">
+		${infoModel}
+	</div>
 </div>
+<div class="or-form-name">Form: Complete</div>

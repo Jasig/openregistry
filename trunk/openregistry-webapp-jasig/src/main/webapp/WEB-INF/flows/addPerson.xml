@@ -85,16 +85,14 @@
     <subflow-state id="addRole" subflow="add-role">
         <input name="sorPerson" value="flowScope.sorPerson"/>
         <output name="role"/>
-        <transition on="roleWasAdded" to="roleAddedSucceeded">
-            <evaluate
-                    expression="personSearchAction.setConfirmationMessage(flowScope.serviceExecutionResult, flowScope.reconciliationResult, messageContext)"/>
+        <transition on="roleWasAdded" to="personWasAdded">
+            <evaluate expression="personSearchAction.setConfirmationMessage(flowScope.serviceExecutionResult, flowScope.reconciliationResult, messageContext)"/>
+            <evaluate expression="personService.findPersonById(flowScope.sorPerson.personId)" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
         </transition>
     </subflow-state>
 
-    <view-state id="roleAddedSucceeded" view="main">
-        <transition to="personWasAdded"/>
-    </view-state>
-
-    <end-state id="personWasAdded"/>
+    <end-state id="personWasAdded">
+        <output name="person" value="flowScope.person" />
+    </end-state>
     <end-state id="cancelCreatePerson" view="flowRedirect:addPerson"/>
 </flow>

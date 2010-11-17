@@ -22,3 +22,4 @@
 <div id="content">
 	You aren't really logged out, this is just a placeholder page until logout is properly implemented.
 </div>
+<div class="or-form-name">Form: Logout</div>

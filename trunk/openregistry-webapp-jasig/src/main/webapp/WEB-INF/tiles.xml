@@ -79,7 +79,7 @@
 
     <definition name="openregistry.person.add.insert" extends="openregistry.base">
         <put-attribute name="titleCode" value="new.person.title" type="string" />
-        <put-attribute name="body" value="/WEB-INF/tiles/add-person/input.jsp" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/tiles/add-person/addPerson.jsp" cascade="true" />
     </definition>
 
     <definition name="openregistry.person.add.found" extends="openregistry.base">

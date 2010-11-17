@@ -23,9 +23,21 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<script type="text/javascript">
+	$(function() {
+		$("#fm-search-submit1").button();
+		$("#fm-search-cancel").button();
+	});
+</script>
+
 <form:form modelAttribute="reconciliationResult" >
 	<fieldset id="update">
-		<legend><span><spring:message code="personMatches.heading"/><span style="color:#000;"><c:out value="${personToAdd.names[0].family}" />, <c:out value="${personToAdd.names[0].given}" /></span></span></legend>
+		<legend>
+			<span>
+				<spring:message code="personMatches.heading"/>
+				<span style="color:#000;"><c:out value="${personToAdd.names[0].family}" />, <c:out value="${personToAdd.names[0].given}" /></span>
+			</span>
+		</legend>
 		<div>
 			<table>
 				<tr>
@@ -50,3 +62,4 @@
 		<input style="float:left;" type="submit" id="fm-search-cancel"  name="_eventId_cancelAddPerson" class="btn-cancel" value="Cancel" tabindex="11"/>
 	</div>
 </form:form>
+<div class="or-form-name">Form: matches</div>

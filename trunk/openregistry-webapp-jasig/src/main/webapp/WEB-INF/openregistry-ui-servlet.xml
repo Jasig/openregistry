@@ -35,8 +35,10 @@
     <flow:flow-executor id="flowExecutor" flow-registry="flowRegistry"/>
 
     <flow:flow-registry id="flowRegistry" flow-builder-services="flowBuilderServices">
-        <flow:flow-location path="/WEB-INF/flows/find-person.xml" id="find"/>
-        <flow:flow-location path="/WEB-INF/flows/view-person-detail.xml" id="viewPersonDetail"/>
+        <flow:flow-location path="/WEB-INF/flows/find-person.xml" id="find-person"/>
+        <flow:flow-location path="/WEB-INF/flows/view-person-detail.xml" id="view-person-detail"/>
+        <flow:flow-location path="/WEB-INF/flows/find-and-view-person-detail.xml" id="findAndViewPersonDetail" />
+        <flow:flow-location path="/WEB-INF/flows/add-and-view-person-detail.xml" id="addAndViewPersonDetail" />
         <flow:flow-location path="/WEB-INF/flows/update-person.xml" id="updateSorPerson" />
         <flow:flow-location path="/WEB-INF/flows/logout.xml" id="logout"/>
         <flow:flow-location path="/WEB-INF/flows/addPerson.xml" id="addSorPerson"/>
@@ -46,8 +48,7 @@
 
     <flow:flow-builder-services id="flowBuilderServices" conversion-service="applicationConversionService" view-factory-creator="mvcViewFactoryCreator" />
 
-    <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver"
-            p:defaultThemeName="theme" />
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver" p:defaultThemeName="theme" />
 
     <bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource" />
 

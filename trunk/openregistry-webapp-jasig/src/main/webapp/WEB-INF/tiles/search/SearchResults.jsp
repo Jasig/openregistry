@@ -36,7 +36,7 @@
 					<display:setProperty name="basic.msg.empty_list" value="Your search returned no results." />
 					<display:setProperty name="css.tr.even" value="even-rows" />
 					<display:column>${personMatch_rowNum}.</display:column>
-					<display:column title="Name" sortable="true"><a href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}"> ${personMatch.person.preferredName}</a></display:column>
+					<display:column title="Name" sortable="true"><a href="${flowExecutionUrl}&_eventId=display&searchId=${personMatch_rowNum-1}">${personMatch.person.preferredName}</a></display:column>
 					<display:column title="ID">${personMatch.person.primaryIdentifiersByType[preferredPersonIdentifierType].value}</display:column>
 					<display:column title="Roles" sortable="true">
 						<c:forEach var="role" items="${personMatch.person.roles}">
