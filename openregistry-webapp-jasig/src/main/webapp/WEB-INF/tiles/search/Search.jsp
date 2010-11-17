@@ -24,25 +24,26 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script type="text/javascript">
-    $(function() {
-       $("#newPersonButton").button();
-    });
+	$(function() {
+		$("#newPersonButton").button();
+	});
 </script>
 
 <div class="ui-widget ui-widget-content ui-corner-all">
-    <h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding: 5px; margin-bottom:0;">
-        <span class="ui-dialog-title"><spring:message code="manage.people.title" /></span>
-    </h4>
+	<h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding: 5px; margin-bottom:0;">
+		<span class="ui-dialog-title"><spring:message code="manage.people.title" /></span>
+	</h4>
 
-    <div style="padding: 5px;">
-        <tiles:insertAttribute name="searchForm" />
-        <div id="searchResults">
-            <tiles:insertAttribute name="searchResults" flush="true" />
-        </div>
-    </div>
+	<div style="padding: 5px;">
+		<tiles:insertAttribute name="searchForm" />
+		<div id="searchResults">
+			<tiles:insertAttribute name="searchResults" flush="true" />
+		</div>
+	</div>
 </div>
 <div style="margin-top: 5px;">
-    <a href="<c:url value="/addSorPerson.htm" />">
-        <button id="newPersonButton"><spring:message code="new.person.title" /></button>
-    </a>
+	<a href="<c:url value="/addAndViewPersonDetail.htm" />">
+		<button id="newPersonButton"><spring:message code="new.person.title" /></button>
+	</a>
 </div>
+<div class="or-form-name">Form: Search</div>

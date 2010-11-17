@@ -52,7 +52,7 @@
 		</c:forEach>
 		<tr>
 			<td><spring:message code="dateOfBirth.label"/></td>
-			<td><fmt:formatDate pattern="MM/dd/yyyy" value="${sorPerson.dateOfBirth}"/></td>
+			<td><fmt:formatDate pattern="yyyy-MM-dd" value="${sorPerson.dateOfBirth}"/></td>
 		</tr>
 		<tr>
 			<td><spring:message code="gender.label" /></td>
@@ -69,3 +69,4 @@
 </div>
 
 <div><a href="${flowExecutionUrl}&_eventId=cancel"><button><spring:message code="cancel.button" /></button></a></div>
+<div class="or-form-name">Form: selectSorRecords</div>

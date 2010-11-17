@@ -123,6 +123,12 @@ blockquote,q{quotes:none;}
 	margin-bottom: 5px;
 }
 
+.or-form-name {
+	clear: both;
+	font-size: 0.7em;
+	color: #bbb;
+}
+
 #or-header h1 { margin: 0; }
 
 /* MAIN, MAIN>NAV, MAIN>CONTENT */

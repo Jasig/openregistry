@@ -26,31 +26,31 @@
   Time: 4:56:10 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 
 <div id="content">
-    <h2>${titleCode}</h2>
+	<h2>${titleCode}</h2>
 
+	<c:if test='${not empty infoModel}'>
+		<div id="or-message" class="highlight">
+			<h2><c:out value="${infoModel}"/></h2>
+		</div>
+	</c:if>
 
-<c:if test='${not empty infoModel}'>
-    <div id="or-message" class="highlight">
-        <h2><c:out value="${infoModel}"/></h2>
-	</div>
-</c:if>
-
-<c:forEach items="${flowRequestContext.messageContext.allMessages}" var="message">
-    <c:choose>
-        <c:when test="${message.severity eq 'Error'}">
-            <c:set var="cssClass" value="'error'"/>
-        </c:when>
-        <c:otherwise>
-            <c:set var="cssClass" value="'highlight'"/>
-        </c:otherwise>
-    </c:choose>
-    <div class="${cssClass}" id="or-message">
-      <h2><c:out value="${message.text}"/></h2>
-    </div>
-
-</c:forEach>
+	<c:forEach items="${flowRequestContext.messageContext.allMessages}" var="message">
+		<c:choose>
+			<c:when test="${message.severity eq 'Error'}">
+				<c:set var="cssClass" value="'error'"/>
+			</c:when>
+			<c:otherwise>
+				<c:set var="cssClass" value="'highlight'"/>
+			</c:otherwise>
+		</c:choose>
+		<div class="${cssClass}" id="or-message">
+			<h2><c:out value="${message.text}"/></h2>
+		</div>
+	</c:forEach>
 </div>

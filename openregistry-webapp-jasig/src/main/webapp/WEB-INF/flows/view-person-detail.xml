@@ -25,15 +25,11 @@
       xsi:schemaLocation="http://www.springframework.org/schema/webflow
     http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
-    <subflow-state id="searchForPerson" subflow="find" >
-        <output name="person" />
-        <transition to="viewPersonDetail" />
-    </subflow-state>
+    <input name="person"/>
 
     <view-state id="viewPersonDetail" model="person" view="openregistry.view.person.detail">
         <on-entry>
             <evaluate expression="personService.getSorPersonsFor(person)" result="flowScope.sorPersons"/>
-            <set name="flowScope.menuItem" value="'Find a Person'" />
             <set name="viewScope.command" value="'person'" />
             <set name="flowScope.fromPerson" value="person" />
         </on-entry>
@@ -61,7 +57,6 @@
         </transition>
 
         <transition on="submitNewSearch" to="newSearch" />
-
     </view-state>
 
     <view-state id="viewRole" model="role" view="openregistry.person.view.role">
@@ -85,7 +80,5 @@
         <transition to="viewPersonDetail"/>
     </subflow-state>
 
-
     <end-state id="newSearch" />
-
 </flow>

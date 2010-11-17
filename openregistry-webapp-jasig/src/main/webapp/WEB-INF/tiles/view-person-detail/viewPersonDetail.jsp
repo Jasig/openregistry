@@ -196,4 +196,4 @@
 <%--<div class="row fm-v" style="clear:both;">--%>
 <%--	<input style="float:left;" type="submit" id="fm-newSearch-submit1" name="_eventId_submitNewSearch" class="btn-submit" value="New Search" tabindex="11" />--%>
 <%--</div>--%>
-
+<div class="or-form-name">Form: viewPersonDetail</div>
