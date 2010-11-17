@@ -47,6 +47,10 @@ public class MockPerson implements Person {
     
     private final Set<Identifier> identifiers = new HashSet<Identifier>();
 
+    private String gender;
+
+    private Date dob;
+
     /**
      * Generates a new active, non-expired person with Identifier of type NETID
      */
@@ -153,7 +157,7 @@ public class MockPerson implements Person {
     }
 
     public Name getPreferredName() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public Name getOfficialName() {
@@ -161,19 +165,19 @@ public class MockPerson implements Person {
     }
 
     public String getGender() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.gender;
     }
 
     public Date getDateOfBirth() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.dob;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.dob = dateOfBirth;
     }
 
     public void setGender(String gender) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.gender = gender;
     }
     public String getDisclosure() {
         return null;
@@ -311,7 +315,18 @@ public class MockPerson implements Person {
 
     @Override
     public String toString() {
-        return "MockPerson{" + "id=" + id + '}';
+        return "MockPerson{" +
+                "activationKey=" + activationKey +
+                ", roles=" + roles +
+                ", id=" + id +
+                ", names=" + names +
+                ", mockEmailAddress=" + mockEmailAddress +
+                ", mockPhoneNumber=" + mockPhoneNumber +
+                ", mockDisclosureSettings=" + mockDisclosureSettings +
+                ", identifiers=" + identifiers +
+                ", gender='" + gender + '\'' +
+                ", dob=" + dob +
+                '}';
     }
 
 	public DisclosureSettings getDisclosureSettings() {
