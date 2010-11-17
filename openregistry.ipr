@@ -270,13 +270,13 @@
       </root>
     </artifact>
     <artifact type="war" name="openregistrysfu:war">
-      <output-path>$PROJECT_DIR$/../openregistrysfu/target</output-path>
+      <output-path>$USER_HOME$/work/java-apps/openregistrysfu/target</output-path>
       <root id="archive" name="openregistrysfu.war">
         <element id="artifact" artifact-name="openregistrysfu:war exploded" />
       </root>
     </artifact>
     <artifact type="exploded-war" name="openregistrysfu:war exploded">
-      <output-path>$PROJECT_DIR$/../openregistrysfu/target/openregistrysfu</output-path>
+      <output-path>$USER_HOME$/work/java-apps/openregistrysfu/target/openregistrysfu</output-path>
       <root id="root">
         <element id="javaee-facet-resources" facet="openregistrysfu/web/Web" />
         <element id="directory" name="WEB-INF">
@@ -531,6 +531,7 @@
   <component name="CopyrightManager" default="">
     <module2copyright />
   </component>
+  <component name="CppTools.Loader" reportImplicitCastToBool="false" reportNameReferencedOnce="false" version="3" compilerSelect="AUTO" />
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
@@ -552,7 +553,7 @@
         <modules>
           <module name="openregistrysfu">
             <directories>
-              <directory url="file://$PROJECT_DIR$/../openregistrysfu/overlays" />
+              <directory url="file://$USER_HOME$/work/java-apps/openregistrysfu/overlays" />
             </directories>
           </module>
         </modules>
@@ -561,7 +562,7 @@
         <modules>
           <module name="openregistrysfu">
             <directories>
-              <directory url="file://$PROJECT_DIR$/../openregistrysfu/overlays" />
+              <directory url="file://$USER_HOME$/work/java-apps/openregistrysfu/overlays" />
             </directories>
           </module>
         </modules>
@@ -570,7 +571,7 @@
         <modules>
           <module name="openregistrysfu">
             <directories>
-              <directory url="file://$PROJECT_DIR$/../openregistrysfu/overlays" />
+              <directory url="file://$USER_HOME$/work/java-apps/openregistrysfu/overlays" />
             </directories>
           </module>
         </modules>
@@ -579,7 +580,7 @@
         <modules>
           <module name="openregistrysfu">
             <directories>
-              <directory url="file://$PROJECT_DIR$/../openregistrysfu/overlays" />
+              <directory url="file://$USER_HOME$/work/java-apps/openregistrysfu/overlays" />
             </directories>
           </module>
         </modules>
@@ -588,7 +589,7 @@
         <modules>
           <module name="openregistrysfu">
             <directories>
-              <directory url="file://$PROJECT_DIR$/../openregistrysfu/overlays" />
+              <directory url="file://$USER_HOME$/work/java-apps/openregistrysfu/overlays" />
             </directories>
           </module>
         </modules>
@@ -597,7 +598,7 @@
         <modules>
           <module name="openregistrysfu">
             <directories>
-              <directory url="file://$PROJECT_DIR$/../openregistrysfu/overlays" />
+              <directory url="file://$USER_HOME$/work/java-apps/openregistrysfu/overlays" />
             </directories>
           </module>
         </modules>
@@ -606,7 +607,7 @@
         <modules>
           <module name="openregistrysfu">
             <directories>
-              <directory url="file://$PROJECT_DIR$/../openregistrysfu/overlays" />
+              <directory url="file://$USER_HOME$/work/java-apps/openregistrysfu/overlays" />
             </directories>
           </module>
         </modules>
@@ -615,7 +616,7 @@
         <modules>
           <module name="openregistrysfu">
             <directories>
-              <directory url="file://$PROJECT_DIR$/../openregistrysfu/overlays" />
+              <directory url="file://$USER_HOME$/work/java-apps/openregistrysfu/overlays" />
             </directories>
           </module>
         </modules>
@@ -786,7 +787,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/../openregistrysfu/pom.xml" />
+        <option value="$USER_HOME$/work/java-apps/openregistrysfu/pom.xml" />
         <option value="$PROJECT_DIR$/openregistry-webapp-jasig/pom.xml" />
       </list>
     </option>
@@ -809,8 +810,6 @@
       <module fileurl="file://$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" filepath="$PROJECT_DIR$/openregistry-sor-repository-xml/openregistry-sor-repository-xml.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-test-support/openregistry-test-support.iml" filepath="$PROJECT_DIR$/openregistry-test-support/openregistry-test-support.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" filepath="$PROJECT_DIR$/openregistry-webapp/openregistry-webapp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/openregistry-webapp-jasig/openregistry-webapp-jasig.iml" filepath="$PROJECT_DIR$/openregistry-webapp-jasig/openregistry-webapp-jasig.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../openregistrysfu/openregistrysfu.iml" filepath="$PROJECT_DIR$/../openregistrysfu/openregistrysfu.iml" />
       <module fileurl="file://$PROJECT_DIR$/openregistry-support-tools/ortool.iml" filepath="$PROJECT_DIR$/openregistry-support-tools/ortool.iml" />
     </modules>
   </component>
@@ -818,7 +817,7 @@
     <output url="file://$PROJECT_DIR$/classes" />
   </component>
   <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="openregistry" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat-6.0">
+    <configuration default="false" name="openregistry" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/openregistrysfu/" />
       <option name="COMMON_VM_ARGUMENTS" value="-Xmx2048m" />
       <option name="SHOW_DIALOG_ON_UPDATE" value="false" />
