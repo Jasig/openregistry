@@ -43,8 +43,8 @@
 				<c:out value="${personToAdd.names[0].given}" /> as a new person.
 			</div>
 			<fieldset id="update">
+				<legend>Possible Matches</legend>
 				<div class="or-result-table">
-					<h4>Possible Matches</h4>
 					<display:table name="reconciliationResult.matches" id="personMatch" style="width: 50%;">
 						<display:setProperty name="css.tr.even" value="or-even-rows" />
 						<display:column title="Name" style="width: 55%"><a href="${flowExecutionUrl}&_eventId=submitAddRole&personId=${personMatch.person.id}">${personMatch.person.officialName.family}, ${personMatch.person.officialName.given}</a></display:column>
