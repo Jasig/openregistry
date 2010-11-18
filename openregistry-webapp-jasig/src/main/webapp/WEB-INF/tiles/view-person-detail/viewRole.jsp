@@ -197,7 +197,6 @@
 </div>
 
 <div>
-	<a href="${flowExecutionUrl}&_eventId=submitBack"><button><spring:message code="back.button"</button></a>
+	<a href="${flowExecutionUrl}&_eventId=submitBack"><button><spring:message code="back.button" /></button></a>
 </div>
-
 <div class="or-form-name">Form: viewRole</div>

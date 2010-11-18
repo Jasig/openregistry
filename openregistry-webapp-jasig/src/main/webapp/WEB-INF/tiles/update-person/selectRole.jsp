@@ -33,26 +33,32 @@
 <form:form modelAttribute="sorPerson">
 	<div class="ui-widget ui-widget-content ui-corner-all">
 		<h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding: 5px; margin-bottom:0;">
-			<span class="ui-dialog-title"><spring:message code="selectRole.title" /></span>
+			<span class="or-dialog-title"><spring:message code="selectRole.title" /></span>
 		</h4>
 		<div style="padding:5px;">
-			<div style="padding-bottom: 5px;">Select a role for ${sorPerson.formattedName}</div>
-			<div class="field_set group" style="margin-bottom: 5px;">
-				<div class="or-field-container">
-					<label for="c1_affiliation" class="or-field-label-above"><spring:message code="role.label"/></label>
-					<select name="roleInfoCode" id="c1_affiliation" class="or-field-content">
-						<c:forEach var="roleInfoItem" items="${roleInfos}">
-							<option value="${roleInfoItem.code}">${roleInfoItem.displayableName}</option>
-						</c:forEach>
-					</select>
-				</div>
-
-				<input type="hidden" name="_eventId" value="submitSelectRole"/>
-				<button id="fm-search-submit1"><spring:message code="addRole.button" /></button>
+			<div class="or-banner">
+					${sorPerson.formattedName}
 			</div>
 
-			<div>
-				<h4>Current Roles</h4>
+			<fieldset>
+				<legend>Select a Role</legend>
+				<div class="or-fieldgroup group" style="margin-bottom: 5px;">
+					<div class="or-field-container" style="min-width: 250px;">
+						<label for="c1_affiliation" class="or-field-label-above"><spring:message code="role.label"/></label>
+						<select name="roleInfoCode" id="c1_affiliation" class="or-field-content">
+							<c:forEach var="roleInfoItem" items="${roleInfos}">
+								<option value="${roleInfoItem.code}">${roleInfoItem.displayableName}</option>
+							</c:forEach>
+						</select>
+					</div>
+
+					<input type="hidden" name="_eventId" value="submitSelectRole"/>
+					<button id="fm-search-submit1"><spring:message code="addRole.button" /></button>
+				</div>
+			</fieldset>
+			<div style="margin-bottom:5px;"></div>
+			<fieldset>
+				<legend>Current Roles</legend>
 				<p style="margin-bottom:0;">${sorPerson.formattedName} <spring:message code="existingRoles.heading"/></p>
 				<c:choose>
 					<c:when test="${not empty sorPerson.roles}">
@@ -83,7 +89,7 @@
 					</c:when>
 					<c:otherwise><spring:message code="noRolesDefined.label"/><br/><br/></c:otherwise>
 				</c:choose>
-			</div>
+			</fieldset>
 		</div>
 	</div>
 </form:form>

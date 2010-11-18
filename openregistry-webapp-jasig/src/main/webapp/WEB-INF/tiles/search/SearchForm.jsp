@@ -66,7 +66,7 @@
 		<form:errors path="*" element="div" id="or-message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false" />
 		<fieldset id="searchFields">
 			<legend><spring:message code="find.person.filter.legend" /></legend>
-			<div class="field_set group">
+			<div class="or-fieldgroup group">
 				<div class="or-field-container">
 					<form:label path="identifierValue" cssClass="or-field-label-above" cssErrorClass="or-field-label-error-above"><spring:message code="person.biodem.identifier.label" /></form:label>
 					<form:input path="identifierValue" cssClass="or-field-content" cssErrorClass="or-field-content-error" placeholder="id" />

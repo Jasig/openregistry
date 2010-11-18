@@ -22,6 +22,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 
 <script type="text/javascript">
 	$(function() {
@@ -31,35 +32,39 @@
 </script>
 
 <form:form modelAttribute="reconciliationResult" >
-	<fieldset id="update">
-		<legend>
-			<span>
-				<spring:message code="personMatches.heading"/>
-				<span style="color:#000;"><c:out value="${personToAdd.names[0].family}" />, <c:out value="${personToAdd.names[0].given}" /></span>
-			</span>
-		</legend>
-		<div>
-			<table>
-				<tr>
-					<th><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="nameColumn.label"/></span></th>
-					<th><span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="genderColumn.label"/></span></th>
-				</tr>
-				<c:forEach var="personMatch" items="${reconciliationResult.matches}">
-					<tr>
-						<td valign="top"><a href="${flowExecutionUrl}&_eventId=submitAddRole&personId=${personMatch.person.id}">${personMatch.person.officialName.family},${personMatch.person.officialName.given}</a></td>
-						<td valign="top"><c:out value="${personMatch.person.gender}" /></td>
-					</tr>
-				</c:forEach>
-			</table>
+	<div class="ui-widget ui-widget-content ui-corner-all">
+		<h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding: 5px; margin-bottom:0;">
+			<span class="or-dialog-title"><spring:message code="personMatches.title" /></span>
+		</h4>
+		<div style="padding: 5px;">
+			<div class="or-instructions" style="margin-bottom: 5px;" >
+				Possible matches were found in the system. If you think one of the following is the person you are adding,
+				click on the name of the person or click "Create New Person" to add <c:out value="${personToAdd.names[0].family}" />,
+				<c:out value="${personToAdd.names[0].given}" /> as a new person.
+			</div>
+			<fieldset id="update">
+				<div class="or-result-table">
+					<h4>Possible Matches</h4>
+					<display:table name="reconciliationResult.matches" id="personMatch" style="width: 50%;">
+						<display:setProperty name="css.tr.even" value="or-even-rows" />
+						<display:column title="Name" style="width: 55%"><a href="${flowExecutionUrl}&_eventId=submitAddRole&personId=${personMatch.person.id}">${personMatch.person.officialName.family}, ${personMatch.person.officialName.given}</a></display:column>
+						<display:column title="Gender" property="person.gender" style="width: 15%" />
+						<display:column title="Birthday" style="width: 30%">?</display:column>
+					</display:table>
+				</div>
+			</fieldset>
+			<div style="margin-top: 5px;"></div>
+			<fieldset>
+				<div>
+					<div>The person to be added does not match the existing records listed above, create a new person.</div>
+					<input type="submit" id="fm-search-submit1" name="_eventId_submitAddPerson" class="btn-submit" value="Create New Person"/>
+				</div>
+			</fieldset>
+			<div style="margin-top: 5px;"></div>
+			<fieldset>
+				<input type="submit" id="fm-search-cancel"  name="_eventId_cancelAddPerson" class="btn-cancel" value="Cancel"/>
+			</fieldset>
 		</div>
-		<div class="row">
-			<label class="desc2" for="c1_startdate"><span style="color:#000; font-size:1.2em;"><spring:message code="personMatches.addAnyway"/></span></label>
-		</div>
-	</fieldset>
-	<br/>
-	<div class="row fm-v" style="clear:both;">
-		<input style="float:left;" type="submit" id="fm-search-submit1" name="_eventId_submitAddPerson" class="btn-submit" value="Add Person" tabindex="11"/>
-		<input style="float:left;" type="submit" id="fm-search-cancel"  name="_eventId_cancelAddPerson" class="btn-cancel" value="Cancel" tabindex="11"/>
 	</div>
 </form:form>
 <div class="or-form-name">Form: matches</div>
