@@ -1,5 +1,4 @@
 /* @override 
-	http://localhost:8080/openregistrysfu/css/or_base.css
 	http://localhost:8080/openregistrysfu/themes/jasig/jasig-theme.css
 */
 
@@ -21,20 +20,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-/*
-
-	NAME:	or_base.css
-	DESC:	Base CSS for generic OpenRegistry theme
-	AUTHOR:	Graham Ballantyne (grahamb@sfu.ca)
-
-
-	COLORS:
-		base: #D4DDE4
-		input background focus: #ecf6fe
-		input border focus/hover: #a6c6fd
-
-*/
 
 /* RESET -------------------------------------------------------------------------------------- */
 /* Based on Dan Cederholm's (simplebits.com) reset.css                                          */
@@ -130,6 +115,24 @@ blockquote,q{quotes:none;}
 }
 
 #or-header h1 { margin: 0; }
+
+.or-dialog-title {
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.or-banner {
+	padding: 3px;
+	margin-bottom: 5px;
+	border: 1px solid rgba(123,139,80,0.5);
+	background-color: rgba(123,139,80,0.25);
+	color: black;
+	font-weight: bold;
+	font-size: 1.1em;
+ 	-moz-border-radius: 4px; 
+ 	-webkit-border-radius: 4px; 
+ 	border-radius: 4px; 
+}
 
 /* MAIN, MAIN>NAV, MAIN>CONTENT */
 #or-main {
@@ -237,23 +240,6 @@ a {
 	text-decoration: none;
 }
 
-#calculated-person{
-	padding-right: 5px;
-	padding-left: 5px;
-}
-
-.sor-person{
-	padding: 5px;
-}
-
-.box{
-	padding:10px;
-/*border: 1px solid #ccc;*/
-/*border-radius: 4px;*/
-/*-webkit-border-radius: 4px;*/
-/*-moz-border-radius: 4px;*/
-}
-
 .padded{
 	padding-bottom:10px;
 }
@@ -271,6 +257,10 @@ a {
 /* FORMS ----------------------------------------------------------------------- */
 fieldset {
 	border: 1px solid rgba(123,139,80,0.5);
+	text-align: bottom;
+ 	-moz-border-radius: 4px; 
+ 	-webkit-border-radius: 4px; 
+ 	border-radius: 4px; 
 }
 
 legend {
@@ -285,8 +275,16 @@ legend {
 	min-height: 42px;
 	border: 1px solid rgba(123,139,80,0.5);
 }
+.or-inline-field-container {
+	border: 1px solid rgba(123,139,80,0.5);
+}
 .or-field-label-above {
 	display: block;
+	padding: 2px;
+	color: #7b8b50;
+	background-color: rgba(123,139,80,0.25);
+}
+.or-field-label {
 	padding: 2px;
 	color: #7b8b50;
 	background-color: rgba(123,139,80,0.25);
@@ -301,14 +299,14 @@ legend {
 	color: red;
 }
 
-.field_set div {
-	float: left;
-	/*padding: 0 15px 0 0;*/
+.or-fieldgroup {
+	
 }
 
-.fieldset {
-	text-align: bottom;
-}
+/*.field_set div {
+	float: left;
+	padding: 0 15px 0 0;
+}*/
 
 input[type=text], input[type=password] {
 	font-family: inherit;
@@ -388,7 +386,7 @@ tbody.zebra tr:nth-child(even) {
 	background-color: #eee;
 }
 
-.even-rows{
+.or-even-rows{
 	background-color: rgba(123,139,80,0.25);
 }
 
@@ -416,13 +414,3 @@ tbody.zebra tr:nth-child(even) {
 #or-message div {
 	height: 40px;
 }
-
-
-
-
-
-
-
-
-
-/*   ~gnb~   */

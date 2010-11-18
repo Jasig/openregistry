@@ -76,9 +76,9 @@
 
 <div class="ui-widget ui-widget-content ui-corner-all">
 	<h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding: 5px;">
-		<span class="ui-dialog-title"><spring:message code="person.detail.title" /></span>
+		<span class="or-dialog-title"><spring:message code="person.detail.title" /></span>
 	</h4>
-	<div id="calculated-person">
+	<div style="padding:5px;">
 		<c:set var="officialName" value="${person.officialName}"  />
 		<c:set var="preferredName" value="${person.preferredName}" />
 		<div class="group" style="margin-bottom:5px;">

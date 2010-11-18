@@ -33,8 +33,11 @@
 <form:form modelAttribute="role" commandName="role" method="post">
 	<div class="ui-widget ui-widget-content ui-corner-all">
 		<h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding: 5px; margin-bottom:0;">
-			<span class="ui-dialog-title"><spring:message code="addRolePage.heading" /></span>
+			<span class="or-dialog-title"><spring:message code="addRolePage.heading" /></span>
 		</h4>
+		<div class="or-banner">
+			<c:out value="${sorPerson.formattedName}" />
+		</div>
 		<div style="padding: 5px;">
 			<div style="padding-bottom: 5px;">
 			<span style="font-weight:bold;"><spring:message code="addRole.label"/></span> <c:out value="${role.affiliationType.description}"/>
@@ -51,7 +54,7 @@
 			<fieldset class="fm-h" id="ecn1">
 				<legend><spring:message code="specifyRoleInfo.heading"/></legend>
 
-				<div class="field_set group" style="margin-bottom: 5px;">
+				<div class="or-fieldgroup group" style="margin-bottom: 5px;">
 					<div class="or-field-container" style="width:100px;">
 						<label for="c1_startdate" class="or-field-label-above"><spring:message code="startDate.label"/><span class="or-required-field-marker">*</span></label>
 						<form:input path="start" id="c1_startdate" size="10" maxlength="10" tabindex="1"/>
@@ -73,14 +76,14 @@
 					</div>
 				</div>
 
-				<div class="field_set group" style="margin-bottom: 5px;">
+				<div class="or-fieldgroup group" style="margin-bottom: 5px;">
 					<div class="or-field-container" style="width:207px;">
 						<label for="c1_sponsor" class="or-field-label-above"><spring:message code="sponsor.label" /><span class="or-required-field-marker">*</span></label>
 						<div class="select sponsor"><form:select path="sponsorId" id="c1_sponsor" items="${sponsorList}" itemValue="id" itemLabel="formattedName" size="1" tabindex="3" /></div>
 					</div>
 				</div>
 
-				<div class="field_set group">
+				<div class="or-fieldgroup group">
 					<div class="or-field-container" style="width:207px;">
 						<form:label cssClass="or-field-label-above"  path="emailAddresses[0].address" cssErrorClass="labelError"><spring:message code="campusEmail.label" /><span class="or-required-field-marker">*</span></form:label>
 						<form:input path="emailAddresses[0].address" id="c1_email" size="20" maxlength="30" tabindex="6" cssErrorClass="fieldError"/>
@@ -92,7 +95,7 @@
 
 			<fieldset id="e_cell" style="margin-bottom:5px;">
 				<legend><spring:message code="localAddressInfo.heading"/></legend>
-				<div class="field_set group" style="margin-bottom: 5px;">
+				<div class="or-fieldgroup group" style="margin-bottom: 5px;">
 					<div class="or-field-container" style="width:250px;">
 						<label for="c1_address1" class="or-field-label-above"><spring:message code="addressLine1.label"/></label>
 						<form:input path="addresses[0].line1" id="c1_address1" size="30" maxlength="30" tabindex="8" />
@@ -107,7 +110,7 @@
 					</div>
 				</div>
 
-				<div class="field_set group" style="margin-bottom: 5px;">
+				<div class="or-fieldgroup group" style="margin-bottom: 5px;">
 					<div class="or-field-container" style="width:250px;">
 						<label for="c1_city" class="or-field-label-above"><spring:message code="city.label"/></label>
 						<form:input path="addresses[0].city" id="c1_city" size="30" maxlength="30" tabindex="11" />
@@ -122,7 +125,7 @@
 					</div>
 				</div>
 
-				<div class="field_set group" style="margin-bottom: 5px;">
+				<div class="or-fieldgroup group" style="margin-bottom: 5px;">
 					<div class="or-field-container" style="width:357px;">
 						<label for="c1_country" class="or-field-label-above"><spring:message code="country.label"/></label>
 						<div class="select country">
@@ -131,7 +134,7 @@
 					</div>
 				</div>
 
-				<div class="field_set group">
+				<div class="or-fieldgroup group">
 					<div class="or-field-container" style="width:93px;">
 						<label for="c1_cccode" class="or-field-label-above"><spring:message code="ccCode.label"/><span class="or-required-field-marker">*</span></label>
 						<form:input path="phones[0].countryCode" id="c1_cccode" size="5" maxlength="5" tabindex="15" />

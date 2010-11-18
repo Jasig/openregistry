@@ -40,7 +40,7 @@
 <form:form modelAttribute="reconciliationCriteria" commandName="reconciliationCriteria" method="post">
 	<div class="ui-widget ui-widget-content ui-corner-all">
 		<h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding: 5px; margin-bottom:0;">
-			<span class="ui-dialog-title"><spring:message code="addPersonPage.heading" /></span>
+			<span class="or-dialog-title"><spring:message code="addPersonPage.heading" /></span>
 		</h4>
 		<div style="padding: 5px;">
 			<p class="or-instructions">
@@ -48,7 +48,7 @@
 			</p>
 
 			<form:errors path="*" element="div" id="or-message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false"/>
-			<div class="field_set group" style="margin-bottom: 5px;">
+			<div class="or-fieldgroup group" style="margin-bottom: 5px;">
 				<div class="or-field-container field-width-1">
 					<form:label cssClass="or-field-label-above" path="sorPerson.names[0].prefix" cssErrorClass="or-field-label-error-above">
 						<spring:message code="prefix.label" />
@@ -79,7 +79,7 @@
 					<form:input path="sorPerson.names[0].suffix" cssClass="or-field-content" cssErrorClass="or-field-content-error" size="15" maxlength="30" tabindex="5"/>
 				</div>
 			</div>
-			<div class="field_set group" style="margin-bottom: 5px;">
+			<div class="or-fieldgroup group" style="margin-bottom: 5px;">
 				<div class="or-field-container field-width-1">
 					<form:label path="sorPerson.gender" cssClass="or-field-label-above" cssErrorClass="or-field-label-error-above"><spring:message code="gender.label" />
 						<span class="or-required-field-marker">*</span></form:label>

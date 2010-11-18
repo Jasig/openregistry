@@ -31,7 +31,7 @@
 
 <div class="ui-widget ui-widget-content ui-corner-all">
 	<h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding: 5px; margin-bottom:0;">
-		<span class="ui-dialog-title"><spring:message code="manage.people.title" /></span>
+		<span class="or-dialog-title"><spring:message code="manage.people.title" /></span>
 	</h4>
 
 	<div style="padding: 5px;">
