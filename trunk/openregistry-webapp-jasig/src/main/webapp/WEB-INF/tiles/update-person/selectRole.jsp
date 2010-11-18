@@ -59,9 +59,9 @@
 			<div style="margin-bottom:5px;"></div>
 			<fieldset>
 				<legend>Current Roles</legend>
-				<p style="margin-bottom:0;">${sorPerson.formattedName} <spring:message code="existingRoles.heading"/></p>
 				<c:choose>
 					<c:when test="${not empty sorPerson.roles}">
+						<p style="margin-bottom:0;">${sorPerson.formattedName} <spring:message code="existingRoles.heading"/></p>
 						<div>
 							<table class="data" cellspacing="0" width="60%">
 								<thead>
@@ -87,7 +87,9 @@
 							</table>
 						</div>
 					</c:when>
-					<c:otherwise><spring:message code="noRolesDefined.label"/><br/><br/></c:otherwise>
+					<c:otherwise>
+						<span class="or-text"><spring:message code="noRolesDefined.label"/></span>
+					</c:otherwise>
 				</c:choose>
 			</fieldset>
 		</div>

@@ -25,14 +25,13 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 
 <c:if test="${searchResults ne null}">
-	<div class="or-result-table ui-widget ui-widget-content ui-corner-all">
-		<h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding:5px;">
-			<span class="or-dialog-title"><spring:message code="find.person.headers.results" /></span>
-		</h4>
+	<div class="or-result-table">
+	<fieldset>
+		<legend><spring:message code="find.person.headers.results" /></legend>
 		<div style="padding: 0;">
-			<div class="table-status" style="padding:0 5px 5px 5px;">Records found: ${fn:length(searchResults)}</div>
+			<div class="or-table-status" style="padding:0 5px 5px 5px;">Records found: ${fn:length(searchResults)}</div>
 			<c:if test="${fn:length(searchResults) > 0}">
-				<display:table name="searchResults" id="personMatch" htmlId="find_person_results_table" requestURI="" style="margin-left:-1px; margin-right:0; ">
+				<display:table name="searchResults" id="personMatch" htmlId="find_person_results_table" requestURI="">
 					<display:setProperty name="basic.msg.empty_list" value="Your search returned no results." />
 					<display:setProperty name="css.tr.even" value="or-even-rows" />
 					<display:column>${personMatch_rowNum}.</display:column>
@@ -47,5 +46,6 @@
 				</display:table>
 			</c:if>
 		</div>
+	</fieldset>
 	</div>
 </c:if>

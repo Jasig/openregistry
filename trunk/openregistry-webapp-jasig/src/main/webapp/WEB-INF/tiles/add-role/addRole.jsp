@@ -35,15 +35,13 @@
 		<h4 class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="padding: 5px; margin-bottom:0;">
 			<span class="or-dialog-title"><spring:message code="addRolePage.heading" /></span>
 		</h4>
-		<div class="or-banner">
-			<c:out value="${sorPerson.formattedName}" />
-		</div>
 		<div style="padding: 5px;">
-			<div style="padding-bottom: 5px;">
+			<div class="or-banner">
+				<c:out value="${sorPerson.formattedName}" />
+			</div>
 			<span style="font-weight:bold;"><spring:message code="addRole.label"/></span> <c:out value="${role.affiliationType.description}"/>
 			<span style="font-weight:bold;"><spring:message code="title.label" /></span> <c:out value="${role.title}"/>
 			<span style="font-weight:bold;"><spring:message code="to.label" /></span> <c:out value="${sorPerson.formattedName}"/>
-			</div>
 
 			<p class="or-instructions">
 				<spring:message code="requiredFields.heading" /><span class="or-required-field-marker">*</span>.
@@ -51,7 +49,7 @@
 
 			<form:errors path="*" element="div" id="or-message" cssClass="or-error-message ui-state-error ui-corner-all" htmlEscape="false"/>
 
-			<fieldset class="fm-h" id="ecn1">
+			<fieldset>
 				<legend><spring:message code="specifyRoleInfo.heading"/></legend>
 
 				<div class="or-fieldgroup group" style="margin-bottom: 5px;">
@@ -159,13 +157,12 @@
 			<input type="hidden" name="_eventId" value="submitAddRole" />
 			<button id="fm-search-submit1"><spring:message code="addRole.button" /></button>
 			<a href="${flowExecutionUrl}&_eventId=cancelAddRole"><button id="cancel-button"><spring:message code="cancel.button" /></button></a>
-
 				<%--
-					 <div class="row fm-v" style="clear:both;">
-						 <input style="float:left;" type="submit" id="fm-search-submit1" name="_eventId_submitAddRole" class="btn-submit" value="Add Role" tabindex="19"/>
-						 <input style="float:left;" type="submit" id="fm-search-cancel"  name="_eventId_cancelAddRole" class="btn-cancel" value="Cancel" tabindex="20"/>
-					 </div>
-				 --%>
+				<div class="row fm-v" style="clear:both;">
+					<input style="float:left;" type="submit" id="fm-search-submit1" name="_eventId_submitAddRole" class="btn-submit" value="Add Role" tabindex="19"/>
+					<input style="float:left;" type="submit" id="fm-search-cancel"  name="_eventId_cancelAddRole" class="btn-cancel" value="Cancel" tabindex="20"/>
+				</div>
+				--%>
 		</div>
 	</div>
 </form:form>
