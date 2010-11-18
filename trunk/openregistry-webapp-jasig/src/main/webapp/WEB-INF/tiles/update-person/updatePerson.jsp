@@ -31,16 +31,23 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<script type="text/javascript">
+	$(function() {
+		$("#updateButton").button();
+		$("#backButton").button();
+	});
+</script>
+
 <form:form modelAttribute="sorPerson">
 	<fieldset>
-		<legend><span><spring:message code="updatePersonPage.heading" /></span></legend>
+		<legend><spring:message code="updatePersonPage.heading" /></legend>
 		<p>
-			<spring:message code="requiredFields.heading" /><span class="or-required-field-marker">*</span>.
+			<spring:message code="requiredFields.heading" /> <span class="or-required-field-marker">*</span>.
 		</p>
 		<fieldset>
 			<div class="padded">
 				<strong>
-					<spring:message code="name.heading" /><input id="addNameBtn" type="image" name="_eventId_submitAddName" src="images/add2.gif" title="add a name" />
+					<spring:message code="name.heading" /> <input id="addNameBtn" type="image" name="_eventId_submitAddName" src="images/add2.gif" title="add a name" />
 				</strong>
 
 				<table>
@@ -55,7 +62,7 @@
 						<th></th>
 					</tr>
 					</thead>
-					<tbody class="zebra">
+					<tbody>
 					<c:forEach var="sorName" items="${sorPerson.names}" varStatus="sorPersonLoopStatus">
 						<tr>
 							<td><form:select path="names[${sorPersonLoopStatus.index}].prefix">
@@ -86,7 +93,7 @@
 
 			<div class="padded">
 				<strong>
-					<spring:message code="roles.heading" /><input id="addRoleBtn" type="image" name="_eventId_submitAddRole" src="images/add2.gif" title="add a role" />
+					<spring:message code="roles.heading" /> <input id="addRoleBtn" type="image" name="_eventId_submitAddRole" src="images/add2.gif" title="add a role" />
 				</strong>
 
 				<table>
@@ -99,25 +106,22 @@
 						<th><spring:message code="actions.label" /></th>
 					</tr>
 					</thead>
-					<tbody class="zebra">
+					<tbody>
 					<c:forEach var="role" items="${sorPerson.roles}">
 						<tr>
-							<td>
-								<a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}">${role.title}/${role.organizationalUnit.name}</a>
-							</td>
+							<td><a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}">${role.title}/${role.organizationalUnit.name}</a></td>
 							<td>${role.campus.name}</td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${role.start}" /></td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${role.end}" /></td>
-							<td>
-								<a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}"><spring:message code="edit.label" /></a>
-							</td>
+							<td><a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}"><spring:message code="edit.label" /></a></td>
 						</tr>
 					</c:forEach>
 					</tbody>
 				</table>
 			</div>
 
-			<div class="padded"><strong><spring:message code="biodem.heading" /></strong>
+			<div class="padded">
+				<strong><spring:message code="biodem.heading" /></strong>
 				<table>
 					<thead>
 					<tr>
@@ -125,9 +129,9 @@
 						<th><spring:message code="value.label" /></th>
 					</tr>
 					</thead>
-					<tbody class="zebra">
+					<tbody>
 					<tr>
-						<td><spring:message code="dateOfBirth.label" /><span class="or-required-field-marker">*</span></td>
+						<td><spring:message code="dateOfBirth.label" /> <span class="or-required-field-marker">*</span></td>
 						<td><form:input path="dateOfBirth" size="12" maxlength="10" /></td>
 					</tr>
 					<tr>
@@ -142,7 +146,8 @@
 				</table>
 			</div>
 
-			<div class="padded"><strong><spring:message code="identifiers.heading" /></strong>
+			<div class="padded">
+				<strong><spring:message code="identifiers.heading" /></strong>
 				<table>
 					<thead>
 					<tr>
@@ -150,7 +155,7 @@
 						<th><spring:message code="value.label" /></th>
 					</tr>
 					</thead>
-					<tbody class="zebra">
+					<tbody>
 					<tr>
 						<td><spring:message code="ssn.label" /></td>
 						<td><form:input path="ssn" size="11" maxlength="9" /></td>
@@ -168,8 +173,8 @@
 	</fieldset>
 
 	<div class="center">
-		<a href="${flowExecutionUrl}&_eventId=submitUpdatePerson"><button>Update</button></a>
-		<a href="${flowExecutionUrl}&_eventId=backNoChange"><button>Back</button></a>
+		<a href="${flowExecutionUrl}&_eventId=submitUpdatePerson"><button id="updateButton"><spring:message code="update.button" /></button></a>
+		<a href="${flowExecutionUrl}&_eventId=backNoChange"><button id="backButton"><spring:message code="back.button" /></button></a>
 	</div>
 </form:form>
 <div class="or-form-name">Form: updatePerson</div>

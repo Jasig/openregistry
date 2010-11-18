@@ -31,14 +31,20 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<script type="text/javascript">
+	$(function() {
+		$("#backButton").button();
+	});
+</script>
+
 <div id="view-role">
 	<h3><spring:message code="viewRolePage.heading"/></h3>
 
 	<div class="padded"><strong><spring:message code="person.label" /></strong> <c:out value="${formattedName}" /></div>
 
-	<div class="padded"> <strong><c:out value="${viewRoleTitle}" />: </strong><c:out value="${role.title}" />/<c:out value="${role.organizationalUnit.name}" />/<c:out value="${role.campus.name}" /></div>
+	<div class="padded"> <strong><c:out value="${viewRoleTitle}" />: </strong> <c:out value="${role.title}" />/<c:out value="${role.organizationalUnit.name}" />/<c:out value="${role.campus.name}" /></div>
 
-	<div class="box">
+	<div>
 		<h5><spring:message code="roleInformation.heading" /></h5>
 		<table>
 			<thead>
@@ -70,7 +76,7 @@
 		</table>
 	</div>
 
-	<div class="box">
+	<div>
 		<h5><spring:message code="emailAddress.heading" /></h5>
 		<table width="50%">
 			<thead>
@@ -89,7 +95,7 @@
 		</table>
 	</div>
 
-	<div class="box">
+	<div>
 		<h5><spring:message code="phones.heading" /></h5>
 		<table width="50%">
 			<thead>
@@ -111,7 +117,7 @@
 		</table>
 	</div>
 
-	<div class="box">
+	<div>
 		<h5><spring:message code="address.heading" /></h5>
 		<c:choose>
 			<c:when test="${not empty role.addresses}">
@@ -136,7 +142,7 @@
 		</c:choose>
 	</div>
 
-	<div class="box">
+	<div>
 		<h5><spring:message code="urls.heading" /></h5>
 		<c:choose>
 			<c:when test="${not empty role.urls}">
@@ -162,7 +168,7 @@
 		</c:choose>
 	</div>
 
-	<div class="box">
+	<div>
 		<h5><spring:message code="leaves.heading" /></h5>
 		<c:choose>
 			<c:when test="${not empty role.leaves}">
@@ -197,6 +203,6 @@
 </div>
 
 <div>
-	<a href="${flowExecutionUrl}&_eventId=submitBack"><button><spring:message code="back.button" /></button></a>
+	<a href="${flowExecutionUrl}&_eventId=submitBack"><button id="backButton"><spring:message code="back.button" /></button></a>
 </div>
 <div class="or-form-name">Form: viewRole</div>
