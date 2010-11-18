@@ -38,11 +38,7 @@
 <div id="or-nav" class="ui-buttonset" style="height:30px;">
 	<c:set var="current" value="Page Value" scope="page" />
 
-	<ul>
-		<li id="searchtitle">
-			<a href="<c:url value="/findAndViewPersonDetail.htm" />">
-				<spring:message code="manage.people.button" />
-			</a>
-		</li>
-	</ul>
+	<a href="<c:url value="/findAndViewPersonDetail.htm" />">
+		<button id="searchtitle"><spring:message code="manage.people.button" /></button>
+	</a>
 </div>
