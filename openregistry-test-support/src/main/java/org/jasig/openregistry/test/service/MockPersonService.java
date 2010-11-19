@@ -1,6 +1,7 @@
 package org.jasig.openregistry.test.service;
 
 import org.jasig.openregistry.test.domain.MockPerson;
+import org.jasig.openregistry.test.domain.MockSorPerson;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.PersonNotFoundException;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
@@ -36,7 +37,7 @@ public class MockPersonService implements PersonService {
 
     @Override
     public Person findPersonById(Long id) {
-        return new MockPerson();
+        return this.providedMockPerson != null ? this.providedMockPerson : new MockPerson(-1000L);
     }
 
     @Override
@@ -111,12 +112,12 @@ public class MockPersonService implements PersonService {
 
     @Override
     public ServiceExecutionResult<Person> addPerson(ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException {
-        return simulateAddingAPerson();
+        return simulateAddingAPerson(reconciliationCriteria != null);
     }
 
     @Override
     public ServiceExecutionResult<Person> forceAddPerson(ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException, IllegalStateException {
-        return simulateAddingAPerson();
+        return simulateAddingAPerson(reconciliationCriteria != null);
     }
 
     @Override
@@ -130,8 +131,28 @@ public class MockPersonService implements PersonService {
     }
 
     @Override
-    public ServiceExecutionResult<SorPerson> updateSorPerson(SorPerson sorPerson) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public ServiceExecutionResult<SorPerson> updateSorPerson(final SorPerson sorPerson) {
+        return new ServiceExecutionResult<SorPerson>() {
+            @Override
+            public Date getExecutionDate() {
+                return new Date();
+            }
+
+            @Override
+            public boolean succeeded() {
+                return sorPerson != null;
+            }
+
+            @Override
+            public SorPerson getTargetObject() {
+                return succeeded() ? new MockSorPerson(-2000L) : null;
+            }
+
+            @Override
+            public Set<ConstraintViolation> getValidationErrors() {
+                return Collections.emptySet();
+            }
+        };
     }
 
     @Override
@@ -169,16 +190,16 @@ public class MockPersonService implements PersonService {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private ServiceExecutionResult<Person> simulateAddingAPerson() {
+    private ServiceExecutionResult<Person> simulateAddingAPerson(final boolean successful) {
         return new ServiceExecutionResult<Person>() {
             @Override
             public Date getExecutionDate() {
-                return null;
+                return new Date();
             }
 
             @Override
             public boolean succeeded() {
-                return true;
+                return successful;
             }
 
             @Override
