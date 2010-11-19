@@ -62,6 +62,9 @@ public class MockSorPerson extends Entity implements SorPerson {
 
     private Map<String, String> sorLocalAttributes = new HashMap<String, String>();
 
+    public MockSorPerson() {
+    }
+
     public MockSorPerson(Long id) {
         this.id = id;
     }
