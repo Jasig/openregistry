@@ -31,7 +31,7 @@ import java.util.*;
  * Time: 11:00:47 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
+public interface SorRole extends Serializable, MutableDateRange {
 
     Long getId();
     /**
@@ -52,14 +52,14 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
      *
      * @return the identifier for the System of Record
      */
-    String getSourceSorIdentifier();
+    SystemOfRecord getSystemOfRecord();
 
     /**
      * Sets the identifier for the system of record.
      *
      * @param sorIdentifier the system of record identifier.
      */
-    void setSourceSorIdentifier(String sorIdentifier);
+    void setSystemOfRecord(SystemOfRecord systemOfRecord);
 
     /**
      * Expires the System of Record Role NOW with the provided reason.
@@ -84,8 +84,6 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
 
     void setPersonStatus(Type personStatus);
 
-    RoleInfo getRoleInfo();
-
     Long getSponsorId();
 
     Type getSponsorType();
@@ -98,9 +96,23 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
 
     void setTerminationReason(Type reason);
 
+    String getTitle();
+
+    void setTitle(String title);
+
+    OrganizationalUnit getOrganizationalUnit();
+
+    void setOrganizationalUnit(OrganizationalUnit organizationalUnit);
+
+    Type getAffiliationType();
+
+    void setAffiliationType(Type affiliationType);
+
     List<Address> getAddresses();
 
-    Address addAddress();
+    Address createAddress();
+
+    void addAddress(Address address);
 
     Address removeAddressById(final Long id);
 
@@ -112,25 +124,25 @@ public interface SorRole extends RoleInfo, Serializable, MutableDateRange {
 
     EmailAddress removeEmailAddressById(final Long id);
 
-    EmailAddress addEmailAddress();
+    EmailAddress createEmailAddress();
 
-    Phone addPhone();
+    void addEmailAddress(EmailAddress emailAddress);
+
+    Phone createPhone();
+
+    void addPhone(Phone phone);
 
     Phone removePhoneById(final Long id);
 
     List<Url> getUrls();
 
-    Url addUrl();
+    Url createUrl();
+
+    void addUrl(Url url);
 
     Url removeURLById(final Long id);
 
     List<Leave> getLeaves();
-
-    OrganizationalUnit getOrganizationalUnit();
-
-    Campus getCampus();
-
-    String getLocalCode();
 
     void addOrUpdateEmail(String emailAddress, Type emailType);
 

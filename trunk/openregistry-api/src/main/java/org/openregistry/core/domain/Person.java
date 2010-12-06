@@ -152,12 +152,20 @@ public interface Person extends Serializable {
     	throws IllegalArgumentException, IllegalStateException;
     
     /**
-     * Pick out the specific <code>Role</code> identified by provided role code
+     * Pick out the specific <code>Role</code> identified by provided affiliationType
      * from the collection of this person's roles
      *
      * @return Role of this person for the provided identifier or a null if this person does not have such a role
      */
-    Role pickOutRole(String code);
+    Role pickOutRole(Type affiliationType);
+
+    /**
+     * Pick out the specific <code>Role</code> identified by provided affiliationType
+     * from the collection of this person's roles
+     *
+     * @return Role of this person for the provided identifier or a null if this person does not have such a role
+     */
+    Role pickOutRole(String affiliation);
 
     /**
      * Finds the matching SoR Role Id for this calculated role.

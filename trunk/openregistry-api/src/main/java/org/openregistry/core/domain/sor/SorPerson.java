@@ -22,7 +22,6 @@ package org.openregistry.core.domain.sor;
 import org.openregistry.core.domain.DisclosureSettings;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
 
 import java.util.List;
@@ -165,12 +164,17 @@ public interface SorPerson {
     void setDisclosureSettingInfo(String disclosureCode, boolean isWithinGracePeriod, Date lastUpdatedDate);
 
     /**
-     * Adds an SoR Role (and returns it) based on the roleInfo.
+     * Adds an SoR Role.
      *
-     * @param roleInfo the type of role to add.
      * @return the newly created SorRole.
      */
-	SorRole addRole(RoleInfo roleInfo);
+	SorRole createRole(Type affiliationType);
+
+    /**
+     * Adds an SoR Role to SoRPerson
+     *
+     */
+	void addRole(SorRole sorRole);
 
     /**
      * Retrieves the identifier of the Calculated Person associated with this System of Record person.  Portions of the
@@ -194,11 +198,18 @@ public interface SorPerson {
     List<SorRole> getRoles();
 
     /**
-     * Find the Sor Role for a given RoleInfo code.
-     * @param code  Role Info Code.
+     * Find the Sor Role for a given affiliation
+     * @param affiliation
      * @return
      */
-    SorRole pickOutRole(String code);
+    SorRole pickOutRole(Type affiliationType);
+
+    /**
+     * Find the Sor Role for a given affiliation
+     * @param affiliation
+     * @return
+     */
+    SorRole pickOutRole(String affiliation);
 
     /**
      * Finds the SorRole by the SoR-assigned ID (or the one we assigned to it).
