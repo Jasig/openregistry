@@ -104,6 +104,7 @@ public final class ViewCompletePersonFlowTests extends AbstractXmlFlowExecutionT
     @Test
     public void testViewCompletePersonRole(){
         final Person person = mock(Person.class, RETURNS_SMART_NULLS);
+        final Role role = mock(Role.class, RETURNS_SMART_NULLS);
         final SorPerson sorPerson = mock(SorPerson.class, RETURNS_SMART_NULLS);
         final SorRole sorRole = mock(SorRole.class, RETURNS_SMART_NULLS);
         final Name name = mock(Name.class, RETURNS_SMART_NULLS);
@@ -114,15 +115,16 @@ public final class ViewCompletePersonFlowTests extends AbstractXmlFlowExecutionT
         when(name.getFormattedName()).thenReturn("Name, Test");
         when(personService.findByPersonIdAndSorIdentifier(1L, "source")).thenReturn(sorPerson);
         when(personService.findPersonById(1L)).thenReturn(person);
-        when(sorPerson.pickOutRole("roleCode")).thenReturn(sorRole);
+        when(sorPerson.pickOutRole("STAFF")).thenReturn(sorRole);
         when(sorRole.getSponsorId()).thenReturn(1L);
+        when(role.getSponsorId()).thenReturn(1L);
 
         setCurrentState("viewCompletePerson");
         getFlowScope().put("person", person);
         
         MockExternalContext context = new MockExternalContext();
         context.putRequestParameter("sorSource","source");
-        context.putRequestParameter("roleCode","roleCode");
+        context.putRequestParameter("roleAffiliation","STAFF");
 
         context.setEventId("submitViewSoRRole");
         resumeFlow(context);

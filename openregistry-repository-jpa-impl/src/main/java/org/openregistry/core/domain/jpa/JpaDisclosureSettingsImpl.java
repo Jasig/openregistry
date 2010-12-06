@@ -37,6 +37,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.envers.Audited;
 import org.openregistry.core.domain.DisclosureSettings;
+import java.io.Serializable;
 
 /**
  * Disclosure settings entity mapped to a persistence store with JPA annotations.
@@ -51,7 +52,7 @@ import org.openregistry.core.domain.DisclosureSettings;
 @Entity(name = "disclosure")
 @Table(name = "prc_disclosure", uniqueConstraints = @UniqueConstraint(columnNames = {"person_id","disclosure_code"}))
 @Audited
-public class JpaDisclosureSettingsImpl implements DisclosureSettings {
+public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prc_disclosure_records_seq")

@@ -21,7 +21,6 @@ package org.jasig.openregistry.test.domain;
 
 import org.openregistry.core.domain.DisclosureSettings;
 import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.sor.SorName;
@@ -175,9 +174,8 @@ public class MockSorPerson extends Entity implements SorPerson {
 		this.personId = personId;
 	}
 
-	public SorRole addRole(final RoleInfo roleInfo) {
+	public SorRole createRole(Type affiliationType) {
         final SorRole sorRole = new MockSorRole(1L);
-        this.roles.add(sorRole);
         return sorRole;
     }
 
@@ -185,7 +183,11 @@ public class MockSorPerson extends Entity implements SorPerson {
 		roles.add(role);
     }
 
-    public SorRole pickOutRole(String code) {
+    public SorRole pickOutRole(Type affiliationType) {
+        return null;
+    }
+
+    public SorRole pickOutRole(String affiliation) {
         return null;
     }
 

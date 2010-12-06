@@ -20,6 +20,7 @@
 package org.openregistry.core.repository;
 
 import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.sor.SystemOfRecord;
 
 import java.util.List;
 
@@ -49,19 +50,6 @@ public interface ReferenceRepository {
     Country getCountryByCode(String code);
 
     List<Country> getCountries();
-
-    List<RoleInfo> getRoleInfos();
-
-    RoleInfo getRoleInfoById(Long id);
-
-    /**
-     * Retrieves a role info by its known code and the system of record its associated with.
-     *
-     * @param systemOfRecordId the String identifier for the system of record.
-     * @param code the code the role goes by.
-     * @return the role if found, otherwise null.
-     */
-    RoleInfo getRoleInfoByCode(String systemOfRecordId, String code);
     
     List<Region> getRegions();
 
@@ -76,8 +64,7 @@ public interface ReferenceRepository {
      */
     Region getRegionByCodeOrName(String code);
 
-    // TODO we need to revisit whether we actually need this or not.
-     RoleInfo getRoleInfoByOrganizationalUnitAndTitle(OrganizationalUnit ou, String title);
+    SystemOfRecord findSystemOfRecord(String systemOfRecord);
 
     /**
      * Find a Type based on the original {@link org.openregistry.core.domain.Type.DataTypes} and the value we're

@@ -73,60 +73,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
         return null;
     }
 
-    public List<RoleInfo> getRoleInfos() {
-        return null;
-    }
-
-    public RoleInfo getRoleInfoById(final Long id) {
-        return null;
-    }
-
-    public RoleInfo getRoleInfoByCode(final String systemOfRecordId, final String code) {
-        return new RoleInfo() {
-            public String getTitle() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public OrganizationalUnit getOrganizationalUnit() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public Campus getCampus() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public Type getAffiliationType() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public String getCode() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public void setCode(String code) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public String getDisplayableName() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            public Long getId() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-
-            @Override
-            public SystemOfRecord getSystemOfRecord() {
-                return null;
-            }
-        };
-    }
-
     public List<Region> getRegions() {
-        return null;
-    }
-
-    public RoleInfo getRoleInfoByOrganizationalUnitAndTitle(final OrganizationalUnit ou, final String title) {
         return null;
     }
 
@@ -192,6 +139,10 @@ public final class MockReferenceRepository implements ReferenceRepository {
     }
 
     public IdentifierType findIdentifierType(final String identifierName) {
+        return null;
+    }
+
+    public SystemOfRecord findSystemOfRecord(String systemOfRecord){
         return null;
     }
 }

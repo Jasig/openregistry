@@ -40,8 +40,17 @@ public final class RoleRepresentation {
     @XmlAttribute(name = "role-id")
     public String roleId;
 
-    @XmlAttribute(name = "role-code")
-    public String roleCode;
+    @XmlAttribute(name = "title")
+    public String title;
+
+    @XmlAttribute(name = "organizational-unit")
+    public String organizationalUnit;
+
+    @XmlAttribute(name = "affiliation")
+    public String affiliation;
+
+    @XmlAttribute(name = "system-of-record")
+    public String systemOfRecord;
 
     @XmlAttribute(name = "start-date")
     public Date startDate;

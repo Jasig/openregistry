@@ -28,10 +28,8 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.DisclosureSettings;
 import org.openregistry.core.domain.Name;
-import org.openregistry.core.domain.RoleInfo;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.jpa.JpaDisclosureSettingsImpl;
-import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
@@ -243,17 +241,28 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         this.personId = personId;
     }
 
-    public SorRole addRole(final RoleInfo roleInfo) {
-        Assert.isInstanceOf(JpaRoleInfoImpl.class, roleInfo);
-        final JpaSorRoleImpl jpaRole = new JpaSorRoleImpl((JpaRoleInfoImpl) roleInfo, this);
-        this.roles.add(jpaRole);
-        return jpaRole;
+
+    public SorRole createRole(Type affiliationType){
+        return new JpaSorRoleImpl(affiliationType, this);
     }
 
-    public SorRole pickOutRole(String code) {
-        //TODO: Is this the correct assumption???
+    public void addRole(final SorRole sorRole) {
+        Assert.isInstanceOf(JpaSorRoleImpl.class, sorRole);
+        this.roles.add(sorRole);
+    }
+
+    public SorRole pickOutRole(String affiliation) {
         for (SorRole r : this.roles) {
-            if (r.getRoleInfo().getCode().equals(code)) {
+            if (r.getAffiliationType().getDescription().equals(affiliation)) {
+                return r;
+            }
+        }
+        return null;
+    }
+    
+    public SorRole pickOutRole(Type affiliationType) {
+        for (SorRole r : this.roles) {
+            if (r.getAffiliationType().getDescription().equals(affiliationType.getDescription())) {
                 return r;
             }
         }

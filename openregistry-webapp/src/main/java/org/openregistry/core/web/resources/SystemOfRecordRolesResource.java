@@ -172,9 +172,7 @@ public class SystemOfRecordRolesResource {
     }
 
     private void updateSorRoleWithIncomingData(final SorPerson person, final SorRole sorRole, final RoleRepresentation roleRepresentation) {
-        validRoleInfoForCodeOrThrowBadDataException(person.getSourceSor(), roleRepresentation.roleCode);
-        //TODO discuss with Scott how to 'update' role code???
-        //sorRole.setCode(roleRepresentation.roleCode);
+
         copyBasicRoleDataFromIncomingRepresentation(sorRole, roleRepresentation);
 
         //Update newEmails
@@ -198,61 +196,54 @@ public class SystemOfRecordRolesResource {
     }
 
     private SorRole buildSorRoleFrom(final SorPerson person, final RoleRepresentation roleRepresentation) {
-        RoleInfo roleInfo = validRoleInfoForCodeOrThrowBadDataException(person.getSourceSor(), roleRepresentation.roleCode);
-        final SorRole sorRole = person.addRole(roleInfo);
+        final SorRole sorRole = person.createRole(this.referenceRepository.findType(Type.DataTypes.AFFILIATION, roleRepresentation.affiliation));
         if (roleRepresentation.roleId != null) sorRole.setSorId(roleRepresentation.roleId);
-        sorRole.setSourceSorIdentifier(person.getSourceSor());
-
         copyBasicRoleDataFromIncomingRepresentation(sorRole, roleRepresentation);
         copyEmailDataFromIncomingRepresentation(sorRole, roleRepresentation.emails);
         copyPhoneDataFromIncomingRepresentation(sorRole, roleRepresentation.phones);
         copyAddressDataFromIncomingRepresentation(sorRole, roleRepresentation.addresses);
+        person.addRole(sorRole);
         return sorRole;
-    }
-
-    private RoleInfo validRoleInfoForCodeOrThrowBadDataException(final String systemOfRecordId, final String roleCode) {
-        RoleInfo roleInfo = this.referenceRepository.getRoleInfoByCode(systemOfRecordId, roleCode);
-        if (roleInfo == null) {
-            throw new WebApplicationException(
-                    new RuntimeException(String.format("The role identified by role code [%s] does not exist", roleCode)), 400);
-        }
-        return roleInfo;
     }
 
     private void copyBasicRoleDataFromIncomingRepresentation(SorRole sorRole, RoleRepresentation roleRepresentation) {
         //TODO: this is questionable - should we hardcode the status here or should it solely depend on the date range?
         sorRole.setPersonStatus(this.referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE));
+        sorRole.setTitle(roleRepresentation.title);
+        setOrganizationalUnit(sorRole, roleRepresentation.organizationalUnit);
+        setSystemOfRecord(sorRole, roleRepresentation.systemOfRecord);
         sorRole.setStart(roleRepresentation.startDate);
         if (roleRepresentation.endDate != null) sorRole.setEnd(roleRepresentation.endDate);
         if (roleRepresentation.percentage != null) sorRole.setPercentage(Integer.parseInt(roleRepresentation.percentage));
         setSponsorInfo(sorRole, this.referenceRepository.findType(Type.DataTypes.SPONSOR, roleRepresentation.sponsorType), roleRepresentation);
-
     }
 
     private void copyEmailDataFromIncomingRepresentation(SorRole sorRole, List<RoleRepresentation.Email> emailsRepresentation) {
         for (final RoleRepresentation.Email e : emailsRepresentation) {
-            final EmailAddress email = sorRole.addEmailAddress();
+            final EmailAddress email = sorRole.createEmailAddress();
             email.setAddress(e.address);
             email.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, e.type));
+            sorRole.addEmailAddress(email);
         }
 
     }
 
     private void copyPhoneDataFromIncomingRepresentation(SorRole sorRole, List<RoleRepresentation.Phone> phonesRepresentation) {
         for (final RoleRepresentation.Phone ph : phonesRepresentation) {
-            final Phone phone = sorRole.addPhone();
+            final Phone phone = sorRole.createPhone();
             phone.setNumber(ph.number);
             phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, ph.addressType));
             phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, ph.type));
             phone.setCountryCode(ph.countryCode);
             phone.setAreaCode(ph.areaCode);
             phone.setExtension(ph.extension);
+            sorRole.addPhone(phone);
         }
     }
 
     private void copyAddressDataFromIncomingRepresentation(SorRole sorRole, List<RoleRepresentation.Address> addressesRepresentation) {
         for (final RoleRepresentation.Address a : addressesRepresentation) {
-            final Address address = sorRole.addAddress();
+            final Address address = sorRole.createAddress();
             address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, a.type));
             address.setLine1(a.line1);
             address.setLine2(a.line2);
@@ -264,6 +255,7 @@ public class SystemOfRecordRolesResource {
             if (country != null) {
                 address.setRegion(referenceRepository.getRegionByCodeAndCountryId(a.regionCode, country.getCode()));
             }
+            sorRole.addAddress(address);
         }
 
     }
@@ -295,5 +287,27 @@ public class SystemOfRecordRolesResource {
             }
         }
         //TODO other sponsor types?
+    }
+
+    private void setOrganizationalUnit(SorRole sorRole, String organizationalUnitCode) {
+        try {
+            OrganizationalUnit org = referenceRepository.getOrganizationalUnitByCode(organizationalUnitCode);
+            sorRole.setOrganizationalUnit(org);
+        }
+        catch (Exception ex) {
+            throw new NotFoundException(
+            String.format("The department identified by [%s] does not exist", organizationalUnitCode));
+        }
+    }
+
+    private void setSystemOfRecord(SorRole sorRole, String systemOfRecord) {
+        try {
+            SystemOfRecord sor = referenceRepository.findSystemOfRecord(systemOfRecord);
+            sorRole.setSystemOfRecord(sor);
+        }
+        catch (Exception ex) {
+            throw new NotFoundException(
+            String.format("The system or record identified by [%s] does not exist", systemOfRecord));
+        }
     }
 }
