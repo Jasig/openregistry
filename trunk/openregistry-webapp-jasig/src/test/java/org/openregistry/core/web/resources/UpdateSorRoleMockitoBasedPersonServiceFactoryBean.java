@@ -51,12 +51,12 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
 
         //Stubbing 'good' sor role
         final SorRole mockGoodSorRole = mock(SorRole.class);
-        when(mockGoodSorRole.getCode()).thenReturn("GOOD");
+        when(mockGoodSorRole.getTitle()).thenReturn("GOOD");
         when(mockGoodSorRole.getSponsorId()).thenReturn(1L);
 
         //Stubbing 'bad' sor role
         final SorRole mockBadSorRole = mock(SorRole.class);
-        when(mockBadSorRole.getCode()).thenReturn("BAD");
+        when(mockBadSorRole.getTitle()).thenReturn("BAD");
         when(mockBadSorRole.getSponsorId()).thenReturn(1L);
 
         //Stubbing service execution result with validation errors
@@ -106,7 +106,7 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
 
         @Override
         public boolean matches(Object criteria) {
-            return (criteria == null) ? false : "GOOD".equals(((SorRole) criteria).getCode());
+            return (criteria == null) ? false : "GOOD".equals(((SorRole) criteria).getTitle());
         }
     }
 
@@ -114,7 +114,7 @@ public class UpdateSorRoleMockitoBasedPersonServiceFactoryBean implements Factor
 
         @Override
         public boolean matches(Object criteria) {
-            return (criteria == null) ? false : "BAD".equals(((SorRole) criteria).getCode());
+            return (criteria == null) ? false : "BAD".equals(((SorRole) criteria).getTitle());
         }
     }
 

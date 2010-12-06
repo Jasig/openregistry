@@ -53,6 +53,12 @@
                     <label for="c1_enddate" class="enddate"><spring:message code="endDate.label"/></label>
                     <form:input path="end" id="c1_enddate" size="10" maxlength="10" tabindex="2" />
 
+                    <label for="c1_title" class="title"><spring:message code="roleTitle.label"/></label>
+                    <form:input path="title" id="c1_title" size="10" maxlength="50" tabindex="3" />
+
+                    <label for="c1_organizationalUnit" class="organizationalUnit"><spring:message code="organizational.label"/></label>
+                    <form:input path="organizationalUnit" id="c1_organizationalUnit" size="10" maxlength="50" tabindex="4" />
+
                     <label for="c1_sponsor" class="sponsor"><spring:message code="sponsor.label" /><em>*</em></label>
                     <div class="select sponsor">
                         <form:select path="sponsor.sponsorId" id="c1_sponsor" items="${sponsorList}" itemValue="id" itemLabel="formattedName" size="1" tabindex="3" />

@@ -49,30 +49,34 @@ public final class RoleAction extends AbstractPersonServiceAction {
         super(personService);
         this.referenceRepository = referenceRepository;
     }
-
+/*
     public SorRole initSorRole(final SorPerson sorPerson, final String roleInfoCode) {
         // TODO was the source sor set already?
         final RoleInfo roleInfo = referenceRepository.getRoleInfoByCode(sorPerson.getSourceSor(), roleInfoCode);
         return addRole(sorPerson, roleInfo);
     }
-
+*/
      /**
      * Add and initialize new role.
      * @param sorPerson
      * @param roleInfo
      * @return sorRole
      */
-    protected SorRole addRole(final SorPerson sorPerson, final RoleInfo roleInfo){
-        final SorRole sorRole = sorPerson.addRole(roleInfo);
-        sorRole.setSourceSorIdentifier(AbstractPersonServiceAction.STATIC_SOR_NAME);
+    
+    protected SorRole addRole(final SorPerson sorPerson, final Type affiliationType){
+        final SorRole sorRole = sorPerson.createRole(affiliationType);
+        //sorRole.setSourceSorIdentifier(AbstractPersonServiceAction.STATIC_SOR_NAME);
         sorRole.setPersonStatus(referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE));
-        final EmailAddress emailAddress = sorRole.addEmailAddress();
+        final EmailAddress emailAddress = sorRole.createEmailAddress();
+        sorRole.addEmailAddress(emailAddress);
         emailAddress.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.CAMPUS));
-        final Phone phone = sorRole.addPhone();
+        final Phone phone = sorRole.createPhone();
         phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, Type.PhoneTypes.CELL));
         phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.CAMPUS));
-        final Address address = sorRole.addAddress();
+        sorRole.addPhone(phone);
+        final Address address = sorRole.createAddress();
         address.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.CAMPUS));
+        sorRole.addAddress(address);
         sorRole.setSponsorType(referenceRepository.findType(Type.DataTypes.SPONSOR, Type.SponsorTypes.PERSON));  // TODO handle other types OR-57
 
         //provide default values for start and end date of role
@@ -80,14 +84,15 @@ public final class RoleAction extends AbstractPersonServiceAction {
         sorRole.setStart(cal.getTime());
         cal.add(Calendar.MONTH, 6);
         sorRole.setEnd(cal.getTime());
+        sorPerson.addRole(sorRole);
         return sorRole;
     }
 
-    public boolean isRoleNewForPerson(SorPerson sorPerson, String roleInfoCode, MessageContext context) {
+    public boolean isRoleNewForPerson(SorPerson sorPerson, Type affiliationType, MessageContext context) {
         //check if person already has the role to be added.
-        logger.info("IsRoleNewForPerson: code:"+ roleInfoCode);
+        logger.info("IsRoleNewForPerson: affiliation:"+ affiliationType);
         final Person person = getPersonService().findPersonById(sorPerson.getPersonId());
-        if (person.pickOutRole(roleInfoCode) != null){
+        if (person.pickOutRole(affiliationType) != null){
             context.addMessage(new MessageBuilder().error().code("roleAlreadyExists").build());
             return false;
         }

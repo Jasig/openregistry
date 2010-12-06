@@ -28,30 +28,28 @@
     <input name="sorPerson" />
 
     <view-state id="selectRole" model="sorPerson" view="openregistry.person.update.selectRole">
-        <binder>
-            <binding property="roleInfo" converter="roleConverter" required="true" />
-        </binder>
         <on-entry>
             <set name="viewScope.command" value="'sorPerson'" />
+            <evaluate expression="referenceRepository.getTypesBy(Type.DataTypes.AFFILIATION)" result="flowScope.affiliationList" />
         </on-entry>
         <transition on="submitUpdateRole" to="updateRole" >
             <set name="requestScope.roleId" value="requestParameters.roleId" type="long" />
             <evaluate expression="flowScope.sorPerson.findSorRoleById(roleId)" result="flowScope.role"/>
         </transition>
         <transition on="submitSelectRole" to="checkUniqueRole" >
-            <set name="flowScope.roleInfoCode" value="requestParameters.roleInfoCode" />
+            <set name="flowScope.roleAffiliation" value="requestParameters.roleAffiliation" />
         </transition>
     </view-state>
 
     <decision-state id="checkUniqueRole">
-        <if test="roleAction.isRoleNewForPerson(sorPerson, roleInfoCode, messageContext)" then="addRole" else="selectRole" />
+        <if test="roleAction.isRoleNewForPerson(sorPerson, roleAffiliation, messageContext)" then="addRole" else="selectRole" />
     </decision-state>
 
     <view-state id="addRole" model="role" view="openregistry.role.add">
         <on-entry>
             <set name="viewScope.command" value="'role'" />
             <evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
-            <evaluate expression="roleAction.initSorRole(sorPerson, roleInfoCode)" result="flowScope.role"/>
+            <evaluate expression="roleAction.addRole(sorPerson, roleAffiliation)" result="flowScope.role"/>
         </on-entry>
         <transition on="submitAddRole" to="roleWasAdded" >
             <evaluate expression="roleAction.addSorRole(sorPerson, role, messageContext)"/>
