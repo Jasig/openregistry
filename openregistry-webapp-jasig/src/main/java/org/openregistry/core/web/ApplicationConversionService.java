@@ -72,7 +72,6 @@ public final class ApplicationConversionService extends DefaultConversionService
         addConverter(new SponsorConverter(this.personRepository));
         addConverter(new CountryConverter(this.referenceRepository));
         addConverter(new CampusConverter(this.referenceRepository));
-        addConverter(new RoleInfoConverter(this.referenceRepository));
         addConverter(new TypeConverter(this.referenceRepository));
         addConverter(new IdentifierTypeConverter(this.referenceRepository));
         final StringToDate dateConverter = new StringToDate();

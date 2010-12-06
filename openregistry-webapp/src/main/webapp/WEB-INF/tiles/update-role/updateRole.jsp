@@ -40,7 +40,7 @@
             <label class="desc2" for="c1_startdate">
                 <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2><c:out value="${sorPerson.formattedName}"/></em2>
                 <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="role.heading" /></span>
-                <em2><c:out value="${role.title}"/>/<c:out value="${role.organizationalUnit.name}"/>/<c:out value="${role.campus.name}"/></em2>
+                <em2><c:out value="${role.affiliationType}"/></em2>
             </label>
                 <br/><br/>
 
@@ -52,6 +52,12 @@
 
                     <label for="c1_enddate" class="enddate"><spring:message code="endDate.label"/></label>
                     <form:input path="end" id="c1_enddate" size="10" maxlength="10" tabindex="2" />
+
+                    <label for="c1_title" class="title"><spring:message code="roleTitle.label"/></label>
+                    <form:input path="title" id="c1_title" size="10" maxlength="50" tabindex="3" />
+
+                    <label for="c1_organizationalUnit" class="organizationalUnit"><spring:message code="organizational.label"/></label>
+                    <form:input path="organizationalUnit" id="c1_organizationalUnit" size="10" maxlength="50" tabindex="4" />
 
                     <a href="${flowExecutionUrl}&_eventId=submitRenewRoleStandardRenewal"><img src="images/renew2.jpg" title="Renew for standard renewal period."/></a>
                     <a href="${flowExecutionUrl}&_eventId=submitExpireRoleToday"><img src="images/expire.jpg" title="Expire today."/></a>

@@ -108,7 +108,7 @@ jQuery(document).ready(function() {
                 <c:forEach var="role" items="${person.roles}" >
                     <tr>
                         <td><spring:message code="role.label" /> (<b>${role.personStatus.description}</b>)</td>
-                        <td colspan="3"><a href="${flowExecutionUrl}&_eventId=submitViewRole&roleCode=${role.code}&formattedName=${person.officialName.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>
+                        <td colspan="3"><a href="${flowExecutionUrl}&_eventId=submitViewRole&roleAffiliation=${role.affiliationType.description}&formattedName=${person.officialName.formattedName}">${role.affiliationType.description}/${role.title}/${role.organizationalUnit.name}</a></td>
                         <td colspan="2"><fmt:formatDate value="${role.start}"  /> <spring:message code="vcpTo.label"/> <fmt:formatDate value="${role.end}" /></td>
                     </tr>
                  </c:forEach>
@@ -156,7 +156,7 @@ jQuery(document).ready(function() {
                         <c:forEach var="role" items="${sorPerson.roles}" >
                             <tr>
                                 <td><spring:message code="role.label" /> <b>(${role.personStatus.description})</b></td>
-                                <td colspan="3" ><a href="${flowExecutionUrl}&_eventId=submitViewSoRRole&sorSource=${sorPerson.sourceSor}&roleCode=${role.code}&formattedName=${sorPerson.formattedName}">${role.title}/${role.organizationalUnit.name}/${role.campus.name}</a></td>                                
+                                <td colspan="3" ><a href="${flowExecutionUrl}&_eventId=submitViewSoRRole&sorSource=${sorPerson.sourceSor}&roleAffiliation=${role.affiliationType.description}&formattedName=${sorPerson.formattedName}">${role.title}/${role.organizationalUnit.name}</a></td>
                                 <td colspan="2"><fmt:formatDate value="${role.start}" /> <spring:message code="vcpTo.label"/> <fmt:formatDate value="${role.end}" /></td>
                             </tr>
                          </c:forEach>

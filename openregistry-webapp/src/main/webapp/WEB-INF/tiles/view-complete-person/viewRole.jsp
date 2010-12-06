@@ -41,7 +41,7 @@
 
 		    <span style="color:#000; font-weight:bold;font-size:1.2em;"><spring:message code="person.label" /></span><em2> <c:out value="${formattedName}"/></em2>
 		    <br/><br/>
-            <span style="color:#000; font-weight:bold;font-size:1.2em;"><c:out value="${viewRoleTitle}"/></span>: <em2><c:out value="${role.title}"/>/<c:out value="${role.organizationalUnit.name}"/>/<c:out value="${role.campus.name}"/></em2>
+            <span style="color:#000; font-weight:bold;font-size:1.2em;"><c:out value="${viewRoleTitle}"/></span>: <em2><c:out value="${role.affiliationType.description}"/>/<c:out value="${role.organizationalUnit.name}"/></em2>
 
             </label>
             <br/><br/>
@@ -66,12 +66,12 @@
                     <td>${role.personStatus.description}</td>
                     <td><fmt:formatDate value="${role.start}" dateStyle="long"/></td>
                     <td><fmt:formatDate value="${role.end}" dateStyle="long"/></td>
-                    <td>${sponsorPerson.officialName.formattedName}</td>
+                   <!-- <td>${sponsorPerson.officialName.formattedName}</td>   -->
                     <td>${role.percentage}</td>
                     <td>${role.title}</td>
                     <td>${role.affiliationType.description}</td>
                     <td>${role.organizationalUnit.name}</td>
-                    <td>${role.campus.name}</td>
+                    <td>${role.organizationalUnit.campus.name}</td>
                     <td>${role.terminationReason.description}</td>
                 </tbody>
             </table>

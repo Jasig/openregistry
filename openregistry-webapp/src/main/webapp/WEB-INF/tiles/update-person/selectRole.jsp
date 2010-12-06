@@ -36,9 +36,9 @@
 					<div class="row">
 						<label for="c1_affiliation" class="affiliation"><spring:message code="role.label"/><em>*</em></label>
                         <div class="select affiliation">
-                            <SELECT name="roleInfoCode">
-                                <c:forEach var="roleInfoItem" items="${roleInfos}">
-                                    <OPTION value="${roleInfoItem.code}">${roleInfoItem.displayableName}</OPTION>
+                            <SELECT name="roleAffiliation">
+                                <c:forEach var="affiliationItem" items="${affiliationList}">
+                                    <OPTION value="${affiliationItem}">${affiliationItem.description}</OPTION>
                                 </c:forEach>
                             </SELECT>
                         </div>
@@ -65,7 +65,7 @@
                         <tbody>
                          <c:forEach var="role" items="${sorPerson.roles}">
                         <tr>
-                            <td><a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}">${role.title}/${role.organizationalUnit.name}</a></td>
+                            <td><a href="${flowExecutionUrl}&_eventId=submitUpdateRole&roleId=${role.id}">${role.affiliationType.description}/${role.title}/${role.organizationalUnit.name}</a></td>
                             <td>${role.campus.name}</td>
                             <td><fmt:formatDate pattern="MM/dd/yyyy" value="${role.start}"/></td>
                             <td><fmt:formatDate pattern="MM/dd/yyyy" value="${role.end}"/></td>
