@@ -31,7 +31,7 @@ import org.openregistry.core.domain.sor.SorRole;
  * @version $Revision$ $Date$
  * @since 1.0
  */
-public interface Role extends RoleInfo, Serializable, DateRange, Comparable<Role> {
+public interface Role extends Serializable, DateRange, Comparable<Role> {
 
     Set<Address> getAddresses();
 
@@ -47,6 +47,18 @@ public interface Role extends RoleInfo, Serializable, DateRange, Comparable<Role
 
     Type getPersonStatus();
 
+    String getTitle();
+
+    void setTitle(String title);
+
+    OrganizationalUnit getOrganizationalUnit();
+
+    void setOrganizationalUnit(OrganizationalUnit organizationalUnit);
+
+    Type getAffiliationType();
+
+    void setAffiliationType(Type affiliationType);
+
     Set<Phone> getPhones();
 
     Set<EmailAddress> getEmailAddresses();
@@ -54,8 +66,6 @@ public interface Role extends RoleInfo, Serializable, DateRange, Comparable<Role
     Set<Url> getUrls();
 
     Set<Leave> getLeaves();
-
-    String getLocalCode();
 
     Type getTerminationReason();
 
