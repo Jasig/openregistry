@@ -195,9 +195,10 @@ public class DefaultPersonServiceTests {
 		final MockSorPerson sorPerson = new MockSorPerson();
 		sorPerson.setPersonId(1L);
         sorPerson.setId(1L);
-		final MockSorRole sorRole = (MockSorRole) sorPerson.addRole((RoleInfo) null);
+		final MockSorRole sorRole = (MockSorRole) sorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
 		sorRole.setId(1L);
         sorRole.setSorId("500");
+        sorPerson.addRole(sorRole);
         final SorName name = sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
         name.setGiven("given");
         
@@ -205,11 +206,13 @@ public class DefaultPersonServiceTests {
         mockPerson.addRole(sorRole);
 
 		final MockSorPerson sorPerson1 = new MockSorPerson();
-        final MockSorRole sorRole1 = (MockSorRole) sorPerson1.addRole((RoleInfo) null);
+        final MockSorRole sorRole1 = (MockSorRole) sorPerson1.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
+        sorPerson1.addRole(sorRole1);
 		sorPerson1.setPersonId(1L);
         sorPerson1.setId(2L);
         sorRole1.setId(2L);
         sorRole1.setSorId("600");
+
 
         final SorName name1 = sorPerson1.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
         name1.setGiven("given");
@@ -296,7 +299,7 @@ public class DefaultPersonServiceTests {
 
 		MockRole mockRole1 = new MockRole(2L);
 		mockRole1.setSorRoleId(sorRole1.getId());
-        mockRole1.setCode("FOO");
+        mockRole1.setAffiliationType(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
 		mockPerson.addRole(mockRole1);
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson, sorPerson1});
@@ -309,7 +312,7 @@ public class DefaultPersonServiceTests {
 		Person person = personRepository.findByIdentifier("NETID","testId");
 		assertNotNull(person);
 		assertEquals("Not just one role left",person.getRoles().size(),1);
-		assertEquals("FOO", person.getRoles().get(0).getCode());
+
     }
 
     // test delete SoR Person with it being a mistake (and only one SoR) (i.e. were the appropriate roles, and names removed? from the calculated person?)
@@ -317,9 +320,10 @@ public class DefaultPersonServiceTests {
     public void testDeleteSoRPersonAsAMistakeWithOnlyOneSoR() throws ReconciliationException {
         final SorPerson sorPerson = new MockSorPerson();
         sorPerson.setPersonId(1L);
-        final MockSorRole sorRole = (MockSorRole) sorPerson.addRole((RoleInfo) null);
+        final MockSorRole sorRole = (MockSorRole) sorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
         sorRole.setSorId("1");
         sorRole.setId(2L);
+        sorPerson.addRole(sorRole);
 
 		final MockPerson mockPerson = new MockPerson();
         mockPerson.addRole(sorRole);
@@ -343,10 +347,11 @@ public class DefaultPersonServiceTests {
         mockSorPerson.setSourceSor("FOO");
         mockSorPerson.setPersonId(1L);
 
-        final MockSorRole sorRole = (MockSorRole) mockSorPerson.addRole((RoleInfo) null);
+        final MockSorRole sorRole = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
         sorRole.setSorId("1");
-        sorRole.setSourceSorIdentifier("FOO");
+        sorRole.setSystemOfRecord(referenceRepository.findSystemOfRecord("TEST"));
         sorRole.setId(2L);
+        mockSorPerson.addRole(sorRole);
 
         final MockPerson mockPerson = new MockPerson();
         mockPerson.setId(1L);
@@ -453,9 +458,10 @@ public class DefaultPersonServiceTests {
 		sorPerson.setSsn("123456789");
 		Date birthday = new Date();
 		sorPerson.setDateOfBirth(birthday);
-		final MockSorRole sorRole = (MockSorRole) sorPerson.addRole((RoleInfo) null);
+		final MockSorRole sorRole = (MockSorRole) sorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
 		sorRole.setId(1L);
 		sorRole.setSorId("500");
+        sorPerson.addRole(sorRole);
 
 		mockPerson.addRole(sorRole);
 
@@ -484,9 +490,10 @@ public class DefaultPersonServiceTests {
 		sorPerson.setSsn("123456789");
 		Date birthday = new Date();
 		sorPerson.setDateOfBirth(birthday);
-		final MockSorRole sorRole = (MockSorRole) sorPerson.addRole((RoleInfo) null);
+		final MockSorRole sorRole = (MockSorRole) sorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
 		sorRole.setId(1L);
 		sorRole.setSorId("500");
+        sorPerson.addRole(sorRole);
 
 		mockPerson.addRole(sorRole);
 

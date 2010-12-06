@@ -53,7 +53,6 @@ public final class ReferenceRepositoryHandlerInterceptor extends HandlerIntercep
         request.setAttribute("campuses", this.referenceRepository.getCampuses());
         request.setAttribute("identifierTypes", this.referenceRepository.getIdentifierTypes());
         request.setAttribute("organizationalUnits", this.referenceRepository.getOrganizationalUnits());
-        request.setAttribute("roleInfos", this.referenceRepository.getRoleInfos());
         request.setAttribute("addressTypes", this.referenceRepository.getTypesBy(Type.DataTypes.ADDRESS));
         request.setAttribute("affiliationTypes", this.referenceRepository.getTypesBy(Type.DataTypes.AFFILIATION));
         request.setAttribute("campusTypes", this.referenceRepository.getTypesBy(Type.DataTypes.CAMPUS));

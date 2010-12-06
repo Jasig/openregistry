@@ -19,6 +19,7 @@
 
 package org.openregistry.core.repository.jpa;
 
+import org.openregistry.core.domain.sor.SystemOfRecord;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.Type.DataTypes;
@@ -99,26 +100,6 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     }
 
     @Transactional
-    public List<RoleInfo> getRoleInfos() {
-        return (List<RoleInfo>) this.entityManager.createQuery("select r from roleInfo r order by r.title").getResultList();
-    }
-
-    @Transactional
-    public RoleInfo getRoleInfoById(final Long id) {
-        return this.entityManager.find(JpaRoleInfoImpl.class, id);
-    }
-
-    @Transactional
-    public RoleInfo getRoleInfoByCode(final String systemOfRecordId, final String code) {
-        return (RoleInfo) this.entityManager.createQuery("select r from roleInfo r where r.code = :code and r.systemOfRecord.sorId = :sorId").setParameter("code", code).setParameter("sorId", systemOfRecordId).getSingleResult();
-    }
-
-    @Transactional
-    public RoleInfo getRoleInfoByOrganizationalUnitAndTitle(final OrganizationalUnit ou, final String title) {
-        return (RoleInfo) this.entityManager.createQuery("select r from roleInfo r where r.organizationalUnit = :ou and r.title = :title order by r.title").setParameter("ou", ou).setParameter("title", title).getSingleResult();
-    }
-
-    @Transactional
     public List<Region> getRegions() {
         return (List<Region>) this.entityManager.createQuery("select r from region r").getResultList();
     }
@@ -178,6 +159,11 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     @Transactional
     public IdentifierType findIdentifierType(final String identifierName) {
         return (IdentifierType) this.entityManager.createQuery("select distinct r from identifier_type r where name=:name").setParameter("name", identifierName).getSingleResult();
+    }
+
+    @Transactional
+    public SystemOfRecord findSystemOfRecord(String systemOfRecord){
+        return (SystemOfRecord) this.entityManager.createQuery("select s from systemOfRecord s where s.sorId = :systemOfRecord").setParameter("systemOfRecord", systemOfRecord).getSingleResult();
     }
 
     @Override

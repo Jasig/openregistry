@@ -39,13 +39,19 @@ public class MockSorRole extends Entity implements SorRole {
 
 	private String sorId;
 
-	private String sourceSorIdentifier;
+	private SystemOfRecord systemOfRecord;
 
 	private Type terminationReason;
 	
 	private List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
 
     private Type sponsorType;
+
+    private Type affiliationType;
+
+    private OrganizationalUnit organizationalUnit;
+
+    private String title;
 
 	public MockSorRole() {
 	}
@@ -70,13 +76,13 @@ public class MockSorRole extends Entity implements SorRole {
 		this.sorId = id;
 	}
 
-    public String getSourceSorIdentifier() {
-		return sourceSorIdentifier;
+    public SystemOfRecord getSystemOfRecord() {
+		return null;
 	}
 
-	public void setSourceSorIdentifier(String sorIdentifier) {
-		this.sourceSorIdentifier = sorIdentifier;
-	}
+    public void setSystemOfRecord(SystemOfRecord systemOfRecord) {
+        this.systemOfRecord = systemOfRecord;
+    }
 
 	public void expireNow(Type terminationReason) {
 	}
@@ -96,10 +102,6 @@ public class MockSorRole extends Entity implements SorRole {
 	}
 
 	public void setPersonStatus(Type personStatus) {
-	}
-
-	public RoleInfo getRoleInfo() {
-		return null;
 	}
 
 	public void setSponsorId(Long id) {
@@ -130,8 +132,11 @@ public class MockSorRole extends Entity implements SorRole {
 		return null;
 	}
 
-	public Address addAddress() {
+    public Address createAddress() {
 		return null;
+	}
+
+	public void addAddress(Address address) {
 	}
 
 	public Address removeAddressById(Long id) {
@@ -154,12 +159,18 @@ public class MockSorRole extends Entity implements SorRole {
 		return null;
 	}
 
-	public EmailAddress addEmailAddress() {
+	public EmailAddress createEmailAddress() {
         return null;
 	}
 
-	public Phone addPhone() {
+    public void addEmailAddress(EmailAddress emailAddress) {
+	}
+
+    public Phone createPhone() {
 		return null;
+	}
+
+	public void addPhone(Phone phone) {
 	}
 
 	public Phone removePhoneById(Long id) {
@@ -170,8 +181,11 @@ public class MockSorRole extends Entity implements SorRole {
 		return null;
 	}
 
-	public Url addUrl() {
+	public Url createUrl() {
 		return null;
+	}
+
+    public void addUrl(Url url) {
 	}
 
 	public Url removeURLById(Long id) {
@@ -186,17 +200,25 @@ public class MockSorRole extends Entity implements SorRole {
 		return null;
 	}
 
+    public void setTitle(String title){
+        this.title = title;
+    }
+
 	public OrganizationalUnit getOrganizationalUnit() {
 		return null;
 	}
 
-	public Campus getCampus() {
-		return null;
+    public void setOrganizationalUnit(OrganizationalUnit unit) {
+		this.organizationalUnit = unit;
 	}
 
 	public Type getAffiliationType() {
 		return null;
 	}
+
+    public void setAffiliationType(Type affiliationType){
+        this.affiliationType = affiliationType;
+    }
 
 	public String getCode() {
 		return null;
@@ -266,7 +288,7 @@ public class MockSorRole extends Entity implements SorRole {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (sorId != null ? !sorId.equals(that.sorId) : that.sorId != null) return false;
-        if (sourceSorIdentifier != null ? !sourceSorIdentifier.equals(that.sourceSorIdentifier) : that.sourceSorIdentifier != null)
+        if (systemOfRecord != null ? !systemOfRecord.equals(that.systemOfRecord) : that.systemOfRecord != null)
             return false;
         if (terminationReason != null ? !terminationReason.equals(that.terminationReason) : that.terminationReason != null)
             return false;
@@ -278,7 +300,7 @@ public class MockSorRole extends Entity implements SorRole {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (sorId != null ? sorId.hashCode() : 0);
-        result = 31 * result + (sourceSorIdentifier != null ? sourceSorIdentifier.hashCode() : 0);
+        result = 31 * result + (systemOfRecord != null ? systemOfRecord.hashCode() : 0);
         result = 31 * result + (terminationReason != null ? terminationReason.hashCode() : 0);
         return result;
     }
@@ -286,8 +308,4 @@ public class MockSorRole extends Entity implements SorRole {
    public void standardizeNormalize(){
    }
 
-    @Override
-    public SystemOfRecord getSystemOfRecord() {
-        return null;
-    }
 }

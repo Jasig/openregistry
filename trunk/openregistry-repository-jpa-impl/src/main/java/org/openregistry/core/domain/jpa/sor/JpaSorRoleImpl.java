@@ -44,7 +44,7 @@ import java.util.*;
  * @since 0.1
  */
 @javax.persistence.Entity(name = "sorRole")
-@Table(name = "prs_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"source_sor_id", "id"}))
+@Table(name = "prs_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"system_of_record_id", "id"}))
 @org.hibernate.annotations.Table(appliesTo = "prs_role_records", indexes = @Index(name = "PRS_ROLE_SOR_PERSON_INDEX", columnNames = "sor_person_id"))
 @Audited
 public class JpaSorRoleImpl extends Entity implements SorRole {
@@ -88,10 +88,9 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Address> addresses = new ArrayList<Address>();
 
-    @Column(name = "source_sor_id", nullable = false)
-    @NotNull
-    @Size(min = 1)
-    private String sourceSorIdentifier;
+    @ManyToOne(optional=false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "system_of_record_id")
+    private JpaSystemOfRecordImpl systemOfRecord;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "sor_person_id", nullable = false)
@@ -113,11 +112,6 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Leave> leaves = new ArrayList<Leave>();
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "role_id")
-    @NotNull
-    private JpaRoleInfoImpl roleInfo;
 
     @Column(name="sponsor_id")
     @NotNull
@@ -141,17 +135,26 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     @JoinColumn(name = "termination_t")
     private JpaTypeImpl terminationReason;
 
+    @Column(name="title",nullable = false, length = 100)
+    private String title;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name="organizational_unit_id")
+    private JpaOrganizationalUnitImpl organizationalUnit;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name="affiliation_t")
+    private JpaTypeImpl affiliationType;
+
     public JpaSorRoleImpl() {
         // nothing to do
     }
 
-    public JpaSorRoleImpl(final JpaRoleInfoImpl roleInfo, final JpaSorPersonImpl sorPerson) {
-        this.roleInfo = roleInfo;
-        this.person = sorPerson;
-    }
-
-    public String getCode() {
-        return this.roleInfo.getCode();
+    public JpaSorRoleImpl(final Type affiliationType, final SorPerson sorPerson) {
+        Assert.isInstanceOf(JpaTypeImpl.class, affiliationType);
+        Assert.isInstanceOf(JpaSorPersonImpl.class, sorPerson);
+        this.affiliationType = (JpaTypeImpl)affiliationType;
+        this.person = (JpaSorPersonImpl)sorPerson;
     }
 
     public void expireNow(final Type terminationReason) {
@@ -165,7 +168,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     }
 
     public String getDisplayableName() {
-        return this.roleInfo.getDisplayableName();
+        return getTitle() + "/"+ getOrganizationalUnit().getName();
     }
 
     public Long getId() {
@@ -180,24 +183,13 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         this.sorId = sorId;
     }
 
-    public String getSourceSorIdentifier() {
-        return this.sourceSorIdentifier;
+    public JpaSystemOfRecordImpl getSystemOfRecord() {
+        return this.systemOfRecord;
     }
 
-    public void setSourceSorIdentifier(final String sorIdentifier) {
-        this.sourceSorIdentifier = sorIdentifier;
-    }
-
-    public RoleInfo getRoleInfo() {
-        return this.roleInfo;
-    }
-
-    public String getTitle() {
-        return this.roleInfo.getTitle();
-    }
-
-    public Type getAffiliationType() {
-        return this.roleInfo.getAffiliationType();
+    public void setSystemOfRecord(SystemOfRecord systemOfRecord) {
+        Assert.isInstanceOf(JpaSystemOfRecordImpl.class, systemOfRecord);
+        this.systemOfRecord = (JpaSystemOfRecordImpl)systemOfRecord;
     }
 
     public int getPercentage() {
@@ -259,10 +251,40 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         this.sponsorType = (JpaTypeImpl)type;
 	}
 
-    public Address addAddress() {
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public OrganizationalUnit getOrganizationalUnit() {
+        return this.organizationalUnit;
+    }
+
+    public void setOrganizationalUnit(OrganizationalUnit organizationalUnit) {
+        Assert.isInstanceOf(JpaOrganizationalUnitImpl.class, organizationalUnit);
+        this.organizationalUnit = (JpaOrganizationalUnitImpl)organizationalUnit;
+    }
+
+    public Type getAffiliationType() {
+        return this.affiliationType;
+    }
+
+    public void setAffiliationType(Type affiliationType) {
+        Assert.isInstanceOf(JpaTypeImpl.class, affiliationType);
+        this.affiliationType = (JpaTypeImpl)affiliationType;
+    }
+
+    public Address createAddress(){
         final JpaSorAddressImpl jpaAddress = new JpaSorAddressImpl(this);
-        this.addresses.add(jpaAddress);
         return jpaAddress;
+    }
+
+    public void addAddress(Address address) {
+        Assert.isInstanceOf(JpaSorAddressImpl.class, address);
+        this.addresses.add(address);
     }
 
     public synchronized Address removeAddressById(final Long id) {
@@ -292,10 +314,14 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return null;
     }
 
-    public EmailAddress addEmailAddress() {
+    public EmailAddress createEmailAddress() {
         final JpaSorEmailAddressImpl jpaEmailAddress = new JpaSorEmailAddressImpl(this);
-        this.emailAddresses.add(jpaEmailAddress);
         return jpaEmailAddress;
+    }
+
+    public void addEmailAddress(EmailAddress emailAddress) {
+        Assert.isInstanceOf(JpaSorEmailAddressImpl.class, emailAddress);
+        this.emailAddresses.add(emailAddress);
     }
 
     public synchronized EmailAddress removeEmailAddressById(final Long id) {
@@ -316,10 +342,14 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return null;
     }
 
-    public Phone addPhone() {
+    public Phone createPhone() {
         final JpaSorPhoneImpl jpaPhone = new JpaSorPhoneImpl(this);
-        this.phones.add(jpaPhone);
         return jpaPhone;
+    }
+
+    public void addPhone(Phone phone) {
+        Assert.isInstanceOf(JpaSorPhoneImpl.class, phone);
+        this.phones.add(phone);
     }
 
     public synchronized Phone removePhoneById(final Long id) {
@@ -340,10 +370,14 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return null;
     }
 
-    public Url addUrl() {
+    public Url createUrl(){
         final JpaSorUrlImpl jpaUrl = new JpaSorUrlImpl(this);
-        this.urls.add(jpaUrl);
         return jpaUrl;
+    }
+
+    public void addUrl(Url url) {
+        Assert.isInstanceOf(JpaSorUrlImpl.class, url);
+        this.urls.add(url);
     }
 
     public synchronized Url removeURLById(final Long id) {
@@ -380,25 +414,9 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return this.urls;
     }
 
-    public Campus getCampus() {
-        return this.roleInfo.getCampus();
-    }
-
-    public String getLocalCode() {
-        return this.roleInfo.getCode();
-    }
-
-    public OrganizationalUnit getOrganizationalUnit() {
-        return this.roleInfo.getOrganizationalUnit();
-    }
 
     public List<EmailAddress> getEmailAddresses() {
         return this.emailAddresses;
-    }
-
-    @Override
-    public SystemOfRecord getSystemOfRecord() {
-        return this.roleInfo.getSystemOfRecord();
     }
 
     public void moveToPerson(JpaSorPersonImpl person) {
@@ -430,9 +448,10 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
             }
         }
         if (!updated) {
-            EmailAddress e = addEmailAddress();
+            EmailAddress e = createEmailAddress();
             e.setAddressType(emailType);
             e.setAddress(emailAddress);
+            addEmailAddress(e);
         }
     }
 }

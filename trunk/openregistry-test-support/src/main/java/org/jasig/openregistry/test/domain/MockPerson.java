@@ -226,9 +226,18 @@ public class MockPerson implements Person {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public Role pickOutRole(String code) {
+    public Role pickOutRole(Type affiliationType) {
         for(final Role r : this.roles) {
-            if(r.getCode().equals(code)) {
+            if(r.getAffiliationType().getDescription().equals(affiliationType.getDescription())) {
+                return r;
+            }
+        }
+        return null;
+    }
+
+    public Role pickOutRole(String affiliation) {
+        for(final Role r : this.roles) {
+            if(r.getAffiliationType().getDescription().equals(affiliation)) {
                 return r;
             }
         }

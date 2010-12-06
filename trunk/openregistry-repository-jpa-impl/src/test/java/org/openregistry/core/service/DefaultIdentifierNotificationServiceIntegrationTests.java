@@ -32,7 +32,6 @@ import org.junit.Test;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Type;
-import org.openregistry.core.domain.jpa.JpaRoleInfoImpl;
 import org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorPersonImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
@@ -95,8 +94,10 @@ public class DefaultIdentifierNotificationServiceIntegrationTests extends
 			person.getPreferredContactEmailAddress().setAddress(emailAddress);
 			
 	        // add role
-			JpaRoleInfoImpl roleInfo = (JpaRoleInfoImpl) this.referenceRepository.getRoleInfoById(new Long(1));
-			JpaSorRoleImpl sorRole = new JpaSorRoleImpl(roleInfo, sorPerson);
+			JpaSorRoleImpl sorRole = new JpaSorRoleImpl(this.referenceRepository.getTypeById(new Long(6)), sorPerson);
+            sorRole.setOrganizationalUnit(this.referenceRepository.getOrganizationalUnitById(new Long(1)));
+            sorRole.setSystemOfRecord(this.referenceRepository.findSystemOfRecord("test"));
+            sorRole.setTitle("FOO");
 			sorRole.setStart(new Date(0));
 			sorRole.setPersonStatus(this.referenceRepository.getTypeById(new Long(998)));
 			sorRole.setSponsorType(this.referenceRepository.getTypeById(new Long(5))); // see AbstractIntegrationTests.java
@@ -147,16 +148,16 @@ public class DefaultIdentifierNotificationServiceIntegrationTests extends
     	Person person = this.constructPersonWithNetId("Firstname", "LastName", "test@test.test", NET_ID_VALUE);
 		
     	// add a second role
-    	JpaRoleInfoImpl roleInfo = (JpaRoleInfoImpl) this.referenceRepository.getRoleInfoById(new Long(2));
-
     	final ReconciliationCriteria reconciliationCriteria = new JpaReconciliationCriteriaImpl();
     	final JpaSorPersonImpl sorPerson = (JpaSorPersonImpl) reconciliationCriteria.getSorPerson();
         sorPerson.setDateOfBirth(new Date(0));
         sorPerson.setGender("M");
         sorPerson.setSourceSor("TEST_SOR_2");
        
-		JpaSorRoleImpl sorRole = new JpaSorRoleImpl(roleInfo, sorPerson);
+		JpaSorRoleImpl sorRole = new JpaSorRoleImpl(this.referenceRepository.getTypeById(new Long(7)), sorPerson);
 		sorRole.setStart(new Date(0));
+        sorRole.setTitle("FOO");
+        sorRole.setOrganizationalUnit(this.referenceRepository.getOrganizationalUnitById(new Long(2)));
 		sorRole.setPersonStatus(this.referenceRepository.getTypeById(new Long(998)));
 		sorRole.setSponsorType(this.referenceRepository.getTypeById(new Long(5))); // see AbstractIntegrationTests.java
 		sorRole.setSponsorId(new Long(0));

@@ -42,7 +42,11 @@ public class MockRole extends Entity implements Role {
 
     private Date end;
 
-    private String code;
+    private OrganizationalUnit organizationalUnit;
+
+    private String title;
+
+    private Type affiliationType;
     
     private Set <EmailAddress> emailAddresses = new HashSet<EmailAddress>();
 
@@ -170,27 +174,27 @@ public class MockRole extends Entity implements Role {
 		return null;
 	}
 
+    public void setTitle(String title){
+        this.title = title;
+    }
+
 	public OrganizationalUnit getOrganizationalUnit() {
 		return null;
 	}
 
-	public Campus getCampus() {
-		return null;
+    public void setOrganizationalUnit(OrganizationalUnit unit) {
+		this.organizationalUnit = unit;
 	}
 
 	public Type getAffiliationType() {
 		return null;
 	}
 
-	public String getCode() {
-		return this.code;
-	}
+    public void setAffiliationType(Type affiliationType){
+        this.affiliationType = affiliationType;
+    }
 
 	public String getDisplayableName() {
-		return null;
-	}
-
-	public String getLocalCode() {
 		return null;
 	}
 
@@ -201,10 +205,6 @@ public class MockRole extends Entity implements Role {
 	public Date getEnd() {
 		return this.end;
 	}
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public void expireNow(final Type terminationReason, final boolean orphaned) {
         this.terminationReason = terminationReason;
@@ -244,7 +244,6 @@ public class MockRole extends Entity implements Role {
         return result;
     }
 
-    @Override
     public SystemOfRecord getSystemOfRecord() {
         return null;
     }

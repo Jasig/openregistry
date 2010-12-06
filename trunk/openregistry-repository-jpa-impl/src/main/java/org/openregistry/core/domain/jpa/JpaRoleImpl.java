@@ -47,7 +47,7 @@ import org.slf4j.*;
  */
 // TODO should a person be able to have multiple entries for the same role?  Perhaps if the affiliation date is unique?
 @javax.persistence.Entity(name = "role")
-@Table(name = "prc_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"person_id","role_id"}))
+@Table(name = "prc_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"person_id","affiliation_t","organizational_unit_id"}))
 @Audited
 public class JpaRoleImpl extends Entity implements Role {
 
@@ -90,9 +90,16 @@ public class JpaRoleImpl extends Entity implements Role {
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Leave> leaves = new HashSet<Leave>();
 
+    @Column(name="title",nullable = false, length = 100)
+    private String title;
+
     @ManyToOne(optional = false)
-    @JoinColumn(name = "role_id")
-    private JpaRoleInfoImpl roleInfo;
+    @JoinColumn(name="organizational_unit_id")
+    private JpaOrganizationalUnitImpl organizationalUnit;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name="affiliation_t")
+    private JpaTypeImpl affiliationType;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "person_id", nullable = false)
@@ -117,23 +124,21 @@ public class JpaRoleImpl extends Entity implements Role {
         // nothing to do
     }
 
-    public JpaRoleImpl(final JpaRoleInfoImpl roleInfo, final JpaPersonImpl person) {
-        this.roleInfo = roleInfo;
+    public JpaRoleImpl(final JpaOrganizationalUnitImpl organizationalUnit, final String title, final JpaTypeImpl affiliationType, final JpaPersonImpl person) {
+        this.organizationalUnit = organizationalUnit;
+        this.title = title;
+        this.affiliationType = affiliationType;
         this.person = person;
     }
 
     public JpaRoleImpl(final JpaSorRoleImpl sorRole, final JpaPersonImpl person) {
-        this((JpaRoleInfoImpl) sorRole.getRoleInfo(), person);
+        this((JpaOrganizationalUnitImpl)sorRole.getOrganizationalUnit(), (String)sorRole.getTitle(), (JpaTypeImpl)sorRole.getAffiliationType(), person);
         recalculate(sorRole);
     }
 
     @Override
     public Long getId() {
         return this.id;
-    }
-
-    public RoleInfo getRoleInfo() {
-        return this.roleInfo;
     }
 
     public Long getSorRoleId() {
@@ -158,7 +163,6 @@ public class JpaRoleImpl extends Entity implements Role {
 
     protected Address addAddress(final Address sorAddress) {
         final JpaAddressImpl jpaAddress = new JpaAddressImpl(this);
-        this.addresses.add(jpaAddress);
         jpaAddress.setLine1(sorAddress.getLine1());
         jpaAddress.setLine2(sorAddress.getLine2());
         jpaAddress.setLine3(sorAddress.getLine3());
@@ -167,34 +171,35 @@ public class JpaRoleImpl extends Entity implements Role {
         jpaAddress.setPostalCode(sorAddress.getPostalCode());
         jpaAddress.setCountry(sorAddress.getCountry());
         jpaAddress.setType(sorAddress.getType());
+        this.addresses.add(jpaAddress);
         return jpaAddress;
     }
 
     protected Url addUrl(final Url sorUrl) {
         final JpaUrlImpl url = new JpaUrlImpl(this);
-        this.urls.add(url);
         url.setUrl(sorUrl.getUrl());
         url.setType(sorUrl.getType());
+        this.urls.add(url);
         return url;
     }
 
     protected EmailAddress addEmailAddress(final EmailAddress sorEmailAddress) {
         final JpaEmailAddressImpl jpaEmailAddress = new JpaEmailAddressImpl(this);
-        this.emailAddresses.add(jpaEmailAddress);
         jpaEmailAddress.setAddress(sorEmailAddress.getAddress());
         jpaEmailAddress.setAddressType(sorEmailAddress.getAddressType());
+        this.emailAddresses.add(jpaEmailAddress);
         return jpaEmailAddress;
     }
 
     protected Phone addPhone(final Phone sorPhone) {
         final JpaPhoneImpl jpaPhone = new JpaPhoneImpl(this);
-        this.phones.add(jpaPhone);
         jpaPhone.setCountryCode(sorPhone.getCountryCode());
         jpaPhone.setAreaCode(sorPhone.getAreaCode());
         jpaPhone.setNumber(sorPhone.getNumber());
         jpaPhone.setExtension(sorPhone.getExtension());
         jpaPhone.setPhoneType(sorPhone.getPhoneType());
         jpaPhone.setAddressType(sorPhone.getAddressType());
+        this.phones.add(jpaPhone);
         return jpaPhone;
     }
 
@@ -202,14 +207,6 @@ public class JpaRoleImpl extends Entity implements Role {
         final JpaLeaveImpl jpaLeaveImpl = new JpaLeaveImpl(this, sorLeave);
         this.leaves.add(jpaLeaveImpl);
         return jpaLeaveImpl;
-    }
-
-    public String getTitle() {
-        return this.roleInfo.getTitle();
-    }
-
-    public Type getAffiliationType() {
-        return this.roleInfo.getAffiliationType();
     }
 
     public Long getSponsorId() {
@@ -240,16 +237,30 @@ public class JpaRoleImpl extends Entity implements Role {
         return this.leaves;
     }
 
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public OrganizationalUnit getOrganizationalUnit() {
-        return this.roleInfo.getOrganizationalUnit();
+        return this.organizationalUnit;
     }
 
-    public Campus getCampus() {
-        return this.roleInfo.getCampus();
+    public void setOrganizationalUnit(OrganizationalUnit organizationalUnit) {
+        Assert.isInstanceOf(JpaOrganizationalUnitImpl.class, organizationalUnit);
+        this.organizationalUnit = (JpaOrganizationalUnitImpl)organizationalUnit;
     }
 
-    public String getLocalCode() {
-        return this.roleInfo.getCode();
+    public Type getAffiliationType() {
+        return this.affiliationType;
+    }
+
+    public void setAffiliationType(Type affiliationType) {
+        Assert.isInstanceOf(JpaTypeImpl.class, affiliationType);
+        this.affiliationType = (JpaTypeImpl)affiliationType;
     }
 
     public Type getTerminationReason() {
@@ -278,12 +289,8 @@ public class JpaRoleImpl extends Entity implements Role {
         return !isNotYetActive() && !isTerminated();
     }
 
-    public String getCode() {
-        return this.roleInfo.getCode();
-    }
-
     public String getDisplayableName() {
-        return this.roleInfo.getDisplayableName();
+        return getTitle() + "/"+ getOrganizationalUnit().getName();
     }
 
     public void expireNow(final Type terminationReason, final boolean orphaned) {
@@ -449,11 +456,6 @@ public class JpaRoleImpl extends Entity implements Role {
             if (sorUrl.equals(url)) return url;
         }
         return null;
-    }
-
-    @Override
-    public SystemOfRecord getSystemOfRecord() {
-        return this.roleInfo.getSystemOfRecord();
     }
 
     @Override

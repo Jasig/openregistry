@@ -480,7 +480,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 
     @Test(expected = IllegalArgumentException.class)
     public void testNoPersonPassedIn() {
-        this.personService.validateAndSaveRoleForSorPerson(null, new JpaSorRoleImpl(new JpaRoleInfoImpl(), new JpaSorPersonImpl()));
+        this.personService.validateAndSaveRoleForSorPerson(null, new JpaSorRoleImpl(this.referenceRepository.getTypeById(new Long(6)), new JpaSorPersonImpl()));
     }
 
     // UPDATE SOR ROLE
@@ -496,21 +496,25 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prs_sor_persons"));
         assertEquals(1, countRowsInTable("prs_names"));
 
-        final SorRole sorRole = sorPerson.addRole(this.referenceRepository.getRoleInfoById(1L));
 
+        final SorRole sorRole = sorPerson.createRole(this.referenceRepository.getTypeById(new Long(6)));
         sorRole.setSorId("1");
-        sorRole.setSourceSorIdentifier("FOO");
+        sorRole.setSystemOfRecord(this.referenceRepository.findSystemOfRecord("test"));
         sorRole.setPercentage(50);
         sorRole.setStart(new Date());
         sorRole.setPersonStatus(this.referenceRepository.getTypeById(1L));
         sorRole.setSponsorId(1L);
         sorRole.setSponsorType(this.referenceRepository.getTypeById(1L));
+        sorRole.setOrganizationalUnit(this.referenceRepository.getOrganizationalUnitById(new Long(1)));
+	    sorRole.setTitle("Application Developer");
+        sorPerson.addRole(sorRole);
 
-        final EmailAddress emailAddress = sorRole.addEmailAddress();
+        final EmailAddress emailAddress = sorRole.createEmailAddress();
         emailAddress.setAddress("scott@scott.com");
         emailAddress.setAddressType(this.referenceRepository.getTypeById(1L));
+        sorRole.addEmailAddress(emailAddress);
 
-        final Address address = sorRole.addAddress();
+        final Address address = sorRole.createAddress();
         address.setLine1("123 ABC");
         address.setCity("Any City");
         address.setPostalCode("12345");
@@ -518,6 +522,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         //address.setRegion(this.referenceRepository.getRegionByCodeOrName("NJ"));
         address.setCountry(this.referenceRepository.getCountryById(1L));
         address.setType(this.referenceRepository.getTypeById(1L));
+        sorRole.addAddress(address);
 
         final ServiceExecutionResult<SorRole> serviceExecutionResult = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
         this.entityManager.flush();
@@ -564,15 +569,18 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
 
         SorPerson sorPerson = criteria1.getSorPerson();
-        final SorRole sorRole = sorPerson.addRole(this.referenceRepository.getRoleInfoById(1L));
+        final SorRole sorRole = sorPerson.createRole(this.referenceRepository.getTypeById(new Long(6)));
 
         sorRole.setSorId("1");
-        sorRole.setSourceSorIdentifier("FOO");
+        sorRole.setSystemOfRecord(this.referenceRepository.findSystemOfRecord("test"));
         sorRole.setPercentage(50);
         sorRole.setStart(new Date());
         sorRole.setPersonStatus(this.referenceRepository.getTypeById(1L));
         sorRole.setSponsorId(1L);
         sorRole.setSponsorType(this.referenceRepository.getTypeById(1L));
+        sorRole.setOrganizationalUnit(this.referenceRepository.getOrganizationalUnitById(new Long(1)));
+	    sorRole.setTitle("Application Developer");
+        sorPerson.addRole(sorRole);
 
         //add a person with one role
         final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
@@ -593,7 +601,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         final SorRole sorRole1 = sorPerson.getRoles().get(0);
 
         sorRole1.setSorId("1");
-        sorRole1.setSourceSorIdentifier("FOO");
+        sorRole1.setSystemOfRecord(this.referenceRepository.findSystemOfRecord("test"));
         sorRole1.setPercentage(100);
         sorRole1.setStart(new Date());
         sorRole1.setPersonStatus(this.referenceRepository.getTypeById(1L));
@@ -601,12 +609,13 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         sorRole1.setSponsorType(this.referenceRepository.getTypeById(1L));
 
         //add an address
-        final Address address = sorRole1.addAddress();
+        final Address address = sorRole1.createAddress();
         address.setLine1("123 ABC");
         address.setCity("Any City");
         address.setPostalCode("12345");
         address.setCountry(this.referenceRepository.getCountryById(1L));
         address.setType(this.referenceRepository.getTypeById(1L));
+        sorRole1.addAddress(address);
 
         this.personService.updateSorPerson(sorPerson);
         this.entityManager.flush();
@@ -633,15 +642,18 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prs_sor_persons"));
         assertEquals(1, countRowsInTable("prs_names"));
 
-        final SorRole role = sorPerson1.addRole(this.referenceRepository.getRoleInfoById(1L));
+        final SorRole role = sorPerson1.createRole(this.referenceRepository.getTypeById(new Long(6)));
         role.setSorId("1");
-        role.setSourceSorIdentifier("FOO");
+        role.setSystemOfRecord(this.referenceRepository.findSystemOfRecord("test"));
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
-
         role.setSponsorId(1L);
         role.setSponsorType(this.referenceRepository.getTypeById(1L));
+        role.setAffiliationType(this.referenceRepository.getTypeById(new Long(6)));
+        role.setOrganizationalUnit(this.referenceRepository.getOrganizationalUnitById(new Long(1)));
+	    role.setTitle("Application Developer");
+        sorPerson1.addRole(role);
 
         final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
         entityManager.flush();
@@ -676,13 +688,16 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         final SorPerson sorPerson1 = this.personService.findByPersonIdAndSorIdentifier(serviceExecutionResult1.getTargetObject().getId(), "FOO");
         assertNotNull(sorPerson1);
 
-        final SorRole role = sorPerson1.addRole(this.referenceRepository.getRoleInfoById(1L));
-        role.setSourceSorIdentifier("FOO");
+        final SorRole role = sorPerson1.createRole(this.referenceRepository.getTypeById(new Long(6)));
+        role.setSystemOfRecord(this.referenceRepository.findSystemOfRecord("test"));
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
         role.setSponsorId(1L);
         role.setSponsorType(this.referenceRepository.getTypeById(1L));
+        role.setOrganizationalUnit(this.referenceRepository.getOrganizationalUnitById(new Long(1)));
+	    role.setTitle("Application Developer");
+        sorPerson1.addRole(role);
 
         final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
         entityManager.flush();
@@ -718,14 +733,17 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prs_sor_persons"));
         assertEquals(1, countRowsInTable("prs_names"));
 
-        final SorRole role = sorPerson1.addRole(this.referenceRepository.getRoleInfoById(1L));
+        final SorRole role = sorPerson1.createRole(this.referenceRepository.getTypeById(new Long(6)));
         role.setSorId("1");
-        role.setSourceSorIdentifier("FOO");
+        role.setSystemOfRecord(this.referenceRepository.findSystemOfRecord("test"));
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
         role.setSponsorId(1L);
         role.setSponsorType(this.referenceRepository.getTypeById(1L));
+        role.setOrganizationalUnit(this.referenceRepository.getOrganizationalUnitById(new Long(1)));
+	    role.setTitle("Application Developer");
+        sorPerson1.addRole(role);
 
         final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
         entityManager.flush();
@@ -756,14 +774,17 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prs_sor_persons"));
         assertEquals(1, countRowsInTable("prs_names"));
 
-        final SorRole role = sorPerson1.addRole(this.referenceRepository.getRoleInfoById(1L));
+        final SorRole role = sorPerson1.createRole(this.referenceRepository.getTypeById(new Long(6)));
         role.setSorId("1");
-        role.setSourceSorIdentifier("FOO");
+        role.setSystemOfRecord(this.referenceRepository.findSystemOfRecord("test"));
         role.setPercentage(50);
         role.setStart(new Date());
         role.setPersonStatus(this.referenceRepository.getTypeById(1L));
         role.setSponsorId(1L);
         role.setSponsorType(this.referenceRepository.getTypeById(1L));
+        role.setOrganizationalUnit(this.referenceRepository.getOrganizationalUnitById(new Long(1)));
+	    role.setTitle("Application Developer");
+        sorPerson1.addRole(role);
 
         final ServiceExecutionResult<SorRole> ser = this.personService.validateAndSaveRoleForSorPerson(sorPerson1, role);
         entityManager.flush();

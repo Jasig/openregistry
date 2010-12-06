@@ -24,7 +24,9 @@ public abstract class JpaRoleImpl_ {
 	public static volatile SingularAttribute<JpaRoleImpl, Integer> percentage;
 	public static volatile SingularAttribute<JpaRoleImpl, Type> personStatus;
 	public static volatile SetAttribute<JpaRoleImpl, Leave> leaves;
-	public static volatile SingularAttribute<JpaRoleImpl, JpaRoleInfoImpl> roleInfo;
+    public static volatile SingularAttribute<JpaRoleImpl, JpaOrganizationalUnitImpl> organizationalUnit;
+    public static volatile SingularAttribute<JpaRoleImpl, JpaTypeImpl> affiliationType;
+    public static volatile SingularAttribute<JpaRoleImpl, String> title;
 	public static volatile SingularAttribute<JpaRoleImpl, JpaPersonImpl> person;
 	public static volatile SingularAttribute<JpaRoleImpl, Date> start;
 	public static volatile SingularAttribute<JpaRoleImpl, Date> end;

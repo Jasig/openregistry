@@ -234,10 +234,19 @@ public class JpaPersonImpl extends Entity implements Person {
 		}
 	}
 	
-    public Role pickOutRole(final String code) {
+    public Role pickOutRole(Type affiliationType) {
         //TODO: Is this the correct assumption???
         for(final Role r : this.roles) {
-            if(r.getCode().equals(code)) {
+            if(r.getAffiliationType().getDescription().equals(affiliationType.getDescription())) {
+                return r;
+            }
+        }
+        return null;
+    }
+
+    public Role pickOutRole(String affiliation) {
+        for(final Role r : this.roles) {
+            if(r.getAffiliationType().getDescription().equals(affiliation)) {
                 return r;
             }
         }

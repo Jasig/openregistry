@@ -296,6 +296,10 @@ public class DefaultPersonService implements PersonService {
         final Set validationErrors = this.validator.validate(reconciliationCriteria);
 
         if (!validationErrors.isEmpty()) {
+            Iterator iter = validationErrors.iterator();
+            while (iter.hasNext()) {
+                logger.info("validation errors: " + iter.next());
+            }
             return new GeneralServiceExecutionResult<Person>(validationErrors);
         }
 
@@ -382,6 +386,10 @@ public class DefaultPersonService implements PersonService {
         final Set validationErrors = this.validator.validate(sorPerson);
 
         if (!validationErrors.isEmpty()) {
+            Iterator iter = validationErrors.iterator();
+            while (iter.hasNext()) {
+                logger.info("validation errors: " + iter.next());
+            }
             return new GeneralServiceExecutionResult<SorPerson>(validationErrors);
         }
 
@@ -414,6 +422,7 @@ public class DefaultPersonService implements PersonService {
                 logger.info("DefaultPersonService: savedSorPersonRole Found, Role was there before.");
                 role.recalculate(savedSorRole); // role may have been updated, so recalculate.
             }
+            logger.info("Verifying Number of calculated Roles: "+ person.getRoles().size());
         }
         
         for (final IdentifierAssigner ia : this.identifierAssigners) {
@@ -681,6 +690,7 @@ public class DefaultPersonService implements PersonService {
         }
 
         final Person newPerson = this.personRepository.savePerson(savedPerson);
+        logger.info("Verifying Number of calculated Roles: "+ newPerson.getRoles().size());
 
         // Now connect the SorPerson to the actual person
         sorPerson.setPersonId(newPerson.getId());
@@ -729,8 +739,8 @@ public class DefaultPersonService implements PersonService {
                 sorRole.setSorId(this.identifierGenerator.generateNextString());
         }
 
-        if (!StringUtils.hasText(sorRole.getSourceSorIdentifier())) {
-            sorRole.setSourceSorIdentifier(sorSource);
+        if (sorRole.getSystemOfRecord() == null) {
+            sorRole.setSystemOfRecord(referenceRepository.findSystemOfRecord(sorSource));
         }
     }
 
