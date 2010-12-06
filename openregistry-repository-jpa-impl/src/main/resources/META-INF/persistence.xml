@@ -41,7 +41,6 @@
             <class>org.openregistry.core.domain.jpa.JpaPhoneImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaRegionImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaRoleImpl</class>
-            <class>org.openregistry.core.domain.jpa.JpaRoleInfoImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaTypeImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaUrlImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaReconciliationCriteriaImpl</class>
