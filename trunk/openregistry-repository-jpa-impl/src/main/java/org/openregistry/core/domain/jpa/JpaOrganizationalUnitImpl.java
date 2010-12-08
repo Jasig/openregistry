@@ -46,7 +46,7 @@ public class JpaOrganizationalUnitImpl extends Entity implements OrganizationalU
     @SequenceGenerator(name="drd_organizational_units_seq",sequenceName="drd_organizational_units_seq",initialValue=1,allocationSize=50)
     private Long id;
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=true)
     @JoinColumn(name="campus_id")
     private JpaCampusImpl campus;
 
