@@ -389,6 +389,7 @@ public class JpaRoleImpl extends Entity implements Role {
     protected void recalculatePhones(SorRole sorRole){
         //remove phones from calculated role when they are not in sorRole.
         //unique constraint guarantees that there can be only one phone of a given type per role.
+        Set<Phone> phonesToDelete = new HashSet<Phone>();
         for (final Phone cPhone: this.phones) {
             boolean found = false;
             for (final Phone sorPhone : sorRole.getPhones()) {
@@ -396,8 +397,10 @@ public class JpaRoleImpl extends Entity implements Role {
                     sorPhone.getPhoneType().getDescription().equals(cPhone.getPhoneType().getDescription()) &&
                     sorPhone.getPhoneLineOrder().compareTo(cPhone.getPhoneLineOrder()) == 0) found = true;
             }
-            if (!found) this.phones.remove(cPhone);
+            if (!found) phonesToDelete.add(cPhone);
         }
+
+        for (final Phone phone: phonesToDelete) this.phones.remove(phone);
 
         for (final Phone sorPhone: sorRole.getPhones()) {
             Phone phone = findPhone(sorPhone.getAddressType(), sorPhone.getPhoneType(), sorPhone.getPhoneLineOrder());
