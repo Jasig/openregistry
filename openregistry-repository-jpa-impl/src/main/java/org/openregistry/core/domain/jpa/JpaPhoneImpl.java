@@ -41,7 +41,7 @@ import javax.persistence.Table;
 
 @Table(name="prc_phones",
 		uniqueConstraints= {
-				@UniqueConstraint(columnNames={"phone_t", "address_t", "role_record_id"})
+				@UniqueConstraint(columnNames={"phone_t", "address_t", "phone_line_order", "role_record_id"})
 		})
 @Audited
 @org.hibernate.annotations.Table(appliesTo = "prc_phones", indexes = {@Index(name = "PHONE_INDEX", columnNames = {"country_code", "area_code", "phone_number"})})
@@ -59,6 +59,9 @@ public class JpaPhoneImpl extends Entity implements Phone {
     @ManyToOne(optional = false)
     @JoinColumn(name="phone_t")
     private JpaTypeImpl phoneType;
+
+    @Column(name="phone_line_order",nullable=false,length=1)
+    private Integer phoneLineOrder;
 
     @Column(name="country_code",nullable=false,length=5)
     private String countryCode;
@@ -96,6 +99,10 @@ public class JpaPhoneImpl extends Entity implements Phone {
         return this.phoneType;
     }
 
+    public Integer getPhoneLineOrder() {
+        return this.phoneLineOrder;
+    }
+
     public String getCountryCode() {
         return this.countryCode;
     }
@@ -126,6 +133,10 @@ public class JpaPhoneImpl extends Entity implements Phone {
         }
 
         this.phoneType = (JpaTypeImpl) phoneType;
+    }
+
+    public void setPhoneLineOrder(final Integer phoneLineOrder) {
+        this.phoneLineOrder = phoneLineOrder;
     }
 
     public void setCountryCode(final String countryCode) {

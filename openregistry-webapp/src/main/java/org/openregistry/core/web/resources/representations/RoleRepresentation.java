@@ -143,6 +143,9 @@ public final class RoleRepresentation {
         @XmlAttribute(name = "address-type")
         public String addressType;
 
+        @XmlAttribute(name = "phone_line_order")
+        public String phoneLineOrder;
+
         @XmlElement(name = "country-code")
         public String countryCode;
 

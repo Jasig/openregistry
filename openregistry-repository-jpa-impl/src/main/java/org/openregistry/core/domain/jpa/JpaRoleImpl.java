@@ -199,6 +199,7 @@ public class JpaRoleImpl extends Entity implements Role {
         jpaPhone.setExtension(sorPhone.getExtension());
         jpaPhone.setPhoneType(sorPhone.getPhoneType());
         jpaPhone.setAddressType(sorPhone.getAddressType());
+        jpaPhone.setPhoneLineOrder(sorPhone.getPhoneLineOrder());
         this.phones.add(jpaPhone);
         return jpaPhone;
     }
@@ -391,13 +392,15 @@ public class JpaRoleImpl extends Entity implements Role {
         for (final Phone cPhone: this.phones) {
             boolean found = false;
             for (final Phone sorPhone : sorRole.getPhones()) {
-                if (sorPhone.getAddressType().getDescription().equals(cPhone.getAddressType().getDescription())) found = true;
+                if (sorPhone.getAddressType().getDescription().equals(cPhone.getAddressType().getDescription()) &&
+                    sorPhone.getPhoneType().getDescription().equals(cPhone.getPhoneType().getDescription()) &&
+                    sorPhone.getPhoneLineOrder().compareTo(cPhone.getPhoneLineOrder()) == 0) found = true;
             }
             if (!found) this.phones.remove(cPhone);
         }
 
         for (final Phone sorPhone: sorRole.getPhones()) {
-            Phone phone = findPhone(sorPhone.getAddressType(), sorPhone.getPhoneType());
+            Phone phone = findPhone(sorPhone.getAddressType(), sorPhone.getPhoneType(), sorPhone.getPhoneLineOrder());
             if (phone == null){
         	    addPhone(sorPhone);
             } else {
@@ -443,10 +446,11 @@ public class JpaRoleImpl extends Entity implements Role {
         return null;
     }
 
-    protected Phone findPhone(Type addressType, Type phoneType){
+    protected Phone findPhone(Type addressType, Type phoneType, Integer phoneLineOrder){
         for (final Phone phone : this.phones) {
             if (phone.getAddressType().getDescription().equals(addressType.getDescription()) &&
-                phone.getPhoneType().getDescription().equals(phoneType.getDescription())) return phone;
+                phone.getPhoneType().getDescription().equals(phoneType.getDescription()) &&
+                phone.getPhoneLineOrder().compareTo(phoneLineOrder) == 0) return phone;
         }
         return null;
     }

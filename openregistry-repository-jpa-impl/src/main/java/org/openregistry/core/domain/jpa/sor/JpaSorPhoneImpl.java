@@ -42,7 +42,7 @@ import javax.validation.constraints.*;
 @Table(name="prs_phones",
 		uniqueConstraints= {
 				//@UniqueConstraint(columnNames={"country_code", "area_code", "phone_number"}),
-				@UniqueConstraint(columnNames={"phone_t", "address_t", "role_record_id"})
+				@UniqueConstraint(columnNames={"phone_t", "address_t", "phone_line_order", "role_record_id"})
 		})
 @Audited
 @org.hibernate.annotations.Table(appliesTo = "prs_phones", indexes = @Index(name = "PRS_PHONE_ROLE_INDEX", columnNames = "role_record_id"))
@@ -64,6 +64,11 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
     @NotNull
     @AllowedTypes(property = "phone.phoneType")
     private JpaTypeImpl phoneType;
+
+    @Column(name="phone_line_order",nullable=false,length=1)
+    @NotNull
+    @Digits(integer = 1, fraction = 0)
+    private Integer phoneLineOrder;
 
     @Column(name="country_code",nullable=false,length=5)
     @NotNull
@@ -108,6 +113,10 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
         return this.phoneType;
     }
 
+    public Integer getPhoneLineOrder() {
+        return this.phoneLineOrder;
+    }
+
     public String getCountryCode() {
         return this.countryCode;
     }
@@ -132,6 +141,10 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
     public void setPhoneType(final Type phoneType) {
         Assert.isInstanceOf(JpaTypeImpl.class, phoneType);
         this.phoneType = (JpaTypeImpl) phoneType;
+    }
+
+    public void setPhoneLineOrder(final Integer phoneLineOrder) {
+        this.phoneLineOrder = phoneLineOrder;
     }
 
     public void setCountryCode(final String countryCode) {

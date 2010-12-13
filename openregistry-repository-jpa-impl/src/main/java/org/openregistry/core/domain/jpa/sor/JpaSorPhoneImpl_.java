@@ -10,6 +10,7 @@ public abstract class JpaSorPhoneImpl_ {
 	public static volatile SingularAttribute<JpaSorPhoneImpl, Long> id;
 	public static volatile SingularAttribute<JpaSorPhoneImpl, JpaTypeImpl> addressType;
 	public static volatile SingularAttribute<JpaSorPhoneImpl, JpaTypeImpl> phoneType;
+    public static volatile SingularAttribute<JpaSorPhoneImpl, Integer> phoneLineOrder;
 	public static volatile SingularAttribute<JpaSorPhoneImpl, String> countryCode;
 	public static volatile SingularAttribute<JpaSorPhoneImpl, String> areaCode;
 	public static volatile SingularAttribute<JpaSorPhoneImpl, String> number;

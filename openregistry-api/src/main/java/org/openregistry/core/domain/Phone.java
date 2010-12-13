@@ -36,6 +36,8 @@ public interface Phone extends Serializable {
 
     Type getPhoneType();
 
+    Integer getPhoneLineOrder();
+
     String getCountryCode();
 
     String getAreaCode();
@@ -47,6 +49,8 @@ public interface Phone extends Serializable {
     void setAddressType(Type addressType);
 
     void setPhoneType(Type phoneType);
+
+    void setPhoneLineOrder(Integer phoneLineOrder);
 
     void setCountryCode(String countryCode);
 
