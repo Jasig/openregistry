@@ -22,6 +22,8 @@ public class MockPhoneNumber implements ContactPhone {
 
     private Type phoneType;
 
+    private Integer phoneLineOrder;
+
     private String countryCode;
 
     public Type getAddressType() {
@@ -38,6 +40,14 @@ public class MockPhoneNumber implements ContactPhone {
 
     public void setPhoneType(final Type phoneType) {
         this.phoneType = phoneType;
+    }
+
+    public Integer getPhoneLineOrder() {
+        return this.phoneLineOrder;
+    }
+
+    public void setPhoneLineOrder(final Integer phoneLineOrder) {
+        this.phoneLineOrder = phoneLineOrder;
     }
 
     public String getCountryCode() {
@@ -88,6 +98,7 @@ public class MockPhoneNumber implements ContactPhone {
         this.countryCode = null;
         this.phoneType = null;
         this.addressType = null;
+        this.phoneLineOrder = new Integer(1);
     }
 
     @Override
@@ -103,5 +114,6 @@ public class MockPhoneNumber implements ContactPhone {
         this.countryCode = phone.getCountryCode();
         this.phoneType = phone.getPhoneType();
         this.addressType = phone.getAddressType();
+        this.phoneLineOrder = phone.getPhoneLineOrder();
     }
 }

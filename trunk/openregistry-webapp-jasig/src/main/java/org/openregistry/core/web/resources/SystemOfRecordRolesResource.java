@@ -70,6 +70,8 @@ public class SystemOfRecordRolesResource {
 
     private final ReferenceRepository referenceRepository;
 
+    private final Integer DEFAULT_PHONE_LINE_ORDER = new Integer(1);
+
     //JSR-250 injection which is more appropriate here for 'autowiring by name' in the case of multiple types
     //are defined in the app ctx (Strings). The looked up bean name defaults to the property name which
     //needs an injection.
@@ -245,6 +247,8 @@ public class SystemOfRecordRolesResource {
             phone.setNumber(ph.number);
             phone.setAddressType(referenceRepository.findType(Type.DataTypes.ADDRESS, ph.addressType));
             phone.setPhoneType(referenceRepository.findType(Type.DataTypes.PHONE, ph.type));
+            if (ph.phoneLineOrder != null) phone.setPhoneLineOrder(Integer.parseInt(ph.phoneLineOrder));
+            else phone.setPhoneLineOrder(DEFAULT_PHONE_LINE_ORDER);
             phone.setCountryCode(ph.countryCode);
             phone.setAreaCode(ph.areaCode);
             phone.setExtension(ph.extension);

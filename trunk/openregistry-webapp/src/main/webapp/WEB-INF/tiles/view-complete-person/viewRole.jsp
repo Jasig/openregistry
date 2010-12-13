@@ -105,6 +105,7 @@
                             <tr class="appHeadingRow">
                                 <th><spring:message code="addressType.label"/></th>
                                 <th><spring:message code="phoneType.label"/></th>
+                                <th><spring:message code="phoneLineOrder.label"/></th>
                                 <th><spring:message code="number.label"/></th>
                             </tr>
                         </thead>
@@ -113,6 +114,7 @@
                             <tr>
                                 <td>${phone.addressType.description}</td>
                                 <td>${phone.phoneType.description}</td>
+                                <td>${phone.phoneLineOrder}</td>
                                 <td>${phone}</td>
                             </tr>
                             </c:forEach>

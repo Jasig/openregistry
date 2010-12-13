@@ -34,6 +34,9 @@ public class JpaContactPhoneImpl implements ContactPhone {
     @JoinColumn(name="phone_t")
     private JpaTypeImpl phoneType;
 
+    @Column(name="phone_line_order",nullable=true,length=1)
+    private Integer phoneLineOrder;
+
     @Column(name="country_code",nullable=true,length=5)
     private String countryCode;
 
@@ -56,6 +59,10 @@ public class JpaContactPhoneImpl implements ContactPhone {
 
     public Type getPhoneType() {
         return this.phoneType;
+    }
+
+    public Integer getPhoneLineOrder() {
+        return this.phoneLineOrder;
     }
 
     public String getCountryCode() {
@@ -92,6 +99,10 @@ public class JpaContactPhoneImpl implements ContactPhone {
         
         Assert.isInstanceOf(JpaTypeImpl.class, phoneType);
         this.phoneType = (JpaTypeImpl) phoneType;
+    }
+
+    public void setPhoneLineOrder(final Integer phoneLineOrder) {
+        this.phoneLineOrder = phoneLineOrder;
     }
 
     public void setCountryCode(final String countryCode) {
@@ -147,6 +158,7 @@ public class JpaContactPhoneImpl implements ContactPhone {
         this.extension = null;
         this.number = null;
         this.phoneType = null;
+        this.phoneLineOrder = new Integer(1);
 
     }
 
@@ -164,6 +176,7 @@ public class JpaContactPhoneImpl implements ContactPhone {
         this.countryCode = phone.getCountryCode();
         this.extension = phone.getExtension();
         this.number = phone.getNumber();
+        this.phoneLineOrder = phone.getPhoneLineOrder();
 
         Assert.isInstanceOf(JpaTypeImpl.class, phone.getPhoneType());
         this.phoneType = (JpaTypeImpl) phone.getPhoneType();
