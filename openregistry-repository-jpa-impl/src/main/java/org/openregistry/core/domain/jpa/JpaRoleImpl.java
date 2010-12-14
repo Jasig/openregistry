@@ -340,13 +340,16 @@ public class JpaRoleImpl extends Entity implements Role {
     protected void recalculateAddresses(SorRole sorRole){
         //remove addresses from calculated role when they are not in sorRole.
         //unique constraint guarantees that there can be only one address of a given type per role.
+        Set<Address> addressesToDelete = new HashSet<Address>();
         for (final Address cAddress: this.addresses) {
             boolean foundAddress = false;
             for (final Address sorAddress : sorRole.getAddresses()) {
                 if (sorAddress.getType().getDescription().equals(cAddress.getType().getDescription())) foundAddress = true;
             }
-            if (!foundAddress) this.addresses.remove(cAddress);
+            if (!foundAddress) addressesToDelete.add(cAddress);
         }
+
+        for (final Address address: addressesToDelete) this.addresses.remove(address);
 
         //add or update roles that are in sorRole in the calculated role.
         for (final Address sorAddress: sorRole.getAddresses()) {
@@ -368,13 +371,16 @@ public class JpaRoleImpl extends Entity implements Role {
     protected void recalculateEmailAddresses(SorRole sorRole){
          //remove email addresses from calculated role when they are not in sorRole.
         //unique constraint guarantees that there can be only one emailaddress of a given type per role.
+        Set<EmailAddress> emailsToDelete = new HashSet<EmailAddress>();
         for (final EmailAddress cEmailAddress: this.emailAddresses) {
             boolean foundAddress = false;
             for (final EmailAddress sorEmailAddress : sorRole.getEmailAddresses()) {
                 if (sorEmailAddress.getAddressType().getDescription().equals(cEmailAddress.getAddressType().getDescription())) foundAddress = true;
             }
-            if (!foundAddress) this.emailAddresses.remove(cEmailAddress);
+            if (!foundAddress) emailsToDelete.add(cEmailAddress);
         }
+
+        for (final EmailAddress email: emailsToDelete) this.emailAddresses.remove(email);
 
         for (final EmailAddress sorEmailAddress: sorRole.getEmailAddresses()) {
             EmailAddress emailAddress = findEmailAddress(sorEmailAddress.getAddressType());
@@ -416,14 +422,17 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     protected void recalculateUrls(SorRole sorRole){
-         //remove email urls from calculated role when they are not in sorRole.
+         //remove urls from calculated role when they are not in sorRole.
+        Set<Url> urlsToDelete = new HashSet<Url>();
         for (final Url cUrl: this.urls) {
-            boolean foundAddress = false;
+            boolean found = false;
             for (final Url sorUrl : sorRole.getUrls()) {
-                if (sorUrl.getUrl().equals(cUrl)) foundAddress = true;
+                if (sorUrl.getUrl().equals(cUrl)) found = true;
             }
-            if (!foundAddress) this.urls.remove(cUrl);
+            if (!found) urlsToDelete.add(cUrl);
         }
+
+        for (final Url url: urlsToDelete) this.urls.remove(url);
 
         for (final Url sorUrl: sorRole.getUrls()) {
             Url url = findUrl(sorUrl);
