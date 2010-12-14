@@ -466,6 +466,18 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
                         </aspectLibrary>
                     </aspectLibraries>
                 </configuration>
+                <dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjrt</artifactId>
+						<version>1.6.10</version>
+					</dependency>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjtools</artifactId>
+						<version>1.6.10</version>
+					</dependency>
+				</dependencies>
             </plugin>
 
             <plugin>
@@ -583,13 +595,13 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
     </profiles>
 
     <properties>
-        <activemq.version>5.2.0</activemq.version>
+        <activemq.version>5.4.2</activemq.version>
         <jsr250.version>1.0</jsr250.version>
-        <aspectj.version>1.6.8</aspectj.version>
-        <camel.version>2.4.0</camel.version>
+        <aspectj.version>1.6.10</aspectj.version>
+        <camel.version>2.5.0</camel.version>
         <clover.version>2.6.3</clover.version>
         <spring.version>3.0.5.RELEASE</spring.version>
-        <spring.security.version>3.0.3.RELEASE</spring.security.version>
+        <spring.security.version>3.0.5.RELEASE</spring.security.version>
         <junit.version>4.6</junit.version>
         <servlet.version>2.5</servlet.version>
         <groovy.version>1.7.3</groovy.version>
@@ -623,7 +635,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <stax.version>1.2.0</stax.version>
         <commons.lang.version>2.4</commons.lang.version>
         <lucene.version>3.0.1</lucene.version>
-        <spock.version>0.5-groovy-1.7-SNAPSHOT</spock.version>
+        <spock.version>0.6-groovy-1.7-SNAPSHOT</spock.version>
         <commons.codec.version>1.4</commons.codec.version>
     </properties>
 

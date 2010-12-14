@@ -1,26 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module MavenProjectsManager.isMavenModule="true" org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" relativePaths="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
-    <facet type="jpa" name="JPA">
-      <configuration>
-        <setting name="validation-enabled" value="true" />
-        <setting name="provider-name" value="" />
-        <datasource-mapping>
-          <factory-entry name="OpenRegistryPersistence" />
-        </datasource-mapping>
-        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
-      </configuration>
-    </facet>
     <facet type="Spring" name="Spring">
       <configuration />
-    </facet>
-    <facet type="hibernate" name="Hibernate">
-      <configuration>
-        <datasource-map>
-          <unit-entry name="src/test/resources/hibernate.cfg.xml" />
-        </datasource-map>
-        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/test/resources/hibernate.cfg.xml" />
-      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
@@ -35,7 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/groovy" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/groovy-stubs" />
-      <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
+      <excludeFolder url="file://$MODULE_DIR$/target/surefire-reports" />
       <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -50,8 +32,8 @@
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: javax.jms:jms:1.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:slf4j-log4j12:1.5.11" level="project" />
-    <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.6.8" level="project" />
-    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.6.8" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.6.10" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.6.10" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
@@ -98,28 +80,36 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-web:3.0.5.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-jms:3.0.5.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.codehaus.groovy:groovy-all:1.7.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.apache.camel:camel-core:2.4.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.camel:camel-core:2.5.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.fusesource.commonman:commons-management:1.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:activemq-camel:5.2.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.apache.camel:camel-jms:2.4.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.apache.camel:camel-spring:2.4.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:activemq-camel:5.4.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.camel:camel-jms:2.5.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.camel:camel-spring:2.5.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:activemq-core:5.2.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:activeio-core:3.1.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.apache.geronimo.specs:geronimo-j2ee-management_1.0_spec:1.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:activemq-pool:5.2.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: commons-pool:commons-pool:1.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:activemq-core:5.4.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:activeio-core:3.1.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:1.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:kahadb:5.4.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq.protobuf:activemq-protobuf:1.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.osgi:org.osgi.core:4.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: commons-net:commons-net:2.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jasypt:jasypt:1.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.ibm.icu:icu4j:4.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:activemq-pool:5.4.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: commons-pool:commons-pool:1.5.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.sf.ehcache:ehcache-core:2.2.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-config:3.0.3.RELEASE" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-core:3.0.3.RELEASE" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-config:3.0.5.RELEASE" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-core:3.0.5.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hsqldb:hsqldb:1.8.0.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.antlr:antlr:3.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.antlr:stringtemplate:3.1-b1" level="project" />
     <orderEntry type="module" module-name="openregistry-test-support" scope="TEST" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.8.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.6" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.5-groovy-1.7-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.5-groovy-1.7-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.6-groovy-1.7-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit-dep:4.8.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.6-groovy-1.7-SNAPSHOT" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>

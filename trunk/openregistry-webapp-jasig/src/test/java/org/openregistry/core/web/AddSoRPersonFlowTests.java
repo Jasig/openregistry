@@ -66,10 +66,10 @@ import static org.mockito.Mockito.*;
 public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
     private final String OR_WEBAPP_IDENTIFIER = "or-webapp";
-	private static final String EMAIL_ADDRESS = "test@test.edu";
-	private static final String PHONE_NUMBER = "555-555-5555";
-	private static final String RUDYARD = "Rudyard";
-	private static final String KIPLING = "Kipling";
+    private static final String EMAIL_ADDRESS = "test@test.edu";
+    private static final String PHONE_NUMBER = "555-555-5555";
+    private static final String RUDYARD = "Rudyard";
+    private static final String KIPLING = "Kipling";
 
     private PersonSearchAction personSearchAction;
     private ReferenceRepository referenceRepository;
@@ -97,7 +97,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
     @Override
     protected FlowDefinitionResource getResource(FlowDefinitionResourceFactory resourceFactory) {
-        return resourceFactory.createFileResource("src/main/webapp/WEB-INF/flows/addPerson.xml");
+        return resourceFactory.createResource("classpath:ddPerson.xml");
     }
 
     @Override
@@ -109,7 +109,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         builderContext.registerBean("personService", this.personService);
     }
 
-    protected ReconciliationCriteria constructReconciliationCriteria(final String firstName, final String lastName, final String ssn, final String emailAddress, final String phoneNumber, Date birthDate, final String sor){
+    protected ReconciliationCriteria constructReconciliationCriteria(final String firstName, final String lastName, final String ssn, final String emailAddress, final String phoneNumber, Date birthDate, final String sor) {
         final ReconciliationCriteria reconciliationCriteria = reconciliationCriteriaFactory.getObject();
         reconciliationCriteria.setEmailAddress(emailAddress);
         reconciliationCriteria.setPhoneNumber(phoneNumber);
@@ -130,7 +130,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     public void testStartFlow() {
         ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
         MutableAttributeMap input = new LocalAttributeMap();
-	    input.put("personSearch", criteria);
+        input.put("personSearch", criteria);
         ExternalContext context = new MockExternalContext();
 
         startFlow(context);
@@ -188,12 +188,12 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         when(person.getId()).thenReturn(1L);
 
         final Identifier identifier = mock(Identifier.class, RETURNS_SMART_NULLS);
-        final Map<String,Identifier> identifiersByType = mock(Map.class, RETURNS_SMART_NULLS);
+        final Map<String, Identifier> identifiersByType = mock(Map.class, RETURNS_SMART_NULLS);
 
         when(identifiersByType.get("NETID")).thenReturn(identifier);
         when(person.getPrimaryIdentifiersByType()).thenReturn(identifiersByType);
 
-        when (identifier.getValue()).thenReturn("FOOBAR");
+        when(identifier.getValue()).thenReturn("FOOBAR");
         final ActivationKey activationKey = mock(ActivationKey.class, RETURNS_SMART_NULLS);
         when(person.getCurrentActivationKey()).thenReturn(activationKey);
 
@@ -243,12 +243,12 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
         when(person.getId()).thenReturn(1L);
         final Identifier identifier = mock(Identifier.class, RETURNS_SMART_NULLS);
-        final Map<String,Identifier> identifiersByType = mock(Map.class, RETURNS_SMART_NULLS);
+        final Map<String, Identifier> identifiersByType = mock(Map.class, RETURNS_SMART_NULLS);
 
         when(identifiersByType.get("NETID")).thenReturn(identifier);
         when(person.getPrimaryIdentifiersByType()).thenReturn(identifiersByType);
 
-        when (identifier.getValue()).thenReturn("FOOBAR");
+        when(identifier.getValue()).thenReturn("FOOBAR");
         final ActivationKey activationKey = mock(ActivationKey.class, RETURNS_SMART_NULLS);
         when(person.getCurrentActivationKey()).thenReturn(activationKey);
 
@@ -278,7 +278,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
 
     // test case to start at viewMatches and continue to selecting a match and ending at addRole.
-     public void testSelectMatchAddRole() throws ReconciliationException {
+    public void testSelectMatchAddRole() throws ReconciliationException {
         ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
 
         final ReconciliationException reconciliationException = mock(ReconciliationException.class);
@@ -299,17 +299,17 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         resumeFlow(context);
         assertCurrentStateEquals("viewMatches");
         context.setEventId("submitAddRole");
-        context.putRequestParameter("personId","1");
+        context.putRequestParameter("personId", "1");
         resumeFlow(context);
         assertCurrentStateEquals("roleAddedSucceeded");
     }
 
     // mock add role subflow
-    public Flow createMockAddRoleSubflow(){
+    public Flow createMockAddRoleSubflow() {
         Flow mockAddRoleFlow = new Flow("add-role");
         mockAddRoleFlow.setInputMapper(new Mapper() {
-            public MappingResults map(Object source, Object target)  {
-                assertNotNull(((AttributeMap)source).get("sorPerson"));
+            public MappingResults map(Object source, Object target) {
+                assertNotNull(((AttributeMap) source).get("sorPerson"));
                 return null;
             }
         });
@@ -322,6 +322,6 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
         public Class<? extends Annotation> annotationType() {
             return TestAnnotation.class;
         }
-}
+    }
 
 }
