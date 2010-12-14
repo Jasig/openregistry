@@ -9,7 +9,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/groovy-stubs" />
-      <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -21,8 +20,8 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: javax.jms:jms:1.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:slf4j-log4j12:1.5.11" level="project" />
-    <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.6.8" level="project" />
-    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.6.8" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.6.10" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.6.10" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
@@ -39,8 +38,10 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:3.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0-CR-1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.6" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.5-groovy-1.7-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.5-groovy-1.7-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-core:0.6-groovy-1.7-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit-dep:4.8.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.spockframework:spock-spring:0.6-groovy-1.7-SNAPSHOT" level="project" />
   </component>
   <component name="POM File Configuration" pomFile="" />
 </module>
