@@ -33,7 +33,7 @@ public class MockPerson implements Person {
 
     private ActivationKey activationKey = new MockActivationKey(UUID.randomUUID().toString(), new Date(), new Date());
 
-	private List<Role> roles = new ArrayList<Role>();
+	private Set<Role> roles = new HashSet<Role>();
 
     private long id = 1L;
 
@@ -142,7 +142,7 @@ public class MockPerson implements Person {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return this.roles;
     }
 

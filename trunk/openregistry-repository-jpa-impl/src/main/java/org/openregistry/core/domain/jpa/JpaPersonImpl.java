@@ -60,7 +60,7 @@ public class JpaPersonImpl extends Entity implements Person {
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaRoleImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-    private List<Role> roles = new ArrayList<Role>();
+    private Set<Role> roles = new HashSet<Role>();
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)
     private Set<JpaIdentifierImpl> identifiers = new HashSet<JpaIdentifierImpl>();
@@ -204,7 +204,7 @@ public class JpaPersonImpl extends Entity implements Person {
         return jpaRole;
     }
 
-    public List<Role> getRoles() {
+    public Set<? extends Role> getRoles() {
         return this.roles;
     }
 

@@ -194,14 +194,17 @@ public class DefaultPersonService implements PersonService {
         Assert.notNull(person, "person cannot be null.");
 
         if (mistake) {
+            Set<Role> rolesToDelete = new HashSet<Role>();
+
             for (final SorRole sorRole : sorPerson.getRoles()) {
-                for (final Iterator<Role> iter = person.getRoles().iterator(); iter.hasNext();) {
-                    final Role role = iter.next();
+                for (final Role role: person.getRoles()) {
                     if (sorRole.getId().equals(role.getSorRoleId())) {
-                        iter.remove();
+                        rolesToDelete.add(role);
                     }
                 }
             }
+
+            for (final Role role: rolesToDelete) person.getRoles().remove(role);
 
             final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
 
@@ -363,6 +366,9 @@ public class DefaultPersonService implements PersonService {
                     final Person person = this.personRepository.findByIdentifier(identifierType.getName(), identifierValue);
 
                     if (person != null) {
+                        logger.info("Back from identifier search found person");
+                        for (final Role role: person.getRoles())
+                            logger.info("Found a role: sorroleid: "+ role.getSorRoleId() +" title: " + role.getTitle());
                         return new ArrayList<PersonMatch>(Arrays.asList(new PersonMatchImpl(person, 100, new ArrayList<FieldMatch>())));
                     }
                 }
@@ -409,7 +415,9 @@ public class DefaultPersonService implements PersonService {
         Person person = this.findPersonById(savedSorPerson.getPersonId());
 
         Assert.notNull(person, "person cannot be null.");
-        logger.info("DefaultPersonService: In UpdateSorPerson!!!!!!!!!. Has change.");
+
+        logger.info("Verifying Number of calculated Roles before the calculate: "+ person.getRoles().size());
+
         // Iterate over sorRoles. SorRoles may be new or updated.
         for (final SorRole savedSorRole:savedSorPerson.getRoles()){
             logger.info("DefaultPersonService: savedSorPersonRole Found, savedSorRoleID: "+ savedSorRole.getId());
@@ -422,7 +430,7 @@ public class DefaultPersonService implements PersonService {
                 logger.info("DefaultPersonService: savedSorPersonRole Found, Role was there before.");
                 role.recalculate(savedSorRole); // role may have been updated, so recalculate.
             }
-            logger.info("Verifying Number of calculated Roles: "+ person.getRoles().size());
+            logger.info("Verifying Number of calculated Roles after calculate: "+ person.getRoles().size());
         }
         
         for (final IdentifierAssigner ia : this.identifierAssigners) {

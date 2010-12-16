@@ -175,7 +175,8 @@ public class MockSorPerson extends Entity implements SorPerson {
 	}
 
 	public SorRole createRole(Type affiliationType) {
-        final SorRole sorRole = new MockSorRole(1L);
+        final SorRole sorRole = new MockSorRole();
+        sorRole.setAffiliationType(affiliationType);
         return sorRole;
     }
 
