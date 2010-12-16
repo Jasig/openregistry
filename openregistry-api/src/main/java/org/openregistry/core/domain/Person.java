@@ -62,7 +62,7 @@ public interface Person extends Serializable {
      * @return a collection of roles the person currently has or an empty collection.
      *         Note to implementers: this method should never return null.
      */
-    List<Role> getRoles();
+    Set<? extends Role> getRoles();
 
     /**
      * Add a new role to a collection of roles this person holds and populate it with the data from the given sorRole.

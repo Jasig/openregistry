@@ -558,8 +558,12 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prc_addresses"));
 
         final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
-        final Role role = person.getRoles().get(0);
-        assertEquals(100, role.getPercentage());
+
+
+        Role personRole = null;
+        for (Role role: person.getRoles()) if (role.getSorRoleId().equals(sorRole1.getId())) personRole = role;
+
+        assertEquals(100, personRole.getPercentage());
      }
 
     // UPDATE SOR ROLE
@@ -625,7 +629,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prc_addresses"));
 
         final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
-        final Role role = person.getRoles().get(0);
+        //final Role role = person.getRoles().get(0);
         //final Address address1 = role.getAddresses().get(0);
         //assertEquals("Any City", address1.getCity());
      }
@@ -666,7 +670,10 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prc_role_records"));
 
         final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
-        final Role cRole = person.getRoles().get(0);
+
+        Role cRole = null;
+        for (Role prole: person.getRoles()) cRole = prole;
+
         final SorRole sRole = ser.getTargetObject();
         assertEquals(sRole.getPercentage(), cRole.getPercentage());
         assertEquals(sRole.getStart(), cRole.getStart());
@@ -710,7 +717,9 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         assertEquals(1, countRowsInTable("prc_role_records"));
 
         final Person person = this.personService.findPersonById(serviceExecutionResult1.getTargetObject().getId());
-        final Role cRole = person.getRoles().get(0);
+
+        Role cRole = null;
+        for (Role prole: person.getRoles()) cRole = prole;
         final SorRole sRole = ser.getTargetObject();
         assertEquals(sRole.getPercentage(), cRole.getPercentage());
         assertEquals(sRole.getStart(), cRole.getStart());
