@@ -53,7 +53,7 @@
                         <th><spring:message code="personStatus.label"/></th>
                         <th><spring:message code="startDate.label"/></th>
                         <th><spring:message code="endDate.label"/></th>
-                        <th><spring:message code="sponsor.label"/></th>
+                        <!-- <th><spring:message code="sponsor.label"/></th>  -->
                         <th><spring:message code="pt.label"/></th>
                         <th><spring:message code="roleTitle.label"/></th>
 				        <th><spring:message code="affiliation.label"/></th>
