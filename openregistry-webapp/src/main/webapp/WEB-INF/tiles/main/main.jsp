@@ -46,10 +46,11 @@
                 <li><a href="newActivationKey.htm">Request New Activation Key</a></li>
   -->
                 <!-- Only the principal who is authorize to access the view complete person url
-                can see this link on the main page-->
-                <sec:authorize  url="/viewCompletePerson.htm">
+                can see this link on the main page -->
+                <!-- Commenting sec:authorize on url viewCompletePerson.htm for now  -->
+
                    <li><a href="viewCompletePerson.htm">View Complete Person</a></li>
-                </sec:authorize>
+
             </ul>
 			<h2>Important Notices</h2>
 			<p>
