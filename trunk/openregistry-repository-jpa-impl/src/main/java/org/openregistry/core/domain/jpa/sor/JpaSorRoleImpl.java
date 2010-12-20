@@ -44,7 +44,7 @@ import java.util.*;
  * @since 0.1
  */
 @javax.persistence.Entity(name = "sorRole")
-@Table(name = "prs_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"system_of_record_id", "id"}))
+@Table(name = "prs_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"system_of_record_id", "id", "affiliation_t"}))
 @org.hibernate.annotations.Table(appliesTo = "prs_role_records", indexes = @Index(name = "PRS_ROLE_SOR_PERSON_INDEX", columnNames = "sor_person_id"))
 @Audited
 public class JpaSorRoleImpl extends Entity implements SorRole {
