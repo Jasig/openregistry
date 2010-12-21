@@ -51,7 +51,7 @@ public final class CamelIntegrationGateway implements IntegrationGateway {
 
     public void dispatch(String destinationId, Object messageBody) throws IntegrationProcessingException {
         try {
-            this.camelTemplate.asyncSendBody(destinationId, messageBody);
+            this.camelTemplate.sendBody(destinationId, messageBody);
         }
         catch (Throwable e) {
             throw new IntegrationProcessingException(e);
@@ -60,7 +60,7 @@ public final class CamelIntegrationGateway implements IntegrationGateway {
 
     public void dispatch(String destinationId, Object messageBody, Map<String, Object> metadata) throws IntegrationProcessingException {
         try {
-            this.camelTemplate.asyncRequestBodyAndHeaders(destinationId, messageBody, metadata);
+            this.camelTemplate.sendBodyAndHeaders(destinationId, messageBody, metadata);
         }
         catch (Throwable e) {
             throw new IntegrationProcessingException(e);
