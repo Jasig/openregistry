@@ -84,7 +84,7 @@
         <property name="jpaPropertyMap">
             <map>
                 <entry key="hibernate.dialect" value-ref="hibernateDialect"/>
-                <!-- <entry key="hibernate.hbm2ddl.auto" value="update"/> -->
+                <entry key="hibernate.hbm2ddl.auto" value="update"/>
             </map>
         </property>
     </bean>

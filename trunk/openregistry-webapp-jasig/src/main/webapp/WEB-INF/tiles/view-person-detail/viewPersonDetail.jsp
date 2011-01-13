@@ -27,24 +27,6 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		$('#activationKeyLink').click(function() {
-			$.post('<c:url value="/api/v1/people/${preferredPersonIdentifierType}/${person.primaryIdentifiersByType[preferredPersonIdentifierType].value}/activation" />', {}, function(data, textStatus, XMLHttpRequest) {
-				var location = XMLHttpRequest.getResponseHeader('Location');
-				var activationKey = location.substring(location.lastIndexOf("/")+1);
-
-				$('#activationKeyDialog').html(activationKey);
-				$('#activationKeyDialog').dialog({
-					show: 'slide',
-					modal: true,
-					buttons: {
-						Ok: function() {
-							$(this).dialog('close');
-						}
-					}
-				});
-			})
-		});
-
 		$('.accordion').accordion({collapsible: true});
 		$('#content span[title]').qtip({content: {text: false}, position: {
 			corner: {

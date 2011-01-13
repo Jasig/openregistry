@@ -21,231 +21,240 @@
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:sec="http://www.springframework.org/schema/security"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:jee="http://www.springframework.org/schema/jee"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   xmlns:sec="http://www.springframework.org/schema/security"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
-    <jee:jndi-lookup id="casServiceUrl" jndi-name="conf/cas/serviceUrl" expected-type="java.lang.String"/>
-    <jee:jndi-lookup id="casLoginUrl" jndi-name="conf/cas/loginUrl" expected-type="java.lang.String"/>
-    <jee:jndi-lookup id="casProxyReceptorUrl" jndi-name="conf/cas/proxyReceptorUrl" expected-type="java.lang.String"/>
-    <jee:jndi-lookup id="casServerHost" jndi-name="conf/cas/serverHost" expected-type="java.lang.String"/>
-    <jee:jndi-lookup id="casRenew" jndi-name="conf/cas/renew" expected-type="java.lang.String"/>
-    <jee:jndi-lookup id="casSpringSecurityAuthProviderKey" jndi-name="conf/cas/springSecurityAuthProviderKey" expected-type="java.lang.String"/>
+<!--
+	Most of the configuration on this page is lifted from http://blog.springsource.com/2010/03/06/behind-the-spring-security-namespace/
+-->
 
-    <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
-        <sec:filter-chain-map path-type="ant">
-            <sec:filter-chain pattern="/home.htm" filters="none" />
-            <sec:filter-chain pattern="/images/**" filters="none" />
-            <sec:filter-chain pattern="/js/**" filters="none" />
-            <sec:filter-chain pattern="/css/**" filters="none" />
-            <sec:filter-chain pattern="/errors/*.htm" filters="none" />
-            <sec:filter-chain pattern="/j_spring_cas_security_check" filters="httpSessionContextIntegrationFilter,logoutFilter,casProcessingFilter,securityContextHolderAwareRequestFilter,casExceptionTranslationFilter,filterInvocationInterceptor" />
-            <sec:filter-chain pattern="/**/*.htm*" filters="httpSessionContextIntegrationFilter,logoutFilter,casProcessingFilter,securityContextHolderAwareRequestFilter,casExceptionTranslationFilter,filterInvocationInterceptor"/>
-            <sec:filter-chain pattern="/**/people/**/activation*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
-            <sec:filter-chain pattern="/**/people/**/activation/*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
-            <sec:filter-chain pattern="/**/sor/**/people*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
-        </sec:filter-chain-map>
-    </bean>
+	<bean id="filterChainProxy" class="org.springframework.security.web.FilterChainProxy">
+		<sec:filter-chain-map path-type="ant">
+			<sec:filter-chain pattern="/home.htm" filters="none" />
+			<sec:filter-chain pattern="/images/**" filters="none" />
+			<sec:filter-chain pattern="/js/**" filters="none" />
+			<sec:filter-chain pattern="/css/**" filters="none" />
+			<sec:filter-chain pattern="/errors/*.htm" filters="none" />
+			<sec:filter-chain pattern="/**/*.htm*" filters="securityContextFilter,logoutFilter,basicProcessingFilter,requestCacheFilter,
+				anonFilter,sessionMgmtFilter,basicExceptionTranslationFilter,filterSecurityInterceptor" />
 
-    <bean id="filterInvocationInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor"
-        p:authenticationManager-ref="authenticationManager"
-        p:accessDecisionManager-ref="accessDecisionManager">
-        <property name="securityMetadataSource">
-            <sec:filter-security-metadata-source use-expressions="true">
-               <sec:intercept-url pattern="/**/sor/**/people*" access="hasAnyRole('ROLE_PI','ROLE_ADMIN') and fullyAuthenticated"/>  
-              <sec:intercept-url pattern="/**"  access="hasAnyRole('ROLE_USER','ROLE_ADMIN') and fullyAuthenticated"/>              
-            </sec:filter-security-metadata-source>
-        </property>
-    </bean>
-
-    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
-        <property name="allowIfAllAbstainDecisions" value="false"/>
-        <property name="decisionVoters">
-            <list>
-                <bean class="org.springframework.security.access.vote.RoleVoter"/>
-                	<ref bean="expressionVoter"/>
-                <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="httpSessionContextIntegrationFilter" class="org.springframework.security.web.context.HttpSessionContextIntegrationFilter" />
-
-    <bean id="securityContextHolderAwareRequestFilter" class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter" />
-
-    <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
-        <constructor-arg value="/cas-logout.jsp" />
-        <constructor-arg>
-            <list>
-                <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"
-                    p:invalidateHttpSession="false" />
-            </list>
-        </constructor-arg>
-    </bean>
-
-    <sec:authentication-manager alias="authenticationManager">
-        <!-- CAS is the only authentication provider-->
-        <sec:authentication-provider ref="casAuthenticationProvider " />
-    </sec:authentication-manager>
-
-    <!-- #########################################################################################
-         # CAS AUTHENTICATION COMPONENTS                                                         #
-         ######################################################################################### -->
-    <bean id="casExceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter"
-            p:authenticationEntryPoint-ref="casProcessingFilterEntryPoint" />
-
-    <bean id="casProcessingFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter">
-        <property name="authenticationManager" ref="authenticationManager"/>
-        <property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage"/>
-        <property name="proxyReceptorUrl" value="/secure/receptor"/>
-        <property name="authenticationSuccessHandler">
-            <bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler"
-                p:alwaysUseDefaultTargetUrl="false"
-                p:defaultTargetUrl="/main.htm" />
-        </property>
-        <property name="authenticationFailureHandler">
-            <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-                <constructor-arg index="0" value="/errors/403.htm" />
-            </bean>
-        </property>
-    </bean>
-
-    <bean id="casProcessingFilterEntryPoint" class="org.springframework.security.cas.web.CasAuthenticationEntryPoint">
-        <property name="loginUrl" ref="casLoginUrl" />
-        <property name="serviceProperties" ref="serviceProperties"/>
-    </bean>
-
-    <bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
-        <property name="authenticationUserDetailsService" ref="authenticationUserDetailsService"/>
-        <property name="serviceProperties" ref="serviceProperties"/>
-        <property name="ticketValidator">
-            <bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
-                <constructor-arg index="0" ref="casServerHost" />
-                <property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage"/>
-                <property name="proxyCallbackUrl" ref="casProxyReceptorUrl" />
-            </bean>
-        </property>
-        <property name="key" ref="casSpringSecurityAuthProviderKey"/>
-    </bean>
-
-    <bean id="proxyGrantingTicketStorage" class="org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl"/>
-
-    <bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">
-        <property name="service" ref="casServiceUrl" />
-        <property name="sendRenew" ref="casRenew" />
-    </bean>  
-
-    <!-- user detail service for CAS authentiated users -->
-    <bean id="authenticationUserDetailsService" class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
-		<property name="userDetailsService" ref="jdbcUserService"/>
-
-	</bean>
-    <bean id="jdbcUserService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
-		<property name="dataSource" ref="dataSource"/>
-		<property name="enableGroups" value="true"/>
-		<property name="enableAuthorities" value="false"/>		
-	</bean>
-    <!-- Expression voter for using expressions in authorization configuration-->
-    <bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" id="expressionHandler"/>
-	<bean class="org.springframework.security.web.access.expression.WebExpressionVoter" id="expressionVoter">
-		<property name="expressionHandler" ref="expressionHandler"/>
+			<!--
+			   <sec:filter-chain pattern="/**/*.htm*" filters="httpSessionContextIntegrationFilter,logoutFilter,casProcessingFilter,securityContextHolderAwareRequestFilter,casExceptionTranslationFilter,filterInvocationInterceptor"/>
+			   <sec:filter-chain pattern="/**/people/**/activation*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
+			   <sec:filter-chain pattern="/**/people/**/activation/*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
+			   <sec:filter-chain pattern="/**/sor/**/people*" filters="httpSessionContextIntegrationFilter,basicProcessingFilter,securityContextHolderAwareRequestFilter,basicExceptionTranslationFilter,filterInvocationInterceptor"/>
+   -->
+		</sec:filter-chain-map>
 	</bean>
 
-    
-
-    <!-- #########################################################################################
-         # BASIC AUTH AUTHENTICATION COMPONENTS        For REST API                               #
-         ######################################################################################### -->
-    <!--From application configuration point of view rest api authentication is simple http , but princiapl with user name '_cas_stateless_' trigger CASAuthenticationProvider to validate the
-      ticket (provided as principal passwor)-->
-    <bean id="basicExceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter"
-            p:authenticationEntryPoint-ref="authenticationEntryPoint" />
-
-    <bean id="basicProcessingFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter"
-        p:authenticationManager-ref="authenticationManager"
-        p:authenticationEntryPoint-ref="authenticationEntryPoint"
-            p:ignoreFailure="false"/>
-
-    <bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint"
-        p:realmName="OpenRegistry RESTful API" />
-
-        <!-- @Pre/@Post Method Advice Voters -->
-    <bean class="org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor" id="methodSecurityInterceptor">
-        <property name="authenticationManager" ref="authenticationManager"/>
-        <property name="accessDecisionManager" ref="methodAccessDecisionManager"/>
-		<property name="afterInvocationManager" ref="afterInvocationManager"/>
-        <property name="securityMetadataSource" ref="delegatingMetadataSource"/>
-	</bean>
-
-    <bean class="org.springframework.security.access.intercept.aopalliance.MethodSecurityMetadataSourceAdvisor" id="methodSecurityMetadataSourceAdvisor">
-		<constructor-arg ref="methodSecurityInterceptor"/>
-
-	</bean>
-	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" id="defaultAdvisorAutoProxyCreator">
-		<property name="beanName" value="methodSecurityMetadataSourceAdvisor"/>
-	</bean>
-
-    	<bean class="org.springframework.security.access.vote.AffirmativeBased" id="methodAccessDecisionManager">
-		<property name="decisionVoters">
-			<list>
-				<ref bean="preAdviceVoter"/>
-                <bean class="org.springframework.security.access.vote.RoleVoter"/>
-                <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
-                <ref bean="jsr250Voter"/>
-
-			</list>
-		</property>
-	</bean>
-        <bean class="org.springframework.security.access.annotation.Jsr250Voter" id="jsr250Voter"/>
-    	<bean class="org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource" id="delegatingMetadataSource">
-		<property name="methodSecurityMetadataSources">
-			<list>
-				<ref local="prePostMetadataSource"/>
-			</list>
-		</property>
-	</bean>
-
-    <bean class="org.springframework.security.access.prepost.PreInvocationAuthorizationAdviceVoter" id="preAdviceVoter">
-        <constructor-arg ref="exprPreInvocationAdvice"/>
-    </bean>
-    <bean class="org.springframework.security.access.prepost.PostInvocationAdviceProvider" id="postAdviceProvider">
-        <constructor-arg ref="exprPostInvocationAdvice"/>
-    </bean>
-    <bean class="org.springframework.security.access.prepost.PrePostAnnotationSecurityMetadataSource" id="prePostMetadataSource">
-        <constructor-arg ref="exprAnnotationAttrFactory"/>
-    </bean>
-
-    <!-- @Pre/@Post Method Expression Handler -->
-    <bean class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler" id="methodExprHandler">
-        <property name="permissionEvaluator" ref="authorityPermissionEvaluator"/>
-  </bean>
-    <bean class="org.openregistry.core.service.security.auth.DefaultPermissionEvaluator" id="authorityPermissionEvaluator"/>
-
-
-
-    <bean class="org.springframework.security.access.expression.method.ExpressionBasedPreInvocationAdvice" id="exprPreInvocationAdvice">
-        <property name="expressionHandler" ref="methodExprHandler"/>
-    </bean>
-    <bean class="org.springframework.security.access.expression.method.ExpressionBasedPostInvocationAdvice" id="exprPostInvocationAdvice">
-        <constructor-arg ref="methodExprHandler"/>
-    </bean>
-    <bean class="org.springframework.security.access.expression.method.ExpressionBasedAnnotationAttributeFactory" id="exprAnnotationAttrFactory">
-        <constructor-arg ref="methodExprHandler"/>
-    </bean>
-
-	<bean class="org.springframework.security.access.intercept.AfterInvocationProviderManager" id="afterInvocationManager">
+	<bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
 		<property name="providers">
 			<list>
-				<ref local="postAdviceProvider"/>
+				<ref bean="authenticationProvider" />
+				<ref bean="anonymousProvider" />
 			</list>
 		</property>
 	</bean>
-     <!-- end pre post -->
 
+	<bean id="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="jdbcUserService" />
+	</bean>
+
+	<bean id="anonymousProvider" class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
+		<property name="key" value="openregistry" />
+	</bean>
+
+	<bean id="securityContextFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+		<property name="securityContextRepository" ref="securityContextRepository" />
+	</bean>
+
+	<bean id="securityContextRepository" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository" />
+
+	<bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<constructor-arg value="/logout.htm" />
+		<constructor-arg>
+			<list>
+				<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="formLoginFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="authenticationSuccessHandler">
+			<bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+				<property name="defaultTargetUrl" value="/findAndViewPersonDetail.htm" />
+			</bean>
+		</property>
+		<property name="sessionAuthenticationStrategy">
+			<bean class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" />
+		</property>
+ 	</bean>
+
+	<bean id="requestCacheFilter" class="org.springframework.security.web.savedrequest.RequestCacheAwareFilter" />
+
+	<bean id="anonFilter" class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+		<property name="key" value="openregistry" />
+		<property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS" />
+	</bean>
+
+	<bean id="sessionMgmtFilter" class="org.springframework.security.web.session.SessionManagementFilter">
+		<constructor-arg ref="securityContextRepository" />
+	</bean>
+
+	<bean id="exceptionTranslator" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+		<property name="authenticationEntryPoint">
+			<bean class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+				<property name="loginFormUrl" value="/login.htm" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="securityMetadataSource">
+			<sec:filter-security-metadata-source use-expressions="true">
+				<sec:intercept-url pattern="/login.htm" access="hasAnyRole('ROLE_ANONYMOUS')" />
+				<sec:intercept-url pattern="/**/sor/**/people*"
+								   access="hasAnyRole('ROLE_PI','ROLE_ADMIN') and fullyAuthenticated" />
+				<sec:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN') and fullyAuthenticated" />
+			</sec:filter-security-metadata-source>
+		</property>
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+	</bean>
+
+	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<bean class="org.springframework.security.access.vote.RoleVoter" />
+				<ref bean="expressionVoter" />
+				<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="expressionVoter" class="org.springframework.security.web.access.expression.WebExpressionVoter">
+		<property name="expressionHandler" ref="expressionHandler" />
+	</bean>
+
+	<!-- Expression voter for using expressions in authorization configuration-->
+	<bean id="expressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+
+	<bean id="jdbcUserService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+		<property name="enableGroups" value="true" />
+		<property name="enableAuthorities" value="false" />
+	</bean>
+
+<!--
+	<bean id="httpSessionContextIntegrationFilter"
+		  class="org.springframework.security.web.context.HttpSessionContextIntegrationFilter" />
+
+	<bean id="securityContextHolderAwareRequestFilter"
+		  class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter" />
+-->
+
+	<!-- #########################################################################################
+		 # BASIC AUTH AUTHENTICATION COMPONENTS        For REST API                              #
+		 ######################################################################################### -->
+	<!--From application configuration point of view rest api authentication is simple http, but principal with user name '_cas_stateless_'
+	trigger CASAuthenticationProvider to validate the ticket (provided as principal password)-->
+	<bean id="basicExceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter"
+		  p:authenticationEntryPoint-ref="authenticationEntryPoint" />
+
+	<bean id="basicProcessingFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter"
+		  p:authenticationManager-ref="authenticationManager"
+		  p:authenticationEntryPoint-ref="authenticationEntryPoint"
+		  p:ignoreFailure="false" />
+
+	<bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint"
+		  p:realmName="OpenRegistry" />
+
+	<!-- @Pre/@Post Method Advice Voters -->
+	<bean id="methodSecurityInterceptor" class="org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="accessDecisionManager" ref="methodAccessDecisionManager" />
+		<property name="afterInvocationManager" ref="afterInvocationManager" />
+		<property name="securityMetadataSource" ref="delegatingMetadataSource" />
+	</bean>
+
+	<bean id="methodSecurityMetadataSourceAdvisor" class="org.springframework.security.access.intercept.aopalliance.MethodSecurityMetadataSourceAdvisor">
+		<constructor-arg ref="methodSecurityInterceptor" />
+	</bean>
+
+	<bean id="defaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+		<property name="beanName" value="methodSecurityMetadataSourceAdvisor" />
+	</bean>
+
+	<bean id="methodAccessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<property name="decisionVoters">
+			<list>
+				<ref bean="preAdviceVoter" />
+				<bean class="org.springframework.security.access.vote.RoleVoter" />
+				<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+				<ref bean="jsr250Voter" />
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="jsr250Voter" class="org.springframework.security.access.annotation.Jsr250Voter" />
+
+	<bean id="delegatingMetadataSource" class="org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource">
+		<property name="methodSecurityMetadataSources">
+			<list>
+				<ref local="prePostMetadataSource" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="preAdviceVoter" class="org.springframework.security.access.prepost.PreInvocationAuthorizationAdviceVoter">
+		<constructor-arg ref="exprPreInvocationAdvice" />
+	</bean>
+
+	<bean id="postAdviceProvider" class="org.springframework.security.access.prepost.PostInvocationAdviceProvider">
+		<constructor-arg ref="exprPostInvocationAdvice" />
+	</bean>
+
+	<bean id="prePostMetadataSource" class="org.springframework.security.access.prepost.PrePostAnnotationSecurityMetadataSource">
+		<constructor-arg ref="exprAnnotationAttrFactory" />
+	</bean>
+
+	<!-- @Pre/@Post Method Expression Handler -->
+	<bean id="methodExprHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<property name="permissionEvaluator" ref="authorityPermissionEvaluator" />
+	</bean>
+
+	<bean id="authorityPermissionEvaluator" class="org.openregistry.core.service.security.auth.DefaultPermissionEvaluator" />
+
+	<bean id="exprPreInvocationAdvice" class="org.springframework.security.access.expression.method.ExpressionBasedPreInvocationAdvice" >
+		<property name="expressionHandler" ref="methodExprHandler" />
+	</bean>
+
+	<bean id="exprPostInvocationAdvice" class="org.springframework.security.access.expression.method.ExpressionBasedPostInvocationAdvice">
+		<constructor-arg ref="methodExprHandler" />
+	</bean>
+
+	<bean class="org.springframework.security.access.expression.method.ExpressionBasedAnnotationAttributeFactory"
+		  id="exprAnnotationAttrFactory">
+		<constructor-arg ref="methodExprHandler" />
+	</bean>
+
+	<bean id="afterInvocationManager" class="org.springframework.security.access.intercept.AfterInvocationProviderManager">
+		<property name="providers">
+			<list>
+				<ref local="postAdviceProvider" />
+			</list>
+		</property>
+	</bean>
+	<!-- end pre post -->
 
 </beans>

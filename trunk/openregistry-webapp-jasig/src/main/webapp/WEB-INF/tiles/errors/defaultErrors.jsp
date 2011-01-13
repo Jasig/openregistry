@@ -28,3 +28,5 @@
 	<h2><spring:message code="${key}" /></h2>
 	<p><spring:message code="${body}" /></p>
 </div>
+<div class="or-form-name">Form: defaultErrors</div>
+
