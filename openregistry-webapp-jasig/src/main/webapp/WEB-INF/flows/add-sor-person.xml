@@ -36,19 +36,7 @@
 		<evaluate expression="sorRole.createPhone()" />
     </on-start>
 
-    <!-- By default, the first state is the start state. -->
-<!--
-    <action-state id="createName">
-        <transition to="addPerson"/>
-    </action-state>
--->
-
     <view-state id="addPerson" model="reconciliationCriteria" view="openregistry.person.add.insert">
-<!--
-        <on-render>
-            <set name="viewScope.command" value="'reconciliationCriteria'"/>
-        </on-render>
--->
         <transition on="submitAddPerson" to="reconciliationAddPerson" bind="true" validate="true"/>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
