@@ -57,7 +57,7 @@
 
     </view-state>
 
-    <subflow-state id="addRole" subflow="add-role" >
+    <subflow-state id="addRole" subflow="addRole" >
         <input name="sorPerson" value="flowScope.sorPerson"/>
         <output name="role"/>
         <transition on="roleWasAdded" to="updatePerson" />
