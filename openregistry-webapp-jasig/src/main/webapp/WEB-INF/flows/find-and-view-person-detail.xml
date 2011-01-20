@@ -25,12 +25,12 @@
       xsi:schemaLocation="http://www.springframework.org/schema/webflow
     http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
-    <subflow-state id="searchForPerson" subflow="find-person" >
+    <subflow-state id="searchForPerson" subflow="findPerson" >
         <output name="person" />
         <transition to="viewPersonDetail" />
     </subflow-state>
 
-    <subflow-state id="viewPersonDetail" subflow="view-person-detail">
+    <subflow-state id="viewPersonDetail" subflow="viewPersonDetail">
         <input name="person" value="person" />
         <transition to="newSearch" />
     </subflow-state>

@@ -30,7 +30,7 @@
         <transition to="viewPersonDetail" />
     </subflow-state>
 
-    <subflow-state id="viewPersonDetail" subflow="view-person-detail">
+    <subflow-state id="viewPersonDetail" subflow="viewPersonDetail">
         <input name="person" value="person" />
         <transition to="newSearch" />
     </subflow-state>

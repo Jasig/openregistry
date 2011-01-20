@@ -27,72 +27,66 @@
 
     <on-start>
         <evaluate expression="reconciliationCriteriaFactory.getObject()" result="flowScope.reconciliationCriteria"/>
+		<evaluate expression="reconciliationCriteria.getSorPerson()" result="flowScope.sorPerson" />
+		<evaluate expression="sorPerson.addName(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@NAME, @org.openregistry.core.domain.Type$NameTypes@FORMAL))"/>
+		<evaluate expression="sorPerson.createRole(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@AFFILIATION, @org.openregistry.core.domain.Type$AffiliationTypes@GUEST))"
+				  result="flowScope.sorRole" result-type="org.openregistry.core.domain.sor.SorRole"/>
+		<evaluate expression="sorPerson.setSourceSor('or-webapp')" />
+		<evaluate expression="sorRole.createEmailAddress()" />
+		<evaluate expression="sorRole.createPhone()" />
     </on-start>
 
     <!-- By default, the first state is the start state. -->
+<!--
     <action-state id="createName">
-        <evaluate
-                expression="reconciliationCriteria.getSorPerson().addName(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@NAME, @org.openregistry.core.domain.Type$NameTypes@FORMAL))"/>
         <transition to="addPerson"/>
     </action-state>
+-->
 
     <view-state id="addPerson" model="reconciliationCriteria" view="openregistry.person.add.insert">
+<!--
         <on-render>
             <set name="viewScope.command" value="'reconciliationCriteria'"/>
         </on-render>
+-->
         <transition on="submitAddPerson" to="reconciliationAddPerson" bind="true" validate="true"/>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
 
-    <action-state id="reconciliationAddPerson">
-        <evaluate expression="personSearchAction.addSorPerson(reconciliationCriteria,flowRequestContext)"/>
-        <transition on="success" to="getSorPerson"/>
-        <transition on="validationError" to="addPerson"/>
-        <transition on="reconciliation" to="viewMatches"/>
+	<action-state id="reconciliationAddPerson">
+		<evaluate expression="personService.addPerson(reconciliationCriteria)" result="flowScope.reconciliationResult" result-type="org.openregistry.core.service.ServiceExecutionResult" />
+        <transition on-exception="org.openregistry.core.service.reconciliation.ReconciliationException" to="viewMatches"/>
+		<transition to="handleAddPerson">
+			<set name="flowScope.person" value="reconciliationResult.getTargetObject()" type="org.openregistry.core.domain.Person" />
+		</transition>
     </action-state>
+
+	<decision-state id="handleAddPerson">
+		<if test="flowScope.reconciliationResult.succeeded()" then="personWasAdded" else="addPerson" />
+	</decision-state>
 
     <view-state id="viewMatches" view="openregistry.person.add.matches" model="flowScope.reconciliationResult">
         <on-render>
             <set name="viewScope.command" value="'personSearch'"/>
         </on-render>
         <transition on="submitAddPerson" to="checkForViewMatchAddErrors">
-            <evaluate expression="personSearchAction.addSorPerson(reconciliationCriteria, messageContext)"
-                      result="flowScope.serviceExecutionResult"/>
-        </transition>
-        <transition on="submitAddRole" to="addRole">
-            <evaluate expression="personService.findByPersonIdAndSorIdentifier(requestParameters.personId, 'or-webapp')"
-                      result="flowScope.sorPerson"/>
+            <evaluate expression="personSearchAction.addSorPerson(reconciliationCriteria, messageContext)" result="flowScope.serviceExecutionResult"/>
+			<set name="flowScope.person" value="serviceExecutionResult.getTargetObject()" type="org.openregistry.core.domain.Person"/>
         </transition>
         <transition on="cancelAddPerson" to="cancelCreatePerson"/>
     </view-state>
 
     <decision-state id="checkForViewMatchAddErrors">
-        <if test="flowScope.serviceExecutionResult.validationErrors.size() > 0" then="viewMatches"
-            else="checkAddPersonAnyway"/>
+        <if test="flowScope.serviceExecutionResult.validationErrors.size() > 0" then="viewMatches" else="checkAddPersonAnyway"/>
     </decision-state>
 
     <decision-state id="checkAddPersonAnyway">
-        <if test="flowScope.serviceExecutionResult.succeeded()" then="getSorPerson" else="viewMatches"/>
+        <if test="flowScope.serviceExecutionResult.succeeded()" then="personWasAdded" else="viewMatches"/>
     </decision-state>
-
-    <action-state id="getSorPerson">
-        <evaluate
-                expression="personService.findByPersonIdAndSorIdentifier(flowScope.serviceExecutionResult.getTargetObject().getId(), 'or-webapp')"
-                result="flowScope.sorPerson"/>
-        <transition to="addRole"/>
-    </action-state>
-
-    <subflow-state id="addRole" subflow="add-role">
-        <input name="sorPerson" value="flowScope.sorPerson"/>
-        <output name="role"/>
-        <transition on="roleWasAdded" to="personWasAdded">
-            <evaluate expression="personSearchAction.setConfirmationMessage(flowScope.serviceExecutionResult, flowScope.reconciliationResult, messageContext)"/>
-            <evaluate expression="personService.findPersonById(flowScope.sorPerson.personId)" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
-        </transition>
-    </subflow-state>
 
     <end-state id="personWasAdded">
         <output name="person" value="flowScope.person" />
     </end-state>
+
     <end-state id="cancelCreatePerson" view="flowRedirect:addPerson"/>
 </flow>
