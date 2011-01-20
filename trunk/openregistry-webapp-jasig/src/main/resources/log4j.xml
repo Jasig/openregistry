@@ -29,7 +29,7 @@
     -->
     <appender name="console" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d %p [%c.%M()] - &lt;%m&gt;%n"/>
+            <param name="ConversionPattern" value="%d %-5p %c{2}.%M - %m%n"/>
         </layout>
     </appender>
 
@@ -38,7 +38,7 @@
         <param name="MaxFileSize" value="512KB" />
         <param name="MaxBackupIndex" value="3" />
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d %p [%c.%M()] - &lt;%m&gt;%n"/>
+            <param name="ConversionPattern" value="%d %-5p %c{2}.%M - %m%n"/>
         </layout>
     </appender>
 
@@ -49,6 +49,10 @@
     <logger name="org.springframework">
         <level value="INFO" />
     </logger>
+
+	<logger name="org.springframework.webflow">
+		<level value="DEBUG" />
+	</logger>
 
     <logger name="org.hibernate.validator">
         <level value="DEBUG" />
@@ -62,15 +66,21 @@
         <level value="WARN" />
     </logger>
 
+<!--
+	<logger name="org.hibernate.SQL">
+		<level value="DEBUG" />
+	</logger>
+-->
+
     <logger name="org.jasig" additivity="true">
         <level value="INFO" />
         <appender-ref ref="logFile" />
     </logger>
 
-    <logger name="org.openregistry" additivity="true">
-        <level value="INFO" />
-        <appender-ref ref="logFile" />
-    </logger>
+	<logger name="org.openregistry" additivity="true">
+		<level value="DEBUG" />
+		<appender-ref ref="logFile" />
+	</logger>
 
 
      <!--
