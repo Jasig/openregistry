@@ -762,81 +762,81 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/sun/grizzly/grizzly-utils/1.9.18-i/grizzly-utils-1.9.18-i-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.sun.jersey.contribs:jersey-spring:1.3">
+    <library name="Maven: com.sun.jersey.contribs:jersey-spring:1.5">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/contribs/jersey-spring/1.3/jersey-spring-1.3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/contribs/jersey-spring/1.5/jersey-spring-1.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/contribs/jersey-spring/1.3/jersey-spring-1.3-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/contribs/jersey-spring/1.5/jersey-spring-1.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/contribs/jersey-spring/1.3/jersey-spring-1.3-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/contribs/jersey-spring/1.5/jersey-spring-1.5-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.sun.jersey.jersey-test-framework:jersey-test-framework-core:1.3">
+    <library name="Maven: com.sun.jersey.jersey-test-framework:jersey-test-framework-core:1.5">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-core/1.3/jersey-test-framework-core-1.3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-core/1.5/jersey-test-framework-core-1.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-core/1.3/jersey-test-framework-core-1.3-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-core/1.5/jersey-test-framework-core-1.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-core/1.3/jersey-test-framework-core-1.3-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-core/1.5/jersey-test-framework-core-1.5-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.sun.jersey.jersey-test-framework:jersey-test-framework-grizzly:1.3">
+    <library name="Maven: com.sun.jersey.jersey-test-framework:jersey-test-framework-grizzly:1.5">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-grizzly/1.3/jersey-test-framework-grizzly-1.3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-grizzly/1.5/jersey-test-framework-grizzly-1.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-grizzly/1.3/jersey-test-framework-grizzly-1.3-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-grizzly/1.5/jersey-test-framework-grizzly-1.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-grizzly/1.3/jersey-test-framework-grizzly-1.3-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-test-framework/jersey-test-framework-grizzly/1.5/jersey-test-framework-grizzly-1.5-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.sun.jersey:jersey-client:1.3">
+    <library name="Maven: com.sun.jersey:jersey-client:1.5">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-client/1.3/jersey-client-1.3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-client/1.5/jersey-client-1.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-client/1.3/jersey-client-1.3-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-client/1.5/jersey-client-1.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-client/1.3/jersey-client-1.3-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-client/1.5/jersey-client-1.5-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.sun.jersey:jersey-core:1.3">
+    <library name="Maven: com.sun.jersey:jersey-core:1.5">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-core/1.3/jersey-core-1.3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-core/1.5/jersey-core-1.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-core/1.3/jersey-core-1.3-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-core/1.5/jersey-core-1.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-core/1.3/jersey-core-1.3-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-core/1.5/jersey-core-1.5-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.sun.jersey:jersey-json:1.3">
+    <library name="Maven: com.sun.jersey:jersey-json:1.5">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-json/1.3/jersey-json-1.3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-json/1.5/jersey-json-1.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-json/1.3/jersey-json-1.3-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-json/1.5/jersey-json-1.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-json/1.3/jersey-json-1.3-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-json/1.5/jersey-json-1.5-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.sun.jersey:jersey-server:1.3">
+    <library name="Maven: com.sun.jersey:jersey-server:1.5">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-server/1.3/jersey-server-1.3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-server/1.5/jersey-server-1.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-server/1.3/jersey-server-1.3-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-server/1.5/jersey-server-1.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-server/1.3/jersey-server-1.3-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/sun/jersey/jersey-server/1.5/jersey-server-1.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: com.sun.xml.bind:jaxb-impl:2.1.10">
@@ -1239,17 +1239,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: javax.ws.rs:jsr311-api:1.1.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/javax/ws/rs/jsr311-api/1.1.1/jsr311-api-1.1.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/javax/ws/rs/jsr311-api/1.1.1/jsr311-api-1.1.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/javax/ws/rs/jsr311-api/1.1.1/jsr311-api-1.1.1-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: javax.xml.bind:jaxb-api:2.1">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/javax/xml/bind/jaxb-api/2.1/jaxb-api-2.1.jar!/" />
@@ -1580,26 +1569,59 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/aspectj/aspectjweaver/1.6.10/aspectjweaver-1.6.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codehaus.groovy:groovy-all:1.7.3">
+    <library name="Maven: org.codehaus.groovy:groovy-all:1.7.6">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.3/groovy-all-1.7.3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.6/groovy-all-1.7.6.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.3/groovy-all-1.7.3-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.6/groovy-all-1.7.6-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.3/groovy-all-1.7.3-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.7.6/groovy-all-1.7.6-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codehaus.jackson:jackson-core-asl:1.1.1">
+    <library name="Maven: org.codehaus.jackson:jackson-core-asl:1.5.5">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-core-asl/1.1.1/jackson-core-asl-1.1.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-core-asl/1.5.5/jackson-core-asl-1.5.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-core-asl/1.1.1/jackson-core-asl-1.1.1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-core-asl/1.5.5/jackson-core-asl-1.5.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-core-asl/1.1.1/jackson-core-asl-1.1.1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-core-asl/1.5.5/jackson-core-asl-1.5.5-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.codehaus.jackson:jackson-jaxrs:1.5.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-jaxrs/1.5.5/jackson-jaxrs-1.5.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-jaxrs/1.5.5/jackson-jaxrs-1.5.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-jaxrs/1.5.5/jackson-jaxrs-1.5.5-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.5.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-mapper-asl/1.5.5/jackson-mapper-asl-1.5.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-mapper-asl/1.5.5/jackson-mapper-asl-1.5.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-mapper-asl/1.5.5/jackson-mapper-asl-1.5.5-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.codehaus.jackson:jackson-xc:1.5.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-xc/1.5.5/jackson-xc-1.5.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-xc/1.5.5/jackson-xc-1.5.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-xc/1.5.5/jackson-xc-1.5.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.codehaus.jettison:jettison:1.1">

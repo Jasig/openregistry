@@ -17,7 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/groovy" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/groovy-stubs" />
-      <excludeFolder url="file://$MODULE_DIR$/target/surefire-reports" />
+      <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
       <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -79,7 +79,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-jdbc:3.0.5.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-web:3.0.5.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-jms:3.0.5.RELEASE" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.codehaus.groovy:groovy-all:1.7.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.codehaus.groovy:groovy-all:1.7.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.camel:camel-core:2.5.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.fusesource.commonman:commons-management:1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.activemq:activemq-camel:5.4.2" level="project" />
