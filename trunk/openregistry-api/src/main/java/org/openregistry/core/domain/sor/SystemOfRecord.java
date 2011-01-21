@@ -19,13 +19,15 @@
 
 package org.openregistry.core.domain.sor;
 
+import java.io.*;
+
 /**
  * Internal representation of a System of Record.
  *
  * @version $Revision$ $Date$
  * @since 0.1
  */
-public interface SystemOfRecord {
+public interface SystemOfRecord extends Serializable {
 
     /**
      * The string representation of this SystemOfRecord.  CANNOT be NULL.  Can change over time.
