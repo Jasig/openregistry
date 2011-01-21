@@ -19,12 +19,12 @@
 
 package org.openregistry.core.service.identifier;
 
-import org.openregistry.core.domain.sor.SorPerson;
-import org.openregistry.core.domain.Person;
-import org.openregistry.core.domain.Identifier;
-import org.openregistry.core.repository.ReferenceRepository;
+import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.sor.*;
+import org.openregistry.core.repository.*;
+import org.springframework.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 /**
  * SSN identifier assigner.
@@ -44,18 +44,18 @@ public class SSNIdentifierAssigner extends AbstractIdentifierAssigner {
     }
 
     public void addIdentifierTo(final SorPerson sorPerson, final Person person) {
-   		if (sorPerson.getSsn() != null) {
-   			final Identifier ssn = findPrimaryIdentifier(person, this.getIdentifierType());
-   			if (ssn == null) {
-     			final Identifier identifier = person.addIdentifier(referenceRepository.findIdentifierType(identifierType),sorPerson.getSsn());
-    			identifier.setDeleted(false);
-    			identifier.setPrimary(true);
-   			} else { // check that we aren't given a different SSN value
-   				if (! ssn.getValue().equals(sorPerson.getSsn())) {
-   					// TODO Throw error here!!!  or log
-   				}
-   			}
-    	}
+		if (StringUtils.hasText(sorPerson.getSsn())) {
+			final Identifier ssn = findPrimaryIdentifier(person, this.getIdentifierType());
+			if (ssn == null) {
+				final Identifier identifier = person.addIdentifier(referenceRepository.findIdentifierType(identifierType),sorPerson.getSsn());
+				identifier.setDeleted(false);
+				identifier.setPrimary(true);
+			} else { // check that we aren't given a different SSN value
+				if (! ssn.getValue().equals(sorPerson.getSsn())) {
+					// TODO Throw error here!!!  or log
+				}
+			}
+		}
     }
 
     public String getIdentifierType() {
