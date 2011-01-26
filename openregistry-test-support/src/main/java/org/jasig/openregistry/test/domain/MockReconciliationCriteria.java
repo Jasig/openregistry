@@ -109,6 +109,10 @@ public final class MockReconciliationCriteria implements ReconciliationCriteria 
         return this.identifiersByType;
     }
 
+    public void setIdentifiersByType(Map<IdentifierType, String> identifiersByType){
+        this.identifiersByType = identifiersByType;
+    }
+
     public String getAddressLine1() {
         return addressLine1;
     }

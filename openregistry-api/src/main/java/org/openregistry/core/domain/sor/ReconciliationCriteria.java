@@ -66,6 +66,8 @@ public interface ReconciliationCriteria extends Serializable {
 
     Map<IdentifierType, String> getIdentifiersByType();
 
+    void setIdentifiersByType(Map<IdentifierType, String> identifiersByType);
+
     String getAddressLine1();
 
     String getAddressLine2();
