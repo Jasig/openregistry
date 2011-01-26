@@ -99,6 +99,12 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public SorPerson findBySorIdentifierAndSource(String sorSourceIdentifier, String sorId) {
+        for (final SorPerson person : this.sorPersons) {
+            if (person.getSourceSor().equals(sorSourceIdentifier) && person.getSorId().equals(sorId)) {
+                return person;
+            }
+        }
+
         return null;
     }
 
@@ -117,7 +123,16 @@ public class MockPersonRepository implements PersonRepository {
  	 }
 
     public List<Person> findByFamilyName(String family) throws RepositoryAccessException {
-        return null;
+        final List<Person> people = new ArrayList<Person>();
+
+        for (final Person person : this.persons) {
+            for (final Name name : person.getNames()) {
+                if (name.getFamily().equalsIgnoreCase(family)) {
+                    people.add(person);
+                }
+            }
+        }
+        return people;
     }
 
     public Person savePerson(Person person) throws RepositoryAccessException {
@@ -167,12 +182,33 @@ public class MockPersonRepository implements PersonRepository {
     }
 
 	public List<Person> findByEmailAddress(String email) {
-        final List<Person> persons = new ArrayList<Person>();
+        final List<Person> people = new ArrayList<Person>();
         for (final Person person : this.persons) {
             for (final Role role : person.getRoles()) {
                 for (final EmailAddress emailAddress : role.getEmailAddresses()) {
                     if (emailAddress.getAddress().equalsIgnoreCase(email)) {
-                        persons.add(person);
+                        people.add(person);
+                        break;
+                    }
+                }
+            }
+        }
+		return people;
+	}
+
+	public List<Person> findByEmailAddressAndPhoneNumber(String email,
+			String countryCode, String areaCode, String number) {
+
+        final List<Person> people = new ArrayList<Person>();
+        for (final Person person : this.persons) {
+            for (final Role role : person.getRoles()) {
+                for (final EmailAddress emailAddress : role.getEmailAddresses()) {
+                    if (emailAddress.getAddress().equalsIgnoreCase(email))
+                        break;
+                }
+                for (final Phone phone : role.getPhones()){
+                    if (phone.getCountryCode().equals(countryCode) && phone.getAreaCode().equals(areaCode) && phone.getNumber().equals(number)){
+                        people.add(person);
                         break;
                     }
                 }
@@ -182,27 +218,52 @@ public class MockPersonRepository implements PersonRepository {
 	}
 
 	public List<Person> findByEmailAddressAndPhoneNumber(String email,
-			String countryCode, String areaCode, String number) {
-		return new ArrayList<Person>();
-	}
-
-	public List<Person> findByEmailAddressAndPhoneNumber(String email,
 			String countryCode, String areaCode, String number, String extension) {
 		return new ArrayList<Person>();
 	}
 
 	public List<Person> findByPhoneNumber(String countryCode, String areaCode,
 			String number, String extension) {
-		return new ArrayList<Person>();
+
+        final List<Person> people = new ArrayList<Person>();
+        for (final Person person : this.persons) {
+            for (final Role role : person.getRoles()) {
+                for (final Phone phone : role.getPhones()) {
+                    if (phone.getCountryCode().equals(countryCode) && phone.getAreaCode().equals(areaCode) && phone.getNumber().equals(number) && phone.getExtension().equals(extension)) {
+                        people.add(person);
+                        break;
+                    }
+                }
+            }
+        }
+		return people;
 	}
 
 	public List<Person> findByPhoneNumber(String countryCode, String areaCode,
 			String number) {
-		return new ArrayList<Person>();
+
+        final List<Person> people = new ArrayList<Person>();
+        for (final Person person : this.persons) {
+            for (final Role role : person.getRoles()) {
+                for (final Phone phone : role.getPhones()) {
+                    if (phone.getCountryCode().equals(countryCode) && phone.getAreaCode().equals(areaCode) && phone.getNumber().equals(number)) {
+                        people.add(person);
+                        break;
+                    }
+                }
+            }
+        }
+		return people;
 	}
 
     @Override
     public SorPerson findSorBySSN(String ssn) {
-        throw new UnsupportedOperationException("This mock does not implement this method yet");    
+        for (final SorPerson sorPerson : this.sorPersons) {
+            if (sorPerson.getSsn().equals(ssn)) {
+                return sorPerson;
+            }
+        }
+
+        return null;
     }
 }

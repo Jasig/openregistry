@@ -19,12 +19,14 @@
 
 package org.jasig.openregistry.test.repository;
 
+import org.jasig.openregistry.test.domain.MockIdentifierType;
 import org.jasig.openregistry.test.domain.MockType;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.Type.DataTypes;
 import org.openregistry.core.domain.sor.SystemOfRecord;
 import org.openregistry.core.repository.ReferenceRepository;
 
+import java.util.regex.Pattern;
 import java.util.List;
 
 /**
@@ -32,6 +34,101 @@ import java.util.List;
  */
 
 public final class MockReferenceRepository implements ReferenceRepository {
+
+    IdentifierType rcpIdIdentifierType =  new IdentifierType() {
+
+        public Long getId() {
+            return 1L;
+        }
+
+        public String getDescription() {
+            return "RCPID";
+        }
+
+        public String toString() {
+            return String.format("%s", getDescription());
+        }
+
+        public String getFormatAsString() {
+            return null;
+        }
+
+        public Pattern getFormatAsPattern() {
+            return Pattern.compile("%s");
+        }
+
+        public boolean isPrivate() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isModifiable() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isNotifiable() {
+             throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isDeleted() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+        public String getName() {
+            return getDescription();
+        }
+
+    };
+
+    IdentifierType netIdIdentifierType =  new IdentifierType() {
+
+        public Long getId() {
+            return 1L;
+        }
+
+        public String getDescription() {
+            return "NETID";
+        }
+
+        public String toString() {
+            return String.format("%s", getDescription());
+        }
+
+        public String getFormatAsString() {
+            return null;
+        }
+
+        public Pattern getFormatAsPattern() {
+            return Pattern.compile("%s");
+        }
+
+        public boolean isPrivate() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isModifiable() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isNotifiable() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isDeleted() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+        public String getName() {
+            return getDescription();
+        }
+
+    };
+
 
     public List<Person> getPeople() {
         return null;
@@ -139,7 +236,14 @@ public final class MockReferenceRepository implements ReferenceRepository {
     }
 
     public IdentifierType findIdentifierType(final String identifierName) {
-        return null;
+        if (identifierName != null) {
+            if (identifierName.equals("RCPID"))
+                return rcpIdIdentifierType;
+            if (identifierName.equals("NETID"))
+                return netIdIdentifierType;
+        }
+
+        return new MockIdentifierType("test", true);
     }
 
     public SystemOfRecord findSystemOfRecord(String systemOfRecord){
