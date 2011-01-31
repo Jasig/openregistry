@@ -129,6 +129,54 @@ public final class MockReferenceRepository implements ReferenceRepository {
 
     };
 
+    IdentifierType ssnIdentifierType =  new IdentifierType() {
+
+        public Long getId() {
+            return 1L;
+        }
+
+        public String getDescription() {
+            return "SSN";
+        }
+
+        public String toString() {
+            return String.format("%s", getDescription());
+        }
+
+        public String getFormatAsString() {
+            return null;
+        }
+
+        public Pattern getFormatAsPattern() {
+            return Pattern.compile("%s");
+        }
+
+        public boolean isPrivate() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isModifiable() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isNotifiable() {
+             throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isDeleted() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+        public String getName() {
+            return getDescription();
+        }
+
+    };
+
+
 
     public List<Person> getPeople() {
         return null;
@@ -241,6 +289,8 @@ public final class MockReferenceRepository implements ReferenceRepository {
                 return rcpIdIdentifierType;
             if (identifierName.equals("NETID"))
                 return netIdIdentifierType;
+            if (identifierName.equals("SSN"))
+                return ssnIdentifierType;
         }
 
         return new MockIdentifierType("test", true);

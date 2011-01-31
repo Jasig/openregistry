@@ -200,21 +200,30 @@ public class MockPersonRepository implements PersonRepository {
 			String countryCode, String areaCode, String number) {
 
         final List<Person> people = new ArrayList<Person>();
+
+        boolean foundEmail;
+
         for (final Person person : this.persons) {
             for (final Role role : person.getRoles()) {
+                foundEmail = false;
                 for (final EmailAddress emailAddress : role.getEmailAddresses()) {
-                    if (emailAddress.getAddress().equalsIgnoreCase(email))
+                    if (emailAddress.getAddress().equalsIgnoreCase(email)) {
+                        foundEmail = true;
                         break;
+                    }
                 }
-                for (final Phone phone : role.getPhones()){
-                    if (phone.getCountryCode().equals(countryCode) && phone.getAreaCode().equals(areaCode) && phone.getNumber().equals(number)){
-                        people.add(person);
-                        break;
+
+                if (foundEmail){
+                    for (final Phone phone : role.getPhones()){
+                        if (phone.getAreaCode().equals(areaCode) && phone.getNumber().equals(number)){
+                            people.add(person);
+                            break;
+                        }
                     }
                 }
             }
         }
-		return persons;
+		return people;
 	}
 
 	public List<Person> findByEmailAddressAndPhoneNumber(String email,

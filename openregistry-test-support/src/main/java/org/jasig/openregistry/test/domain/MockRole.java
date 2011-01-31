@@ -50,6 +50,8 @@ public class MockRole extends Entity implements Role {
     
     private Set <EmailAddress> emailAddresses = new HashSet<EmailAddress>();
 
+    private Set <Phone> phones = new HashSet<Phone>();
+
     private Type sponsorType;
 
     public MockRole(final SorRole sorRole) {
@@ -58,6 +60,9 @@ public class MockRole extends Entity implements Role {
         this.terminationReason = sorRole.getTerminationReason();
         for (EmailAddress ea : sorRole.getEmailAddresses()) {
         	this.addEmailAddress(ea);
+         }
+        for (Phone phone : sorRole.getPhones()) {
+        	this.addPhone(phone);
          }
     }
 
@@ -133,7 +138,7 @@ public class MockRole extends Entity implements Role {
 	}
 
 	public Set<Phone> getPhones() {
-		return new HashSet<Phone>();
+		return this.phones;
 	}
 
 	public Set<EmailAddress> getEmailAddresses() {
@@ -154,7 +159,13 @@ public class MockRole extends Entity implements Role {
 
 
 	public Phone addPhone(Phone sorPhone) {
-		return null;
+		MockPhoneNumber phone = new MockPhoneNumber();
+        phone.setCountryCode(sorPhone.getCountryCode());
+		phone.setAreaCode(sorPhone.getAreaCode());
+		phone.setNumber(sorPhone.getNumber());
+        phone.setExtension(sorPhone.getExtension());
+		phones.add(phone);
+        return phone;
 	}
 
 
