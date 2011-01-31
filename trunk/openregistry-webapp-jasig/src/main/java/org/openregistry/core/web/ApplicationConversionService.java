@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.binding.convert.converters.StringToDate;
 import org.springframework.binding.convert.service.DefaultConversionService;
+import org.springframework.stereotype.*;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -39,7 +40,7 @@ import javax.inject.Named;
  * To change this template use File | Settings | File Templates.
  */
 
-@Named("applicationConversionService")
+@Component
 public final class ApplicationConversionService extends DefaultConversionService implements InitializingBean {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());

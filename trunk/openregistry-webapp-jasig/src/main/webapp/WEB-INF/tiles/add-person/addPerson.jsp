@@ -101,13 +101,13 @@
 				</div>
 
 				<div class="or-field-container field-width-2">
-					<form:label path="emailAddress" cssClass="or-field-label-above" cssErrorClass="or-field-label-error-above"><spring:message code="contact.email.label" /></form:label>
-					<form:input path="emailAddress" cssClass="or-field-content" cssErrorClass="or-field-content-error" size="15" maxlength="20" tabindex="9"/>
+					<form:label path="sorPerson.roles[0].emailAddresses[0].address" cssClass="or-field-label-above" cssErrorClass="or-field-label-error-above"><spring:message code="contact.email.label" /></form:label>
+					<form:input path="sorPerson.roles[0].emailAddresses[0].address" cssClass="or-field-content" cssErrorClass="or-field-content-error" size="15" maxlength="20" tabindex="9"/>
 				</div>
 
 				<div class="or-field-container field-width-2">
-					<form:label path="phoneNumber" cssClass="or-field-label-above" cssErrorClass="or-field-label-error-above"><spring:message code="contact.phone.label" /></form:label>
-					<form:input path="phoneNumber" cssClass="or-field-content" cssErrorClass="or-field-content-error" size="15" maxlength="15" tabindex="10" placeholder="${phoneNumberPlaceHolder}"/>
+					<form:label path="sorPerson.roles[0].phones[0].number" cssClass="or-field-label-above" cssErrorClass="or-field-label-error-above"><spring:message code="contact.phone.label" /></form:label>
+					<form:input path="sorPerson.roles[0].phones[0].number" cssClass="or-field-content" cssErrorClass="or-field-content-error" size="15" maxlength="15" tabindex="10" placeholder="${phoneNumberPlaceHolder}"/>
 				</div>
 			</div>
 

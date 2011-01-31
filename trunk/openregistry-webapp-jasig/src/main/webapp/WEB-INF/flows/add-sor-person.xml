@@ -31,9 +31,27 @@
 		<evaluate expression="sorPerson.addName(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@NAME, @org.openregistry.core.domain.Type$NameTypes@FORMAL))"/>
 		<evaluate expression="sorPerson.createRole(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@AFFILIATION, @org.openregistry.core.domain.Type$AffiliationTypes@GUEST))"
 				  result="flowScope.sorRole" result-type="org.openregistry.core.domain.sor.SorRole"/>
+        <evaluate expression="sorPerson.addRole(sorRole)"/>
 		<evaluate expression="sorPerson.setSourceSor('or-webapp')" />
-		<evaluate expression="sorRole.createEmailAddress()" />
-		<evaluate expression="sorRole.createPhone()" />
+		<evaluate expression="sorRole.createAndAddEmailAddress()" result="flowScope.defaultEmailAddress"/>
+        <evaluate expression="sorRole.addEmailAddress(defaultEmailAddress)" />
+        <evaluate expression="defaultEmailAddress.setAddressType(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@ADDRESS, @org.openregistry.core.domain.Type$AddressTypes@CAMPUS))" />
+		<evaluate expression="sorRole.createPhone()" result="flowScope.defaultPhone" />
+        <evaluate expression="sorRole.addPhone(defaultPhone)"/>
+        <evaluate expression="defaultPhone.setPhoneType(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@PHONE, @org.openregistry.core.domain.Type$PhoneTypes@CELL))"/>
+        <evaluate expression="defaultPhone.setAddressType(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@ADDRESS, @org.openregistry.core.domain.Type$AddressTypes@CAMPUS))"/>
+        <evaluate expression="defaultPhone.setPhoneLineOrder(0)"/>
+        <evaluate expression="defaultPhone.setAreaCode(0)"/>
+        <evaluate expression="defaultPhone.setCountryCode(0)"/>
+
+        <evaluate expression="sorRole.setPersonStatus(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@STATUS, @org.openregistry.core.domain.Type$PersonStatusTypes@ACTIVE))" />
+        <evaluate expression="sorRole.setStart(new java.util.Date())" />
+        <evaluate expression="sorRole.setSorId(new java.util.Random().nextInt())" />
+        <evaluate expression="sorRole.setSponsorId(1)"/>
+        <evaluate expression="sorRole.setSponsorType(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@SPONSOR, @org.openregistry.core.domain.Type$SponsorTypes@PERSON))"/>
+        <evaluate expression="sorRole.setSystemOfRecord(referenceRepository.findSystemOfRecord('or-webapp'))"/>
+        <evaluate expression="sorRole.setOrganizationalUnit(referenceRepository.getOrganizationalUnitByCode('ICAT'))"/>
+        <evaluate expression="sorRole.setTitle('Guest')"/>
     </on-start>
 
     <view-state id="addPerson" model="reconciliationCriteria" view="openregistry.person.add.insert">

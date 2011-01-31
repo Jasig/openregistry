@@ -26,33 +26,34 @@
     http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
 	<input name="sorPerson" />
+    <on-start>
+        <evaluate expression="referenceRepository.findType('AFFILIATION','GUEST')" result="flowScope.affiliation" result-type="org.openregistry.core.domain.Type"/>
+        <evaluate expression="sorPerson.createRole(affiliation)" result="flowScope.role" result-type="org.openregistry.core.domain.sor.SorRole"/>
+    </on-start>
 
-	<view-state id="selectRole" model="sorPerson" view="openregistry.person.update.selectRole">
-		<on-entry>
-			<set name="viewScope.command" value="'sorPerson'" />
-		</on-entry>
 
-		<transition on="submitSelectRole" to="checkUniqueRole" >
-			<set name="flowScope.roleInfoCode" value="requestParameters.roleInfoCode" />
-		</transition>
+	<view-state id="selectRole" model="role" view="openregistry.person.update.selectRole">
+        <binder>
+            <binding property="affiliation"/>
+        </binder>
+        <on-entry>
+            <evaluate expression="referenceRepository.getTypesBy('AFFILIATION')" result="flowScope.affiliationList"/>
+        </on-entry>
+        		<transition on="submitSelectRole" to="checkUniqueRole" />
 
 	</view-state>
 
+
 	<decision-state id="checkUniqueRole">
-		<if test="roleAction.isRoleNewForPerson(sorPerson, roleInfoCode, messageContext)" then="setupAddRole" else="selectRole" />
+        <if test="roleAction.isRoleNewForPerson(sorPerson, affiliation, messageContext)" then="roleWasAdded" else="selectRole" />
 	</decision-state>
 
 	<action-state id="setupAddRole">
 		<evaluate expression="roleAction.initSorRole(sorPerson, roleInfoCode)" result="flowScope.role"/>
-		<transition to="addRole"/>
+		<transition to="roleWasAdded"/>
 	</action-state>
-
+<!--
 	<view-state id="addRole" model="role" view="openregistry.role.add">
-		<on-entry>
-			<set name="viewScope.command" value="'role'" />
-			<evaluate expression="referenceRepository.getPeople()" result="flowScope.sponsorList" />
-		</on-entry>
-
 		<transition on="submitAddRole" to="checkAddRole" bind="true" validate="true" >
 			<evaluate expression="roleAction.addSorRole(sorPerson, role, messageContext)"
 					result="flowScope.serviceExecutionResult" />
@@ -64,6 +65,7 @@
 
 	</view-state>
 
+
 	<decision-state id="checkAddRole">
 		<if test="flowScope.serviceExecutionResult" then="roleWasAdded" else="roleError" />
 	</decision-state>
@@ -72,7 +74,7 @@
 		<evaluate expression="sorPerson.getRoles().remove(role)" />
 		<transition to="addRole"/>
 	</action-state>
-
+-->
 	<end-state id="roleWasAdded" >
 		<output name="role" value="role"/>
 	</end-state>

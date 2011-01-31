@@ -105,7 +105,7 @@
 
     <!--
     <- Messaging integration configuration
-    <bean id="integrationGateway" class="org.openregistry.integration.internal.CamelIntegrationGateway"/>        
+    <bean id="integrationGateway" class="org.openregistry.integration.internal.CamelIntegrationGateway"/>
 
     <lang:groovy id="identifierChangeEventNotification"
                  script-source="classpath:org/openregistry/integration/DefaultIdentifierChangeEventNotificationService.groovy">

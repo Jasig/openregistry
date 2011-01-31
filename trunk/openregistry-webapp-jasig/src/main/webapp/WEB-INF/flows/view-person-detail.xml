@@ -41,6 +41,10 @@
             <evaluate expression="sorPerson.pickOutRole(roleCode)" result="flowScope.role"/>
             <evaluate expression="personService.findPersonById(role.sponsorId)" result="flowScope.sponsorPerson" />
         </transition>
+        <transition on="addAffiliation" to="addAffiliation">
+            <evaluate expression="personService.findByPersonIdAndSorIdentifier(person.id, 'or-webapp')" result="flowScope.sorPerson"/>
+        </transition>
+
         <transition on="submitViewRole" to="viewRole" >
             <set name="requestScope.roleCode" value="requestParameters.roleCode" />
             <set name="flowScope.viewRoleTitle" value="'Calculated Role'" />
@@ -67,6 +71,15 @@
         </on-entry>
         <transition on="submitBack" to="viewPersonDetail"/>
     </view-state>
+
+    <subflow-state id="addAffiliation" subflow="add-role">
+        <input name="sorPerson" value="flowScope.sorPerson"/>
+        <output name="role"/>
+        <transition on="roleWasAdded" to="viewPersonDetail">
+            <evaluate expression="personSearchAction.setConfirmationMessage(flowScope.serviceExecutionResult, flowScope.reconciliationResult, messageContext)"/>
+            <evaluate expression="personService.findPersonById(flowScope.sorPerson.personId)" result-type="org.openregistry.core.domain.Person" result="flowScope.person" />
+        </transition>
+    </subflow-state>
 
     <subflow-state id="updateSorPerson" subflow="updateSorPerson">
         <input name="sorPerson" value="flowScope.sorPerson" />

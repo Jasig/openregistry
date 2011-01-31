@@ -100,11 +100,11 @@
 		<div class="group" style="margin-bottom:5px;">
 			<div class="or-field-container" style="width: 150px;">
 				<div class="or-field-label-above"><spring:message code="contact.email.label" /></div>
-				<div class="or-field-content">&nbsp;</div>
+				<div class="or-field-content">${person.preferredContactEmailAddress.address}</div>
 			</div>
 			<div class="or-field-container" style="width: 150px;">
 				<div class="or-field-label-above"><spring:message code="contact.phone.label" /></div>
-				<div class="or-field-content">&nbsp;</div>
+				<div class="or-field-content">${person.preferredContactPhoneNumber}</div>
 			</div>
 		</div>
 
@@ -160,9 +160,20 @@
 					</a>
 				</h3>
 				<div>
-					Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-					Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
-					Some content about a role goes here.  It should be a lot so that we can justify using the accordion model.
+                    <div class="group" style="margin-bottom:5px;">
+                        <c:forEach var="email" items="${role.emailAddresses}">
+                            <div class="or-field-container" style="width: 150px;">
+                                <div class="or-field-label-above"><spring:message code="email.label" /></div>
+                                <div class="or-field-content">${email.address}</div>
+                            </div>
+                        </c:forEach>
+                        <c:forEach var="phone" items="${role.phones}">
+                            <div class="or-field-container" style="width: 150px;">
+                                <div class="or-field-label-above"><spring:message code="contact.phone.label" /></div>
+                                <div class="or-field-content">${phone.number}</div>
+                            </div>
+                        </c:forEach>
+                    </div>
 				</div>
 			</c:forEach>
 		</div>

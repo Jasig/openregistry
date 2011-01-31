@@ -24,10 +24,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<%--
 <%
 	SecurityContext context = SecurityContextHolder.getContext();
 	Authentication auth = context.getAuthentication();
 %>
-
-<div id="or-status-bar-left">Welcome <%= ((User)auth.getPrincipal()).getUsername() %></div>
+<%= ((User)auth.getPrincipal()).getUsername() %>
+--%>
+<div id="or-status-bar-left">Welcome </div>
 <div id="or-status-bar-right"><a href="<c:url value="/logout.htm" />"><spring:message code="logout.label" /></a></div>

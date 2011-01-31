@@ -417,7 +417,7 @@ insert into `drd_organizational_units` values
 insert into `prd_system_of_record` values ('1','or-webapp');
 
 insert into `prd_roles` values
-('1','STAFF','Staff','15',1,1,'1'),
-('2','FAC','Faculty','1',1,1,'1'),
-('3','STU','Student','16',1,1,'1'),
-('4','GRAD','Grad Student','16',1,1,'1');
+('1','STAFF','Staff','15',1,1),
+('2','FAC','Faculty','1',1,1),
+('3','STU','Student','16',1,1),
+('4','GRAD','Grad Student','16',1,1);
