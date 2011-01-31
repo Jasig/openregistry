@@ -66,11 +66,11 @@
         <level value="WARN" />
     </logger>
 
-<!--
+
 	<logger name="org.hibernate.SQL">
 		<level value="DEBUG" />
 	</logger>
--->
+
 
     <logger name="org.jasig" additivity="true">
         <level value="INFO" />

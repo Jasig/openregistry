@@ -59,10 +59,9 @@ public final class RoleAction extends AbstractPersonServiceAction {
      /**
      * Add and initialize new role.
      * @param sorPerson
-     * @param roleInfo
      * @return sorRole
      */
-    
+
     protected SorRole addRole(final SorPerson sorPerson, final Type affiliationType){
         final SorRole sorRole = sorPerson.createRole(affiliationType);
         //sorRole.setSourceSorIdentifier(AbstractPersonServiceAction.STATIC_SOR_NAME);
@@ -88,16 +87,16 @@ public final class RoleAction extends AbstractPersonServiceAction {
         return sorRole;
     }
 
-    public boolean isRoleNewForPerson(SorPerson sorPerson, Type affiliationType, MessageContext context) {
-        //check if person already has the role to be added.
-        logger.info("IsRoleNewForPerson: affiliation:"+ affiliationType);
-        final Person person = getPersonService().findPersonById(sorPerson.getPersonId());
-        if (person.pickOutRole(affiliationType) != null){
-            context.addMessage(new MessageBuilder().error().code("roleAlreadyExists").build());
-            return false;
-        }
-        return true;
-    }
+	public boolean isRoleNewForPerson(SorPerson sorPerson, Type affiliationType, MessageContext context) {
+		//check if person already has the role to be added.
+		logger.info("IsRoleNewForPerson: code:"+ affiliationType);
+		final Person person = getPersonService().findPersonById(sorPerson.getPersonId());
+		if (person.pickOutRole(affiliationType) != null){
+			context.addMessage(new MessageBuilder().error().code("roleAlreadyExists").build());
+			return false;
+		}
+		return true;
+	}
 
     public boolean addSorRole(final SorPerson sorPerson, final SorRole sorRole, final MessageContext context) {
         final ServiceExecutionResult<SorRole> result = getPersonService().validateAndSaveRoleForSorPerson(sorPerson, sorRole);

@@ -41,14 +41,15 @@
 			</div>
 
 			<fieldset>
-				<legend>Select a Role</legend>
+				<legend>Select an Affiliation</legend>
+                ${affiliationList}
 				<div class="or-fieldgroup group" style="margin-bottom: 5px;">
 					<div class="or-field-container" style="min-width: 250px;">
 						<label for="c1_affiliation" class="or-field-label-above"><spring:message code="role.label"/></label>
-						<select name="roleInfoCode" id="c1_affiliation" class="or-field-content">
-							<c:forEach var="roleInfoItem" items="${roleInfos}">
-								<option value="${roleInfoItem.code}">${roleInfoItem.displayableName}</option>
-							</c:forEach>
+						<select name="affiliation" id="c1_affiliation" class="or-field-content" >
+                            <c:forEach var="affiliationItem" items="${affiliationList}">
+                                <OPTION value="${affiliationItem}">${affiliationItem.description}</OPTION>
+                            </c:forEach>
 						</select>
 					</div>
 

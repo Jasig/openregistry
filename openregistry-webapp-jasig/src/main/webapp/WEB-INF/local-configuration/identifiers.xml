@@ -25,7 +25,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean class="org.openregistry.core.service.identifier.NoOpIdentifierGenerator" id="identifierGenerator" />
+	<bean class="org.openregistry.core.service.identifier.DBIdentifierGenerator" id="identifierGenerator" >
+		<constructor-arg ref="keyIncrementer"/>
+	</bean>
+	<bean id="keyIncrementer" class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer">
+		<property name="dataSource" ref="dataSource" />
+		<property name="incrementerName" value="key_sequence" />
+		<property name="columnName" value="sequence_value" />
+		<property name="cacheSize" value="5" />
+	</bean>
 
     <bean class="org.openregistry.core.service.identifier.TestIdentifierAssigner" id="netIdAssigner" />
 
