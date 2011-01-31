@@ -45,6 +45,8 @@ public class MockSorRole extends Entity implements SorRole {
 	
 	private List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
 
+    private List<Phone> phones = new ArrayList<Phone>();
+
     private Type sponsorType;
 
     private Type affiliationType;
@@ -148,7 +150,7 @@ public class MockSorRole extends Entity implements SorRole {
 	}
 
 	public List<Phone> getPhones() {
-		return new ArrayList<Phone>();
+		return phones;
 	}
 
 	public List<EmailAddress> getEmailAddresses() {
@@ -160,17 +162,19 @@ public class MockSorRole extends Entity implements SorRole {
 	}
 
 	public EmailAddress createEmailAddress() {
-        return null;
+        return new MockEmailAddress();
 	}
 
     public void addEmailAddress(EmailAddress emailAddress) {
+        this.emailAddresses.add(emailAddress);
 	}
 
     public Phone createPhone() {
-		return null;
+		return new MockPhoneNumber();
 	}
 
 	public void addPhone(Phone phone) {
+        this.phones.add(phone);
 	}
 
 	public Phone removePhoneById(Long id) {
