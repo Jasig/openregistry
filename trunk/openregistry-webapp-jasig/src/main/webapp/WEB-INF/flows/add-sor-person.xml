@@ -33,7 +33,7 @@
 				  result="flowScope.sorRole" result-type="org.openregistry.core.domain.sor.SorRole"/>
         <evaluate expression="sorPerson.addRole(sorRole)"/>
 		<evaluate expression="sorPerson.setSourceSor('or-webapp')" />
-		<evaluate expression="sorRole.createAndAddEmailAddress()" result="flowScope.defaultEmailAddress"/>
+		<evaluate expression="sorRole.createEmailAddress()" result="flowScope.defaultEmailAddress"/>
         <evaluate expression="sorRole.addEmailAddress(defaultEmailAddress)" />
         <evaluate expression="defaultEmailAddress.setAddressType(referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@ADDRESS, @org.openregistry.core.domain.Type$AddressTypes@CAMPUS))" />
 		<evaluate expression="sorRole.createPhone()" result="flowScope.defaultPhone" />
