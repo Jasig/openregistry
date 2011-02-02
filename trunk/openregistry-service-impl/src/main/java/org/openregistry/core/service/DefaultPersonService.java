@@ -742,7 +742,7 @@ public class DefaultPersonService implements PersonService {
         return addSorPersonAndLink(reconciliationCriteria, person);
     }
 
-    private void setRoleIdAndSource(SorRole sorRole, String sorSource){
+    protected void setRoleIdAndSource(SorRole sorRole, String sorSource){
         if (!StringUtils.hasText(sorRole.getSorId())) {
                 sorRole.setSorId(this.identifierGenerator.generateNextString());
         }
