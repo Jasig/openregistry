@@ -51,4 +51,12 @@ public class MockMaybeReconciliationResult implements ReconciliationResult {
     public boolean multiplePeopleFound() {
         return true;
     }
+
+    public void setReconciliationFeedback(String feedback){
+
+    }
+
+    public String getReconciliationFeedback(){
+        return "feedback";
+    }
 }

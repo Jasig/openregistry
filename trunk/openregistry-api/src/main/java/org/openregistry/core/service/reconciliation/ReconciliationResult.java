@@ -63,4 +63,8 @@ public interface ReconciliationResult extends Serializable {
 
     boolean multiplePeopleFound();
 
+    String getReconciliationFeedback();
+
+    void setReconciliationFeedback(String feedback);
+
 }
