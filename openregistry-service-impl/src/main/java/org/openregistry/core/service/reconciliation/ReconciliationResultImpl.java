@@ -28,6 +28,7 @@ public class ReconciliationResultImpl implements ReconciliationResult {
 	
 	ReconciliationType type;
 	List<PersonMatch> matches;
+    String feedback;
 	
 	public ReconciliationResultImpl(final ReconciliationType type, final List<PersonMatch> matches) {
 		this.type = type;
@@ -52,5 +53,13 @@ public class ReconciliationResultImpl implements ReconciliationResult {
 
     public boolean multiplePeopleFound() {
         return (this.type == ReconciliationResult.ReconciliationType.MAYBE);
+    }
+
+    public void setReconciliationFeedback(String feedback){
+        this.feedback = feedback;
+    }
+
+    public String getReconciliationFeedback(){
+        return this.feedback;
     }
 }

@@ -58,6 +58,13 @@ public final class NoOpReconciler implements Reconciler {
             public boolean multiplePeopleFound() {
                 return false;  
             }
+
+            public void setReconciliationFeedback(String feedback){
+            }
+
+            public String getReconciliationFeedback(){
+                return "feedback";
+            }
         };
     }
 

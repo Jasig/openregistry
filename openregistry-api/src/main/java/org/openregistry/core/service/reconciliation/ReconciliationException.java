@@ -52,4 +52,12 @@ public class ReconciliationException extends Exception implements Reconciliation
     public boolean multiplePeopleFound() {
         return this.reconciliationResult.multiplePeopleFound();
     }
+
+    public String getReconciliationFeedback(){
+        return this.reconciliationResult.getReconciliationFeedback();
+    }
+
+    public void setReconciliationFeedback(String feedback){
+        this.reconciliationResult.setReconciliationFeedback(feedback);
+    }
 }

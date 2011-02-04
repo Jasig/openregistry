@@ -103,6 +103,14 @@ public final class MockReconciler implements Reconciler {
             public boolean multiplePeopleFound() {
                 return desiredResult.equals(ReconciliationType.MAYBE);
             }
+
+            public void setReconciliationFeedback(String feedback){
+
+            }
+
+            public String getReconciliationFeedback(){
+                return "feedback";
+            }
         };
     }
 
