@@ -118,6 +118,10 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     public Date getCreationDate() {
         return (this.creationDate == null) ? null : new Date(this.creationDate.getTime());
     }
+    @Override
+    public void setCreationDate(Date originalCreationDate) {
+        this.creationDate=originalCreationDate;
+    }
 
     @Override
     public Date getDeletedDate() {
