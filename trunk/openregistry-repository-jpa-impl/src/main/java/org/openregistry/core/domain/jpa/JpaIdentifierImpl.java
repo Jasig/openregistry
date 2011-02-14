@@ -127,6 +127,11 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     public Date getDeletedDate() {
         return (this.deletedDate == null) ? null : new Date(this.deletedDate.getTime());
     }
+    @Override
+    public void setDeletedDate(Date date) {
+        this.deleted=true;
+        this.deletedDate=date;
+    }
 
     /**
      * @throws IllegalStateException if this identifier is not of a notifiable type

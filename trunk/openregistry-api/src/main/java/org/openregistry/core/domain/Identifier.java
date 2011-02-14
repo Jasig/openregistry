@@ -70,6 +70,16 @@ public interface Identifier extends Serializable {
      * @return a copy of the deletion date, if deleted is true.  This should be set when isDeleted is called, and not separately.
      */
     Date getDeletedDate();
+
+    /**
+     * The date the identifier was deleted.  CANNOT be null if deleted is true.
+     * sets the   This should be set when isDeleted is called, It can be set separately,
+     * this is useful when loding data from legacy system and want to keep the original deletion date
+     * this method should also set setDeleted=true
+      * @param Date when this identifier was deleted
+     * .
+     */
+    void setDeletedDate(Date date);
         
 	/**
      * The date the Person was notified about this identifier.  
