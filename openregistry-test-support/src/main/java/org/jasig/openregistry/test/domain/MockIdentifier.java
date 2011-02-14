@@ -55,6 +55,11 @@ public class MockIdentifier implements Identifier {
     public void setCreationDate(Date originalCreationDate) {
         this.creationDate=originalCreationDate;
     }
+    @Override
+    public void setDeletedDate(Date date) {
+
+        this.deletedDate=date;
+    }
 
     @Override
 	public Date getDeletedDate() {
