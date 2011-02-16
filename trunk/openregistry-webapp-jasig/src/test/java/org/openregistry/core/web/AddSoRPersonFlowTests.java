@@ -28,6 +28,7 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorName;
+import org.openregistry.core.domain.sor.SorPersonAlreadyExistsException;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.PersonService;
@@ -139,7 +140,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
     //validation errors found
     @Test
-    public void testCriteriaSubmitError() throws ReconciliationException {
+    public void testCriteriaSubmitError() throws ReconciliationException, SorPersonAlreadyExistsException {
         final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, RUDYARD, "INVALID_SSN", null, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
         final ServiceExecutionResult<Person> serviceExecutionResult = mock(ServiceExecutionResult.class, RETURNS_SMART_NULLS);
         final Set<ConstraintViolation> violations = mock(Set.class, RETURNS_SMART_NULLS);
@@ -177,7 +178,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
     //reconciliation returns NONE.  Adds the new person.  Adds the role.
     @Test
-    public void testAddNewPerson() throws ReconciliationException {
+    public void testAddNewPerson() throws ReconciliationException, SorPersonAlreadyExistsException {
         ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "UNIQUE_SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
 
         final ServiceExecutionResult<Person> serviceExecutionResult = mock(ServiceExecutionResult.class, RETURNS_SMART_NULLS);
@@ -215,7 +216,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     }
 
     //reconciliation returns reconciliation (view matches)
-    public void testAddPersonMatchesFound() throws ReconciliationException {
+    public void testAddPersonMatchesFound() throws ReconciliationException, SorPersonAlreadyExistsException {
         ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
 
         final ReconciliationException reconciliationException = mock(ReconciliationException.class);
@@ -233,7 +234,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
     }
 
     //test case to start at viewMatches and continue to force add
-    public void testForceAdd() throws ReconciliationException {
+    public void testForceAdd() throws ReconciliationException, SorPersonAlreadyExistsException {
         ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
 
         final ServiceExecutionResult<Person> serviceExecutionResult = mock(ServiceExecutionResult.class, RETURNS_SMART_NULLS);
@@ -278,7 +279,7 @@ public final class AddSoRPersonFlowTests extends AbstractXmlFlowExecutionTests {
 
 
     // test case to start at viewMatches and continue to selecting a match and ending at addRole.
-    public void testSelectMatchAddRole() throws ReconciliationException {
+    public void testSelectMatchAddRole() throws ReconciliationException, SorPersonAlreadyExistsException {
         ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, "SSN", EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), OR_WEBAPP_IDENTIFIER);
 
         final ReconciliationException reconciliationException = mock(ReconciliationException.class);
