@@ -24,6 +24,7 @@ import com.sun.jersey.api.representation.Form;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SoRSpecification;
+import org.openregistry.core.domain.sor.SorPersonAlreadyExistsException;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SystemOfRecordHolder;
 import org.openregistry.core.repository.ReferenceRepository;
@@ -139,24 +140,22 @@ public final class SystemOfRecordPeopleResource {
             response = Response.created(uri).entity(buildPersonActivationKeyRepresentation(person)).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).build();
             logger.info(String.format("Person successfully created. The person resource URI is %s", uri.toString()));
         }
-        catch (final ReconciliationException ex) {
-            switch (ex.getReconciliationType()) {
+        catch (final ReconciliationException e) {
+            switch (e.getReconciliationType()) {
                 case MAYBE:
-                    final List<PersonMatch> conflictingPeopleFound = ex.getMatches();
+                    final List<PersonMatch> conflictingPeopleFound = e.getMatches();
                     response = Response.status(409).entity(buildLinksToConflictingPeopleFound(conflictingPeopleFound))
                             .type(MediaType.APPLICATION_XHTML_XML).build();
                     logger.info("Multiple people found: " + response.getEntity());
                     break;
 
-                case EXACT:
-                    final URI uri = buildPersonResourceUri(ex.getMatches().get(0).getPerson());
-                    //HTTP 303 ("See other with GET")
-                    response = Response.seeOther(uri).build();
-                    logger.info(String.format("Person already exists. The existing person resource URI is %s.", uri.toString()));
+                case MISMATCH:
+                    response = Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(e.getMessage())))
+                            .type(MediaType.APPLICATION_XML).build();
                     break;
             }
         }
-        catch (final IllegalStateException e) {
+        catch (final SorPersonAlreadyExistsException e) {
             response = Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(e.getMessage())))
                     .type(MediaType.APPLICATION_XML).build();
         }

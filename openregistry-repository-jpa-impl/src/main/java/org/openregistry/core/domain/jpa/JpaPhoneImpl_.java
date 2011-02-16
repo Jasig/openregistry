@@ -2,6 +2,7 @@ package org.openregistry.core.domain.jpa;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
+import java.util.Date;
 
 @StaticMetamodel(JpaPhoneImpl.class)
 public abstract class JpaPhoneImpl_ {
@@ -14,6 +15,7 @@ public abstract class JpaPhoneImpl_ {
 	public static volatile SingularAttribute<JpaPhoneImpl, String> areaCode;
 	public static volatile SingularAttribute<JpaPhoneImpl, String> number;
 	public static volatile SingularAttribute<JpaPhoneImpl, String> extension;
+    public static volatile SingularAttribute<JpaPhoneImpl, Date> updateDate;
 	public static volatile SingularAttribute<JpaPhoneImpl, JpaRoleImpl> role;
 
 }

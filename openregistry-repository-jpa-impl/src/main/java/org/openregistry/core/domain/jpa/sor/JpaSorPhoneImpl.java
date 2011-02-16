@@ -26,6 +26,7 @@ import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.*;
 import org.openregistry.core.domain.normalization.PhoneNumber;
 import org.springframework.util.*;
+import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -89,6 +90,10 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
     @Column(name="extension", nullable=true,length=5)
     private String extension;
 
+    @Column(name="update_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate = new Date();
+
     @ManyToOne(optional=false)
     @JoinColumn(name="role_record_id")
     private JpaSorRoleImpl sorRole;
@@ -133,6 +138,10 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
         return this.extension;
     }
 
+    public Date getUpdateDate(){
+        return this.updateDate;
+    }
+
     public void setAddressType(final Type addressType) {
         Assert.isInstanceOf(JpaTypeImpl.class, addressType);
         this.addressType = (JpaTypeImpl) addressType;
@@ -161,6 +170,11 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
 
     public void setExtension(final String extension) {
         this.extension = extension;
+    }
+   
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateDate = new Date();
     }
 
     public String toString() {

@@ -34,6 +34,7 @@ import org.openregistry.core.domain.normalization.Capitalize;
 import org.openregistry.core.domain.normalization.StreetName;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -100,6 +101,10 @@ public class JpaSorAddressImpl extends Entity implements Address {
     @NotNull
     private String postalCode;
 
+    @Column(name="update_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate = new Date();
+
     @ManyToOne(optional=false)
     @JoinColumn(name="role_record_id")
     private JpaSorRoleImpl sorRole;
@@ -156,6 +161,10 @@ public class JpaSorAddressImpl extends Entity implements Address {
         return this.postalCode;
     }
 
+    public Date getUpdateDate() {
+        return this.updateDate;
+    }
+
     public void setType(final Type type) {
         Assert.isInstanceOf(JpaTypeImpl.class, type);
         this.type = (JpaTypeImpl) type;
@@ -197,6 +206,11 @@ public class JpaSorAddressImpl extends Entity implements Address {
 
     public void setPostalCode(final String postalCode) {
         this.postalCode = postalCode;
+    }
+    
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateDate = new Date();
     }
 
     public String getSingleLineAddress(){

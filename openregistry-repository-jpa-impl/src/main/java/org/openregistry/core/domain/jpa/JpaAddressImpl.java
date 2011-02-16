@@ -27,6 +27,7 @@ import org.openregistry.core.domain.Country;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
 import org.springframework.util.StringUtils;
+import java.util.Date;
 
 import javax.persistence.*;
 import javax.persistence.Table;
@@ -85,6 +86,10 @@ public class JpaAddressImpl extends Entity implements Address {
     @Column(name="postal_code",length=9, nullable = false)
     private String postalCode;
 
+    @Column(name="update_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate = new Date();
+
     @ManyToOne(optional=false)
     @JoinColumn(name="role_record_id")
     private JpaRoleImpl role;
@@ -141,6 +146,10 @@ public class JpaAddressImpl extends Entity implements Address {
         return this.postalCode;
     }
 
+    public Date getUpdateDate(){
+        return this.updateDate;
+    }
+
     public void setType(final Type type) {
         if (!(type instanceof JpaTypeImpl)) {
             throw new IllegalArgumentException("Requires type JpaTypeImpl");
@@ -189,6 +198,11 @@ public class JpaAddressImpl extends Entity implements Address {
 
     public void setPostalCode(final String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateDate = new Date();
     }
 
     public String getSingleLineAddress(){

@@ -3,6 +3,7 @@ package org.jasig.openregistry.test.domain;
 import org.openregistry.core.domain.ContactPhone;
 import org.openregistry.core.domain.Phone;
 import org.openregistry.core.domain.Type;
+import java.util.Date;
 
 /**
  * @version $Revision$ $Date$
@@ -88,6 +89,10 @@ public class MockPhoneNumber implements ContactPhone {
 
     public void setNumber(final String number) {
         this.number = number;
+    }
+
+    public Date getUpdateDate(){
+        return new Date();
     }
 
     @Override

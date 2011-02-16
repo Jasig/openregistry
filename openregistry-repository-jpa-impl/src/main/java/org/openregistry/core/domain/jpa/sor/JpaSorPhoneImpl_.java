@@ -3,6 +3,7 @@ package org.openregistry.core.domain.jpa.sor;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
+import java.util.Date;
 
 @StaticMetamodel(JpaSorPhoneImpl.class)
 public abstract class JpaSorPhoneImpl_ {
@@ -15,6 +16,7 @@ public abstract class JpaSorPhoneImpl_ {
 	public static volatile SingularAttribute<JpaSorPhoneImpl, String> areaCode;
 	public static volatile SingularAttribute<JpaSorPhoneImpl, String> number;
 	public static volatile SingularAttribute<JpaSorPhoneImpl, String> extension;
+    public static volatile SingularAttribute<JpaSorPhoneImpl, Date> updateDate;
 	public static volatile SingularAttribute<JpaSorPhoneImpl, JpaSorRoleImpl> sorRole;
 
 }

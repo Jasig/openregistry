@@ -20,6 +20,7 @@
 package org.openregistry.core.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author Scott Battaglia
@@ -45,6 +46,8 @@ public interface Phone extends Serializable {
     String getNumber();
 
     String getExtension();
+
+    Date getUpdateDate();
 
     void setAddressType(Type addressType);
 

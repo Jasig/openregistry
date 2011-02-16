@@ -28,7 +28,9 @@ import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.ActivationKey;
+import org.openregistry.core.domain.sor.SorPersonAlreadyExistsException;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
@@ -92,10 +94,11 @@ public class AddNewPersonMockitoBasedPersonServiceFactoryBean implements Factory
 
         //Stubbing PersonService
         final PersonService ps = mock(PersonService.class);
+        final SorPerson sorPerson = mock(SorPerson.class);
         //stubbing different reconciliation scenarios
         when(ps.addPerson(argThat(new IsNewPersonMatch()))).thenReturn(mockNoPeopleFoundServiceExecutionResult);
         when(ps.addPerson(argThat(new IsExistingPersonMatch()))).thenThrow(new ReconciliationException(mockPersonAlreadyExistsReconciliationResult));
-         when(ps.addPerson(argThat(new IsExistingErrorPersonMatch()))).thenThrow(new IllegalStateException());
+         when(ps.addPerson(argThat(new IsExistingErrorPersonMatch()))).thenThrow(new SorPersonAlreadyExistsException(sorPerson));
         when(ps.addPerson(argThat(new HasValidationErrors()))).thenReturn(mockValidationErrorsExecutionResult);
         when(ps.addPerson(argThat(new IsMultiplePeopleMatch()))).thenThrow(new ReconciliationException(mockMultiplePeopleFoundReconciliationResult));
         //Mocking 'force add' option
