@@ -23,6 +23,7 @@ import com.sun.jersey.api.NotFoundException;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
+import org.openregistry.core.domain.sor.SorPersonAlreadyExistsException;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.web.resources.representations.ErrorsResponseRepresentation;
@@ -98,6 +99,9 @@ public final class PeopleResource {
         logger.info("Trying to link incoming SOR person with calculated person...");
         try {
             this.personService.addPersonAndLink(reconciliationCriteria, person);
+        }
+        catch (SorPersonAlreadyExistsException ex) {
+            return Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(ex.getMessage()))).type(MediaType.APPLICATION_XML).build();
         }
         catch (IllegalStateException ex) {
             return Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(ex.getMessage()))).type(MediaType.APPLICATION_XML).build();

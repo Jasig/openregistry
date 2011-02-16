@@ -58,7 +58,7 @@ public class PostNewPersonToPeopleResourceTests extends JerseyTestSupport {
 
     @Test
     public void addingExistingPersonNoSoRRecord() {
-        assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(303, RESOURCE_UNDER_TEST_URI, POST_HTTP_METHOD,
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndEntity(204, RESOURCE_UNDER_TEST_URI, POST_HTTP_METHOD,
                 PersonRequestRepresentation.forExistingPersonNoSoRRecord());
     }
 
