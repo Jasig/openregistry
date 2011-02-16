@@ -5,6 +5,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import org.openregistry.core.domain.jpa.JpaCountryImpl;
 import org.openregistry.core.domain.jpa.JpaRegionImpl;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
+import java.util.Date;
 
 @StaticMetamodel(JpaSorAddressImpl.class)
 public abstract class JpaSorAddressImpl_ {
@@ -20,6 +21,7 @@ public abstract class JpaSorAddressImpl_ {
 	public static volatile SingularAttribute<JpaSorAddressImpl, JpaCountryImpl> country;
 	public static volatile SingularAttribute<JpaSorAddressImpl, String> city;
 	public static volatile SingularAttribute<JpaSorAddressImpl, String> postalCode;
+    public static volatile SingularAttribute<JpaSorAddressImpl, Date> updateDate;
 	public static volatile SingularAttribute<JpaSorAddressImpl, JpaSorRoleImpl> sorRole;
 
 }

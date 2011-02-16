@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.ObjectFactory;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.service.PersonService;
+import org.openregistry.core.domain.sor.SorPersonAlreadyExistsException;
 import org.openregistry.core.web.resources.representations.PersonRequestRepresentation;
 import org.openregistry.core.web.resources.representations.PersonResponseRepresentation;
 import org.openregistry.core.repository.ReferenceRepository;
@@ -95,6 +96,9 @@ public final class PeopleResource {
         logger.info("Trying to link incoming SOR person with calculated person...");
         try {
             this.personService.addPersonAndLink(reconciliationCriteria, person);
+        }
+        catch (SorPersonAlreadyExistsException ex) {
+            return Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(ex.getMessage()))).type(MediaType.APPLICATION_XML).build();
         }
         catch (IllegalStateException ex) {
             return Response.status(409).entity(new ErrorsResponseRepresentation(Arrays.asList(ex.getMessage()))).type(MediaType.APPLICATION_XML).build();

@@ -157,7 +157,7 @@ public interface PersonService {
      * @throws IllegalArgumentException if the reconciliationCriteria is not provided.
      * @throws ReconciliationException if the person could not be added due to reconciliation.
      */
-    ServiceExecutionResult<Person> addPerson(ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException;
+    ServiceExecutionResult<Person> addPerson(ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException, SorPersonAlreadyExistsException;
 
     /**
      * Forces the addition of a person despite there being an issue with Reconciliation.  Note, that implementations may STILL re-run reconciliation
@@ -180,7 +180,7 @@ public interface PersonService {
      * @throws IllegalArgumentException if any of the parameters are null.
      * @throws IllegalStateException if the reconciliation criteria/result combination could not be located.
      */
-    ServiceExecutionResult<Person> addPersonAndLink(ReconciliationCriteria reconciliationCriteria, Person person) throws IllegalArgumentException, IllegalStateException;
+    ServiceExecutionResult<Person> addPersonAndLink(ReconciliationCriteria reconciliationCriteria, Person person) throws IllegalArgumentException, IllegalStateException, SorPersonAlreadyExistsException;
 
     /**
      * Searches for a Person by the criteria provided.

@@ -289,11 +289,12 @@ public class DefaultPersonService implements PersonService {
         return new GeneralServiceExecutionResult<SorRole>(newSorRole);
     }
 
-    public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException {
+    public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException, SorPersonAlreadyExistsException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
 
         if (reconciliationCriteria.getSorPerson().getSorId() != null && this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()) != null) {
-            throw new IllegalStateException("CANNOT ADD SAME SOR RECORD.");
+            //throw new IllegalStateException("CANNOT ADD SAME SOR RECORD.");
+            throw new SorPersonAlreadyExistsException(this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()));
         }
 
         final Set validationErrors = this.validator.validate(reconciliationCriteria);
@@ -333,7 +334,7 @@ public class DefaultPersonService implements PersonService {
         return new GeneralServiceExecutionResult<Person>(saveSorPersonAndConvertToCalculatedPerson(reconciliationCriteria));
     }
 
-    public ServiceExecutionResult<Person> addPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) throws IllegalArgumentException, IllegalStateException {
+    public ServiceExecutionResult<Person> addPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) throws IllegalArgumentException, IllegalStateException, SorPersonAlreadyExistsException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null.");
         Assert.notNull(person, "person cannot be null.");
 
@@ -707,12 +708,13 @@ public class DefaultPersonService implements PersonService {
         return newPerson;
     }
 
-    protected Person addSorPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) {
+    protected Person addSorPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) throws SorPersonAlreadyExistsException{
         final SorPerson sorPerson = reconciliationCriteria.getSorPerson();
         final SorPerson registrySorPerson = this.findByPersonIdAndSorIdentifier(person.getId(), sorPerson.getSourceSor());
 
         if (registrySorPerson != null) {
-            throw new IllegalStateException("Oops! An error occurred. A person already exists from this SoR linked to this ID!");
+            //throw new IllegalStateException("Oops! An error occurred. A person already exists from this SoR linked to this ID!");
+            throw new SorPersonAlreadyExistsException(registrySorPerson);
         }
 
         if (!StringUtils.hasText(sorPerson.getSorId())) {
@@ -735,7 +737,7 @@ public class DefaultPersonService implements PersonService {
         return recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
     }
 
-    protected Person addNewSorPersonAndLinkWithMatchedCalculatedPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) {
+    protected Person addNewSorPersonAndLinkWithMatchedCalculatedPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) throws SorPersonAlreadyExistsException{
         Assert.isTrue(result.getMatches().size() == 1, "ReconciliationResult should be 'EXACT' and there should only be one person.  The result is '" + result.getReconciliationType() + "' and the number of people is " + result.getMatches().size() + ".");
 
         final Person person = result.getMatches().iterator().next().getPerson();

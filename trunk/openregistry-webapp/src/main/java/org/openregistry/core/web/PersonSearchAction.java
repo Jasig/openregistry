@@ -19,6 +19,7 @@
 
 package org.openregistry.core.web;
 
+import org.openregistry.core.domain.sor.SorPersonAlreadyExistsException;
 import org.openregistry.core.service.PersonService;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.message.MessageBuilder;
@@ -67,9 +68,17 @@ public final class PersonSearchAction extends AbstractPersonServiceAction {
 
             context.getFlowScope().put("serviceExecutionResult", result);
             return "success";
-        } catch (final ReconciliationException e) {
+        }
+        catch (final ReconciliationException e) {
             context.getFlowScope().put("reconciliationResult", e);
             return "reconciliation";
+        }
+        //TODO Need to add logic here to handle case where SoR already provided an SorPerson.
+        // For example if OR is the SoR and reconciliation determines that OR
+        // get the sorPerson that already exists from SorPersonAlreadyExistsException, update it with the values from reconciliation.SorPerson
+        // call updateSorPerson
+        catch (final SorPersonAlreadyExistsException e) {
+            return "error";
         }
     }
 

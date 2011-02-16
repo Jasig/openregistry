@@ -25,6 +25,7 @@ import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
 import org.springframework.util.StringUtils;
+import java.util.Date;
 
 import javax.persistence.*;
 import javax.persistence.Table;
@@ -75,6 +76,10 @@ public class JpaPhoneImpl extends Entity implements Phone {
     @Column(name="extension", nullable=true,length=5)
     private String extension;
 
+    @Column(name="update_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate = new Date();
+
     @ManyToOne(optional=false)
     @JoinColumn(name="role_record_id")
     private JpaRoleImpl role;
@@ -119,6 +124,10 @@ public class JpaPhoneImpl extends Entity implements Phone {
         return this.extension;
     }
 
+    public Date getUpdateDate(){
+        return this.updateDate;
+    }
+
     public void setAddressType(final Type addressType) {
         if (!(addressType instanceof JpaTypeImpl)) {
             throw new IllegalArgumentException("Requires type JpaTypeImpl");
@@ -154,6 +163,12 @@ public class JpaPhoneImpl extends Entity implements Phone {
     public void setExtension(final String extension) {
         this.extension = extension;
     }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateDate = new Date();
+    }
+
 
     public String toString() {
         final StringBuilder builder = new StringBuilder();

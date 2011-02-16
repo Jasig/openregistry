@@ -7,6 +7,7 @@ import org.openregistry.core.domain.Phone;
 import org.openregistry.core.domain.Type;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -49,6 +50,10 @@ public class JpaContactPhoneImpl implements ContactPhone {
     @Column(name="extension", nullable=true,length=5)
     private String extension;
 
+    @Column(name="update_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate = new Date();
+
     public Long getId() {
         return this.id;
     }
@@ -79,6 +84,10 @@ public class JpaContactPhoneImpl implements ContactPhone {
 
     public String getExtension() {
         return this.extension;
+    }
+
+    public Date getUpdateDate(){
+        return this.updateDate;
     }
 
     public void setAddressType(final Type addressType) {
@@ -120,6 +129,12 @@ public class JpaContactPhoneImpl implements ContactPhone {
     public void setExtension(final String extension) {
         this.extension = extension;
     }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateDate = new Date();
+    }
+
 
     public String toString() {
         final StringBuilder builder = new StringBuilder();
