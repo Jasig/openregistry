@@ -88,7 +88,7 @@ public class DefaultPersonServiceTests {
      * Tests the illegal argument exception.
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testAddIllegalArgument() throws ReconciliationException {
+    public void testAddIllegalArgument() throws ReconciliationException, SorPersonAlreadyExistsException {
         this.personService.addPerson(null);
     }
 
@@ -96,7 +96,7 @@ public class DefaultPersonServiceTests {
      * Tests if reconciliation result is NONE that person is returned, activation key is returned, identifiers created.
      */
     @Test
-    public void testReconciliationResultNoneReturnsPerson() throws ReconciliationException {
+    public void testReconciliationResultNoneReturnsPerson() throws ReconciliationException, SorPersonAlreadyExistsException {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.NONE));
         this.personService.setPersonObjectFactory(this.objectFactory);
         ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
@@ -110,7 +110,7 @@ public class DefaultPersonServiceTests {
      * Tests if reconciliation result is EXACT that person is returned.
      */
     @Test
-    public void testReconciliationResultExactMatch() throws ReconciliationException {
+    public void testReconciliationResultExactMatch() throws ReconciliationException, SorPersonAlreadyExistsException {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.EXACT));
         this.personService.setPersonObjectFactory(this.objectFactory);
         ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
@@ -122,19 +122,19 @@ public class DefaultPersonServiceTests {
      * Tests if reconciliation result is MAYBE that a person is not returned.
      */
     @Test(expected = ReconciliationException.class)
-    public void testReconciliationResultMaybeMatch() throws ReconciliationException {
+    public void testReconciliationResultMaybeMatch() throws ReconciliationException, SorPersonAlreadyExistsException {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
          this.personService.setPersonObjectFactory(this.objectFactory);
         this.personService.addPerson(reconciliationCriteria);
      }
 
     @Test(expected=IllegalStateException.class)
-    public void testAddPersonAndLinkWithBadCriteria() {
+    public void testAddPersonAndLinkWithBadCriteria() throws SorPersonAlreadyExistsException {
         this.personService.addPersonAndLink(new MockReconciliationCriteria(), new MockPerson());
     }
 
     @Test(expected=IllegalStateException.class)
-    public void testAddPersonAndLinkWithBadPerson() {
+    public void testAddPersonAndLinkWithBadPerson() throws SorPersonAlreadyExistsException {
         this.personService = new DefaultPersonService(this.personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
         this.personService.setPersonObjectFactory(this.objectFactory);
 
@@ -149,7 +149,7 @@ public class DefaultPersonServiceTests {
     }
 
     @Test
-    public void testAddPersonAndLink() {
+    public void testAddPersonAndLink() throws SorPersonAlreadyExistsException {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
         this.personService.setPersonObjectFactory(this.objectFactory);
 
@@ -168,7 +168,7 @@ public class DefaultPersonServiceTests {
      * Tests if old reconciliationResult provided that person is returned, activation key is returned, identifiers created.
      */
     @Test
-    public void testReconciliationResultOldReconciliationResultProvided() {
+    public void testReconciliationResultOldReconciliationResultProvided() throws SorPersonAlreadyExistsException{
          this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
          this.personService.setPersonObjectFactory(this.objectFactory);
 
