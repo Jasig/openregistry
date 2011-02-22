@@ -277,7 +277,7 @@ public class JpaRoleImpl extends Entity implements Role {
     }
 
     public boolean isTerminated() {
-        return ((this.end != null) && (this.end.compareTo(new Date()) >= 0));
+        return ((this.end != null) && (this.end.compareTo(new Date()) <= 0));
     }
 
     @Override
