@@ -424,7 +424,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     }
 
     public boolean isTerminated() {
-        return ((this.end != null) && (this.end.compareTo(new Date()) >= 0));
+        return ((this.end != null) && (this.end.compareTo(new Date()) <= 0));
     }
 
     @Override
