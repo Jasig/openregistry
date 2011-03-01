@@ -176,6 +176,99 @@ public final class MockReferenceRepository implements ReferenceRepository {
 
     };
 
+    IdentifierType emplIdIdentifierType =  new IdentifierType() {
+
+        public Long getId() {
+            return 1L;
+        }
+
+        public String getDescription() {
+            return "EMPLID";
+        }
+
+        public String toString() {
+            return String.format("%s", getDescription());
+        }
+
+        public String getFormatAsString() {
+            return null;
+        }
+
+        public Pattern getFormatAsPattern() {
+            return Pattern.compile("%s");
+        }
+
+        public boolean isPrivate() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isModifiable() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isNotifiable() {
+             throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isDeleted() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+        public String getName() {
+            return getDescription();
+        }
+
+    };
+    IdentifierType ruIdIdentifierType =  new IdentifierType() {
+
+        public Long getId() {
+            return 1L;
+        }
+
+        public String getDescription() {
+            return "RUID";
+        }
+
+        public String toString() {
+            return String.format("%s", getDescription());
+        }
+
+        public String getFormatAsString() {
+            return null;
+        }
+
+        public Pattern getFormatAsPattern() {
+            return Pattern.compile("%s");
+        }
+
+        public boolean isPrivate() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isModifiable() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isNotifiable() {
+             throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isDeleted() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+        public String getName() {
+            return getDescription();
+        }
+
+    };
+
 
 
     public List<Person> getPeople() {
@@ -291,6 +384,10 @@ public final class MockReferenceRepository implements ReferenceRepository {
                 return netIdIdentifierType;
             if (identifierName.equals("SSN"))
                 return ssnIdentifierType;
+            if (identifierName.equals("EMPLID"))
+                return emplIdIdentifierType;
+            if (identifierName.equals("RUID"))
+                return ruIdIdentifierType;
         }
 
         return new MockIdentifierType("test", true);
