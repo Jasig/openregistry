@@ -161,7 +161,13 @@ public class MockPerson implements Person {
     }
 
     public Name getOfficialName() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        Set<? extends Name> names = this.getNames();
+    	for(Name name: names) {
+    		if (name.isOfficialName()) {
+    			return name;
+    		}
+    	}
+    	return null;
     }
 
     public String getGender() {
