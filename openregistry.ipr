@@ -117,11 +117,40 @@
   </component>
   <component name="FacetAutodetectingManager">
     <autodetection-disabled>
-      <facet-type id="web">
+      <facet-type id="BeanValidation">
         <modules>
-          <module name="openregistry-webapp" />
-          <module name="openregistrysfu" />
-          <module name="openregistry-webapp-jasig" />
+          <module name="openregistrysfu">
+            <directories>
+              <directory url="file://$USER_HOME_GRAILS$/work/java-apps/openregistrysfu/overlays" />
+            </directories>
+          </module>
+        </modules>
+      </facet-type>
+      <facet-type id="CDI">
+        <modules>
+          <module name="openregistrysfu">
+            <directories>
+              <directory url="file://$USER_HOME_GRAILS$/work/java-apps/openregistrysfu/overlays" />
+            </directories>
+          </module>
+        </modules>
+      </facet-type>
+      <facet-type id="ejb">
+        <modules>
+          <module name="openregistrysfu">
+            <directories>
+              <directory url="file://$USER_HOME_GRAILS$/work/java-apps/openregistrysfu/overlays" />
+            </directories>
+          </module>
+        </modules>
+      </facet-type>
+      <facet-type id="hibernate">
+        <modules>
+          <module name="openregistrysfu">
+            <directories>
+              <directory url="file://$USER_HOME_GRAILS$/work/java-apps/openregistrysfu/overlays" />
+            </directories>
+          </module>
         </modules>
       </facet-type>
       <facet-type id="javaeeApplication">
@@ -134,15 +163,6 @@
         </modules>
       </facet-type>
       <facet-type id="jpa">
-        <modules>
-          <module name="openregistrysfu">
-            <directories>
-              <directory url="file://$USER_HOME_GRAILS$/work/java-apps/openregistrysfu/overlays" />
-            </directories>
-          </module>
-        </modules>
-      </facet-type>
-      <facet-type id="ejb">
         <modules>
           <module name="openregistrysfu">
             <directories>
@@ -169,31 +189,11 @@
           </module>
         </modules>
       </facet-type>
-      <facet-type id="CDI">
+      <facet-type id="web">
         <modules>
-          <module name="openregistrysfu">
-            <directories>
-              <directory url="file://$USER_HOME_GRAILS$/work/java-apps/openregistrysfu/overlays" />
-            </directories>
-          </module>
-        </modules>
-      </facet-type>
-      <facet-type id="hibernate">
-        <modules>
-          <module name="openregistrysfu">
-            <directories>
-              <directory url="file://$USER_HOME_GRAILS$/work/java-apps/openregistrysfu/overlays" />
-            </directories>
-          </module>
-        </modules>
-      </facet-type>
-      <facet-type id="BeanValidation">
-        <modules>
-          <module name="openregistrysfu">
-            <directories>
-              <directory url="file://$USER_HOME_GRAILS$/work/java-apps/openregistrysfu/overlays" />
-            </directories>
-          </module>
+          <module name="openregistry-webapp" />
+          <module name="openregistry-webapp-jasig" />
+          <module name="openregistrysfu" />
         </modules>
       </facet-type>
     </autodetection-disabled>
@@ -258,7 +258,7 @@
     <option name="USE_PROJECT_PROFILE" value="true" />
     <version value="1.0" />
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="TYPO" />
+      <item index="0" class="java.lang.String" itemvalue="WEAK WARNING" />
       <item index="1" class="java.lang.String" itemvalue="WARNING" />
       <item index="2" class="java.lang.String" itemvalue="SERVER PROBLEM" />
       <item index="3" class="java.lang.String" itemvalue="INFO" />
@@ -562,6 +562,33 @@
                 </list>
               </option>
               <option name="trunkUrl" value="https://www.ja-sig.org/svn/openregistry/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/openregistry-api">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchMap">
+                <map>
+                  <entry key="https://source.jasig.org/openregistry/branches">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                  <entry key="https://source.jasig.org/openregistry/tags">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="branchUrls">
+                <list>
+                  <option value="https://source.jasig.org/openregistry/branches" />
+                  <option value="https://source.jasig.org/openregistry/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="https://source.jasig.org/openregistry/trunk" />
             </SvnBranchConfiguration>
           </value>
         </entry>
