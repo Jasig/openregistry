@@ -317,6 +317,54 @@ public final class MockReferenceRepository implements ReferenceRepository {
 
     };
 
+    IdentifierType externalIdentifierType = new IdentifierType() {
+
+        public Long getId() {
+            return 1L;
+        }
+
+        public String getDescription() {
+            return "EXTERNALID";
+        }
+
+        public String toString() {
+            return String.format("%s", getDescription());
+        }
+
+        public String getFormatAsString() {
+            return null;
+        }
+
+        public Pattern getFormatAsPattern() {
+            return Pattern.compile("%s");
+        }
+
+        public boolean isPrivate() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isModifiable() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isNotifiable() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+
+        public boolean isDeleted() {
+            throw new UnsupportedOperationException("This mock does not implement this method yet");
+        }
+
+        public String getName() {
+            return getDescription();
+        }
+
+    };
+
+
 
 
 
@@ -439,6 +487,8 @@ public final class MockReferenceRepository implements ReferenceRepository {
                 return ruIdIdentifierType;
             if (identifierName.equals("IID"))
                 return iIdIdentifierType;
+            if (identifierName.equals("EXTERNALID"))
+                return externalIdentifierType;
         }
 
         return new MockIdentifierType("test", true);
