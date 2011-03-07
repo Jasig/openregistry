@@ -44,7 +44,7 @@ public interface Type extends Serializable {
 
     enum SponsorTypes {PERSON, ORG_UNIT}
 
-    enum PersonStatusTypes {ACTIVE, INACTIVE}
+    enum PersonStatusTypes {ACTIVE, INACTIVE, LEAVE_OF_ABSENCE, DECEASED, TERMINATED, SUSPENDED, SHORT_WORK_BREAK, LEAVE_WITH_PAY, RETIRED}
 
     enum AddressTypes {CAMPUS, HOME, OFFICE}
 
