@@ -7,6 +7,7 @@ import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.GeneralServiceExecutionResult;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
