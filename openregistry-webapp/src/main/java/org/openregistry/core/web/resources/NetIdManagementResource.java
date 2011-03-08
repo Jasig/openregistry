@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
  *
  * @since 1.0
  */
-@Named
+//@Named
 @Singleton
 @Path("/netid")
 public class NetIdManagementResource {
@@ -25,7 +25,7 @@ public class NetIdManagementResource {
 
     private NetIdManagementService netIdManagementService;
 
-    @Inject
+    //@Inject
     public NetIdManagementResource(NetIdManagementService netIdManagementService) {
         this.netIdManagementService = netIdManagementService;
     }
