@@ -11,10 +11,18 @@ public interface NetIdManagementService {
     /**
      * Change the net id of the current <code>Person</code>
      *
-     * @param oldNetIdValue
+     * @param currentNetIdValue
      * @param newNetIdValue
-     * @param primary       is this a privare net id
      * @return The newly changed <code>Identifier</code> instance
      */
-    ServiceExecutionResult<Identifier> changeNetId(String oldNetIdValue, String newNetIdValue, boolean primary) throws IllegalArgumentException, IllegalStateException;
+    ServiceExecutionResult<Identifier> changePrimaryNetId(String currentNetIdValue, String newNetIdValue) throws IllegalArgumentException, IllegalStateException;
+
+    /**
+     * Change the net id of the current <code>Person</code>
+     *
+     * @param primaryNetIdValue
+     * @param newNonPrimaryNetIdValue
+     * @return The newly changed <code>Identifier</code> instance
+     */
+    ServiceExecutionResult<Identifier> addNonPrimaryNetId(String primaryNetIdValue, String newNonPrimaryNetIdValue) throws IllegalArgumentException, IllegalStateException;
 }
