@@ -16,15 +16,12 @@ import javax.ws.rs.core.Response;
  *
  * @since 1.0
  */
-//@Named
-//@Singleton
 @Path("/netid")
 public class NetIdManagementResource {
 
     private NetIdManagementService netIdManagementService;
 
-    @Inject
-    public NetIdManagementResource(NetIdManagementService netIdManagementService) {
+    public void setNetIdManagementService(NetIdManagementService netIdManagementService) {
         this.netIdManagementService = netIdManagementService;
     }
 
@@ -34,7 +31,7 @@ public class NetIdManagementResource {
     public void changeNetId(@PathParam("currentNetId") String currentNetId,
                                 @FormParam("newNetId") String newNetIdValue,
                                 @DefaultValue("true") @FormParam("primary") boolean primary) {
-        try {
+        /*try {
             this.netIdManagementService.changeNetId(currentNetId, newNetIdValue, primary);
         }
         catch (IllegalArgumentException e) {
@@ -44,7 +41,7 @@ public class NetIdManagementResource {
         catch(IllegalStateException e) {
             //HTTP 409 - the person with provided new netid already exists
             throw new ConflictException(e.getMessage());
-        }
+        }*/
         //HTTP 204 - success
     }
 }

@@ -28,7 +28,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <context:component-scan base-package="org.openregistry.core.web.resources"/>
+    <context:component-scan base-package="org.openregistry.core.web.resources">
+        <context:exclude-filter type="assignable" expression="org.openregistry.core.web.resources.NetIdManagementResource"/>
+    </context:component-scan>
     
     <!-- All these beans will be autowired into 'PeopleResource' -->    
     <bean class="org.jasig.openregistry.test.repository.MockReferenceRepository" id="referenceRepository" />
@@ -67,6 +69,5 @@
     </bean>
 
     <bean class="org.jasig.openregistry.test.service.MockEmailService"/>
-    
 
 </beans>
