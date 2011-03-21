@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
  *
  * @since 1.0
  */
-@Path("/netid")
+@Path("/netids")
 public class NetIdManagementResource {
 
     private NetIdManagementService netIdManagementService;
@@ -25,14 +25,13 @@ public class NetIdManagementResource {
         this.netIdManagementService = netIdManagementService;
     }
 
-    @POST
-    @Path("{currentNetId}")
+    @PUT
+    @Path("{currentPrimaryNetId}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void changeNetId(@PathParam("currentNetId") String currentNetId,
-                                @FormParam("newNetId") String newNetIdValue,
-                                @DefaultValue("true") @FormParam("primary") boolean primary) {
-        /*try {
-            this.netIdManagementService.changeNetId(currentNetId, newNetIdValue, primary);
+    public void changePrimaryNetId(@PathParam("currentPrimaryNetId") String currentPrimaryNetIdValue,
+                                   @FormParam("newPrimaryNetId") String newPrimaryNetIdValue) {
+        try{
+            this.netIdManagementService.changePrimaryNetId(currentPrimaryNetIdValue, newPrimaryNetIdValue);
         }
         catch (IllegalArgumentException e) {
             //HTTP 404 - no such person with provided current netid
@@ -41,7 +40,26 @@ public class NetIdManagementResource {
         catch(IllegalStateException e) {
             //HTTP 409 - the person with provided new netid already exists
             throw new ConflictException(e.getMessage());
-        }*/
+        }
+        //HTTP 204 - success
+    }
+
+    @POST
+    @Path("{currentPrimaryNetId}")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void addNonPrimaryNetId(@PathParam("currentPrimaryNetId") String currentPrimaryNetIdValue,
+                                   @FormParam("newNonPrimaryNetId") String newNonPrimaryNetIdValue) {
+        try{
+            this.netIdManagementService.addNonPrimaryNetId(currentPrimaryNetIdValue, newNonPrimaryNetIdValue);
+        }
+        catch (IllegalArgumentException e) {
+            //HTTP 404 - no such person with provided current netid OR the provided primary netid [%s] does not match the current primary netid
+            throw new NotFoundException(e.getMessage());
+        }
+        catch(IllegalStateException e) {
+            //HTTP 409 - the person with provided new netid already exists
+            throw new ConflictException(e.getMessage());
+        }
         //HTTP 204 - success
     }
 }
