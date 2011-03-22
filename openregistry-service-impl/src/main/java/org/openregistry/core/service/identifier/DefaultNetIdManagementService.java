@@ -20,7 +20,7 @@ import java.util.Map;
  * @since 1.0
  */
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-@Service
+//@Service
 public class DefaultNetIdManagementService implements NetIdManagementService {
 
     private PersonService personService;
@@ -29,12 +29,12 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
 
     private String netIdTypeCode;
 
-    @Inject
+    /*@Inject
     public DefaultNetIdManagementService(PersonService personService, ReferenceRepository referenceRepository, String netIdTypeCode) {
         this.personService = personService;
         this.referenceRepository = referenceRepository;
         this.netIdTypeCode = netIdTypeCode;
-    }
+    }*/
 
     @Override
     public ServiceExecutionResult<Identifier> changePrimaryNetId(String currentNetIdValue, String newNetIdValue) throws IllegalArgumentException, IllegalStateException {
