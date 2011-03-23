@@ -3,6 +3,8 @@ package org.openregistry.core.web.resources;
 import com.sun.jersey.api.ConflictException;
 import com.sun.jersey.api.NotFoundException;
 import org.openregistry.core.service.identifier.NetIdManagementService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,9 +18,14 @@ import javax.ws.rs.core.Response;
  *
  * @since 1.0
  */
+@Named
+@Singleton
 @Path("/netids")
 public class NetIdManagementResource {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Inject
     private NetIdManagementService netIdManagementService;
 
     public void setNetIdManagementService(NetIdManagementService netIdManagementService) {
@@ -40,6 +47,11 @@ public class NetIdManagementResource {
         catch(IllegalStateException e) {
             //HTTP 409 - the person with provided new netid already exists
             throw new ConflictException(e.getMessage());
+        }
+        catch(Exception e) {
+            logger.error(e.getMessage());
+            //HTTP 500
+            throw new WebApplicationException(500);
         }
         //HTTP 204 - success
     }

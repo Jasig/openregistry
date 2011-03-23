@@ -20,39 +20,47 @@ import java.util.Map;
  * @since 1.0
  */
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-//@Service
+@Service
 public class DefaultNetIdManagementService implements NetIdManagementService {
 
     private PersonService personService;
 
     private ReferenceRepository referenceRepository;
 
-    private String netIdTypeCode;
+    private String netIdTypeCode = "NETID";
 
-    /*@Inject
-    public DefaultNetIdManagementService(PersonService personService, ReferenceRepository referenceRepository, String netIdTypeCode) {
+    @Inject
+    public DefaultNetIdManagementService(PersonService personService, ReferenceRepository referenceRepository) {
         this.personService = personService;
         this.referenceRepository = referenceRepository;
+    }
+
+    public void setNetIdTypeCode(String netIdTypeCode) {
         this.netIdTypeCode = netIdTypeCode;
-    }*/
+    }
 
     @Override
     public ServiceExecutionResult<Identifier> changePrimaryNetId(String currentNetIdValue, String newNetIdValue) throws IllegalArgumentException, IllegalStateException {
-        //TODO: need to check the AuxiliaryIdentifierPools here also
-        if ((this.personService.findPersonByIdentifier(netIdTypeCode, newNetIdValue) != null)) {
-            throw new IllegalStateException(format("The person with the proposed new netid [%s] already exists.", newNetIdValue));
-        }
         final Person person = this.personService.findPersonByIdentifier(netIdTypeCode, currentNetIdValue);
         if (person == null) {
             throw new IllegalArgumentException(format("The person with the provided netid [%s] does not exist", currentNetIdValue));
         }
+        final Person person2 = this.personService.findPersonByIdentifier(netIdTypeCode, newNetIdValue);
+        if (person2 != null && person.getId() != person2.getId()) {
+            throw new IllegalStateException(format("The person with the proposed new netid [%s] already exists.", newNetIdValue));
+        }
+        Map<String, Identifier> primaryIds = person.getPrimaryIdentifiersByType();
+        Identifier i = primaryIds.get(netIdTypeCode);
+        //Candidate for NPE - which is not handeled here as it would be serious data error to not have a primary netid
+        //TODO: need to check the AuxiliaryIdentifierPools here also
+        if (i.getValue().equals(newNetIdValue)) {
+            throw new IllegalArgumentException(format("The provided new primary netid [%s] already assigned to the person.", newNetIdValue));
+        }
+
         final IdentifierType idType = this.referenceRepository.findIdentifierType(this.netIdTypeCode);
         final Identifier newNetId = person.addIdentifier(idType, newNetIdValue);
 
         newNetId.setPrimary(true);
-        Map<String, Identifier> primaryIds = person.getPrimaryIdentifiersByType();
-        Identifier i = primaryIds.get(netIdTypeCode);
-        //Candidate for NPE - which is not handeled here as it would be serious data error to not have a primary netid
         i.setPrimary(false);
 
         return new GeneralServiceExecutionResult<Identifier>(newNetId);
