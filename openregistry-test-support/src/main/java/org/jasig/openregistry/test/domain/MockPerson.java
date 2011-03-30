@@ -314,6 +314,11 @@ public class MockPerson implements Person {
     }
 
     @Override
+    public Identifier findIdentifierByValue(String identifierType, String identifierValue) {
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
