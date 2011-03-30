@@ -176,6 +176,8 @@ public interface Person extends Serializable {
      */
     Role findRoleBySoRRoleId(Long sorRoleId);
 
+    Identifier findIdentifierByValue(String identifierType, String identifierValue);
+
     /**
      * Returns a Map of the primary identifiers, in a key/value pair with type.
      *

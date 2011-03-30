@@ -289,6 +289,24 @@ public class JpaPersonImpl extends Entity implements Person {
         return identifiersByType;
     }
 
+    @Override
+    public Identifier findIdentifierByValue(String identifierType, String identifierValue) {
+        final Map<String, Deque<Identifier>> identifiersByType = getIdentifiersByType();
+        Deque<Identifier> ids = identifiersByType.get(identifierType);
+        if(ids == null) {
+            throw new RuntimeException("No identifiers exist for the specified type [" + identifierType + "]");
+        }
+        Iterator<Identifier> iter = ids.iterator();
+        Identifier id = null;
+        while(iter.hasNext()) {
+            id = iter.next();
+            if(id.getValue().equals(identifierValue)) {
+                return id;
+            }
+        }
+        return null;
+    }
+
     public synchronized ActivationKey generateNewActivationKey(final Date start, final Date end) {
         this.activationKey = new JpaActivationKeyImpl(start, end);
         return this.activationKey;
