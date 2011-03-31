@@ -57,7 +57,7 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
         Identifier currId = primaryIds.get(netIdTypeCode);
         //Candidate for NPE - which is not handeled here as it would be serious data error to not have a primary netid
         if (currId.getValue().equals(newNetIdValue)) {
-            throw new IllegalArgumentException(format("The provided new primary netid [%s] already assigned to the person.", newNetIdValue));
+            throw new IllegalStateException(format("The provided new primary netid [%s] already assigned to the person.", newNetIdValue));
         }
         else if(!currId.getValue().equals(currentNetIdValue)) {
             throw new IllegalArgumentException(format("The provided primary netid [%s] does not match the current primary netid", currentNetIdValue));
