@@ -245,16 +245,7 @@
     </build>
 
     <pluginRepositories>
-        <pluginRepository>
-            <id>Codehaus Snapshots</id>
-            <url>https://nexus.codehaus.org/content/repositories/codehaus-snapshots</url>
-            <snapshots>
-            <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>  <!-- Workaround for MNG-2974, see note below -->
-            </releases>
-        </pluginRepository>
+
 
         <pluginRepository>
           <id>maven-annotation-plugin</id>
