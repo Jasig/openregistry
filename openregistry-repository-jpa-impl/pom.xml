@@ -165,8 +165,8 @@
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
+      <plugins>
+      <!--        <plugin>
 
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>hibernate3-maven-plugin</artifactId>
@@ -191,18 +191,7 @@
                 </componentProperties>
               </configuration>
 
-                <!--
-                <dependencies>
-                    <dependency>
-                        <groupId>com.oracle</groupId>
-                        <artifactId>ojdbc14</artifactId>
-                        <version>10.2.0.1.0</version>
-                        <scope>compile</scope>
-                        <type>jar</type>
-                    </dependency>
-                </dependencies>
-                -->
-            </plugin>
+            </plugin> -->
                     <!--
             <plugin>
                 <groupId>org.bsc.maven</groupId>
@@ -241,20 +230,7 @@
                 </executions>
             </plugin>
                         -->
-         <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.2</version>
-        <executions>
-          <execution>
-            <id>purge</id>
-            <phase>package</phase>
-            <goals>
-              <goal>purge-local-repository</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+
 
         </plugins>
     </build>
