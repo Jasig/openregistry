@@ -49,8 +49,8 @@
         </mailingList>
     </mailingLists>
     <scm>
-        <connection>scm:svn:https://source.jasig.org/openregistry</connection>
-        <developerConnection>scm:svn:https://source.jasig.org/openregistry</developerConnection>
+        <connection>scm:svn:https://source.jasig.org/openregistry/trunk</connection>
+        <developerConnection>scm:svn:https://source.jasig.org/openregistry/trunk</developerConnection>
         <tag>HEAD</tag>
         <url>https://www.ja-sig.org/svn/openregistry</url>
     </scm>
