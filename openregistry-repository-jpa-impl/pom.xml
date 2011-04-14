@@ -167,18 +167,30 @@
     <build>
         <plugins>
             <plugin>
+
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>hibernate3-maven-plugin</artifactId>
-              <version>3.0-SNAPSHOT</version>
+              <version>2.2</version>
               <configuration>
-                  <hibernatetool destdir="target">
-                    <classpath>
-                        <path location="target/classes"/>
-                    </classpath>
-                    <jpaconfiguration persistenceunit="OpenRegistryPersistence" propertyfile="src/test/resources/hibernate.properties" />
-                    <hbm2ddl export="false" update="false" drop="false" create="true" outputfilename="or_schema.ddl" delimiter=";" format="true" haltonerror="true" console="true" />
-                  </hibernatetool>
+                <components>
+                  <component>
+                    <name>hbm2ddl</name>
+                    <implementation>annotationconfiguration</implementation>
+                  </component>
+                </components>
+                <componentProperties>
+                  <implementation>jpaconfiguration</implementation>
+                  <configurationfile>src/test/resources/hibernate.cfg.xml</configurationfile>
+                  <persistenceunit>OpenRegistryPersistence</persistenceunit>
+                  <outputfilename>schema.ddl</outputfilename>
+                  <drop>false</drop>
+                  <create>true</create>
+                  <export>false</export>
+                  <format>true</format>
+                  <jdk5>true</jdk5>
+                </componentProperties>
               </configuration>
+
                 <!--
                 <dependencies>
                     <dependency>

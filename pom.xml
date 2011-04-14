@@ -635,7 +635,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <stax.version>1.2.0</stax.version>
         <commons.lang.version>2.4</commons.lang.version>
         <lucene.version>3.0.1</lucene.version>
-        <spock.version>0.6-groovy-1.7-SNAPSHOT</spock.version>
+        <spock.version>0.5-groovy-1.7</spock.version>
         <commons.codec.version>1.4</commons.codec.version>
     </properties>
 
