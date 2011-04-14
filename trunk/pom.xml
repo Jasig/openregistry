@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>org.jasig</groupId>
         <artifactId>jasig-parent</artifactId>
@@ -10,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.openregistry</groupId>
     <artifactId>openregistry</artifactId>
-    <version>0.1-RC1-SNAPSHOT</version>
+    <version>0.8</version>
     <modules>
         <module>openregistry-api</module>
         <module>openregistry-service-impl</module>
@@ -49,10 +48,10 @@
         </mailingList>
     </mailingLists>
     <scm>
-        <connection>scm:svn:https://source.jasig.org/openregistry</connection>
-        <developerConnection>scm:svn:https://source.jasig.org/openregistry</developerConnection>
+        <connection>scm:svn:https://source.jasig.org/openregistry/tags/releasing 0.8 rutgers certification </connection>
+        <developerConnection>scm:svn:https://source.jasig.org/openregistry/tags/releasing 0.8 rutgers certification </developerConnection>
         <tag>HEAD</tag>
-        <url>https://www.ja-sig.org/svn/openregistry</url>
+        <url>https://www.ja-sig.org/svn/openregistry/tags/releasing 0.8 rutgers certification </url>
     </scm>
 
     <issueManagement>
