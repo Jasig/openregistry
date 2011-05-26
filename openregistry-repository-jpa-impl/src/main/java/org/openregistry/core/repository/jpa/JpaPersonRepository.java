@@ -19,6 +19,7 @@
 
 package org.openregistry.core.repository.jpa;
 
+import org.hibernate.loader.custom.Return;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.jpa.*;
 import org.openregistry.core.domain.jpa.sor.*;
@@ -78,7 +79,11 @@ public class JpaPersonRepository implements PersonRepository {
     }
     
     public SorPerson findSorBySSN(final String ssn) {
-    	return (SorPerson) this.entityManager.createQuery("Select s from sorPerson s where s.ssn = :ssn").setParameter("ssn", ssn).getSingleResult();
+        //It will be more than one person if the same person is coming from more than one resources
+        List sorPersons = this.entityManager.createQuery("Select s from sorPerson s where s.ssn = :ssn").setParameter("ssn", ssn).getResultList();
+        if (sorPersons.size() > 0)
+            return (SorPerson) sorPersons.get(0);
+        return null;
     }
 
     public List<Person> searchByCriteria(final SearchCriteria searchCriteria) throws RepositoryAccessException {
