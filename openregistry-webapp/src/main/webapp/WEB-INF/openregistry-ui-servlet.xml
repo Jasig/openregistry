@@ -34,6 +34,9 @@
 
     <flow:flow-executor id="flowExecutor" flow-registry="flowRegistry">
         <flow:flow-execution-attributes><flow:always-redirect-on-pause value="true"/></flow:flow-execution-attributes>
+        <flow:flow-execution-listeners>
+            <flow:listener ref="jpaFlowExecutionListener"/>
+        </flow:flow-execution-listeners>
      </flow:flow-executor>
 
     <flow:flow-registry id="flowRegistry" flow-builder-services="flowBuilderServices">
@@ -86,12 +89,12 @@
     <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
 
     <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping" p:flowRegistry-ref="flowRegistry" >
-        <property name="interceptors" ref="viewInterceptor" />
+        <!--<property name="interceptors" ref="viewInterceptor" />-->
     </bean>
 
-        <bean class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor" id="viewInterceptor" >
-            <property name="entityManagerFactory" ref="entityManagerFactory"/>
-                </bean>
+        <!--<bean class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor" id="viewInterceptor" >-->
+            <!--<property name="entityManagerFactory" ref="entityManagerFactory"/>-->
+                <!--</bean>-->
 
     <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" id="simpleMapping">
        <property name="mappings">
@@ -117,4 +120,9 @@
             </list>
         </property>
      </bean>
+    <bean id="jpaFlowExecutionListener"
+          class="org.springframework.webflow.persistence.JpaFlowExecutionListener">
+        <constructor-arg ref="entityManagerFactory"/>
+        <constructor-arg ref="transactionManager"/>
+    </bean>
 </beans>

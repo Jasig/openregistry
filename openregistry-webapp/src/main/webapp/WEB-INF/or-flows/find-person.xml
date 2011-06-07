@@ -24,7 +24,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.springframework.org/schema/webflow
     http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
-
+     <persistence-context/>
     <var name="searchCriteria" class="org.openregistry.core.service.MutableSearchCriteriaImpl" />
 
     <view-state id="searchForPerson" model="searchCriteria" view="openregistry.search">
@@ -64,7 +64,7 @@
         <!--<transition to="personSelected" />-->
     <!--</action-state>-->
 
-    <end-state id="personSelected">
+    <end-state id="personSelected" commit="true">
         <output name="person" value="flowScope.person"/>
     </end-state>
 </flow>
