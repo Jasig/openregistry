@@ -54,15 +54,15 @@ public class JpaPersonImpl extends Entity implements Person {
     @SequenceGenerator(name="prc_persons_seq",sequenceName="prc_persons_seq",initialValue=1,allocationSize=50)
     private Long id;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.LAZY)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<JpaNameImpl> names = new HashSet<JpaNameImpl>();
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaRoleImpl.class)
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.LAZY, targetEntity = JpaRoleImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Role> roles = new HashSet<Role>();
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER)
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.LAZY)
     private Set<JpaIdentifierImpl> identifiers = new HashSet<JpaIdentifierImpl>();
 
     @Column(name="date_of_birth",nullable=true)
@@ -72,17 +72,17 @@ public class JpaPersonImpl extends Entity implements Person {
     @Column(name="gender",length=1,nullable=true)
     private String gender;
 
-    @OneToOne(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaDisclosureSettingsImpl.class)
+    @OneToOne(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.LAZY, targetEntity = JpaDisclosureSettingsImpl.class)
     private JpaDisclosureSettingsImpl disclosureSettings;
     
     @Embedded
     private JpaActivationKeyImpl activationKey = new JpaActivationKeyImpl();
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "contact_email_id")
     private JpaContactEmailAddressImpl emailAddress = new JpaContactEmailAddressImpl();
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "contact_phone_id")
     private JpaContactPhoneImpl phoneNumber = new JpaContactPhoneImpl();
 

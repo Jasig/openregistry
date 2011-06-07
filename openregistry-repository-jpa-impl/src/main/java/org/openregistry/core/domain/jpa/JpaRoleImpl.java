@@ -56,19 +56,19 @@ public class JpaRoleImpl extends Entity implements Role {
     @SequenceGenerator(name = "prc_role_records_seq", sequenceName = "prc_role_records_seq", initialValue = 1, allocationSize = 50)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaUrlImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY, targetEntity = JpaUrlImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Url> urls = new HashSet<Url>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaEmailAddressImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY, targetEntity = JpaEmailAddressImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<EmailAddress> emailAddresses = new HashSet<EmailAddress>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaPhoneImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY, targetEntity = JpaPhoneImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Phone> phones = new HashSet<Phone>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaAddressImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY, targetEntity = JpaAddressImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Address> addresses = new HashSet<Address>();
 
@@ -86,7 +86,7 @@ public class JpaRoleImpl extends Entity implements Role {
     @JoinColumn(name = "person_status_t")
     private Type personStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER, targetEntity = JpaLeaveImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY, targetEntity = JpaLeaveImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Leave> leaves = new HashSet<Leave>();
 

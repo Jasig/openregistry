@@ -60,28 +60,28 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     @Size(min = 1)
     private String sorId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.EAGER, targetEntity = JpaSorUrlImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.LAZY, targetEntity = JpaSorUrlImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @RequiredSize(property = "role.urls")
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Url> urls = new ArrayList<Url>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.EAGER, targetEntity = JpaSorEmailAddressImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.LAZY, targetEntity = JpaSorEmailAddressImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @RequiredSize(property = "role.emailAddresses")
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.EAGER, targetEntity = JpaSorPhoneImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.LAZY, targetEntity = JpaSorPhoneImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @RequiredSize(property = "role.phones")
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Phone> phones = new ArrayList<Phone>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.EAGER, targetEntity = JpaSorAddressImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.LAZY, targetEntity = JpaSorAddressImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @RequiredSize(property = "role.addresses")
     @Valid
@@ -107,7 +107,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     @AllowedTypes(property = "role.personStatus")
     private JpaTypeImpl personStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.EAGER, targetEntity = JpaSorLeaveImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sorRole", fetch = FetchType.LAZY, targetEntity = JpaSorLeaveImpl.class)
     @RequiredSize(property = "role.leaves")
     @Valid
     @Fetch(value = FetchMode.SUBSELECT)

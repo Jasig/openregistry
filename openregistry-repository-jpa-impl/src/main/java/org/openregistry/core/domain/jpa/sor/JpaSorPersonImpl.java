@@ -94,7 +94,7 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     @Gender
     private String gender;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER, targetEntity = JpaSorNameImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY, targetEntity = JpaSorNameImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @Fetch(value = FetchMode.SUBSELECT)
     @RequiredSize(property = "person.names")
@@ -105,10 +105,10 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     @Required(property = "person.ssn")
     private String ssn;
 
-    @OneToOne(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.EAGER, targetEntity = JpaSorDisclosureSettingsImpl.class)
+    @OneToOne(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.LAZY, targetEntity = JpaSorDisclosureSettingsImpl.class)
     private JpaSorDisclosureSettingsImpl disclosureSettings;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER, targetEntity = JpaSorRoleImpl.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY, targetEntity = JpaSorRoleImpl.class)
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @Fetch(value = FetchMode.SUBSELECT)
     @Valid
