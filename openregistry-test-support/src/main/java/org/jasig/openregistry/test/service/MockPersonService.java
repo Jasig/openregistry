@@ -42,7 +42,8 @@ public class MockPersonService implements PersonService {
 
     @Override
     public Person findPersonByIdentifier(String identifierType, String identifierValue) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        //throw new UnsupportedOperationException("Not yet implemented");
+        return new MockPerson();
     }
 
     @Override

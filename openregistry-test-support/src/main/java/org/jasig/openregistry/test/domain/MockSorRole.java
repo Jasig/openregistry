@@ -201,7 +201,7 @@ public class MockSorRole extends Entity implements SorRole {
 	}
 
 	public String getTitle() {
-		return null;
+		return title;
 	}
 
     public void setTitle(String title){

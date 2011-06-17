@@ -64,6 +64,9 @@ public class MockRole extends Entity implements Role {
         for (Phone phone : sorRole.getPhones()) {
         	this.addPhone(phone);
          }
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        //added by NH
+        this.title = sorRole.getTitle();
     }
 
 	public MockRole(Long id) {
@@ -182,7 +185,7 @@ public class MockRole extends Entity implements Role {
 	}
 
 	public String getTitle() {
-		return null;
+		return title;
 	}
 
     public void setTitle(String title){
