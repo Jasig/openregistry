@@ -133,7 +133,7 @@ public class JpaPersonRepository implements PersonRepository {
     }
 
     public List<Person> findByFamilyName(final String family) throws RepositoryAccessException {
-    	return this.entityManager.createQuery("SELECT p FROM person p JOIN p.names n WHERE n.family = :name")
+    	return this.entityManager.createQuery("SELECT p FROM person p JOIN fetch p.names n WHERE n.family = :name")
     	.setParameter("name", family).getResultList();
     }
 
