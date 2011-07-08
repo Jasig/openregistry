@@ -364,7 +364,8 @@ public class DefaultPersonService implements PersonService {
 
             for (final IdentifierType identifierType : identifierTypes) {
                 if (identifierType.getFormatAsPattern().matcher(identifierValue).matches()) {
-                    final Person person = this.personRepository.findByIdentifier(identifierType.getName(), identifierValue);
+
+                    final Person person = this.findPersonByIdentifier(identifierType.getName(), identifierValue);
 
                     if (person != null) {
                         logger.info("Back from identifier search found person");
