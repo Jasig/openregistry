@@ -109,13 +109,13 @@ public class JpaPersonRepository implements PersonRepository {
         final Predicate combined;
 
         if (StringUtils.hasText(givenName) && StringUtils.hasText(familyName)) {
-            final Predicate pGivenName = criteriaBuilder.like(name.get(JpaNameImpl_.given), givenName + "%");
-            final Predicate pFamilyName = criteriaBuilder.like(name.get(JpaNameImpl_.family), familyName + "%");
+            final Predicate pGivenName = criteriaBuilder.equal(name.get(JpaNameImpl_.given), givenName );
+            final Predicate pFamilyName = criteriaBuilder.equal(name.get(JpaNameImpl_.family), familyName );
 
             combined = criteriaBuilder.and(pGivenName, pFamilyName);
         } else {
-            final Predicate pGivenName = criteriaBuilder.like(name.get(JpaNameImpl_.given), searchCriteriaName + "%");
-            final Predicate pFamilyName = criteriaBuilder.like(name.get(JpaNameImpl_.family), searchCriteriaName + "%");
+            final Predicate pGivenName = criteriaBuilder.equal(name.get(JpaNameImpl_.given), searchCriteriaName );
+            final Predicate pFamilyName = criteriaBuilder.equal(name.get(JpaNameImpl_.family), searchCriteriaName );
             combined = criteriaBuilder.or(pGivenName, pFamilyName);
         }
 
