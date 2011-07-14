@@ -98,6 +98,10 @@ public class JpaPersonRepository implements PersonRepository {
         c.distinct(true);
         final Root<JpaPersonImpl> person = c.from(JpaPersonImpl.class);
         final Join<JpaPersonImpl,JpaNameImpl> name = person.join(JpaPersonImpl_.names);
+        person.fetch(JpaPersonImpl_.names);
+        person.fetch(JpaPersonImpl_.roles);
+        person.fetch(JpaPersonImpl_.identifiers);
+
 
         final Predicate pBirthDate;
         if (birthDate != null) {

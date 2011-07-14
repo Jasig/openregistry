@@ -12,7 +12,7 @@ public abstract class JpaPersonImpl_ {
 
 	public static volatile SingularAttribute<JpaPersonImpl, Long> id;
 	public static volatile SetAttribute<JpaPersonImpl, JpaNameImpl> names;
-	public static volatile ListAttribute<JpaPersonImpl, Role> roles;
+	public static volatile SetAttribute<JpaPersonImpl, JpaRoleImpl > roles;
 	public static volatile SetAttribute<JpaPersonImpl, JpaIdentifierImpl> identifiers;
 	public static volatile SingularAttribute<JpaPersonImpl, Date> dateOfBirth;
 	public static volatile SingularAttribute<JpaPersonImpl, String> gender;
