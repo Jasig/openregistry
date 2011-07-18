@@ -332,6 +332,7 @@ public class JpaRoleImpl extends Entity implements Role {
         recalculateAddresses(sorRole);
         recalculateEmailAddresses(sorRole);
         recalculatePhones(sorRole);
+        recalculateUrls(sorRole);
 
         this.setSponsorId(sorRole.getSponsorId());
         this.setSponsorType(sorRole.getSponsorType());
