@@ -83,7 +83,7 @@ public class JpaAddressImpl extends Entity implements Address {
     @Column(name="city",length=100,nullable = false)
     private String city;
 
-    @Column(name="postal_code",length=9, nullable = false)
+    @Column(name="postal_code",length=9, nullable = true)
     private String postalCode;
 
     @Column(name="update_date", nullable = false)

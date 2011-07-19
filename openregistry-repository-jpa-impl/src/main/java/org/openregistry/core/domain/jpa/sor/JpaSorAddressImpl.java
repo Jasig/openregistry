@@ -97,8 +97,7 @@ public class JpaSorAddressImpl extends Entity implements Address {
     @Capitalize(property = "address.city")
     private String city;
 
-    @Column(name="postal_code",length=9, nullable = false)
-    @NotNull
+    @Column(name="postal_code",length=9, nullable = true)
     private String postalCode;
 
     @Column(name="update_date", nullable = false)
