@@ -170,6 +170,9 @@ public class JpaRoleImpl extends Entity implements Role {
         jpaAddress.setRegion(sorAddress.getRegion());
         jpaAddress.setPostalCode(sorAddress.getPostalCode());
         jpaAddress.setCountry(sorAddress.getCountry());
+        jpaAddress.setBldgNo(sorAddress.getBldgNo());
+        jpaAddress.setRoomNo(sorAddress.getRoomNo());
+
         jpaAddress.setType(sorAddress.getType());
         this.addresses.add(jpaAddress);
         return jpaAddress;
@@ -365,6 +368,8 @@ public class JpaRoleImpl extends Entity implements Role {
                 address.setRegion(sorAddress.getRegion());
                 address.setPostalCode(sorAddress.getPostalCode());
                 address.setCountry(sorAddress.getCountry());
+                address.setBldgNo(sorAddress.getBldgNo());
+                address.setRoomNo(sorAddress.getRoomNo());
             }
         }
     }
