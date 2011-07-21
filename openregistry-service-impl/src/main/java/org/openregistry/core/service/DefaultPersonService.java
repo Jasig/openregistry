@@ -357,29 +357,13 @@ public class DefaultPersonService implements PersonService {
      
     @PostFilter("hasPermission(filterObject, 'read')")
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
-//                                       SecurityContextHolder.getContext().getAuthentication().getAuthorities().
+
         if (StringUtils.hasText(searchCriteria.getIdentifierValue())) {
             final String identifierValue = searchCriteria.getIdentifierValue();
-            final List<IdentifierType> identifierTypes = this.referenceRepository.getIdentifierTypes();
-
-            for (final IdentifierType identifierType : identifierTypes) {
-                if (identifierType.getFormatAsPattern().matcher(identifierValue).matches()) {
-
-                    final Person person = this.findPersonByIdentifier(identifierType.getName(), identifierValue);
-
-                    if (person != null) {
-                        logger.info("Back from identifier search found person");
-                        for (final Role role: person.getRoles())
-                            logger.info("Found a role: sorroleid: "+ role.getSorRoleId() +" title: " + role.getTitle());
+                    final Person person = this.findPersonByIdentifier(searchCriteria.getIdentifierType().getName(), identifierValue);
+                    if (person != null)
                         return new ArrayList<PersonMatch>(Arrays.asList(new PersonMatchImpl(person, 100, new ArrayList<FieldMatch>())));
-                    }
-                }
-            }
-
-            final List<Person> persons = this.personRepository.findByUnknownIdentifier(identifierValue);
-            return createMatches(persons);
         }
-
         final List<Person> persons = this.personRepository.searchByCriteria(searchCriteria);
         return createMatches(persons);
     }

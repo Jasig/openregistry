@@ -19,9 +19,12 @@
 
 package org.openregistry.core.service;
 
+import org.openregistry.core.domain.IdentifierType;
 import org.springframework.core.style.ToStringCreator;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Scott Battaglia
@@ -40,12 +43,25 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
 
     private String name;
 
+    private IdentifierType identifierType;
+
+    private java.util.List <IdentifierType> identifierTypes;
+
     public String getGivenName() {
         return this.givenName;
     }
 
     public String getFamilyName() {
         return this.familyName;
+    }
+
+    public <IdentifierType>List getIdentifierTypes() {
+
+        return identifierTypes;
+    }
+
+    public void setIdentifierTypes(List <IdentifierType> identifierTypes) {
+        this.identifierTypes = identifierTypes;
     }
 
     public Date getDateOfBirth() {
@@ -77,6 +93,14 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
         return this.name;
     }
 
+    public IdentifierType getIdentifierType() {
+        return identifierType;
+    }
+
+    public void setIdentifierType(IdentifierType identifierType) {
+        this.identifierType = identifierType;
+    }
+
     public void setName(final String name) {
         this.familyName = null;
         this.givenName = null;
@@ -105,6 +129,7 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
         toStringCreator.append("familyName", this.familyName);
         toStringCreator.append("givenName", this.givenName);
         toStringCreator.append("name", this.name);
+        toStringCreator.append("name", this.identifierType);
         return toStringCreator.toString();
     }
 }

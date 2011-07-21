@@ -19,6 +19,8 @@
 
 package org.openregistry.core.service;
 
+import org.openregistry.core.domain.IdentifierType;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -63,4 +65,10 @@ public interface SearchCriteria extends Serializable {
      * @return the value, or null.
      */
     String getIdentifierValue();
+
+    /**
+     * The type of search identifier
+     *
+     */
+      public IdentifierType getIdentifierType() ;
 }
