@@ -84,14 +84,14 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
 
     @Column(name = "date_of_birth", nullable = true)
     @Temporal(TemporalType.DATE)
-    @Required(property = "person.dateOfBirth", message = "dateOfBirthRequiredMsg")
+    @Required(property = "person.dateOfBirth", message = "{dateOfBirthRequiredMsg}")
     @Past
     private Date dateOfBirth;
 
     @Column(name = "gender", length = 1, nullable = true)
     @Required(property = "person.gender", message = "{genderRequiredMsg}")
-    @Size(min = 1, max = 1, message = "genderRequiredMsg")
-    @Gender
+    @Size(min = 1, max = 1, message = "{genderRequiredMsg}")
+//    @Gender
     private String gender;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY, targetEntity = JpaSorNameImpl.class)

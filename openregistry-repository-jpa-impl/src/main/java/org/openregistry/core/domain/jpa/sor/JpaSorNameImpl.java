@@ -69,7 +69,7 @@ public class JpaSorNameImpl implements SorName, Serializable {
     private String prefix;
 
     @NotNull
-    @Size(min=1)
+    @Size(min=1,message = "{gNameRequiredMsg}")
     @Column(name="given_name",nullable=false,length=100)
     //@Capitalize(property = "name.given")
     @FirstName
@@ -80,6 +80,7 @@ public class JpaSorNameImpl implements SorName, Serializable {
     private String middle;
 
     @Column(name="family_name",nullable=true,length=100)
+    @Size(min=1,message = "{fNameRequiredMsg}")
     //@Capitalize(property = "name.family")
     @LastName
     private String family;
