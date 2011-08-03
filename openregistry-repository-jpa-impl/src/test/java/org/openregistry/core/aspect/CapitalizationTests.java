@@ -70,6 +70,15 @@ public class CapitalizationTests extends TestCase {
 
         assertEquals("Family Name", name.getFamily());
     }
+      //OR-286
+     @Test
+    public void testLastNameCapitalizationWithOutAnyDelima() {
+        final JpaSorPersonImpl person = new JpaSorPersonImpl();
+        final SorName name =  person.addName();
+        name.setFamily("MCGOVERN");
+        assertEquals("McGovern", name.getFamily());
+
+    }
     
     @Test
     public void testLastNameCapitalizationWithDash() {

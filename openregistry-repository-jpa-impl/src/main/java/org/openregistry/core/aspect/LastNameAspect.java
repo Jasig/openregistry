@@ -19,10 +19,12 @@
 
 package org.openregistry.core.aspect;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+
 
 /**
  * Changes the last name to confirm to particular cases when capitalization is set to normal.  If its set to UPPER or
@@ -47,16 +49,31 @@ public final class LastNameAspect extends AbstractNameAspect {
         final String overrideValue = getCustomMapping().get(value);
 
         if (overrideValue != null) {
-            return joinPoint.proceed(new Object[] {overrideValue});
+            return joinPoint.proceed(new Object[]{overrideValue});
         }
 
-        final String casifyValue = WordUtils.capitalizeFully(value, delimiters);
 
-        if (casifyValue.startsWith("Mc") && casifyValue.length() > 2) {
-            return joinPoint.proceed(new Object[] {"Mc" + WordUtils.capitalizeFully(casifyValue.substring(3), delimiters)});
+        if (StringUtils.containsAny(value,delimiters)) {
+
+
+            final String casifyValue = WordUtils.capitalizeFully(value, delimiters);
+
+            if (casifyValue.startsWith("Mc") && casifyValue.length() > 2) {
+                return joinPoint.proceed(new Object[]{"Mc" + WordUtils.capitalizeFully(casifyValue.substring(3), delimiters)});
+
+            }
+
+            return joinPoint.proceed(new Object[]{casifyValue});
+        } else {
+            final String casifyValue = WordUtils.capitalizeFully(value);
+
+            if (casifyValue.startsWith("Mc") && casifyValue.length() > 2) {
+                return joinPoint.proceed(new Object[]{"Mc" + WordUtils.capitalizeFully(casifyValue.substring(2))});
+
+            }
+
+            return joinPoint.proceed(new Object[]{casifyValue});
 
         }
-
-        return joinPoint.proceed(new Object[] {casifyValue});
     }
 }
