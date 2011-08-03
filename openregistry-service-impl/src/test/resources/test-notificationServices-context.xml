@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to Jasig under one or more contributor license
+    agreements. See the NOTICE file distributed with this work
+    for additional information regarding copyright ownership.
+    Jasig licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License. You may obtain a
+    copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on
+    an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <import resource="base-integration-tests.xml" />
+
+    <bean id="identifierNotificationService" class="org.openregistry.core.service.DefaultIdentifierNotificationService">
+        <constructor-arg index="0" ref="personRepository"/>
+        <constructor-arg index="1" ref="identifierNotificationStrategy"/>
+        <constructor-arg index="2" value="10"/>
+    </bean>
+    
+  	<bean id="identifierNotificationStrategy" class="org.openregistry.core.service.DefaultEmailIdentifierNotificationStrategy">
+        <constructor-arg index="0" ref="mockMailSender"/>
+        <constructor-arg index="1" ref="messageSource"/>
+    </bean>
+    
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+	        <list>
+	        	<value>identifier-email-messages</value>
+	        </list>
+        </property>
+    </bean>    
+    
+    <bean id="personService" class="org.openregistry.core.service.DefaultPersonService">
+        <constructor-arg index="0" ref="personRepository" />
+        <constructor-arg index="1" ref="referenceRepository" />
+        <constructor-arg index="2" ref="identifierGenerator" />
+        <constructor-arg index="3" ref="reconciler" />
+        <property name="personObjectFactory" ref="personFactory" />
+    </bean>
+
+    <bean id="reconciler" class="org.openregistry.core.service.reconciliation.NameReconciler" />
+
+    <bean id="identifierGenerator" class="org.openregistry.core.service.identifier.NoOpIdentifierGenerator" />
+
+    <bean class="org.openregistry.core.service.DefaultBirthDateFieldElector" id="birthDateFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultGenderFieldElector" id="genderFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultNameFieldSelector" id="preferredNameFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultNameFieldSelector" id="officialNameFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultPreferredEmailContactFieldSelector" id="preferredContactEmailAddressFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultPreferredPhoneContactFieldSelector" id="preferredContactPhoneNumberFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultDisclosureSettingsFieldElector" id="disclosureFieldElector" />
+    <bean class="org.openregistry.core.service.DefaultSSNFieldElector" id="ssnFieldElector" />
+    
+</beans>

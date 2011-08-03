@@ -20,6 +20,8 @@
 package org.openregistry.core.service;
 
 import org.openregistry.core.domain.IdentifierType;
+import org.openregistry.core.domain.normalization.FirstName;
+import org.openregistry.core.domain.normalization.LastName;
 import org.springframework.core.style.ToStringCreator;
 
 import java.util.ArrayList;
@@ -33,8 +35,10 @@ import java.util.List;
  */
 public final class MutableSearchCriteriaImpl implements SearchCriteria {
 
+    @FirstName
     private String givenName;
 
+    @LastName
     private String familyName;
 
     private Date dateOfBirth;
@@ -112,14 +116,14 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
 
         if (this.name.contains(",")) {
             final String[] split = this.name.split(",");
-            this.givenName = split[1];
-            this.familyName = split[0];
+            this.setGivenName( split[1]);
+            this.setFamilyName( split[0]);
             return;
         }
 
         final String[] split = name.split(" ");
-        this.givenName = split[0];
-        this.familyName = split[1];
+        this.setGivenName( split[0]);
+        this.setFamilyName( split[1]);
     }
 
     public String toString() {
