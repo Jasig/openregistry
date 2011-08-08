@@ -31,4 +31,10 @@ public class SearcCriteriaTests extends TestCase {
         searchCriteria.setFamilyName("family-name");
         assertEquals("Family-Name",searchCriteria.getFamilyName());
     }
+    @Test
+    public void testCaptalizationName(){
+        MutableSearchCriteriaImpl searchCriteria= new MutableSearchCriteriaImpl();
+        searchCriteria.setName("family");
+        assertEquals("Family",searchCriteria.getName());
+    }
 }

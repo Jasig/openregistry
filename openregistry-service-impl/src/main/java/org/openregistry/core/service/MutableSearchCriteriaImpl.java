@@ -44,7 +44,7 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
     private Date dateOfBirth;
 
     private String identifierValue;
-
+    @LastName
     private String name;
 
     private IdentifierType identifierType;
