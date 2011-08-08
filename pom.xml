@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.openregistry</groupId>
     <artifactId>openregistry</artifactId>
-    <version>0.8.4</version>
+    <version>0.8.5-SNAPSHOT</version>
     <modules>
         <module>openregistry-api</module>
         <module>openregistry-service-impl</module>
@@ -48,9 +48,9 @@
         </mailingList>
     </mailingLists>
     <scm>
-        <connection>scm:svn:https://source.jasig.org/openregistry/tags/0.8.4</connection>
-        <developerConnection>scm:svn:https://source.jasig.org/openregistry/tags/0.8.4</developerConnection>
-        <url>https://www.ja-sig.org/svn/openregistry/tags/0.8.4</url>
+        <connection>scm:svn:https://source.jasig.org/openregistry/trunk</connection>
+        <developerConnection>scm:svn:https://source.jasig.org/openregistry/trunk</developerConnection>
+        <url>https://www.ja-sig.org/svn/openregistry</url>
     </scm>
 
     <issueManagement>
