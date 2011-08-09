@@ -607,7 +607,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <standard.version>1.1.2</standard.version>
         <log4j.version>1.2.15</log4j.version>
         <slf4j.version>1.5.11</slf4j.version>
-        <spring.webflow.version>2.0.8.RELEASE</spring.webflow.version>
+        <spring.webflow.version>2.3.0.RELEASE</spring.webflow.version>
         <juel.version>2.1.2</juel.version>
         <displaytag.version>1.2</displaytag.version>
         <aopalliance.version>1.0</aopalliance.version>
@@ -638,16 +638,16 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
     </properties>
 
     <pluginRepositories>
-        <pluginRepository>
-            <id>spock-snapshots</id>
-            <url>http://m2repo.spockframework.org/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
+        <!--<pluginRepository>-->
+            <!--<id>spock-snapshots</id>-->
+            <!--<url>http://m2repo.spockframework.org/snapshots</url>-->
+            <!--<releases>-->
+                <!--<enabled>false</enabled>-->
+            <!--</releases>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+            <!--</snapshots>-->
+        <!--</pluginRepository>-->
 
     </pluginRepositories>
 
@@ -677,16 +677,16 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
             <url>http://oss.sonatype.org/content/repositories/releases</url>
         </repository>
 
-        <repository>
-            <id>spock-snapshots</id>
-            <url>http://m2repo.spockframework.org/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
+        <!--<repository>-->
+            <!--<id>spock-snapshots</id>-->
+            <!--<url>http://m2repo.spockframework.org/snapshots</url>-->
+            <!--<releases>-->
+                <!--<enabled>false</enabled>-->
+            <!--</releases>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+            <!--</snapshots>-->
+        <!--</repository>-->
     </repositories>
 
     <reporting>
