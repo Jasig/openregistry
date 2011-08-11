@@ -124,7 +124,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
 
     @Column(name = "affiliation_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    @NotNull(message = "startDateRequiredMsg")
+    @NotNull(message = "{startDateRequiredMsg}")
     private Date start;
 
     @Column(name = "termination_date")
@@ -136,6 +136,8 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     private JpaTypeImpl terminationReason;
 
     @Column(name="title",nullable = false, length = 100)
+    @NotNull (message = "{titleRequiredMsg}")
+
     private String title;
 
     @ManyToOne(optional = false)
