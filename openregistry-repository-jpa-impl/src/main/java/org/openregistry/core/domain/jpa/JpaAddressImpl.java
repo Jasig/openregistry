@@ -45,7 +45,12 @@ import javax.persistence.Table;
 @Table(	name="prc_addresses",
 		uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
-@org.hibernate.annotations.Table(appliesTo = "prc_addresses", indexes = @Index(name = "ADDRESS_INDEX", columnNames = {"line1", "city", "postal_code"}))
+@org.hibernate.annotations.Table(appliesTo = "prc_addresses", indexes = {
+        @Index(name = "ADDRESS_INDEX", columnNames = {"line1", "city", "postal_code"}),
+        @Index(name = "PRC_ADDRESSES_COUNTRY_ID_IDX", columnNames = {"COUNTRY_ID"}),
+        @Index(name = "PRC_ADDRESSES_REGION_ID_IDX", columnNames = {"REGION_ID"})
+    }
+)
 public class JpaAddressImpl extends Entity implements Address {
 
     @Id

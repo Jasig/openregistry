@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.Leave;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
@@ -37,6 +38,11 @@ import java.util.Date;
 @javax.persistence.Entity(name="loa")
 @Table(name="prc_leaves_of_absence")
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prc_leaves_of_absence", indexes = {
+        @Index(name = "PRC_LEAVE_OF_ABSENCE_LEAVE_IDX", columnNames = "LEAVE_T"),
+        @Index(name = "PRC_LEAVE_OF_ABS_ROLE_REC_IDX", columnNames = "ROLE_RECORD_ID")
+
+})
 public class JpaLeaveImpl extends Entity implements Leave {
 
     @Id

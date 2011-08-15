@@ -49,7 +49,11 @@ import javax.validation.constraints.NotNull;
 @javax.persistence.Entity(name="sorAddress")
 @Table(name="prs_addresses", uniqueConstraints= @UniqueConstraint(columnNames={"address_t", "role_record_id"}))
 @Audited
-@org.hibernate.annotations.Table(appliesTo = "prs_addresses", indexes = @Index(name = "PRS_ADDRESS_ROLE_INDEX", columnNames = "role_record_id"))
+@org.hibernate.annotations.Table(appliesTo = "prs_addresses", indexes = {
+        @Index(name = "PRS_ADDRESS_ROLE_INDEX", columnNames = "role_record_id"),
+        @Index(name = "PRS_ADDRESSES_COUNTRY_ID_IDX", columnNames = "COUNTRY_ID"),
+        @Index(name = "PRS_ADDRESSES_REGION_ID_IDX", columnNames = "REGION_ID")
+})
 public class JpaSorAddressImpl extends Entity implements Address {
 
     @Id

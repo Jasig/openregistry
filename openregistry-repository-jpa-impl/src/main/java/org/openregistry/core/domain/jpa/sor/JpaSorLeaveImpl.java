@@ -40,7 +40,10 @@ import java.util.Date;
 @javax.persistence.Entity(name="sorLoa")
 @Table(name="prs_leaves_of_absence")
 @Audited
-@org.hibernate.annotations.Table(appliesTo = "prs_leaves_of_absence", indexes = @Index(name = "PRS_LOA_ROLE_INDEX", columnNames = "role_record_id"))
+@org.hibernate.annotations.Table(appliesTo = "prs_leaves_of_absence", indexes = {
+        @Index(name = "PRS_LOA_ROLE_INDEX", columnNames = "role_record_id"),
+        @Index(name = "PRS_LEAV_ABSENCE_LEAVE_T_IDX", columnNames = "LEAVE_T")
+})
 public class JpaSorLeaveImpl extends Entity implements Leave {
 
     @Id

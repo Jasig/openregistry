@@ -25,6 +25,7 @@ import org.openregistry.core.repository.*;
 import org.openregistry.core.service.identifier.*;
 import org.openregistry.core.service.reconciliation.*;
 import org.slf4j.*;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.access.prepost.PostFilter;
@@ -171,6 +172,18 @@ public class DefaultPersonService implements PersonService {
         }
         return null;
     }
+
+    @Override
+   public List<SorPerson> findByIdentifier(String identifierType, String identifierValue) {
+       //TODO-Verify if this is the correct behavior
+       Person p = this.findPersonByIdentifier(identifierType, identifierValue);
+       if(p == null) {
+           return null;
+       }
+       List<SorPerson> sorPeople = this.getSorPersonsFor(p);
+       return sorPeople;
+   }
+
 
     @Override
     public List<SorPerson> getSorPersonsFor(final Person person) {

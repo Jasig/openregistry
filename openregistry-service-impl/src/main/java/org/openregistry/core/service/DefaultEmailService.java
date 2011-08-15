@@ -67,4 +67,22 @@ public class DefaultEmailService implements EmailService {
         }
         return this.personService.updateSorPerson(sorPerson);
     }
+
+    @Override
+    public ServiceExecutionResult<SorPerson> saveOrCreateEmailForSorPersonForAllRoles(SorPerson sorPerson, String emailAddress,
+                                                                                                   Type emailType){
+
+        //get all the roles for an SorPerson
+        List<SorRole> openRoles = sorPerson.getRoles();
+        if (openRoles.isEmpty()) {
+            return new GeneralServiceExecutionResult<SorPerson>((SorPerson) null);
+        }
+        for (SorRole r : openRoles) {
+            r.addOrUpdateEmail(emailAddress, emailType);
+        }
+
+        return this.personService.updateSorPerson(sorPerson);
+    }
+
+
 }

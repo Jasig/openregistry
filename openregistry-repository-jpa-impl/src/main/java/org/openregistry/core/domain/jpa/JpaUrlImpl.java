@@ -40,7 +40,11 @@ import java.net.URL;
  */
 @javax.persistence.Entity(name="url")
 @Table(name="prc_urls")
-@org.hibernate.annotations.Table(indexes = {@Index(name="URL_URL_INDEX")}, appliesTo = "prc_urls")
+@org.hibernate.annotations.Table(appliesTo = "prc_urls", indexes = {
+        @Index(name = "PRC_URLS_ADDRESS_T_IDX", columnNames = "ADDRESS_T"),
+        @Index(name = "PRC_URLS_ROLE_RECORD_ID_IDX", columnNames = "ROLE_RECORD_ID")
+
+})
 @TypeDef(name="URLUserType",typeClass = URLUserType.class)
 // TODO disabled for now: uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"})
 

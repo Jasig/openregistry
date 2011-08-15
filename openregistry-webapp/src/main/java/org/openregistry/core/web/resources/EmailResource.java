@@ -19,6 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * RESTful <i>controller</i> resource used to expose functionality of updating or adding, or retrieving emails
@@ -110,6 +111,47 @@ public class EmailResource {
         return Response.ok("The provided email has been processed successfully.").build();
     }
 
+
+    @POST
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Path("/SoRs")
+    public Response addOrUpdateEmailForAllSoRs(
+                                     @FormParam ("emailAddress") String emailAddress,
+                                     @QueryParam("emailType") String emailType,
+                                     @QueryParam("identifierType") String identifierType,
+                                     @QueryParam("identifier") String identifier
+    ) {
+
+        LocalData2 localData = extractProcessingDataForAllEmails(emailType,identifierType, identifier);
+        if (localData.response != null) {
+            return localData.response;
+        }
+
+        for(SorPerson sorPerson:localData.sorPeople){
+            ServiceExecutionResult<SorPerson> result = this.emailService.saveOrCreateEmailForSorPersonForAllRoles(sorPerson,
+                    emailAddress,
+                    localData.emailAddressType);
+
+            if (!result.succeeded()) {
+                //HTTP 400
+                return Response.status(Response.Status.BAD_REQUEST).
+                    entity(new ErrorsResponseRepresentation(ValidationUtils.buildValidationErrorsResponseAsList(result.getValidationErrors())))
+                    .type(MediaType.APPLICATION_XML).build();
+            }
+
+            if (result.getTargetObject() == null) {
+                //HTTP 409
+                return Response.status(Response.Status.CONFLICT)
+                    .entity(new ErrorsResponseRepresentation(
+                            Arrays.asList("The provided email could not be processed due to internal state conflict for this person")))
+                    .type(MediaType.APPLICATION_XML).build();
+            }
+        }
+
+        //HTTP 200
+        return Response.ok("The provided email has been processed successfully.").build();
+    }
+
     private Response validateRequiredRequestQueryParams(String emailType, String identifierType, String identifier, String affiliation,
                                                         String sor) {
         if (emailType == null || identifierType == null || identifier == null || affiliation == null || sor == null) {
@@ -161,6 +203,47 @@ public class EmailResource {
         return d;
     }
 
+    private Response validateRequiredRequestQueryParams(String emailType, String identifierType, String identifier) {
+        if (emailType == null || identifierType == null || identifier == null ) {
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new ErrorsResponseRepresentation(Arrays.asList
+                            ("The request URI is malformed. Please see the documentation and construct the correct request URI.")))
+                    .type(MediaType.APPLICATION_XML).build();
+        }
+        return null;
+    }
+
+    private LocalData2 extractProcessingDataForAllEmails(String emailType,String identifierType, String identifier) {
+
+        LocalData2 d = new LocalData2();
+        Response r = validateRequiredRequestQueryParams(emailType, identifierType, identifier);
+        if (r != null) {
+            d.response = r;
+            return d;
+        }
+
+        Type validatedType = this.referenceRepository.findValidType(Type.DataTypes.ADDRESS, emailType);
+        if (validatedType == null) {
+            //HTTP 400
+            d.response = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new ErrorsResponseRepresentation(Arrays.asList("The provided email type is invalid.")))
+                    .type(MediaType.APPLICATION_XML).build();
+            return d;
+        }
+        d.emailAddressType = validatedType;
+
+        //No SoR for this request
+        //SorPerson sorPerson = this.personService.findByIdentifierAndSource(identifierType, identifier, null);
+        List<SorPerson> sorPeople = this.personService.findByIdentifier(identifierType, identifier);
+        if (sorPeople == null) {
+            //HTTP 404
+            throw new NotFoundException("The person cannot be found in the registry or is not attached to the provided SOR");
+        }
+        d.sorPeople = sorPeople;
+        return d;
+    }
+
     //Structure that holds common data to be reused in different HTTP action methods
     //Since Java doesn't have Tuples (yet), this is a good convention for local re-use
 
@@ -169,5 +252,11 @@ public class EmailResource {
         Type emailAddressType;
         Type affiliationType;
         SorPerson sorPerson;
+    }
+
+    private static class LocalData2 {
+        Response response;
+        Type emailAddressType;
+        List<SorPerson> sorPeople;
     }
 }

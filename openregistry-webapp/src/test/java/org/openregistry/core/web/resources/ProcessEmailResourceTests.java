@@ -16,6 +16,8 @@ public class ProcessEmailResourceTests extends JerseyTestSupport {
 
     private static final String RESOURCE_UNDER_TEST_URI = "/email";
 
+    private static final String RESOURCE_UNDER_TEST_URI2 = "/email/SoRs";
+
     private static final String WELL_FORMED_EMAIL = "good@email.com";
 
     private static final String MALFORMED_EMAIL = "bad-email.com";
@@ -117,6 +119,16 @@ public class ProcessEmailResourceTests extends JerseyTestSupport {
         requestParams.put("affiliation", "valid");
         requestParams.put("sor", "existent-sor");
         assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(200, RESOURCE_UNDER_TEST_URI,
+                POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, requestParams);
+    }
+
+    @Test
+    public void testAddOrUpdateEmailForAllSoRs(){
+        Map<String, String> requestParams = new HashMap<String, String>();
+        requestParams.put("identifier", "existent-person");
+        requestParams.put("identifierType", "NETID");
+        requestParams.put("emailType", "valid");
+        assertStatusCodeEqualsForRequestUriAndHttpMethodAndMediaTypeAndEntityWithQueryParams(200, RESOURCE_UNDER_TEST_URI2,
                 POST_HTTP_METHOD, MediaType.TEXT_PLAIN_TYPE, WELL_FORMED_EMAIL, requestParams);
     }
 }

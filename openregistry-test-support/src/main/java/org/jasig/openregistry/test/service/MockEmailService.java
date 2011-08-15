@@ -106,4 +106,9 @@ public class MockEmailService implements EmailService {
         throw new IllegalArgumentException("TEST INVOCATION ERROR: invoke with pre-defined test email values");
 
     }
+
+    @Override
+    public ServiceExecutionResult<SorPerson> saveOrCreateEmailForSorPersonForAllRoles(SorPerson sorPerson, String emailAddress, Type emailType) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

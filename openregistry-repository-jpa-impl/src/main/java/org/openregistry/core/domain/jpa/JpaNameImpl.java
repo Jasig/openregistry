@@ -42,7 +42,12 @@ import javax.persistence.Table;
 @org.hibernate.annotations.Table(appliesTo = "prc_names", indexes = {
         @Index(name = "NAME_GIVEN_INDEX", columnNames = "given_name"),
         @Index(name = "NAME_FAMILY_INDEX", columnNames = "family_name"),
-        @Index(name = "NAME_GIVEN_FAMILY_INDEX", columnNames = {"given_name", "family_name"})
+        @Index(name = "NAME_GIVEN_FAMILY_INDEX", columnNames = {"given_name", "family_name"}),
+        @Index(name = "PRC_NAMES_NAME_T_IDX", columnNames = "NAME_T"),
+        @Index(name = "PRC_NAMES_PERSON_ID_IDX", columnNames = "PERSON_ID"),
+
+        @Index(name = "PRC_NAMES_OFF_NAME_IDX", columnNames = "is_official_name"),
+        @Index(name = "PRC_NAMES_PREF_NAME_IDX", columnNames = "is_preferred_name")
 })
 public class JpaNameImpl extends AbstractNameImpl {
 

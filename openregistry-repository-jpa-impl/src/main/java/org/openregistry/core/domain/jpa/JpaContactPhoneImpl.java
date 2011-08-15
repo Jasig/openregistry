@@ -19,7 +19,13 @@ import javax.persistence.*;
 
 @Table(name="prc_contact_phones")
 @Audited
-@org.hibernate.annotations.Table(appliesTo = "prc_contact_phones", indexes = {@Index(name = "CONTACT_PHONE_INDEX", columnNames = {"country_code", "area_code", "phone_number"})})
+@org.hibernate.annotations.Table(appliesTo = "prc_contact_phones", indexes = {
+            @Index(name = "CONTACT_PHONE_INDEX", columnNames = {"country_code", "area_code", "phone_number"}),
+            @Index(name="PRC_CONTACT_PHONES_ADDR_T_IDX", columnNames = "ADDRESS_T"),
+            @Index(name="PRC_CONTACT_PHONES_PHONE_T_IDX", columnNames = "PHONE_T")
+
+        }
+    )
 public class JpaContactPhoneImpl implements ContactPhone {
 
     @Id

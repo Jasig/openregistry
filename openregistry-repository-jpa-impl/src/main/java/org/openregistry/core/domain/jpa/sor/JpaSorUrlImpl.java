@@ -45,7 +45,10 @@ import java.net.URL;
  */
 @javax.persistence.Entity(name="sorUrl")
 @Table(name="prs_urls")
-@org.hibernate.annotations.Table(appliesTo = "prs_urls", indexes = @Index(name = "PRS_URL_ROLE_INDEX", columnNames = "role_record_id"))
+@org.hibernate.annotations.Table(appliesTo = "prs_urls", indexes ={
+    @Index(name = "PRS_URL_ROLE_INDEX", columnNames = "role_record_id"),
+    @Index(name = "PRS_URLS_ADDRESS_T_IDX", columnNames = "ADDRESS_T")
+})
 @TypeDef(name="URLUserType",typeClass = URLUserType.class)
 // TODO commented out because MySql blows up: uniqueConstraints = @UniqueConstraint(columnNames={"url", "address_t", "role_record_id"}))
 @Audited

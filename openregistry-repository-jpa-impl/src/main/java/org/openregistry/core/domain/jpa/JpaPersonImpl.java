@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.sor.JpaSorDisclosureSettingsImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorNameImpl;
@@ -44,6 +45,10 @@ import java.util.*;
 @javax.persistence.Entity(name="person")
 @Table(name="prc_persons")
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prc_persons", indexes = {
+        @Index(name = "PRC_PERSONS_CONTACT_EMAIL_IDX", columnNames = "CONTACT_EMAIL_ID"),
+        @Index(name = "PRC_PERSONS_CONTACT_PHONE_IDX", columnNames = "CONTACT_PHONE_ID")
+})
 public class JpaPersonImpl extends Entity implements Person {
 
     protected static final Logger logger = LoggerFactory.getLogger(JpaPersonImpl.class);

@@ -19,6 +19,7 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
@@ -49,6 +50,11 @@ import org.slf4j.*;
 @javax.persistence.Entity(name = "role")
 @Table(name = "prc_role_records", uniqueConstraints = @UniqueConstraint(columnNames = {"person_id","affiliation_t","organizational_unit_id"}))
 @Audited
+@org.hibernate.annotations.Table(appliesTo = "prc_role_records", indexes = {
+        @Index(name = "PRC_ROLE_RECORDS_PRS_STAT_IDX", columnNames = "PERSON_STATUS_T"),
+        @Index(name = "PRC_ROLE_RECORDS_SPONSOR_IDX", columnNames = "SPONSOR_T"),
+        @Index(name = "PRC_ROLE_RECORDS_TERM_IDX", columnNames = "TERMINATION_T")
+})
 public class JpaRoleImpl extends Entity implements Role {
 
     @Id

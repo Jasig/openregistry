@@ -15,6 +15,9 @@ public interface EmailService {
                                                                                                    Type emailType,
                                                                                                    Type affiliationType);
 
+    ServiceExecutionResult<SorPerson> saveOrCreateEmailForSorPersonForAllRoles(SorPerson sorPerson, String emailAddress,
+                                                                                                   Type emailType);
+
     String findEmailForSorPersonWithRoleIdentifiedByAffiliation(SorPerson sorPerson,
                                                                 Type emailType,
                                                                 Type affiliationType);

@@ -63,6 +63,11 @@ public class MockPersonService implements PersonService {
     }
 
     @Override
+    public List<SorPerson> findByIdentifier(String identifierType, String identifierValue) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public List<SorPerson> getSorPersonsFor(Person person) {
         throw new UnsupportedOperationException("Not yet implemented");
     }

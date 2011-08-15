@@ -78,6 +78,8 @@ public interface PersonService {
      */
     SorPerson findByIdentifierAndSource(final String identifierType, final String identifierValue, final String sorSource);
 
+    List<SorPerson> findByIdentifier(final String identifierType, final String identifierValue);
+
     /**
      * Retrieves the SoR Records for a particular calculated person.
      *

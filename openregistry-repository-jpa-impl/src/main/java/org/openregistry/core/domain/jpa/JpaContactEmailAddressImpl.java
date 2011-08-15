@@ -19,7 +19,11 @@ import javax.persistence.*;
 @javax.persistence.Entity(name="contactEmailAddress")
 @Table(name="prc_contact_emails")
 @Audited
-@org.hibernate.annotations.Table(appliesTo = "prc_contact_emails", indexes = @Index(name="CONTACT_EMAIL_ADDRESS_INDEX", columnNames = "address"))
+@org.hibernate.annotations.Table(appliesTo = "prc_contact_emails", indexes ={
+            @Index(name="CONTACT_EMAIL_ADDRESS_INDEX", columnNames = "address"),
+            @Index(name="PRC_CONTACT_EMAILS_EM_ADD_IDX", columnNames = "EMAIL_ADDRESS_T")
+        }
+    )
 public class JpaContactEmailAddressImpl implements ContactEmailAddress {
 
     @Id

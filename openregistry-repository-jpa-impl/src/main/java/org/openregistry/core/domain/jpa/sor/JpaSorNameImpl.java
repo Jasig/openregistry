@@ -49,7 +49,10 @@ import java.io.Serializable;
 @javax.persistence.Entity(name="sorName")
 @Table(name="prs_names")
 @Audited
-@org.hibernate.annotations.Table(appliesTo = "prs_names", indexes = @Index(name = "PRS_NAME_PERSON_INDEX", columnNames = "sor_person_id"))
+@org.hibernate.annotations.Table(appliesTo = "prs_names", indexes ={
+    @Index(name = "PRS_NAME_PERSON_INDEX", columnNames = "sor_person_id"),
+    @Index(name = "PRS_NAMES_NAME_T_IDX", columnNames = "NAME_T")
+})
 public class JpaSorNameImpl implements SorName, Serializable {
 
     @Id

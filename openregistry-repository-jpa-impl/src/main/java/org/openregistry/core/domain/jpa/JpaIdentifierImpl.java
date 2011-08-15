@@ -41,7 +41,11 @@ import java.util.Date;
 
 @Table(name="prc_identifiers", uniqueConstraints= @UniqueConstraint(columnNames={"identifier_t", "identifier"}))
 @Audited
-@org.hibernate.annotations.Table(appliesTo = "prc_identifiers", indexes = {@Index(name="ID_ID_TYPE_INDEX", columnNames = {"identifier", "identifier_t"}), @Index(name="ID_IDENTIFIER_INDEX", columnNames = {"identifier"})})
+@org.hibernate.annotations.Table(appliesTo = "prc_identifiers", indexes = {
+        @Index(name="ID_ID_TYPE_INDEX", columnNames = {"identifier", "identifier_t"}),
+        @Index(name="ID_IDENTIFIER_INDEX", columnNames = {"identifier"}),
+        @Index(name = "PRC_IDENTIF_PERSON_IDX", columnNames = "person_id")
+})
 public class JpaIdentifierImpl extends Entity implements Identifier {
 
     @Id
