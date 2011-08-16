@@ -78,12 +78,14 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
 
     @Column(name="area_code",nullable=false,length=5)
     @NotNull
-    @Digits(integer = 5, fraction = 0)
+
+    @Digits(integer = 5, fraction = 0 ,message = "{areaCodeInvalidMSG}")
     private String areaCode;
 
     @Column(name="phone_number",nullable=false,length=10)
     @NotNull
-    @Digits(integer = 10, fraction = 0)
+
+    @Digits(integer = 10, fraction = 0,message = "{phoneNumberInvalidMSG}")
     @PhoneNumber
     private String number;
 

@@ -22,6 +22,7 @@ package org.openregistry.core.domain.jpa.sor;
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Email;
 import org.openregistry.core.domain.annotation.AllowedTypes;
+import org.openregistry.core.domain.annotation.NotEmpty;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
@@ -32,6 +33,7 @@ import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * @author Nancy Mond
@@ -57,6 +59,7 @@ public class JpaSorEmailAddressImpl extends Entity implements EmailAddress {
     private JpaTypeImpl addressType;
 
     @Column(name="address",nullable=false,length=100)
+    @Size(min=1,message = "{emlAddressRequied}")
     @NotNull
     @Email
     private String address;
