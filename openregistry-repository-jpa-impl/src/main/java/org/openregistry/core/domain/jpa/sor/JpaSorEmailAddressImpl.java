@@ -22,13 +22,11 @@ package org.openregistry.core.domain.jpa.sor;
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Email;
 import org.openregistry.core.domain.annotation.AllowedTypes;
-import org.openregistry.core.domain.annotation.NotEmpty;
 import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.EmailAddress;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.hibernate.envers.Audited;
-import org.openregistry.core.domain.normalization.Capitalize;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
