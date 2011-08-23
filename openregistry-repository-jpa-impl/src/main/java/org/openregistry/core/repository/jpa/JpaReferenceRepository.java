@@ -49,62 +49,62 @@ public final class JpaReferenceRepository implements ReferenceRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
+
     public List<Person> getPeople() {
         return (List<Person>) this.entityManager.createQuery("select p from person p join p.names n where n.officialName = true order by n.family, n.given").getResultList();
     }
 
-    @Transactional
+
     public Person getPersonById(final Long id) {
         return this.entityManager.find(JpaPersonImpl.class, id);
     }
 
-    @Transactional
+
     public List<OrganizationalUnit> getOrganizationalUnits() {
         return (List<OrganizationalUnit>) this.entityManager.createQuery("select d from organizationalUnit d order by d.name").getResultList();
     }
 
-    @Transactional
+
     public OrganizationalUnit getOrganizationalUnitById(final Long id) {
         return this.entityManager.find(JpaOrganizationalUnitImpl.class, id);
     }
 
-    @Transactional
+
     public OrganizationalUnit getOrganizationalUnitByCode(String code) {
         return (OrganizationalUnit) this.entityManager.createQuery("select d from organizationalUnit d where d.localCode = :code order by d.name").setParameter("code", code).getSingleResult();
     }
 
-    @Transactional
+
     public List<Campus> getCampuses() {
         return (List<Campus>) this.entityManager.createQuery("select c from campus c order by c.name").getResultList();
     }
 
-    @Transactional
+
     public Campus getCampusById(final Long id) {
         return this.entityManager.find(JpaCampusImpl.class, id);
     }
 
-    @Transactional
+
     public Country getCountryById(final Long id) {
         return this.entityManager.find(JpaCountryImpl.class, id);
     }
 
-    @Transactional
+
     public Country getCountryByCode(String code) {
         return (Country) this.entityManager.createQuery("select c from country c where c.code = :code order by c.name").setParameter("code", code).getSingleResult();
     }
 
-    @Transactional
+
     public List<Country> getCountries() {
         return (List<Country>) this.entityManager.createQuery("select c from country c").getResultList();
     }
 
-    @Transactional
+
     public List<Region> getRegions() {
         return (List<Region>) this.entityManager.createQuery("select r from region r").getResultList();
     }
 
-    @Transactional
+
     public Region getRegionByCodeAndCountryId(final String code, final String countryCode) {
         return (Region) this.entityManager.createQuery("select r from region r join r.country c where r.code = :code and c.code = :countryCode order by r.name, c.code").setParameter("code", code).setParameter("countryCode", countryCode).getSingleResult();
     }
@@ -126,22 +126,22 @@ public final class JpaReferenceRepository implements ReferenceRepository {
         }
     }
 
-    @Transactional
+
     public Type getTypeById(final Long id) {
         return this.entityManager.find(JpaTypeImpl.class, id);
     }
 
-    @Transactional
+
     public List<Type> getTypesBy(final DataTypes type) {
         return (List<Type>) this.entityManager.createQuery("select r from type r where r.dataType = :dataType").setParameter("dataType", type.name()).getResultList();
     }
 
-    @Transactional
+
     public Type findType(final DataTypes type, final Enum value) {
         return findType(type, value.name());
     }
 
-    @Transactional
+
     public Type findType(final DataTypes type, final String value) {
         try {
             return (Type) this.entityManager.createQuery("select r from type r where r.dataType=:dataType and r.description=:description").setParameter("dataType", type.name()).setParameter("description", value).getSingleResult();
@@ -151,17 +151,17 @@ public final class JpaReferenceRepository implements ReferenceRepository {
         }
     }
 
-    @Transactional
+
     public List<IdentifierType> getIdentifierTypes() {
         return (List<IdentifierType>) this.entityManager.createQuery("select r from identifier_type r").getResultList();
     }
 
-    @Transactional
+
     public IdentifierType findIdentifierType(final String identifierName) {
         return (IdentifierType) this.entityManager.createQuery("select distinct r from identifier_type r where name=:name").setParameter("name", identifierName).getSingleResult();
     }
 
-    @Transactional
+
     public SystemOfRecord findSystemOfRecord(String systemOfRecord){
         return (SystemOfRecord) this.entityManager.createQuery("select s from systemOfRecord s where s.sorId = :systemOfRecord").setParameter("systemOfRecord", systemOfRecord).getSingleResult();
     }
