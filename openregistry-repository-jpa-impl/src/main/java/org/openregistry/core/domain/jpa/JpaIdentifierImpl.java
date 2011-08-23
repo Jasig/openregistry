@@ -131,8 +131,14 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     public Date getDeletedDate() {
         return (this.deletedDate == null) ? null : new Date(this.deletedDate.getTime());
     }
+
+    public void setType(JpaIdentifierTypeImpl type) {
+        this.type = type;
+    }
+
     @Override
     public void setDeletedDate(Date date) {
+
         this.deleted=true;
         this.deletedDate=date;
     }
