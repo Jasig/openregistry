@@ -28,6 +28,13 @@ import org.openregistry.core.domain.Identifier;
  * @since 1.0
  */
 public interface IdentifierChangeService {
+    /**
+     * changes the net id
+     * this assumes that provided internalID is the primary Identifier of a peron
+     * @param internalId existing  PRIMARY identifier object associated with person     *
+     * @param changedId value of new identifier
+     * @return
+     */
 
-    boolean change(IdentifierType internalIdType, Identifier internalId, IdentifierType changedIdType, Identifier changedId);                                  
+    boolean change( Identifier internalId,  String changedId);
 }

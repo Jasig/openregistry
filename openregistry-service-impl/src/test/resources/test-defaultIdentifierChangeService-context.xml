@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/lang
+        http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd"
+        xmlns:jdbc="http://www.springframework.org/schema/jdbc">
+
+
+
+    <bean class="org.jasig.openregistry.test.repository.MockReferenceRepository"  id="referenceRepository"/>
+
+
+    <bean id="mockPerson" class="org.jasig.openregistry.test.domain.MockPerson"/>
+    <bean id="mockPerson2" class="org.jasig.openregistry.test.domain.MockPerson"/>
+    <bean id="netIdChangeService" class="org.openregistry.core.service.DefaultIdentifierChangeService"/>
+
+    <bean id="personRepository" class="org.jasig.openregistry.test.repository.MockPersonRepository">
+
+        <constructor-arg ref="mockPerson"/>
+    </bean>
+
+</beans>

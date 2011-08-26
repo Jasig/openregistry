@@ -315,7 +315,20 @@ public class MockPerson implements Person {
 
     @Override
     public Identifier findIdentifierByValue(String identifierType, String identifierValue) {
-        throw new UnsupportedOperationException("Not implemented");
+        final Map<String, Deque<Identifier>> identifiersByType = getIdentifiersByType();
+        Deque<Identifier> ids = identifiersByType.get(identifierType);
+        if(ids == null) {
+            throw new RuntimeException("No identifiers exist for the specified type [" + identifierType + "]");
+        }
+        Iterator<Identifier> iter = ids.iterator();
+        Identifier id = null;
+        while(iter.hasNext()) {
+            id = iter.next();
+            if(id.getValue().equals(identifierValue)) {
+                return id;
+            }
+        }
+        return null;
     }
 
     @Override
