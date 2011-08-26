@@ -66,5 +66,6 @@
     <bean class="org.openregistry.core.service.DefaultPreferredPhoneContactFieldSelector" id="preferredContactPhoneNumberFieldElector" />
     <bean class="org.openregistry.core.service.DefaultDisclosureSettingsFieldElector" id="disclosureFieldElector" />
     <bean class="org.openregistry.core.service.DefaultSSNFieldElector" id="ssnFieldElector" />
+    <bean id="netIdChangeService" class="org.openregistry.core.service.DefaultIdentifierChangeService"/>
     
 </beans>

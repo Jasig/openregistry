@@ -19,6 +19,7 @@
 
 package org.openregistry.core.service;
 
+import org.apache.commons.lang.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.repository.*;
@@ -33,6 +34,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.inject.*;
@@ -96,6 +98,9 @@ public class DefaultPersonService implements PersonService {
 
     @Autowired(required = false)
     private List<IdentifierAssigner> identifierAssigners = new ArrayList<IdentifierAssigner>();
+
+    @Inject
+    private IdentifierChangeService identifierChangeService;
 
     @Inject
     public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler) {
@@ -602,11 +607,23 @@ public class DefaultPersonService implements PersonService {
         final EmailAddress emailAddress = this.preferredContactEmailAddressFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final Phone phone = this.preferredContactPhoneNumberFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final DisclosureSettings disclosure = this.disclosureFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        final String  ssn = this.ssnFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        Identifier primarySSN=person.getPrimaryIdentifiersByType().get("SSN");
+        //check if the elector elcted some ssn and person does have previous ssn assigned to it
+        if(!org.apache.commons.lang.StringUtils.isEmpty(ssn) && primarySSN!=null ){
+            try{
+              this.identifierChangeService.change(person.getPrimaryIdentifiersByType().get("SSN"),ssn);
+            }catch (IllegalArgumentException e){
+                logger.debug(e.getStackTrace().toString());
+            }//all other exception should be propogated
+
+        }
 
         person.setDateOfBirth(birthDate);
         person.setGender(gender);
         person.getPreferredContactEmailAddress().update(emailAddress);
         person.getPreferredContactPhoneNumber().update(phone);
+
         if (person.getDisclosureSettings() == null) person.setDisclosureSettings(disclosure);
         else {
             person.getDisclosureSettings().setDisclosureCode(disclosure.getDisclosureCode());
