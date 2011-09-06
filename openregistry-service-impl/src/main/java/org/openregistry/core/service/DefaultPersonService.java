@@ -496,7 +496,7 @@ public class DefaultPersonService implements PersonService {
         }
 
         // TODO Delete from person - need to determine how to deal with names before this can work.
-        //this.personRepository.deletePerson(fromPerson);
+        this.personRepository.deletePerson(fromPerson);
         logger.info("moveAllSystemOfRecordPerson: Deleted From Person");
         return true;
     }
