@@ -142,7 +142,10 @@ public class JpaPersonRepository implements PersonRepository {
     }
 
     public Person savePerson(final Person person) throws RepositoryAccessException {
-        return this.entityManager.merge(person);
+        Person p= this.entityManager.merge(person);
+        //the only solution of insert before delete problem
+         this.entityManager.flush();
+        return  p;
     }
 
     public SorPerson saveSorPerson(final SorPerson person) throws RepositoryAccessException {
