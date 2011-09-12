@@ -248,7 +248,8 @@ public class DefaultPersonService implements PersonService {
         this.personRepository.deleteSorPerson(sorPerson);
         this.personRepository.savePerson(person);
 
-        recalculatePersonBiodemInfo(person, sorPerson, RecalculationType.DELETE, mistake);
+       Person p= recalculatePersonBiodemInfo(person, sorPerson, RecalculationType.DELETE, mistake);
+        this.personRepository.savePerson(p);
         return true;
     }
 
@@ -442,6 +443,7 @@ public class DefaultPersonService implements PersonService {
         }
 
         person = recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
+        person =this.personRepository.savePerson(person);
 
         return new GeneralServiceExecutionResult<SorPerson>(savedSorPerson);
     }
@@ -511,6 +513,8 @@ public class DefaultPersonService implements PersonService {
     public boolean moveSystemOfRecordPerson(Person fromPerson, Person toPerson, SorPerson movingSorPerson) {
         movingSorPerson.setPersonId(toPerson.getId());
         updateCalculatedPersonsOnMoveOfSor(toPerson, fromPerson, movingSorPerson);
+        this.personRepository.savePerson(fromPerson);
+        this.personRepository.savePerson(toPerson);
         this.personRepository.saveSorPerson(movingSorPerson);
         return true;
     }
@@ -523,10 +527,20 @@ public class DefaultPersonService implements PersonService {
      * @return Success or failure.
      */
     public boolean moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson movingSorPerson) {
-        // create the new person in the registry
-        // Person toPerson = constructPersonFromSorData(movingSorPerson);
-        // TODO broke this in order to clean everything else up
-        return moveSystemOfRecordPerson(fromPerson, this.personObjectFactory.getObject(), movingSorPerson);
+         Person savedPerson = recalculatePersonBiodemInfo(this.personObjectFactory.getObject(), movingSorPerson, RecalculationType.ADD, false);
+        for (final IdentifierAssigner ia : this.identifierAssigners) {
+            ia.addIdentifierTo(movingSorPerson , savedPerson);
+        }
+        //remove identifiers assigned to new person from old person
+        fromPerson.getIdentifiers().removeAll(savedPerson.getIdentifiers());
+        updateCalculatedPersonsOnMoveOfSor(savedPerson, fromPerson, movingSorPerson);
+        fromPerson =this.personRepository.savePerson(fromPerson);
+       savedPerson= this.personRepository.savePerson(savedPerson);
+        movingSorPerson.setPersonId(savedPerson.getId());
+        this.personRepository.saveSorPerson(movingSorPerson);
+        return true;
+
+
     }
 
     /**
@@ -562,8 +576,8 @@ public class DefaultPersonService implements PersonService {
 
         // TODO recalculate names for person receiving role? Anything else?
         // TODO recalculate names for person losing role? Anything else?
-        this.personRepository.savePerson(fromPerson);
-        this.personRepository.savePerson(toPerson);
+//        this.personRepository.savePerson(fromPerson);
+//        this.personRepository.savePerson(toPerson);
     }
 
     public boolean expireRole(SorRole role) {
@@ -651,7 +665,8 @@ public class DefaultPersonService implements PersonService {
             }
         }
 
-        return this.personRepository.savePerson(person);
+//        return this.personRepository.savePerson(person);
+          return person;
     }
 
     /**
@@ -702,7 +717,8 @@ public class DefaultPersonService implements PersonService {
         logger.info("Creating sorPerson: person_id: "+ reconciliationCriteria.getSorPerson().getPersonId());
         // Save Sor Person
         final SorPerson sorPerson = this.personRepository.saveSorPerson(reconciliationCriteria.getSorPerson());
-        final Person savedPerson = recalculatePersonBiodemInfo(this.personObjectFactory.getObject(), sorPerson, RecalculationType.ADD, false);
+         Person savedPerson = recalculatePersonBiodemInfo(this.personObjectFactory.getObject(), sorPerson, RecalculationType.ADD, false);
+        savedPerson =this.personRepository.savePerson(savedPerson);
 
         for (final IdentifierAssigner ia : this.identifierAssigners) {
             ia.addIdentifierTo(sorPerson, savedPerson);
@@ -749,7 +765,9 @@ public class DefaultPersonService implements PersonService {
             person.addRole(newSorRole);
         }
 
-        return recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
+
+        Person p =  recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
+        return this.personRepository.savePerson(p);
     }
 
     protected Person addNewSorPersonAndLinkWithMatchedCalculatedPerson(final ReconciliationCriteria reconciliationCriteria, final ReconciliationResult result) throws SorPersonAlreadyExistsException{
