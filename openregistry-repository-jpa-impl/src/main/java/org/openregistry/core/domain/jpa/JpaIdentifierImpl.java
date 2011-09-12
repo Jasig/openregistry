@@ -19,6 +19,9 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.internal.Entity;
@@ -58,7 +61,7 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @JoinColumn(name="person_id")
     private JpaPersonImpl person;
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=false,fetch = FetchType.EAGER)
     @JoinColumn(name="identifier_t")
     private JpaIdentifierTypeImpl type;
 
@@ -195,6 +198,29 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
 
     @Override
     public String toString() {
-        return this.value;
+        return new ToStringBuilder(this).append("Value",this.value).append("Type",this.type).toString();
     }
+    @Override
+   public int hashCode()
+   {
+      return new HashCodeBuilder()
+         .append(this.value)
+                 .append(this.type)
+//         .append(this.type!=null?this.type.getName():"NULL")
+         .toHashCode();
+   }
+    @Override
+   public boolean equals(Object obj)
+   {
+      if (obj instanceof JpaIdentifierImpl == false) return false;
+      if (this == obj)  return true;
+      final JpaIdentifierImpl otherObject = (JpaIdentifierImpl) obj;
+
+      EqualsBuilder b= new EqualsBuilder();
+         b.append(this.value, otherObject.value)
+         .append(this.type, otherObject.type);
+         return b.isEquals();
+
+
+   }
 }

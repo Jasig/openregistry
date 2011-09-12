@@ -19,6 +19,8 @@
 
 package org.openregistry.core.domain.jpa;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.annotations.Index;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.internal.Entity;
@@ -121,6 +123,19 @@ public class JpaIdentifierTypeImpl extends Entity implements IdentifierType {
 
     public String toString() {
         return this.name;
+    }
+    public int hashCode(){
+        return new HashCodeBuilder().append(this.name).toHashCode();
+    }
+    public boolean equals(Object obj){
+        if (obj instanceof JpaIdentifierTypeImpl == false) return false;
+              if (this == obj)  return true;
+              final JpaIdentifierTypeImpl otherObject = (JpaIdentifierTypeImpl) obj;
+
+              EqualsBuilder b= new EqualsBuilder();
+                 b.append(this.name, otherObject.getName());
+                 return b.isEquals();
+
     }
 
 }

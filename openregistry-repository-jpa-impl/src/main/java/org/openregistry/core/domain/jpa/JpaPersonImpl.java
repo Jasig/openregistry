@@ -67,7 +67,7 @@ public class JpaPersonImpl extends Entity implements Person {
     @org.hibernate.annotations.Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Role> roles = new HashSet<Role>();
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.LAZY)
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.LAZY,orphanRemoval = true)
     private Set<JpaIdentifierImpl> identifiers = new HashSet<JpaIdentifierImpl>();
 
     @Column(name="date_of_birth",nullable=true)
