@@ -106,7 +106,7 @@ public class JpaSorAddressImpl extends Entity implements Address {
     private String city;
 
     @Column(name="postal_code",length=9, nullable = true)
-     @Pattern(regexp= "\\d{5}(-\\d{4})?" ,message = "{invalidZipMSG}")
+     @Pattern(regexp= "\\d{5}(\\d{4})?" ,message = "{invalidZipMSG}")
     private String postalCode;
 
     @Column(name="update_date", nullable = false)
