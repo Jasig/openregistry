@@ -24,6 +24,7 @@ import org.openregistry.core.domain.internal.Entity;
 import org.openregistry.core.domain.jpa.sor.JpaSorDisclosureSettingsImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorNameImpl;
 import org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl;
+import org.openregistry.core.domain.sor.SorDisclosureSettings;
 import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.*;
@@ -172,21 +173,19 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     /**
-     * @see org.openregistry.core.domain.Person#setDisclosureSettings(org.openregistry.core.domain.DisclosureSettings)
+     * @see org.openregistry.core.domain.Person#setDisclosureSettings(org.openregistry.core.domain.sor.SorDisclosureSettings)
      */
-	public void setDisclosureSettings(DisclosureSettings ds) {
+	public void calculateDisclosureSettings(SorDisclosureSettings ds) {
 		if (ds != null) {
-			if (ds instanceof JpaDisclosureSettingsImpl || 
-				ds instanceof JpaSorDisclosureSettingsImpl) {
-				// copy and convert from JpaDisclosureSettingsImpl to JpaSorDisclosureSettingsImpl if necessary
-				this.disclosureSettings = new JpaDisclosureSettingsImpl (
-					this,
-					ds.getDisclosureCode(),
-					ds.getLastUpdateDate(),
-					ds.isWithinGracePeriod()
-					);
+			if (ds instanceof JpaSorDisclosureSettingsImpl) {
+				if (this.disclosureSettings == null) {				
+					this.disclosureSettings = new JpaDisclosureSettingsImpl (this);
+				}
+				this.disclosureSettings.setDisclosureCode(ds.getDisclosureCode());
+				this.disclosureSettings.setLastUpdateDate(ds.getLastUpdateDate());
+				this.disclosureSettings.setWithinGracePeriod(ds.isWithinGracePeriod());	
 			} else {
-				throw new IllegalArgumentException("Disclosure settings parameter must be of type JpaDisclosureSettingsImpl or JpaSorDisclosureSettingsImpl");
+				throw new IllegalArgumentException("Disclosure settings parameter must be of type JpaSorDisclosureSettingsImpl");
 			}
 		} else {
 			this.disclosureSettings = null;
@@ -198,8 +197,12 @@ public class JpaPersonImpl extends Entity implements Person {
 	 */
 	public void setDisclosureSettingInfo(String disclosureCode,
 			boolean isWithinGracePeriod, Date lastUpdatedDate) {
-		this.disclosureSettings = new JpaDisclosureSettingsImpl
-			(this, disclosureCode, lastUpdatedDate, isWithinGracePeriod);
+		if (this.disclosureSettings == null) {
+			this.disclosureSettings = new JpaDisclosureSettingsImpl(this);
+		}
+		this.disclosureSettings.setDisclosureCode(disclosureCode);
+		this.disclosureSettings.setLastUpdateDate(lastUpdatedDate);
+		this.disclosureSettings.setWithinGracePeriod(isWithinGracePeriod);	
 	}
 	
     public Role addRole(final SorRole sorRole) {
