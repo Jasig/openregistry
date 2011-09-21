@@ -27,6 +27,9 @@ import org.openregistry.core.domain.sor.SystemOfRecordHolder;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
 public abstract class AbstractIntegrationTests extends AbstractTransactionalJUnit4SpringContextTests {
+	
+	protected final String SOR_ID1 = "test1";
+	protected final String SOR_ID2 = "test2";
 
     @Before
     public void dataBaseSetUp() throws Exception {
@@ -38,11 +41,20 @@ public abstract class AbstractIntegrationTests extends AbstractTransactionalJUni
         this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(5, 'SPONSOR', 'PERSON')");
         this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(6, 'AFFILIATION', 'STAFF')");
         this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(7, 'AFFILIATION', 'STUDENT')");
+        this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(8, 'AFFILIATION', 'FACULTY')");
+        this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(9, 'ADDRESS', 'HOME')");
+        this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(10, 'ADDRESS', 'OFFICE')");
+        this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(11, 'PHONE', 'LANDLINE')");
+        this.simpleJdbcTemplate.update("insert into ctx_data_types (id, data_type, description) values(12, 'PHONE', 'CELL')");
         this.simpleJdbcTemplate.update("insert into prd_campuses(id, code, name) values(1, 'cam', 'Busch')");
         this.simpleJdbcTemplate.update("insert into ctd_countries(id, code, name) values(1, 'US', 'USA')");
         this.simpleJdbcTemplate.update("insert into drd_organizational_units(id, campus_id, organizational_unit_t, code, name) values(1, 1, 3, 'cod', 'Department')");
         this.simpleJdbcTemplate.update("insert into drd_organizational_units(id, campus_id, organizational_unit_t, code, name) values(2, 1, 3, 'fish', 'Department')");
         this.simpleJdbcTemplate.update("insert into prd_system_of_record(id, sor_id) values(1, 'test')");
+
+		// create two more SoRs
+        simpleJdbcTemplate.update("insert into prd_system_of_record(id, sor_id) values(1000, '"+SOR_ID1+"')");
+        simpleJdbcTemplate.update("insert into prd_system_of_record(id, sor_id) values(2000, '"+SOR_ID2+"')");
 
         final SoRSpecificationThreadLocalAspect aspect = Aspects.aspectOf(SoRSpecificationThreadLocalAspect.class);
         aspect.setSystemOfRecordRepository(new MockSystemOfRecordRepository());
