@@ -20,18 +20,15 @@
 package org.jasig.openregistry.test.domain;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.openregistry.core.domain.DisclosureSettings;
-
-/**
- * Disclosure settings entity mapped to a persistence store with JPA annotations.
- *
- * Unique constraints assume that each person can have only one record of disclosure settings
- *
- * @author lidial
- * @version $Revision$ $Date$
- * @since 1.0.0
- */
+import org.openregistry.core.domain.DisclosureSettingsForAddress;
+import org.openregistry.core.domain.DisclosureSettingsForEmail;
+import org.openregistry.core.domain.DisclosureSettingsForPhone;
+import org.openregistry.core.domain.DisclosureSettingsForUrl;
+import org.openregistry.core.domain.Type;
+import org.openregistry.core.service.DisclosureRecalculationStrategy;
 
 public class MockDisclosureSettings implements DisclosureSettings {
 
@@ -39,7 +36,8 @@ public class MockDisclosureSettings implements DisclosureSettings {
  	private boolean withinGracePeriod;
  	private Date lastUpdateDate;
 
-    public MockDisclosureSettings (String code, Date lastUpdateDate, boolean withinGracePeriod) {    	
+    public MockDisclosureSettings 
+    	(String code, Date lastUpdateDate, boolean withinGracePeriod) {    	
 		this.disclosureCode = code;
 		this.withinGracePeriod = withinGracePeriod;
 		this.lastUpdateDate = new Date (lastUpdateDate.getTime());
@@ -86,5 +84,112 @@ public class MockDisclosureSettings implements DisclosureSettings {
 	 */
 	public void setWithinGracePeriod(boolean within) {
 		this.withinGracePeriod = within;
+	}
+
+	@Override
+	public DisclosureSettingsForAddress getAddressDisclosure(
+			String affiliation, Type addressType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<Type, DisclosureSettingsForAddress> getAddressDisclosureSettingsForAffiliation(
+			String affiliationType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DisclosureSettingsForEmail getEmailDisclosure(String affiliation,
+			Type type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DisclosureSettingsForPhone getPhoneDisclosure(String affiliation,
+			Type addressType, Type phoneType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DisclosureSettingsForUrl getUrlDisclosure(String affiliation,
+			Type type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setAddressDisclousure(Type affiliationType, Type addressType,
+			Map<PropertyNames, Object> properties) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void setEmailDisclosure(Type affiliationType, Type type,
+			boolean isPublic) {
+		setEmailDisclosure(affiliationType, type, isPublic, null);
+	}
+
+	@Override
+	public void setPhoneDisclosure(Type affiliationType, Type addressType,
+			Type phoneType, boolean isPublic) {
+		setPhoneDisclosure(affiliationType, addressType, phoneType, isPublic, null);
+	}
+
+	@Override
+	public void setUrlDisclosure(Type affiliationType, Type type,
+			boolean isPublic) {
+		setUrlDisclosure(affiliationType, type, isPublic, null);
+	}
+
+	@Override
+	public void recalculate(DisclosureRecalculationStrategy disclosureRecalculationStrategy) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<Type, DisclosureSettingsForEmail> getEmailDisclosureSettingsForAffiliation(
+			String affiliationType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<Type, Map<Type, DisclosureSettingsForPhone>> getPhoneDisclosureSettingsForAffiliation(
+			String affiliationType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<Type, DisclosureSettingsForUrl> getUrlDisclosureSettingsForAffiliation(
+			String affiliationType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setEmailDisclosure(Type affiliationType, Type type,
+			boolean isPublic, Date updateDate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setPhoneDisclosure(Type affiliationType, Type addressType,
+			Type phoneType, boolean isPublic, Date updateDate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setUrlDisclosure(Type affiliationType, Type type,
+			boolean isPublic, Date updateDate) {
+		// TODO Auto-generated method stub
+		
 	}	
 }
