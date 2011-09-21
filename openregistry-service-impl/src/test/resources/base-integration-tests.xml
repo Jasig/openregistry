@@ -69,5 +69,10 @@
     <bean id="systemOfRecordRepository" class="org.jasig.openregistry.test.repository.MockSystemOfRecordRepository" />
     
     <bean id="mockMailSender" class="org.jasig.openregistry.test.service.MockMailSender" />
-    
+
+    <bean id="disclosureRepository" class="org.openregistry.core.repository.jpa.JpaDisclosureRepository" />
+
+    <bean id="disclosureStrategyRepostory" class="org.openregistry.core.repository.xml.XmlBasedDisclosureRecalculationStrategyRepositoryImpl">
+    	<constructor-arg index="0" value="classpath:sample-disclosure-recalculation-strategy.xml" />
+    </bean>    
 </beans>
