@@ -22,6 +22,7 @@ package org.openregistry.core.domain;
 import java.util.*;
 import java.io.Serializable;
 
+import org.openregistry.core.domain.sor.SorDisclosureSettings;
 import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorRole;
 
@@ -117,10 +118,10 @@ public interface Person extends Serializable {
     void setGender(String gender);
 
     /**
-     * Sets disclosure settings for this person
-     * @param disclosureSettings
+     * Recalculates disclosure settings for this person based on selected value from SOR
+     * @param ds
      */
-    void setDisclosureSettings(DisclosureSettings disclosureSettings);
+    public void calculateDisclosureSettings(SorDisclosureSettings ds);
     
     /**
      * Sets the information required to instantiate the DisclosureSettings object
@@ -128,7 +129,8 @@ public interface Person extends Serializable {
      * @param isWithinGracePeriod
      * @param lastUpdatedDate
      */
-    void setDisclosureSettingInfo(String disclosureCode, boolean isWithinGracePeriod, Date lastUpdatedDate);
+    void setDisclosureSettingInfo
+    	(String disclosureCode, boolean isWithinGracePeriod, Date lastUpdatedDate);
     
     /**
      * Constructs a new Identifier based on the provided type and value.
