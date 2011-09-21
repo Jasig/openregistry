@@ -60,6 +60,8 @@ public class DefaultPersonService implements PersonService {
 
     private final ReferenceRepository referenceRepository;
 
+    private final DisclosureRecalculationStrategyRepository strategyRepository;
+
     private final Reconciler reconciler;
 
     private final IdentifierGenerator identifierGenerator;
@@ -83,7 +85,7 @@ public class DefaultPersonService implements PersonService {
     private FieldElector<Phone> preferredContactPhoneNumberFieldElector = new DefaultPreferredPhoneContactFieldSelector();
 
     @Resource(name="disclosureFieldElector")
-    private FieldElector<DisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
+    private FieldElector<SorDisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
 
     @Resource(name="ssnFieldElector")
     private FieldElector<String> ssnFieldElector = new DefaultSSNFieldElector();
@@ -103,9 +105,13 @@ public class DefaultPersonService implements PersonService {
     private IdentifierChangeService identifierChangeService;
 
     @Inject
-    public DefaultPersonService(final PersonRepository personRepository, final ReferenceRepository referenceRepository, final IdentifierGenerator identifierGenerator, final Reconciler reconciler) {
+    public DefaultPersonService
+    (final PersonRepository personRepository, final ReferenceRepository referenceRepository,
+    		final DisclosureRecalculationStrategyRepository strategyRepository,
+    		final IdentifierGenerator identifierGenerator, final Reconciler reconciler) {
         this.personRepository = personRepository;
         this.referenceRepository = referenceRepository;
+        this.strategyRepository = strategyRepository;
         this.identifierGenerator = identifierGenerator;
         this.reconciler = reconciler;
     }
@@ -620,7 +626,7 @@ public class DefaultPersonService implements PersonService {
         final SorName officialName = this.officialNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final EmailAddress emailAddress = this.preferredContactEmailAddressFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final Phone phone = this.preferredContactPhoneNumberFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
-        final DisclosureSettings disclosure = this.disclosureFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        final SorDisclosureSettings disclosure = this.disclosureFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final String  ssn = this.ssnFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         Identifier primarySSN=person.getPrimaryIdentifiersByType().get("SSN");
         //check if the elector elcted some ssn and person does have previous ssn assigned to it
@@ -637,13 +643,10 @@ public class DefaultPersonService implements PersonService {
         person.setGender(gender);
         person.getPreferredContactEmailAddress().update(emailAddress);
         person.getPreferredContactPhoneNumber().update(phone);
-
-        if (person.getDisclosureSettings() == null) person.setDisclosureSettings(disclosure);
-        else {
-            person.getDisclosureSettings().setDisclosureCode(disclosure.getDisclosureCode());
-            person.getDisclosureSettings().setLastUpdateDate(disclosure.getLastUpdateDate());
+        person.calculateDisclosureSettings(disclosure);
+        if  (person.getDisclosureSettings() != null) {
+        	person.getDisclosureSettings().recalculate(this.strategyRepository.getDisclosureRecalculationStrategy());
         }
-
         //SSN election is happening in the ssn identifier assigner.
 
         boolean preferred = false;
@@ -786,5 +789,30 @@ public class DefaultPersonService implements PersonService {
             sorRole.setSystemOfRecord(referenceRepository.findSystemOfRecord(sorSource));
         }
     }
+
+    /**
+     * Expose person repository to subclasses
+     * @return
+     */
+    protected PersonRepository getPersonRepository() {
+    	return this.personRepository;
+    }
+
+    /**
+     * Expose disclosure recalculation strategy to sublclasses
+     * @return
+     */
+    protected DisclosureRecalculationStrategyRepository getDisclosureRecalculationStrategyRepository() {
+    	return this.strategyRepository;
+    }
+
+    /**
+     * Expose reference repository to subclasses
+     * @return
+     */
+    protected ReferenceRepository getReferenceRepository() {
+    	return this.referenceRepository;
+    }
+
 
 }
