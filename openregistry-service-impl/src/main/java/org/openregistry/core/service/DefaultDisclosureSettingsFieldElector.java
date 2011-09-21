@@ -21,7 +21,7 @@ package org.openregistry.core.service;
 
 import java.util.List;
 
-import org.openregistry.core.domain.DisclosureSettings;
+import org.openregistry.core.domain.sor.SorDisclosureSettings;
 import org.openregistry.core.domain.sor.SorPerson;
 
 /**
@@ -29,19 +29,31 @@ import org.openregistry.core.domain.sor.SorPerson;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public class DefaultDisclosureSettingsFieldElector implements FieldElector<DisclosureSettings> {
+public class DefaultDisclosureSettingsFieldElector implements FieldElector<SorDisclosureSettings> {
 
 	/**
-	 * Default implementation simply returns the newest value
+	 * Default implementation simply returns the new value
+	 * If it is not available, returns the most recent of the available ones
+	 * If none are available, returns null
 	 * @see org.openregistry.core.service.FieldElector#elect(org.openregistry.core.domain.sor.SorPerson, java.util.List, boolean)
 	 */
-	public DisclosureSettings elect(SorPerson newestPerson,
+	public SorDisclosureSettings elect(SorPerson newestPerson,
 			List<SorPerson> sorPersons, boolean deletion) {
 		
 		if (newestPerson != null && newestPerson.getDisclosureSettings() != null) {
 			return newestPerson.getDisclosureSettings();
 		} else if (sorPersons != null && !sorPersons.isEmpty()) {
-				return sorPersons.get(0).getDisclosureSettings();
+			SorDisclosureSettings mostRecent = null;
+			
+			for (SorPerson sp: sorPersons) {
+				if (mostRecent == null || 
+					(mostRecent.getLastUpdateDate() != null  
+						&& sp.getDisclosureSettings() != null && sp.getDisclosureSettings().getLastUpdateDate() != null
+						&& !sp.getDisclosureSettings().getLastUpdateDate().before(mostRecent.getLastUpdateDate()))) {
+					mostRecent = (sp.getDisclosureSettings() != null && sp.getDisclosureSettings().getLastUpdateDate() != null) ? sp.getDisclosureSettings() : null;
+				}
+			}
+			return mostRecent;
 		} else {
 			return null;
 		}
