@@ -23,6 +23,7 @@ import org.openregistry.core.domain.DisclosureSettings;
 import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.internal.Entity;
+import org.openregistry.core.domain.sor.SorDisclosureSettings;
 import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
@@ -51,7 +52,7 @@ public class MockSorPerson extends Entity implements SorPerson {
 
     private String gender;
 
-    private MockDisclosureSettings mockDisclosureSettings;
+    private MockSorDisclosureSettings mockDisclosureSettings;
 
     private List<SorName> names = new ArrayList<SorName>();
 
@@ -124,17 +125,17 @@ public class MockSorPerson extends Entity implements SorPerson {
         this.gender = gender;
     }
 
-    public DisclosureSettings getDisclosureSettings() {
+    public SorDisclosureSettings getDisclosureSettings() {
         return this.mockDisclosureSettings;
     }
 
-    public void setDisclosureSettings(final DisclosureSettings disclosure) {
-        this.mockDisclosureSettings = (MockDisclosureSettings)disclosure;
+    public void setDisclosureSettings(SorDisclosureSettings disclosureSettings) {
+    	this.mockDisclosureSettings = (MockSorDisclosureSettings)disclosureSettings;
     }
 
 	public void setDisclosureSettingInfo(String disclosureCode,
 			boolean isWithinGracePeriod, Date lastUpdatedDate) {
-		this.mockDisclosureSettings = new MockDisclosureSettings
+		this.mockDisclosureSettings = new MockSorDisclosureSettings
 			(disclosureCode, lastUpdatedDate, isWithinGracePeriod);
 	}
 
