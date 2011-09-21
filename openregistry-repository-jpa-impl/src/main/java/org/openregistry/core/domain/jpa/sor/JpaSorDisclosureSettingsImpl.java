@@ -36,7 +36,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.envers.Audited;
-import org.openregistry.core.domain.DisclosureSettings;
+import org.openregistry.core.domain.sor.SorDisclosureSettings;
 
 import java.io.Serializable;
 
@@ -53,7 +53,7 @@ import java.io.Serializable;
 @Entity(name = "sorDisclosure")
 @Table(name = "prs_disclosure", uniqueConstraints = @UniqueConstraint(columnNames = {"sor_person_id","disclosure_code"}))
 @Audited
-public class JpaSorDisclosureSettingsImpl implements DisclosureSettings, Serializable  {
+public class JpaSorDisclosureSettingsImpl implements SorDisclosureSettings, Serializable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "prs_disclosure_records_seq")
