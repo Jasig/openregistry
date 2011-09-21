@@ -112,10 +112,9 @@ public class JpaPersonImplTests extends AbstractTransactionalJUnit4SpringContext
     	final Date now = new Date();
     	assertNull("Initially, there should be no disclosure setting", person.getDisclosureSettings());
     	
-    	final JpaDisclosureSettingsImpl disclosure = new JpaDisclosureSettingsImpl(person, "1", now, true);
-    	person.setDisclosureSettings(disclosure);
+    	person.setDisclosureSettingInfo("1", true, now);
     	assertNotNull("Disclosure setting should not be null", person.getDisclosureSettings());
-    	assertEquals("Disclosure code should equal the one we have set", disclosure.getDisclosureCode(), person.getDisclosureSettings().getDisclosureCode());   	
+    	assertEquals("Disclosure code should equal the one we have set", "1", person.getDisclosureSettings().getDisclosureCode());   	
     	assertEquals("Last updated date should equal the one we have set", now.getTime(), person.getDisclosureSettings().getLastUpdateDate().getTime());   	
     	assertTrue("grace period indicator should be true", person.getDisclosureSettings().isWithinGracePeriod());   	
     }
