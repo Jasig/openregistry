@@ -19,6 +19,7 @@
 
 package org.openregistry.core.service;
 
+import org.jasig.openregistry.test.repository.MockDisclosureRecalculationStrategyRepository;
 import org.jasig.openregistry.test.util.MockitoUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,7 +71,7 @@ public class UpdateSorRoleServiceApiTests {
 
     @Test(expected = IllegalArgumentException.class)
     public void sorPersonAndSorRoleArgumentsCannotBeNull() {
-        PersonService ps = new DefaultPersonService(null, null, null, null);
+        PersonService ps = new DefaultPersonService(null, null, new MockDisclosureRecalculationStrategyRepository(), null, null);
         ps.updateSorRole(null, null);
     }
 
@@ -79,7 +80,7 @@ public class UpdateSorRoleServiceApiTests {
         Set mockValidationErrors = MockitoUtils.oneMinimalisticMockConstraintViolation();
         when(this.mockValidator.validate(eq(mockSorRole))).thenReturn(mockValidationErrors);
 
-        final DefaultPersonService ps = new DefaultPersonService(null, null, null, null);
+        final DefaultPersonService ps = new DefaultPersonService(null, null, new MockDisclosureRecalculationStrategyRepository(), null, null);
         ps.setValidator(this.mockValidator);
 
         ServiceExecutionResult<SorRole> result = ps.updateSorRole(this.mockSorPerson, this.mockSorRole);
@@ -96,7 +97,7 @@ public class UpdateSorRoleServiceApiTests {
         when(this.mockPersonRepository.saveSorRole(eq(this.mockSorRole))).thenReturn(this.mockSorRole);
         when(this.mockPersonRepository.findByInternalId(eq(1L))).thenReturn(this.mockPerson);
 
-        final DefaultPersonService ps = new DefaultPersonService(this.mockPersonRepository, null, null, null);
+        final DefaultPersonService ps = new DefaultPersonService(this.mockPersonRepository, null, new MockDisclosureRecalculationStrategyRepository(), null, null);
         ps.setValidator(this.mockValidator);
         ServiceExecutionResult<SorRole> result = ps.updateSorRole(this.mockSorPerson, this.mockSorRole);
         assertTrue(result.succeeded());
