@@ -20,16 +20,13 @@
 package org.openregistry.core.domain.jpa.sor;
 
 import org.hibernate.annotations.*;
-import org.openregistry.core.domain.annotation.Gender;
 import org.openregistry.core.domain.annotation.Required;
 import org.openregistry.core.domain.annotation.RequiredSize;
+import org.openregistry.core.domain.sor.SorDisclosureSettings;
 import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
-import org.openregistry.core.domain.DisclosureSettings;
-import org.openregistry.core.domain.Name;
 import org.openregistry.core.domain.Type;
-import org.openregistry.core.domain.jpa.JpaDisclosureSettingsImpl;
 import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.internal.Entity;
 import org.hibernate.envers.Audited;
@@ -175,14 +172,14 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
     /**
      * @see org.openregistry.core.domain.sor.SorPerson#getDisclosureSettings()
      */
-    public DisclosureSettings getDisclosureSettings() {
+    public SorDisclosureSettings getDisclosureSettings() {
 		return this.disclosureSettings;
 	}
 
 	/**
 	 * @see org.openregistry.core.domain.sor.SorPerson#setDisclosureSettings(org.openregistry.core.domain.DisclosureSettings)
 	 */
-	public void setDisclosureSettings(DisclosureSettings ds) {
+	public void setDisclosureSettings(SorDisclosureSettings ds) {
 		if (ds instanceof JpaSorDisclosureSettingsImpl) {
 			this.disclosureSettings = new JpaSorDisclosureSettingsImpl
 				(this, ds.getDisclosureCode(), ds.getLastUpdateDate(), ds.isWithinGracePeriod());
