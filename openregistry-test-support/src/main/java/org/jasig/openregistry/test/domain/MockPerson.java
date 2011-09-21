@@ -20,8 +20,10 @@
 package org.jasig.openregistry.test.domain;
 
 import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.sor.SorDisclosureSettings;
 import org.openregistry.core.domain.sor.SorName;
 import org.openregistry.core.domain.sor.SorRole;
+import org.openregistry.core.service.DisclosureRecalculationStrategy;
 
 import java.util.*;
 
@@ -185,14 +187,25 @@ public class MockPerson implements Person {
     public void setGender(String gender) {
         this.gender = gender;
     }
-    public String getDisclosure() {
-        return null;
+ 
+    public void calculateDisclosureSettings(SorDisclosureSettings ds) {
+    	if (ds != null) {
+    		this.mockDisclosureSettings = 
+    			new MockDisclosureSettings(ds.getDisclosureCode(), ds.getLastUpdateDate(), ds.isWithinGracePeriod());
+    	} else {
+    		this.mockDisclosureSettings = null;
+    	}
     }
+	public DisclosureSettings getDisclosureSettings() {
+		return this.mockDisclosureSettings;
+	}
 
-    public void setDisclosure(final String disclosure) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-    
+	public void setDisclosureSettingInfo(String disclosureCode,
+			boolean isWithinGracePeriod, Date lastUpdatedDate) {
+		this.mockDisclosureSettings = new MockDisclosureSettings
+			(disclosureCode, lastUpdatedDate, isWithinGracePeriod);
+	}
+   
     public Identifier addIdentifier(IdentifierType identifierType, String value) {
     	MockIdentifier mid = new MockIdentifier(this, identifierType, value);
     	this.identifiers.add(mid);
@@ -361,19 +374,4 @@ public class MockPerson implements Person {
                 ", dob=" + dob +
                 '}';
     }
-
-	public DisclosureSettings getDisclosureSettings() {
-		return this.mockDisclosureSettings;
-	}
-
-	public void setDisclosureSettings(DisclosureSettings disclosureSettings) {
-		this.mockDisclosureSettings = (MockDisclosureSettings)disclosureSettings;
-	}
-
-	public void setDisclosureSettingInfo(String disclosureCode,
-			boolean isWithinGracePeriod, Date lastUpdatedDate) {
-		this.mockDisclosureSettings = new MockDisclosureSettings
-			(disclosureCode, lastUpdatedDate, isWithinGracePeriod);
-	}
-
 }
