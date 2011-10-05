@@ -1,0 +1,180 @@
+<specification>
+	<id>test-disclosure-recalculation</id>
+	<name>Test</name>
+	<description>Disclosure recalculation strategy for testing</description>
+	<defaultFlagName>DEFAULT</defaultFlagName>
+	<hiddenFlagValue>N</hiddenFlagValue>
+	<asSpecifiedFlagValue>A</asSpecifiedFlagValue>
+	<disclosureCodeSpecs>
+		<disclosureCodeSpec>
+			<code>1</code>
+			<description>All flags as selected by user</description>
+			<affiliations>
+				<affiliation name="DEFAULT">
+					<addressTypes>
+						<addressType name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</addressType>		
+					</addressTypes>
+					<phoneTypes>
+						<phoneType name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</phoneType>
+					</phoneTypes>
+					<emailTypes>
+						<emailType  name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</emailType>
+					</emailTypes>
+					<urlTypes>
+						<urlType  name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</urlType>
+					</urlTypes>
+				</affiliation>
+			</affiliations>
+		</disclosureCodeSpec>
+		
+		<disclosureCodeSpec>
+			<code>2</code>
+			<description>Flags for home address, email, phone and URL always set to "do not display" for FACULTY role, 
+				others as specified by user</description>
+			<affiliations>
+				<affiliation name="FACULTY">
+					<addressTypes>
+						<addressType name="HOME">
+							<properties>
+								<property name="DEFAULT" value="N" />
+							</properties>
+						</addressType>							
+						<addressType name="OFFICE">
+							<properties>
+								<property name="REGION_IND" value="N" />
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</addressType>	
+						<addressType name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</addressType>		
+					</addressTypes>
+					<phoneTypes>
+						<phoneType name="HOME">
+							<properties>
+								<property name="DEFAULT" value="N" />
+							</properties>
+						</phoneType>
+						<!-- hide cell phone, leave other types as specified -->
+						<phoneType name="DEFAULT">
+							<properties>
+								<property name="CELL" value="N" />
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</phoneType>
+					</phoneTypes>
+					<emailTypes>
+						<emailType  name="HOME">
+							<properties>
+								<property name="DEFAULT" value="N" />
+							</properties>
+						</emailType>
+						<emailType  name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</emailType>
+					</emailTypes>
+					<urlTypes>
+						<urlType  name="HOME">
+							<properties>
+								<property name="DEFAULT" value="N" />
+							</properties>
+						</urlType>
+						<urlType  name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</urlType>
+					</urlTypes>
+				</affiliation>
+				<affiliation name="DEFAULT">
+					<addressTypes>
+						<addressType name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</addressType>		
+					</addressTypes>
+					<phoneTypes>
+						<phoneType name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</phoneType>
+					</phoneTypes>
+					<emailTypes>
+						<emailType  name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</emailType>
+					</emailTypes>
+					<urlTypes>
+						<urlType  name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="A" />
+							</properties>
+						</urlType>
+					</urlTypes>
+				</affiliation>
+			</affiliations>
+		</disclosureCodeSpec>
+				
+		<disclosureCodeSpec>
+			<code>5</code>
+			<description>Everything hidden for any affiliation</description>
+			<affiliations>
+				<affiliation name="DEFAULT">
+					<addressTypes>
+						<addressType name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="N" />
+							</properties>
+						</addressType>		
+					</addressTypes>
+					<phoneTypes>
+						<phoneType name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="N" />
+							</properties>
+						</phoneType>
+					</phoneTypes>
+					<emailTypes>
+						<emailType  name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="N" />
+							</properties>
+						</emailType>
+					</emailTypes>
+					<urlTypes>
+						<urlType  name="DEFAULT">
+							<properties>
+								<property name="DEFAULT" value="N" />
+							</properties>
+						</urlType>
+					</urlTypes>
+				</affiliation>
+			</affiliations>
+		</disclosureCodeSpec>
+		
+	</disclosureCodeSpecs>
+</specification>
