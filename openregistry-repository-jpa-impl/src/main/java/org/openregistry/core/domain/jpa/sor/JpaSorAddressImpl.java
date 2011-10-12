@@ -199,7 +199,9 @@ public class JpaSorAddressImpl extends Entity implements Address {
     }
 
     public void setRegion(final Region region) {
-        Assert.isInstanceOf(JpaRegionImpl.class, region);
+        if (region != null && !(region instanceof JpaRegionImpl)) {
+            throw new IllegalArgumentException("Region implementation must be of type JpaRegionImpl");
+        }
         this.region = (JpaRegionImpl) region;
     }
 
