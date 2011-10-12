@@ -1,0 +1,64 @@
+package org.openregistry.core.service.authorization;
+
+import org.openregistry.core.authorization.Authority;
+import org.openregistry.core.authorization.Group;
+import org.openregistry.core.authorization.User;
+import org.openregistry.core.repository.RepositoryAccessException;
+
+import java.util.List;
+import java.util.Set;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: nah67
+ * Date: 9/8/11
+ * Time: 11:24 AM
+ * To change this template use File | Settings | File Templates.
+ */
+public interface AuthorizationService {
+    User findUserById(Long id);
+    Group findGroupById(Long id);
+    Authority findAuthorityById(Long id);
+
+    List<User> findUserByName(String name);
+    List<Group> findGroupByName(String name);
+    List<Authority> findAuthorityByName(String name);
+
+    List<User> findAllUsers();
+    List<Group> findAllGroups();
+    List<Authority> findAllAuthorities();
+
+    public User saveUser(final User user);
+    public void deleteUser(final User user);
+    public void deleteUser(final Long id);
+
+    public void deleteGroupOfUser(final User user, final Group group);
+    public void updateGroupOfUser(final User user, final Group group);
+
+    public void addGroupToUser(final User user, final Group group);
+    public void addGroupsToUser(final User user, final String[] groupIDs);
+
+    public Group saveGroup(final Group group);
+    public void deleteGroup(final Group group);
+    public void deleteGroup(final Long id);
+
+    public void deleteAuthorityOfGroup(final Group group, final Authority authority);
+    //public void updateAuthorityOfGroup(final Group group, final Authority authority);
+
+    public Group addAuthorityToGroup(final Group group,final Authority authority);
+
+    public Authority saveAuthority(final Authority authority);
+    public void deleteAuthority(final Authority authority);
+    public void deleteAuthority(final Long id);
+
+    //find authorities belonging to a group
+    public Set<Authority> findAuthoritiesOfGroup(Long id);
+    public Set<Authority> findAuthoritiesOfGroup(Group group);
+
+    //find Groups belonging to a user
+    public Set<Group> findGroupOfUser(Long id);
+    public Set<Group> findGroupOfUser(User user);
+    public void addAuthoritiesToGroup(Group group, String[] authorityIDs);
+
+
+}
