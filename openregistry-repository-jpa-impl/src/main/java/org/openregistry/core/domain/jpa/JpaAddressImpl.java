@@ -213,7 +213,10 @@ public class JpaAddressImpl extends Entity implements Address {
     public String getSingleLineAddress(){
         final StringBuilder builder = new StringBuilder();
 
-        builder.append(getLine1());
+        if (StringUtils.hasText(this.line1) && !this.line1.equalsIgnoreCase("none")) {
+            builder.append(getLine1());
+        }
+
         if (StringUtils.hasText(this.line2)) {
             builder.append(", ");
             builder.append(getLine2());
@@ -222,7 +225,7 @@ public class JpaAddressImpl extends Entity implements Address {
             builder.append(", ");
             builder.append(getLine3());
         }
-        if (StringUtils.hasText(this.city)) {
+        if (StringUtils.hasText(this.city) && !this.city.equalsIgnoreCase("none")) {
             builder.append(", ");
             builder.append(getCity());
         }
@@ -230,7 +233,7 @@ public class JpaAddressImpl extends Entity implements Address {
             builder.append(", ");
             builder.append(getRegion().getCode());
         }
-        if (StringUtils.hasText(this.postalCode)) {
+        if (StringUtils.hasText(this.postalCode) && !this.postalCode.equalsIgnoreCase("none")) {
             builder.append(" ");
             builder.append(getPostalCode());
         }
@@ -239,6 +242,7 @@ public class JpaAddressImpl extends Entity implements Address {
             builder.append(getCountry().getName());
         }
 
-        return builder.toString();
+        if (builder.charAt(0) == ',') return builder.toString().substring(2);
+        else return builder.toString();
     }
 }
