@@ -20,17 +20,23 @@
 package org.openregistry.core.service;
 
 import static org.junit.Assert.*;
+
+import org.jasig.openregistry.test.domain.MockSorPerson;
+import org.jasig.openregistry.test.domain.MockSorRole;
 import org.junit.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.jpa.sor.*;
 import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.repository.*;
 import org.openregistry.core.service.reconciliation.*;
+import org.springframework.context.MessageSource;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.*;
 
 import javax.inject.*;
 import javax.persistence.*;
+import javax.validation.ConstraintViolation;
+
 import java.text.*;
 import java.util.*;
 
@@ -631,6 +637,39 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
         //final Role role = person.getRoles().get(0);
         //final Address address1 = role.getAddresses().get(0);
         //assertEquals("Any City", address1.getCity());
+     }
+
+
+     // Test update SoR role with validation errors
+     @Test 
+     @Rollback
+     public void testUpdateSoRRoleInvalidAddress () {
+    	 MessageSource ms = (MessageSource)applicationContext.getBean("messageSource");
+         final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
+         SorPerson sorPerson = criteria.getSorPerson();
+
+         SorRole sorRole = sorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.FACULTY));
+         sorRole.setSorId("1");
+         sorRole.setSystemOfRecord(this.referenceRepository.findSystemOfRecord("test"));
+         sorRole.setPercentage(100);
+         sorRole.setStart(new Date());
+         sorRole.setPersonStatus(this.referenceRepository.getTypeById(1L));
+         sorRole.setSponsorId(1L);
+         sorRole.setSponsorType(this.referenceRepository.getTypeById(1L));
+         sorRole.setTitle("Professor for testing");
+         sorPerson.addRole(sorRole);
+     	
+         Address newAddress = sorRole.createAddress();
+         newAddress.setType(referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.OFFICE));
+         newAddress.setCity("");
+         newAddress.setPostalCode("12");
+         sorRole.addAddress(newAddress);
+         
+         final ServiceExecutionResult<SorRole> serviceExecutionResult = this.personService.validateAndSaveRoleForSorPerson(sorPerson, sorRole);
+         
+         // check the result of adding an address
+         assertFalse("Execution result when adding an invalid address must be unsuccessful", serviceExecutionResult.succeeded());
+         assertFalse("Execution result when adding an invalid address must have a non-empty error set",serviceExecutionResult.getValidationErrors().isEmpty());
      }
 
     @Test
