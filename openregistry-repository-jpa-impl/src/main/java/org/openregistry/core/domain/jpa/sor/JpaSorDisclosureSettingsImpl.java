@@ -51,7 +51,7 @@ import java.io.Serializable;
  */
 
 @Entity(name = "sorDisclosure")
-@Table(name = "prs_disclosure", uniqueConstraints = @UniqueConstraint(columnNames = {"sor_person_id","disclosure_code"}))
+@Table(name = "prs_disclosure", uniqueConstraints = @UniqueConstraint(columnNames = {"sor_person_id"}))
 @Audited
 public class JpaSorDisclosureSettingsImpl implements SorDisclosureSettings, Serializable  {
 
