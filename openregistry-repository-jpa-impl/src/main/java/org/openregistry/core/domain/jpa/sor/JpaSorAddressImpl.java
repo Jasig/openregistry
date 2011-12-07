@@ -70,10 +70,10 @@ public class JpaSorAddressImpl extends Entity implements Address {
     private JpaTypeImpl type;
 
     @Column(name="line1", nullable = true,length=100)
-    @NotNull
+    @NotNull(message = "{addressLine1RequiredMSG}")
     @Capitalize(property="address.line1")
     @StreetName
-    @Size(min=1,message = "{addressLine1RequiedMSG}")
+    @Size(min=1,message = "{addressLine1RequiredMSG}")
     private String line1;
 
     @Column(name="line2", nullable = true,length=100)
@@ -96,17 +96,17 @@ public class JpaSorAddressImpl extends Entity implements Address {
 
     @ManyToOne
     @JoinColumn(name="country_id")
-    @NotNull
+    @NotNull(message = "{countryRequiredMSG}")
     private JpaCountryImpl country;
 
     @Column(name="city",length=100,nullable = false)
     @NotNull
     @Capitalize(property = "address.city")
-    @Size(min=1,message = "{cityRequiedMSG}")
+    @Size(min=1,message = "{cityRequiredMSG}")
     private String city;
 
     @Column(name="postal_code",length=9, nullable = true)
-     @Pattern(regexp= "\\d{5}(\\d{4})?" ,message = "{invalidZipMSG}")
+    @Pattern(regexp= "\\d{5}(\\d{4})?" ,message = "{invalidZipMSG}")
     private String postalCode;
 
     @Column(name="update_date", nullable = false)
