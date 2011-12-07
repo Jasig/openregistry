@@ -148,13 +148,7 @@ public interface SorPerson {
      * @return disclosure settings for this person
      */
     SorDisclosureSettings getDisclosureSettings();
-    
-     /**
-     * Sets disclosure settings for this person
-     * @param disclosureSettings
-     */
-    void setDisclosureSettings(SorDisclosureSettings disclosureSettings);
-    
+      
     /**
      * Sets the information required to instantiate the DisclosureSettings object
      * @param disclosureCode
