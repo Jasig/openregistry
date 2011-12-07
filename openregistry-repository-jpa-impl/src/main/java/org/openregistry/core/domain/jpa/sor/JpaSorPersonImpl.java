@@ -177,25 +177,17 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
 	}
 
 	/**
-	 * @see org.openregistry.core.domain.sor.SorPerson#setDisclosureSettings(org.openregistry.core.domain.DisclosureSettings)
-	 */
-	public void setDisclosureSettings(SorDisclosureSettings ds) {
-		if (ds instanceof JpaSorDisclosureSettingsImpl) {
-			this.disclosureSettings = new JpaSorDisclosureSettingsImpl
-				(this, ds.getDisclosureCode(), ds.getLastUpdateDate(), ds.isWithinGracePeriod());
-		} else {
-			throw new IllegalArgumentException("Disclosure settings parameter must be of type JpaDisclosureSettingsImpl");
-		}
-	}
-
-
-	/**
 	 * @see org.openregistry.core.domain.sor.SorPerson#setDisclosureSettingInfo(java.lang.String, boolean, java.util.Date)
 	 */
-	public void setDisclosureSettingInfo(String disclosureCode,
-			boolean isWithinGracePeriod, Date lastUpdatedDate) {
-		this.disclosureSettings = new JpaSorDisclosureSettingsImpl
-			(this, disclosureCode, lastUpdatedDate, isWithinGracePeriod);
+	public void setDisclosureSettingInfo(String disclosureCode,	boolean isWithinGracePeriod, Date lastUpdatedDate) {
+		if (this.disclosureSettings == null) {
+			this.disclosureSettings = new JpaSorDisclosureSettingsImpl
+				(this, disclosureCode, lastUpdatedDate, isWithinGracePeriod);			
+		} else {
+			this.disclosureSettings.setDisclosureCode(disclosureCode);
+			this.disclosureSettings.setLastUpdateDate(lastUpdatedDate);
+			this.disclosureSettings.setWithinGracePeriod(isWithinGracePeriod);
+		}
 	}
 	
     public SorName addName() {
