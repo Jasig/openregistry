@@ -31,6 +31,10 @@
             <class>org.openregistry.core.domain.jpa.JpaContactPhoneImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaCountryImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaDisclosureSettingsImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaDisclosureSettingsForAddressImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaDisclosureSettingsForEmailImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaDisclosureSettingsForPhoneImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaDisclosureSettingsForUrlImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaEmailAddressImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaIdentifierImpl</class>
             <class>org.openregistry.core.domain.jpa.JpaIdentifierTypeImpl</class>
