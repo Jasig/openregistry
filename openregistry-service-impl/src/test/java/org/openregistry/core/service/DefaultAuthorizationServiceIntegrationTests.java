@@ -165,22 +165,22 @@ public class DefaultAuthorizationServiceIntegrationTests {
 //       }
 //    }
 
-    @Test
-    public void testFindAllGroups() throws Exception {
-       //this.authorizationService
-        this.authorizationService.saveGroup(this.group);
-        this.authorizationService.saveGroup(this.group1);
-        this.authorizationService.saveGroup(this.group2);
-        this.authorizationService.saveGroup(this.group3);
-
-       List<Group> groups= this.authorizationService.findAllGroups();
-       for (Group group1: groups){
-           System.out.println("[Group] id:" + group1.getId());
-           System.out.println("[Group] name:" + group1.getGroupName());
-           System.out.println("[Group] description:" + group1.getDescription());
-           System.out.println("[Group] enabled: " + group1.isEnabled());
-       }
-    }
+//    @Test
+//    public void testFindAllGroups() throws Exception {
+//       //this.authorizationService
+//        this.authorizationService.saveGroup(this.group);
+//        this.authorizationService.saveGroup(this.group1);
+//        this.authorizationService.saveGroup(this.group2);
+//        this.authorizationService.saveGroup(this.group3);
+//
+//       List<Group> groups= this.authorizationService.findAllGroups();
+//       for (Group group1: groups){
+//           System.out.println("[Group] id:" + group1.getId());
+//           System.out.println("[Group] name:" + group1.getGroupName());
+//           System.out.println("[Group] description:" + group1.getDescription());
+//           System.out.println("[Group] enabled: " + group1.isEnabled());
+//       }
+//    }
 
 //    @Test
 //    public void testFindAllAuthorities() throws Exception {
