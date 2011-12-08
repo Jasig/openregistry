@@ -33,92 +33,92 @@ import java.util.Set;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:test-authorizationServices-context.xml"})
 public class DefaultAuthorizationServiceIntegrationTests {
-    @Inject
-    private AuthorizationService authorizationService;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    private User user;
-    private User user1;
-    private User user2;
-    private User user3;
-
-    private Group group;
-    private Group group1;
-    private Group group2;
-    private Group group3;
-
-    private Authority authority;
-    private Authority authority1;
-    private Authority authority2;
-    private Authority authority3;
-
-    @Before
-    public void dataBaseSetUp() throws Exception {
-        System.out.println("Before Test Starts: set User Value");
-
-        this.user = new JpaUserImpl();
-        this.user.setUserName("TEST");
-        this.user.setPassword("TEST");
-        this.user.setDescription("TEST USER");
-        this.user.setEnabled(true);
-
-        this.user1 = new JpaUserImpl();
-        this.user1.setUserName("TEST1");
-        this.user1.setPassword("TEST");
-        this.user1.setDescription("TEST USER1");
-        this.user1.setEnabled(true);
-
-        this.user2 = new JpaUserImpl();
-        this.user2.setUserName("TEST2");
-        this.user2.setPassword("TEST");
-        this.user2.setDescription("TEST USER2");
-        this.user2.setEnabled(true);
-
-        this.user3 = new JpaUserImpl();
-        this.user3.setUserName("TEST3");
-        this.user3.setPassword("TEST");
-        this.user3.setDescription("TEST USER3");
-        this.user3.setEnabled(true);
-
-        this.group = new JpaGroupImpl();
-        this.group.setGroupName("Test Group");
-        this.group.setDescription("Test Group");
-        this.group.setEnabled(true);
-
-        this.group1 = new JpaGroupImpl();
-        this.group1.setGroupName("Test Group1");
-        this.group1.setDescription("Test Group1");
-        this.group1.setEnabled(true);
-
-        this.group2 = new JpaGroupImpl();
-        this.group2.setGroupName("Test Group2");
-        this.group2.setDescription("Test Group2");
-        this.group2.setEnabled(true);
-
-        this.group3 = new JpaGroupImpl();
-        this.group3.setGroupName("Test Group3");
-        this.group3.setDescription("Test Group3");
-        this.group3.setEnabled(true);
-
-
-        this.authority = new JpaAuthorityImpl();
-        this.authority.setAuthorityName("TEST_AUTHORITY");
-        this.authority.setDescription("TEST_AUTH_DESCRIPTION");
-
-        this.authority1 = new JpaAuthorityImpl();
-        this.authority1.setAuthorityName("TEST_AUTHORITY1");
-        this.authority1.setDescription("TEST_AUTH_DESCRIPTION1");
-
-        this.authority2 = new JpaAuthorityImpl();
-        this.authority2.setAuthorityName("TEST_AUTHORITY2");
-        this.authority2.setDescription("TEST_AUTH_DESCRIPTION2");
-
-        this.authority3 = new JpaAuthorityImpl();
-        this.authority3.setAuthorityName("TEST_AUTHORITY3");
-        this.authority3.setDescription("TEST_AUTH_DESCRIPTION3");
-    }
+//    @Inject
+//    private AuthorizationService authorizationService;
+//
+//    @PersistenceContext
+//    private EntityManager entityManager;
+//
+//    private User user;
+//    private User user1;
+//    private User user2;
+//    private User user3;
+//
+//    private Group group;
+//    private Group group1;
+//    private Group group2;
+//    private Group group3;
+//
+//    private Authority authority;
+//    private Authority authority1;
+//    private Authority authority2;
+//    private Authority authority3;
+//
+//    @Before
+//    public void dataBaseSetUp() throws Exception {
+//        System.out.println("Before Test Starts: set User Value");
+//
+//        this.user = new JpaUserImpl();
+//        this.user.setUserName("TEST");
+//        this.user.setPassword("TEST");
+//        this.user.setDescription("TEST USER");
+//        this.user.setEnabled(true);
+//
+//        this.user1 = new JpaUserImpl();
+//        this.user1.setUserName("TEST1");
+//        this.user1.setPassword("TEST");
+//        this.user1.setDescription("TEST USER1");
+//        this.user1.setEnabled(true);
+//
+//        this.user2 = new JpaUserImpl();
+//        this.user2.setUserName("TEST2");
+//        this.user2.setPassword("TEST");
+//        this.user2.setDescription("TEST USER2");
+//        this.user2.setEnabled(true);
+//
+//        this.user3 = new JpaUserImpl();
+//        this.user3.setUserName("TEST3");
+//        this.user3.setPassword("TEST");
+//        this.user3.setDescription("TEST USER3");
+//        this.user3.setEnabled(true);
+//
+//        this.group = new JpaGroupImpl();
+//        this.group.setGroupName("Test Group");
+//        this.group.setDescription("Test Group");
+//        this.group.setEnabled(true);
+//
+//        this.group1 = new JpaGroupImpl();
+//        this.group1.setGroupName("Test Group1");
+//        this.group1.setDescription("Test Group1");
+//        this.group1.setEnabled(true);
+//
+//        this.group2 = new JpaGroupImpl();
+//        this.group2.setGroupName("Test Group2");
+//        this.group2.setDescription("Test Group2");
+//        this.group2.setEnabled(true);
+//
+//        this.group3 = new JpaGroupImpl();
+//        this.group3.setGroupName("Test Group3");
+//        this.group3.setDescription("Test Group3");
+//        this.group3.setEnabled(true);
+//
+//
+//        this.authority = new JpaAuthorityImpl();
+//        this.authority.setAuthorityName("TEST_AUTHORITY");
+//        this.authority.setDescription("TEST_AUTH_DESCRIPTION");
+//
+//        this.authority1 = new JpaAuthorityImpl();
+//        this.authority1.setAuthorityName("TEST_AUTHORITY1");
+//        this.authority1.setDescription("TEST_AUTH_DESCRIPTION1");
+//
+//        this.authority2 = new JpaAuthorityImpl();
+//        this.authority2.setAuthorityName("TEST_AUTHORITY2");
+//        this.authority2.setDescription("TEST_AUTH_DESCRIPTION2");
+//
+//        this.authority3 = new JpaAuthorityImpl();
+//        this.authority3.setAuthorityName("TEST_AUTHORITY3");
+//        this.authority3.setDescription("TEST_AUTH_DESCRIPTION3");
+//    }
 
 //    @Test
 //    public void testSaveUser() throws Exception {
