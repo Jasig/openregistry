@@ -120,203 +120,218 @@ public class DefaultAuthorizationServiceIntegrationTests {
         this.authority3.setDescription("TEST_AUTH_DESCRIPTION3");
     }
 
-    @Test
-    public void testSaveUser() throws Exception {
-       //this.authorizationService
-       User userTest=this.authorizationService.saveUser(this.user);
-       System.out.println("User Id:" + userTest.getId());
-    }
+//    @Test
+//    public void testSaveUser() throws Exception {
+//       //this.authorizationService
+//       User userTest=this.authorizationService.saveUser(this.user);
+//       System.out.println("User Id:" + userTest.getId());
+//    }
+//
+//    @Test
+//    public void testSaveGroup() throws Exception {
+//       //this.authorizationService
+//       Group groupTest =this.authorizationService.saveGroup(this.group);
+//       System.out.println("Group Id:" + groupTest.getId());
+//    }
+//
+//    @Test
+//    public void testSaveAuthority() throws Exception {
+//       //this.authorizationService
+//       Authority testAuthority =this.authorizationService.saveAuthority(this.authority);
+//       System.out.println("Authority Id:" + testAuthority.getId());
+//    }
+//
+//
+//    @Test
+//    public void testFindAllUsers() throws Exception {
+//       //this.authorizationService
+//
+//
+//        //User blah =
+//        this.authorizationService.saveUser(this.user);
+//        this.authorizationService.saveUser(this.user1);
+//        this.authorizationService.saveUser(this.user2);
+//        this.authorizationService.saveUser(this.user3);
+//
+//       //this.authorizationService.
+//       //System.out.println("User Id:" + blah.getId());
+//       List<User> users = this.authorizationService.findAllUsers();
+//       for (User user1: users){
+//           System.out.println("[USER] id: " + user1.getId());
+//           System.out.println("[USER] name: " + user1.getUserName());
+//           System.out.println("[USER] password: " + user1.getPassword());
+//           System.out.println("[USER] description: " + user1.getDescription());
+//           System.out.println("[USER] enabled: " + user1.isEnabled());
+//       }
+//    }
+//
+//    @Test
+//    public void testFindAllGroups() throws Exception {
+//       //this.authorizationService
+//        this.authorizationService.saveGroup(this.group);
+//        this.authorizationService.saveGroup(this.group1);
+//        this.authorizationService.saveGroup(this.group2);
+//        this.authorizationService.saveGroup(this.group3);
+//
+//       List<Group> groups= this.authorizationService.findAllGroups();
+//       for (Group group1: groups){
+//           System.out.println("[Group] id:" + group1.getId());
+//           System.out.println("[Group] name:" + group1.getGroupName());
+//           System.out.println("[Group] description:" + group1.getDescription());
+//           System.out.println("[Group] enabled: " + group1.isEnabled());
+//       }
+//    }
+//
+//    @Test
+//    public void testFindAllAuthorities() throws Exception {
+//       //this.authorizationService
+//        this.authorizationService.saveAuthority(this.authority);
+//        this.authorizationService.saveAuthority(this.authority1);
+//        this.authorizationService.saveAuthority(this.authority2);
+//        this.authorizationService.saveAuthority(this.authority3);
+//
+//       List<Authority> authorities= this.authorizationService.findAllAuthorities();
+//       for (Authority authority1: authorities){
+//           System.out.println("[Authority] id:" + authority1.getId());
+//           System.out.println("[Authority] name:" + authority1.getAuthorityName());
+//           System.out.println("[Authority] description:" + authority1.getDescription());
+//       }
+//    }
+//
+//    @Test
+//    public void testSearchUserByName() throws Exception{
+//        System.out.println("####################################TEST USER######################################");
+//        this.authorizationService.saveUser(this.user);
+//        this.authorizationService.saveUser(this.user1);
+//        this.authorizationService.saveUser(this.user2);
+//        this.authorizationService.saveUser(this.user3);
+//
+//       //this.authorizationService.
+//       //System.out.println("User Id:" + blah.getId());
+//       List<User> users = this.authorizationService.findUserByName("TEST");
+//       for (User user1: users){
+//           System.out.println("[USER] id: " + user1.getId());
+//           System.out.println("[USER] name: " + user1.getUserName());
+//           System.out.println("[USER] password: " + user1.getPassword());
+//           System.out.println("[USER] description: " + user1.getDescription());
+//           System.out.println("[USER] enabled: " + user1.isEnabled());
+//       }
+//    }
+//
+//    @Test
+//    public void testSearchGroupByName() throws Exception{
+//        System.out.println("####################################TEST GROUP######################################");
+//        this.authorizationService.saveGroup(this.group);
+//        this.authorizationService.saveGroup(this.group1);
+//        this.authorizationService.saveGroup(this.group2);
+//        this.authorizationService.saveGroup(this.group3);
+//
+//       List<Group> groups= this.authorizationService.findGroupByName("Test Group");
+//       for (Group group1: groups){
+//           System.out.println("[Group] id:" + group1.getId());
+//           System.out.println("[Group] name:" + group1.getGroupName());
+//           System.out.println("[Group] description:" + group1.getDescription());
+//           System.out.println("[Group] enabled: " + group1.isEnabled());
+//       }
+//    }
+//
+//    @Test
+//    public void testSearchAuthorityByName() throws Exception{
+//        System.out.println("####################################TEST AUTHORITY######################################");
+//        this.authorizationService.saveAuthority(this.authority);
+//        this.authorizationService.saveAuthority(this.authority1);
+//        this.authorizationService.saveAuthority(this.authority2);
+//        this.authorizationService.saveAuthority(this.authority3);
+//
+//       List<Authority> authorities= this.authorizationService.findAuthorityByName("TEST_AUTHORITY");
+//       for (Authority authority1: authorities){
+//           System.out.println("[Authority] id:" + authority1.getId());
+//           System.out.println("[Authority] name:" + authority1.getAuthorityName());
+//           System.out.println("[Authority] description:" + authority1.getDescription());
+//       }
+//
+//    }
 
-    @Test
-    public void testSaveGroup() throws Exception {
-       //this.authorizationService
-       Group groupTest =this.authorizationService.saveGroup(this.group);
-       System.out.println("Group Id:" + groupTest.getId());
-    }
-
-    @Test
-    public void testSaveAuthority() throws Exception {
-       //this.authorizationService
-       Authority testAuthority =this.authorizationService.saveAuthority(this.authority);
-       System.out.println("Authority Id:" + testAuthority.getId());
-    }
-
-
-    @Test
-    public void testFindAllUsers() throws Exception {
-       //this.authorizationService
-
-
-        //User blah =
-        this.authorizationService.saveUser(this.user);
-        this.authorizationService.saveUser(this.user1);
-        this.authorizationService.saveUser(this.user2);
-        this.authorizationService.saveUser(this.user3);
-
-       //this.authorizationService.
-       //System.out.println("User Id:" + blah.getId());
-       List<User> users = this.authorizationService.findAllUsers();
-       for (User user1: users){
-           System.out.println("[USER] id: " + user1.getId());
-           System.out.println("[USER] name: " + user1.getUserName());
-           System.out.println("[USER] password: " + user1.getPassword());
-           System.out.println("[USER] description: " + user1.getDescription());
-           System.out.println("[USER] enabled: " + user1.isEnabled());
-       }
-    }
-
-    @Test
-    public void testFindAllGroups() throws Exception {
-       //this.authorizationService
-        this.authorizationService.saveGroup(this.group);
-        this.authorizationService.saveGroup(this.group1);
-        this.authorizationService.saveGroup(this.group2);
-        this.authorizationService.saveGroup(this.group3);
-
-       List<Group> groups= this.authorizationService.findAllGroups();
-       for (Group group1: groups){
-           System.out.println("[Group] id:" + group1.getId());
-           System.out.println("[Group] name:" + group1.getGroupName());
-           System.out.println("[Group] description:" + group1.getDescription());
-           System.out.println("[Group] enabled: " + group1.isEnabled());
-       }
-    }
-
-    @Test
-    public void testFindAllAuthorities() throws Exception {
-       //this.authorizationService
-        this.authorizationService.saveAuthority(this.authority);
-        this.authorizationService.saveAuthority(this.authority1);
-        this.authorizationService.saveAuthority(this.authority2);
-        this.authorizationService.saveAuthority(this.authority3);
-
-       List<Authority> authorities= this.authorizationService.findAllAuthorities();
-       for (Authority authority1: authorities){
-           System.out.println("[Authority] id:" + authority1.getId());
-           System.out.println("[Authority] name:" + authority1.getAuthorityName());
-           System.out.println("[Authority] description:" + authority1.getDescription());
-       }
-    }
-
-    @Test
-    public void testSearchUserByName() throws Exception{
-        System.out.println("####################################TEST USER######################################");
-        this.authorizationService.saveUser(this.user);
-        this.authorizationService.saveUser(this.user1);
-        this.authorizationService.saveUser(this.user2);
-        this.authorizationService.saveUser(this.user3);
-
-       //this.authorizationService.
-       //System.out.println("User Id:" + blah.getId());
-       List<User> users = this.authorizationService.findUserByName("TEST");
-       for (User user1: users){
-           System.out.println("[USER] id: " + user1.getId());
-           System.out.println("[USER] name: " + user1.getUserName());
-           System.out.println("[USER] password: " + user1.getPassword());
-           System.out.println("[USER] description: " + user1.getDescription());
-           System.out.println("[USER] enabled: " + user1.isEnabled());
-       }
-    }
-
-    @Test
-    public void testSearchGroupByName() throws Exception{
-        System.out.println("####################################TEST GROUP######################################");
-        this.authorizationService.saveGroup(this.group);
-        this.authorizationService.saveGroup(this.group1);
-        this.authorizationService.saveGroup(this.group2);
-        this.authorizationService.saveGroup(this.group3);
-
-       List<Group> groups= this.authorizationService.findGroupByName("Test Group");
-       for (Group group1: groups){
-           System.out.println("[Group] id:" + group1.getId());
-           System.out.println("[Group] name:" + group1.getGroupName());
-           System.out.println("[Group] description:" + group1.getDescription());
-           System.out.println("[Group] enabled: " + group1.isEnabled());
-       }
-    }
-
-    @Test
-    public void testSearchAuthorityByName() throws Exception{
-        System.out.println("####################################TEST AUTHORITY######################################");
-        this.authorizationService.saveAuthority(this.authority);
-        this.authorizationService.saveAuthority(this.authority1);
-        this.authorizationService.saveAuthority(this.authority2);
-        this.authorizationService.saveAuthority(this.authority3);
-
-       List<Authority> authorities= this.authorizationService.findAuthorityByName("TEST_AUTHORITY");
-       for (Authority authority1: authorities){
-           System.out.println("[Authority] id:" + authority1.getId());
-           System.out.println("[Authority] name:" + authority1.getAuthorityName());
-           System.out.println("[Authority] description:" + authority1.getDescription());
-       }
-
-    }
-
-
-     @Test
-    public void testUserGroupAuthorityRelationship() throws Exception {
-
-        Authority authToBeAssigned = this.authorizationService.saveAuthority(authority);
-         System.out.println("Authority id:" + authToBeAssigned.getId());
-        Group groupToBeAssigned = this.authorizationService.saveGroup(group);
-         System.out.println("Group id:" + groupToBeAssigned.getId());
-        User userToBeAssigned = this.authorizationService.saveUser(user);
-         System.out.println("User id:" + userToBeAssigned.getId());
-
-        this.authorizationService.addAuthorityToGroup(groupToBeAssigned,authToBeAssigned);
-        this.authorizationService.addGroupToUser(userToBeAssigned,groupToBeAssigned);
-
-
-
-
-
-       List<User> users= this.authorizationService.findUserByName("TEST");//findAllUsers();
-       for (User user11: users){
-           System.out.println("[USER] id: " + user11.getId());
-           System.out.println("[USER] name: " + user11.getUserName());
-           System.out.println("[USER] password: " + user11.getPassword());
-           System.out.println("[USER] description: " + user11.getDescription());
-           System.out.println("[USER] enabled: " + user11.isEnabled());
-
-           System.out.println("--------------------------------Check Groups of User--------------------------------");
-
-           //Set<Group> groups = user11.getUserGroups();
-           //Set<Group> groupsOfUser = this.authorizationService.findGroupOfUser(user11);
-           Set<Group> groupsOfUser = this.authorizationService.findGroupOfUser(new Long(1));
-
-           if(null != groupsOfUser){
-               for(Group group11 : groupsOfUser){
-                   System.out.println("[Group] id:" + group11.getId());
-                   System.out.println("[Group] name:" + group11.getGroupName());
-                   System.out.println("[Group] description:" + group11.getDescription());
-                   System.out.println("[Group] enabled: " + group11.isEnabled());
-
-                   System.out.println("-------------------------------- Check Authorities of Group --------------------------------");
-                   Set<Authority> authoritiesOfGroups = this.authorizationService.findAuthoritiesOfGroup(group11);
-                   if(null != authoritiesOfGroups && authoritiesOfGroups.size() >0){
-                       for(Authority authority11 : authoritiesOfGroups){
-                            System.out.println("[Authority] id:" + authority11.getId());
-                            System.out.println("[Authority] name:" + authority11.getAuthorityName());
-                            System.out.println("[Authority] description:" + authority11.getDescription());
-                       }
-                   }else{
-                           System.out.println("Empty Authority List");
-                   }
-               }
-           }
-
-       }
-                   System.out.println("-------------------------------- Check Authorities of Group with a different group id--------------------------------");
-                   Set<Authority> authoritiesOfGroups = this.authorizationService.findAuthoritiesOfGroup(new Long(1));
-                   if(null != authoritiesOfGroups && authoritiesOfGroups.size() >0){
-                       for(Authority authority11 : authoritiesOfGroups){
-                            System.out.println("[Authority] id:" + authority11.getId());
-                            System.out.println("[Authority] name:" + authority11.getAuthorityName());
-                            System.out.println("[Authority] description:" + authority11.getDescription());
-                       }
-                   }else{
-                           System.out.println("Empty Authority List");
-                   }
-    }
+//
+//     @Test
+//    public void testUserGroupAuthorityRelationship() throws Exception {
+//
+//        Authority authToBeAssigned = this.authorizationService.saveAuthority(authority);
+//         System.out.println("Authority id:" + authToBeAssigned.getId());
+//        Group groupToBeAssigned = this.authorizationService.saveGroup(group);
+//         System.out.println("Group id:" + groupToBeAssigned.getId());
+//        User userToBeAssigned = this.authorizationService.saveUser(user);
+//         System.out.println("User id:" + userToBeAssigned.getId());
+//
+//        this.authorizationService.addAuthorityToGroup(groupToBeAssigned,authToBeAssigned);
+//        this.authorizationService.addGroupToUser(userToBeAssigned,groupToBeAssigned);
+//
+//
+//
+//
+//
+//       List<User> users= this.authorizationService.findUserByName("TEST");//findAllUsers();
+//       for (User user11: users){
+//           System.out.println("[USER] id: " + user11.getId());
+//           System.out.println("[USER] name: " + user11.getUserName());
+//           System.out.println("[USER] password: " + user11.getPassword());
+//           System.out.println("[USER] description: " + user11.getDescription());
+//           System.out.println("[USER] enabled: " + user11.isEnabled());
+//
+//           System.out.println("--------------------------------Check Groups of User--------------------------------");
+//
+//           //Set<Group> groups = user11.getUserGroups();
+//           //Set<Group> groupsOfUser = this.authorizationService.findGroupOfUser(user11);
+//           Set<Group> groupsOfUser = this.authorizationService.findGroupOfUser(new Long(1));
+//
+//           if(null != groupsOfUser){
+//               for(Group group11 : groupsOfUser){
+//                   System.out.println("[Group] id:" + group11.getId());
+//                   System.out.println("[Group] name:" + group11.getGroupName());
+//                   System.out.println("[Group] description:" + group11.getDescription());
+//                   System.out.println("[Group] enabled: " + group11.isEnabled());
+//
+//                   System.out.println("-------------------------------- Check Authorities of Group --------------------------------");
+//                   Set<Authority> authoritiesOfGroups = this.authorizationService.findAuthoritiesOfGroup(group11);
+//                   if(null != authoritiesOfGroups && authoritiesOfGroups.size() >0){
+//                       for(Authority authority11 : authoritiesOfGroups){
+//                            System.out.println("[Authority] id:" + authority11.getId());
+//                            System.out.println("[Authority] name:" + authority11.getAuthorityName());
+//                            System.out.println("[Authority] description:" + authority11.getDescription());
+//                       }
+//                   }else{
+//                           System.out.println("Empty Authority List");
+//                   }
+//               }
+//           }
+//
+//       }
+//                   System.out.println("-------------------------------- Check Authorities of Group with a different group id--------------------------------");
+//                   Set<Authority> authoritiesOfGroups = this.authorizationService.findAuthoritiesOfGroup(new Long(1));
+//                   if(null != authoritiesOfGroups && authoritiesOfGroups.size() >0){
+//                       for(Authority authority11 : authoritiesOfGroups){
+//                            System.out.println("[Authority] id:" + authority11.getId());
+//                            System.out.println("[Authority] name:" + authority11.getAuthorityName());
+//                            System.out.println("[Authority] description:" + authority11.getDescription());
+//                       }
+//                   }else{
+//                           System.out.println("Empty Authority List");
+//                   }
+//         System.out.println("$$$$$$$$$$$$$$$$$$$ Test Deletion $$$$$$$$$$$$$$$$");
+//         //delete a user
+//         this.authorizationService.deleteUser(user);
+//
+//         List<User> lstUser = this.authorizationService.findAllUsers();
+//         for(User userAfterDeletion : lstUser){
+//             System.out.println("User ID After Deletion:" + userAfterDeletion.getId());
+//         }
+//
+//         List<Group> setGroups = this.authorizationService.findAllGroups();
+//         for(Group groupAfterDeletion : setGroups){
+//            System.out.println("Group ID after deleting user: " + groupAfterDeletion.getId());
+//         }
+//
+//
+//    }
 
 }
