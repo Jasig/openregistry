@@ -53,7 +53,35 @@ public class JpaGroupsRepository implements GroupsRepository{
 
     @Override
     public void deleteGroup(Group group) throws RepositoryAccessException {
+        Set<Authority> setAuthorities = group.getGroupAuthorities();
+        for(Authority authority : setAuthorities){
+            authority.removeGroup(group);
+            this.entityManager.merge(authority);
+        }
+
+        Set<User> setUsers = group.getUsers();
+        for(User user : setUsers){
+
+            Set<Group> setTempGroups = user.getUserGroups();
+            for(Group tempGroup : setTempGroups){
+                if(tempGroup.equals(group)){
+
+                    System.out.println("Yeehaaa!!!!" +  "----"+group.hashCode()  + "----" + tempGroup.hashCode());
+                }
+            }
+
+            user.removeGroup(group);
+            this.entityManager.merge(user);
+        }
+        //now remove authorities of the group
+        group.removeAllAuthorities();
+        //now remove all user from the Group
+        group.removeAllUsers();
+        this.entityManager.merge(group);
+        this.entityManager.flush();
+
         this.entityManager.remove(group);
+        this.entityManager.flush();
     }
 
     @Override
@@ -106,7 +134,7 @@ public class JpaGroupsRepository implements GroupsRepository{
     }
     @Override
     public void deleteAuthoritiesOfGroup(Group group) throws RepositoryAccessException {
-        group.removeAllGroups();
+        group.removeAllAuthorities();
         saveGroup(group);
         this.entityManager.flush();
     }

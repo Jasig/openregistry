@@ -61,10 +61,11 @@ public class JpaGroupImpl extends Entity implements Group{
     @Column(name="IS_ENABLED", nullable=false)
     private boolean enabled = false;
 
-    @ManyToMany(mappedBy = "groups",fetch=FetchType.EAGER,targetEntity = JpaUserImpl.class,cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "groups",fetch=FetchType.EAGER,targetEntity = JpaUserImpl.class)
     private Set<User> users = new HashSet<User>();
 
-    @ManyToMany(targetEntity = JpaAuthorityImpl.class,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    //@ManyToMany(targetEntity = JpaAuthorityImpl.class,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = JpaAuthorityImpl.class,fetch = FetchType.EAGER)
     @JoinTable(
       name="AUTH_GROUP_AUTHORITY",
       joinColumns={@JoinColumn(name="GROUP_ID", referencedColumnName="ID")},
@@ -83,10 +84,27 @@ public class JpaGroupImpl extends Entity implements Group{
 
     }
 
+    @Override
+    public void removeAuthority(Authority authority) {
+        this.authorities.remove(authority);
+    }
+
+    @Override
     public Set<User> getUsers() {
         return users;
     }
 
+    @Override
+    public User addUser(User user) {
+        this.users.add(user);
+        return user;
+    }
+
+    @Override
+    public void removeUser(User user) {
+        this.users.remove(user);
+
+    }
 
     @Override
     public String getGroupName() {
@@ -132,7 +150,8 @@ public class JpaGroupImpl extends Entity implements Group{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+//        if (o == null || getClass() != o.getClass()) return false;
+        if (o instanceof JpaGroupImpl == false) return false;
 
         JpaGroupImpl jpaGroup = (JpaGroupImpl) o;
         EqualsBuilder b= new EqualsBuilder();
@@ -181,7 +200,12 @@ public class JpaGroupImpl extends Entity implements Group{
     }
 
     @Override
-    public void removeAllGroups(){
+    public void removeAllAuthorities(){
         this.authorities.clear();
+    }
+
+    @Override
+    public void removeAllUsers() {
+        this.users.clear();
     }
 }

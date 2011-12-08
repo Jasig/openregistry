@@ -56,7 +56,9 @@ public class JpaUserImpl extends Entity implements User {
     private boolean enabled = false;
 
 
-    @ManyToMany(targetEntity = JpaGroupImpl.class,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    //@ManyToMany(targetEntity = JpaGroupImpl.class,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    //@ManyToMany(targetEntity = JpaGroupImpl.class,fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH})
+    @ManyToMany(targetEntity = JpaGroupImpl.class,fetch = FetchType.EAGER)
     @JoinTable(
       name="AUTH_USER_GROUP",
       joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
@@ -75,7 +77,14 @@ public class JpaUserImpl extends Entity implements User {
 
     @Override
     public void removeGroup(Group group) {
-        this.groups.remove(group);
+        for(Group aGroup : this.groups){
+            System.out.println("Set Group HashCode:  " + aGroup.hashCode() );
+        }
+            System.out.println("Passed Group HashCode:  " + group.hashCode() );
+
+        if(this.groups.contains(group)){
+            this.groups.remove(group);
+        }
     }
 
     @Override
@@ -137,7 +146,8 @@ public class JpaUserImpl extends Entity implements User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        //if (o == null || getClass() != o.getClass()) return false;
+        if (o instanceof JpaUserImpl == false) return false;
 
         JpaUserImpl jpaUser = (JpaUserImpl) o;
         EqualsBuilder b= new EqualsBuilder();

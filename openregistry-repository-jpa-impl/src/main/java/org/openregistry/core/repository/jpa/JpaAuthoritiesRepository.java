@@ -49,7 +49,17 @@ public class JpaAuthoritiesRepository implements AuthoritiesRepository{
 
     @Override
     public void deleteAuthority(Authority authority) throws RepositoryAccessException {
+        Set<Group> setGroups = authority.getGroups();
+        for(Group group : setGroups){
+            group.removeAuthority(authority);
+            this.entityManager.merge(group);
+        }
+        authority.removeAllGroups();
+        this.entityManager.merge(authority);
+        this.entityManager.flush();
+
         this.entityManager.remove(authority);
+        this.entityManager.flush();
     }
 
         /**

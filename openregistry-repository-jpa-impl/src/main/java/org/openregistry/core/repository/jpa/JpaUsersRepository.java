@@ -2,6 +2,7 @@ package org.openregistry.core.repository.jpa;
 
 import org.openregistry.core.authorization.Group;
 import org.openregistry.core.authorization.User;
+import org.openregistry.core.authorization.jpa.JpaGroupImpl;
 import org.openregistry.core.authorization.jpa.JpaUserImpl;
 import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.repository.UsersRepository;
@@ -51,7 +52,21 @@ public class JpaUsersRepository implements UsersRepository {
 
     @Override
     public void deleteUser(User user) throws RepositoryAccessException {
+        //Before deleting the user, unassign all the groups. This is because CASCADE will delete all records
+        Set<Group> setGroups = user.getUserGroups();
+        for(Group group : setGroups){
+            group.removeUser(user);
+            this.entityManager.merge(group);
+        }
+        user.removeAllGroups();
+        //save the user with the changes
+        this.entityManager.merge(user);
+        //commit to the DB
+        this.entityManager.flush();
+        //remove the user
         this.entityManager.remove(user);
+        //commit to the DB
+        this.entityManager.flush();
     }
 
     @Override

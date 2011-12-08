@@ -1,6 +1,7 @@
 package org.openregistry.core.service.authorization;
 
 import org.openregistry.core.authorization.Authority;
+import org.openregistry.core.authorization.AuthorizationException;
 import org.openregistry.core.authorization.Group;
 import org.openregistry.core.authorization.User;
 import org.openregistry.core.repository.*;
@@ -13,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -74,6 +77,16 @@ public class DefaultAuthorizationService implements AuthorizationService {
     public List<User> findAllUsers() {
         return usersRepository.findAllUsers();
     }
+    @Override
+    public List<User> findAllUsersSortedById(){
+        List<User> allUsers = findAllUsers();
+        Collections.sort(allUsers, new Comparator<User>() {
+            public int compare(User user1, User user2) {
+                return user1.getId().compareTo(user2.getId()); // Compare by Id
+            }
+        });
+        return allUsers;
+    }
 
     @Override
     public List<Group> findAllGroups() {
@@ -81,13 +94,52 @@ public class DefaultAuthorizationService implements AuthorizationService {
     }
 
     @Override
-    public List<Authority> findAllAuthorities() {
-        return authoritiesRepository.findAllAuthorities();
+    public List<Group> findAllGroupsSortedById(){
+        List<Group> allGroups = findAllGroups();
+        Collections.sort(allGroups, new Comparator<Group>() {
+            public int compare(Group group1, Group group2) {
+                return group1.getId().compareTo(group2.getId()); // Compare by Id
+            }
+        });
+        return allGroups;
     }
 
     @Override
-    public User saveUser(User user) {
-        return usersRepository.saveUser(user);
+    public List<Authority> findAllAuthorities() {
+        return authoritiesRepository.findAllAuthorities();
+    }
+    @Override
+    public List<Authority> findAllAuthoritiesSortedById(){
+        List<Authority> allAuthorities = findAllAuthorities();
+        Collections.sort(allAuthorities, new Comparator<Authority>() {
+            public int compare(Authority authority1, Authority authority2) {
+                return authority1.getId().compareTo(authority2.getId()); // Compare by Id
+            }
+        });
+        return allAuthorities;
+    }
+
+
+    @Override
+    public User saveUser(User user) throws AuthorizationException,Exception{
+        //return usersRepository.saveUser(user);
+
+        User savedUser = null;
+        if(null != user.getId() && user.getId().longValue() >=0){
+            //this means that the user being save is being edited, otherwise the ID would not be available
+            savedUser = usersRepository.saveUser(user);
+        }else{
+            //this is a user that is being saved the  first time
+            //here check whether a user with the same name already exists?
+            //if it does, there should be an exception
+            List<User> listUserAvailable = usersRepository.findByUserName(user.getUserName());
+            if(null!= listUserAvailable && listUserAvailable.size() > 0){
+                throw new AuthorizationException("User name already exists: " + user.getUserName());
+            }else{
+                savedUser = usersRepository.saveUser(user);
+            }
+        }
+        return savedUser;
     }
 
     @Override
@@ -108,8 +160,24 @@ public class DefaultAuthorizationService implements AuthorizationService {
     }
 
     @Override
-    public Group saveGroup(Group group) {
-        return groupsRepository.saveGroup(group);
+    public Group saveGroup(Group group) throws AuthorizationException,Exception {
+        //return groupsRepository.saveGroup(group);
+        Group savedGroup = null;
+        if(null != group.getId() && group.getId().longValue() >=0){
+            //this means that the group being save is being edited, otherwise the ID would not be available
+            savedGroup = groupsRepository.saveGroup(group);
+        }else{
+            //this is a group that is being saved the first time
+            //here check whether a group with the same name already exists?
+            //if it does, there should be an exception
+            List<Group> listGroupAvailable = groupsRepository.findByGroupName(group.getGroupName());
+            if(null!= listGroupAvailable && listGroupAvailable.size() > 0){
+                throw new AuthorizationException("Group name already exists: " + group.getGroupName());
+            }else{
+                savedGroup = groupsRepository.saveGroup(group);
+            }
+        }
+        return savedGroup;
     }
 
     @Override
@@ -130,8 +198,25 @@ public class DefaultAuthorizationService implements AuthorizationService {
 //    }
 
     @Override
-    public Authority saveAuthority(Authority authority) {
-        return authoritiesRepository.saveAuthority(authority);
+    public Authority saveAuthority(Authority authority) throws AuthorizationException,Exception{
+        //return authoritiesRepository.saveAuthority(authority);
+        Authority savedAuthority = null;
+        if(null != authority.getId() && authority.getId().longValue() >=0){
+            //this means that the group being save is being edited, otherwise the ID would not be available
+            savedAuthority= authoritiesRepository.saveAuthority(authority);
+        }else{
+            //this is an authority that is being saved the first time
+            //here check whether a group with the same name already exists?
+            //if it does, there should be an exception
+            List<Authority> listAuthorityAvailable = authoritiesRepository.findByAuthorityName(authority.getAuthorityName());
+            if(null!= listAuthorityAvailable && listAuthorityAvailable.size() > 0){
+                throw new AuthorizationException("Authority name already exists: " + authority.getAuthorityName());
+            }else{
+                savedAuthority = authoritiesRepository.saveAuthority(authority);
+            }
+        }
+        return savedAuthority;
+
     }
 
     @Override
@@ -207,7 +292,9 @@ public class DefaultAuthorizationService implements AuthorizationService {
     @Override
     public void deleteUser(Long id) {
         User userToBeDeleted = usersRepository.findByInternalId(id);
-        usersRepository.deleteUser(userToBeDeleted);
+        if(null!=userToBeDeleted){
+            usersRepository.deleteUser(userToBeDeleted);
+        }
     }
 
     @Override

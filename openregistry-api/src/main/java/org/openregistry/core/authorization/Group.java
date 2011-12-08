@@ -21,8 +21,15 @@ public interface Group extends Serializable{
     void setEnabled(boolean value);
 
     Authority addAuthority(Authority authority);
+    void removeAuthority(Authority authority);
+    public Set<User> getUsers();
+
+    User addUser(User user);
+    void removeUser(User user);
+
 
     Set<Authority> getGroupAuthorities();
 
-    public void removeAllGroups();
+    public void removeAllAuthorities();
+    public void removeAllUsers();
 }

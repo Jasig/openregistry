@@ -50,11 +50,28 @@ public class JpaAuthorityImpl extends Entity implements Authority{
     @Column(name="DESCRIPTION",nullable=true)
     private String description;
 
-    @ManyToMany(mappedBy = "authorities",targetEntity = JpaGroupImpl.class,fetch=FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "authorities",targetEntity = JpaGroupImpl.class,fetch=FetchType.EAGER)
     private Set<Group> groups = new HashSet<Group>();
 
+    @Override
     public Set<Group> getGroups(){
         return this.groups;
+    }
+
+    @Override
+    public Group addGroup(Group group) {
+        this.groups.add(group);
+        return  group;
+    }
+
+    @Override
+    public void removeGroup(Group group) {
+        this.groups.remove(group);
+    }
+
+    @Override
+    public void removeAllGroups() {
+        this.groups.clear();
     }
 
     @Override
@@ -92,7 +109,8 @@ public class JpaAuthorityImpl extends Entity implements Authority{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        //if (o == null || getClass() != o.getClass()) return false;
+        if (o instanceof JpaAuthorityImpl == false) return false;
 
         JpaAuthorityImpl jpaAuthority = (JpaAuthorityImpl) o;
         EqualsBuilder b= new EqualsBuilder();
@@ -124,4 +142,6 @@ public class JpaAuthorityImpl extends Entity implements Authority{
          .append(this.authorityName)
                  .append(this.description).toHashCode();
     }
+
+
 }
