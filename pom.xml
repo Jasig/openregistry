@@ -319,7 +319,7 @@
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.0-api</artifactId>
-            <version>1.0.0-CR-1</version>
+            <version>1.0.1.Final</version>
         </dependency>
 
 
@@ -616,7 +616,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <ognl.version>2.7.3</ognl.version>
         <tiles.version>2.1.4</tiles.version>
         <jsp.version>2.0</jsp.version>
-        <hibernate.version>3.5.5-Final</hibernate.version>
+        <hibernate.version>3.6.8.Final</hibernate.version>
         <javassist.version>3.8.0.GA</javassist.version>
         <hsqldb.version>1.8.0.10</hsqldb.version>
         <jersey.version>1.5</jersey.version>
