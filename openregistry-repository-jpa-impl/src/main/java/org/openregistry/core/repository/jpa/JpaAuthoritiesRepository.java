@@ -24,8 +24,7 @@ import java.util.Set;
  */
 @Repository(value = "authoritiesRepository")
 public class JpaAuthoritiesRepository implements AuthoritiesRepository{
-    @PersistenceContext
-            //(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext (unitName=  "OpenRegistryPersistence")
     private EntityManager entityManager;
     @Override
     public Authority findByInternalId(Long id) throws RepositoryAccessException {

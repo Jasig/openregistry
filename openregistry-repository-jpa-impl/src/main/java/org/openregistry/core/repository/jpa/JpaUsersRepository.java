@@ -25,8 +25,7 @@ import java.util.Set;
  */
 @Repository(value = "usersRepository")
 public class JpaUsersRepository implements UsersRepository {
-    @PersistenceContext
-            //(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext (unitName=  "OpenRegistryPersistence")
     private EntityManager entityManager;
 
     @Override

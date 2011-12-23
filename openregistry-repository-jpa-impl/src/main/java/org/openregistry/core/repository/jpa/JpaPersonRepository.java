@@ -44,7 +44,7 @@ import java.util.*;
 @Repository (value = "personRepository")
 public class JpaPersonRepository implements PersonRepository {
 
-    @PersistenceContext
+    @PersistenceContext (unitName=  "OpenRegistryPersistence")
     private EntityManager entityManager;
 
     public Person findByInternalId(final Long id) throws RepositoryAccessException {

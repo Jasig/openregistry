@@ -116,6 +116,10 @@
                     <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
                 </exclusion>
                 <exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>logkit</groupId>
                     <artifactId>logkit</artifactId>
                 </exclusion>

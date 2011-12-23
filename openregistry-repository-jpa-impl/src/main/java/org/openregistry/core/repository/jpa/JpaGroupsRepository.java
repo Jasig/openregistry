@@ -27,8 +27,7 @@ import java.util.Set;
 @Repository(value = "groupsRepository")
 public class JpaGroupsRepository implements GroupsRepository{
 
-    @PersistenceContext
-            //(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext (unitName=  "OpenRegistryPersistence")
     private EntityManager entityManager;
 
     @Override

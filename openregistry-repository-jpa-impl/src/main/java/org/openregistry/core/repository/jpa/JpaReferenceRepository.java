@@ -46,7 +46,7 @@ public final class JpaReferenceRepository implements ReferenceRepository {
 
     protected Logger log = LoggerFactory.getLogger(getClass());
 
-    @PersistenceContext
+    @PersistenceContext (unitName=  "OpenRegistryPersistence")
     private EntityManager entityManager;
 
 

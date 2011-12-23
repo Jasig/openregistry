@@ -33,7 +33,7 @@ import org.springframework.stereotype.Repository;
 @Repository (value = "disclosureRepository")
 public class JpaDisclosureRepository implements DisclosureRepository {
 
-    @PersistenceContext
+    @PersistenceContext (unitName=  "OpenRegistryPersistence")
     private EntityManager entityManager;
 
 	/**
