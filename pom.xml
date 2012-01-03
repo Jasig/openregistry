@@ -596,7 +596,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <activemq.version>5.4.2</activemq.version>
         <jsr250.version>1.0</jsr250.version>
         <aspectj.version>1.6.10</aspectj.version>
-        <camel.version>2.5.0</camel.version>
+        <camel.version>2.9.0</camel.version>
         <clover.version>2.6.3</clover.version>
         <spring.version>3.0.5.RELEASE</spring.version>
         <spring.security.version>3.0.5.RELEASE</spring.security.version>

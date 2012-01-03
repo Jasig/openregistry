@@ -1,6 +1,6 @@
 package org.openregistry.core.service;
 
-import com.sun.tools.corba.se.idl.constExpr.Equal;
+//import com.sun.tools.corba.se.idl.constExpr.Equal;
 import org.jasig.openregistry.test.domain.MockIdentifier;
 import org.jasig.openregistry.test.domain.MockIdentifierType;
 import org.jasig.openregistry.test.domain.MockPerson;
