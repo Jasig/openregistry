@@ -54,6 +54,8 @@ public interface Type extends Serializable {
 
     enum AffiliationTypes {FACULTY, STAFF, STUDENT, ADMIT_COMING, SUMMER_STUDENT, WINTER_STUDENT, STUDENT_WORKER, CE_STUDENT, GUEST, ALUM, RETIREE, FOUNDATION}
 
+    enum IdentifierTypes {SSN, RUID, RCPID, IID, NETID, EXTERNALID, EMPLID, RCN};
+
     /**
      * The internal identifier of the type.
      *

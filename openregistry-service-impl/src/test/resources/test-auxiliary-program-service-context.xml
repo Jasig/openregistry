@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+       <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+       <!--xsi:schemaLocation="http://www.springframework.org/schema/beans-->
+        <!--http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <context:component-scan base-package="org.openregistry.core.factory.jpa"/>
+
+    <!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"-->
+          <!--p:dataSource-ref="dataSource">-->
+        <!--<property name="jpaVendorAdapter">-->
+            <!--<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"-->
+                  <!--p:generateDdl="false"-->
+                  <!--p:showSql="true"/>-->
+        <!--</property>-->
+        <!--<property name="jpaPropertyMap">-->
+            <!--<map>-->
+                <!--<entry key="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>-->
+                <!--<entry key="hibernate.hbm2ddl.auto" value="update"/>-->
+                <!--<entry key="javax.persistence.validation.group.pre-insert" value="" />-->
+                <!--<entry key="javax.persistence.validation.group.pre-update" value="" />-->
+                <!--<entry key="javax.persistence.validation.group.pre-remove" value="" />-->
+                <!--<entry key="javax.persistence.validation.group.pre-persist" value="" />-->
+            <!--</map>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+
+    <!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"-->
+          <!--p:entityManagerFactory-ref="entityManagerFactory"/>-->
+
+    <!--<jdbc:embedded-database id="dataSource" type="HSQL" />-->
+
+    <bean id="programService" class="org.openregistry.core.service.DefaultAuxiliaryProgramService">
+        <constructor-arg index="0" ref="auxProgramRepository" />
+        <constructor-arg index="1" ref="auxIdentifierRepository" />
+        <!--<constructor-arg index="2" ref="referenceRepository" />-->
+    </bean>
+
+    <import resource="base-integration-tests.xml" />
+
+    <bean id="auxProgramRepository" class="org.openregistry.core.repository.jpa.JpaAuxiliaryProgramsRepository" />
+    <bean id="auxIdentifierRepository" class="org.openregistry.core.repository.jpa.JpaAuxiliaryIdentifiersRepository" />
+    <!--<bean id="referenceRepository" class="org.jasig.openregistry.test.repository.MockReferenceRepository"/>-->
+    <!--<bean id="referenceRepository" class="org.openregistry.core.repository.jpa.JpaReferenceRepository" />-->
+
+</beans>
