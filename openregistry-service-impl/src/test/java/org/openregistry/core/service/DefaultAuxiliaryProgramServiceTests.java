@@ -38,8 +38,8 @@ public class DefaultAuxiliaryProgramServiceTests extends AbstractIntegrationTest
     @Inject
     ReferenceRepository referenceRepository;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+//    @PersistenceContext
+//    private EntityManager entityManager;
 
 
     private AuxiliaryProgram auxiliaryProgram;

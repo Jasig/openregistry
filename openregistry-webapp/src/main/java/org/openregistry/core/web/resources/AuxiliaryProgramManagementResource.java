@@ -32,11 +32,16 @@ import java.util.Arrays;
 public class AuxiliaryProgramManagementResource {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Inject
+//    @Inject
     private AuxiliaryProgramService auxiliaryProgramService;
 
-    public void setAuxiliaryProgramManagementResource(AuxiliaryProgramService auxiliaryProgramService) {
-        this.auxiliaryProgramService = auxiliaryProgramService;
+//    public void setAuxiliaryProgramService(AuxiliaryProgramService auxiliaryProgramService) {
+//        this.auxiliaryProgramService = auxiliaryProgramService;
+//    }
+
+    @Inject
+    public AuxiliaryProgramManagementResource(AuxiliaryProgramService auxiliaryProgramService){
+       this.auxiliaryProgramService = auxiliaryProgramService;
     }
 
     @POST

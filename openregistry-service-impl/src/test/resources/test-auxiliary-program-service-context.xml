@@ -50,15 +50,17 @@
     <!--<jdbc:embedded-database id="dataSource" type="HSQL" />-->
 
     <bean id="programService" class="org.openregistry.core.service.DefaultAuxiliaryProgramService">
-        <constructor-arg index="0" ref="auxProgramRepository" />
-        <constructor-arg index="1" ref="auxIdentifierRepository" />
+        <constructor-arg index="0" ref="auxiliaryProgramRepository" />
+        <constructor-arg index="1" ref="auxiliaryIdentifierRepository" />
+        <constructor-arg index="2" ref="personRepository" />
+        <constructor-arg index="3" ref="referenceRepository" />
         <!--<constructor-arg index="2" ref="referenceRepository" />-->
     </bean>
 
     <import resource="base-integration-tests.xml" />
 
-    <bean id="auxProgramRepository" class="org.openregistry.core.repository.jpa.JpaAuxiliaryProgramsRepository" />
-    <bean id="auxIdentifierRepository" class="org.openregistry.core.repository.jpa.JpaAuxiliaryIdentifiersRepository" />
+    <bean id="auxiliaryProgramRepository" class="org.openregistry.core.repository.jpa.JpaAuxiliaryProgramsRepository" />
+    <bean id="auxiliaryIdentifierRepository" class="org.openregistry.core.repository.jpa.JpaAuxiliaryIdentifiersRepository" />
     <!--<bean id="referenceRepository" class="org.jasig.openregistry.test.repository.MockReferenceRepository"/>-->
     <!--<bean id="referenceRepository" class="org.openregistry.core.repository.jpa.JpaReferenceRepository" />-->
 

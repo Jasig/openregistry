@@ -70,4 +70,6 @@
 
     <bean class="org.jasig.openregistry.test.service.MockEmailService"/>
 
+    <bean class="org.jasig.openregistry.test.service.MockAuxiliaryProgramService"/>
+
 </beans>

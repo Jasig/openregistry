@@ -29,93 +29,93 @@ public class DefaultAuxiliaryProgramService implements AuxiliaryProgramService {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final AuxiliaryProgramsRepository auxProgramRepository;
-    private final AuxiliaryIdentifierRepository auxIdentifierRepository;
+    private final AuxiliaryProgramsRepository auxiliaryProgramRepository;
+    private final AuxiliaryIdentifierRepository auxiliaryIdentifierRepository;
     private final PersonRepository personRepository;
 
     private final ReferenceRepository referenceRepository;
 
     @Inject
-    public DefaultAuxiliaryProgramService(AuxiliaryProgramsRepository auxProgramRepository, AuxiliaryIdentifierRepository auxIdentifierRepository, PersonRepository personRepository, ReferenceRepository referenceRepository) {
-        this.auxProgramRepository = auxProgramRepository;
-        this.auxIdentifierRepository = auxIdentifierRepository;
+    public DefaultAuxiliaryProgramService(AuxiliaryProgramsRepository auxiliaryProgramRepository, AuxiliaryIdentifierRepository auxiliaryIdentifierRepository, PersonRepository personRepository, ReferenceRepository referenceRepository) {
+        this.auxiliaryProgramRepository = auxiliaryProgramRepository;
+        this.auxiliaryIdentifierRepository = auxiliaryIdentifierRepository;
         this.personRepository = personRepository;
         this.referenceRepository = referenceRepository;
     }
 
     @Override
     public AuxiliaryProgram findAuxiliaryProgramById(Long id) throws RepositoryAccessException {
-        return this.auxProgramRepository.findByInternalId(id);
+        return this.auxiliaryProgramRepository.findByInternalId(id);
     }
 
     @Override
     public List<AuxiliaryProgram> findByAuxiliaryProgramName(String name) throws RepositoryAccessException {
-        return this.auxProgramRepository.findByAuxiliaryProgramName(name);
+        return this.auxiliaryProgramRepository.findByAuxiliaryProgramName(name);
     }
 
     @Override
     public List<AuxiliaryProgram> findAllAuxiliaryPrograms() throws RepositoryAccessException {
-        return this.auxProgramRepository.findAllAuxiliaryPrograms();
+        return this.auxiliaryProgramRepository.findAllAuxiliaryPrograms();
     }
 
     @Override
     public AuxiliaryProgram saveAuxiliaryProgram(AuxiliaryProgram auxiliaryProgram) throws RepositoryAccessException {
-        return this.auxProgramRepository.saveAuxiliaryProgram(auxiliaryProgram);
+        return this.auxiliaryProgramRepository.saveAuxiliaryProgram(auxiliaryProgram);
     }
 
     @Override
     public void deleteAuxiliaryProgram(AuxiliaryProgram auxiliaryProgram) throws RepositoryAccessException {
-        this.auxProgramRepository.deleteAuxiliaryProgram(auxiliaryProgram);
+        this.auxiliaryProgramRepository.deleteAuxiliaryProgram(auxiliaryProgram);
     }
 
     @Override
     public void deleteIdentifierOfProgram(AuxiliaryProgram auxiliaryProgram, AuxiliaryIdentifier auxiliaryIdentifier) throws RepositoryAccessException {
-        this.auxProgramRepository.deleteIdentifierOfProgram(auxiliaryProgram,auxiliaryIdentifier);
+        this.auxiliaryProgramRepository.deleteIdentifierOfProgram(auxiliaryProgram,auxiliaryIdentifier);
     }
 
     @Override
     public void addIdentifierToProgram(AuxiliaryProgram auxiliaryProgram, AuxiliaryIdentifier auxiliaryIdentifier) throws RepositoryAccessException {
-        this.auxProgramRepository.addIdentifierToProgram(auxiliaryProgram,auxiliaryIdentifier);
+        this.auxiliaryProgramRepository.addIdentifierToProgram(auxiliaryProgram,auxiliaryIdentifier);
     }
 
     @Override
     public AuxiliaryIdentifier findAuxiliaryIdentifierById(Long id) throws RepositoryAccessException {
-        return this.auxIdentifierRepository.findByInternalId(id);
+        return this.auxiliaryIdentifierRepository.findByInternalId(id);
     }
 
     @Override
     public List<AuxiliaryIdentifier> findByAuxiliaryIdentifierValue(String value) throws RepositoryAccessException {
-        return this.auxIdentifierRepository.findByAuxiliaryIdentifierValue(value);
+        return this.auxiliaryIdentifierRepository.findByAuxiliaryIdentifierValue(value);
     }
 
     @Override
     public List<AuxiliaryIdentifier> findByAuxiliaryIdentifierValueAndType(String value, String type) throws RepositoryAccessException {
-        return this.auxIdentifierRepository.findByAuxiliaryIdentifierValue(value);
+        return this.auxiliaryIdentifierRepository.findByAuxiliaryIdentifierValue(value);
     }
 
     @Override
     public AuxiliaryProgram findProgramOfIdentifier(AuxiliaryIdentifier identifier) throws RepositoryAccessException {
-        return this.auxIdentifierRepository.findProgramOfIdentifier(identifier);
+        return this.auxiliaryIdentifierRepository.findProgramOfIdentifier(identifier);
     }
 
     @Override
     public AuxiliaryIdentifier saveAuxiliaryIdentifier(AuxiliaryIdentifier auxiliaryIdentifier) throws RepositoryAccessException {
-        return this.auxIdentifierRepository.saveAuxiliaryIdentifier(auxiliaryIdentifier);
+        return this.auxiliaryIdentifierRepository.saveAuxiliaryIdentifier(auxiliaryIdentifier);
     }
 
     @Override
     public void deleteAuxiliaryIdentifier(AuxiliaryIdentifier auxiliaryIdentifier) throws RepositoryAccessException {
-        this.auxIdentifierRepository.deleteAuxiliaryIdentifier(auxiliaryIdentifier);
+        this.auxiliaryIdentifierRepository.deleteAuxiliaryIdentifier(auxiliaryIdentifier);
     }
 
     @Override
     public void removeProgramOfIdentifier(AuxiliaryIdentifier auxiliaryIdentifier) throws RepositoryAccessException {
-        this.auxIdentifierRepository.removeProgramOfIdentifier(auxiliaryIdentifier);
+        this.auxiliaryIdentifierRepository.removeProgramOfIdentifier(auxiliaryIdentifier);
     }
 
     @Override
     public void assignProgramToIdentifier(AuxiliaryIdentifier auxiliaryIdentifier, AuxiliaryProgram auxiliaryProgram) throws RepositoryAccessException {
-        this.auxIdentifierRepository.assignProgramToIdentifier(auxiliaryIdentifier,auxiliaryProgram);
+        this.auxiliaryIdentifierRepository.assignProgramToIdentifier(auxiliaryIdentifier,auxiliaryProgram);
     }
 
     @Override
@@ -158,7 +158,7 @@ public class DefaultAuxiliaryProgramService implements AuxiliaryProgramService {
     public boolean netIdExistsForProgram(String netId){
         boolean flag= false;
         try{
-            List<AuxiliaryIdentifier> auxIdentifierLst = auxIdentifierRepository.findByAuxiliaryIdentifierValue(netId);
+            List<AuxiliaryIdentifier> auxIdentifierLst = auxiliaryIdentifierRepository.findByAuxiliaryIdentifierValue(netId);
             if(null!= auxIdentifierLst && auxIdentifierLst.size() > 0){
                 flag=true;
             }
@@ -180,7 +180,7 @@ public class DefaultAuxiliaryProgramService implements AuxiliaryProgramService {
     public AuxiliaryProgram findAuxiliaryProgramAssociatedWithRCPID(String rcpID) throws AuxiliaryProgramException{
         AuxiliaryProgram ap = null;
         try{
-            List<AuxiliaryIdentifier> listAuxIdentifier = auxIdentifierRepository.findByAuxiliaryIdentifierValue(rcpID);
+            List<AuxiliaryIdentifier> listAuxIdentifier = auxiliaryIdentifierRepository.findByAuxiliaryIdentifierValue(rcpID);
             for(AuxiliaryIdentifier auxIdent: listAuxIdentifier){
                 if(auxIdent.getType().getName().equalsIgnoreCase(Type.IdentifierTypes.RCPID.toString())){
                    ap =  auxIdent.getProgram();
@@ -208,7 +208,7 @@ public class DefaultAuxiliaryProgramService implements AuxiliaryProgramService {
                 ai = createNewAuxiliaryIdentifierWithNetId(netID);
                 ai.setProgram(ap);
                 addIdentifierToProgram(ap, ai);
-                this.auxProgramRepository.saveAuxiliaryProgram(ap);
+                this.auxiliaryProgramRepository.saveAuxiliaryProgram(ap);
             }catch(RepositoryAccessException rae){
                 throw new AuxiliaryProgramException("Error in assigning NETID to the AuxiliaryProgram");
             }catch(Exception e){
