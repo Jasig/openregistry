@@ -19,7 +19,7 @@ public interface AuxiliaryIdentifierRepository {
     List<AuxiliaryIdentifier> findByAuxiliaryIdentifierValue(String value) throws RepositoryAccessException;
 
     //List<AuxiliaryIdentifier> findByAuxiliaryIdentifierValueAndType(String value, String type) throws RepositoryAccessException;
-    public AuxiliaryProgram findAuxiliaryProgramByIdentifierValueAndType(final String identifierValue,final String identifierType) throws RepositoryAccessException;
+    public List<AuxiliaryProgram> findAuxiliaryProgramByIdentifierValueAndType(final String identifierValue,final String identifierType) throws RepositoryAccessException;
 
     AuxiliaryProgram findProgramOfIdentifier(AuxiliaryIdentifier identifier) throws  RepositoryAccessException;
 

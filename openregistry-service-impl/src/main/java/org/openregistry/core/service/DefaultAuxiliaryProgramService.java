@@ -1,5 +1,6 @@
 package org.openregistry.core.service;
 
+import org.aspectj.asm.internal.ProgramElement;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.jpa.JpaAuxiliaryIdentifierImpl;
 import org.openregistry.core.domain.jpa.JpaIdentifierTypeImpl;
@@ -144,12 +145,36 @@ public class DefaultAuxiliaryProgramService implements AuxiliaryProgramService {
             if (null!= person){
                 flag=true;
             }
+
         }catch(RepositoryAccessException rae){
             flag = false;
 
         }catch(Exception ex){
+//            ex.printStackTrace();
             flag=false;
         }
+
+        try{
+             if(flag == false){
+
+                List<AuxiliaryIdentifier> lstAuxIdentifiers = auxiliaryIdentifierRepository.findByAuxiliaryIdentifierValue(iid); //this.auxiliaryIdentifierRepository.findAuxiliaryProgramByIdentifierValueAndType(Type.IdentifierTypes.IID.toString(),iid);
+                if (null != lstAuxIdentifiers && lstAuxIdentifiers.size() > 0){
+                    for(AuxiliaryIdentifier auxIdentifier: lstAuxIdentifiers){
+                        if(auxIdentifier.getType().getName().equalsIgnoreCase(Type.IdentifierTypes.IID.toString())){
+                            flag = true;
+                        }
+                    }
+
+                }
+            }
+        } catch(RepositoryAccessException rae){
+            flag = false;
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+            flag=false;
+        }
+
         return flag;
     }
 

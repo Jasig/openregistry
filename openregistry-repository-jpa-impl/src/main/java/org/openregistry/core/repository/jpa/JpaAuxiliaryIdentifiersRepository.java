@@ -42,8 +42,8 @@ public class JpaAuxiliaryIdentifiersRepository implements AuxiliaryIdentifierRep
 //        return (List<AuxiliaryIdentifier>) this.entityManager.createQuery("Select u from AUX_IDENTIFIERS u join u.value i join i.type t where t.name = :name and i.value = :value").setParameter("name", identifierType).setParameter("value", identifierValue).getSingleResult();
 //    }
     @Override
-    public AuxiliaryProgram findAuxiliaryProgramByIdentifierValueAndType(final String identifierValue,final String identifierType) throws RepositoryAccessException {
-        return (AuxiliaryProgram) this.entityManager.createQuery("Select p from AUX_PROGRAMS p join p.identifiers i join i.type t where t.name = :name and i.value = :value").setParameter("name", identifierType).setParameter("value", identifierValue);
+    public List<AuxiliaryProgram> findAuxiliaryProgramByIdentifierValueAndType(final String identifierValue,final String identifierType) throws RepositoryAccessException {
+        return (List<AuxiliaryProgram>) this.entityManager.createQuery("Select p from AUX_PROGRAMS p join p.identifiers i join i.type t where t.name = :name and i.value = :value").setParameter("name", identifierType).setParameter("value", identifierValue).getResultList();
     }
 
     @Override
