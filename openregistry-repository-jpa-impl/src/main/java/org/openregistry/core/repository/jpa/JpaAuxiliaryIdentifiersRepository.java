@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Repository(value = "auxiliaryIdentifierRepository")
 public class JpaAuxiliaryIdentifiersRepository implements AuxiliaryIdentifierRepository {
-    @PersistenceContext
+    @PersistenceContext (unitName=  "OpenRegistryPersistence")
     private EntityManager entityManager;
 
     @Override

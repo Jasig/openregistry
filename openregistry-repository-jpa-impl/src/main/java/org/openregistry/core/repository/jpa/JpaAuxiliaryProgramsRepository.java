@@ -21,7 +21,7 @@ import java.util.List;
 @Repository(value = "auxiliaryProgramRepository")
 
 public class JpaAuxiliaryProgramsRepository implements AuxiliaryProgramsRepository{
-    @PersistenceContext
+    @PersistenceContext (unitName=  "OpenRegistryPersistence")
     private EntityManager entityManager;
 
     @Override
