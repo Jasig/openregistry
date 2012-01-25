@@ -64,8 +64,8 @@ public class MockRole extends Entity implements Role {
         for (Phone phone : sorRole.getPhones()) {
         	this.addPhone(phone);
          }
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        //added by NH
+        this.affiliationType=sorRole.getAffiliationType();
+        
         this.title = sorRole.getTitle();
     }
 
@@ -201,7 +201,7 @@ public class MockRole extends Entity implements Role {
 	}
 
 	public Type getAffiliationType() {
-		return null;
+		return this.affiliationType;
 	}
 
     public void setAffiliationType(Type affiliationType){

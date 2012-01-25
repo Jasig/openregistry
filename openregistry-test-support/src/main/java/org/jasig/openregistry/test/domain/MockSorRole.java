@@ -79,7 +79,7 @@ public class MockSorRole extends Entity implements SorRole {
 	}
 
     public SystemOfRecord getSystemOfRecord() {
-		return null;
+		return this.systemOfRecord;
 	}
 
     public void setSystemOfRecord(SystemOfRecord systemOfRecord) {
@@ -217,7 +217,7 @@ public class MockSorRole extends Entity implements SorRole {
 	}
 
 	public Type getAffiliationType() {
-		return null;
+		return this.affiliationType;
 	}
 
     public void setAffiliationType(Type affiliationType){

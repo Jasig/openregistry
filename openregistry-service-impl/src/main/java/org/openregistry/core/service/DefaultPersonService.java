@@ -68,6 +68,9 @@ public class DefaultPersonService implements PersonService {
 
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
+    @Resource(name="sorRoleElector")
+    private SorRoleElector sorRoleElector  = new DefaultSorRoleElector();
+
     @Resource(name="birthDateFieldElector")
     private FieldElector<Date> birthDateFieldElector = new DefaultBirthDateFieldElector();
 
@@ -228,7 +231,10 @@ public class DefaultPersonService implements PersonService {
                 }
             }
 
-            for (final Role role: rolesToDelete) person.getRoles().remove(role);
+            for (final Role role: rolesToDelete) {
+                //let sorRoleElector delete the role and add another role if required
+                sorRoleElector.removeCalculatedRole(person,role,this.personRepository.getSoRRecordsForPerson(person));
+            }
 
             final Number number = this.personRepository.getCountOfSoRRecordsForPerson(person);
 
@@ -276,9 +282,14 @@ public class DefaultPersonService implements PersonService {
         Assert.notNull(person, "person cannot be null.");
 
         final Role role = person.findRoleBySoRRoleId(sorRole.getId());
-
+        //delete and expire role only if it exist at calculated level
+        if(role!=null)
         if (mistake) {
-            person.getRoles().remove(role);
+
+
+            //let SorRoleElector remove the role
+            sorRoleElector.removeCalculatedRole(person,role,this.personRepository.getSoRRecordsForPerson(person));
+
         } else {
             final Type terminationReason = this.referenceRepository.findType(Type.DataTypes.TERMINATION, terminationTypeToUse);
             if (!role.isTerminated()) {
@@ -308,7 +319,8 @@ public class DefaultPersonService implements PersonService {
         final SorPerson newSorPerson = this.personRepository.saveSorPerson(sorPerson);
         final Person person = this.personRepository.findByInternalId(newSorPerson.getPersonId());
         final SorRole newSorRole = newSorPerson.findSorRoleBySorRoleId(sorRole.getSorId());
-        person.addRole(newSorRole);
+        //let sor role elector decide if this new role can be converted to calculated one
+        sorRoleElector.addSorRole(newSorRole,person);
         this.personRepository.savePerson(person);
 
         return new GeneralServiceExecutionResult<SorRole>(newSorRole);
@@ -435,7 +447,8 @@ public class DefaultPersonService implements PersonService {
             Role role = person.findRoleBySoRRoleId(savedSorRole.getId());
             if (role == null) {
                 logger.info("DefaultPersonService: savedSorPersonRole Found, Role Must be newly added.");
-                person.addRole(savedSorRole);
+                //let sor role elector decide if this new role can be converted to calculated one
+                sorRoleElector.addSorRole(savedSorRole,person);
             }
             else {
                 logger.info("DefaultPersonService: savedSorPersonRole Found, Role was there before.");
@@ -468,9 +481,12 @@ public class DefaultPersonService implements PersonService {
 
         final Person person = this.personRepository.findByInternalId(sorPerson.getPersonId());
         final Role role = person.findRoleBySoRRoleId(savedSorRole.getId());
-
-        role.recalculate(sorRole);
-        this.personRepository.savePerson(person);
+        if(role!=null){
+           //update calculated role only if that role was previously converted to calculated one by sorRoleElector
+          role.recalculate(sorRole);
+          this.personRepository.savePerson(person);
+        }
+        //else //do nothing i.e. don't update the calculated role if SorRoleElector Previously decided not to convert this sor role to calculated role
 
         return new GeneralServiceExecutionResult<SorRole>(savedSorRole);
     }
@@ -571,12 +587,13 @@ public class DefaultPersonService implements PersonService {
         for (final SorRole sorRole : sorRoles) {
             for (final Role role : fromPerson.getRoles()) {
                 if (sorRole.getId().equals(role.getSorRoleId())) {
-                    toPerson.addRole(sorRole);
+                    sorRoleElector.addSorRole(sorRole,toPerson );
                     rolesToDelete.add(role);
                 }
             }
         }
         for (final Role role : rolesToDelete) {
+            sorRoleElector.removeCalculatedRole(fromPerson, role, this.personRepository.getSoRRecordsForPerson(fromPerson));
             fromPerson.getRoles().remove(role);
         }
 
@@ -729,7 +746,8 @@ public class DefaultPersonService implements PersonService {
 
         // Create calculated roles.
         for (final SorRole newSorRole : sorPerson.getRoles()){
-            savedPerson.addRole(newSorRole);
+            //let sor role elector decide if this new role can be converted to calculated one
+            sorRoleElector.addSorRole(newSorRole,savedPerson);
         }
 
         final Person newPerson = this.personRepository.savePerson(savedPerson);
@@ -765,7 +783,9 @@ public class DefaultPersonService implements PersonService {
 
         // Create calculated roles.
         for (final SorRole newSorRole : savedSorPerson.getRoles()){
-            person.addRole(newSorRole);
+            //let sor role elector decide if this new role can be converted to calculated one
+           sorRoleElector.addSorRole(newSorRole,person);
+
         }
 
 

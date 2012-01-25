@@ -300,16 +300,19 @@ public class DefaultPersonServiceTests {
         final SorPerson sorPerson = new MockSorPerson();
         sorPerson.setPersonId(1L);
 		MockSorRole sorRole = new MockSorRole(1L);
+        sorRole.setAffiliationType(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STAFF));
 		sorPerson.addRole(sorRole);
 
 		MockRole mockRole = new MockRole(1L);
 		mockRole.setSorRoleId(sorRole.getId());
+        mockRole.setAffiliationType(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STAFF));
 		mockPerson.addRole(mockRole);
 
 
         final SorPerson sorPerson1 = new MockSorPerson();
         sorPerson1.setPersonId(1L);
 		MockSorRole sorRole1 = new MockSorRole(2L);
+        sorRole1.setAffiliationType(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
 		sorPerson1.addRole(sorRole1);
 
 		MockRole mockRole1 = new MockRole(2L);
@@ -341,6 +344,7 @@ public class DefaultPersonServiceTests {
         sorPerson.addRole(sorRole);
 
 		final MockPerson mockPerson = new MockPerson();
+
         mockPerson.addRole(sorRole);
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
@@ -381,6 +385,87 @@ public class DefaultPersonServiceTests {
         final Person person = personRepository.findByInternalId(1L);
         assertEquals(1, person.getRoles().size());
     }
+    @Test
+    public void testAddTwoSorRolesFromDifferentSorWithSameAffiliationType() {
+        final MockSorPerson mockSorPerson = new MockSorPerson();
+        mockSorPerson.setSourceSor("FOO");
+        mockSorPerson.setPersonId(1L);
+
+        final MockSorRole sorRole = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
+        sorRole.setSorId("1");
+        sorRole.setSystemOfRecord(referenceRepository.findSystemOfRecord("TEST"));
+        sorRole.setId(2L);
+        mockSorPerson.addRole(sorRole);
+
+
+        final MockSorPerson mockSorPerson1 = new MockSorPerson();
+        mockSorPerson1.setSourceSor("FOO1");
+        mockSorPerson1.setPersonId(1L); //both sor person points to the same calculated person
+
+        final MockSorRole sorRole1 = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
+        sorRole1.setSorId("2");
+        sorRole1.setSystemOfRecord(referenceRepository.findSystemOfRecord("TEST1"));
+        sorRole1.setId(2L);
+        mockSorPerson1.addRole(sorRole1);
+
+        final MockPerson mockPerson = new MockPerson();
+        mockPerson.setId(1L);
+
+        final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {mockSorPerson});
+        this.personService = new DefaultPersonService(personRepository, this.referenceRepository, new MockDisclosureRecalculationStrategyRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+        this.personService.setPersonObjectFactory(this.objectFactory);
+        final ServiceExecutionResult<SorRole> serviceExecutionResult = this.personService.validateAndSaveRoleForSorPerson(mockSorPerson, sorRole);
+        assertTrue(serviceExecutionResult.succeeded());
+        final ServiceExecutionResult<SorRole> serviceExecutionResult1 = this.personService.validateAndSaveRoleForSorPerson(mockSorPerson1, sorRole1);
+        assertTrue(serviceExecutionResult1.succeeded());
+
+
+        final Person person = personRepository.findByInternalId(1L);
+        //make sure that we got only one calculated role based on our default sorroleelector
+        assertEquals(1, person.getRoles().size());
+    }
+
+    @Test
+    public void testAddTwoSorRolesFromDifferentSorWithDifferentAffiliationType() {
+        final MockSorPerson mockSorPerson = new MockSorPerson();
+        mockSorPerson.setSourceSor("FOO");
+        mockSorPerson.setPersonId(1L);
+
+        final MockSorRole sorRole = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
+        sorRole.setSorId("1");
+        sorRole.setSystemOfRecord(referenceRepository.findSystemOfRecord("TEST"));
+        sorRole.setId(2L);
+        mockSorPerson.addRole(sorRole);
+
+
+        final MockSorPerson mockSorPerson1 = new MockSorPerson();
+        mockSorPerson1.setSourceSor("FOO1");
+        mockSorPerson1.setPersonId(1L); //both sor person points to the same calculated person
+
+        final MockSorRole sorRole1 = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STAFF));
+        sorRole1.setSorId("2");
+        sorRole1.setSystemOfRecord(referenceRepository.findSystemOfRecord("TEST1"));
+        sorRole1.setId(3L);
+        mockSorPerson1.addRole(sorRole1);
+
+        final MockPerson mockPerson = new MockPerson();
+        mockPerson.setId(1L);
+
+        final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {mockSorPerson});
+        this.personService = new DefaultPersonService(personRepository, this.referenceRepository, new MockDisclosureRecalculationStrategyRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+        this.personService.setPersonObjectFactory(this.objectFactory);
+        final ServiceExecutionResult<SorRole> serviceExecutionResult = this.personService.validateAndSaveRoleForSorPerson(mockSorPerson, sorRole);
+        assertTrue(serviceExecutionResult.succeeded());
+        final ServiceExecutionResult<SorRole> serviceExecutionResult1 = this.personService.validateAndSaveRoleForSorPerson(mockSorPerson1, sorRole1);
+        assertTrue(serviceExecutionResult1.succeeded());
+
+
+        final Person person = personRepository.findByInternalId(1L);
+        //make sure that we got only one calculated role based on our default sorroleelector
+        assertEquals(2, person.getRoles().size());
+    }
+
+
 
 	/**
 	 * DELETE SOR ROLE TESTS
@@ -395,10 +480,12 @@ public class DefaultPersonServiceTests {
         sorPerson.setPersonId(1L);
 		sorPerson.setSourceSor("or-webapp");
 		MockSorRole sorRole = new MockSorRole(1L);
+        sorRole.setAffiliationType(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
 		sorPerson.addRole(sorRole);
 
 		MockRole mockRole = new MockRole(1L);
 		mockRole.setSorRoleId(sorRole.getId());
+        mockRole.setAffiliationType(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
 		mockPerson.addRole(mockRole);
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});
@@ -435,10 +522,12 @@ public class DefaultPersonServiceTests {
         sorPerson.setPersonId(1L);
 		sorPerson.setSourceSor("or-webapp");
 		MockSorRole sorRole = new MockSorRole(1L);
+        sorRole.setAffiliationType(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
 		sorPerson.addRole(sorRole);
 
 		MockRole mockRole = new MockRole(1L);
 		mockRole.setSorRoleId(sorRole.getId());
+        mockRole.setAffiliationType(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
 		mockPerson.addRole(mockRole);
 
         final MockPersonRepository personRepository = new MockPersonRepository(new Person[] {mockPerson}, new SorPerson[] {sorPerson});

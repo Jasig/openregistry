@@ -455,7 +455,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
 
                 @Override
                 public boolean isSameAs(Type other) {
-                    throw new UnsupportedOperationException("This mock does not implement this method yet");
+                    return (type.name().equals(other.getDataType()) && value.equals(other.getDescription()));
                 }
             };
         }
@@ -494,7 +494,12 @@ public final class MockReferenceRepository implements ReferenceRepository {
         return new MockIdentifierType("test", true);
     }
 
-    public SystemOfRecord findSystemOfRecord(String systemOfRecord){
-        return null;
+    public SystemOfRecord findSystemOfRecord(final String systemOfRecord){
+        return new SystemOfRecord() {
+            @Override
+            public String getSorId() {
+                return systemOfRecord;
+            }
+        };
     }
 }

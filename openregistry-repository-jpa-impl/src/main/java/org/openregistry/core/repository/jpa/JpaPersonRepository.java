@@ -222,5 +222,17 @@ public class JpaPersonRepository implements PersonRepository {
     public EntityManager getEntityManager() {
         return entityManager;
     }
+    public SorRole getSoRRoleForRole(Role calculatedRole){
+         return  (SorRole) this.entityManager.createQuery("select r from sorRole r where r.id =:recordID").setParameter("recordID",calculatedRole.getSorRoleId()).getSingleResult();
+
+    }
+    public Role getCalculatedRoleForSorRole(SorRole sorRole){
+        List roles = this.entityManager.createQuery("select r from role r where r.sorRoleId =:sorRecordID").setParameter("sorRecordID",sorRole.getId()).getResultList();
+        if (roles.size()>0){
+            return (Role) roles.get(0);
+        
+    }
+        return null;
+    }
 }
 

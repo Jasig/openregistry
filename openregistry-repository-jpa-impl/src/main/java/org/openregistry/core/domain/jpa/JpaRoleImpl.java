@@ -53,7 +53,8 @@ import org.slf4j.*;
 @org.hibernate.annotations.Table(appliesTo = "prc_role_records", indexes = {
         @Index(name = "PRC_ROLE_RECORDS_PRS_STAT_IDX", columnNames = "PERSON_STATUS_T"),
         @Index(name = "PRC_ROLE_RECORDS_SPONSOR_IDX", columnNames = "SPONSOR_T"),
-        @Index(name = "PRC_ROLE_RECORDS_TERM_IDX", columnNames = "TERMINATION_T")
+        @Index(name = "PRC_ROLE_RECORDS_TERM_IDX", columnNames = "TERMINATION_T"),
+        @Index(name = "PRC_ROLE_RECORDS_PRS_ROLE_RECORD_IDX", columnNames = "PRS_ROLE_ID")
 })
 public class JpaRoleImpl extends Entity implements Role {
 

@@ -160,6 +160,20 @@ public class MockPersonRepository implements PersonRepository {
 
         return sorPersons;
     }
+    public SorRole getSoRRoleForRole(Role role){
+        for (final SorPerson sorPerson : this.sorPersons) {
+            for( SorRole sorRole :sorPerson.getRoles()){
+               if(sorRole.getId().equals(role.getSorRoleId())){
+                   return sorRole;
+               }
+            }
+            
+        }
+        return null;
+    }
+    public Role getCalculatedRoleForSorRole(SorRole role){
+        return null;
+    }
 
     public Number getCountOfSoRRecordsForPerson(final Person person) {
         return getSoRRecordsForPerson(person).size();

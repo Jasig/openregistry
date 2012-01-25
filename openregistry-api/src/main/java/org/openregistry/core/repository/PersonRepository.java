@@ -161,6 +161,21 @@ public interface PersonRepository {
     List<SorPerson> getSoRRecordsForPerson(Person person);
 
     /**
+     * Returns the SoRRoleRecord  for a particular calculated Role.
+     *
+     * @param calculatedRole the calculated role
+     * @return a sorRole that is associated with this calculated role
+     */
+    SorRole getSoRRoleForRole(Role calculatedRole);
+    /**
+     * Returns the Calculated role  for a particular sor Role.
+     *
+     * @param sorRole the sor role
+     * @return a a calculated role if found , null otherwise
+     */
+    Role getCalculatedRoleForSorRole(SorRole sorRole);
+
+    /**
      * Returns the count of the number of SoR records for a particular person.
      *
      * @param person the person
