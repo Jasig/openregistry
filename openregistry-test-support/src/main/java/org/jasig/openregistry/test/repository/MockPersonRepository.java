@@ -135,6 +135,20 @@ public class MockPersonRepository implements PersonRepository {
         return people;
     }
 
+    @Override
+    public List<Person> findByFamilyComparisonValue(String familyComparisonValue) throws RepositoryAccessException {
+        final List<Person> people = new ArrayList<Person>();
+
+        for (final Person person : this.persons) {
+            for (final Name name : person.getNames()) {
+                if (name.getFamilyComparisonValue().equalsIgnoreCase(familyComparisonValue)) {
+                    people.add(person);
+                }
+            }
+        }
+        return people;
+    }
+
     public Person savePerson(Person person) throws RepositoryAccessException {
         this.persons.add(person);
         return person;

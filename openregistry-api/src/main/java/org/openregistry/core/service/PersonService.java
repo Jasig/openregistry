@@ -184,6 +184,16 @@ public interface PersonService {
      */
     ServiceExecutionResult<Person> addPersonAndLink(ReconciliationCriteria reconciliationCriteria, Person person) throws IllegalArgumentException, IllegalStateException, SorPersonAlreadyExistsException;
 
+     /**
+     * Run the reconciliation logic with the reconciliation criteria and return the reconciliation result.
+     *
+     * @param reconciliationCriteria Reconciliation criteria.
+     * @return the reconciliation result
+     * @throws IllegalArgumentException if any of the parameters are null.
+     * @throws IllegalStateException if the reconciliation criteria/result combination could not be located.
+     */
+    ServiceExecutionResult<ReconciliationResult> reconcile(final ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException;
+
     /**
      * Searches for a Person by the criteria provided.
      *

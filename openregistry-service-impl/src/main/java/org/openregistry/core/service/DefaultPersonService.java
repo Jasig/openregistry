@@ -391,7 +391,25 @@ public class DefaultPersonService implements PersonService {
 
         throw new IllegalStateException("Person not found in ReconciliationResult.");
     }
-     
+
+    public ServiceExecutionResult<ReconciliationResult> reconcile(final ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException {
+         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
+
+         final Set validationErrors = this.validator.validate(reconciliationCriteria);
+
+         if (!validationErrors.isEmpty()) {
+             Iterator iter = validationErrors.iterator();
+             while (iter.hasNext()) {
+                 logger.info("validation errors: " + iter.next());
+             }
+             return new GeneralServiceExecutionResult<ReconciliationResult>(validationErrors);
+         }
+
+         final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
+         this.criteriaCache.put(reconciliationCriteria, result);
+         return new GeneralServiceExecutionResult<ReconciliationResult>(result);
+     }
+
     @PostFilter("hasPermission(filterObject, 'read')")
     public List<PersonMatch> searchForPersonBy(final SearchCriteria searchCriteria) {
 

@@ -6,12 +6,14 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.PersonNotFoundException;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
 import org.openregistry.core.domain.sor.SorPerson;
+import org.openregistry.core.domain.sor.SorPersonAlreadyExistsException;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.SearchCriteria;
 import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
+import org.openregistry.core.service.reconciliation.ReconciliationResult;
 
 import javax.validation.ConstraintViolation;
 import java.util.Collections;
@@ -129,6 +131,11 @@ public class MockPersonService implements PersonService {
 
     @Override
     public ServiceExecutionResult<Person> addPersonAndLink(ReconciliationCriteria reconciliationCriteria, Person person) throws IllegalArgumentException, IllegalStateException {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public ServiceExecutionResult<ReconciliationResult> reconcile(ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
