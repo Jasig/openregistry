@@ -124,6 +124,16 @@ public interface PersonRepository {
     List<Person> findByFamilyName(String family) throws RepositoryAccessException;
 
     /**
+     * Find a list of <code>Person</code> entities from the supplied Family Name Comparison Value (Soundex Value).
+     *
+     * @param familyComparisonValue the Family Name Comparison Value to search for
+     * @return List of people find in the Open Registry's person repository or an empty list if
+     *         no people exist with this Family Name Comparison Value.
+     * @throws RepositoryAccessException
+     */
+    public List<Person> findByFamilyComparisonValue(final String familyComparisonValue) throws RepositoryAccessException;
+
+    /**
      * Persist or update an instance of a canonical <code>Person</code> entity in the Open Registry.
      *
      * @param person a person to persist or update in the person repository.

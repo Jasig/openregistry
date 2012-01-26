@@ -141,6 +141,12 @@ public class JpaPersonRepository implements PersonRepository {
     	.setParameter("name", family).getResultList();
     }
 
+    public List<Person> findByFamilyComparisonValue(final String familyComparisonValue) throws RepositoryAccessException {
+         return this.entityManager.createQuery("SELECT p FROM person p JOIN fetch p.names n WHERE n.familyComparisonValue = :comparisonValue")
+         .setParameter("comparisonValue", familyComparisonValue).getResultList();
+     }
+
+
     public Person savePerson(final Person person) throws RepositoryAccessException {
         Person p= this.entityManager.merge(person);
         //the only solution of insert before delete problem
