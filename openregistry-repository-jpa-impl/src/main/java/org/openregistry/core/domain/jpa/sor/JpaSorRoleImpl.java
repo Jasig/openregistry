@@ -149,6 +149,7 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
 
     @ManyToOne(optional = false)
     @JoinColumn(name="organizational_unit_id")
+    @NotNull(message = "{organizationalUnitRequiredMsg}")
     private JpaOrganizationalUnitImpl organizationalUnit;
 
     @ManyToOne(optional = false)
