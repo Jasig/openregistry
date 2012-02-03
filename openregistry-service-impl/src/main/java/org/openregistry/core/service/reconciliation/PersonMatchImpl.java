@@ -54,9 +54,17 @@ public class PersonMatchImpl implements PersonMatch {
 	public int compareTo(final PersonMatch personMatch) {
 		final int level = this.confidenceLevel - personMatch.getConfidenceLevel();
 		if (level == 0) {
-			final int result = this.person.getOfficialName().getFamily().compareTo(personMatch.getPerson().getOfficialName().getFamily());
-			return result == 0 ? this.person.getOfficialName().getGiven().compareTo(personMatch.getPerson().getOfficialName().getGiven()): result;
-		}
+            int result = 0;
+            if (this.person.getOfficialName().getFamily() == null) return result = -1;
+            if (personMatch.getPerson().getOfficialName().getFamily() == null) return result = 1;
+            result = this.person.getOfficialName().getFamily().compareTo(personMatch.getPerson().getOfficialName().getFamily());
+            if (result != 0) return result;
+            else {
+                if (this.person.getOfficialName().getGiven() == null) return result = -1;
+                if (personMatch.getPerson().getOfficialName().getGiven() == null) return result = 1;
+                return result = this.person.getOfficialName().getGiven().compareTo(personMatch.getPerson().getOfficialName().getGiven());
+            }
+        }
 		return level;
 	}
 
