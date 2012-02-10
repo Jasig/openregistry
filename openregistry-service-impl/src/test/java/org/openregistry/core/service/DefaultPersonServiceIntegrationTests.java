@@ -846,4 +846,15 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 		assertEquals(0, countRowsInTable("prs_role_records"));
 		assertEquals(0, countRowsInTable("prc_role_records"));
     }
+    @Test
+    @Rollback
+    public void testEagerFetchCalculatedPerson()throws Exception{
+        final ReconciliationCriteria criteria1 = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);
+        final ServiceExecutionResult<Person> serviceExecutionResult1 = this.personService.addPerson(criteria1);
+
+        assertFalse(  this.personService.fetchCompleteCalculatedPerson(serviceExecutionResult1.getTargetObject().getId())==null);
+
+        assertEquals(1, countRowsInTable("prc_persons"));
+        
+    }
 }

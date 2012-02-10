@@ -41,6 +41,10 @@ public class MockPersonService implements PersonService {
     public Person findPersonById(Long id) {
         return this.providedMockPerson != null ? this.providedMockPerson : new MockPerson(-1000L);
     }
+    @Override
+    public Person fetchCompleteCalculatedPerson(Long id) {
+        return this.providedMockPerson != null ? this.providedMockPerson : new MockPerson(-1000L);
+    }
 
     @Override
     public Person findPersonByIdentifier(String identifierType, String identifierValue) {
@@ -164,7 +168,16 @@ public class MockPersonService implements PersonService {
 
             @Override
             public SorPerson getTargetObject() {
-                return succeeded() ? new MockSorPerson(-2000L) : null;
+                if(sorPerson!=null){
+                    MockSorPerson sorPerson  = new MockSorPerson(-2000L);
+                    sorPerson.setPersonId(providedMockPerson.getId());
+                    return sorPerson;
+                }
+                return null;
+
+                    
+                
+
             }
 
             @Override

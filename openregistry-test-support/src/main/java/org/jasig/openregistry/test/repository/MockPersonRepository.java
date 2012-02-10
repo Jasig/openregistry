@@ -63,6 +63,17 @@ public class MockPersonRepository implements PersonRepository {
         return null;
     }
 
+    public Person fetchCompleteCalculatedPerson(Long id){
+        for (final Person person : this.persons) {
+            if (person.getId().equals(id)) {
+                return person;
+            }
+        }
+
+        return null;
+
+    }
+
     public SorPerson findSorByInternalId(Long id) throws RepositoryAccessException {
         for (final SorPerson person : this.sorPersons) {
             if (person.getId().equals(id)) {

@@ -147,6 +147,10 @@ public class DefaultPersonService implements PersonService {
         return this.personRepository.findByInternalId(id);
     }
 
+    public Person fetchCompleteCalculatedPerson(Long id){
+        return this.personRepository.fetchCompleteCalculatedPerson(id);
+    }
+
     public Person findPersonByIdentifier(final String identifierType, final String identifierValue) {
         try {
             return this.personRepository.findByIdentifier(identifierType, identifierValue);

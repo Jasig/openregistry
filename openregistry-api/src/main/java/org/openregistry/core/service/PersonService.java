@@ -43,6 +43,20 @@ public interface PersonService {
      */
     Person findPersonById(Long id);
 
+
+    /**
+     * Find canonical <code>Person</code> entity in the Open Registry.
+     *  this method eargerly fetch the complete calculated object that is the only difference
+     *  between this method and method findPersonById(id)
+     *
+     * @param id a primary key internal identifier for a person in Open Registry.
+     * @return person found in the Open Registry's person repository or null if no person
+     *  exist in Open Registry for a given internal id.
+
+     */
+
+         Person fetchCompleteCalculatedPerson(Long id);
+
     /**
      * Finds the canonical <code>Person</code> by one of the unique identifiers that the system is aware of.
      *
