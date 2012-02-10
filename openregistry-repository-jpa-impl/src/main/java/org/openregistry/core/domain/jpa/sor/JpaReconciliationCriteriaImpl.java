@@ -42,7 +42,7 @@ public class JpaReconciliationCriteriaImpl implements ReconciliationCriteria {
 
     @NotNull
     @Valid
-	protected JpaSorPersonImpl sorPerson = new JpaSorPersonImpl();
+	protected SorPerson sorPerson = new JpaSorPersonImpl();
 
     @RequiredSize(property="reconciliation.identifiersByType")
     private Map<IdentifierType, String> identifiersByType = new HashMap<IdentifierType, String>();
@@ -133,6 +133,10 @@ public class JpaReconciliationCriteriaImpl implements ReconciliationCriteria {
 
     public SorPerson getSorPerson() {
         return this.sorPerson;
+    }
+
+    public void setSorPerson(SorPerson sorPerson) {
+        this.sorPerson =  sorPerson;
     }
 
     public Map<IdentifierType, String> getIdentifiersByType() {

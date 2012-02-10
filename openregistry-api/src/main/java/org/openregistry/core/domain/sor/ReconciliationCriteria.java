@@ -39,6 +39,8 @@ public interface ReconciliationCriteria extends Serializable {
      */
     SorPerson getSorPerson();
 
+    void setSorPerson(SorPerson sorPerson);
+
     /**
      * An email address that MIGHT be used for reconciliation.
      *

@@ -302,7 +302,8 @@ public class DefaultPersonService implements PersonService {
         this.personRepository.savePerson(person);
         return true;
     }
-       @PreAuthorize("hasPermission(#sorRole, 'admin')")
+
+    @PreAuthorize("hasPermission(#sorRole, 'admin')")
     public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
         Assert.notNull(sorPerson, "SorPerson cannot be null.");
         Assert.notNull(sorRole, "SorRole cannot be null.");
@@ -326,37 +327,68 @@ public class DefaultPersonService implements PersonService {
         return new GeneralServiceExecutionResult<SorRole>(newSorRole);
     }
 
-    public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException, SorPersonAlreadyExistsException {
-        Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
+    public ServiceExecutionResult<Person> validateAndSavePersonAndRole(final ReconciliationCriteria reconciliationCriteria)   {
+        SorPerson sorPerson = reconciliationCriteria.getSorPerson();
+        if (sorPerson == null || sorPerson.getRoles() == null)
+            throw new IllegalArgumentException("Sor Person not found in provided criteria.");
+        SorRole sorRole =  reconciliationCriteria.getSorPerson().getRoles().get(0);
+        if  (sorRole == null)
+             throw new IllegalArgumentException("Sor Role not found for provided criteria.");
 
-        if (reconciliationCriteria.getSorPerson().getSorId() != null && this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()) != null) {
-            //throw new IllegalStateException("CANNOT ADD SAME SOR RECORD.");
-            throw new SorPersonAlreadyExistsException(this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()));
-        }
+        setRoleIdAndSource(sorRole, sorPerson.getSourceSor());
 
-        final Set validationErrors = this.validator.validate(reconciliationCriteria);
+        final Set validationErrors = this.validator.validate(sorRole);
 
         if (!validationErrors.isEmpty()) {
-            Iterator iter = validationErrors.iterator();
-            while (iter.hasNext()) {
-                logger.info("validation errors: " + iter.next());
-            }
             return new GeneralServiceExecutionResult<Person>(validationErrors);
         }
 
-        final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
-
-        switch (result.getReconciliationType()) {
-            case NONE:
+        Long personId = sorPerson.getPersonId();
+        if (personId == null) {
+              // add new Sor Person and roles, create calculated person
                 return new GeneralServiceExecutionResult<Person>(saveSorPersonAndConvertToCalculatedPerson(reconciliationCriteria));
-
-            case EXACT:
-                return new GeneralServiceExecutionResult<Person>(addNewSorPersonAndLinkWithMatchedCalculatedPerson(reconciliationCriteria, result));
+        } else { // Add new Sor Person and role and link to the existing person
+                    Person thisPerson = this.personRepository.findByInternalId(personId);
+                    try {
+                         Person savedPerson = this.addSorPersonAndLink(reconciliationCriteria, thisPerson);
+                         return new GeneralServiceExecutionResult<Person>(savedPerson);
+                    } catch (SorPersonAlreadyExistsException sorE) {
+                         throw new IllegalArgumentException("If a sor Person of the same source already exists, should call the other method to add the role only");
+                    }
         }
-
-        this.criteriaCache.put(reconciliationCriteria, result);
-        throw new ReconciliationException(result);
     }
+
+    public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException, SorPersonAlreadyExistsException {
+        Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
+
+    if (reconciliationCriteria.getSorPerson().getSorId() != null && this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()) != null) {
+        //throw new IllegalStateException("CANNOT ADD SAME SOR RECORD.");
+        throw new SorPersonAlreadyExistsException(this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()));
+    }
+
+    final Set validationErrors = this.validator.validate(reconciliationCriteria);
+
+    if (!validationErrors.isEmpty()) {
+        Iterator iter = validationErrors.iterator();
+        while (iter.hasNext()) {
+            logger.info("validation errors: " + iter.next());
+        }
+        return new GeneralServiceExecutionResult<Person>(validationErrors);
+    }
+
+    final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
+
+    switch (result.getReconciliationType()) {
+        case NONE:
+            return new GeneralServiceExecutionResult<Person>(saveSorPersonAndConvertToCalculatedPerson(reconciliationCriteria));
+
+        case EXACT:
+            return new GeneralServiceExecutionResult<Person>(addNewSorPersonAndLinkWithMatchedCalculatedPerson(reconciliationCriteria, result));
+    }
+
+    this.criteriaCache.put(reconciliationCriteria, result);
+    throw new ReconciliationException(result);
+}
 
     public ServiceExecutionResult<Person> forceAddPerson(final ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException, IllegalStateException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null.");
@@ -406,7 +438,7 @@ public class DefaultPersonService implements PersonService {
          }
 
          final ReconciliationResult result = this.reconciler.reconcile(reconciliationCriteria);
-         this.criteriaCache.put(reconciliationCriteria, result);
+         //(reconciliationCriteria, result);
          return new GeneralServiceExecutionResult<ReconciliationResult>(result);
      }
 
@@ -769,11 +801,13 @@ public class DefaultPersonService implements PersonService {
         }
 
         final Person newPerson = this.personRepository.savePerson(savedPerson);
+
         logger.info("Verifying Number of calculated Roles: "+ newPerson.getRoles().size());
 
         // Now connect the SorPerson to the actual person
         sorPerson.setPersonId(newPerson.getId());
         this.personRepository.saveSorPerson(sorPerson);
+        logger.info("Created sorPerson: person_id: "+ sorPerson.getPersonId());
 
         return newPerson;
     }

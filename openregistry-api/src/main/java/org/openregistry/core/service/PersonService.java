@@ -149,6 +149,21 @@ public interface PersonService {
      */
     ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(SorPerson sorPerson, SorRole sorRole) throws IllegalArgumentException;
 
+     /**
+     * Validate and persist a person and a new role in the OpenRegistry system.
+     * If it is a completely new person, add the sorPerson and the calculated person with the new role.
+     * If the calculated person exists, but the sorPerson with the same source doesn't, create the Sor person with the new role and link it to the calculated person.
+     * If the sorPerson with the same source exists,throw IllegalArgumentException. Should call validateAndSaveRoleForSorPerson to add a new role to an existing SorPerson
+     *
+     * <p>
+     * This method should attempt to reconcile the person you are adding.
+     *
+     * @param reconciliationCriteria the person you are trying to add with their additional reconciliation data.
+     * @return the result of the action.  If the action succeeded, the target object should be the new Person.  If it failed, there should be > 0 validation errors
+     * @throws IllegalArgumentException if the reconciliationCriteria is not provided with correct data.
+     */
+    ServiceExecutionResult<Person> validateAndSavePersonAndRole(final ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException;
+
     /**
      * Validate, add, and persist a person in the OpenRegistry system.
      * <p>

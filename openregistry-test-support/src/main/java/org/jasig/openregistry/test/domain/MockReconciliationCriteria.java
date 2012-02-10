@@ -105,6 +105,11 @@ public final class MockReconciliationCriteria implements ReconciliationCriteria 
         return this.person;
     }
 
+    @Override
+    public void setSorPerson(SorPerson sorPerson) {
+        this.person =  sorPerson;
+    }
+
     public Map<IdentifierType, String> getIdentifiersByType() {
         return this.identifiersByType;
     }

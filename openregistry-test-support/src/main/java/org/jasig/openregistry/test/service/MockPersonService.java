@@ -120,6 +120,11 @@ public class MockPersonService implements PersonService {
     }
 
     @Override
+    public ServiceExecutionResult<Person> validateAndSavePersonAndRole(ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public ServiceExecutionResult<Person> addPerson(ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException {
         return simulateAddingAPerson(reconciliationCriteria != null);
     }
