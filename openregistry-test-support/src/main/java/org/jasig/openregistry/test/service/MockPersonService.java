@@ -14,6 +14,7 @@ import org.openregistry.core.service.ServiceExecutionResult;
 import org.openregistry.core.service.reconciliation.PersonMatch;
 import org.openregistry.core.service.reconciliation.ReconciliationException;
 import org.openregistry.core.service.reconciliation.ReconciliationResult;
+import org.springframework.util.Assert;
 
 import javax.validation.ConstraintViolation;
 import java.util.Collections;
@@ -100,6 +101,11 @@ public class MockPersonService implements PersonService {
 
     @Override
     public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(SorPerson sorPerson, final SorRole sorRole) throws IllegalArgumentException {
+
+//        Assert.notNull(sorPerson, "SorPerson cannot be null.");
+//        Assert.notNull(sorRole, "SorRole cannot be null.");
+        if(sorPerson ==null ||sorRole ==null )
+           throw new IllegalArgumentException();
         return new ServiceExecutionResult<SorRole>() {
             @Override
             public Date getExecutionDate() {
@@ -188,8 +194,30 @@ public class MockPersonService implements PersonService {
     }
 
     @Override
-    public ServiceExecutionResult<SorRole> updateSorRole(SorPerson sorPerson, SorRole role) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public ServiceExecutionResult<SorRole> updateSorRole(SorPerson sorPerson,final SorRole sorRole) {
+        if(sorPerson ==null ||sorRole ==null )
+            throw new IllegalArgumentException();
+        return new ServiceExecutionResult<SorRole>() {
+            @Override
+            public Date getExecutionDate() {
+                return null;
+            }
+
+            @Override
+            public boolean succeeded() {
+                return true;
+            }
+
+            @Override
+            public SorRole getTargetObject() {
+                return sorRole;
+            }
+
+            @Override
+            public Set<ConstraintViolation> getValidationErrors() {
+                return null;
+            }
+        };
     }
 
     @Override
