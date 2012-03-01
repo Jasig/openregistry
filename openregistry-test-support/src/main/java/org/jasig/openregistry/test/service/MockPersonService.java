@@ -227,17 +227,20 @@ public class MockPersonService implements PersonService {
 
     @Override
     public boolean moveAllSystemOfRecordPerson(Person fromPerson, Person toPerson) {
-        throw new UnsupportedOperationException("Not yet implemented");
+
+          return  moveSystemOfRecordPerson(fromPerson, toPerson, new MockSorPerson());
+
     }
 
     @Override
     public boolean moveSystemOfRecordPerson(Person fromPerson, Person toPerson, SorPerson sorPerson) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return true;
     }
 
     @Override
     public boolean moveSystemOfRecordPersonToNewPerson(Person fromPerson, SorPerson sorPerson) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        sorPerson.setPersonId(fromPerson.getId());
+        return true;
     }
 
     @Override
