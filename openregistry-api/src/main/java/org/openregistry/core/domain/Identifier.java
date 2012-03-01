@@ -107,4 +107,16 @@ public interface Identifier extends Serializable {
      * @throws IllegalStateException if trying to set the date on an identifier that is not of a "notifiable" type
      */
     void setNotificationDate(Date date) throws IllegalStateException;
+
+    /**
+     * A flag that indicate whether this identifier can be changed. Default to false (i.e. can not be changed).
+     * @return a boolean value indicating whether this identifier can be changed.
+     */
+    boolean isChangeable();
+
+    /**
+     * Sets the flag that indicate whether this identifier can be changed.
+     * @param changeable A boolean value indicating whether this identifier can be changed.
+     */
+    void setChangeable(boolean changeable);
 }

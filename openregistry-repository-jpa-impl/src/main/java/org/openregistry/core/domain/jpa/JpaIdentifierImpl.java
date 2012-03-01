@@ -74,6 +74,9 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @Column(name="is_deleted", nullable=false)
     private boolean deleted = false;
 
+    @Column(name="changeable", nullable=true)
+    private Boolean changeable = false;
+
     @Column(name="creation_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate = new Date();
@@ -115,6 +118,15 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
 
     public boolean isPrimary() {
     	return this.primary;
+    }
+
+    public boolean isChangeable() {
+        if (changeable == null) return false;
+        else return changeable.booleanValue();
+    }
+
+    public void setChangeable(boolean changeable) {
+        this.changeable = changeable;
     }
 
     public boolean isDeleted() {

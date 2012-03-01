@@ -13,6 +13,7 @@ public abstract class JpaIdentifierImpl_ {
 	public static volatile SingularAttribute<JpaIdentifierImpl, String> value;
 	public static volatile SingularAttribute<JpaIdentifierImpl, Boolean> primary;
 	public static volatile SingularAttribute<JpaIdentifierImpl, Boolean> deleted;
+	public static volatile SingularAttribute<JpaIdentifierImpl, Boolean> changeable;
 	public static volatile SingularAttribute<JpaIdentifierImpl, Date> creationDate;
 	public static volatile SingularAttribute<JpaIdentifierImpl, Date> deletedDate;
 	public static volatile SingularAttribute<JpaIdentifierImpl, Date> notificationDate;

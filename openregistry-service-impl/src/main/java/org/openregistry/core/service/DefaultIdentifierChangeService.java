@@ -98,4 +98,13 @@ public class DefaultIdentifierChangeService implements IdentifierChangeService {
             return null;
         }
     }
+
+    @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = IllegalArgumentException.class)
+    public void updateChangeable(final Identifier identifierToUpdate,  boolean changeable) {
+        final Person person = this.findPersonByIdentifier(identifierToUpdate.getType().getName(), identifierToUpdate.getValue());
+        if (person == null)
+            throw new IllegalArgumentException(format("The person with the provided identifier [%s] does not exist", identifierToUpdate.getValue()));
+        Identifier identifier = person.findIdentifierByValue(identifierToUpdate.getType().getName(), identifierToUpdate.getValue());
+        identifier.setChangeable(changeable);
+    }
 }

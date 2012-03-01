@@ -33,6 +33,7 @@ public class MockIdentifier implements Identifier {
 	private IdentifierType type;
 	private String value;
 	private boolean primary;
+    private boolean changeable = false;
 
     public MockIdentifier() {
     }
@@ -105,4 +106,14 @@ public class MockIdentifier implements Identifier {
 	public void setNotificationDate(Date date) {
 		notificationDate = new Date(date.getTime());
 	}
+
+    @Override
+    public boolean isChangeable() {
+        return changeable;
+    }
+
+    @Override
+    public void setChangeable(boolean changeable) {
+        this.changeable = changeable;
+    }
 }

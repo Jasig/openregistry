@@ -37,4 +37,11 @@ public interface IdentifierChangeService {
      */
 
     boolean change( Identifier internalId,  String changedId);
+
+    /**
+     * Update the changeable flag of the identififer
+     * @param identifierToChg
+     * @param changeable
+     */
+    void updateChangeable(final Identifier identifierToChg,  boolean changeable);
 }
