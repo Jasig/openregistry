@@ -109,6 +109,26 @@ public class MockEmailService implements EmailService {
 
     @Override
     public ServiceExecutionResult<SorPerson> saveOrCreateEmailForSorPersonForAllRoles(SorPerson sorPerson, String emailAddress, Type emailType) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+       return new ServiceExecutionResult<SorPerson>() {
+           @Override
+           public Date getExecutionDate() {
+               return null;  //To change body of implemented methods use File | Settings | File Templates.
+           }
+
+           @Override
+           public boolean succeeded() {
+               return true;
+           }
+
+           @Override
+           public SorPerson getTargetObject() {
+               return new MockSorPerson();
+           }
+
+           @Override
+           public Set<ConstraintViolation> getValidationErrors() {
+               return new HashSet<ConstraintViolation>();
+           }
+       };
     }
 }
