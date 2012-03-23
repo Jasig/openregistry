@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import java.util.Date;
 import java.util.Map;
 
 import static java.lang.String.format;
@@ -106,5 +107,14 @@ public class DefaultIdentifierChangeService implements IdentifierChangeService {
             throw new IllegalArgumentException(format("The person with the provided identifier [%s] does not exist", identifierToUpdate.getValue()));
         Identifier identifier = person.findIdentifierByValue(identifierToUpdate.getType().getName(), identifierToUpdate.getValue());
         identifier.setChangeable(changeable);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = IllegalArgumentException.class)
+    public void updateChangeExpDate(final Identifier identifierToUpdate, final Date changeExpDate) {
+        final Person person = this.findPersonByIdentifier(identifierToUpdate.getType().getName(), identifierToUpdate.getValue());
+        if (person == null)
+            throw new IllegalArgumentException(format("The person with the provided identifier [%s] does not exist", identifierToUpdate.getValue()));
+        Identifier identifier = person.findIdentifierByValue(identifierToUpdate.getType().getName(), identifierToUpdate.getValue());
+        identifier.setChangeExpirationDate(changeExpDate);
     }
 }

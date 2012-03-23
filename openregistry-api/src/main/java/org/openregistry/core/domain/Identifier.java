@@ -76,7 +76,7 @@ public interface Identifier extends Serializable {
      * sets the   This should be set when isDeleted is called, It can be set separately,
      * this is useful when loding data from legacy system and want to keep the original deletion date
      * this method should also set setDeleted=true
-      * @param Date when this identifier was deleted
+      * @param date when this identifier was deleted
      * .
      */
     void setDeletedDate(Date date);
@@ -119,4 +119,17 @@ public interface Identifier extends Serializable {
      * @param changeable A boolean value indicating whether this identifier can be changed.
      */
     void setChangeable(boolean changeable);
+
+    /**
+     * Get the expiration date of the ability to change this identifier
+     * @return expiration date of the ability to change this identifier
+     */
+
+    Date getChangeExpirationDate();
+
+    /**
+     * Sets the expiration date of the ability to change this identifier
+     * @param changeExpirationDate expiration date of the ability to change this identifier
+     */
+    void setChangeExpirationDate(Date changeExpirationDate);
 }

@@ -22,6 +22,8 @@ package org.openregistry.core.service;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Identifier;
 
+import java.util.Date;
+
 /**
  * Handles when one of the identifiers changes and third-parties need to be notified.
  *
@@ -39,9 +41,17 @@ public interface IdentifierChangeService {
     boolean change( Identifier internalId,  String changedId);
 
     /**
+    /**
      * Update the changeable flag of the identififer
      * @param identifierToChg
      * @param changeable
      */
     void updateChangeable(final Identifier identifierToChg,  boolean changeable);
+
+    /**
+     * Update the change expiration date of the identifier
+     * @param identifierToChg
+     * @param changeExpDate
+     */
+    void updateChangeExpDate(final Identifier identifierToChg, Date changeExpDate);
 }

@@ -88,7 +88,11 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @Column(name="notification_date", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date notificationDate;
-    
+
+    @Column(name="change_expiration_date", nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date changeExpirationDate;
+
     public JpaIdentifierImpl() {
         // nothing to do
     }
@@ -127,6 +131,14 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
 
     public void setChangeable(boolean changeable) {
         this.changeable = changeable;
+    }
+
+    public Date getChangeExpirationDate() {
+        return changeExpirationDate;
+    }
+
+    public void setChangeExpirationDate(Date changeExpirationDate) {
+        this.changeExpirationDate = changeExpirationDate;
     }
 
     public boolean isDeleted() {

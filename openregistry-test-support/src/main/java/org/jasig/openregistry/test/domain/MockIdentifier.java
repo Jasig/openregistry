@@ -34,6 +34,7 @@ public class MockIdentifier implements Identifier {
 	private String value;
 	private boolean primary;
     private boolean changeable = false;
+    private Date changeExpDate;
 
     public MockIdentifier() {
     }
@@ -116,4 +117,15 @@ public class MockIdentifier implements Identifier {
     public void setChangeable(boolean changeable) {
         this.changeable = changeable;
     }
+
+    @Override
+    public Date getChangeExpirationDate() {
+        return changeExpDate;
+    }
+
+    @Override
+    public void setChangeExpirationDate(Date changeExpDate) {
+        this.changeExpDate = changeExpDate;
+    }
+
 }
