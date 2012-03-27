@@ -1,6 +1,7 @@
 package org.openregistry.core.authorization;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,5 +23,5 @@ public interface Authority extends Serializable{
     void removeGroup(Group group);
 
     void removeAllGroups();
-    public Set<Group> getGroups();
+    public List<Group> getGroups();
 }

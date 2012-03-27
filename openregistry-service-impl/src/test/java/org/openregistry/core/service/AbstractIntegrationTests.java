@@ -58,5 +58,7 @@ public abstract class AbstractIntegrationTests extends AbstractTransactionalJUni
 
         final SoRSpecificationThreadLocalAspect aspect = Aspects.aspectOf(SoRSpecificationThreadLocalAspect.class);
         aspect.setSystemOfRecordRepository(new MockSystemOfRecordRepository());
+
+        System.out.println("Test:@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     }
 }

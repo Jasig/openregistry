@@ -12,10 +12,8 @@ import org.openregistry.core.domain.internal.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.*;
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created by IntelliJ IDEA.
  * User: nah67
@@ -61,18 +59,20 @@ public class JpaGroupImpl extends Entity implements Group{
     @Column(name="IS_ENABLED", nullable=false)
     private boolean enabled = false;
 
-    @ManyToMany(mappedBy = "groups",fetch=FetchType.EAGER,targetEntity = JpaUserImpl.class)
-    private Set<User> users = new HashSet<User>();
+    //@ManyToMany(mappedBy = "groups",fetch=FetchType.EAGER,targetEntity = JpaUserImpl.class)
+    @ManyToMany(mappedBy = "groups",targetEntity = JpaUserImpl.class)
+    private List<User> users = new ArrayList<User>();
 
     //@ManyToMany(targetEntity = JpaAuthorityImpl.class,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @ManyToMany(targetEntity = JpaAuthorityImpl.class,fetch = FetchType.EAGER)
+    //@ManyToMany(targetEntity = JpaAuthorityImpl.class,fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = JpaAuthorityImpl.class)
     @JoinTable(
       name="AUTH_GROUP_AUTHORITY",
       joinColumns={@JoinColumn(name="GROUP_ID", referencedColumnName="ID")},
       inverseJoinColumns={@JoinColumn(name="AUTHORITY_ID", referencedColumnName="ID")})
-    private Set<Authority> authorities = new HashSet<Authority>();
+    private List<Authority> authorities = new java.util.ArrayList<Authority>();
 
-    public Set<Authority> getAuthorities() {
+    public List<Authority> getAuthorities() {
         return this.authorities;
     }
 
@@ -90,7 +90,7 @@ public class JpaGroupImpl extends Entity implements Group{
     }
 
     @Override
-    public Set<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
@@ -195,7 +195,7 @@ public class JpaGroupImpl extends Entity implements Group{
     }
 
     @Override
-    public Set<Authority> getGroupAuthorities() {
+    public List<Authority> getGroupAuthorities() {
         return authorities;
     }
 

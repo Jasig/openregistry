@@ -238,24 +238,24 @@ public class DefaultAuthorizationService implements AuthorizationService {
     }
 
     @Override
-    public Set<Authority> findAuthoritiesOfGroup(Long id) {
+    public List<Authority> findAuthoritiesOfGroup(Long id) {
         return groupsRepository.findAuthoritiesOfGroup(id);
 
     }
 
     @Override
-    public Set<Authority> findAuthoritiesOfGroup(Group group) {
+    public List<Authority> findAuthoritiesOfGroup(Group group) {
         return groupsRepository.findAuthoritiesOfGroup(group);
     }
 
     @Override
-    public Set<Group> findGroupOfUser(User user) {
+    public List<Group> findGroupOfUser(User user) {
         return usersRepository.findGroupOfUser(user);
 
     }
 
     @Override
-    public Set<Group> findGroupOfUser(Long id) {
+    public List<Group> findGroupOfUser(Long id) {
         return usersRepository.findGroupOfUser(id);
     }
 
@@ -269,11 +269,11 @@ public class DefaultAuthorizationService implements AuthorizationService {
 //                System.out.println("OBJ1:"  + strGroup);
 //            }
             //Find the list of Groups associated with the GroupIDs (from groupRepository)
-            Set<Group> newGroupsSet = groupsRepository.getGroupListByGroupIds(groupIDs);
+            List<Group> newGroupsList = groupsRepository.getGroupListByGroupIds(groupIDs);
 
             //remove the previous association of groups from the user and assign the new one
             usersRepository.deleteGroupsOfUser(user);
-            usersRepository.addGroupsToUser(user, newGroupsSet);
+            usersRepository.addGroupsToUser(user, newGroupsList);
 
 //        }
     }

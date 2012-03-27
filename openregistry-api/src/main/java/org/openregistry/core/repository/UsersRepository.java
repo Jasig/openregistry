@@ -31,13 +31,13 @@ public interface UsersRepository {
 
     public void addGroupToUser(final User user, final Group group) throws RepositoryAccessException;
 
-    public Set<Group> findGroupOfUser(final User user) throws RepositoryAccessException;
+    public List<Group> findGroupOfUser(final User user) throws RepositoryAccessException;
 
-    public Set<Group> findGroupOfUser(final Long id) throws RepositoryAccessException;
+    public List<Group> findGroupOfUser(final Long id) throws RepositoryAccessException;
 
     public void deleteGroupsOfUser(User user) throws RepositoryAccessException;
 
-    public void addGroupsToUser(User user, Set<Group> groups) throws RepositoryAccessException ;
+    public void addGroupsToUser(User user, List<Group> groups) throws RepositoryAccessException ;
 
 
 

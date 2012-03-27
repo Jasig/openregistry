@@ -11,8 +11,7 @@ import org.openregistry.core.authorization.User;
 import org.openregistry.core.domain.internal.Entity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -50,11 +49,12 @@ public class JpaAuthorityImpl extends Entity implements Authority{
     @Column(name="DESCRIPTION",nullable=true)
     private String description;
 
-    @ManyToMany(mappedBy = "authorities",targetEntity = JpaGroupImpl.class,fetch=FetchType.EAGER)
-    private Set<Group> groups = new HashSet<Group>();
+    //@ManyToMany(mappedBy = "authorities",targetEntity = JpaGroupImpl.class,fetch=FetchType.EAGER)
+    @ManyToMany(mappedBy = "authorities",targetEntity = JpaGroupImpl.class)
+    private List<Group> groups = new ArrayList<Group>();
 
     @Override
-    public Set<Group> getGroups(){
+    public List<Group> getGroups(){
         return this.groups;
     }
 

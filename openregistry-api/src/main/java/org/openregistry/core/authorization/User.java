@@ -28,6 +28,6 @@ public interface User extends Serializable {
     void removeGroup(Group group);
     public void removeAllGroups();
 
-    Set<Group> getUserGroups();
+    List<Group> getUserGroups();
 
 }

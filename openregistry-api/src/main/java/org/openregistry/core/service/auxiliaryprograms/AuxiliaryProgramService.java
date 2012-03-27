@@ -37,6 +37,8 @@ public interface AuxiliaryProgramService {
 
         public boolean netIdAlreadyExists(final String netId) throws RepositoryAccessException;
         public boolean providedNetIdIsAnIID(String netId);
+        public boolean iidExistsForAPersonOrProgram(String iid);
+        public boolean iidExistsForProgram(String iid);
         public void assignNetIdToProgramUsingRcpid(String rcpID, String netID) throws AuxiliaryProgramException;
         public AuxiliaryProgram findAuxiliaryProgramAssociatedWithRCPID(String rcpID) throws AuxiliaryProgramException;
 

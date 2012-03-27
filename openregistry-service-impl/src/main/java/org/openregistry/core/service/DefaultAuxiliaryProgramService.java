@@ -137,6 +137,11 @@ public class DefaultAuxiliaryProgramService implements AuxiliaryProgramService {
     }
 
     @Override
+    public boolean iidExistsForAPersonOrProgram(String iid) {
+        return providedNetIdIsAnIID(iid);
+    }
+
+    @Override
     public boolean providedNetIdIsAnIID(String netId){
         String iid = netId.toUpperCase();
         boolean flag = false;
@@ -178,6 +183,28 @@ public class DefaultAuxiliaryProgramService implements AuxiliaryProgramService {
         return flag;
     }
 
+    @Override
+    public boolean iidExistsForProgram(String iid) {
+        boolean flag = false;
+        try{
+        List<AuxiliaryIdentifier> lstAuxIdentifiers = auxiliaryIdentifierRepository.findByAuxiliaryIdentifierValue(iid); //this.auxiliaryIdentifierRepository.findAuxiliaryProgramByIdentifierValueAndType(Type.IdentifierTypes.IID.toString(),iid);
+                if (null != lstAuxIdentifiers && lstAuxIdentifiers.size() > 0){
+                    for(AuxiliaryIdentifier auxIdentifier: lstAuxIdentifiers){
+                        if(auxIdentifier.getType().getName().equalsIgnoreCase(Type.IdentifierTypes.IID.toString())){
+                            flag = true;
+                        }
+                    }
+                }
+        }catch(RepositoryAccessException rae){
+            flag = false;
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+            flag=false;
+        }
+
+        return flag;
+    }
 
     @Override
     public boolean netIdExistsForProgram(String netId){

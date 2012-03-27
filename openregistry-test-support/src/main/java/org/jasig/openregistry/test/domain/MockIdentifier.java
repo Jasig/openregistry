@@ -121,7 +121,7 @@ public class MockIdentifier implements Identifier {
     @Override
     public Date getChangeExpirationDate() {
         return changeExpDate;
-    }
+}
 
     @Override
     public void setChangeExpirationDate(Date changeExpDate) {

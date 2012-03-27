@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,9 +64,9 @@ public class JpaUserImpl extends Entity implements User {
       name="AUTH_USER_GROUP",
       joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
       inverseJoinColumns={@JoinColumn(name="GROUP_ID", referencedColumnName="ID")})
-    private Set<Group> groups = new HashSet<Group>();
+    private List<Group> groups = new ArrayList<Group>() ;
 
-    public Set<Group> getGroups() {
+    public List<Group> getGroups() {
         return this.groups;
     }
 
@@ -77,14 +78,21 @@ public class JpaUserImpl extends Entity implements User {
 
     @Override
     public void removeGroup(Group group) {
-        for(Group aGroup : this.groups){
+/*        for(Group aGroup : this.groups){
             System.out.println("Set Group HashCode:  " + aGroup.hashCode() );
         }
             System.out.println("Passed Group HashCode:  " + group.hashCode() );
-
+*/
         if(this.groups.contains(group)){
             this.groups.remove(group);
         }
+
+//          for(Group aGroup : this.groups){
+//            System.out.println("Set Group HashCode:  " + aGroup.hashCode() );
+//              if(aGroup.equals(group)){
+//                  this.groups.remove(group);
+//              }
+//        }
     }
 
     @Override
@@ -186,7 +194,7 @@ public class JpaUserImpl extends Entity implements User {
     }
 
     @Override
-    public Set<Group> getUserGroups() {
+    public List<Group> getUserGroups() {
         return groups;
     }
 }

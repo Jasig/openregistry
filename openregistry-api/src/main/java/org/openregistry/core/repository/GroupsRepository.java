@@ -29,11 +29,11 @@ public interface GroupsRepository {
 
     public Group addAuthorityToGroup(final Group group, final Authority authority) throws RepositoryAccessException;
 
-    public Set<Authority> findAuthoritiesOfGroup(final Group group) throws RepositoryAccessException;
+    public List<Authority> findAuthoritiesOfGroup(final Group group) throws RepositoryAccessException;
 
-    public Set<Authority> findAuthoritiesOfGroup(final Long id) throws RepositoryAccessException;
+    public List<Authority> findAuthoritiesOfGroup(final Long id) throws RepositoryAccessException;
 
-    public Set<Group> getGroupListByGroupIds(String[] groupIds) throws RepositoryAccessException;
+    public List<Group> getGroupListByGroupIds(String[] groupIds) throws RepositoryAccessException;
 
     public void deleteAuthoritiesOfGroup(Group group) throws RepositoryAccessException;
 

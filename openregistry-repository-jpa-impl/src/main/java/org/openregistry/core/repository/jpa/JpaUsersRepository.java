@@ -52,8 +52,8 @@ public class JpaUsersRepository implements UsersRepository {
     @Override
     public void deleteUser(User user) throws RepositoryAccessException {
         //Before deleting the user, unassign all the groups. This is because CASCADE will delete all records
-        Set<Group> setGroups = user.getUserGroups();
-        for(Group group : setGroups){
+        List<Group> lstGroups = user.getUserGroups();
+        for(Group group : lstGroups){
             group.removeUser(user);
             this.entityManager.merge(group);
         }
@@ -100,7 +100,7 @@ public class JpaUsersRepository implements UsersRepository {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void addGroupsToUser(User user, Set<Group> groups) throws RepositoryAccessException {
+    public void addGroupsToUser(User user, List<Group> groups) throws RepositoryAccessException {
         for(Group newGroup : groups){
                 user.addGroup(newGroup);
             }
@@ -116,13 +116,13 @@ public class JpaUsersRepository implements UsersRepository {
     }
 
     @Override
-    public Set<Group> findGroupOfUser(User user) throws RepositoryAccessException {
+    public List<Group> findGroupOfUser(User user) throws RepositoryAccessException {
         User user1 = this.entityManager.find(JpaUserImpl.class,user.getId());
         return user1.getUserGroups();
     }
 
     @Override
-    public Set<Group> findGroupOfUser(Long id) throws RepositoryAccessException {
+    public List<Group> findGroupOfUser(Long id) throws RepositoryAccessException {
         User user = this.entityManager.find(JpaUserImpl.class,id);
         return user.getUserGroups();
     }

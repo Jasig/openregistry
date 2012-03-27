@@ -121,4 +121,14 @@ public class MockAuxiliaryProgramService implements AuxiliaryProgramService {
     public AuxiliaryProgram findAuxiliaryProgramAssociatedWithRCPID(String rcpID) throws AuxiliaryProgramException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public boolean iidExistsForAPersonOrProgram(String iid) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean iidExistsForProgram(String iid) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

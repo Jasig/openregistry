@@ -31,4 +31,6 @@ public interface AuxiliaryIdentifierRepository {
 
     public void assignProgramToIdentifier(final AuxiliaryIdentifier auxiliaryIdentifier,final AuxiliaryProgram auxiliaryProgram) throws RepositoryAccessException;
 
+    public boolean identifierExistsForProgramAccount(final String identifier, final String IdentifierType);
+
 }

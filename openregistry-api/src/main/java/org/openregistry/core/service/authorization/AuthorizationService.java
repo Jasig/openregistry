@@ -56,12 +56,12 @@ import java.util.Set;
     public void deleteAuthority(final Long id);
 
     //find authorities belonging to a group
-    public Set<Authority> findAuthoritiesOfGroup(Long id);
-    public Set<Authority> findAuthoritiesOfGroup(Group group);
+    public List<Authority> findAuthoritiesOfGroup(Long id);
+    public List<Authority> findAuthoritiesOfGroup(Group group);
 
     //find Groups belonging to a user
-    public Set<Group> findGroupOfUser(Long id);
-    public Set<Group> findGroupOfUser(User user);
+    public List<Group> findGroupOfUser(Long id);
+    public List<Group> findGroupOfUser(User user);
     public void addAuthoritiesToGroup(Group group, String[] authorityIDs);
 
 

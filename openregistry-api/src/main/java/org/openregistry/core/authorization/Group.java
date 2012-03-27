@@ -1,7 +1,7 @@
 package org.openregistry.core.authorization;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,13 +22,13 @@ public interface Group extends Serializable{
 
     Authority addAuthority(Authority authority);
     void removeAuthority(Authority authority);
-    public Set<User> getUsers();
+    public List<User> getUsers();
 
     User addUser(User user);
     void removeUser(User user);
 
 
-    Set<Authority> getGroupAuthorities();
+    List<Authority> getGroupAuthorities();
 
     public void removeAllAuthorities();
     public void removeAllUsers();

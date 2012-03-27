@@ -55,7 +55,7 @@ public class NetIdManagementResource {
         }
         //HTTP 204 - success
     }
-
+    /*
     @POST
     @Path("{currentPrimaryNetId}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -74,4 +74,5 @@ public class NetIdManagementResource {
         }
         //HTTP 204 - success
     }
+    */
 }

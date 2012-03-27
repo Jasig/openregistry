@@ -1,12 +1,16 @@
 package org.openregistry.core.service.identifier;
 
+import org.openregistry.core.domain.AuxiliaryIdentifier;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.repository.AuxiliaryIdentifierRepository;
 import org.openregistry.core.repository.ReferenceRepository;
+import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.service.GeneralServiceExecutionResult;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
+import org.openregistry.core.service.auxiliaryprograms.AuxiliaryProgramService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import static java.lang.String.format;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.Deque;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,10 +36,13 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
 
     private String netIdTypeCode = "NETID";
 
+    private AuxiliaryIdentifierRepository auxiliaryIdentifierRepository;
+
     @Inject
-    public DefaultNetIdManagementService(PersonService personService, ReferenceRepository referenceRepository) {
+    public DefaultNetIdManagementService(PersonService personService, ReferenceRepository referenceRepository,AuxiliaryIdentifierRepository auxiliaryIdentifierRepository) {
         this.personService = personService;
         this.referenceRepository = referenceRepository;
+        this.auxiliaryIdentifierRepository = auxiliaryIdentifierRepository;
     }
 
     public void setNetIdTypeCode(String netIdTypeCode) {
@@ -53,6 +62,12 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
         if (person2 != null && person.getId() != person2.getId()) {
             throw new IllegalStateException(format("The person with the proposed new netid [%s] already exists.", newNetIdValue));
         }
+
+        //check if the NEtID already exists for an auxiliary program (also called program account)
+        if (auxiliaryIdentifierRepository.identifierExistsForProgramAccount(newNetIdValue,netIdTypeCode)){
+            throw new IllegalStateException(format("netid [%s] already exists for a program.", newNetIdValue));
+        }
+
         Map<String, Identifier> primaryIds = person.getPrimaryIdentifiersByType();
         Identifier currId = primaryIds.get(netIdTypeCode);
         //Candidate for NPE - which is not handeled here as it would be serious data error to not have a primary netid
@@ -63,15 +78,24 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
             throw new IllegalArgumentException(format("The provided primary netid [%s] does not match the current primary netid", currentNetIdValue));
         }
 
-        //check if the provided new net id is already there, and if so, do the update, otherwise - do the insert.
-        Identifier providedId = person.findIdentifierByValue(netIdTypeCode, newNetIdValue);
-        if(providedId == null) {
-            final IdentifierType idType = this.referenceRepository.findIdentifierType(this.netIdTypeCode);
-            providedId = person.addIdentifier(idType, newNetIdValue);
+        //before we add or update the net ID, check if the netid is allowed to be changed
+        Identifier oldNetId = person.findIdentifierByValue(netIdTypeCode, currentNetIdValue);
+        Identifier providedId = null;
+        if(null!= oldNetId.getChangeExpirationDate() &&
+                (oldNetId.getChangeExpirationDate().after(new Date(System.currentTimeMillis())) ||
+                 oldNetId.getChangeExpirationDate().equals(new Date(System.currentTimeMillis()))
+                )
+                ){
+            oldNetId.setChangeExpirationDate(new Date(System.currentTimeMillis()));
+            //check if the provided new net id is already there, and if so, do the update, otherwise - do the insert.
+            providedId = person.findIdentifierByValue(netIdTypeCode, newNetIdValue);
+            if(providedId == null) {
+                final IdentifierType idType = this.referenceRepository.findIdentifierType(this.netIdTypeCode);
+                providedId = person.addIdentifier(idType, newNetIdValue);
+            }
+            providedId.setPrimary(true);
+            currId.setPrimary(false);
         }
-        providedId.setPrimary(true);
-        currId.setPrimary(false);
-
         return new GeneralServiceExecutionResult<Identifier>(providedId);
     }
 
@@ -80,6 +104,12 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
         if ((this.personService.findPersonByIdentifier(netIdTypeCode, newNonPrimaryNetIdValue) != null)) {
             throw new IllegalStateException(format("The person with the proposed new netid [%s] already exists.", newNonPrimaryNetIdValue));
         }
+
+        //check if the NetID already exists for an auxiliary program (also called program account)
+        if (auxiliaryIdentifierRepository.identifierExistsForProgramAccount(newNonPrimaryNetIdValue,netIdTypeCode)){
+            throw new IllegalStateException(format("netid [%s] already exists for a program.", newNonPrimaryNetIdValue));
+        }
+
         final Person person = this.personService.findPersonByIdentifier(netIdTypeCode, primaryNetIdValue);
         if (person == null) {
             throw new IllegalArgumentException(format("The person with the provided primary netid [%s] does not exist", primaryNetIdValue));
@@ -96,4 +126,5 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
         newNetId.setPrimary(false);
         return new GeneralServiceExecutionResult<Identifier>(newNetId);
     }
+
 }

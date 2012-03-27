@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,25 +53,20 @@ public class JpaGroupsRepository implements GroupsRepository{
 
     @Override
     public void deleteGroup(Group group) throws RepositoryAccessException {
-        Set<Authority> setAuthorities = group.getGroupAuthorities();
-        for(Authority authority : setAuthorities){
+        List<Authority> lstAuthorities = group.getGroupAuthorities();
+        for(Authority authority : lstAuthorities){
             authority.removeGroup(group);
             this.entityManager.merge(authority);
+            this.entityManager.flush();
         }
 
-        Set<User> setUsers = group.getUsers();
-        for(User user : setUsers){
+        List<User> lstUsers = group.getUsers();
+        for(User user : lstUsers){
 
-            Set<Group> setTempGroups = user.getUserGroups();
-            for(Group tempGroup : setTempGroups){
-                if(tempGroup.equals(group)){
-
-                    System.out.println("Yeehaaa!!!!" +  "----"+group.hashCode()  + "----" + tempGroup.hashCode());
-                }
-            }
-
+            List<Group> lstTempGroups = user.getUserGroups();
             user.removeGroup(group);
             this.entityManager.merge(user);
+            this.entityManager.flush();
         }
         //now remove authorities of the group
         group.removeAllAuthorities();
@@ -109,27 +105,27 @@ public class JpaGroupsRepository implements GroupsRepository{
     }
 
     @Override
-    public Set<Authority> findAuthoritiesOfGroup(Group group) throws RepositoryAccessException {
+    public List<Authority> findAuthoritiesOfGroup(Group group) throws RepositoryAccessException {
         Group group1 = this.entityManager.find(JpaGroupImpl.class,group.getId());
         return group1.getGroupAuthorities();
     }
 
     @Override
-    public Set<Authority> findAuthoritiesOfGroup(Long id) throws RepositoryAccessException {
+    public List<Authority> findAuthoritiesOfGroup(Long id) throws RepositoryAccessException {
         Group group = this.entityManager.find(JpaGroupImpl.class,id);
         return group.getGroupAuthorities();
     }
 
     @Override
-    public Set<Group> getGroupListByGroupIds(String[] groupIds) throws RepositoryAccessException {
-        Set<Group> groupSet = new HashSet<Group>();
+    public List<Group> getGroupListByGroupIds(String[] groupIds) throws RepositoryAccessException {
+        List<Group> groupList = new ArrayList<Group>();
         for(int i = 0; i< groupIds.length; i++){
             JpaGroupImpl group = this.entityManager.find(JpaGroupImpl.class, new Long(groupIds[i]));
             if(null!=group){
-                groupSet.add(group);
+                groupList.add(group);
             }
         }
-        return groupSet;
+        return groupList;
     }
     @Override
     public void deleteAuthoritiesOfGroup(Group group) throws RepositoryAccessException {

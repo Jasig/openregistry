@@ -88,7 +88,7 @@ public class JpaIdentifierImpl extends Entity implements Identifier {
     @Column(name="notification_date", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date notificationDate;
-
+    
     @Column(name="change_expiration_date", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date changeExpirationDate;

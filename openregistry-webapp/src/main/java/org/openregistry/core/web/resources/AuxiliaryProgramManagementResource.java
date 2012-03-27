@@ -99,7 +99,7 @@ public class AuxiliaryProgramManagementResource {
                             Arrays.asList(responseText)))
                     .type(MediaType.APPLICATION_XML).build();
         }else if(auxiliaryProgramService.providedNetIdIsAnIID(netIDWithoutSpaces)){
-            //3- Verify whether the NetID already exists as an IID
+            //3- Verify whether the NetID already exists as an IID of a Person
             responseText = "The provided data could not be processed due to internal state conflict: NETID exists as an IID";
             return Response.status(Response.Status.CONFLICT)
                     .entity(new ErrorsResponseRepresentation(

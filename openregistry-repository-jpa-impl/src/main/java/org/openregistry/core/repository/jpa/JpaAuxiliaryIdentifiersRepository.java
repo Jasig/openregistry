@@ -74,4 +74,27 @@ public class JpaAuxiliaryIdentifiersRepository implements AuxiliaryIdentifierRep
         auxiliaryIdentifier.setProgram(auxiliaryProgram);
         this.entityManager.merge(auxiliaryIdentifier);
     }
+
+    @Override
+    public boolean identifierExistsForProgramAccount(final String auxiliaryIdentifier, final String IdentifierType){
+      boolean flag= false;
+        try{
+            List<AuxiliaryIdentifier> auxIdentifierLst = this.findByAuxiliaryIdentifierValue(auxiliaryIdentifier);
+            if(null!= auxIdentifierLst && auxIdentifierLst.size() > 0){
+                for(AuxiliaryIdentifier ai : auxIdentifierLst){
+                    if(ai.getType().getName().equalsIgnoreCase(IdentifierType)){
+                        flag=true;
+                    }
+                }
+
+            }
+        }catch(RepositoryAccessException rae){
+            flag = false;
+
+        }catch (Exception ex){
+            flag = false;
+        }
+        return flag;
+    }
+
 }
