@@ -17,6 +17,6 @@ public abstract class JpaIdentifierImpl_ {
 	public static volatile SingularAttribute<JpaIdentifierImpl, Date> creationDate;
 	public static volatile SingularAttribute<JpaIdentifierImpl, Date> deletedDate;
 	public static volatile SingularAttribute<JpaIdentifierImpl, Date> notificationDate;
-
+    public static volatile SingularAttribute<JpaIdentifierImpl, Date> changeExpirationDate;
 }
 
