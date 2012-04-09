@@ -51,8 +51,11 @@ import org.openregistry.core.domain.DisclosureSettingsForAddress;
 import org.openregistry.core.domain.DisclosureSettingsForEmail;
 import org.openregistry.core.domain.DisclosureSettingsForPhone;
 import org.openregistry.core.domain.DisclosureSettingsForUrl;
+import org.openregistry.core.domain.Role;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.domain.DisclosureSettings.PropertyNames;
 import org.openregistry.core.service.DisclosureRecalculationStrategy;
+import org.openregistry.core.repository.ReferenceRepository;
 
 import java.io.Serializable;
 
@@ -91,16 +94,16 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
     private boolean withinGracePeriod = false;
 	
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "disclosureRecord", targetEntity = JpaDisclosureSettingsForAddressImpl.class)
-    private Set<DisclosureSettingsForAddress> addressDsiclosureSettings = new HashSet<DisclosureSettingsForAddress>();
+    private Set<DisclosureSettingsForAddress> addressDisclosureSettings = new HashSet<DisclosureSettingsForAddress>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "disclosureRecord", targetEntity = JpaDisclosureSettingsForEmailImpl.class)
-    private Set<DisclosureSettingsForEmail> emailDsiclosureSettings = new HashSet<DisclosureSettingsForEmail>();
+    private Set<DisclosureSettingsForEmail> emailDisclosureSettings = new HashSet<DisclosureSettingsForEmail>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "disclosureRecord", targetEntity = JpaDisclosureSettingsForPhoneImpl.class)
-    private Set<DisclosureSettingsForPhone> phoneDsiclosureSettings = new HashSet<DisclosureSettingsForPhone>();
+    private Set<DisclosureSettingsForPhone> phoneDisclosureSettings = new HashSet<DisclosureSettingsForPhone>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "disclosureRecord", targetEntity = JpaDisclosureSettingsForUrlImpl.class)
-    private Set<DisclosureSettingsForUrl> urlDsiclosureSettings = new HashSet<DisclosureSettingsForUrl>();
+    private Set<DisclosureSettingsForUrl> urlDisclosureSettings = new HashSet<DisclosureSettingsForUrl>();
 
     @Transient
 	private boolean isDirty = false;
@@ -188,7 +191,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 	 */
 	public Map<Type, DisclosureSettingsForAddress> getAddressDisclosureSettingsForAffiliation(String affiliationType) {
 		Map <Type, DisclosureSettingsForAddress> addressDisclosureMap = new HashMap<Type, DisclosureSettingsForAddress>();
-		for (DisclosureSettingsForAddress ad : this.addressDsiclosureSettings) {
+		for (DisclosureSettingsForAddress ad : this.addressDisclosureSettings) {
 			if (ad.getAffiliation().equals(affiliationType)) {
 				addressDisclosureMap.put(ad.getAddressType(), ad);
 			}
@@ -209,7 +212,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 	public Map<Type, DisclosureSettingsForEmail> getEmailDisclosureSettingsForAffiliation(
 			String affiliationType) {
 		Map <Type, DisclosureSettingsForEmail> emailDisclosureMap = new HashMap<Type, DisclosureSettingsForEmail>();
-		for (DisclosureSettingsForEmail ed : this.emailDsiclosureSettings) {
+		for (DisclosureSettingsForEmail ed : this.emailDisclosureSettings) {
 			if (ed.getAffiliation().equals(affiliationType)) {
 				emailDisclosureMap.put(ed.getType(), ed);
 			}
@@ -230,7 +233,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 	public Map<Type, Map<Type, DisclosureSettingsForPhone>> getPhoneDisclosureSettingsForAffiliation(
 			String affiliationType) {
 		Map<Type, Map<Type, DisclosureSettingsForPhone>> phoneDisclosureMap = new HashMap<Type, Map<Type, DisclosureSettingsForPhone>>();
-		for (DisclosureSettingsForPhone pd : this.phoneDsiclosureSettings) {
+		for (DisclosureSettingsForPhone pd : this.phoneDisclosureSettings) {
 			if (pd.getAffiliation().equals(affiliationType)) {
 				Map <Type, DisclosureSettingsForPhone> phoneDisclosureMapForAddressType =
 					phoneDisclosureMap.remove(pd.getAddressType());
@@ -256,7 +259,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 	 */
 	public Map<Type, DisclosureSettingsForUrl> getUrlDisclosureSettingsForAffiliation(String affiliationType) {
 		Map <Type, DisclosureSettingsForUrl> urlDisclosureMap = new HashMap<Type, DisclosureSettingsForUrl>();
-		for (DisclosureSettingsForUrl ud : this.urlDsiclosureSettings) {
+		for (DisclosureSettingsForUrl ud : this.urlDisclosureSettings) {
 			if (ud.getAffiliation().equals(affiliationType)) {
 				urlDisclosureMap.put(ud.getType(), ud);
 			}
@@ -272,7 +275,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 		if (ad == null) {
 			ad = new JpaDisclosureSettingsForAddressImpl(this, addressType, affiliationType);
 			ad.initFromProperties(properties);
-			this.addressDsiclosureSettings.add(ad);
+			this.addressDisclosureSettings.add(ad);
 		} else {
 			ad.initFromProperties(properties);
 		}
@@ -297,7 +300,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 		if (ed == null) {
 			ed = new JpaDisclosureSettingsForEmailImpl(this, type, affiliationType);
 			ed.setPublicInd(isPublic, updateDate);
-			this.emailDsiclosureSettings.add(ed);
+			this.emailDisclosureSettings.add(ed);
 		} else {
 			ed.setPublicInd(isPublic, updateDate);
 		}
@@ -322,7 +325,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 		if (pd == null) {
 			pd = new JpaDisclosureSettingsForPhoneImpl(this, addressType, phoneType, affiliationType);
 			pd.setPublicInd(isPublic, updateDate);
-			this.phoneDsiclosureSettings.add(pd);
+			this.phoneDisclosureSettings.add(pd);
 		} else {
 			pd.setPublicInd(isPublic, updateDate);
 		}
@@ -347,7 +350,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 		if (ud == null) {
 			ud = new JpaDisclosureSettingsForUrlImpl(this, type, affiliationType);
 			ud.setPublicInd(isPublic, updateDate);
-			this.urlDsiclosureSettings.add(ud);
+			this.urlDisclosureSettings.add(ud);
 		} else {
 			ud.setPublicInd(isPublic, updateDate);
 		}
@@ -358,20 +361,50 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 	 * @see org.openregistry.core.domain.DisclosureSettings#recalculate(org.openregistry.core.service.DisclosureRecalculationStrategy)
 	 */
 	public void recalculate (DisclosureRecalculationStrategy disclosureRecalculationStrategy) {
-		for (DisclosureSettingsForAddress ad: addressDsiclosureSettings) {
+		for (DisclosureSettingsForAddress ad: addressDisclosureSettings) {
 			ad.recalculate(this.disclosureCode, disclosureRecalculationStrategy);
-		}		
-		for (DisclosureSettingsForEmail ed: emailDsiclosureSettings) {
+		}	
+			
+		for (DisclosureSettingsForEmail ed: emailDisclosureSettings) {
 			ed.recalculate(this.disclosureCode, disclosureRecalculationStrategy);
-		}		
-		for (DisclosureSettingsForPhone pd: phoneDsiclosureSettings) {
+		}	
+		
+		for (DisclosureSettingsForPhone pd: phoneDisclosureSettings) {
 			pd.recalculate(this.disclosureCode, disclosureRecalculationStrategy);
-		}		
-		for (DisclosureSettingsForUrl ud: urlDsiclosureSettings) {
+		}	
+			
+		for (DisclosureSettingsForUrl ud: urlDisclosureSettings) {
 			ud.recalculate(this.disclosureCode, disclosureRecalculationStrategy);
 		}	
 		this.isDirty = false;
 	}
+	
+	/**
+	 * @see org.openregistry.core.domain.DisclosureSettings#recalculate(org.openregistry.core.service.DisclosureRecalculationStrategy)
+	 */
+	public void recalculate (DisclosureRecalculationStrategy disclosureRecalculationStrategy,String affiliation,ReferenceRepository referenceRepository) {
+		this.recalculate(disclosureRecalculationStrategy);
+		Type affiliationType = referenceRepository.findType(Type.DataTypes.AFFILIATION, affiliation);
+		
+		// Add default field level settings only if none of them exist
+		Map<Type, DisclosureSettingsForAddress> addrSettingsMap = getAddressDisclosureSettingsForAffiliation(affiliation);
+		Map<Type, DisclosureSettingsForUrl> urlSettingsMap = getUrlDisclosureSettingsForAffiliation(affiliation);
+		Map<Type, DisclosureSettingsForEmail> emailSettingsMap = getEmailDisclosureSettingsForAffiliation(affiliation);
+		Map<Type, Map<Type, DisclosureSettingsForPhone>> phoneSettingsMap = getPhoneDisclosureSettingsForAffiliation(affiliation);
+		
+		if((addrSettingsMap==null || addrSettingsMap.size()==0) && (emailSettingsMap==null || emailSettingsMap.size()==0)
+				&& (phoneSettingsMap==null || phoneSettingsMap.size()==0) 
+				&& (urlSettingsMap==null || urlSettingsMap.size()==0)){
+			setDefaultAddressDisclosureSettingsForAffiliation(disclosureRecalculationStrategy, affiliationType,referenceRepository);
+			setDefaultPhoneDisclosureSettingsForAffiliation(disclosureRecalculationStrategy, affiliationType,referenceRepository);
+			setDefaultEmailDisclosureSettingsForAffiliation(disclosureRecalculationStrategy, affiliationType,referenceRepository);
+			setDefaultUrlDisclosureSettingsForAffiliation(disclosureRecalculationStrategy, affiliationType,referenceRepository);
+			
+			//this.recalculate(disclosureRecalculationStrategy);
+		}
+		
+	}
+	
 	
 	/**
 	 * Expose the dirty state to JPA implementations of dependent objects
@@ -382,7 +415,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 	}
 	
 	private DisclosureSettingsForAddress findAddressDisclosure(Type addressType, String affiliation) {
-		for (DisclosureSettingsForAddress ad : addressDsiclosureSettings) {
+		for (DisclosureSettingsForAddress ad : addressDisclosureSettings) {
 			if (ad.matchesTypeAndAffiliation(addressType, affiliation)) {
 				return ad;
 			}
@@ -391,7 +424,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 	}
 	
 	private DisclosureSettingsForEmail findEmailDisclosure(Type addressType, String affiliation) {
-		for (DisclosureSettingsForEmail ed : emailDsiclosureSettings) {
+		for (DisclosureSettingsForEmail ed : emailDisclosureSettings) {
 			if (ed.matchesTypeAndAffiliation(addressType, affiliation)) {
 				return ed;
 			}
@@ -400,7 +433,7 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 	}
 	
 	private DisclosureSettingsForPhone findPhoneDisclosure(Type addressType, Type phoneType, String affiliation) {
-		for (DisclosureSettingsForPhone pd : phoneDsiclosureSettings) {
+		for (DisclosureSettingsForPhone pd : phoneDisclosureSettings) {
 			if (pd.matchesTypeAndAffiliation(addressType, phoneType, affiliation)) {
 				return pd;
 			}
@@ -409,11 +442,86 @@ public class JpaDisclosureSettingsImpl implements DisclosureSettings, Serializab
 	}
 	
 	private DisclosureSettingsForUrl findUrlDisclosure(Type addressType, String affiliation) {
-		for (DisclosureSettingsForUrl ud : urlDsiclosureSettings) {
+		for (DisclosureSettingsForUrl ud : urlDisclosureSettings) {
 			if (ud.matchesTypeAndAffiliation(addressType, affiliation)) {
 				return ud;
 			}
 		}
 		return null;
 	}
+	
+	private void setDefaultAddressDisclosureSettingsForAffiliation(DisclosureRecalculationStrategy disclosureRecalculationStrategy,Type affiliationType,ReferenceRepository referenceRepository){
+		String affiliation = affiliationType.getDescription();
+		HashSet<String> addrTypes = disclosureRecalculationStrategy.getSpecificaddressTypes(disclosureCode, affiliation);
+		for (String typeOfaddr: addrTypes) {
+			Type addrType = referenceRepository.findType(Type.DataTypes.ADDRESS, typeOfaddr);
+			HashMap<PropertyNames, Object> properties = new HashMap<PropertyNames, Object>();
+			PropertyNames[] props = DisclosureSettings.PropertyNames.values();
+			for(PropertyNames p :props){
+				if(p.name().indexOf("DATE")>-1){
+					properties.put(p, new Date());
+				}else{
+					properties.put(p, new Boolean(true));
+				}
+			}
+			setAddressDisclousure(affiliationType, addrType, properties);
+			for (DisclosureSettingsForAddress ad: addressDisclosureSettings) {
+				ad.recalculate(this.disclosureCode, disclosureRecalculationStrategy);
+			}
+			this.isDirty = false;
+		}
+		
+		
+	}
+	
+	private void setDefaultPhoneDisclosureSettingsForAffiliation(DisclosureRecalculationStrategy disclosureRecalculationStrategy,Type affiliationType,ReferenceRepository referenceRepository){
+		String affiliation = affiliationType.getDescription();
+		HashMap<String,HashSet<String>> phoneAddrTypes = disclosureRecalculationStrategy.getSpecificPhoneTypesWithAddress(disclosureCode, affiliation);
+		for (Map.Entry<String,HashSet<String>> entry : phoneAddrTypes.entrySet()) { 
+			String address =  entry.getKey();
+			Type addressType = referenceRepository.findType(Type.DataTypes.ADDRESS, address);
+			HashSet<String> phoneTypes =  entry.getValue(); 
+			for (String typeOfPhone: phoneTypes) {
+				Type phoneType = referenceRepository.findType(Type.DataTypes.PHONE, typeOfPhone);
+				setPhoneDisclosure(affiliationType,addressType,phoneType,true);
+				for (DisclosureSettingsForPhone pd: phoneDisclosureSettings) {
+					pd.recalculate(this.disclosureCode, disclosureRecalculationStrategy);
+				}
+				this.isDirty = false;
+			}
+			
+		} 
+}
+	
+	private void setDefaultEmailDisclosureSettingsForAffiliation(DisclosureRecalculationStrategy disclosureRecalculationStrategy,Type affiliationType,ReferenceRepository referenceRepository){
+		String affiliation = affiliationType.getDescription();
+		HashSet<String> emailTypes = disclosureRecalculationStrategy.getSpecificEmailTypes(disclosureCode, affiliation);
+		for (String typeOfEmail: emailTypes) {
+			Type emailType = referenceRepository.findType(Type.DataTypes.ADDRESS, typeOfEmail);
+			setEmailDisclosure(affiliationType, emailType, true);
+			for (DisclosureSettingsForEmail ed: emailDisclosureSettings) {
+				ed.recalculate(this.disclosureCode, disclosureRecalculationStrategy);
+			}
+			this.isDirty = false;
+		}
+		
+		
+	}
+	
+	private void setDefaultUrlDisclosureSettingsForAffiliation(DisclosureRecalculationStrategy disclosureRecalculationStrategy,Type affiliationType,ReferenceRepository referenceRepository){
+		String affiliation = affiliationType.getDescription();
+		HashSet<String> urlTypes = disclosureRecalculationStrategy.getSpecificUrlTypes(disclosureCode, affiliation);
+		for (String typeOfUrl: urlTypes) {
+			Type urlType = referenceRepository.findType(Type.DataTypes.ADDRESS, typeOfUrl);
+			setUrlDisclosure(affiliationType, urlType, true);
+			for (DisclosureSettingsForUrl ud: urlDisclosureSettings) {
+				ud.recalculate(this.disclosureCode, disclosureRecalculationStrategy);
+			}	
+			this.isDirty=false;
+		}
+		
+		
+	}
+	
+	
 }

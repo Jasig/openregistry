@@ -28,6 +28,7 @@ import org.openregistry.core.domain.DisclosureSettingsForEmail;
 import org.openregistry.core.domain.DisclosureSettingsForPhone;
 import org.openregistry.core.domain.DisclosureSettingsForUrl;
 import org.openregistry.core.domain.Type;
+import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.DisclosureRecalculationStrategy;
 
 public class MockDisclosureSettings implements DisclosureSettings {
@@ -191,5 +192,11 @@ public class MockDisclosureSettings implements DisclosureSettings {
 			boolean isPublic, Date updateDate) {
 		// TODO Auto-generated method stub
 		
-	}	
+	}
+
+    @Override
+    public void recalculate (DisclosureRecalculationStrategy disclosureRecalculationStrategy,String affiliation,ReferenceRepository referenceRepository) {
+        // TODO Auto-generated method stub
+    }
+
 }

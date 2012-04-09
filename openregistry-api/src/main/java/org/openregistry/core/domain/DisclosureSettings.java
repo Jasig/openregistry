@@ -22,6 +22,7 @@ package org.openregistry.core.domain;
 import java.util.Date;
 import java.util.Map;
 
+import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.service.DisclosureRecalculationStrategy;
 
 /**
@@ -216,4 +217,10 @@ public interface DisclosureSettings {
 	 * @param disclosureRecalculationStrategy
 	 */
 	public void recalculate (DisclosureRecalculationStrategy disclosureRecalculationStrategy);
+	
+	/**
+	 * Recalculate all field-level flags based on the supplied strategy and affiliationType
+	 * @param disclosureRecalculationStrategy
+	 */
+	public void recalculate (DisclosureRecalculationStrategy disclosureRecalculationStrategy,String affiliation,ReferenceRepository referenceRepository);
 }

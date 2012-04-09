@@ -18,6 +18,10 @@
  */
 package org.openregistry.core.service;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
+
 /**
  * Determines individual field-level disclosure settings based on disclosure code
  * @version $Revision$ $Date$
@@ -33,4 +37,9 @@ public interface DisclosureRecalculationStrategy {
 	public boolean isEmailPublic(String disclosureCode, String addressType, String affiliationType);
 	public boolean isPhonePublic(String disclosureCode, String addressType, String phoneType, String affiliationType);
 	public boolean isUrlPublic(String disclosureCode, String addressType, String affiliationType);
+	public HashSet<String> getSpecificaddressTypes(String disclosureCode,String affiliationType);
+	public HashSet<String> getSpecificEmailTypes(String disclosureCode,String affiliationType);
+	public HashSet<String> getSpecificPhoneTypes(String disclosureCode,String affiliationType);
+	public HashSet<String> getSpecificUrlTypes(String disclosureCode,String affiliationType);
+	public HashMap<String,HashSet<String>> getSpecificPhoneTypesWithAddress(String disclosureCode,String affiliationType);
 }

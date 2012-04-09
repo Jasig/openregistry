@@ -53,8 +53,8 @@ public class JpaPersonRepository implements PersonRepository {
     public Person fetchCompleteCalculatedPerson(Long id){
         return (Person) this.entityManager.createQuery("Select p from person " +
                 " p left join fetch p.identifiers i left join fetch i.type left join fetch p.names left join fetch p.roles r left join fetch p.disclosureSettings d left join fetch r.urls  left join fetch r.emailAddresses  " +
-                "left join fetch r.phones left join fetch r.addresses left join fetch r.organizationalUnit left join fetch d.addressDsiclosureSettings " +
-                "  left join fetch d.emailDsiclosureSettings left join fetch d.phoneDsiclosureSettings left join fetch d.urlDsiclosureSettings  where p.id = :id").setParameter("id", id.longValue()).getSingleResult();
+                "left join fetch r.phones left join fetch r.addresses left join fetch r.organizationalUnit left join fetch d.addressDisclosureSettings " +
+                "  left join fetch d.emailDisclosureSettings left join fetch d.phoneDisclosureSettings left join fetch d.urlDisclosureSettings  where p.id = :id").setParameter("id", id.longValue()).getSingleResult();
 
     }
 

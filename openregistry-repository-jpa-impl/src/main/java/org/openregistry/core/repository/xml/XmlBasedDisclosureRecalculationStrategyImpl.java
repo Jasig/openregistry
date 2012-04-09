@@ -19,6 +19,8 @@
 package org.openregistry.core.repository.xml;
 
 import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -26,6 +28,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.openregistry.core.domain.DisclosureSettings;
+import org.openregistry.core.domain.DisclosureSettings.PropertyNames;
 import org.openregistry.core.service.DisclosureRecalculationStrategy;
 
 @XmlRootElement(name = "specification")
@@ -66,7 +69,7 @@ public class XmlBasedDisclosureRecalculationStrategyImpl implements
         private HashSet<Affiliation> affiliations = new HashSet<Affiliation>();
         
     	private Affiliation findAffiliation(String affiliation, String defaultFlagName) {
-			Affiliation defaultAff = null;
+    		Affiliation defaultAff = null;
 			for (Affiliation aff: this.affiliations) {
 				if (aff.name.equals(affiliation)) {
 					return aff;
@@ -99,7 +102,7 @@ public class XmlBasedDisclosureRecalculationStrategyImpl implements
         private HashSet<TypeWithProperties> urlTypes = new HashSet<TypeWithProperties>();
         
     	private TypeWithProperties findAddressType(String type, String defaultFlagName) {
-			TypeWithProperties defaultType = null;
+    		TypeWithProperties defaultType = null;
 			for (TypeWithProperties t: this.addressTypes) {
 				if (t.name.equals(type)) {
 					return t;
@@ -145,6 +148,25 @@ public class XmlBasedDisclosureRecalculationStrategyImpl implements
 			}
 			return defaultType;
 		}
+		
+		private HashSet<TypeWithProperties> getaddressTypes(){
+			return this.addressTypes;
+		}
+		
+		private HashSet<TypeWithProperties> getEmailTypes(){
+			return this.emailTypes;
+			
+		}
+		
+		private HashSet<TypeWithProperties> getPhoneTypes(){
+			return this.phoneTypes;
+			
+		}
+		
+		private HashSet<TypeWithProperties> getUrlTypes(){
+			return this.urlTypes;
+			
+		}
     }
     
     private static class TypeWithProperties {
@@ -156,7 +178,7 @@ public class XmlBasedDisclosureRecalculationStrategyImpl implements
         private HashSet<Property> properties = new HashSet<Property>();   
         
     	private Property findProperty(String propName, String defaultFlagName) {
-			Property defaultProp = null;
+    		Property defaultProp = null;
 			for (Property p: this.properties) {
 				if (p.name.equals(propName)) {
 					return p;
@@ -336,4 +358,110 @@ public class XmlBasedDisclosureRecalculationStrategyImpl implements
 		}
 		return null;
 	}
-}
+	
+	public HashSet<String> getSpecificaddressTypes(String disclosureCode, 
+			String affiliationType){
+		DisclosureCodeSpecification spec = this.findSpec(disclosureCode);
+		HashSet<String> addrTypes = new HashSet<String>();
+		if (spec == null) {
+			throw new IllegalStateException("Disclosure code "+disclosureCode+" is not a valid code");
+		} else {
+			Affiliation aff = spec.findAffiliation(affiliationType, defaultFlagName);
+			
+			 for (TypeWithProperties t: aff.addressTypes) {
+					 if (!t.name.equals(defaultFlagName)) {
+						 addrTypes.add(t.name);
+					}
+				}
+		}
+		return addrTypes;
+	}
+	
+	public HashSet<String> getSpecificPhoneTypes(String disclosureCode, 
+			String affiliationType){
+		DisclosureCodeSpecification spec = this.findSpec(disclosureCode);
+		HashSet<String> phoneTypes = new HashSet<String>();
+		if (spec == null) {
+			throw new IllegalStateException("Disclosure code "+disclosureCode+" is not a valid code");
+		} else {
+			Affiliation aff = spec.findAffiliation(affiliationType, defaultFlagName);
+			
+			 for (TypeWithProperties t: aff.phoneTypes) {
+					 if (!t.name.equals(defaultFlagName)) {
+						 phoneTypes.add(t.name);
+					}
+				}
+		}
+		return phoneTypes;
+	}
+	
+	public HashSet<String> getSpecificUrlTypes(String disclosureCode, 
+			String affiliationType){
+		DisclosureCodeSpecification spec = this.findSpec(disclosureCode);
+		HashSet<String> urlTypes = new HashSet<String>();
+		if (spec == null) {
+			throw new IllegalStateException("Disclosure code "+disclosureCode+" is not a valid code");
+		} else {
+			Affiliation aff = spec.findAffiliation(affiliationType, defaultFlagName);
+			
+			 for (TypeWithProperties t: aff.urlTypes) {
+					 if (!t.name.equals(defaultFlagName)) {
+						 urlTypes.add(t.name);
+					}
+				}
+		}
+		return urlTypes;
+	}
+	
+	public HashSet<String> getSpecificEmailTypes(String disclosureCode, 
+			String affiliationType){
+		DisclosureCodeSpecification spec = this.findSpec(disclosureCode);
+		HashSet<String> emailTypes = new HashSet<String>();
+		if (spec == null) {
+			throw new IllegalStateException("Disclosure code "+disclosureCode+" is not a valid code");
+		} else {
+			Affiliation aff = spec.findAffiliation(affiliationType, defaultFlagName);
+			
+			 for (TypeWithProperties t: aff.emailTypes) {
+					 if (!t.name.equals(defaultFlagName)) {
+						 emailTypes.add(t.name);
+					}
+				}
+		}
+		return emailTypes;
+	}
+	
+	
+	public HashMap<String,HashSet<String>> getSpecificPhoneTypesWithAddress(String disclosureCode, 
+			String affiliationType){
+		DisclosureCodeSpecification spec = this.findSpec(disclosureCode);
+		HashMap<String,HashSet<String>> addrTypes = new HashMap<String,HashSet<String>>();
+		if (spec == null) {
+			throw new IllegalStateException("Disclosure code "+disclosureCode+" is not a valid code");
+		} else {
+			Affiliation aff = spec.findAffiliation(affiliationType, defaultFlagName);
+			
+			 for (TypeWithProperties t: aff.phoneTypes) {
+					 if (!t.name.equals(defaultFlagName)) {
+						 HashSet<Property> properties = t.properties;
+						HashSet<String> phoneTypes = new HashSet<String>();
+						 for (Property p: properties) {
+							 if(!p.name.equals(defaultFlagName)){
+								 phoneTypes.add(p.name);
+								
+							 }
+						 }
+						 addrTypes.put(t.name, phoneTypes);
+					}
+				}
+		}
+		return addrTypes;
+	}
+	
+	
+		
+	}
+	
+	
+	
+	

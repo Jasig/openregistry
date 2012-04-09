@@ -21,6 +21,9 @@ package org.jasig.openregistry.test.repository;
 import org.openregistry.core.repository.DisclosureRecalculationStrategyRepository;
 import org.openregistry.core.service.DisclosureRecalculationStrategy;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 public class MockDisclosureRecalculationStrategyRepository  
  implements DisclosureRecalculationStrategyRepository
 {
@@ -64,6 +67,44 @@ public class MockDisclosureRecalculationStrategyRepository
 					String addressType, String affiliationType) {
 				return true;
 			}
+
+            public HashSet<String> getSpecificaddressTypes(String disclosureCode,String affiliationType){
+            	HashSet<String> addrTypes = new HashSet<String>();
+            	addrTypes.add("HOME");
+            	addrTypes.add("CAMPUS");
+            	return addrTypes;
+            }
+            public HashSet<String> getSpecificEmailTypes(String disclosureCode,String affiliationType){
+            	HashSet<String> emailTypes = new HashSet<String>();
+            	emailTypes.add("HOME");
+            	emailTypes.add("CAMPUS");
+            	return emailTypes;
+            }
+            public HashSet<String> getSpecificPhoneTypes(String disclosureCode,String affiliationType){
+            	HashSet<String> phoneTypes = new HashSet<String>();
+            	phoneTypes.add("HOME");
+            	phoneTypes.add("CAMPUS");
+            	return phoneTypes;
+            }
+            public HashSet<String> getSpecificUrlTypes(String disclosureCode,String affiliationType){
+            	HashSet<String> urlTypes = new HashSet<String>();
+            	urlTypes.add("HOME");
+            	urlTypes.add("CAMPUS");
+            	return urlTypes;
+            }
+
+            public HashMap<String,HashSet<String>> getSpecificPhoneTypesWithAddress(String disclosureCode,
+                                                                                    String affiliationType){
+                HashSet<String> phoneTypes = new HashSet<String>();
+                phoneTypes.add("HOME");
+                phoneTypes.add("CAMPUS");
+
+                HashMap<String,HashSet<String>> phAddrTypes = new HashMap<String,HashSet<String>>();
+                phAddrTypes.put("HOME",phoneTypes);
+
+                return  phAddrTypes;
+
+            }
 			
 		};
 	}

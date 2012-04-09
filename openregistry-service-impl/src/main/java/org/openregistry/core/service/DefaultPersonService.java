@@ -21,12 +21,12 @@ package org.openregistry.core.service;
 
 import org.apache.commons.lang.*;
 import org.openregistry.core.domain.*;
+import org.openregistry.core.domain.DisclosureSettings.PropertyNames;
 import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.repository.*;
 import org.openregistry.core.service.identifier.*;
 import org.openregistry.core.service.reconciliation.*;
 import org.slf4j.*;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.access.prepost.PostFilter;
@@ -309,7 +309,8 @@ public class DefaultPersonService implements PersonService {
 
     @PreAuthorize("hasPermission(#sorRole, 'admin')")
     public ServiceExecutionResult<SorRole> validateAndSaveRoleForSorPerson(final SorPerson sorPerson, final SorRole sorRole) {
-        Assert.notNull(sorPerson, "SorPerson cannot be null.");
+    	logger.info(" validateAndSaveRoleForSorPerson start");
+    	 Assert.notNull(sorPerson, "SorPerson cannot be null.");
         Assert.notNull(sorRole, "SorRole cannot be null.");
 
         // check if the SoR Role has an ID assigned to it already and assign source sor
@@ -327,11 +328,12 @@ public class DefaultPersonService implements PersonService {
         //let sor role elector decide if this new role can be converted to calculated one
         sorRoleElector.addSorRole(newSorRole,person);
         this.personRepository.savePerson(person);
-
+        logger.info("validateAndSaveRoleForSorPerson end");
         return new GeneralServiceExecutionResult<SorRole>(newSorRole);
     }
 
     public ServiceExecutionResult<Person> validateAndSavePersonAndRole(final ReconciliationCriteria reconciliationCriteria)   {
+    	logger.info(" validateAndSavePersonAndRole start");
         SorPerson sorPerson = reconciliationCriteria.getSorPerson();
         if (sorPerson == null || sorPerson.getRoles() == null)
             throw new IllegalArgumentException("Sor Person not found in provided criteria.");
@@ -342,29 +344,33 @@ public class DefaultPersonService implements PersonService {
         setRoleIdAndSource(sorRole, sorPerson.getSourceSor());
 
         final Set validationErrors = this.validator.validate(sorRole);
-
+        
         if (!validationErrors.isEmpty()) {
             return new GeneralServiceExecutionResult<Person>(validationErrors);
         }
 
         Long personId = sorPerson.getPersonId();
         if (personId == null) {
-              // add new Sor Person and roles, create calculated person
+        	logger.info("calling saveSorPersonAndConvertToCalculatedPerson");
+        	   // add new Sor Person and roles, create calculated person
                 return new GeneralServiceExecutionResult<Person>(saveSorPersonAndConvertToCalculatedPerson(reconciliationCriteria));
         } else { // Add new Sor Person and role and link to the existing person
                     Person thisPerson = this.personRepository.findByInternalId(personId);
                     try {
-                         Person savedPerson = this.addSorPersonAndLink(reconciliationCriteria, thisPerson);
+                    	logger.info("calling addSorPersonAndLink");
+                    	  Person savedPerson = this.addSorPersonAndLink(reconciliationCriteria, thisPerson);
                          return new GeneralServiceExecutionResult<Person>(savedPerson);
                     } catch (SorPersonAlreadyExistsException sorE) {
                          throw new IllegalArgumentException("If a sor Person of the same source already exists, should call the other method to add the role only");
                     }
         }
+        
+       
     }
 
     public ServiceExecutionResult<Person> addPerson(final ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException, SorPersonAlreadyExistsException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
-
+        logger.info("addPerson start");
     if (reconciliationCriteria.getSorPerson().getSorId() != null && this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()) != null) {
         //throw new IllegalStateException("CANNOT ADD SAME SOR RECORD.");
         throw new SorPersonAlreadyExistsException(this.findBySorIdentifierAndSource(reconciliationCriteria.getSorPerson().getSourceSor(), reconciliationCriteria.getSorPerson().getSorId()));
@@ -391,11 +397,13 @@ public class DefaultPersonService implements PersonService {
     }
 
     this.criteriaCache.put(reconciliationCriteria, result);
+    logger.info("addPerson start");
     throw new ReconciliationException(result);
 }
 
     public ServiceExecutionResult<Person> forceAddPerson(final ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException, IllegalStateException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null.");
+        logger.info("forceAddPerson start");
         final ReconciliationResult result = this.criteriaCache.get(reconciliationCriteria);
 
         if (result == null) {
@@ -403,14 +411,14 @@ public class DefaultPersonService implements PersonService {
         }
 
         this.criteriaCache.remove(reconciliationCriteria);
-
+        logger.info("forceAddPerson end");
         return new GeneralServiceExecutionResult<Person>(saveSorPersonAndConvertToCalculatedPerson(reconciliationCriteria));
     }
 
     public ServiceExecutionResult<Person> addPersonAndLink(final ReconciliationCriteria reconciliationCriteria, final Person person) throws IllegalArgumentException, IllegalStateException, SorPersonAlreadyExistsException {
         Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null.");
         Assert.notNull(person, "person cannot be null.");
-
+        logger.info(" addPersonAndLink start");
         final ReconciliationResult result = this.criteriaCache.get(reconciliationCriteria);
 
         if (result == null) {
@@ -424,13 +432,13 @@ public class DefaultPersonService implements PersonService {
                 return new GeneralServiceExecutionResult<Person>(savedPerson);
             }
         }
-
+        logger.info("addPersonAndLink end");
         throw new IllegalStateException("Person not found in ReconciliationResult.");
     }
 
     public ServiceExecutionResult<ReconciliationResult> reconcile(final ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException {
          Assert.notNull(reconciliationCriteria, "reconciliationCriteria cannot be null");
-
+         logger.info("reconcile start");
          final Set validationErrors = this.validator.validate(reconciliationCriteria);
 
          if (!validationErrors.isEmpty()) {
@@ -438,6 +446,7 @@ public class DefaultPersonService implements PersonService {
              while (iter.hasNext()) {
                  logger.info("validation errors: " + iter.next());
              }
+             logger.info("reconcile start");
              return new GeneralServiceExecutionResult<ReconciliationResult>(validationErrors);
          }
 
@@ -494,7 +503,7 @@ public class DefaultPersonService implements PersonService {
         Assert.notNull(person, "person cannot be null.");
 
         logger.info("Verifying Number of calculated Roles before the calculate: "+ person.getRoles().size());
-
+       
         // Iterate over sorRoles. SorRoles may be new or updated.
         for (final SorRole savedSorRole:savedSorPerson.getRoles()){
             logger.info("DefaultPersonService: savedSorPersonRole Found, savedSorRoleID: "+ savedSorRole.getId());
@@ -684,7 +693,7 @@ public class DefaultPersonService implements PersonService {
 
     protected Person recalculatePersonBiodemInfo(final Person person, final SorPerson sorPerson, final RecalculationType recalculationType, boolean mistake) {
         final List<SorPerson> sorPersons = this.personRepository.getSoRRecordsForPerson(person);
-
+        logger.info("recalculatePersonBiodemInfo: start");
         if (recalculationType == RecalculationType.ADD || (recalculationType == RecalculationType.DELETE && !mistake)) {
             sorPersons.add(sorPerson);
         }
@@ -698,6 +707,7 @@ public class DefaultPersonService implements PersonService {
         final EmailAddress emailAddress = this.preferredContactEmailAddressFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final Phone phone = this.preferredContactPhoneNumberFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final SorDisclosureSettings disclosure = this.disclosureFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+     
         final String  ssn = this.ssnFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         Identifier primarySSN=person.getPrimaryIdentifiersByType().get("SSN");
         //check if the elector elcted some ssn and person does have previous ssn assigned to it
@@ -709,17 +719,40 @@ public class DefaultPersonService implements PersonService {
             }//all other exception should be propogated
 
         }
-
+        
         person.setDateOfBirth(birthDate);
         person.setGender(gender);
         person.getPreferredContactEmailAddress().update(emailAddress);
         person.getPreferredContactPhoneNumber().update(phone);
         person.calculateDisclosureSettings(disclosure);
-        if  (person.getDisclosureSettings() != null) {
-        	person.getDisclosureSettings().recalculate(this.strategyRepository.getDisclosureRecalculationStrategy());
+        
+        String affiliation = "";
+        Type affiliationType=null;
+        if(disclosure!=null){
+        	logger.info("after person.calculateDisclosureSettings, disclosure code : " + disclosure.getDisclosureCode());
+        }else{
+        	logger.info("Disclosure is null");
         }
+       List<SorRole> sorroles = sorPerson.getRoles();
+        for(SorRole role:sorroles){
+        	if(role!=null){
+        		logger.info("Role = " + role.getTitle());
+        		if(role.getAffiliationType()!=null){
+        			logger.info("Role desc= " + role.getAffiliationType().getDescription());
+        			affiliation=role.getAffiliationType().getDescription();
+            		
+            		if  (person.getDisclosureSettings() != null) {
+                    	logger.info("recalculating disclosure setting 1...");
+                    	//person.getDisclosureSettings().recalculate(this.strategyRepository.getDisclosureRecalculationStrategy());
+                    	person.getDisclosureSettings().recalculate(this.strategyRepository.getDisclosureRecalculationStrategy(),affiliation,referenceRepository);
+                    }
+            	}
+        	}
+        }
+       
+    
         //SSN election is happening in the ssn identifier assigner.
-
+       
         boolean preferred = false;
         boolean official = false;
 
@@ -738,7 +771,7 @@ public class DefaultPersonService implements PersonService {
                 break;
             }
         }
-
+        logger.info("recalculatePersonBiodemInfo: end");
 //        return this.personRepository.savePerson(person);
           return person;
     }
