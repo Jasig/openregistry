@@ -877,7 +877,10 @@ public class DefaultPersonService implements PersonService {
 
         }
 
-
+        //loop through all identifiers to see if addition of this new sor person will have a new identifier created at calculated level
+        for (final IdentifierAssigner ia : this.identifierAssigners) {
+            ia.addIdentifierTo(sorPerson, person);
+        }
         Person p =  recalculatePersonBiodemInfo(person, savedSorPerson, RecalculationType.UPDATE, false);
         return this.personRepository.savePerson(p);
     }
