@@ -142,15 +142,15 @@ public class DefaultPersonService implements PersonService {
     public void setValidator(final Validator validator) {
         this.validator = validator;
     }
-
+    @Transactional(readOnly = true)
     public Person findPersonById(final Long id) {
         return this.personRepository.findByInternalId(id);
     }
-
+    @Transactional(readOnly = true)
     public Person fetchCompleteCalculatedPerson(Long id){
         return this.personRepository.fetchCompleteCalculatedPerson(id);
     }
-
+    @Transactional(readOnly = true)
     public Person findPersonByIdentifier(final String identifierType, final String identifierValue) {
         try {
             return this.personRepository.findByIdentifier(identifierType, identifierValue);
@@ -159,6 +159,7 @@ public class DefaultPersonService implements PersonService {
         }
     }
 
+    @Transactional(readOnly = true)
     public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSourceIdentifier) {
         try {
             return this.personRepository.findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
@@ -177,6 +178,7 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public SorPerson findByIdentifierAndSource(String identifierType, String identifierValue, String sorSource) {
         Person p = this.findPersonByIdentifier(identifierType, identifierValue);
         if(p == null) {
@@ -192,6 +194,7 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Override
+    @Transactional(readOnly = true)
    public List<SorPerson> findByIdentifier(String identifierType, String identifierValue) {
        //TODO-Verify if this is the correct behavior
        Person p = this.findPersonByIdentifier(identifierType, identifierValue);
