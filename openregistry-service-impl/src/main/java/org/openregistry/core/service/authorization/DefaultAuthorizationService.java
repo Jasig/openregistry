@@ -5,6 +5,7 @@ import org.openregistry.core.authorization.AuthorizationException;
 import org.openregistry.core.authorization.Group;
 import org.openregistry.core.authorization.User;
 import org.openregistry.core.repository.*;
+import org.openregistry.core.service.SearchUserCriteria;
 import org.openregistry.core.service.identifier.IdentifierGenerator;
 import org.openregistry.core.service.reconciliation.Reconciler;
 import org.slf4j.Logger;
@@ -61,6 +62,11 @@ public class DefaultAuthorizationService implements AuthorizationService {
     @Override
     public List<User> findUserByName(String name) {
         return usersRepository.findByUserName(name);
+    }
+
+    @Override
+    public List<User> findUserByCriteria(SearchUserCriteria searchCriteria) {
+        return this.findUserByName(searchCriteria.getUserName());
     }
 
     @Override

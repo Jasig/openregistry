@@ -5,6 +5,7 @@ import org.openregistry.core.authorization.AuthorizationException;
 import org.openregistry.core.authorization.Group;
 import org.openregistry.core.authorization.User;
 import org.openregistry.core.repository.RepositoryAccessException;
+import org.openregistry.core.service.SearchUserCriteria;
 
 import java.util.List;
 import java.util.Set;
@@ -22,6 +23,7 @@ import java.util.Set;
     Authority findAuthorityById(Long id);
 
     List<User> findUserByName(String name);
+    List<User> findUserByCriteria(SearchUserCriteria searchCriteria);
     List<Group> findGroupByName(String name);
     List<Authority> findAuthorityByName(String name);
 
