@@ -4,6 +4,7 @@ import org.openregistry.core.domain.AuxiliaryIdentifier;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.validation.IdentifierFormatValidator;
 import org.openregistry.core.repository.AuxiliaryIdentifierRepository;
 import org.openregistry.core.repository.ReferenceRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
@@ -39,7 +40,13 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
     private AuxiliaryIdentifierRepository auxiliaryIdentifierRepository;
 
     @Inject
-    public DefaultNetIdManagementService(PersonService personService, ReferenceRepository referenceRepository,AuxiliaryIdentifierRepository auxiliaryIdentifierRepository) {
+    private IdentifierFormatValidator identifierFormatValidatorImpl;
+
+    @Inject
+    public DefaultNetIdManagementService(PersonService personService,
+                                         ReferenceRepository referenceRepository,
+                                         AuxiliaryIdentifierRepository auxiliaryIdentifierRepository
+                                         ) {
         this.personService = personService;
         this.referenceRepository = referenceRepository;
         this.auxiliaryIdentifierRepository = auxiliaryIdentifierRepository;
@@ -54,6 +61,11 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
         if(currentNetIdValue == newNetIdValue) {
             throw new IllegalArgumentException("Primary and Non-Primary net ids cannot be the same");
         }
+        //Check if the netId is according to proper format
+        if(!identifierFormatValidatorImpl.isNetIDAcceptable(newNetIdValue)){
+            throw new IllegalArgumentException("NetId is not according to accepted format");
+        }
+
         final Person person = this.personService.findPersonByIdentifier(netIdTypeCode, currentNetIdValue);
         if (person == null) {
             throw new IllegalArgumentException(format("The person with the provided netid [%s] does not exist", currentNetIdValue));
@@ -101,6 +113,12 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
 
     @Override
     public ServiceExecutionResult<Identifier> addNonPrimaryNetId(String primaryNetIdValue, String newNonPrimaryNetIdValue) throws IllegalArgumentException, IllegalStateException {
+
+        //Check if the netId is according to proper format
+        if(!identifierFormatValidatorImpl.isNetIDAcceptable(newNonPrimaryNetIdValue)){
+            throw new IllegalArgumentException("NetId is not according to accepted format");
+        }
+
         if ((this.personService.findPersonByIdentifier(netIdTypeCode, newNonPrimaryNetIdValue) != null)) {
             throw new IllegalStateException(format("The person with the proposed new netid [%s] already exists.", newNonPrimaryNetIdValue));
         }
