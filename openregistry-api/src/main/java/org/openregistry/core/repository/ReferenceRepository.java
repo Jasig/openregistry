@@ -53,6 +53,8 @@ public interface ReferenceRepository {
     
     List<Region> getRegions();
 
+    public List<Region> getRegionsByCountryCode(final String countryCode);
+
     Region getRegionByCodeAndCountryId(String code, String countryCode);
 
     /**

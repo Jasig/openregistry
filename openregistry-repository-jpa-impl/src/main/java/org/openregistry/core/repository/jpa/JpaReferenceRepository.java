@@ -104,6 +104,9 @@ public final class JpaReferenceRepository implements ReferenceRepository {
         return (List<Region>) this.entityManager.createQuery("select r from region r").getResultList();
     }
 
+    public List<Region> getRegionsByCountryCode(final String countryCode) {
+        return (List<Region>) this.entityManager.createQuery("select r from region r join r.country c where c.code = :countryCode order by r.name").setParameter("countryCode", countryCode).getResultList();
+    }
 
     public Region getRegionByCodeAndCountryId(final String code, final String countryCode) {
         return (Region) this.entityManager.createQuery("select r from region r join r.country c where r.code = :code and c.code = :countryCode order by r.name, c.code").setParameter("code", code).setParameter("countryCode", countryCode).getSingleResult();
