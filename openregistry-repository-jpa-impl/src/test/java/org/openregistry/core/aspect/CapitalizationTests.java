@@ -79,6 +79,22 @@ public class CapitalizationTests extends TestCase {
         assertEquals("McGovern", name.getFamily());
 
     }
+    @Test
+    public void testSpecialLastNameCapitalizationWithDash() {
+        final JpaSorPersonImpl person = new JpaSorPersonImpl();
+        final SorName name =  person.addName();
+        name.setFamily("MCMILLAN-MOORE");
+        assertEquals("McMillan-Moore", name.getFamily());
+
+    }
+    @Test
+    public void testSpecialLastNameCapitalizationWithSpace() {
+        final JpaSorPersonImpl person = new JpaSorPersonImpl();
+        final SorName name =  person.addName();
+        name.setFamily("MC INTYRE");
+        assertEquals("Mc Intyre", name.getFamily());
+
+    }
     
     @Test
     public void testLastNameCapitalizationWithDash() {

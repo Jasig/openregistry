@@ -59,7 +59,7 @@ public final class LastNameAspect extends AbstractNameAspect {
             final String casifyValue = WordUtils.capitalizeFully(value, delimiters);
 
             if (casifyValue.startsWith("Mc") && casifyValue.length() > 2) {
-                return joinPoint.proceed(new Object[]{"Mc" + WordUtils.capitalizeFully(casifyValue.substring(3), delimiters)});
+                return joinPoint.proceed(new Object[]{"Mc" + WordUtils.capitalizeFully(casifyValue.substring(2), delimiters)});
 
             }
 
