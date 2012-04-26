@@ -77,11 +77,11 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
     }
 
     public void setGivenName(final String givenName) {
-        this.givenName = givenName;
+        this.givenName = givenName.trim();
     }
 
     public void setFamilyName(final String familyName) {
-        this.familyName = familyName;
+        this.familyName = familyName.trim();
     }
 
     public void setDateOfBirth(final Date dateOfBirth) {
@@ -89,7 +89,7 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
     }
 
     public void setIdentifierValue(final String identifierValue) {
-        this.identifierValue = identifierValue;
+        this.identifierValue = identifierValue.trim();
     }
 
     @Override
