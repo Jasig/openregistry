@@ -121,7 +121,7 @@ public class JpaPersonRepository implements PersonRepository {
 
         if (StringUtils.hasText(givenName) && StringUtils.hasText(familyName)) {
 //          final Predicate pGivenName = criteriaBuilder.equal(name.get(JpaNameImpl_.given), givenName );
-            Expression<String> pattern = criteriaBuilder.upper(criteriaBuilder.literal((String) givenName + "%"));
+            Expression<String> pattern = criteriaBuilder.literal((String) givenName + "%");
             final Predicate pGivenName = criteriaBuilder.like(name.get(JpaNameImpl_.given), pattern);
             final Predicate pFamilyName = criteriaBuilder.equal(name.get(JpaNameImpl_.family), familyName );
 
