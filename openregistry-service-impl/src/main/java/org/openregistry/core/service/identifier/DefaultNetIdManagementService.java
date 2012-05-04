@@ -90,24 +90,22 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
             throw new IllegalArgumentException(format("The provided primary netid [%s] does not match the current primary netid", currentNetIdValue));
         }
 
-        //before we add or update the net ID, check if the netid is allowed to be changed
         Identifier oldNetId = person.findIdentifierByValue(netIdTypeCode, currentNetIdValue);
         Identifier providedId = null;
-        if(null!= oldNetId.getChangeExpirationDate() &&
-                (oldNetId.getChangeExpirationDate().after(new Date(System.currentTimeMillis())) ||
-                 oldNetId.getChangeExpirationDate().equals(new Date(System.currentTimeMillis()))
-                )
-                ){
-            oldNetId.setChangeExpirationDate(new Date(System.currentTimeMillis()));
-            //check if the provided new net id is already there, and if so, do the update, otherwise - do the insert.
-            providedId = person.findIdentifierByValue(netIdTypeCode, newNetIdValue);
-            if(providedId == null) {
-                final IdentifierType idType = this.referenceRepository.findIdentifierType(this.netIdTypeCode);
-                providedId = person.addIdentifier(idType, newNetIdValue);
-            }
-            providedId.setPrimary(true);
-            currId.setPrimary(false);
+
+        //removed the check for changeExpirationDate because of RIAR-382 and  OR-378
+
+        //update the changeExpirationDateindicating that the NetID was updated at that time
+        oldNetId.setChangeExpirationDate(new Date(System.currentTimeMillis()));
+        //check if the provided new net id is already there, and if so, do the update, otherwise - do the insert.
+        providedId = person.findIdentifierByValue(netIdTypeCode, newNetIdValue);
+        if(providedId == null) {
+            final IdentifierType idType = this.referenceRepository.findIdentifierType(this.netIdTypeCode);
+            providedId = person.addIdentifier(idType, newNetIdValue);
         }
+
+        providedId.setPrimary(true);
+        currId.setPrimary(false);
         return new GeneralServiceExecutionResult<Identifier>(providedId);
     }
 
