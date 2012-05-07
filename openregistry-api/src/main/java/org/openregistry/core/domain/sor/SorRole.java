@@ -121,6 +121,7 @@ public interface SorRole extends Serializable, MutableDateRange {
     List<Phone> getPhones();
 
     List<EmailAddress> getEmailAddresses();
+    public SorPerson getPerson();
 
     EmailAddress removeEmailAddressById(final Long id);
 

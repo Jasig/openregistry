@@ -21,6 +21,7 @@ package org.jasig.openregistry.test.domain;
 
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.internal.*;
+import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.openregistry.core.domain.sor.SystemOfRecord;
 
@@ -157,7 +158,12 @@ public class MockSorRole extends Entity implements SorRole {
 		return emailAddresses;
 	}
 
-	public EmailAddress removeEmailAddressById(Long id) {
+    @Override
+    public SorPerson getPerson() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public EmailAddress removeEmailAddressById(Long id) {
 		return null;
 	}
 

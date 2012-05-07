@@ -424,6 +424,9 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
         return this.urls;
     }
 
+    public JpaSorPersonImpl getPerson() {
+            return person;
+    }
 
     public List<EmailAddress> getEmailAddresses() {
         return this.emailAddresses;
