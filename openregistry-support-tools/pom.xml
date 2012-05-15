@@ -3,7 +3,7 @@
 	<parent>
         <artifactId>openregistry</artifactId>
         <groupId>org.jasig.openregistry</groupId>
-        <version>0.8.8.6-SNAPSHOT</version>
+        <version>0.8.8.6</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 	<groupId>org.jasig.openregistry</groupId>
