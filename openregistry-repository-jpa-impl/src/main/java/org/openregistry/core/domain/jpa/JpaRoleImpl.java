@@ -323,6 +323,8 @@ public class JpaRoleImpl extends Entity implements Role {
         this.sorRoleId = sorRole.getId();
         this.percentage =sorRole.getPercentage();
         this.terminationReason = sorRole.getTerminationReason();
+        this.setOrganizationalUnit( sorRole.getOrganizationalUnit());
+        this.title =sorRole.getTitle();
 
         //The Easier way to recalculate is to clear the collections and just re-insert.  Unfortunately due to a document hibernate bug
         //this implementation was not possible.  Bug causes a unique constraint violation. The inserts are done before the deletes.
