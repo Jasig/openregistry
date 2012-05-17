@@ -141,7 +141,7 @@ public class DefaultDisclosureIntegrationTests extends AbstractIntegrationTests 
 		props.put(DisclosureSettings.PropertyNames.REGION_IND, Boolean.FALSE);
 		Type homeType = this.referenceRepository.findType(Type.DataTypes.ADDRESS, Type.AddressTypes.HOME);
 		try {
-			this.disclosureService.setAddressDisclosureSettings("NETID", "Doesnotexist", Type.AffiliationTypes.FACULTY.name(), homeType, props);
+			this.disclosureService.setAddressDisclosureSettings("NETID", "Doesnotexist", Type.AffiliationTypes.FACULTY.toString(), homeType, props);
 			fail("Exception should be thrown");
 		} catch (PersonNotFoundException e) {
 			// expected behavior
@@ -154,7 +154,7 @@ public class DefaultDisclosureIntegrationTests extends AbstractIntegrationTests 
 		HashMap<DisclosureSettings.PropertyNames, Object> props = new HashMap<DisclosureSettings.PropertyNames, Object>();
 		props.put(DisclosureSettings.PropertyNames.BUILDING_IND, Boolean.TRUE);
 		props.put(DisclosureSettings.PropertyNames.REGION_IND, Boolean.FALSE);
-		String [] affiliations = new String[] {Type.AffiliationTypes.FACULTY.name()};
+		String [] affiliations = new String[] {Type.AffiliationTypes.FACULTY.toString()};
 		String lastName = "Test";
 		
 		this.createSorPerson(SOR_ID1, lastName, affiliations, 1);
@@ -176,7 +176,7 @@ public class DefaultDisclosureIntegrationTests extends AbstractIntegrationTests 
 		HashMap<DisclosureSettings.PropertyNames, Object> props = new HashMap<DisclosureSettings.PropertyNames, Object>();
 		props.put(DisclosureSettings.PropertyNames.BUILDING_IND, Boolean.TRUE);
 		props.put(DisclosureSettings.PropertyNames.REGION_IND, Boolean.FALSE);
-		String [] affiliations = new String[] {Type.AffiliationTypes.FACULTY.name()};
+		String [] affiliations = new String[] {Type.AffiliationTypes.FACULTY.toString()};
 		String lastName = "Test";
 		
 		Long personId = this.createSorPerson(SOR_ID1, lastName, affiliations, 1);
@@ -201,7 +201,7 @@ public class DefaultDisclosureIntegrationTests extends AbstractIntegrationTests 
 	public void testCreateEmailDisclosureWithoutRecalculation () {
         assertEquals(0, countRowsInTable("prc_disclosure_email"));
 
-		String [] affiliations = new String[] {Type.AffiliationTypes.FACULTY.name()};
+		String [] affiliations = new String[] {Type.AffiliationTypes.FACULTY.toString()};
 		String lastName = "Test";
 		
 		Long personId = this.createSorPerson(SOR_ID1, lastName, affiliations, 1);
@@ -318,7 +318,7 @@ public class DefaultDisclosureIntegrationTests extends AbstractIntegrationTests 
 	
 	@Test
 	public void testDeletePerson () {
-		String [] affiliations = new String[] {Type.AffiliationTypes.FACULTY.name()};
+		String [] affiliations = new String[] {Type.AffiliationTypes.FACULTY.toString()};
 		String lastName = "Lastname";
 		this.createSorPerson(SOR_ID1, "Test", affiliations, 1);
 

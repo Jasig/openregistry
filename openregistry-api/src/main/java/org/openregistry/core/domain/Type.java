@@ -52,7 +52,32 @@ public interface Type extends Serializable {
 
     enum NameTypes {LEGAL, FORMAL, AKA, MAIDEN, FKA}
 
-    enum AffiliationTypes {FACULTY, STAFF, STUDENT, ADMIT_COMING, SUMMER_STUDENT, WINTER_STUDENT, STUDENT_WORKER, CE_STUDENT, GUEST, ALUM, RETIREE, FOUNDATION}
+    enum AffiliationTypes {
+    	FACULTY("FACULTY"), 
+    	STAFF("STAFF"), 
+    	STUDENT("STUDENT"), 
+    	ADMIT_COMING("ADMIT COMING"), 
+    	SUMMER_STUDENT("SUMMER STUDENT"), 
+    	WINTER_STUDENT("WINTER STUDENT"), 
+    	STUDENT_WORKER("STUDENT WORKER"), 
+    	CE_STUDENT("CE STUDENT"), 
+    	GUEST("GUEST"), 
+    	ALUM("ALUMNI"), 
+    	RETIREE("RETIREE"), 
+    	FOUNDATION("FOUNDATION");
+    	
+    	private String description;
+    	
+    	AffiliationTypes (String description) {
+    		this.description = description;
+    	}
+    	
+    	@override
+    	public String toString () {
+    		return this.description;
+    	}
+    	
+    }
 
     enum IdentifierTypes {SSN, RUID, RCPID, IID, NETID, EXTERNALID, EMPLID, RCN};
 
