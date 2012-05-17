@@ -72,7 +72,7 @@ public interface Type extends Serializable {
     		this.description = description;
     	}
     	
-    	@override
+    	@Override
     	public String toString () {
     		return this.description;
     	}
