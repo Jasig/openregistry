@@ -44,7 +44,7 @@ public final class DefaultActivationService implements ActivationService {
 
     private DateGenerator startDateGenerator = new CurrentDateTimeDateGenerator();
 
-    private DateGenerator endDateGenerator = new AdditiveDateTimeDateGenerator(Calendar.DAY_OF_MONTH, 10);
+    private DateGenerator endDateGenerator = new AdditiveDateTimeDateGenerator(Calendar.DAY_OF_MONTH, 2);
 
     @Inject
     public DefaultActivationService(final PersonRepository personRepository) {
