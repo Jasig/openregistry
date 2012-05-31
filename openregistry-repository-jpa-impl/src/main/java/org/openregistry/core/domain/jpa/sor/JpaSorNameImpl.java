@@ -83,7 +83,7 @@ public class JpaSorNameImpl implements SorName, Serializable {
     private String middle;
 
     @Column(name="family_name",nullable=true,length=100)
-    @Size(min=1,message = "{fNameRequiredMsg}")
+    //@Size(min=1,message = "{fNameRequiredMsg}")
     //@Capitalize(property = "name.family")
     @LastName
     private String family;
