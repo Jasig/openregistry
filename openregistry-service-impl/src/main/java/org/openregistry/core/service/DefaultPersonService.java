@@ -33,6 +33,7 @@ import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.*;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.*;
 import org.springframework.util.StringUtils;
 
@@ -322,6 +323,10 @@ public class DefaultPersonService implements PersonService {
         final Set validationErrors = this.validator.validate(sorRole);
 
         if (!validationErrors.isEmpty()) {
+            //since because of existing design we cannot raise exception, we can only rollback the transaction through code
+            //OR-384
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+
             return new GeneralServiceExecutionResult<SorRole>(validationErrors);
         }
 
@@ -349,6 +354,10 @@ public class DefaultPersonService implements PersonService {
         final Set validationErrors = this.validator.validate(sorRole);
         
         if (!validationErrors.isEmpty()) {
+            //since because of existing design we cannot raise exception, we can only rollback the transaction through code
+            //OR-384
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+
             return new GeneralServiceExecutionResult<Person>(validationErrors);
         }
 
@@ -386,6 +395,10 @@ public class DefaultPersonService implements PersonService {
         while (iter.hasNext()) {
             logger.info("validation errors: " + iter.next());
         }
+        //since because of existing design we cannot raise exception, we can only rollback the transaction through code
+        //OR-384
+        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+
         return new GeneralServiceExecutionResult<Person>(validationErrors);
     }
 
@@ -450,6 +463,10 @@ public class DefaultPersonService implements PersonService {
                  logger.info("validation errors: " + iter.next());
              }
              logger.info("reconcile start");
+             //since because of existing design we cannot raise exception, we can only rollback the transaction through code
+             //OR-384
+             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+
              return new GeneralServiceExecutionResult<ReconciliationResult>(validationErrors);
          }
 
@@ -485,6 +502,10 @@ public class DefaultPersonService implements PersonService {
             while (iter.hasNext()) {
                 logger.info("validation errors: " + iter.next());
             }
+            //since because of existing design we cannot raise exception, we can only rollback the transaction through code
+            //OR-384
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+
             return new GeneralServiceExecutionResult<SorPerson>(validationErrors);
         }
 
@@ -540,6 +561,10 @@ public class DefaultPersonService implements PersonService {
         final Set validationErrors = this.validator.validate(sorRole);
 
         if (!validationErrors.isEmpty()) {
+            //since because of existing design we cannot raise exception, we can only rollback the transaction through code
+            //OR-384
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+
             return new GeneralServiceExecutionResult<SorRole>(validationErrors);
         }
 
