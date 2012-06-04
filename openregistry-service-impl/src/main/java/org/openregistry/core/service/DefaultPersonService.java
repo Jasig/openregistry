@@ -325,7 +325,9 @@ public class DefaultPersonService implements PersonService {
         if (!validationErrors.isEmpty()) {
             //since because of existing design we cannot raise exception, we can only rollback the transaction through code
             //OR-384
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+           if( TransactionAspectSupport.currentTransactionStatus()!=null){
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            }
 
             return new GeneralServiceExecutionResult<SorRole>(validationErrors);
         }
@@ -356,7 +358,9 @@ public class DefaultPersonService implements PersonService {
         if (!validationErrors.isEmpty()) {
             //since because of existing design we cannot raise exception, we can only rollback the transaction through code
             //OR-384
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            if( TransactionAspectSupport.currentTransactionStatus()!=null){
+                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+             }
 
             return new GeneralServiceExecutionResult<Person>(validationErrors);
         }
@@ -397,7 +401,10 @@ public class DefaultPersonService implements PersonService {
         }
         //since because of existing design we cannot raise exception, we can only rollback the transaction through code
         //OR-384
-        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        if( TransactionAspectSupport.currentTransactionStatus()!=null){
+             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+         }
+
 
         return new GeneralServiceExecutionResult<Person>(validationErrors);
     }
@@ -465,7 +472,10 @@ public class DefaultPersonService implements PersonService {
              logger.info("reconcile start");
              //since because of existing design we cannot raise exception, we can only rollback the transaction through code
              //OR-384
-             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+             if( TransactionAspectSupport.currentTransactionStatus()!=null){
+                  TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+              }
+
 
              return new GeneralServiceExecutionResult<ReconciliationResult>(validationErrors);
          }
@@ -504,7 +514,10 @@ public class DefaultPersonService implements PersonService {
             }
             //since because of existing design we cannot raise exception, we can only rollback the transaction through code
             //OR-384
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            if( TransactionAspectSupport.currentTransactionStatus()!=null){
+                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+             }
+
 
             return new GeneralServiceExecutionResult<SorPerson>(validationErrors);
         }
@@ -563,7 +576,10 @@ public class DefaultPersonService implements PersonService {
         if (!validationErrors.isEmpty()) {
             //since because of existing design we cannot raise exception, we can only rollback the transaction through code
             //OR-384
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            if( TransactionAspectSupport.currentTransactionStatus()!=null){
+                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+             }
+
 
             return new GeneralServiceExecutionResult<SorRole>(validationErrors);
         }
