@@ -331,7 +331,7 @@ public class MockPerson implements Person {
         final Map<String, Deque<Identifier>> identifiersByType = getIdentifiersByType();
         Deque<Identifier> ids = identifiersByType.get(identifierType);
         if(ids == null) {
-            throw new RuntimeException("No identifiers exist for the specified type [" + identifierType + "]");
+             return null;
         }
         Iterator<Identifier> iter = ids.iterator();
         Identifier id = null;
