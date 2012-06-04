@@ -17,10 +17,10 @@ public abstract class JpaDisclosureSettingsImpl_ {
 	public static volatile SingularAttribute<JpaDisclosureSettingsImpl, String> disclosureCode;
 	public static volatile SingularAttribute<JpaDisclosureSettingsImpl, Date> lastUpdateDate;
 	public static volatile SingularAttribute<JpaDisclosureSettingsImpl, Boolean> withinGracePeriod;
-	public static volatile SetAttribute<JpaDisclosureSettingsImpl, DisclosureSettingsForAddress> addressDsiclosureSettings;
-	public static volatile SetAttribute<JpaDisclosureSettingsImpl, DisclosureSettingsForEmail> emailDsiclosureSettings;
-	public static volatile SetAttribute<JpaDisclosureSettingsImpl, DisclosureSettingsForPhone> phoneDsiclosureSettings;
-	public static volatile SetAttribute<JpaDisclosureSettingsImpl, DisclosureSettingsForUrl> urlDsiclosureSettings;
+	public static volatile SetAttribute<JpaDisclosureSettingsImpl, DisclosureSettingsForAddress> addressDisclosureSettings;
+	public static volatile SetAttribute<JpaDisclosureSettingsImpl, DisclosureSettingsForEmail> emailDisclosureSettings;
+	public static volatile SetAttribute<JpaDisclosureSettingsImpl, DisclosureSettingsForPhone> phoneDisclosureSettings;
+	public static volatile SetAttribute<JpaDisclosureSettingsImpl, DisclosureSettingsForUrl> urlDisclosureSettings;
 
 }
 
