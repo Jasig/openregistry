@@ -7,10 +7,14 @@ import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.ConstraintViolation;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Default implementation of <code>EmailService</code> building on the lower level <code>PersonService</code>
@@ -65,12 +69,18 @@ public class DefaultEmailService implements EmailService {
         for (SorRole r : openRoles) {
             r.addOrUpdateEmail(emailAddress, emailType);
         }
-        return this.personService.updateSorPerson(sorPerson);
+
+        ServiceExecutionResult<SorPerson> ser = this.personService.updateSorPerson(sorPerson);
+        //OR-384
+        if(!ser.succeeded()){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return ser;
     }
 
     @Override
     public ServiceExecutionResult<SorPerson> saveOrCreateEmailForSorPersonForAllRoles(SorPerson sorPerson, String emailAddress,
-                                                                                                   Type emailType){
+                                                                                                   Type emailType) {
 
         //get all the roles for an SorPerson
         List<SorRole> openRoles = sorPerson.getRoles();
@@ -81,8 +91,12 @@ public class DefaultEmailService implements EmailService {
             r.addOrUpdateEmail(emailAddress, emailType);
         }
 
-        return this.personService.updateSorPerson(sorPerson);
+        ServiceExecutionResult<SorPerson> ser = this.personService.updateSorPerson(sorPerson);
+        //OR-384
+        if(!ser.succeeded()){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return ser;
     }
-
 
 }

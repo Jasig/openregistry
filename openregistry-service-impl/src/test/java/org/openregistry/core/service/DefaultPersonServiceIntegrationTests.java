@@ -642,7 +642,7 @@ public final class DefaultPersonServiceIntegrationTests extends AbstractIntegrat
 
      // Test update SoR role with validation errors
      @Test 
-     @Rollback
+//     @Rollback
      public void testUpdateSoRRoleInvalidAddress () {
     	 MessageSource ms = (MessageSource)applicationContext.getBean("messageSource");
          final ReconciliationCriteria criteria = constructReconciliationCriteria(RUDYARD, KIPLING, null, EMAIL_ADDRESS, PHONE_NUMBER, new Date(0), "FOO", null);

@@ -88,23 +88,34 @@ public class EmailResource {
             return localData.response;
         }
 
-        ServiceExecutionResult<SorPerson> result =
-                this.emailService.saveOrCreateEmailForSorPersonWithRoleIdentifiedByAffiliation(localData.sorPerson, emailAddress,
+        ServiceExecutionResult<SorPerson> result =  null;
+
+            result = this.emailService.saveOrCreateEmailForSorPersonWithRoleIdentifiedByAffiliation(localData.sorPerson, emailAddress,
                         localData.emailAddressType,
                         localData.affiliationType);
 
-        if (!result.succeeded()) {
-            //HTTP 400
-            return Response.status(Response.Status.BAD_REQUEST).
-                    entity(new ErrorsResponseRepresentation(ValidationUtils.buildValidationErrorsResponseAsList(result.getValidationErrors())))
-                    .type(MediaType.APPLICATION_XML).build();
-        }
-        if (result.getTargetObject() == null) {
+        if(null == result){
+            //could be because of transaction rollback or any other issue
             //HTTP 409
             return Response.status(Response.Status.CONFLICT)
-                    .entity(new ErrorsResponseRepresentation(
-                            Arrays.asList("The provided email could not be processed due to internal state conflict for this person")))
-                    .type(MediaType.APPLICATION_XML).build();
+                .entity(new ErrorsResponseRepresentation(
+                        Arrays.asList("The provided email could not be processed due to internal state conflict for this person")))
+                .type(MediaType.APPLICATION_XML).build();
+        }else{
+            if (!result.succeeded()) {
+                //HTTP 400
+                return Response.status(Response.Status.BAD_REQUEST).
+                        entity(new ErrorsResponseRepresentation(ValidationUtils.buildValidationErrorsResponseAsList(result.getValidationErrors())))
+                        .type(MediaType.APPLICATION_XML).build();
+            }
+
+            if (result.getTargetObject() == null) {
+                //HTTP 409
+                return Response.status(Response.Status.CONFLICT)
+                        .entity(new ErrorsResponseRepresentation(
+                                Arrays.asList("The provided email could not be processed due to internal state conflict for this person")))
+                        .type(MediaType.APPLICATION_XML).build();
+            }
         }
 
         //HTTP 200
@@ -121,30 +132,40 @@ public class EmailResource {
                                      @QueryParam("identifierType") String identifierType,
                                      @QueryParam("identifier") String identifier
     ) {
-
         LocalData2 localData = extractProcessingDataForAllEmails(emailType,identifierType, identifier);
         if (localData.response != null) {
             return localData.response;
         }
 
+
         for(SorPerson sorPerson:localData.sorPeople){
-            ServiceExecutionResult<SorPerson> result = this.emailService.saveOrCreateEmailForSorPersonForAllRoles(sorPerson,
-                    emailAddress,
-                    localData.emailAddressType);
+            ServiceExecutionResult<SorPerson> result = null;
+            result = this.emailService.saveOrCreateEmailForSorPersonForAllRoles(sorPerson,
+                        emailAddress,
+                        localData.emailAddressType);
 
-            if (!result.succeeded()) {
-                //HTTP 400
-                return Response.status(Response.Status.BAD_REQUEST).
-                    entity(new ErrorsResponseRepresentation(ValidationUtils.buildValidationErrorsResponseAsList(result.getValidationErrors())))
-                    .type(MediaType.APPLICATION_XML).build();
-            }
+            if(null == result){
+                    //could be because of transaction rollback or any other issue
+                    //HTTP 409
+                    return Response.status(Response.Status.CONFLICT)
+                        .entity(new ErrorsResponseRepresentation(
+                                Arrays.asList("The provided email could not be processed due to internal state conflict for this person")))
+                        .type(MediaType.APPLICATION_XML).build();
+            }else{
+                if (!result.succeeded()) {
+                    //HTTP 400
+                    return Response.status(Response.Status.BAD_REQUEST).
+                        entity(new ErrorsResponseRepresentation(ValidationUtils.buildValidationErrorsResponseAsList(result.getValidationErrors())))
+                        .type(MediaType.APPLICATION_XML).build();
+                }
 
-            if (result.getTargetObject() == null) {
-                //HTTP 409
-                return Response.status(Response.Status.CONFLICT)
-                    .entity(new ErrorsResponseRepresentation(
-                            Arrays.asList("The provided email could not be processed due to internal state conflict for this person")))
-                    .type(MediaType.APPLICATION_XML).build();
+                if (result.getTargetObject() == null) {
+                    //HTTP 409
+                    return Response.status(Response.Status.CONFLICT)
+                        .entity(new ErrorsResponseRepresentation(
+                                Arrays.asList("The provided email could not be processed due to internal state conflict for this person")))
+                        .type(MediaType.APPLICATION_XML).build();
+                }
             }
         }
 
