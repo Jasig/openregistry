@@ -4,6 +4,8 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.SorPerson;
 
+import java.util.List;
+
 /**
  * Main API for email related operations
  *
@@ -21,5 +23,8 @@ public interface EmailService {
     String findEmailForSorPersonWithRoleIdentifiedByAffiliation(SorPerson sorPerson,
                                                                 Type emailType,
                                                                 Type affiliationType);
+
+    List<ServiceExecutionResult<SorPerson>> saveOrCreateEmailForAllSorPersons(List<SorPerson> sorPersons, String emailAddress,
+                                                                Type emailType);
 
 }

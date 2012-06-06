@@ -5,6 +5,7 @@ import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.sor.SorPerson;
 import org.openregistry.core.domain.sor.SorRole;
+import org.openregistry.core.utils.ValidationUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -12,9 +13,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.ConstraintViolation;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Default implementation of <code>EmailService</code> building on the lower level <code>PersonService</code>
@@ -99,4 +98,25 @@ public class DefaultEmailService implements EmailService {
         return ser;
     }
 
+    @Override
+    //OR-386
+    public List<ServiceExecutionResult<SorPerson>> saveOrCreateEmailForAllSorPersons(List<SorPerson> sorPersons,String emailAddress,Type emailType) {
+        List <ServiceExecutionResult<SorPerson>> listOfServiceExecutionResults = new ArrayList<ServiceExecutionResult<SorPerson>>();
+        for(SorPerson sorPerson:sorPersons){
+            ServiceExecutionResult<SorPerson> result = null;
+            result = saveOrCreateEmailForSorPersonForAllRoles(sorPerson,
+                    emailAddress,
+                    emailType);
+
+            listOfServiceExecutionResults.add(result);
+            if(!result.succeeded()){
+                //transaction rollback
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                //there is no need to execute the loop as the trasnaction is rolling back
+                break;
+            }
+
+        }
+        return listOfServiceExecutionResults;
+    }
 }

@@ -10,9 +10,7 @@ import org.openregistry.core.service.EmailService;
 import org.openregistry.core.service.ServiceExecutionResult;
 
 import javax.validation.ConstraintViolation;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @since 1.0
@@ -130,5 +128,32 @@ public class MockEmailService implements EmailService {
                return new HashSet<ConstraintViolation>();
            }
        };
+    }
+
+    @Override
+    public List<ServiceExecutionResult<SorPerson>> saveOrCreateEmailForAllSorPersons(List<SorPerson> sorPersons, String emailAddress, Type emailType) {
+        List<ServiceExecutionResult<SorPerson>> listSer = new ArrayList<ServiceExecutionResult<SorPerson>>();
+        listSer.add(new ServiceExecutionResult<SorPerson>() {
+            @Override
+            public Date getExecutionDate() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public boolean succeeded() {
+                return true;
+            }
+
+            @Override
+            public SorPerson getTargetObject() {
+                return new MockSorPerson();
+            }
+
+            @Override
+            public Set<ConstraintViolation> getValidationErrors() {
+                return new HashSet<ConstraintViolation>();
+            }
+        });
+        return listSer;
     }
 }

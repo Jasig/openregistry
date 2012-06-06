@@ -137,23 +137,13 @@ public class EmailResource {
             return localData.response;
         }
 
+        List<ServiceExecutionResult<SorPerson>> listOfServiceExecutionResults = this.emailService.saveOrCreateEmailForAllSorPersons(localData.sorPeople,emailAddress,localData.emailAddressType);
 
-        for(SorPerson sorPerson:localData.sorPeople){
-            ServiceExecutionResult<SorPerson> result = null;
-            result = this.emailService.saveOrCreateEmailForSorPersonForAllRoles(sorPerson,
-                        emailAddress,
-                        localData.emailAddressType);
+        if (null != listOfServiceExecutionResults){
+            for(ServiceExecutionResult<SorPerson> result: listOfServiceExecutionResults){
 
-            if(null == result){
-                    //could be because of transaction rollback or any other issue
-                    //HTTP 409
-                    return Response.status(Response.Status.CONFLICT)
-                        .entity(new ErrorsResponseRepresentation(
-                                Arrays.asList("The provided email could not be processed due to internal state conflict for this person")))
-                        .type(MediaType.APPLICATION_XML).build();
-            }else{
                 if (!result.succeeded()) {
-                    //HTTP 400
+                        //HTTP 400
                     return Response.status(Response.Status.BAD_REQUEST).
                         entity(new ErrorsResponseRepresentation(ValidationUtils.buildValidationErrorsResponseAsList(result.getValidationErrors())))
                         .type(MediaType.APPLICATION_XML).build();
@@ -167,6 +157,12 @@ public class EmailResource {
                         .type(MediaType.APPLICATION_XML).build();
                 }
             }
+        }else{
+                    //HTTP 409
+                    return Response.status(Response.Status.CONFLICT)
+                        .entity(new ErrorsResponseRepresentation(
+                                Arrays.asList("The provided email could not be processed due to internal state conflict for this person")))
+                        .type(MediaType.APPLICATION_XML).build();
         }
 
         //HTTP 200
