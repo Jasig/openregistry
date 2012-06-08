@@ -77,11 +77,13 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
     }
 
     public void setGivenName(final String givenName) {
-        this.givenName = givenName.trim();
+        if (givenName != null)
+            this.givenName = givenName.trim();
     }
 
     public void setFamilyName(final String familyName) {
-        this.familyName = familyName.trim();
+        if (familyName  != null)
+            this.familyName = familyName.trim();
     }
 
     public void setDateOfBirth(final Date dateOfBirth) {
@@ -89,7 +91,8 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
     }
 
     public void setIdentifierValue(final String identifierValue) {
-        this.identifierValue = identifierValue.trim();
+        if (identifierValue != null)
+         this.identifierValue = identifierValue.trim();
     }
 
     @Override
@@ -108,20 +111,20 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
     public void setName(final String name) {
         this.familyName = null;
         this.givenName = null;
-        this.name = name.trim();
+        this.name = name.trim().replaceAll("( )+", " ");
 
         if (!this.name.contains(" ") && !this.name.contains(",")) {
             return;
         }
 
         if (this.name.contains(",")) {
-            final String[] split = this.name.split(",");
+            final String[] split = this.name.split(",", 2);
             this.setGivenName( split[1]);
             this.setFamilyName( split[0]);
             return;
         }
 
-        final String[] split = name.split(" ");
+        final String[] split = name.split(" ", 2);
         this.setGivenName( split[0]);
         this.setFamilyName( split[1]);
     }
