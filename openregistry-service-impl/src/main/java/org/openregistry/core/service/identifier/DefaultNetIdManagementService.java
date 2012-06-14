@@ -91,7 +91,7 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
         }
 
         //check if the provided new net id is already there, and if so, do the update, otherwise - do the insert.
-        providedId = person.findIdentifierByValue(netIdTypeCode, newNetIdValue);
+        Identifier providedId = person.findIdentifierByValue(netIdTypeCode, newNetIdValue);
         if (providedId == null) {
             final IdentifierType idType = this.referenceRepository.findIdentifierType(this.netIdTypeCode);
             providedId = person.addIdentifier(idType, newNetIdValue);
