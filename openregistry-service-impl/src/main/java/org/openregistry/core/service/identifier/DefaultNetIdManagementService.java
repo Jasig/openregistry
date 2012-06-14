@@ -99,6 +99,7 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
 
         providedId.setPrimary(true);
         currentNetId.setDeletedDate(new Date());
+        currentNetId.setPrimary(false);
         return new GeneralServiceExecutionResult<Identifier>(providedId);
     }
 
