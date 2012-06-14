@@ -75,37 +75,30 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
             throw new IllegalStateException(format("The person with the proposed new netid [%s] already exists.", newNetIdValue));
         }
 
-        //check if the NEtID already exists for an auxiliary program (also called program account)
-        if (auxiliaryIdentifierRepository.identifierExistsForProgramAccount(newNetIdValue,netIdTypeCode)){
+        //check if the netId already exists for an auxiliary program (also called program account)
+        if (auxiliaryIdentifierRepository.identifierExistsForProgramAccount(newNetIdValue,netIdTypeCode)) {
             throw new IllegalStateException(format("netid [%s] already exists for a program.", newNetIdValue));
         }
 
         Map<String, Identifier> primaryIds = person.getPrimaryIdentifiersByType();
-        Identifier currId = primaryIds.get(netIdTypeCode);
+        Identifier currentNetId = primaryIds.get(netIdTypeCode);
         //Candidate for NPE - which is not handeled here as it would be serious data error to not have a primary netid
-        if (currId.getValue().equals(newNetIdValue)) {
+        if (currentNetId.getValue().equals(newNetIdValue)) {
             throw new IllegalStateException(format("The provided new primary netid [%s] already assigned to the person.", newNetIdValue));
         }
-        else if(!currId.getValue().equals(currentNetIdValue)) {
+        else if(!currentNetId.getValue().equals(currentNetIdValue)) {
             throw new IllegalArgumentException(format("The provided primary netid [%s] does not match the current primary netid", currentNetIdValue));
         }
 
-        Identifier oldNetId = person.findIdentifierByValue(netIdTypeCode, currentNetIdValue);
-        Identifier providedId = null;
-
-        //removed the check for changeExpirationDate because of RIAR-382 and  OR-378
-
-        //update the changeExpirationDateindicating that the NetID was updated at that time
-        oldNetId.setChangeExpirationDate(new Date(System.currentTimeMillis()));
         //check if the provided new net id is already there, and if so, do the update, otherwise - do the insert.
         providedId = person.findIdentifierByValue(netIdTypeCode, newNetIdValue);
-        if(providedId == null) {
+        if (providedId == null) {
             final IdentifierType idType = this.referenceRepository.findIdentifierType(this.netIdTypeCode);
             providedId = person.addIdentifier(idType, newNetIdValue);
-        }
+        }  //TODO cleanup deleted flag?
 
         providedId.setPrimary(true);
-        currId.setPrimary(false);
+        currentNetId.setDeletedDate(new Date());
         return new GeneralServiceExecutionResult<Identifier>(providedId);
     }
 
