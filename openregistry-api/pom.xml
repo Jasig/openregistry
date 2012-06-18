@@ -17,5 +17,14 @@
             <artifactId>commons-codec</artifactId>
             <scope>compile</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons.lang.version}</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 </project>

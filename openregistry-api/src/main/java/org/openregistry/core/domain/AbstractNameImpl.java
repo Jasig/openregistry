@@ -21,6 +21,7 @@ package org.openregistry.core.domain;
 
 import org.apache.commons.codec.language.DoubleMetaphone;
 import org.apache.commons.codec.language.Soundex;
+import org.apache.commons.lang.StringUtils;
 import org.openregistry.core.domain.sor.SorName;
 
 /**
@@ -41,11 +42,11 @@ public abstract class AbstractNameImpl implements Name {
             return false;
         }
 
-        if (compareEqualityOfTwoStrings(getPrefix(), name.getPrefix())) {
-            if (compareEqualityOfTwoStrings(getGiven(), name.getGiven())) {
-                if (compareEqualityOfTwoStrings(getMiddle(), name.getMiddle())) {
-                    if (compareEqualityOfTwoStrings(getFamily(), name.getFamily())) {
-                        if (compareEqualityOfTwoStrings(getSuffix(), name.getSuffix())) {
+        if (compareEqualityOfTwoStrings(convertEmptyToNull(getPrefix()), convertEmptyToNull(name.getPrefix()))) {
+            if (compareEqualityOfTwoStrings(convertEmptyToNull(getGiven()),convertEmptyToNull( name.getGiven()))) {
+                if (compareEqualityOfTwoStrings(convertEmptyToNull(getMiddle()), convertEmptyToNull(name.getMiddle()))) {
+                    if (compareEqualityOfTwoStrings(convertEmptyToNull(getFamily()),convertEmptyToNull( name.getFamily()))) {
+                        if (compareEqualityOfTwoStrings(convertEmptyToNull(getSuffix()),convertEmptyToNull( name.getSuffix()))) {
                             return true;
                         }
                     }
@@ -65,5 +66,12 @@ public abstract class AbstractNameImpl implements Name {
         }
 
         return string1.equals(string2);
+    }
+    public String convertEmptyToNull(String s){
+       if( StringUtils.isNotBlank(s))
+           return s;
+        else
+           return null;
+
     }
 }
