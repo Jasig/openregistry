@@ -590,7 +590,7 @@ public class DefaultPersonService implements PersonService {
         final Role role = person.findRoleBySoRRoleId(savedSorRole.getId());
         if(role!=null){
            //update calculated role only if that role was previously converted to calculated one by sorRoleElector
-          role.recalculate(sorRole);
+          role.recalculate(savedSorRole);
           this.personRepository.savePerson(person);
         }
         //else //do nothing i.e. don't update the calculated role if SorRoleElector Previously decided not to convert this sor role to calculated role
