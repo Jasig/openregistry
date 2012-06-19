@@ -124,7 +124,7 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
             return;
         }
 
-        final String[] split = name.split(" ", 2);
+        final String[] split = this.name.split(" ", 2);
         this.setGivenName( split[0]);
         this.setFamilyName( split[1]);
     }
