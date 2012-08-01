@@ -61,7 +61,7 @@ public interface Identifier extends Serializable {
      * The date the identifier was created.  CANNOT be null.
      * <p>
      * This *should* be set at creation time when registry is going to create it..
-     * it can be set if we are importing data from legacy system and want to keep the origianl creation date and not actually creating identifier
+     * it can be set if we are importing data from legacy system and want to keep the original creation date and not actually creating identifier
      */
     void setCreationDate(Date originalCreationDate);
 
@@ -74,7 +74,7 @@ public interface Identifier extends Serializable {
     /**
      * The date the identifier was deleted.  CANNOT be null if deleted is true.
      * sets the   This should be set when isDeleted is called, It can be set separately,
-     * this is useful when loding data from legacy system and want to keep the original deletion date
+     * this is useful when loading data from legacy system and want to keep the original deletion date
      * this method should also set setDeleted=true
       * @param date when this identifier was deleted
      * .
