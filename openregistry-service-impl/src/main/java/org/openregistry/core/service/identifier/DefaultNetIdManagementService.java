@@ -1,17 +1,14 @@
 package org.openregistry.core.service.identifier;
 
-import org.openregistry.core.domain.AuxiliaryIdentifier;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
 import org.openregistry.core.domain.validation.IdentifierFormatValidator;
 import org.openregistry.core.repository.AuxiliaryIdentifierRepository;
 import org.openregistry.core.repository.ReferenceRepository;
-import org.openregistry.core.repository.RepositoryAccessException;
 import org.openregistry.core.service.GeneralServiceExecutionResult;
 import org.openregistry.core.service.PersonService;
 import org.openregistry.core.service.ServiceExecutionResult;
-import org.openregistry.core.service.auxiliaryprograms.AuxiliaryProgramService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import static java.lang.String.format;
 
 import javax.inject.Inject;
-import java.util.Date;
-import java.util.Deque;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,7 +76,7 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
 
         Map<String, Identifier> primaryIds = person.getPrimaryIdentifiersByType();
         Identifier currentNetId = primaryIds.get(netIdTypeCode);
-        //Candidate for NPE - which is not handeled here as it would be serious data error to not have a primary netid
+        //Candidate for NPE - which is not handled here as it would be serious data error to not have a primary netid
         if (currentNetId.getValue().equals(newNetIdValue)) {
             throw new IllegalStateException(format("The provided new primary netid [%s] already assigned to the person.", newNetIdValue));
         }
@@ -95,11 +89,14 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
         if (providedId == null) {
             final IdentifierType idType = this.referenceRepository.findIdentifierType(this.netIdTypeCode);
             providedId = person.addIdentifier(idType, newNetIdValue);
-        }  //TODO cleanup deleted flag?
+        }
 
         providedId.setPrimary(true);
-        currentNetId.setDeletedDate(new Date());
+        providedId.setDeleted(false);
+
         currentNetId.setPrimary(false);
+        currentNetId.setDeleted(true);
+
         return new GeneralServiceExecutionResult<Identifier>(providedId);
     }
 
