@@ -276,7 +276,7 @@ public class MockSorRole extends Entity implements SorRole {
 
     @Override
     public boolean isTerminated() {
-        throw new UnsupportedOperationException("This mock does not implement this method yet");
+        return true;
     }
 
     @Override
