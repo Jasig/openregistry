@@ -102,6 +102,7 @@
             </list>
         </property>
     </bean>
+    <bean id="identifierFormatValidatorImpl" class="org.openregistry.core.domain.validation.DefaultIdentifierFormatValidator"/>
 
     <!--
     <- Messaging integration configuration
