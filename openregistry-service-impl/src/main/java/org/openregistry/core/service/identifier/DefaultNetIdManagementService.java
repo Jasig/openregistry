@@ -55,10 +55,6 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
         if(currentNetIdValue == newNetIdValue) {
             throw new IllegalArgumentException("Primary and Non-Primary net ids cannot be the same");
         }
-        //Check if the netId is according to proper format
-        if(!identifierFormatValidatorImpl.isNetIDAcceptable(newNetIdValue)){
-            throw new IllegalArgumentException("NetId is not according to accepted format");
-        }
 
         final Person person = this.personService.findPersonByIdentifier(netIdTypeCode, currentNetIdValue);
         if (person == null) {
@@ -68,6 +64,12 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
         if (person2 != null && person.getId() != person2.getId()) {
             throw new IllegalStateException(format("The person with the proposed new netid [%s] already exists.", newNetIdValue));
         }
+
+         //Check if the netId is according to proper format
+        if (person2 == null && !identifierFormatValidatorImpl.isNetIDAcceptable(newNetIdValue)){
+                        throw new IllegalArgumentException("NetId is not according to accepted format");
+        }
+
 
         //check if the netId already exists for an auxiliary program (also called program account)
         if (auxiliaryIdentifierRepository.identifierExistsForProgramAccount(newNetIdValue,netIdTypeCode)) {
