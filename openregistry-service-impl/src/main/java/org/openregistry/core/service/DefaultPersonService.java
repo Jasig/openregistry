@@ -626,9 +626,31 @@ public class DefaultPersonService implements PersonService {
             moveSystemOfRecordPerson(fromPerson, toPerson, sorPerson);
         }
 
-        // TODO Delete from person - need to determine how to deal with names before this can work.
+         Set <? extends Identifier> oldIdentifiers= fromPerson.getIdentifiers();
         this.personRepository.deletePerson(fromPerson);
         logger.info("moveAllSystemOfRecordPerson: Deleted From Person");
+        for(Identifier identifier:oldIdentifiers){
+
+            if( toPerson.getIdentifiersByType().get(identifier.getType().getName())==null ){
+               Identifier oldIdentifierAttachedTotoPerson= toPerson.addIdentifier(identifier.getType(),identifier.getValue());
+            ///if type of this identifier don't exist then add this identifier as primary and not deleted
+
+                oldIdentifierAttachedTotoPerson.setDeleted(false);
+                oldIdentifierAttachedTotoPerson.setPrimary(true);
+                }
+                //and if this exist then add this identifier as deleted and no primary
+            else{
+                Identifier oldIdentifierAttachedTotoPerson= toPerson.addIdentifier(identifier.getType(),identifier.getValue());
+                ///if type of this identifier don't exist then add this identifier as primary and not deleted
+
+                oldIdentifierAttachedTotoPerson.setDeleted(true);
+                oldIdentifierAttachedTotoPerson.setPrimary(false);;
+
+                }
+             }
+
+
+        this.personRepository.savePerson(toPerson);
         return true;
     }
 

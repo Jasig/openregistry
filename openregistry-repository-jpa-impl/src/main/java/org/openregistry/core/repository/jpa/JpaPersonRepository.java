@@ -210,6 +210,7 @@ public class JpaPersonRepository implements PersonRepository {
 
     public void deletePerson(final Person person) {
         this.entityManager.remove(person);
+        this.entityManager.flush();
     }
 
     public List<Person> findByEmailAddressAndPhoneNumber(final String email, final String countryCode, final String areaCode, final String number, final String extension) {
