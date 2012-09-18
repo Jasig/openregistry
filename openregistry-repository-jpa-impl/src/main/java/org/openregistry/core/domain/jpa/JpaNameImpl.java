@@ -190,6 +190,7 @@ public class JpaNameImpl extends AbstractNameImpl {
 
         construct(builder, "", this.family, ", ");
         construct(builder, "", this.given, "");
+        if (this.middle != null) construct(builder, " ", this.middle, "");
 
         return builder.toString();
     }

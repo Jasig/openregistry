@@ -167,6 +167,7 @@ public class JpaSorNameImpl implements SorName, Serializable {
 
         construct(builder, "", this.family, ", ");
         construct(builder, "", this.given, "");
+        if (this.middle != null) construct(builder, " ", this.middle, "");
 
         return builder.toString();
     }
