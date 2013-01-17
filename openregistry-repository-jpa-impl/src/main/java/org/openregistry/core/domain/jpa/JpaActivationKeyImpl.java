@@ -116,6 +116,10 @@ public class JpaActivationKeyImpl implements ActivationKey {
         return this.value;
     }
 
+    public String getValue() {
+           return this.asString();
+    }
+
     public boolean isNotYetValid() {
        return this.start.compareTo(new Date()) > 0;
     }

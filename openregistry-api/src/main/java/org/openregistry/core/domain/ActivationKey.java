@@ -47,6 +47,11 @@ public interface ActivationKey extends DateRange, Comparable<ActivationKey>, Ser
     String asString();
 
     /**
+     * @return the same value as asString()
+     */
+    String getValue();
+
+    /**
      * Convenience method for determining if current date is before the start date.
      * @return true if its not yet valid, false otherwise.
      */
