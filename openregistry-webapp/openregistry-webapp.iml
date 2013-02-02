@@ -11,35 +11,11 @@
         </webroots>
       </configuration>
     </facet>
-    <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset1" name="XML Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/test/resources/basePeopleResourceApplicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/test/resources/testApplicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/test/resources/testDELETE-SORPersonViaRESTApplicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/openregistry-ui-servlet.xml</file>
-          <file>file://$MODULE_DIR$/src/test/resources/testDELETE-SORRoleViaRESTApplicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/securityContext.xml</file>
-          <file>file://$MODULE_DIR$/src/test/resources/testPUT-SORPersonViaRESTApplicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/test/resources/testPOSTPersonViaRESTApplicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/test/resources/testPOSTLinkSorPersonViaRESTApplicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/camel-integration-context.xml</file>
-          <file>file://$MODULE_DIR$/src/test/resources/testPOSTEmailViaRESTApplicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/applicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/test/resources/testPUT-SORRoleViaRESTApplicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/identifiers.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/electors.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/disclosureRecalculationStrategyRepository.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/systemOfRecordRepository.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/reconciler.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/normalization.xml</file>
-        </fileset>
-      </configuration>
-    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
