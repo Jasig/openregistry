@@ -11,6 +11,31 @@
         </webroots>
       </configuration>
     </facet>
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset1" name="XML Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/test/resources/basePeopleResourceApplicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/testApplicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/testDELETE-SORPersonViaRESTApplicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/openregistry-ui-servlet.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/testDELETE-SORRoleViaRESTApplicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/securityContext.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/testPUT-SORPersonViaRESTApplicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/testPOSTPersonViaRESTApplicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/testPOSTLinkSorPersonViaRESTApplicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/camel-integration-context.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/testPOSTEmailViaRESTApplicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/test/resources/testPUT-SORRoleViaRESTApplicationContext.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/identifiers.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/electors.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/disclosureRecalculationStrategyRepository.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/systemOfRecordRepository.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/reconciler.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/local-configuration/normalization.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
@@ -26,7 +51,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: displaytag:displaytag:1.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: commons-collections:commons-collections:3.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: commons-lang:commons-lang:2.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.3" level="project" />
     <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.7.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:slf4j-log4j12:1.5.11" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.5.11" level="project" />
@@ -78,6 +103,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.hibernate:hibernate-jpamodelgen:1.0.0-Beta-2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.hibernate:hibernate-tools:3.2.4.GA" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.hibernate:jtidy:r8-20060801" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.security:spring-security-core:3.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jms:3.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:1.7.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.camel:camel-core:2.9.0" level="project" />
@@ -96,7 +122,6 @@
     <orderEntry type="library" name="Maven: org.apache.activemq:activemq-pool:5.4.2" level="project" />
     <orderEntry type="library" name="Maven: commons-pool:commons-pool:1.5.4" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.security:spring-security-config:3.0.5.RELEASE" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework.security:spring-security-core:3.0.5.RELEASE" level="project" />
     <orderEntry type="module" module-name="openregistry-sor-repository-xml" scope="RUNTIME" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet.jsp:jsp-api:2.0" level="project" />
