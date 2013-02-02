@@ -47,10 +47,12 @@
             <unsubscribe>mailto:leave-openregistry-announce@lists.wisc.edu</unsubscribe>
         </mailingList>
     </mailingLists>
+    
     <scm>
-        <connection>scm:svn:https://source.jasig.org/openregistry/trunk</connection>
-        <developerConnection>scm:svn:https://source.jasig.org/openregistry/trunk</developerConnection>
-        <url>https://www.ja-sig.org/svn/openregistry</url>
+        <connection>scm:git:git@github.com:Jasig/openregistry.git</connection>
+        <developerConnection>scm:git:git@github.com:Jasig/openregistry.git</developerConnection>
+        <url>https://github.com/Jasig/openregistry</url>
+        <tag>master</tag>
     </scm>
 
     <issueManagement>
@@ -73,9 +75,9 @@
         <developer>
             <id>dima767</id>
             <name>Dmitriy Kopylenko</name>
-            <email>dkopylen@rutgers.edu</email>
-            <organization>Rutgers University - Architecture &amp; Engineering</organization>
-            <organizationUrl>http://eas.rutgers.edu</organizationUrl>
+            <email>dkopylenko@unicon.net</email>
+            <organization>Unicon, inc.</organization>
+            <organizationUrl>http://unicon.net</organizationUrl>
             <timezone>Eastern Standard Time</timezone>
         </developer>
         <developer>
