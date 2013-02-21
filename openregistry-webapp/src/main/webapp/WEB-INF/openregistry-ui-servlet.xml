@@ -59,7 +59,10 @@
         <flow:flow-location path="/WEB-INF/flows/view-complete-person.xml" id="viewCompletePerson" /> -->
     </flow:flow-registry>
 
-    <flow:flow-builder-services id="flowBuilderServices" conversion-service="applicationConversionService" view-factory-creator="mvcViewFactoryCreator" />
+    <flow:flow-builder-services id="flowBuilderServices" conversion-service="applicationConversionService" view-factory-creator="mvcViewFactoryCreator"  expression-parser="expressionParser" />
+    <bean id="expressionParser" class="org.springframework.webflow.expression.WebFlowOgnlExpressionParser">
+        <property name="conversionService" ref="applicationConversionService"/>
+    </bean>
 
     <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver"
             p:defaultThemeName="theme" />
