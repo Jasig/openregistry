@@ -3,6 +3,7 @@ package org.openregistry.core.service.identifier;
 import org.openregistry.core.domain.Identifier;
 import org.openregistry.core.domain.IdentifierType;
 import org.openregistry.core.domain.Person;
+import org.openregistry.core.domain.Type;
 import org.openregistry.core.domain.validation.IdentifierFormatValidator;
 import org.openregistry.core.repository.AuxiliaryIdentifierRepository;
 import org.openregistry.core.repository.ReferenceRepository;
@@ -60,7 +61,14 @@ public class DefaultNetIdManagementService implements NetIdManagementService {
         if (person == null) {
             throw new IllegalArgumentException(format("The person with the provided netid [%s] does not exist", currentNetIdValue));
         }
-        final Person person2 = this.personService.findPersonByIdentifier(netIdTypeCode, newNetIdValue);
+        Person person2 = this.personService.findPersonByIdentifier(netIdTypeCode, newNetIdValue);
+        //if person can't be found by netid try to see if it is persons own iid
+        if(person2==null ){
+
+             person2 = this.personService.findPersonByIdentifier(Type.IdentifierTypes.IID.toString(),   newNetIdValue.toUpperCase());
+        }
+
+
         if (person2 != null && person.getId() != person2.getId()) {
             throw new IllegalStateException(format("The person with the proposed new netid [%s] already exists.", newNetIdValue));
         }
