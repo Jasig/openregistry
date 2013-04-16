@@ -71,6 +71,10 @@ public class JpaPersonImpl extends Entity implements Person {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.LAZY,orphanRemoval = true)
     private Set<JpaIdentifierImpl> identifiers = new HashSet<JpaIdentifierImpl>();
 
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.LAZY,orphanRemoval = true)
+    private Set<JpaIdCardImpl> idCards = new HashSet<JpaIdCardImpl>();
+
+
     @Column(name="date_of_birth",nullable=true)
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
@@ -218,6 +222,12 @@ public class JpaPersonImpl extends Entity implements Person {
 
     public Set<? extends Identifier> getIdentifiers() {
         return this.identifiers;
+    }
+
+
+    @Override
+    public Set<? extends IdCard> getIdCards() {
+        return idCards;
     }
 
     public Identifier addIdentifier(final IdentifierType identifierType, final String value) {

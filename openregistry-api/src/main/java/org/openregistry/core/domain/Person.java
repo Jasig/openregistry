@@ -80,6 +80,15 @@ public interface Person extends Serializable {
      */
     Set<? extends Identifier> getIdentifiers();
 
+
+    /**
+     * get the list of id cards associated with this person
+     * default implementation of person should create an empty set of idcards
+     * @return Set of @IdCards
+     */
+
+    Set<? extends  IdCard> getIdCards();
+
     /**
      * Get the name of the person.
      *

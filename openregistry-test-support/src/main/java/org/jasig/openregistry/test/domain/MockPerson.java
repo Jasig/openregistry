@@ -158,6 +158,11 @@ public class MockPerson implements Person {
        return identifiers;
     }
 
+    @Override
+    public Set<IdCard> getIdCards() {
+        return new HashSet<IdCard>();
+    }
+
     public Name getPreferredName() {
         return null;
     }
@@ -374,4 +379,5 @@ public class MockPerson implements Person {
                 ", dob=" + dob +
                 '}';
     }
+
 }
