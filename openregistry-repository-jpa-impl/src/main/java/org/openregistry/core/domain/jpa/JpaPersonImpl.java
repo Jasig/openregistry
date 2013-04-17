@@ -236,6 +236,12 @@ public class JpaPersonImpl extends Entity implements Person {
         this.identifiers.add(jpaIdentifier);
         return jpaIdentifier;
     }
+    public IdCard addIDCard( String cardNumber,String cardSecurityValue, String barCode){
+        JpaIdCardImpl card = new JpaIdCardImpl(this, cardNumber, cardSecurityValue,  barCode);
+        this.idCards.add(card);
+        return card;
+
+    }
 
 	public void setIdentifierNotified(IdentifierType identifierType, Date date) 
 		throws IllegalStateException, IllegalArgumentException {

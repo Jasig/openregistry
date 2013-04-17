@@ -12,63 +12,103 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class MockIdCard implements IdCard {
-    @Override
+
+
+
+    private MockPerson person;
+
+
+    private String cardNumber;
+
+
+    private String cardSecurityValue;
+
+
+    private String barCode;
+
+
+
+    private String proximityNumber;
+
+
+    private Date startDate;
+
+
+    private Date expirationDate;
+
+    public MockIdCard(final MockPerson person,final String cardNumber,final String cardSecurityValue,final String barCode){
+        this.person=person;
+        this.cardNumber=cardNumber;
+        this.cardSecurityValue=cardSecurityValue;
+        this.barCode=barCode;
+        this.startDate=new Date();
+        this.updateDate=new Date();
+    }
+
+    public MockPerson getPerson() {
+        return person;
+    }
+
+    public void setPerson(MockPerson person) {
+        this.person = person;
+    }
+
     public String getCardNumber() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return cardNumber;
     }
 
-    @Override
     public void setCardNumber(String cardNumber) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.cardNumber = cardNumber;
     }
 
-    @Override
     public String getCardSecurityValue() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return cardSecurityValue;
     }
 
-    @Override
     public void setCardSecurityValue(String cardSecurityValue) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.cardSecurityValue = cardSecurityValue;
     }
 
-    @Override
     public String getBarCode() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return barCode;
     }
 
-    @Override
     public void setBarCode(String barCode) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.barCode = barCode;
     }
 
-    @Override
     public String getProximityNumber() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return proximityNumber;
     }
 
-    @Override
     public void setProximityNumber(String proximityNumber) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.proximityNumber = proximityNumber;
     }
 
-    @Override
     public Date getStartDate() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return startDate;
     }
 
-    @Override
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
     public Date getExpirationDate() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return expirationDate;
     }
 
-    @Override
     public void setExpirationDate(Date expirationDate) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.expirationDate = expirationDate;
     }
 
-    @Override
     public Date getUpdateDate() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return updateDate;
     }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    private Date updateDate;
+
 }

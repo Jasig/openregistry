@@ -48,6 +48,8 @@ public class MockPerson implements Person {
     private MockDisclosureSettings mockDisclosureSettings;
     
     private final Set<Identifier> identifiers = new HashSet<Identifier>();
+    private final Set<IdCard> idcards = new HashSet<IdCard>();
+
 
     private String gender;
 
@@ -160,7 +162,7 @@ public class MockPerson implements Person {
 
     @Override
     public Set<IdCard> getIdCards() {
-        return new HashSet<IdCard>();
+        return idcards;
     }
 
     public Name getPreferredName() {
@@ -215,6 +217,11 @@ public class MockPerson implements Person {
     	MockIdentifier mid = new MockIdentifier(this, identifierType, value);
     	this.identifiers.add(mid);
     	return mid; 
+    }
+    public IdCard addIDCard( String cardNumber,String cardSecurityValue, String barCode){
+        MockIdCard card =new MockIdCard(this,cardNumber,cardSecurityValue,barCode);
+        this.idcards.add(card);
+        return card;
     }
 
 	@Override

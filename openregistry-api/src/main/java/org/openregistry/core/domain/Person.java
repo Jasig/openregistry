@@ -150,6 +150,16 @@ public interface Person extends Serializable {
      */
     Identifier addIdentifier(IdentifierType identifierType, String value);
 
+    /**
+     * construct a new ID card and add to the list of id card for this person
+     * @param cardNumber
+     * @param cardSecurityValue
+     * @param barCode
+     * @return
+     */
+
+    IdCard addIDCard( String cardNumber,String cardSecurityValue, String barCode);
+
      /**
      * Sets the notified date on the primary identifier of specified type to the supplied value
      * @param identifierType the type of identifier that is being updated

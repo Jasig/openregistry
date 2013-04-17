@@ -20,7 +20,7 @@ import java.util.Date;
  */
 
 @javax.persistence.Entity(name="idCard")
-@Table(name="prc_id_cards", uniqueConstraints= @UniqueConstraint(columnNames={"card_number"}))
+@Table(name="prc_id_cards", uniqueConstraints= {@UniqueConstraint(columnNames={"card_number"}),@UniqueConstraint(columnNames={"bar_code"})} )
 @Audited
 @org.hibernate.annotations.Table(appliesTo = "prc_id_cards", indexes = {
         @Index(name="ID_CARD_NUMBER_INDEX", columnNames = {"card_number"}) ,
