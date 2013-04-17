@@ -48,7 +48,7 @@ public class JpaIdCardImpl  extends Entity  implements  IdCard{
     @Column(name="bar_code", length=100, nullable=false)
     private String barCode;
 
-    @Column(name="proximity_number", length=100, nullable=false)
+    @Column(name="proximity_number", length=100, nullable=true)
 
     private String proximityNumber;
 
@@ -64,6 +64,9 @@ public class JpaIdCardImpl  extends Entity  implements  IdCard{
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
+    public JpaIdCardImpl(){
+
+    }
 
     public JpaIdCardImpl(final JpaPersonImpl person){
         this.person=person;
