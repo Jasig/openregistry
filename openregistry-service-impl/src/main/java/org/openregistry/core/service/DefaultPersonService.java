@@ -89,8 +89,8 @@ public class DefaultPersonService implements PersonService {
 
     private FieldElector<Phone> preferredContactPhoneNumberFieldElector = new DefaultPreferredPhoneContactFieldSelector();
 
-    @Resource(name="disclosureFieldElector")
-    private FieldElector<SorDisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
+        @Resource(name="disclosureFieldElector")
+        private FieldElector<SorDisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
 
     @Resource(name="ssnFieldElector")
     private FieldElector<String> ssnFieldElector = new DefaultSSNFieldElector();
