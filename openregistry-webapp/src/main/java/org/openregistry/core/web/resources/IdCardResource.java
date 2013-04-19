@@ -92,7 +92,14 @@ public class IdCardResource {
                     String.format("The primary Id card for person identified by /people/%s URI does not exist",
                             personId));
         }
-        //return 200 a good day scenario
+        if( person.getPrimaryIdCard().getExpirationDate()!=null){
+            //HTTP 404
+            logger.info("Unexpired Primary ID card Not not found.");
+            throw new NotFoundException(
+                    String.format("Unexpired primary Id card for person identified by /people/%s URI does not exist",
+                            personId));
+        }
+            //http 204
         idCardService.expireIdCard(person);
     }
 

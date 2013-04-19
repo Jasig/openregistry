@@ -45,6 +45,8 @@ public class DefaultIdCardManagementService implements  IdCardManagementService 
     public ServiceExecutionResult<IdCard> expireIdCard(Person p) {
         IdCard card =p.getPrimaryIdCard();
         if(card==null)      throw new IllegalStateException(format("Primary Id card doesn't exist for this person"));
+        if(card.getExpirationDate() !=null)      throw new IllegalStateException(format("Unexpired primary card for this person doesn't exist"));
+
         card.setExpirationDate(new Date()) ;
         return new GeneralServiceExecutionResult<IdCard>(card);
     }
