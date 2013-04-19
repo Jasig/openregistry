@@ -90,6 +90,12 @@ public interface Person extends Serializable {
     Set<? extends  IdCard> getIdCards();
 
     /**
+     * get the primary id card of the person if exist..return null otherwise
+     * @return  the id card of the person
+     */
+    IdCard getPrimaryIdCard();
+
+    /**
      * Get the name of the person.
      *
      * @return the name of the person, never null.
@@ -259,4 +265,6 @@ public interface Person extends Serializable {
      * @return the phone number by which the person wishes to be called.  CAN be NULL.
      */
     ContactPhone getPreferredContactPhoneNumber();
+
+
 }

@@ -96,6 +96,15 @@ public interface IdCard extends Serializable  {
      */
 
     Date getUpdateDate();
+    /**
+     * Defaults to true.
+     * there should be only one primary id card number associated with person
+     * a person may have many non primary id cards
+     *
+     * @return whether its the primary version of this identifier, or one that exists for historical reasons.
+     */
+    boolean isPrimary();
+    void setPrimary(boolean value);
 
 
 }

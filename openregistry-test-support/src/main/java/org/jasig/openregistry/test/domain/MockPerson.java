@@ -165,6 +165,7 @@ public class MockPerson implements Person {
         return idcards;
     }
 
+
     public Name getPreferredName() {
         return null;
     }
@@ -387,4 +388,15 @@ public class MockPerson implements Person {
                 '}';
     }
 
+    @Override
+    public IdCard getPrimaryIdCard() {
+        if(this.idcards.size()==0) return null;
+
+        for(IdCard card:idcards){
+            if (card.isPrimary())
+                return card;
+        }
+
+        return null;
+    }
 }

@@ -35,6 +35,7 @@ public class MockIdCard implements IdCard {
 
 
     private Date expirationDate;
+    private boolean primary = true;
 
     public MockIdCard(final MockPerson person,final String cardNumber,final String cardSecurityValue,final String barCode){
         this.person=person;
@@ -111,4 +112,11 @@ public class MockIdCard implements IdCard {
 
     private Date updateDate;
 
+
+    public boolean isPrimary() {
+        return this.primary;
+    }
+    public void setPrimary(boolean value) {
+        this.primary = value;
+    }
 }

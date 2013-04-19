@@ -45,8 +45,6 @@ public class IdCardResource {
     @Consumes({MediaType.TEXT_XML})
     public IdCardRepresentation generateIdCard(@PathParam("personId") String personId){
         final Person person = findPersonOrThrowNotFoundException(personId);
-
-        //todo need to check service execution result and return appropriate response code
         //return 200 a good day scenario
         return buildIdCardRepresentation(person, idCardService.generateNewIdCard(person).getTargetObject());
     }
@@ -64,11 +62,11 @@ public class IdCardResource {
      @Path("{proximityNumber}")
     public IdCardRepresentation assignProximityNumber(@PathParam("personId") String personId,@PathParam("proximityNumber") String proximityNumber){
          final Person person = findPersonOrThrowNotFoundException(personId);
-         if( person.getIdCards().size()==0){
+         if( person.getPrimaryIdCard()==null){
              //HTTP 404
              logger.info("ID card Not not found.");
              throw new NotFoundException(
-                     String.format("The Id card for person identified by /people/%s URI does not exist",
+                     String.format("The primary Id card for person identified by /people/%s URI does not exist",
                               personId));
          }
          if(proximityNumber==null|| proximityNumber.equals("")){
@@ -87,11 +85,11 @@ public class IdCardResource {
     public void deleteIdCard(@PathParam("personId") String personId){
         final Person person = findPersonOrThrowNotFoundException(personId);
 
-        if( person.getIdCards().size()==0){
+        if( person.getPrimaryIdCard()==null){
             //HTTP 404
             logger.info("ID card Not not found.");
             throw new NotFoundException(
-                    String.format("The Id card for person identified by /people/%s URI does not exist",
+                    String.format("The primary Id card for person identified by /people/%s URI does not exist",
                             personId));
         }
         //return 200 a good day scenario
@@ -106,11 +104,11 @@ public class IdCardResource {
     @Consumes({MediaType.TEXT_XML})
     public IdCardRepresentation getIdCard(@PathParam("personId") String personId){
         final Person person = findPersonOrThrowNotFoundException(personId);
-        if( person.getIdCards().size()==0){
+        if( person.getPrimaryIdCard()==null){
             //HTTP 404
             logger.info("ID card Not not found.");
             throw new NotFoundException(
-                    String.format("The Id card for person identified by /people/%s URI does not exist",
+                    String.format("The primary Id card for person identified by /people/%s URI does not exist",
                             personId));
         }
          return buildIdCardRepresentation(person,person.getIdCards().iterator().next());

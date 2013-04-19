@@ -229,6 +229,16 @@ public class JpaPersonImpl extends Entity implements Person {
     public Set<? extends IdCard> getIdCards() {
         return idCards;
     }
+    public IdCard getPrimaryIdCard(){
+        if(this.idCards.size()==0) return null;
+
+        for(IdCard card:idCards){
+            if (card.isPrimary())
+                return card;
+        }
+
+        return null;
+    }
 
     public Identifier addIdentifier(final IdentifierType identifierType, final String value) {
         Assert.isInstanceOf(JpaIdentifierTypeImpl.class, identifierType);

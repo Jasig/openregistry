@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.inject.Named;
 import java.util.Date;
+import  org.springframework.util.*;
+
+import static java.lang.String.format;
 
 /**
  * Default implementation of ID card management service
@@ -25,20 +28,24 @@ public class DefaultIdCardManagementService implements  IdCardManagementService 
     @Override
     public ServiceExecutionResult<IdCard> generateNewIdCard(Person p) {
         this.idCardGenerator.addIDCard(p);
-        return new GeneralServiceExecutionResult<IdCard>(p.getIdCards().iterator().next());
+        return new GeneralServiceExecutionResult<IdCard>(p.getPrimaryIdCard());
 
     }
 
     @Override
     public ServiceExecutionResult<IdCard>  assignProximityNumber(Person p,String proximityNumber){
-        p.getIdCards().iterator().next().setProximityNumber(proximityNumber);
-        return new GeneralServiceExecutionResult<IdCard>(p.getIdCards().iterator().next());
+        IdCard card =p.getPrimaryIdCard();
+        if(card==null)      throw new IllegalStateException(format("Primary Id card doesn't exist for this person"));
+        card.setProximityNumber(proximityNumber);
+        return new GeneralServiceExecutionResult<IdCard>(card);
 
     }
 
     @Override
     public ServiceExecutionResult<IdCard> expireIdCard(Person p) {
-        p.getIdCards().iterator().next().setExpirationDate(new Date()) ;
-        return new GeneralServiceExecutionResult<IdCard>(p.getIdCards().iterator().next());
+        IdCard card =p.getPrimaryIdCard();
+        if(card==null)      throw new IllegalStateException(format("Primary Id card doesn't exist for this person"));
+        card.setExpirationDate(new Date()) ;
+        return new GeneralServiceExecutionResult<IdCard>(card);
     }
 }

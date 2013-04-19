@@ -64,6 +64,9 @@ public class JpaIdCardImpl  extends Entity  implements  IdCard{
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
+    @Column(name="is_primary", nullable=false)
+    private boolean primary = true;
+
     public JpaIdCardImpl(){
 
     }
@@ -162,6 +165,12 @@ public class JpaIdCardImpl  extends Entity  implements  IdCard{
     @PreUpdate
     protected void onUpdate() {
         this.updateDate = new Date();
+    }
+    public boolean isPrimary() {
+        return this.primary;
+    }
+    public void setPrimary(boolean value) {
+        this.primary = value;
     }
 
 
