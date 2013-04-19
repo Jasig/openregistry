@@ -71,6 +71,10 @@ public class JpaPersonImpl extends Entity implements Person {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.LAZY,orphanRemoval = true)
     private Set<JpaIdentifierImpl> identifiers = new HashSet<JpaIdentifierImpl>();
 
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="person", fetch = FetchType.LAZY,orphanRemoval = true)
+    private Set<JpaIdCardImpl> idCards = new HashSet<JpaIdCardImpl>();
+
+
     @Column(name="date_of_birth",nullable=true)
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
@@ -220,11 +224,33 @@ public class JpaPersonImpl extends Entity implements Person {
         return this.identifiers;
     }
 
+
+    @Override
+    public Set<? extends IdCard> getIdCards() {
+        return idCards;
+    }
+    public IdCard getPrimaryIdCard(){
+        if(this.idCards.size()==0) return null;
+
+        for(IdCard card:idCards){
+            if (card.isPrimary())
+                return card;
+        }
+
+        return null;
+    }
+
     public Identifier addIdentifier(final IdentifierType identifierType, final String value) {
         Assert.isInstanceOf(JpaIdentifierTypeImpl.class, identifierType);
         final JpaIdentifierImpl jpaIdentifier = new JpaIdentifierImpl(this, (JpaIdentifierTypeImpl) identifierType, value);
         this.identifiers.add(jpaIdentifier);
         return jpaIdentifier;
+    }
+    public IdCard addIDCard( String cardNumber,String cardSecurityValue, String barCode){
+        JpaIdCardImpl card = new JpaIdCardImpl(this, cardNumber, cardSecurityValue,  barCode);
+        this.idCards.add(card);
+        return card;
+
     }
 
 	public void setIdentifierNotified(IdentifierType identifierType, Date date) 

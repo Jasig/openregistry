@@ -58,6 +58,17 @@
         <load-on-startup>2</load-on-startup>
     </servlet>
 
+    <filter>
+        <filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
+        <url-pattern>/api/v1/*</url-pattern>
+    </filter-mapping>
+
+
     <servlet>
         <servlet-name>Resource Servlet</servlet-name>
         <servlet-class>org.springframework.js.resource.ResourceServlet</servlet-class>

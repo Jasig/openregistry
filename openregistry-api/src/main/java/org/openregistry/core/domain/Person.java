@@ -80,6 +80,21 @@ public interface Person extends Serializable {
      */
     Set<? extends Identifier> getIdentifiers();
 
+
+    /**
+     * get the list of id cards associated with this person
+     * default implementation of person should create an empty set of idcards
+     * @return Set of @IdCards
+     */
+
+    Set<? extends  IdCard> getIdCards();
+
+    /**
+     * get the primary id card of the person if exist..return null otherwise
+     * @return  the id card of the person
+     */
+    IdCard getPrimaryIdCard();
+
     /**
      * Get the name of the person.
      *
@@ -140,6 +155,16 @@ public interface Person extends Serializable {
      * @return the new identifier.
      */
     Identifier addIdentifier(IdentifierType identifierType, String value);
+
+    /**
+     * construct a new ID card and add to the list of id card for this person
+     * @param cardNumber
+     * @param cardSecurityValue
+     * @param barCode
+     * @return
+     */
+
+    IdCard addIDCard( String cardNumber,String cardSecurityValue, String barCode);
 
      /**
      * Sets the notified date on the primary identifier of specified type to the supplied value
@@ -240,4 +265,6 @@ public interface Person extends Serializable {
      * @return the phone number by which the person wishes to be called.  CAN be NULL.
      */
     ContactPhone getPreferredContactPhoneNumber();
+
+
 }

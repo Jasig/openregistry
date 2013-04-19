@@ -71,5 +71,7 @@
     <bean class="org.jasig.openregistry.test.service.MockEmailService"/>
 
     <bean class="org.jasig.openregistry.test.service.MockAuxiliaryProgramService"/>
+    <bean class="org.openregistry.core.service.identitycard.DefaultIdCardManagementService"/>
+    <bean class="org.openregistry.core.service.DefaultIdCardGenerator" name="idCardGenerator"/>
 
 </beans>

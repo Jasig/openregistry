@@ -25,6 +25,7 @@ import org.openregistry.core.domain.DisclosureSettings.PropertyNames;
 import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.repository.*;
 import org.openregistry.core.service.identifier.*;
+import org.openregistry.core.service.identitycard.IdCardGenerator;
 import org.openregistry.core.service.reconciliation.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.*;
@@ -88,8 +89,8 @@ public class DefaultPersonService implements PersonService {
 
     private FieldElector<Phone> preferredContactPhoneNumberFieldElector = new DefaultPreferredPhoneContactFieldSelector();
 
-    @Resource(name="disclosureFieldElector")
-    private FieldElector<SorDisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
+        @Resource(name="disclosureFieldElector")
+        private FieldElector<SorDisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
 
     @Resource(name="ssnFieldElector")
     private FieldElector<String> ssnFieldElector = new DefaultSSNFieldElector();
@@ -107,6 +108,9 @@ public class DefaultPersonService implements PersonService {
 
     @Inject
     private IdentifierChangeService identifierChangeService;
+
+    @Resource (name="idCardGenerator")
+    private IdCardGenerator idCardGenerator;
 
     @Inject
     public DefaultPersonService
@@ -896,6 +900,7 @@ public class DefaultPersonService implements PersonService {
         for (final IdentifierAssigner ia : this.identifierAssigners) {
             ia.addIdentifierTo(sorPerson, savedPerson);
         }
+        idCardGenerator.addIDCard(savedPerson);
 
         // Create calculated roles.
         for (final SorRole newSorRole : sorPerson.getRoles()){
@@ -992,5 +997,7 @@ public class DefaultPersonService implements PersonService {
     	return this.referenceRepository;
     }
 
-
+    public void setIdCardGenerator(IdCardGenerator idCardGenerator) {
+        this.idCardGenerator = idCardGenerator;
+    }
 }
