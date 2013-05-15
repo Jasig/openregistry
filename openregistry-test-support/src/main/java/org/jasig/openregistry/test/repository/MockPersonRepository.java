@@ -92,7 +92,7 @@ public class MockPersonRepository implements PersonRepository {
                 }
             }
         }
-        return null;
+        throw new RepositoryAccessException();
     }
 
     @Override
