@@ -20,6 +20,8 @@
 package org.openregistry.core.service;
 
 import org.openregistry.core.domain.IdentifierType;
+import org.openregistry.core.domain.OrganizationalUnit;
+import org.openregistry.core.domain.Type;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -70,5 +72,34 @@ public interface SearchCriteria extends Serializable {
      * The type of search identifier
      *
      */
-      public IdentifierType getIdentifierType() ;
+     IdentifierType getIdentifierType() ;
+
+    /**
+     * The Sponsor NetID of a guest.
+     *
+     * @return the Sponsor NetID of a guest, or NULL.
+     */
+    String getSponsorNetID();
+
+    /**
+     * The Organization Unit of the person.
+     *
+     * @return the Organization Unit of the person, or NULL.
+     */
+    OrganizationalUnit getOrganizationalUnit();
+
+    /**
+     * The Role Expiration Date of a guest.
+     *
+     * @return the Role Expiration Date of a guest, or NULL.
+     */
+    Date getRoleExpDate();
+
+    /**
+     * Role Type
+     *
+     * @return role type, or NULL.
+     */
+    Type getAffiliationType();
+
 }
