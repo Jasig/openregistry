@@ -179,7 +179,7 @@ public class JpaPersonRepository implements PersonRepository {
 
         }
         if (roleExpDate != null) {
-            Predicate expDateP = criteriaBuilder.lessThanOrEqualTo(role.get(JpaRoleImpl_.end), roleExpDate);
+            Predicate expDateP = criteriaBuilder.between(role.get(JpaRoleImpl_.end), new Date(), roleExpDate);
             if (pRoleCombined != null)
                  pRoleCombined = criteriaBuilder.and(pRoleCombined, expDateP);
             else
