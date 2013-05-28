@@ -23,7 +23,6 @@ import java.util.Date;
 @Table(name="prc_id_cards", uniqueConstraints= {@UniqueConstraint(columnNames={"card_number"}),@UniqueConstraint(columnNames={"bar_code"})} )
 @Audited
 @org.hibernate.annotations.Table(appliesTo = "prc_id_cards", indexes = {
-        @Index(name="ID_CARD_NUMBER_INDEX", columnNames = {"card_number"}) ,
         @Index(name = "PRC_CARD_PERSON_IDX", columnNames = {"person_id"})})
 
 
