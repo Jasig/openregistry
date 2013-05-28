@@ -50,6 +50,8 @@ public class MockPerson implements Person {
     private final Set<Identifier> identifiers = new HashSet<Identifier>();
     private final Set<IdCard> idcards = new HashSet<IdCard>();
 
+    private Map<String, String> attributes = new HashMap<String, String>();
+
 
     private String gender;
 
@@ -109,6 +111,11 @@ public class MockPerson implements Person {
     @Override
     public ContactPhone getPreferredContactPhoneNumber() {
         return this.mockPhoneNumber;
+    }
+
+    @Override
+    public Map<String, String> getAttributes() {
+        return this.attributes;
     }
 
     public void addRole(final Role role) {
@@ -398,5 +405,8 @@ public class MockPerson implements Person {
         }
 
         return null;
+    }
+    public void setAttributes(Map<String, String> attributes){
+        this.attributes=attributes;
     }
 }

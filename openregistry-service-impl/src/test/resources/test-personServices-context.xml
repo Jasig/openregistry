@@ -41,6 +41,7 @@
     <bean id="identifierGenerator" class="org.openregistry.core.service.identifier.NoOpIdentifierGenerator" />
 
     <bean class="org.openregistry.core.service.DefaultSorRoleElector" id="sorRoleElector" />
+    <bean class="org.openregistry.core.service.DefaultAttributesElector" id="personAttributesElector" />
     <bean class="org.openregistry.core.service.DefaultBirthDateFieldElector" id="birthDateFieldElector" />
     <bean class="org.openregistry.core.service.DefaultGenderFieldElector" id="genderFieldElector" />
     <bean class="org.openregistry.core.service.DefaultNameFieldSelector" id="preferredNameFieldElector" />

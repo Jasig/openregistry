@@ -266,5 +266,16 @@ public interface Person extends Serializable {
      */
     ContactPhone getPreferredContactPhoneNumber();
 
+    /**
+     *Fetch the Attributes associated with this person.
+     * These attributes usually set by SOR in SorLocalAttributes on SorPerson
+     * There SorPerson attributes set by Sor then calculated and promoted to this calculated person
+     * Example of these attributes is HIPPA's PHI (Protected Health Information) flag on a person
+     *
+     * @return Map representing K->V attributes that a target SoR wishes to expose
+     */
+    Map<String, String> getAttributes();
+    void setAttributes(Map<String, String> attributes);
+
 
 }
