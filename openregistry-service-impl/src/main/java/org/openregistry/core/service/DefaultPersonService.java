@@ -85,6 +85,9 @@ public class DefaultPersonService implements PersonService {
     @Resource(name="officialNameFieldElector")
     private FieldElector<SorName> officialNameFieldElector = new DefaultNameFieldSelector();
 
+    @Resource(name="personAttributesElector")
+    private FieldElector<Map<String,String>> attributesElector = new DefaultAttributesElector();
+
     private FieldElector<EmailAddress> preferredContactEmailAddressFieldElector = new DefaultPreferredEmailContactFieldSelector();
 
     private FieldElector<Phone> preferredContactPhoneNumberFieldElector = new DefaultPreferredPhoneContactFieldSelector();
@@ -777,6 +780,7 @@ public class DefaultPersonService implements PersonService {
         final SorName officialName = this.officialNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final EmailAddress emailAddress = this.preferredContactEmailAddressFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final Phone phone = this.preferredContactPhoneNumberFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        final Map<String,String> attributes =this.attributesElector.elect(sorPerson,sorPersons,recalculationType == RecalculationType.DELETE);
         final SorDisclosureSettings disclosure = this.disclosureFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
      
         final String  ssn = this.ssnFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
@@ -796,6 +800,8 @@ public class DefaultPersonService implements PersonService {
         person.getPreferredContactEmailAddress().update(emailAddress);
         person.getPreferredContactPhoneNumber().update(phone);
         person.calculateDisclosureSettings(disclosure);
+        person.setAttributes(attributes);
+
         
         String affiliation = "";
         Type affiliationType=null;

@@ -96,6 +96,13 @@ public class JpaPersonImpl extends Entity implements Person {
     @JoinColumn(name = "contact_phone_id")
     private JpaContactPhoneImpl phoneNumber = new JpaContactPhoneImpl();
 
+
+    @ElementCollection
+    @CollectionTable(name = "prc_persons_attr", joinColumns = @JoinColumn(name = "person_id"))
+    @MapKeyColumn(name = "attribute_type")
+    @Column(name = "attribute_value")
+    private Map<String, String> attributes = new HashMap<String, String>();
+
     public Long getId() {
         return this.id;
     }
@@ -402,4 +409,13 @@ public class JpaPersonImpl extends Entity implements Person {
         }
         return null;
     }
+    public Map<String, String> getAttributes() {
+        return this.attributes;
+
+    }
+
+    public void setAttributes(Map<String, String> attributes){
+           this.attributes=attributes;
+    }
+
 }
