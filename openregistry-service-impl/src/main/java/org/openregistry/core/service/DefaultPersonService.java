@@ -497,6 +497,7 @@ public class DefaultPersonService implements PersonService {
                     final Person person = this.findPersonByIdentifier(searchCriteria.getIdentifierType().getName(), identifierValue);
                     if (person != null)
                         return new ArrayList<PersonMatch>(Arrays.asList(new PersonMatchImpl(person, 100, new ArrayList<FieldMatch>())));
+                    else  return new ArrayList<PersonMatch>();
         }
         final List<Person> persons = this.personRepository.searchByCriteria(searchCriteria);
         return createMatches(persons);
