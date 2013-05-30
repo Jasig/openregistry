@@ -638,6 +638,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
         <lucene.version>3.0.1</lucene.version>
         <spock.version>0.5-groovy-1.7</spock.version>
         <commons.codec.version>1.4</commons.codec.version>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <pluginRepositories>
