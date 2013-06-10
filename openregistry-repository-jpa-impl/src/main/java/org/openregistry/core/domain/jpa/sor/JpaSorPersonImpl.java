@@ -204,6 +204,17 @@ public class JpaSorPersonImpl extends Entity implements SorPerson {
         return jpaSorName;
     }
 
+    //OR-412
+    public SorName createName(){
+        return new JpaSorNameImpl(this);
+    }
+
+    //OR-412
+    public void addName(final SorName sorName){
+        Assert.isInstanceOf(JpaSorNameImpl.class, sorName);
+        this.names.add(sorName);
+    }
+
     public synchronized SorName findNameByNameId(final Long id) {
         for (final SorName name : this.names) {
             final Long nameId = name.getId();
