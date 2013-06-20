@@ -50,9 +50,9 @@
     </mailingLists>
     
     <scm>
-        <connection>scm:git:git@github.com:Rutgers-IDM/openregistry.git</connection>
-        <developerConnection>scm:git:git@github.com:Rutgers-IDM/openregistry.git</developerConnection>
-        <url>scm:git:git@github.com:Rutgers-IDM/openregistry.git</url>
+        <connection>scm:git:https://github.com/Rutgers-IDM/openregistry.git</connection>
+        <developerConnection>scm:git:https://github.com/Rutgers-IDM/openregistry.git</developerConnection>
+        <url>scm:git:https://github.com/Rutgers-IDM/openregistry.git</url>
         <tag>master</tag>
     </scm>
 
