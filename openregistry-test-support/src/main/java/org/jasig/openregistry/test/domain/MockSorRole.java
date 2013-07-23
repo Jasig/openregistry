@@ -56,6 +56,8 @@ public class MockSorRole extends Entity implements SorRole {
 
     private String title;
 
+    private Date end;
+
 	public MockSorRole() {
 	}
 
@@ -246,6 +248,7 @@ public class MockSorRole extends Entity implements SorRole {
 	}
 
 	public void setEnd(Date date) {
+        this.end=date;
 	}
 
 	public Date getStart() {
@@ -253,7 +256,7 @@ public class MockSorRole extends Entity implements SorRole {
 	}
 
 	public Date getEnd() {
-		return null;
+		return end;
 	}
 
     @Override

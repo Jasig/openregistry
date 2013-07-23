@@ -552,16 +552,9 @@ public class DefaultPersonService implements PersonService {
         // Iterate over sorRoles. SorRoles may be new or updated.
         for (final SorRole savedSorRole:savedSorPerson.getRoles()){
             logger.info("DefaultPersonService: savedSorPersonRole Found, savedSorRoleID: "+ savedSorRole.getId());
-            Role role = person.findRoleBySoRRoleId(savedSorRole.getId());
-            if (role == null) {
-                logger.info("DefaultPersonService: savedSorPersonRole Found, Role Must be newly added.");
-                //let sor role elector decide if this new role can be converted to calculated one
-                sorRoleElector.addSorRole(savedSorRole,person);
-            }
-            else {
-                logger.info("DefaultPersonService: savedSorPersonRole Found, Role was there before.");
-                role.recalculate(savedSorRole); // role may have been updated, so recalculate.
-            }
+            logger.info("DefaultPersonService: savedSorPersonRole Found, Role Must be newly added.");
+            //let sor role elector decide if this new role can be converted to calculated one
+            sorRoleElector.addSorRole(savedSorRole,person);
             logger.info("Verifying Number of calculated Roles after calculate: "+ person.getRoles().size());
         }
         
