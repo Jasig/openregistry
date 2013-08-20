@@ -370,6 +370,12 @@ public class DefaultPersonServiceTests {
     public void testAddNewRoleForPerson() {
         final MockSorPerson mockSorPerson = new MockSorPerson();
         mockSorPerson.setSourceSor("FOO");
+        mockSorPerson.setGender("U");
+        mockSorPerson.setDateOfBirth(new Date());
+        SorName sorName =  mockSorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL.name()));
+        sorName.setFamily("Test");
+        sorName.setGiven("Test");
+
         mockSorPerson.setPersonId(1L);
 
         final MockSorRole sorRole = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
@@ -395,6 +401,11 @@ public class DefaultPersonServiceTests {
     public void testAddTwoSorRolesFromDifferentSorWithSameAffiliationType() {
         final MockSorPerson mockSorPerson = new MockSorPerson();
         mockSorPerson.setSourceSor("FOO");
+        mockSorPerson.setGender("U");
+        mockSorPerson.setDateOfBirth(new Date());
+        SorName sorName =  mockSorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL.name()));
+        sorName.setFamily("Test");
+        sorName.setGiven("Test");
         mockSorPerson.setPersonId(1L);
 
         final MockSorRole sorRole = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
@@ -406,6 +417,9 @@ public class DefaultPersonServiceTests {
 
         final MockSorPerson mockSorPerson1 = new MockSorPerson();
         mockSorPerson1.setSourceSor("FOO1");
+        mockSorPerson1.setGender("U");
+        mockSorPerson1.setDateOfBirth(new Date());
+        mockSorPerson1.addName(sorName);
         mockSorPerson1.setPersonId(1L); //both sor person points to the same calculated person
 
         final MockSorRole sorRole1 = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
@@ -435,6 +449,11 @@ public class DefaultPersonServiceTests {
     public void testAddTwoSorRolesFromDifferentSorWithDifferentAffiliationType() {
         final MockSorPerson mockSorPerson = new MockSorPerson();
         mockSorPerson.setSourceSor("FOO");
+        mockSorPerson.setGender("U");
+        mockSorPerson.setDateOfBirth(new Date());
+        SorName sorName =  mockSorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL.name()));
+        sorName.setFamily("Test");
+        sorName.setGiven("Test");
         mockSorPerson.setPersonId(1L);
 
         final MockSorRole sorRole = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
@@ -445,6 +464,9 @@ public class DefaultPersonServiceTests {
 
 
         final MockSorPerson mockSorPerson1 = new MockSorPerson();
+        mockSorPerson1.setGender("U");
+        mockSorPerson1.setDateOfBirth(new Date());
+        mockSorPerson1.addName(sorName);
         mockSorPerson1.setSourceSor("FOO1");
         mockSorPerson1.setPersonId(1L); //both sor person points to the same calculated person
 
