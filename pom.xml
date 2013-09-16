@@ -382,6 +382,7 @@
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
+                    <compilerArgument>-proc:none</compilerArgument>
                 </configuration>
             </plugin>
 
@@ -540,6 +541,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
                     </dependency>
                 </dependencies>
             </plugin>
+            <!--
             <plugin>
                 <groupId>org.spockframework</groupId>
                 <artifactId>spock-maven</artifactId>
@@ -552,6 +554,7 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
                     </execution>
                 </executions>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
