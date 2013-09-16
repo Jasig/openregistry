@@ -23,8 +23,8 @@ import org.mockito.Mockito;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Path;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * @author Dmitriy Kopylenko
@@ -44,7 +44,7 @@ public final class MockitoUtils {
         Mockito.when(mockConstraintViolation.getPropertyPath()).thenReturn(mockPath);
         Mockito.when(mockConstraintViolation.getMessage()).thenReturn("mockConstraintViolation: error message");
         Mockito.when(mockConstraintViolation.getInvalidValue()).thenReturn("mockConstraintViolation: invalid value");
-        Set<ConstraintViolation> setWithErrors = new TreeSet<ConstraintViolation>();
+        Set<ConstraintViolation> setWithErrors = new HashSet<ConstraintViolation>();
         setWithErrors.add(mockConstraintViolation);
         return setWithErrors;
     }
