@@ -232,7 +232,12 @@ public class MockPerson implements Person {
         return card;
     }
 
-	@Override
+    @Override
+    public IdCard addIDCard(IdCard idCard) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
 	public void setIdentifierNotified(IdentifierType identifierType, Date date) {
 		if (!identifierType.isNotifiable()) {
 			throw new IllegalArgumentException("Only notifiable identifiers can have a notification date set");

@@ -166,7 +166,17 @@ public interface Person extends Serializable {
 
     IdCard addIDCard( String cardNumber,String cardSecurityValue, String barCode);
 
-     /**
+    /**
+     * add existing Id card object to the list of ID cards of person
+     * @param cardNumber
+     * @param cardSecurityValue
+     * @param barCode
+     * @return
+     */
+
+    IdCard addIDCard( IdCard idCard);
+
+    /**
      * Sets the notified date on the primary identifier of specified type to the supplied value
      * @param identifierType the type of identifier that is being updated
      * @param date the date when notification was sent
