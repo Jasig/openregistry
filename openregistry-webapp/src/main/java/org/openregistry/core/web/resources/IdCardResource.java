@@ -118,7 +118,7 @@ public class IdCardResource {
                     String.format("The primary Id card for person identified by /people/%s URI does not exist",
                             personId));
         }
-         return buildIdCardRepresentation(person,person.getIdCards().iterator().next());
+         return buildIdCardRepresentation(person,person.getPrimaryIdCard());
 
     }
 
