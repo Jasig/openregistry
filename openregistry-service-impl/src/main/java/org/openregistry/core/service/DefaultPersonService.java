@@ -340,10 +340,11 @@ public class DefaultPersonService implements PersonService {
         }
 
         final SorPerson newSorPerson = this.personRepository.saveSorPerson(sorPerson);
-        final Person person = this.personRepository.findByInternalId(newSorPerson.getPersonId());
+        Person person = this.personRepository.findByInternalId(newSorPerson.getPersonId());
         final SorRole newSorRole = newSorPerson.findSorRoleBySorRoleId(sorRole.getSorId());
         //let sor role elector decide if this new role can be converted to calculated one
         sorRoleElector.addSorRole(newSorRole,person);
+        person = recalculatePersonBiodemInfo(person, newSorPerson, RecalculationType.UPDATE, false);
         this.personRepository.savePerson(person);
         logger.info("validateAndSaveRoleForSorPerson end");
         return new GeneralServiceExecutionResult<SorRole>(newSorRole);
