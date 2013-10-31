@@ -629,6 +629,8 @@ public class DefaultPersonService implements PersonService {
         }
 
          Set <? extends Identifier> oldIdentifiers= fromPerson.getIdentifiers();
+        Set<? extends IdCard> oldIdCards =fromPerson.getIdCards();
+
         this.personRepository.deletePerson(fromPerson);
         logger.info("moveAllSystemOfRecordPerson: Deleted From Person");
         for(Identifier identifier:oldIdentifiers){
@@ -649,10 +651,22 @@ public class DefaultPersonService implements PersonService {
                 oldIdentifierAttachedTotoPerson.setPrimary(false);;
 
                 }
-             }
+
+        }
+        for(IdCard oldIdCard:oldIdCards){
+            if(toPerson.getPrimaryIdCard()==null){
+                toPerson.addIDCard(oldIdCard);
+            }
+            else{
+               if( oldIdCard.isPrimary())
+                   oldIdCard.setPrimary(false);
+                toPerson.addIDCard(oldIdCard);
+            }
+        }
 
 
         this.personRepository.savePerson(toPerson);
+
         return true;
     }
 

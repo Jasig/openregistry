@@ -259,6 +259,17 @@ public class JpaPersonImpl extends Entity implements Person {
         return card;
 
     }
+    public IdCard addIDCard(IdCard idCard){
+        Assert.isInstanceOf(JpaIdCardImpl.class, idCard);
+        JpaIdCardImpl card = new JpaIdCardImpl(this, idCard.getCardNumber(), idCard.getCardSecurityValue(),  idCard.getBarCode());
+        card.setPrimary(idCard.isPrimary());
+        card.setProximityNumber(idCard.getProximityNumber());
+        card.setExpirationDate(card.getExpirationDate());
+        //todo revist start date
+        this.idCards.add(card);
+        return card;
+
+    }
 
 	public void setIdentifierNotified(IdentifierType identifierType, Date date) 
 		throws IllegalStateException, IllegalArgumentException {
