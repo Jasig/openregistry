@@ -79,7 +79,7 @@ public interface Type extends Serializable {
     	
     }
 
-    enum IdentifierTypes {SSN, RUID, RCPID, IID, NETID, EXTERNALID, EMPLID, RCN};
+    enum IdentifierTypes {SSN, RUID, RCPID, IID, NETID, EXTERNALID, EMPLID, RCN, PIDM, ANUMBER};
 
     /**
      * The internal identifier of the type.
