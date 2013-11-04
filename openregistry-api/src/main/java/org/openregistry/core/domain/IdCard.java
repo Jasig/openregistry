@@ -69,14 +69,18 @@ public interface IdCard extends Serializable  {
     void setProximityNumber(String proximityNumber);
 
     /**
-     * the date when this card will be available to use ,can be systdate may be different from create date
-     * cannot be null and cannot be set ..and must be calculated by OR internally
-     *
-     * @return date when this card is available to use
-     *
+     * The date the IdCard was created.  CANNOT be null.
+     * @return a copy of the creation date
      */
+    Date getCreationDate();
 
-    Date getStartDate();
+    /**
+     * The date the identifier was created.  CANNOT be null.
+     * <p>
+     * This method is usable when importing legacy data into OR
+     * @return a copy of the creation date
+     */
+    void setCreationDate(Date creationDate);
 
     /**
      * the date when this card would be expired

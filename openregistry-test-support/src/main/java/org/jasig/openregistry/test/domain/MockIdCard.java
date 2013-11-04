@@ -31,7 +31,7 @@ public class MockIdCard implements IdCard {
     private String proximityNumber;
 
 
-    private Date startDate;
+    private Date creationDate;
 
 
     private Date expirationDate;
@@ -42,7 +42,7 @@ public class MockIdCard implements IdCard {
         this.cardNumber=cardNumber;
         this.cardSecurityValue=cardSecurityValue;
         this.barCode=barCode;
-        this.startDate=new Date();
+        this.creationDate=new Date();
         this.updateDate=new Date();
     }
 
@@ -86,12 +86,12 @@ public class MockIdCard implements IdCard {
         this.proximityNumber = proximityNumber;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Date getExpirationDate() {

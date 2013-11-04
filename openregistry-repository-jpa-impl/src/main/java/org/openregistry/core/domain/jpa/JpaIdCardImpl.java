@@ -51,9 +51,12 @@ public class JpaIdCardImpl  extends Entity  implements  IdCard{
 
     private String proximityNumber;
 
-    @Column(name="start_date", nullable = false)
+
+    @Column(name="creation_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate;
+    private Date creationDate = new Date();
+
+
 
     @Column(name="expiration_date", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
@@ -78,7 +81,7 @@ public class JpaIdCardImpl  extends Entity  implements  IdCard{
         this.cardNumber=cardNumber;
         this.cardSecurityValue=cardSecurityValue;
         this.barCode=barCode;
-        this.startDate=new Date();
+        this.creationDate=new Date();
         this.updateDate=new Date();
     }
 
@@ -125,9 +128,14 @@ public class JpaIdCardImpl  extends Entity  implements  IdCard{
     }
 
     @Override
-    public Date getStartDate() {
-        return startDate;
+    public Date getCreationDate() {
+        return creationDate;
     }
+    @Override
+    public void setCreationDate(Date creationDate) {
+        this.creationDate=creationDate;
+    }
+
 
     @Override
     public void setExpirationDate(Date expirationDate) {
