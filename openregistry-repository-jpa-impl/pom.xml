@@ -173,22 +173,23 @@
       <plugins>
 
              <!-- un comment this to run hibernate maven pluging -->
-             <!--<plugin>-->
+             <plugin>
 
-              <!--<groupId>org.codehaus.mojo</groupId>-->
-              <!--<artifactId>hibernate3-maven-plugin</artifactId>-->
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>hibernate3-maven-plugin</artifactId>
                  <!--<version>3.0-SNAPSHOT</version>-->
-                 <!--<configuration>-->
-                     <!--<hibernatetool destdir="target">-->
-                         <!--<classpath>-->
-                             <!--<path location="target/classes" />-->
-                         <!--</classpath>-->
-                         <!--<jpaconfiguration persistenceunit="OpenRegistryPersistence" propertyfile="src/test/resources/hibernate.properties" />-->
-                         <!--<hbm2ddl export="false" update="false" drop="false" create="true" outputfilename="or_schema.ddl" delimiter=";" format="true" haltonerror="true" console="true" />-->
-                     <!--</hibernatetool>-->
-                 <!--</configuration>-->
+                 <version>3.0</version>
+                 <configuration>
+                     <hibernatetool destdir="target">
+                         <classpath>
+                             <path location="target/classes" />
+                         </classpath>
+                         <jpaconfiguration persistenceunit="OpenRegistryPersistence" propertyfile="src/test/resources/hibernate.properties" />
+                         <hbm2ddl export="false" update="false" drop="false" create="true" outputfilename="or_schema.ddl" delimiter=";" format="true" haltonerror="true" console="true" />
+                     </hibernatetool>
+                 </configuration>
 
-            <!--</plugin>-->
+            </plugin>
 
         </plugins>
     </build>
