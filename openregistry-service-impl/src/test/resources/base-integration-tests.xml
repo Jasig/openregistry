@@ -74,5 +74,8 @@
 
     <bean id="disclosureStrategyRepostory" class="org.openregistry.core.repository.xml.XmlBasedDisclosureRecalculationStrategyRepositoryImpl">
     	<constructor-arg index="0" value="classpath:sample-disclosure-recalculation-strategy.xml" />
-    </bean>    
+    </bean>
+    <bean id="idCardGenerator" class="org.jasig.openregistry.test.service.MockIdCardGenerator">
+
+    </bean>
 </beans>

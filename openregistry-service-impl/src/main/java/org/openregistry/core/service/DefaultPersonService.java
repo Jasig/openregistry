@@ -25,6 +25,7 @@ import org.openregistry.core.domain.DisclosureSettings.PropertyNames;
 import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.repository.*;
 import org.openregistry.core.service.identifier.*;
+import org.openregistry.core.service.identitycard.IdCardGenerator;
 import org.openregistry.core.service.reconciliation.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.*;
@@ -84,12 +85,15 @@ public class DefaultPersonService implements PersonService {
     @Resource(name="officialNameFieldElector")
     private FieldElector<SorName> officialNameFieldElector = new DefaultNameFieldSelector();
 
+    @Resource(name="personAttributesElector")
+    private FieldElector<Map<String,String>> attributesElector = new DefaultAttributesElector();
+
     private FieldElector<EmailAddress> preferredContactEmailAddressFieldElector = new DefaultPreferredEmailContactFieldSelector();
 
     private FieldElector<Phone> preferredContactPhoneNumberFieldElector = new DefaultPreferredPhoneContactFieldSelector();
 
-    @Resource(name="disclosureFieldElector")
-    private FieldElector<SorDisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
+        @Resource(name="disclosureFieldElector")
+        private FieldElector<SorDisclosureSettings> disclosureFieldElector = new DefaultDisclosureSettingsFieldElector();
 
     @Resource(name="ssnFieldElector")
     private FieldElector<String> ssnFieldElector = new DefaultSSNFieldElector();
@@ -107,6 +111,9 @@ public class DefaultPersonService implements PersonService {
 
     @Inject
     private IdentifierChangeService identifierChangeService;
+
+    @Resource (name="idCardGenerator")
+    private IdCardGenerator idCardGenerator;
 
     @Inject
     public DefaultPersonService
@@ -333,10 +340,11 @@ public class DefaultPersonService implements PersonService {
         }
 
         final SorPerson newSorPerson = this.personRepository.saveSorPerson(sorPerson);
-        final Person person = this.personRepository.findByInternalId(newSorPerson.getPersonId());
+        Person person = this.personRepository.findByInternalId(newSorPerson.getPersonId());
         final SorRole newSorRole = newSorPerson.findSorRoleBySorRoleId(sorRole.getSorId());
         //let sor role elector decide if this new role can be converted to calculated one
         sorRoleElector.addSorRole(newSorRole,person);
+        person = recalculatePersonBiodemInfo(person, newSorPerson, RecalculationType.UPDATE, false);
         this.personRepository.savePerson(person);
         logger.info("validateAndSaveRoleForSorPerson end");
         return new GeneralServiceExecutionResult<SorRole>(newSorRole);
@@ -493,6 +501,7 @@ public class DefaultPersonService implements PersonService {
                     final Person person = this.findPersonByIdentifier(searchCriteria.getIdentifierType().getName(), identifierValue);
                     if (person != null)
                         return new ArrayList<PersonMatch>(Arrays.asList(new PersonMatchImpl(person, 100, new ArrayList<FieldMatch>())));
+                    else  return new ArrayList<PersonMatch>();
         }
         final List<Person> persons = this.personRepository.searchByCriteria(searchCriteria);
         return createMatches(persons);
@@ -544,16 +553,9 @@ public class DefaultPersonService implements PersonService {
         // Iterate over sorRoles. SorRoles may be new or updated.
         for (final SorRole savedSorRole:savedSorPerson.getRoles()){
             logger.info("DefaultPersonService: savedSorPersonRole Found, savedSorRoleID: "+ savedSorRole.getId());
-            Role role = person.findRoleBySoRRoleId(savedSorRole.getId());
-            if (role == null) {
-                logger.info("DefaultPersonService: savedSorPersonRole Found, Role Must be newly added.");
-                //let sor role elector decide if this new role can be converted to calculated one
-                sorRoleElector.addSorRole(savedSorRole,person);
-            }
-            else {
-                logger.info("DefaultPersonService: savedSorPersonRole Found, Role was there before.");
-                role.recalculate(savedSorRole); // role may have been updated, so recalculate.
-            }
+            logger.info("DefaultPersonService: savedSorPersonRole Found, Role Must be newly added.");
+            //let sor role elector decide if this new role can be converted to calculated one
+            sorRoleElector.addSorRole(savedSorRole,person);
             logger.info("Verifying Number of calculated Roles after calculate: "+ person.getRoles().size());
         }
         
@@ -627,6 +629,8 @@ public class DefaultPersonService implements PersonService {
         }
 
          Set <? extends Identifier> oldIdentifiers= fromPerson.getIdentifiers();
+        Set<? extends IdCard> oldIdCards =fromPerson.getIdCards();
+
         this.personRepository.deletePerson(fromPerson);
         logger.info("moveAllSystemOfRecordPerson: Deleted From Person");
         for(Identifier identifier:oldIdentifiers){
@@ -647,10 +651,22 @@ public class DefaultPersonService implements PersonService {
                 oldIdentifierAttachedTotoPerson.setPrimary(false);;
 
                 }
-             }
+
+        }
+        for(IdCard oldIdCard:oldIdCards){
+            if(toPerson.getPrimaryIdCard()==null){
+                toPerson.addIDCard(oldIdCard);
+            }
+            else{
+               if( oldIdCard.isPrimary())
+                   oldIdCard.setPrimary(false);
+                toPerson.addIDCard(oldIdCard);
+            }
+        }
 
 
         this.personRepository.savePerson(toPerson);
+
         return true;
     }
 
@@ -772,6 +788,7 @@ public class DefaultPersonService implements PersonService {
         final SorName officialName = this.officialNameFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final EmailAddress emailAddress = this.preferredContactEmailAddressFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
         final Phone phone = this.preferredContactPhoneNumberFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
+        final Map<String,String> attributes =this.attributesElector.elect(sorPerson,sorPersons,recalculationType == RecalculationType.DELETE);
         final SorDisclosureSettings disclosure = this.disclosureFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
      
         final String  ssn = this.ssnFieldElector.elect(sorPerson, sorPersons, recalculationType == RecalculationType.DELETE);
@@ -791,6 +808,8 @@ public class DefaultPersonService implements PersonService {
         person.getPreferredContactEmailAddress().update(emailAddress);
         person.getPreferredContactPhoneNumber().update(phone);
         person.calculateDisclosureSettings(disclosure);
+        person.setAttributes(attributes);
+
         
         String affiliation = "";
         Type affiliationType=null;
@@ -896,6 +915,7 @@ public class DefaultPersonService implements PersonService {
         for (final IdentifierAssigner ia : this.identifierAssigners) {
             ia.addIdentifierTo(sorPerson, savedPerson);
         }
+        idCardGenerator.addIDCard(savedPerson);
 
         // Create calculated roles.
         for (final SorRole newSorRole : sorPerson.getRoles()){
@@ -992,5 +1012,7 @@ public class DefaultPersonService implements PersonService {
     	return this.referenceRepository;
     }
 
-
+    public void setIdCardGenerator(IdCardGenerator idCardGenerator) {
+        this.idCardGenerator = idCardGenerator;
+    }
 }

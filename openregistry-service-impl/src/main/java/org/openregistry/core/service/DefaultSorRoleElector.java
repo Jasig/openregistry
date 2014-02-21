@@ -16,6 +16,7 @@ public class DefaultSorRoleElector implements  SorRoleElector{
         for(Role role:person.getRoles()){
              if(  role.getAffiliationType().isSameAs(newSorRole.getAffiliationType())){
                  //found a calculated role that matches to the new sor roles affiliation , lets not add it
+                 role.recalculate(newSorRole);
                  return false;
              }
         }

@@ -38,7 +38,7 @@ public interface Type extends Serializable {
      * The default list of enumerations that the system understands.
      */
     enum DataTypes {ADDRESS, AFFILIATION, CAMPUS, LEAVE, NAME, ORGANIZATIONAL_UNIT, PERSON, 
-    	PHONE, SPONSOR, STATUS, TERMINATION, URL}
+    	PHONE, SPONSOR, STATUS, TERMINATION, URL, GUEST_ACCOUNT_REASON}
 
     enum TerminationTypes {FIRED, EXPIRED, UNSPECIFIED}
 
@@ -79,7 +79,7 @@ public interface Type extends Serializable {
     	
     }
 
-    enum IdentifierTypes {SSN, RUID, RCPID, IID, NETID, EXTERNALID, EMPLID, RCN};
+    enum IdentifierTypes {SSN, RUID, RCPID, IID, NETID, EXTERNALID, EMPLID, RCN, PIDM, ANUMBER};
 
     /**
      * The internal identifier of the type.

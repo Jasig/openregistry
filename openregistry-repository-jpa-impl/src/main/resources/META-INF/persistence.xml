@@ -58,6 +58,7 @@
             <class>org.openregistry.core.domain.jpa.sor.JpaSorRoleImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSorUrlImpl</class>
             <class>org.openregistry.core.domain.jpa.sor.JpaSystemOfRecordImpl</class>
+            <class>org.openregistry.core.domain.jpa.JpaIdCardImpl</class>
 
             <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 

@@ -47,6 +47,8 @@ public class JpaPersonRepository implements PersonRepository {
     @PersistenceContext (unitName=  "OpenRegistryPersistence")
     private EntityManager entityManager;
 
+    private final static int MAX_QUERY_LIMIT = 1000;
+
     public Person findByInternalId(final Long id) throws RepositoryAccessException {
         return this.entityManager.find(JpaPersonImpl.class, id);
     }
@@ -99,25 +101,34 @@ public class JpaPersonRepository implements PersonRepository {
         final Date birthDate = searchCriteria.getDateOfBirth();
         final String searchCriteriaName = searchCriteria.getName();
 
+        // search by role criteria
+        final String sponsorNetID = searchCriteria.getSponsorNetID();
+        final OrganizationalUnit organizationalUnit = searchCriteria.getOrganizationalUnit();
+        final Date roleExpDate = searchCriteria.getRoleExpDate();
+        final Type roleType = searchCriteria.getAffiliationType();
+
+
         final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
 
         final CriteriaQuery<JpaPersonImpl> c =criteriaBuilder.createQuery(JpaPersonImpl.class);
         c.distinct(true);
         final Root<JpaPersonImpl> person = c.from(JpaPersonImpl.class);
         final Join<JpaPersonImpl,JpaNameImpl> name = person.join(JpaPersonImpl_.names);
+        final Join<JpaPersonImpl,JpaRoleImpl> role = person.join(JpaPersonImpl_.roles);
+
 //        person.fetch(JpaPersonImpl_.names);
 //        person.fetch(JpaPersonImpl_.roles);
 //        person.fetch(JpaPersonImpl_.identifiers);
 
 
         final Predicate pBirthDate;
-        if (birthDate != null) {
+               if (birthDate != null) {
             pBirthDate = criteriaBuilder.equal(person.get(JpaPersonImpl_.dateOfBirth), birthDate);
         } else {
             pBirthDate = null;
         }
 
-        final Predicate combined;
+        Predicate combined = null;
 
         if (StringUtils.hasText(givenName) && StringUtils.hasText(familyName)) {
 //          final Predicate pGivenName = criteriaBuilder.equal(name.get(JpaNameImpl_.given), givenName );
@@ -130,21 +141,72 @@ public class JpaPersonRepository implements PersonRepository {
             combined = criteriaBuilder.equal(name.get(JpaNameImpl_.given), givenName);
         } else if (StringUtils.hasText(familyName)) {
             combined = criteriaBuilder.equal(name.get(JpaNameImpl_.family), familyName );
-        } else {
+        } else if (StringUtils.hasText(searchCriteriaName)) {
             final Predicate pGivenName = criteriaBuilder.equal(name.get(JpaNameImpl_.given), searchCriteriaName );
             final Predicate pFamilyName = criteriaBuilder.equal(name.get(JpaNameImpl_.family), searchCriteriaName );
             combined = criteriaBuilder.or(pGivenName, pFamilyName);
         }
 
-        if (pBirthDate != null && combined != null) {
-            c.select(person).where(criteriaBuilder.and(pBirthDate, combined));
-        } else if (pBirthDate != null) {
-            c.select(person).where(pBirthDate);
-        } else {
-            c.select(person).where(combined);
+
+        Predicate pRoleCombined = null;
+
+        if (roleType != null) {
+            //final Join<JpaPersonImpl,JpaRoleImpl> role = person.join(JpaPersonImpl_.roles);
+            //final Join<JpaPersonImpl,JpaRoleImpl> role = name.join(JpaPersonImpl_.roles);
+            pRoleCombined = criteriaBuilder.equal(role.get(JpaRoleImpl_.affiliationType), roleType);
         }
 
-        final List<JpaPersonImpl> persons = this.entityManager.createQuery(c).getResultList();
+        if (organizationalUnit != null && StringUtils.hasText(organizationalUnit.getName())) {
+            Predicate orgUnitP = criteriaBuilder.equal(role.get(JpaRoleImpl_.organizationalUnit), organizationalUnit);
+            if (pRoleCombined != null)
+                pRoleCombined = criteriaBuilder.and(pRoleCombined, orgUnitP);
+            else
+                pRoleCombined =  orgUnitP;
+            //pRoleCombined = criteriaBuilder.and(pRoleCombined, orgUnitP);
+        }
+
+        if (StringUtils.hasText(sponsorNetID)) {
+            Person person1 = findByIdentifier(Type.IdentifierTypes.NETID.name(), sponsorNetID);
+            if (person1 != null) {
+                Predicate sponsorP = criteriaBuilder.equal(role.get(JpaRoleImpl_.sponsorId), person1.getId());
+                if (pRoleCombined != null)
+                    pRoleCombined = criteriaBuilder.and(pRoleCombined, sponsorP);
+                else
+                    pRoleCombined = sponsorP;
+            } else {
+                pRoleCombined = criteriaBuilder.or();
+            }
+
+        }
+        if (roleExpDate != null) {
+            Predicate expDateP = criteriaBuilder.between(role.get(JpaRoleImpl_.end), new Date(), roleExpDate);
+            if (pRoleCombined != null)
+                 pRoleCombined = criteriaBuilder.and(pRoleCombined, expDateP);
+            else
+                pRoleCombined = expDateP;
+        }
+
+
+        Predicate pComplete = criteriaBuilder.and();
+
+        if (pBirthDate != null)
+            pComplete = criteriaBuilder.and(pComplete, pBirthDate);
+        if (combined != null)
+            pComplete = criteriaBuilder.and(pComplete, combined);
+        if (pRoleCombined != null)
+            pComplete = criteriaBuilder.and(pComplete, pRoleCombined);
+
+        c.select(person).where(pComplete);
+
+//        if (pBirthDate != null && combined != null) {
+//            c.select(person).where(criteriaBuilder.and(pBirthDate, combined));
+//        } else if (pBirthDate != null) {
+//            c.select(person).where(pBirthDate);
+//        } else {
+//            c.select(person).where(combined);
+//        }
+
+        final List<JpaPersonImpl> persons = this.entityManager.createQuery(c).setMaxResults(MAX_QUERY_LIMIT).getResultList();
 
         return new ArrayList<Person>(persons);
     }

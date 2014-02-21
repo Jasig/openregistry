@@ -20,6 +20,8 @@
 package org.openregistry.core.service;
 
 import org.openregistry.core.domain.IdentifierType;
+import org.openregistry.core.domain.OrganizationalUnit;
+import org.openregistry.core.domain.jpa.JpaTypeImpl;
 import org.openregistry.core.domain.normalization.FirstName;
 import org.openregistry.core.domain.normalization.LastName;
 import org.springframework.core.style.ToStringCreator;
@@ -33,7 +35,7 @@ import java.util.List;
  * @version $Revision$ $Date$
  * @since 1.0.0
  */
-public final class MutableSearchCriteriaImpl implements SearchCriteria {
+public class MutableSearchCriteriaImpl implements SearchCriteria {
 
     @FirstName
     private String givenName;
@@ -50,6 +52,14 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
     private IdentifierType identifierType;
 
     private java.util.List <IdentifierType> identifierTypes;
+
+    private String sponsorNetID;
+
+    private OrganizationalUnit organizationalUnit;
+
+    private Date roleExpDate;
+
+    private JpaTypeImpl affiliationType;
 
     public String getGivenName() {
         return this.givenName;
@@ -106,6 +116,38 @@ public final class MutableSearchCriteriaImpl implements SearchCriteria {
 
     public void setIdentifierType(IdentifierType identifierType) {
         this.identifierType = identifierType;
+    }
+
+    public String getSponsorNetID() {
+        return sponsorNetID;
+    }
+
+    public void setSponsorNetID(String sponsorNetID) {
+        this.sponsorNetID = sponsorNetID;
+    }
+
+    public JpaTypeImpl getAffiliationType() {
+        return affiliationType;
+    }
+
+    public void setAffiliationType(JpaTypeImpl affiliationType) {
+        this.affiliationType = affiliationType;
+    }
+
+    public Date getRoleExpDate() {
+        return roleExpDate;
+    }
+
+    public void setRoleExpDate(Date roleExpDate) {
+        this.roleExpDate = roleExpDate;
+    }
+
+    public OrganizationalUnit getOrganizationalUnit() {
+        return organizationalUnit;
+    }
+
+    public void setOrganizationalUnit(OrganizationalUnit organizationalUnit) {
+        this.organizationalUnit = organizationalUnit;
     }
 
     public void setName(final String name) {

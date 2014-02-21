@@ -148,7 +148,13 @@ public class MockSorPerson extends Entity implements SorPerson {
     public void addName(final SorName name) {
         this.names.add(name);
     }
-    
+
+    //OR-412
+    @Override
+    public SorName createName() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public SorName addName(Type type) {
         final MockSorName sorName = new MockSorName();
         sorName.setType(type);

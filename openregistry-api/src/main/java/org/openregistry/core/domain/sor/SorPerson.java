@@ -234,4 +234,10 @@ public interface SorPerson {
 
     List<SorRole> findOpenRolesByAffiliation(Type affiliationType);
 
+    //OR-412
+    public SorName createName();
+
+    //OR-412
+    public void addName(final SorName sorName);
+
 }

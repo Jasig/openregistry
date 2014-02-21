@@ -64,7 +64,10 @@ public class DefaultPersonServiceTests {
                 return new MockPerson();
             }
         };
+
+
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockDisclosureRecalculationStrategyRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.NONE));
+        this.personService.setIdCardGenerator(new MockIdCardGenerator());
         this.personService.setPersonObjectFactory(this.objectFactory);
         reconciliationCriteria = new MockReconciliationCriteria();
         setReconciliationCriteria(reconciliationCriteria);
@@ -82,6 +85,7 @@ public class DefaultPersonServiceTests {
         sorPerson.setGender("Male");
         sorPerson.setDateOfBirth(new Date());
         reconciliationCriteria.setEmailAddress("test@test.com");
+
     }
 
      /**
@@ -98,6 +102,7 @@ public class DefaultPersonServiceTests {
     @Test
     public void testReconciliationResultNoneReturnsPerson() throws ReconciliationException, SorPersonAlreadyExistsException {
         this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockDisclosureRecalculationStrategyRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.NONE));
+        personService.setIdCardGenerator(new MockIdCardGenerator());
         this.personService.setPersonObjectFactory(this.objectFactory);
         ServiceExecutionResult<Person> result = this.personService.addPerson(reconciliationCriteria);
         assertNotNull(result);
@@ -170,6 +175,7 @@ public class DefaultPersonServiceTests {
     @Test
     public void testReconciliationResultOldReconciliationResultProvided() throws SorPersonAlreadyExistsException{
          this.personService = new DefaultPersonService(personRepository, new MockReferenceRepository(), new MockDisclosureRecalculationStrategyRepository(), new NoOpIdentifierGenerator(), new MockReconciler(ReconciliationType.MAYBE));
+        personService.setIdCardGenerator(new MockIdCardGenerator());
          this.personService.setPersonObjectFactory(this.objectFactory);
 
          try {
@@ -364,6 +370,12 @@ public class DefaultPersonServiceTests {
     public void testAddNewRoleForPerson() {
         final MockSorPerson mockSorPerson = new MockSorPerson();
         mockSorPerson.setSourceSor("FOO");
+        mockSorPerson.setGender("U");
+        mockSorPerson.setDateOfBirth(new Date());
+        SorName sorName =  mockSorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL.name()));
+        sorName.setFamily("Test");
+        sorName.setGiven("Test");
+
         mockSorPerson.setPersonId(1L);
 
         final MockSorRole sorRole = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
@@ -389,6 +401,11 @@ public class DefaultPersonServiceTests {
     public void testAddTwoSorRolesFromDifferentSorWithSameAffiliationType() {
         final MockSorPerson mockSorPerson = new MockSorPerson();
         mockSorPerson.setSourceSor("FOO");
+        mockSorPerson.setGender("U");
+        mockSorPerson.setDateOfBirth(new Date());
+        SorName sorName =  mockSorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL.name()));
+        sorName.setFamily("Test");
+        sorName.setGiven("Test");
         mockSorPerson.setPersonId(1L);
 
         final MockSorRole sorRole = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
@@ -400,6 +417,9 @@ public class DefaultPersonServiceTests {
 
         final MockSorPerson mockSorPerson1 = new MockSorPerson();
         mockSorPerson1.setSourceSor("FOO1");
+        mockSorPerson1.setGender("U");
+        mockSorPerson1.setDateOfBirth(new Date());
+        mockSorPerson1.addName(sorName);
         mockSorPerson1.setPersonId(1L); //both sor person points to the same calculated person
 
         final MockSorRole sorRole1 = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
@@ -429,6 +449,11 @@ public class DefaultPersonServiceTests {
     public void testAddTwoSorRolesFromDifferentSorWithDifferentAffiliationType() {
         final MockSorPerson mockSorPerson = new MockSorPerson();
         mockSorPerson.setSourceSor("FOO");
+        mockSorPerson.setGender("U");
+        mockSorPerson.setDateOfBirth(new Date());
+        SorName sorName =  mockSorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL.name()));
+        sorName.setFamily("Test");
+        sorName.setGiven("Test");
         mockSorPerson.setPersonId(1L);
 
         final MockSorRole sorRole = (MockSorRole) mockSorPerson.createRole(referenceRepository.findType(Type.DataTypes.AFFILIATION, Type.AffiliationTypes.STUDENT));
@@ -439,6 +464,9 @@ public class DefaultPersonServiceTests {
 
 
         final MockSorPerson mockSorPerson1 = new MockSorPerson();
+        mockSorPerson1.setGender("U");
+        mockSorPerson1.setDateOfBirth(new Date());
+        mockSorPerson1.addName(sorName);
         mockSorPerson1.setSourceSor("FOO1");
         mockSorPerson1.setPersonId(1L); //both sor person points to the same calculated person
 

@@ -80,6 +80,21 @@ public interface Person extends Serializable {
      */
     Set<? extends Identifier> getIdentifiers();
 
+
+    /**
+     * get the list of id cards associated with this person
+     * default implementation of person should create an empty set of idcards
+     * @return Set of @IdCards
+     */
+
+    Set<? extends  IdCard> getIdCards();
+
+    /**
+     * get the primary id card of the person if exist..return null otherwise
+     * @return  the id card of the person
+     */
+    IdCard getPrimaryIdCard();
+
     /**
      * Get the name of the person.
      *
@@ -141,7 +156,27 @@ public interface Person extends Serializable {
      */
     Identifier addIdentifier(IdentifierType identifierType, String value);
 
-     /**
+    /**
+     * construct a new ID card and add to the list of id card for this person
+     * @param cardNumber
+     * @param cardSecurityValue
+     * @param barCode
+     * @return
+     */
+
+    IdCard addIDCard( String cardNumber,String cardSecurityValue, String barCode);
+
+    /**
+     * add existing Id card object to the list of ID cards of person
+     * @param cardNumber
+     * @param cardSecurityValue
+     * @param barCode
+     * @return
+     */
+
+    IdCard addIDCard( IdCard idCard);
+
+    /**
      * Sets the notified date on the primary identifier of specified type to the supplied value
      * @param identifierType the type of identifier that is being updated
      * @param date the date when notification was sent
@@ -240,4 +275,17 @@ public interface Person extends Serializable {
      * @return the phone number by which the person wishes to be called.  CAN be NULL.
      */
     ContactPhone getPreferredContactPhoneNumber();
+
+    /**
+     *Fetch the Attributes associated with this person.
+     * These attributes usually set by SOR in SorLocalAttributes on SorPerson
+     * There SorPerson attributes set by Sor then calculated and promoted to this calculated person
+     * Example of these attributes is HIPPA's PHI (Protected Health Information) flag on a person
+     *
+     * @return Map representing K->V attributes that a target SoR wishes to expose
+     */
+    Map<String, String> getAttributes();
+    void setAttributes(Map<String, String> attributes);
+
+
 }
