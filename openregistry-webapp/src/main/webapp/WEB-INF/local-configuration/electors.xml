@@ -34,5 +34,6 @@
     <bean class="org.openregistry.core.service.DefaultDisclosureSettingsFieldElector" id="disclosureFieldElector" />
     <bean class="org.openregistry.core.service.DefaultSSNFieldElector" id="ssnFieldElector" />
     <bean class="org.openregistry.core.service.DefaultSorRoleElector" id="sorRoleElector"/>
+    <bean class="org.openregistry.core.service.DefaultAttributesElector" id="personAttributesElector"/>
     
 </beans>
