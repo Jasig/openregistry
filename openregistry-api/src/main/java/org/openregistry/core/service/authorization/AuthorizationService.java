@@ -22,6 +22,7 @@ import java.util.Set;
     Group findGroupById(Long id);
     Authority findAuthorityById(Long id);
 
+    List<User> findUserByExactName(String name);
     List<User> findUserByName(String name);
     List<User> findUserByCriteria(SearchUserCriteria searchCriteria);
     List<Group> findGroupByName(String name);
@@ -35,6 +36,9 @@ import java.util.Set;
     List<Authority> findAllAuthoritiesSortedById();
 
     public User saveUser(final User user) throws AuthorizationException,Exception;
+    public User addUser(final String netId) throws AuthorizationException,Exception;
+    public Long addUserAndGetUserId(final String netId) throws AuthorizationException,Exception;
+
     public void deleteUser(final User user);
     public void deleteUser(final Long id);
 
@@ -43,6 +47,8 @@ import java.util.Set;
 
     public void addGroupToUser(final User user, final Group group);
     public void addGroupsToUser(final User user, final String[] groupIDs);
+
+    public User saveUserAndAddGroupsToUser(final User user, final String[] groupIDs) throws AuthorizationException,Exception;
 
     public Group saveGroup(final Group group) throws AuthorizationException,Exception;
     public void deleteGroup(final Group group);
@@ -65,6 +71,11 @@ import java.util.Set;
     public List<Group> findGroupOfUser(Long id);
     public List<Group> findGroupOfUser(User user);
     public void addAuthoritiesToGroup(Group group, String[] authorityIDs);
+
+    //find the users belonging to a group
+    public List<User> findUsersOfGroup(Long id);
+    public List<User> findUsersOfGroup(Group group);
+
 
 
 }

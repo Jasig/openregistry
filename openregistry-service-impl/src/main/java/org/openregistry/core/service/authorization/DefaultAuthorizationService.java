@@ -4,6 +4,7 @@ import org.openregistry.core.authorization.Authority;
 import org.openregistry.core.authorization.AuthorizationException;
 import org.openregistry.core.authorization.Group;
 import org.openregistry.core.authorization.User;
+import org.openregistry.core.authorization.jpa.JpaUserImpl;
 import org.openregistry.core.repository.*;
 import org.openregistry.core.service.SearchUserCriteria;
 import org.openregistry.core.service.identifier.IdentifierGenerator;
@@ -60,13 +61,18 @@ public class DefaultAuthorizationService implements AuthorizationService {
     }
 
     @Override
-    public List<User> findUserByName(String name) {
-        return usersRepository.findByUserName(name);
+    public List<User> findUserByExactName(String name) {
+        return usersRepository.findByUserExactName(name);
     }
 
     @Override
     public List<User> findUserByCriteria(SearchUserCriteria searchCriteria) {
-        return this.findUserByName(searchCriteria.getUserName());
+        return this.findUserByExactName(searchCriteria.getUserName());
+    }
+
+    @Override
+    public List<User> findUserByName(String name) {
+        return usersRepository.findByUserName(name);
     }
 
     @Override
@@ -125,6 +131,27 @@ public class DefaultAuthorizationService implements AuthorizationService {
         return allAuthorities;
     }
 
+    @Override
+    public User addUser(final String netId) throws AuthorizationException,Exception{
+        User user = new JpaUserImpl();
+        user.setUserName(netId);
+        user.setEnabled(true);
+        user.setDescription(null);
+        user.setPassword(null);
+
+        User savedUser =usersRepository.saveUser(user);
+        return savedUser;
+    }
+
+    @Override
+    public Long addUserAndGetUserId(final String netId) throws AuthorizationException,Exception{
+        User user = null;
+        user = addUser(netId);
+        if (null == user){
+            return new Long(0);
+        }
+        return user.getId();
+    }
 
     @Override
     public User saveUser(User user) throws AuthorizationException,Exception{
@@ -138,7 +165,7 @@ public class DefaultAuthorizationService implements AuthorizationService {
             //this is a user that is being saved the  first time
             //here check whether a user with the same name already exists?
             //if it does, there should be an exception
-            List<User> listUserAvailable = usersRepository.findByUserName(user.getUserName());
+            List<User> listUserAvailable = usersRepository.findByUserExactName(user.getUserName());
             if(null!= listUserAvailable && listUserAvailable.size() > 0){
                 throw new AuthorizationException("User name already exists: " + user.getUserName());
             }else{
@@ -266,6 +293,18 @@ public class DefaultAuthorizationService implements AuthorizationService {
     }
 
     @Override
+    public List<User> findUsersOfGroup(Group group) {
+        return usersRepository.findUsersOfGroup(group);
+
+    }
+
+    @Override
+    public List<User> findUsersOfGroup(Long id) {
+        return usersRepository.findUsersOfGroup(id);
+    }
+
+
+    @Override
     public void addGroupsToUser(User user, String[] groupIDs) {
 //        if(null!=user && null!= groupIDs && groupIDs.length > 0){
 //            System.out.println("User ID:"  + user.getId());
@@ -282,6 +321,26 @@ public class DefaultAuthorizationService implements AuthorizationService {
             usersRepository.addGroupsToUser(user, newGroupsList);
 
 //        }
+    }
+
+    @Override
+    public User saveUserAndAddGroupsToUser(final User user, final String[] groupIDs) throws AuthorizationException,Exception{
+        //first save the new user
+        User savedUser = null;
+        try{
+            savedUser = saveUser(user);
+        }catch (AuthorizationException ae){
+            throw ae;
+        }catch (Exception ex){
+            throw ex;
+        }
+
+        //second add the groups to the user
+
+        addGroupsToUser(savedUser,groupIDs);
+
+        return savedUser;
+
     }
 
     @Override

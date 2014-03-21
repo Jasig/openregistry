@@ -19,6 +19,8 @@ public interface UsersRepository {
 
     User findByInternalId(Long id) throws RepositoryAccessException;
 
+    List<User> findByUserExactName(String name) throws RepositoryAccessException;
+
     List<User> findByUserName(String name) throws RepositoryAccessException;
 
     List<User> findAllUsers() throws  RepositoryAccessException;
@@ -39,6 +41,9 @@ public interface UsersRepository {
 
     public void addGroupsToUser(User user, List<Group> groups) throws RepositoryAccessException ;
 
+    public List<User> findUsersOfGroup(final Group group) throws RepositoryAccessException;
+
+    public List<User> findUsersOfGroup(final Long id) throws RepositoryAccessException;
 
 
 
