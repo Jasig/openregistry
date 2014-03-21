@@ -34,8 +34,13 @@ public class JpaUsersRepository implements UsersRepository {
     }
 
     @Override
-    public List<User> findByUserName(String name) throws RepositoryAccessException {
+    public List<User> findByUserExactName(String name) throws RepositoryAccessException {
         return (List<User>) this.entityManager.createQuery("Select u from auth_users u where u.userName = :name").setParameter("name", name).getResultList();
+    }
+
+    @Override
+    public List<User> findByUserName(String name) throws RepositoryAccessException {
+        return (List<User>) this.entityManager.createQuery("Select u from auth_users u where upper(u.userName) LIKE :name").setParameter("name", "%" + name.toUpperCase() + "%").getResultList();
     }
 
     @Override
@@ -126,4 +131,17 @@ public class JpaUsersRepository implements UsersRepository {
         User user = this.entityManager.find(JpaUserImpl.class,id);
         return user.getUserGroups();
     }
+
+    @Override
+    public List<User> findUsersOfGroup(Group group) throws RepositoryAccessException {
+        Group group1 = this.entityManager.find(JpaGroupImpl.class,group.getId());
+        return group1.getUsers();
+    }
+
+    @Override
+    public List<User> findUsersOfGroup(Long id) throws RepositoryAccessException {
+        Group group1= this.entityManager.find(JpaGroupImpl.class,id);
+        return group1.getUsers();
+    }
+
 }
