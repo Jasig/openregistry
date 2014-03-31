@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.openregistry</groupId>
     <artifactId>openregistry</artifactId>
-    <version>0.9.3</version>
+    <version>0.9.4-SNAPSHOT</version>
 
     <modules>
         <module>openregistry-api</module>
