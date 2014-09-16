@@ -19,9 +19,12 @@
 
 package org.openregistry.core.audit;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.envers.RevisionListener;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import javax.inject.Inject;
 
 /**
  * Sets the username from the Spring SecurityContext.
@@ -35,6 +38,7 @@ public class SpringSecurityListener implements RevisionListener {
     public void newRevision(final Object o) {
         final SpringSecurityRevisionEntity entity = (SpringSecurityRevisionEntity) o;
         final SecurityContext context = SecurityContextHolder.getContext();
+        final String comments =  ChangeComments.getComments();
 
 //        entity.setUsername("anonymous");
 
@@ -45,6 +49,10 @@ public class SpringSecurityListener implements RevisionListener {
                 //for non secure interfaces e.g. batch
                 entity.setUsername("anonymous");
             }
+        }
+
+        if (StringUtils.isNotBlank(comments)) {
+            entity.setComments(comments);
         }
     }
 }
