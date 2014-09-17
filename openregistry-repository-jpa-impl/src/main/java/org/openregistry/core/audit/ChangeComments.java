@@ -13,15 +13,11 @@ import javax.inject.Named;
  * To change this template use File | Settings | File Templates.
  */
 public class ChangeComments {
-    private static ThreadLocal<String> comments;
-
-    public ChangeComments () {
-        comments = new ThreadLocal<String>();
-    }
+    private static ThreadLocal<String> comments = new ThreadLocal();
 
     public static String getComments() {
         String current  = comments.get();
-        comments.set("");
+        comments.remove();
         return current;
     }
 
