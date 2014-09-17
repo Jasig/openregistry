@@ -20,7 +20,9 @@ public class ChangeComments {
     }
 
     public static String getComments() {
-        return comments.get();
+        String current  = comments.get();
+        comments.set("");
+        return current;
     }
 
     public static void setComments(String value) {
