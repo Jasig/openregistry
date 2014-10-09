@@ -36,6 +36,7 @@ import javax.persistence.Entity;
 public final class SpringSecurityRevisionEntity extends DefaultRevisionEntity {
 
     private String username;
+    private String comments;
 
     public void setUsername(final String username) {
         this.username = username;
@@ -43,5 +44,13 @@ public final class SpringSecurityRevisionEntity extends DefaultRevisionEntity {
 
     public String getUsername() {
         return this.username;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }
