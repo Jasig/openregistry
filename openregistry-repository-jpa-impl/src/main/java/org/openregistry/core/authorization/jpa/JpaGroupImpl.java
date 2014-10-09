@@ -4,10 +4,12 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.IndexColumn;
 import org.hibernate.envers.Audited;
 import org.openregistry.core.authorization.Authority;
 import org.openregistry.core.authorization.Group;
 import org.openregistry.core.authorization.User;
+import org.openregistry.core.authorization.UserGroup;
 import org.openregistry.core.domain.internal.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,13 @@ public class JpaGroupImpl extends Entity implements Group{
 
     }
 
+    public JpaGroupImpl(Group group){
+        this.groupName = group.getGroupName();
+        this.description = group.getDescription();
+        this.enabled = group.isEnabled();
+        this.id = group.getId();
+    }
+
      public JpaGroupImpl(){
 
     }
@@ -59,10 +68,6 @@ public class JpaGroupImpl extends Entity implements Group{
     @Column(name="IS_ENABLED", nullable=false)
     private boolean enabled = false;
 
-    //@ManyToMany(mappedBy = "groups",fetch=FetchType.EAGER,targetEntity = JpaUserImpl.class)
-    @ManyToMany(mappedBy = "groups",targetEntity = JpaUserImpl.class)
-    private List<User> users = new ArrayList<User>();
-
     //@ManyToMany(targetEntity = JpaAuthorityImpl.class,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     //@ManyToMany(targetEntity = JpaAuthorityImpl.class,fetch = FetchType.EAGER)
     @ManyToMany(targetEntity = JpaAuthorityImpl.class)
@@ -71,6 +76,104 @@ public class JpaGroupImpl extends Entity implements Group{
       joinColumns={@JoinColumn(name="GROUP_ID", referencedColumnName="ID")},
       inverseJoinColumns={@JoinColumn(name="AUTHORITY_ID", referencedColumnName="ID")})
     private List<Authority> authorities = new java.util.ArrayList<Authority>();
+
+    @OneToMany(targetEntity = JpaUserGroupImpl.class,fetch = FetchType.EAGER,mappedBy = "group")
+    @IndexColumn(name="group_id")
+    private Set<UserGroup> users;
+
+    public Set<UserGroup> getUsers(){
+        return this.users;
+    }
+
+    public void addUserGroup(UserGroup userGroup){
+        this.users.add(userGroup);
+    }
+
+    public void removeUserGroup(UserGroup userGroup){
+        if(this.users.contains(userGroup)){
+            this.users.remove(userGroup);
+        }
+    }
+
+    public void removeAllUsers() {
+        this.users.clear();
+    }
+
+    public UserGroup getUserGroupForUser(User user){
+        UserGroup userGroupToBeReturned = null;
+        if(null!= users){
+            for(UserGroup userGroup: users){
+                if(userGroup.getUser().equals(user)){
+                    userGroupToBeReturned = userGroup;
+                    break;
+                }
+            }
+            return userGroupToBeReturned;
+        }else{
+            return null;
+        }
+    }
+
+    public UserGroup getUserGroupForUserId(Long userId){
+        UserGroup userGroupToBeReturned = null;
+        if(null!= users){
+            for(UserGroup userGroup: users){
+                if(userGroup.getUser().getId().longValue()==userId.longValue()){
+                    userGroupToBeReturned = userGroup;
+                    break;
+                }
+            }
+            return userGroupToBeReturned;
+        }else{
+            return null;
+        }
+    }
+
+    public UserGroup getUserGroupForUserId(long userId){
+        UserGroup userGroupToBeReturned = null;
+        if(null!= users){
+            for(UserGroup userGroup: users){
+                if(userGroup.getUser().getId().longValue()==userId){
+                    userGroupToBeReturned = userGroup;
+                    break;
+                }
+            }
+            return userGroupToBeReturned;
+        }else{
+            return null;
+        }
+    }
+
+
+    // -- Old Code for User Group Relationship
+/*    @ManyToMany(mappedBy = "groups",targetEntity = JpaUserImpl.class)
+    private List<User> users = new ArrayList<User>();
+
+    @Override
+    public List<User> getUsers() {
+        return users;
+    }
+
+    @Override
+    public User addUser(User user) {
+        this.users.add(user);
+        return user;
+    }
+
+    @Override
+    public void removeUser(User user) {
+        this.users.remove(user);
+
+    }
+
+    @Override
+    public void removeAllUsers() {
+        this.users.clear();
+    }
+
+
+*/
+// -- End of Old Code for User Group Relationship
 
     public List<Authority> getAuthorities() {
         return this.authorities;
@@ -89,22 +192,6 @@ public class JpaGroupImpl extends Entity implements Group{
         this.authorities.remove(authority);
     }
 
-    @Override
-    public List<User> getUsers() {
-        return users;
-    }
-
-    @Override
-    public User addUser(User user) {
-        this.users.add(user);
-        return user;
-    }
-
-    @Override
-    public void removeUser(User user) {
-        this.users.remove(user);
-
-    }
 
     @Override
     public String getGroupName() {
@@ -160,32 +247,11 @@ public class JpaGroupImpl extends Entity implements Group{
          .append(this.enabled, jpaGroup.enabled);
          return b.isEquals();
 
-//        if (users != null ? !users.equals(jpaGroup.users) : jpaGroup.users!= null)
-//            return false;
-//
-//        if (authorities != null ? !authorities.equals(jpaGroup.authorities) : jpaGroup.authorities!= null)
-//            return false;
-//
-//        if (id != null ? !id.equals(jpaGroup.id) : jpaGroup.id != null) return false;
-//
-//        if (groupName != null ? !groupName .equals(jpaGroup.groupName) : jpaGroup.groupName != null)
-//            return false;
-//        if (description != null ? !description.equals(jpaGroup.description) : jpaGroup.description != null)
-//            return false;
-//        if (enabled != jpaGroup.enabled) return false;
-//        return true;
     }
 
     @Override
     public int hashCode() {
 
-//        int result = id != null ? id.hashCode() : 0;
-//        result = 51 * result + (users != null ? users.hashCode() : 0);
-//        result = 51 * result + (authorities != null ? authorities.hashCode() : 0);
-//        result = 51 * result + (groupName != null ? groupName.hashCode() : 0);
-//        result = 51 * result + (description != null ? description.hashCode() : 0);
-//        result = 51 * result + (enabled == true ? 1 : 0);
-//        return result;
 
         return new HashCodeBuilder()
          .append(this.groupName)
@@ -204,8 +270,4 @@ public class JpaGroupImpl extends Entity implements Group{
         this.authorities.clear();
     }
 
-    @Override
-    public void removeAllUsers() {
-        this.users.clear();
-    }
 }

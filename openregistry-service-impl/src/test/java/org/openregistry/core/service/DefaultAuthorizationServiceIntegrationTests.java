@@ -280,7 +280,7 @@ public class DefaultAuthorizationServiceIntegrationTests {
 //
 //           System.out.println("--------------------------------Check Groups of User--------------------------------");
 //
-//           //Set<Group> groups = user11.getUserGroups();
+//           //Set<Group> groups = user11.getGroups();
 //           //Set<Group> groupsOfUser = this.authorizationService.findGroupOfUser(user11);
 //           Set<Group> groupsOfUser = this.authorizationService.findGroupOfUser(new Long(1));
 //

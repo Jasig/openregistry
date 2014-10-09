@@ -2,6 +2,7 @@ package org.openregistry.core.repository;
 
 import org.openregistry.core.authorization.Authority;
 import org.openregistry.core.authorization.Group;
+import org.openregistry.core.authorization.User;
 
 import java.util.List;
 import java.util.Set;
@@ -38,6 +39,10 @@ public interface GroupsRepository {
     public void deleteAuthoritiesOfGroup(Group group) throws RepositoryAccessException;
 
     public void addAuthoritiesToGroup(Group group, Set<Authority> authorities);
+
+    public void deleteUserOfGroup(Group group, User user);
+
+    public void addUserToGroup(Group group, User user);
 
 
 }
