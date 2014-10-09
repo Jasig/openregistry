@@ -54,4 +54,5 @@ public interface PersonMatch extends Serializable, Comparable<PersonMatch> {
      * @return the person who matched.  CANNOT be null.
      */
     Person getPerson();
+
 }

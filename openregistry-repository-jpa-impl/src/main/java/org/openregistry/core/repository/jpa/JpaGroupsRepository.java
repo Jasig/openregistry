@@ -3,7 +3,10 @@ package org.openregistry.core.repository.jpa;
 import org.openregistry.core.authorization.Authority;
 import org.openregistry.core.authorization.Group;
 import org.openregistry.core.authorization.User;
+import org.openregistry.core.authorization.UserGroup;
 import org.openregistry.core.authorization.jpa.JpaGroupImpl;
+import org.openregistry.core.authorization.jpa.JpaUserGroupImpl;
+import org.openregistry.core.authorization.jpa.JpaUserImpl;
 import org.openregistry.core.repository.GroupsRepository;
 import org.openregistry.core.repository.RepositoryAccessException;
 import org.springframework.stereotype.Repository;
@@ -51,6 +54,8 @@ public class JpaGroupsRepository implements GroupsRepository{
         return this.entityManager.merge(group);
     }
 
+//Start of Old Code for Groups
+    /*
     @Override
     public void deleteGroup(Group group) throws RepositoryAccessException {
         List<Authority> lstAuthorities = group.getGroupAuthorities();
@@ -63,7 +68,7 @@ public class JpaGroupsRepository implements GroupsRepository{
         List<User> lstUsers = group.getUsers();
         for(User user : lstUsers){
 
-            List<Group> lstTempGroups = user.getUserGroups();
+            List<Group> lstTempGroups = user.getGroups();
             user.removeGroup(group);
             this.entityManager.merge(user);
             this.entityManager.flush();
@@ -74,6 +79,50 @@ public class JpaGroupsRepository implements GroupsRepository{
         group.removeAllUsers();
         this.entityManager.merge(group);
         this.entityManager.flush();
+
+        this.entityManager.remove(group);
+        this.entityManager.flush();
+    }
+*/
+//End of Old Code for Groups
+    //Modified Code
+    @Override
+    public void deleteGroup(Group group) throws RepositoryAccessException {
+        //Get the Authorities of the Group first and remove the relationship between Group and the Authorities (from each authority object)
+        List<Authority> lstAuthorities = group.getGroupAuthorities();
+        for(Authority authority : lstAuthorities){
+            authority.removeGroup(group);
+            this.entityManager.merge(authority);
+            this.entityManager.flush();
+        }
+
+        //Get the Users of the group and remove group entry from each user object
+
+        Set<UserGroup> lstUsers = group.getUsers();
+        if(null!=lstUsers){
+            for(UserGroup userGroup : lstUsers){
+
+                //Find the User object related to UserGroup.
+                //User userWhoseGroupShouldBeDeleted = this.entityManager.find(JpaUserImpl.class,new Long(userGroup.getUserId()));
+                User userWhoseGroupShouldBeDeleted = this.entityManager.find(JpaUserImpl.class,new Long(userGroup.getUser().getId()));
+                userWhoseGroupShouldBeDeleted.removeUserGroup(userGroup);
+                this.entityManager.merge(userWhoseGroupShouldBeDeleted);
+                this.entityManager.flush();
+
+                //remove the UserGroup as it is a separate entity
+                this.entityManager.remove(userGroup);
+            }
+        }
+
+
+        //now remove authorities of the group
+        group.removeAllAuthorities();
+        //now remove all user from the Group
+        group.removeAllUsers();
+        this.entityManager.merge(group);
+        this.entityManager.flush();
+
+
 
         this.entityManager.remove(group);
         this.entityManager.flush();
@@ -140,5 +189,20 @@ public class JpaGroupsRepository implements GroupsRepository{
                 group.addAuthority(newAuthority);
             }
         saveGroup(group);
+    }
+
+    @Override
+    public void deleteUserOfGroup(Group group, User user) {
+        for(UserGroup userGroup: group.getUsers()){
+            if(userGroup.getUser().getId().longValue()==user.getId().longValue()){
+                group.removeUserGroup(userGroup);
+            }
+        }
+    }
+
+    @Override
+    public void addUserToGroup(Group group, User user) {
+        UserGroup userGroup = new JpaUserGroupImpl(user,group,null,null,null,null);
+        group.addUserGroup(userGroup);
     }
 }

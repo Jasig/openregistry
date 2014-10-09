@@ -22,14 +22,22 @@ public interface Group extends Serializable{
 
     Authority addAuthority(Authority authority);
     void removeAuthority(Authority authority);
-    public List<User> getUsers();
 
+    public Set<UserGroup> getUsers();
+    public void addUserGroup(UserGroup userGroup);
+    public void removeUserGroup(UserGroup userGroup);
+    public void removeAllUsers();
+    public UserGroup getUserGroupForUser(User user);
+
+/*
+    public List<User> getUsers();
     User addUser(User user);
     void removeUser(User user);
-
+    public void removeAllUsers();
+*/
 
     List<Authority> getGroupAuthorities();
 
     public void removeAllAuthorities();
-    public void removeAllUsers();
+
 }
