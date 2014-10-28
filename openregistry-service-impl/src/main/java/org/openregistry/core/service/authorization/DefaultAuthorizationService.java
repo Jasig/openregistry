@@ -152,13 +152,28 @@ public class DefaultAuthorizationService implements AuthorizationService {
 
     @Override
     public User addUser(final String netId) throws AuthorizationException,Exception{
-        User user = new JpaUserImpl();
-        user.setUserName(netId);
-        user.setEnabled(true);
-        user.setDescription(null);
-        user.setPassword(null);
+        User savedUser = null;
 
-        User savedUser =usersRepository.saveUser(user);
+        List<User> lstUser = null;
+        try{
+        lstUser = usersRepository.findByUserExactName(netId);
+        }catch(RepositoryAccessException rae){
+            logger.info("could not find user with netId" + netId);
+        }catch(Exception ex){
+            logger.info("could not find user with netId" + netId);
+        }
+
+        if(null==lstUser || lstUser.size() == 0){
+            User user = new JpaUserImpl();
+            user.setUserName(netId);
+            user.setEnabled(true);
+            user.setDescription(null);
+            user.setPassword("NOT_USED");
+            savedUser = usersRepository.saveUser(user);
+        }else{
+            savedUser = lstUser.get(0);
+        }
+
         return savedUser;
     }
 
