@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.openregistry</groupId>
     <artifactId>openregistry</artifactId>
-    <version>0.9.4-SNAPSHOT</version>
+    <version>0.9.4</version>
 
     <modules>
         <module>openregistry-api</module>
@@ -53,7 +53,7 @@
         <connection>scm:git:https://github.com/Rutgers-IDM/openregistry.git</connection>
         <developerConnection>scm:git:https://github.com/Rutgers-IDM/openregistry.git</developerConnection>
         <url>scm:git:https://github.com/Rutgers-IDM/openregistry.git</url>
-        <tag>master</tag>
+        <tag>openregistry-0.9.4</tag>
     </scm>
 
     <issueManagement>
