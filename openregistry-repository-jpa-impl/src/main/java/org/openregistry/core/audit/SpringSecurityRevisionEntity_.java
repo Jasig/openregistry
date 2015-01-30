@@ -7,6 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class SpringSecurityRevisionEntity_ {
 
 	public static volatile SingularAttribute<SpringSecurityRevisionEntity, String> username;
+    public static volatile SingularAttribute<SpringSecurityRevisionEntity, String> comments;
 
 }
 

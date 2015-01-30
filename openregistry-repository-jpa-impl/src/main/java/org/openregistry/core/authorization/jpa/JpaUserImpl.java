@@ -4,17 +4,16 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.IndexColumn;
 import org.hibernate.envers.Audited;
-import org.openregistry.core.authorization.Group;
 import org.openregistry.core.authorization.User;
+import org.openregistry.core.authorization.UserGroup;
 import org.openregistry.core.domain.internal.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -56,10 +55,41 @@ public class JpaUserImpl extends Entity implements User {
     @Column(name="IS_ENABLED", nullable=false)
     private boolean enabled = false;
 
+    @OneToMany(targetEntity = JpaUserGroupImpl.class,fetch = FetchType.EAGER,mappedBy = "user")
+    @IndexColumn(name="user_id")
+    private Set<UserGroup> groups;
 
-    //@ManyToMany(targetEntity = JpaGroupImpl.class,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    //@ManyToMany(targetEntity = JpaGroupImpl.class,fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH})
-    @ManyToMany(targetEntity = JpaGroupImpl.class,fetch = FetchType.EAGER)
+    public Set<UserGroup> getGroups(){
+        return this.groups;
+    }
+
+    public void addUserGroup(UserGroup userGroup){
+        if(null!=this.groups){
+            this.groups.add(userGroup);
+        }else{
+            this.groups = new HashSet<UserGroup>();
+            this.groups.add(userGroup);
+        }
+    }
+
+    public void removeUserGroup(UserGroup userGroup){
+        if(this.groups.contains(userGroup)){
+            this.groups.remove(userGroup);
+        }
+    }
+
+    @Override
+    public void removeAllGroups(){
+        this.groups.clear();
+    }
+
+    public void setGroups(Set<UserGroup> groups){
+        this.groups = groups;
+    }
+
+
+// -- Old Code for User Group Relationship
+/*    @ManyToMany(targetEntity = JpaGroupImpl.class,fetch = FetchType.EAGER)
     @JoinTable(
       name="AUTH_USER_GROUP",
       joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
@@ -78,11 +108,11 @@ public class JpaUserImpl extends Entity implements User {
 
     @Override
     public void removeGroup(Group group) {
-/*        for(Group aGroup : this.groups){
-            System.out.println("Set Group HashCode:  " + aGroup.hashCode() );
-        }
-            System.out.println("Passed Group HashCode:  " + group.hashCode() );
-*/
+//        for(Group aGroup : this.groups){
+//            System.out.println("Set Group HashCode:  " + aGroup.hashCode() );
+//        }
+//            System.out.println("Passed Group HashCode:  " + group.hashCode() );
+
         if(this.groups.contains(group)){
             this.groups.remove(group);
         }
@@ -99,6 +129,14 @@ public class JpaUserImpl extends Entity implements User {
     public void removeAllGroups(){
         this.groups.clear();
     }
+
+    @Override
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    */
+// -- End of Old Code for User Group Relationship
 
     @Override
     public Long getId() {
@@ -193,8 +231,5 @@ public class JpaUserImpl extends Entity implements User {
          .toHashCode();
     }
 
-    @Override
-    public List<Group> getUserGroups() {
-        return groups;
-    }
+
 }
