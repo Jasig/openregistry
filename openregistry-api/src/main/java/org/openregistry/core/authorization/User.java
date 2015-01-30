@@ -23,11 +23,18 @@ public interface User extends Serializable {
     void setPassword(String password);
     void setDescription(String description);
     void setEnabled(boolean value);
+    public void addUserGroup(UserGroup userGroup);
+    public void removeUserGroup(UserGroup userGroup);
+    public void removeAllGroups();
+    public void setGroups(Set<UserGroup> groups);
+    public Set<UserGroup> getGroups();
 
+
+/*
     void addGroup(Group group);
     void removeGroup(Group group);
     public void removeAllGroups();
-
-    List<Group> getUserGroups();
+    List<Group> getGroups();
+*/
 
 }

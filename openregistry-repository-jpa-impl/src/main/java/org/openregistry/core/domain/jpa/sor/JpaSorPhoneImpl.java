@@ -190,7 +190,7 @@ public class JpaSorPhoneImpl extends Entity implements Phone {
         	builder.append(this.areaCode);
         	builder.append(PHONE_SEP);
         }
-        if (this.number.length() > 2 && this.number.charAt(3) != '-') {
+        if (this.number.length() > 4 && this.number.charAt(3) != '-') {
         	builder.append(this.number.substring(0, 3));
         	builder.append(PHONE_SEP);
         	builder.append(this.number.substring(3));

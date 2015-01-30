@@ -3,6 +3,7 @@ package org.openregistry.core.repository;
 import org.openregistry.core.authorization.Authority;
 import org.openregistry.core.authorization.Group;
 import org.openregistry.core.authorization.User;
+import org.openregistry.core.authorization.UserGroup;
 import org.openregistry.core.domain.Person;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public interface UsersRepository {
 
     User findByInternalId(Long id) throws RepositoryAccessException;
 
+    List<User> findByUserExactName(String name) throws RepositoryAccessException;
+
     List<User> findByUserName(String name) throws RepositoryAccessException;
 
     List<User> findAllUsers() throws  RepositoryAccessException;
@@ -29,7 +32,13 @@ public interface UsersRepository {
 
     public void deleteGroupOfUser(final User user, final Group group) throws RepositoryAccessException;
 
+    public void deleteGroupOfUser(User user, UserGroup userGroup) throws RepositoryAccessException;
+
+    public void deleteGroupOfUser(User user,List<Long> listOfGroupIdsToBeDeleted) throws RepositoryAccessException;
+
     public void addGroupToUser(final User user, final Group group) throws RepositoryAccessException;
+
+    public void addUserGroupToUser(User user, UserGroup userGroup) throws RepositoryAccessException;
 
     public List<Group> findGroupOfUser(final User user) throws RepositoryAccessException;
 
@@ -38,8 +47,14 @@ public interface UsersRepository {
     public void deleteGroupsOfUser(User user) throws RepositoryAccessException;
 
     public void addGroupsToUser(User user, List<Group> groups) throws RepositoryAccessException ;
+    public void addUserGroupsToUser(User user, Set<UserGroup> groups) throws RepositoryAccessException;
 
+    public List<User> findUsersOfGroup(final Group group) throws RepositoryAccessException;
 
+    public List<User> findUsersOfGroup(final Long id) throws RepositoryAccessException;
 
+    public UserGroup getUserGroup(Long userId,Long groupId) throws RepositoryAccessException;
+
+    public void saveUserGroup(UserGroup userGroup) throws RepositoryAccessException;
 
 }

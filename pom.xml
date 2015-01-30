@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.jasig</groupId>
+        <groupId>org.jasig.parent</groupId>
         <artifactId>jasig-parent</artifactId>
-        <version>14</version>
+        <version>20</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.openregistry</groupId>
     <artifactId>openregistry</artifactId>
-    <version>0.9.3-SNAPSHOT</version>
+    <version>0.9.5-SNAPSHOT</version>
 
     <modules>
         <module>openregistry-api</module>
@@ -53,7 +53,7 @@
         <connection>scm:git:https://github.com/Rutgers-IDM/openregistry.git</connection>
         <developerConnection>scm:git:https://github.com/Rutgers-IDM/openregistry.git</developerConnection>
         <url>scm:git:https://github.com/Rutgers-IDM/openregistry.git</url>
-        <tag>master</tag>
+        <tag>openregistry-0.9.4</tag>
     </scm>
 
     <issueManagement>
@@ -541,8 +541,12 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
                     </dependency>
                 </dependencies>
             </plugin>
+
             <!--
             <plugin>
+
+<plugin>
+ 7c85fd8ba63e64df2819c6bd49c6484066c0adb1
                 <groupId>org.spockframework</groupId>
                 <artifactId>spock-maven</artifactId>
                 <version>${spock.version}</version>
@@ -553,12 +557,16 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
                         </goals>
                     </execution>
                 </executions>
+HEAD
             </plugin>
-            -->
+            
+
+            </plugin> -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.0</version>
+                <version>2.5.1</version>
                 <configuration>
                     <mavenExecutorId>forked-path</mavenExecutorId>
                 </configuration>
