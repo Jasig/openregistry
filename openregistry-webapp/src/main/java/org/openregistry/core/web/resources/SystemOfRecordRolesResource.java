@@ -211,13 +211,20 @@ public class SystemOfRecordRolesResource {
     private void copyBasicRoleDataFromIncomingRepresentation(SorRole sorRole, RoleRepresentation roleRepresentation) {
         //TODO: this is questionable - should we hardcode the status here or should it solely depend on the date range?
         sorRole.setPersonStatus(this.referenceRepository.findType(Type.DataTypes.STATUS, Type.PersonStatusTypes.ACTIVE));
-        sorRole.setTitle(roleRepresentation.title);
-        setOrganizationalUnit(sorRole, roleRepresentation.organizationalUnit);
-        setSystemOfRecord(sorRole, roleRepresentation.systemOfRecord);
-        sorRole.setStart(roleRepresentation.startDate);
+        //update only what is needed
+        if(roleRepresentation.title!=null)
+          sorRole.setTitle(roleRepresentation.title);
+        if(roleRepresentation.organizationalUnit!=null)
+           setOrganizationalUnit(sorRole, roleRepresentation.organizationalUnit);
+        if(roleRepresentation.systemOfRecord!=null)
+           setSystemOfRecord(sorRole, roleRepresentation.systemOfRecord);
+        if(roleRepresentation.startDate!=null)
+           sorRole.setStart(roleRepresentation.startDate);
         if (roleRepresentation.endDate != null) sorRole.setEnd(roleRepresentation.endDate);
-        if (roleRepresentation.percentage != null) sorRole.setPercentage(Integer.parseInt(roleRepresentation.percentage));
-        setSponsorInfo(sorRole, this.referenceRepository.findType(Type.DataTypes.SPONSOR, roleRepresentation.sponsorType), roleRepresentation);
+        if (roleRepresentation.percentage != null)
+            sorRole.setPercentage(Integer.parseInt(roleRepresentation.percentage));
+        if(roleRepresentation.sponsorIdType!=null)
+          setSponsorInfo(sorRole, this.referenceRepository.findType(Type.DataTypes.SPONSOR, roleRepresentation.sponsorType), roleRepresentation);
     }
 
     private void copyEmailDataFromIncomingRepresentation(SorRole sorRole, List<RoleRepresentation.Email> emailsRepresentation) {
