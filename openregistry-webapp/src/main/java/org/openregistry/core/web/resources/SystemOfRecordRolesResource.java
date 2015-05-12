@@ -178,20 +178,23 @@ public class SystemOfRecordRolesResource {
         copyBasicRoleDataFromIncomingRepresentation(sorRole, roleRepresentation);
 
         //Update newEmails
-        sorRole.getEmailAddresses().clear();
+
         if (roleRepresentation.emails != null) {
+            sorRole.getEmailAddresses().clear();
             copyEmailDataFromIncomingRepresentation(sorRole, roleRepresentation.emails);
         }
 
         //Update phones
-        sorRole.getPhones().clear();
+
         if (roleRepresentation.phones != null) {
+            sorRole.getPhones().clear();
             copyPhoneDataFromIncomingRepresentation(sorRole, roleRepresentation.phones);
         }
 
         //Update addresses
-        sorRole.getAddresses().clear();
+
         if (roleRepresentation.addresses != null) {
+            sorRole.getAddresses().clear();
             copyAddressDataFromIncomingRepresentation(sorRole, roleRepresentation.addresses);
         }
 
