@@ -130,8 +130,8 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public List<Person> searchByCriteria(SearchCriteria searchCriteria) throws RepositoryAccessException {
- 		return persons;
- 	 }
+        return persons;
+    }
 
     public List<Person> findByFamilyName(String family) throws RepositoryAccessException {
         final List<Person> people = new ArrayList<Person>();
@@ -171,7 +171,7 @@ public class MockPersonRepository implements PersonRepository {
     }
 
     public void deleteSorRole(SorPerson person, SorRole role) {
-		person.getRoles().remove(role);
+        person.getRoles().remove(role);
     }
 
     public List<SorPerson> getSoRRecordsForPerson(final Person person) {
@@ -188,11 +188,11 @@ public class MockPersonRepository implements PersonRepository {
     public SorRole getSoRRoleForRole(Role role){
         for (final SorPerson sorPerson : this.sorPersons) {
             for( SorRole sorRole :sorPerson.getRoles()){
-               if(sorRole.getId().equals(role.getSorRoleId())){
-                   return sorRole;
-               }
+                if(sorRole.getId().equals(role.getSorRoleId())){
+                    return sorRole;
+                }
             }
-            
+
         }
         return null;
     }
@@ -220,7 +220,7 @@ public class MockPersonRepository implements PersonRepository {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-	public List<Person> findByEmailAddress(String email) {
+    public List<Person> findByEmailAddress(String email) {
         final List<Person> people = new ArrayList<Person>();
         for (final Person person : this.persons) {
             for (final Role role : person.getRoles()) {
@@ -232,11 +232,11 @@ public class MockPersonRepository implements PersonRepository {
                 }
             }
         }
-		return people;
-	}
+        return people;
+    }
 
-	public List<Person> findByEmailAddressAndPhoneNumber(String email,
-			String countryCode, String areaCode, String number) {
+    public List<Person> findByEmailAddressAndPhoneNumber(String email,
+                                                         String countryCode, String areaCode, String number) {
 
         final List<Person> people = new ArrayList<Person>();
 
@@ -262,16 +262,16 @@ public class MockPersonRepository implements PersonRepository {
                 }
             }
         }
-		return people;
-	}
+        return people;
+    }
 
-	public List<Person> findByEmailAddressAndPhoneNumber(String email,
-			String countryCode, String areaCode, String number, String extension) {
-		return new ArrayList<Person>();
-	}
+    public List<Person> findByEmailAddressAndPhoneNumber(String email,
+                                                         String countryCode, String areaCode, String number, String extension) {
+        return new ArrayList<Person>();
+    }
 
-	public List<Person> findByPhoneNumber(String countryCode, String areaCode,
-			String number, String extension) {
+    public List<Person> findByPhoneNumber(String countryCode, String areaCode,
+                                          String number, String extension) {
 
         final List<Person> people = new ArrayList<Person>();
         for (final Person person : this.persons) {
@@ -284,11 +284,11 @@ public class MockPersonRepository implements PersonRepository {
                 }
             }
         }
-		return people;
-	}
+        return people;
+    }
 
-	public List<Person> findByPhoneNumber(String countryCode, String areaCode,
-			String number) {
+    public List<Person> findByPhoneNumber(String countryCode, String areaCode,
+                                          String number) {
 
         final List<Person> people = new ArrayList<Person>();
         for (final Person person : this.persons) {
@@ -301,8 +301,8 @@ public class MockPersonRepository implements PersonRepository {
                 }
             }
         }
-		return people;
-	}
+        return people;
+    }
 
     @Override
     public SorPerson findSorBySSN(String ssn) {
@@ -313,5 +313,105 @@ public class MockPersonRepository implements PersonRepository {
         }
 
         return null;
+    }
+
+    @Override
+    public List<Person> findBySsnFirstNameDobGender(final String Ssn, final String firstName, final Date dob, final String gender) throws RepositoryAccessException{
+        final List<Person> people = new ArrayList<Person>();
+
+        if(gender.equalsIgnoreCase("F")){
+
+            for (final Person person : this.persons) {
+
+                boolean dobMatch = false;
+                boolean nameMatch = false;
+                boolean ssnMatch = false;
+                boolean genderFemale = false;
+
+                if(null!= person.getGender() && person.getGender().equalsIgnoreCase(gender)){
+                    genderFemale = true;
+                }
+
+
+                if(null!= person.getDateOfBirth() && person.getDateOfBirth().equals(dob)){
+                    //dob matched
+                    dobMatch = true;
+                }
+
+                //now match the SSN
+                for(Identifier identifier : person.getIdentifiers()){
+                    if(identifier.getType().getName().equals("SSN") && null != identifier.getValue() && identifier.getValue().equalsIgnoreCase(Ssn)){
+                        //there is a match on SSN
+                        ssnMatch = true;
+                        break;
+                    }
+                }
+
+                //now match the first name (last name can differ)
+                for (final Name name : person.getNames()) {
+                    if (null!= name.getGiven() && name.getGiven().equalsIgnoreCase(firstName)) {
+                        nameMatch = true;
+                        break;
+                    }
+                }
+
+                //add to matches only if all condisiotns match
+                if(dobMatch && ssnMatch && nameMatch && genderFemale){
+                    people.add(person);
+                }
+
+            }
+        }
+
+        return people;
+    }
+
+    public List<Person> findBySsnFirstNameMiddleInitDobGender(final String Ssn, final String firstName, final String middleInitial, final Date dob, final String gender) throws RepositoryAccessException {
+        final List<Person> people = new ArrayList<Person>();
+
+        if(gender.equalsIgnoreCase("F")){
+
+            for (final Person person : this.persons) {
+
+                boolean dobMatch = false;
+                boolean nameMatch = false;
+                boolean ssnMatch = false;
+                boolean genderFemale = false;
+
+                if(null!= person.getGender() && person.getGender().equalsIgnoreCase(gender)){
+                    genderFemale = true;
+                }
+
+
+                if(null!= person.getDateOfBirth() && person.getDateOfBirth().equals(dob)){
+                    //dob matched
+                    dobMatch = true;
+                }
+
+                //now match the SSN
+                for(Identifier identifier : person.getIdentifiers()){
+                    if(identifier.getType().getName().equals("SSN") && null != identifier.getValue() && identifier.getValue().equalsIgnoreCase(Ssn)){
+                        //there is a match on SSN
+                        ssnMatch = true;
+                        break;
+                    }
+                }
+
+                //now match the first name (last name can differ)
+                for (final Name name : person.getNames()) {
+                    if (null!= name.getGiven() && null!= name.getMiddle() && name.getGiven().equalsIgnoreCase(firstName) && name.getMiddle().equalsIgnoreCase(middleInitial)) {
+                        nameMatch = true;
+                        break;
+                    }
+                }
+
+                //add to matches only if all condisiotns match
+                if(dobMatch && ssnMatch && nameMatch && genderFemale){
+                    people.add(person);
+                }
+
+            }
+        }
+        return  people;
     }
 }

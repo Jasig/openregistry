@@ -86,7 +86,7 @@ public class JpaPersonRepository implements PersonRepository {
     public SorPerson findByPersonIdAndSorIdentifier(final Long personId, final String sorSource) {
         return (SorPerson) this.entityManager.createQuery("Select s from sorPerson s where s.sourceSor = :sorSource and s.personId = :personId").setParameter("sorSource", sorSource).setParameter("personId", personId).getSingleResult();
     }
-    
+
     public SorPerson findSorBySSN(final String ssn) {
         //It will be more than one person if the same person is coming from more than one resources
         List sorPersons = this.entityManager.createQuery("Select s from sorPerson s where s.ssn = :ssn").setParameter("ssn", ssn).getResultList();
@@ -122,7 +122,7 @@ public class JpaPersonRepository implements PersonRepository {
 
 
         final Predicate pBirthDate;
-               if (birthDate != null) {
+        if (birthDate != null) {
             pBirthDate = criteriaBuilder.equal(person.get(JpaPersonImpl_.dateOfBirth), birthDate);
         } else {
             pBirthDate = null;
@@ -181,7 +181,7 @@ public class JpaPersonRepository implements PersonRepository {
         if (roleExpDate != null) {
             Predicate expDateP = criteriaBuilder.between(role.get(JpaRoleImpl_.end), new Date(), roleExpDate);
             if (pRoleCombined != null)
-                 pRoleCombined = criteriaBuilder.and(pRoleCombined, expDateP);
+                pRoleCombined = criteriaBuilder.and(pRoleCombined, expDateP);
             else
                 pRoleCombined = expDateP;
         }
@@ -212,20 +212,20 @@ public class JpaPersonRepository implements PersonRepository {
     }
 
     public List<Person> findByFamilyName(final String family) throws RepositoryAccessException {
-    	return this.entityManager.createQuery("SELECT distinct p FROM person p JOIN  p.names n WHERE n.family = :name")
-    	.setParameter("name", family).getResultList();
+        return this.entityManager.createQuery("SELECT distinct p FROM person p JOIN  p.names n WHERE n.family = :name")
+                .setParameter("name", family).getResultList();
     }
 
     public List<Person> findByFamilyComparisonValue(final String familyComparisonValue) throws RepositoryAccessException {
-         return this.entityManager.createQuery("SELECT distinct p FROM person p JOIN  p.names n WHERE n.familyComparisonValue = :comparisonValue")
-         .setParameter("comparisonValue", familyComparisonValue).getResultList();
-     }
+        return this.entityManager.createQuery("SELECT distinct p FROM person p JOIN  p.names n WHERE n.familyComparisonValue = :comparisonValue")
+                .setParameter("comparisonValue", familyComparisonValue).getResultList();
+    }
 
 
     public Person savePerson(final Person person) throws RepositoryAccessException {
         Person p= this.entityManager.merge(person);
         //the only solution of insert before delete problem
-         this.entityManager.flush();
+        this.entityManager.flush();
         return  p;
     }
 
@@ -234,8 +234,8 @@ public class JpaPersonRepository implements PersonRepository {
     }
 
     public void deleteSorRole(final SorPerson person, final SorRole role) {
-		SorRole sorRoleToDelete = this.entityManager.getReference(role.getClass(), role.getId());
-		this.entityManager.remove(sorRoleToDelete);
+        SorRole sorRoleToDelete = this.entityManager.getReference(role.getClass(), role.getId());
+        this.entityManager.remove(sorRoleToDelete);
         saveSorPerson(person);
     }
 
@@ -276,25 +276,25 @@ public class JpaPersonRepository implements PersonRepository {
     }
 
     public List<Person> findByEmailAddressAndPhoneNumber(final String email, final String countryCode, final String areaCode, final String number, final String extension) {
-    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e, IN(r.phones) ph where e.address = :email and ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number and ph.extension = :extension").setParameter("email", email).setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).setParameter("extension", extension).getResultList();
+        return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e, IN(r.phones) ph where e.address = :email and ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number and ph.extension = :extension").setParameter("email", email).setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).setParameter("extension", extension).getResultList();
     }
 
     /* No extension */
     public List<Person> findByEmailAddressAndPhoneNumber(final String email, final String countryCode, final String areaCode, final String number) {
-    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e, IN(r.phones) ph where e.address = :email and ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number").setParameter("email", email).setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).getResultList();
+        return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e, IN(r.phones) ph where e.address = :email and ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number").setParameter("email", email).setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).getResultList();
     }
 
     public List<Person> findByEmailAddress(final String email) {
-    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e where e.address = :email").setParameter("email", email).getResultList();
+        return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.emailAddresses) e where e.address = :email").setParameter("email", email).getResultList();
     }
 
     public List<Person> findByPhoneNumber(final String countryCode, final String areaCode, final String number, final String extension) {
-    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.phones) ph where ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number and ph.extension = :extension").setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).setParameter("extension", extension).getResultList();
+        return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.phones) ph where ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number and ph.extension = :extension").setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).setParameter("extension", extension).getResultList();
     }
 
     /* No extension */
     public List<Person> findByPhoneNumber(final String countryCode, final String areaCode, final String number) {
-    	return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.phones) ph where ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number").setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).getResultList();
+        return (List<Person>) this.entityManager.createQuery("select p from person p join p.roles r, IN(r.phones) ph where ph.countryCode = :countryCode and ph.areaCode = :areaCode and ph.number = :number").setParameter("countryCode", countryCode).setParameter("areaCode", areaCode).setParameter("number", number).getResultList();
     }
 
     /**
@@ -305,16 +305,27 @@ public class JpaPersonRepository implements PersonRepository {
         return entityManager;
     }
     public SorRole getSoRRoleForRole(Role calculatedRole){
-         return  (SorRole) this.entityManager.createQuery("select r from sorRole r where r.id =:recordID").setParameter("recordID",calculatedRole.getSorRoleId()).getSingleResult();
+        return  (SorRole) this.entityManager.createQuery("select r from sorRole r where r.id =:recordID").setParameter("recordID",calculatedRole.getSorRoleId()).getSingleResult();
 
     }
     public Role getCalculatedRoleForSorRole(SorRole sorRole){
         List roles = this.entityManager.createQuery("select r from role r where r.sorRoleId =:sorRecordID").setParameter("sorRecordID",sorRole.getId()).getResultList();
         if (roles.size()>0){
             return (Role) roles.get(0);
-        
-    }
+
+        }
         return null;
     }
+
+    public List<Person> findBySsnFirstNameDobGender(final String Ssn, final String firstName, final Date dob, final String gender) throws RepositoryAccessException {
+        return this.entityManager.createQuery("select distinct p from person p, name n, identifier i where p.id = n.person and p.id = i.person and n.given = :firstName and i.value = :Ssn and p.dateOfBirth = :dob and p.gender = :gender")
+                .setParameter("firstName", firstName).setParameter("Ssn",Ssn).setParameter("dob",dob).setParameter("gender",gender).getResultList();
+    }
+
+    public List<Person> findBySsnFirstNameMiddleInitDobGender(final String Ssn, final String firstName, final String middleInitial, final Date dob, final String gender) throws RepositoryAccessException {
+        return this.entityManager.createQuery("select distinct p from person p, name n, identifier i where p.id = n.person and p.id = i.person and n.given = :firstName and n.middle = :middleInitial and i.value = :Ssn and p.dateOfBirth = :dob and p.gender = :gender")
+                .setParameter("firstName", firstName).setParameter("middleInitial",middleInitial).setParameter("Ssn",Ssn).setParameter("dob",dob).setParameter("gender",gender).getResultList();
+    }
+
 }
 
