@@ -107,10 +107,10 @@ public interface PersonRepository {
      * @return the person, if found.  false otherwise.
      */
     SorPerson findByPersonIdAndSorIdentifier(Long personId, String sorSourceIdentifier);
-    
+
     /**
      * Locates System of Record person based on the SSN attribute
-     * 
+     *
      * @param ssn the SSN
      * @return the person, if found.  false otherwise.
      */
@@ -238,16 +238,20 @@ public interface PersonRepository {
      */
     SorRole saveSorRole(SorRole role);
 
-	List<Person> findByEmailAddressAndPhoneNumber(String email,
-			String countryCode, String areaCode, String number);
+    List<Person> findByEmailAddressAndPhoneNumber(String email,
+                                                  String countryCode, String areaCode, String number);
 
-	List<Person> findByEmailAddressAndPhoneNumber(String email,
-			String countryCode, String areaCode, String number, String extension);
+    List<Person> findByEmailAddressAndPhoneNumber(String email,
+                                                  String countryCode, String areaCode, String number, String extension);
 
-	List<Person> findByEmailAddress(String email);
+    List<Person> findByEmailAddress(String email);
 
-	List<Person> findByPhoneNumber(String countryCode, String areaCode, String number, String extension);
+    List<Person> findByPhoneNumber(String countryCode, String areaCode, String number, String extension);
 
-	List<Person> findByPhoneNumber(String countryCode, String areaCode, String number);
+    List<Person> findByPhoneNumber(String countryCode, String areaCode, String number);
+
+    List<Person> findBySsnFirstNameDobGender(final String Ssn, final String firstName, final Date dob, final String gender) throws RepositoryAccessException;
+
+    List<Person> findBySsnFirstNameMiddleInitDobGender(final String Ssn, final String firstName, final String middleInitial, final Date dob, final String gender) throws RepositoryAccessException;
 
 }
