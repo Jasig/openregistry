@@ -128,15 +128,22 @@ public final class PeopleResourceUtils {
 	}
 
     public static void buildModifiedSorPerson(final PersonRequestRepresentation request, final SorPerson sorPerson, final ReferenceRepository referenceRepository) {
-        sorPerson.setDateOfBirth(request.dateOfBirth);
-        sorPerson.setSsn(request.ssn);
-        sorPerson.setGender(request.gender);
-        sorPerson.getNames().clear();
 
-        for (final PersonRequestRepresentation.Name n : request.names) {
-            final SorName name = sorPerson.addName();
-            updateName(name, n, referenceRepository);
+        if (request.dateOfBirth != null)
+            sorPerson.setDateOfBirth(request.dateOfBirth);
+        if (request.ssn != null)
+            sorPerson.setSsn(request.ssn);
+        if (request.gender != null)
+            sorPerson.setGender(request.gender);
+        if (request.names != null &&request.names.size()>0) {
+            sorPerson.getNames().clear();
+
+            for (final PersonRequestRepresentation.Name n : request.names) {
+                final SorName name = sorPerson.addName();
+                updateName(name, n, referenceRepository);
+            }
         }
+
 
     }
 
