@@ -147,6 +147,12 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
 
     private String title;
 
+    @Column(name="PHI", nullable = true, length = 1)
+    private String PHI;
+
+    @Column(name="RBHS", nullable = true, length = 1)
+    private String RBHS;
+
     @ManyToOne(optional = false)
     @JoinColumn(name="organizational_unit_id")
     @NotNull(message = "{organizationalUnitRequiredMsg}")
@@ -448,6 +454,22 @@ public class JpaSorRoleImpl extends Entity implements SorRole {
     @Override
     public boolean isActive() {
         return !isNotYetActive() && !isTerminated();
+    }
+
+    public String getPHI() {
+        return PHI;
+    }
+
+    public void setPHI(String PHI) {
+        this.PHI = PHI;
+    }
+
+    public String getRBHS() {
+        return RBHS;
+    }
+
+    public void setRBHS(String RBHS) {
+        this.RBHS = RBHS;
     }
 
     @Override
