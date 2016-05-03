@@ -127,6 +127,12 @@ public class JpaRoleImpl extends Entity implements Role {
     @Column(name="prs_role_id",nullable = true)
     private Long sorRoleId;
 
+    @Column(name="PHI",nullable = true)
+    private String PHI;
+
+    @Column(name="RBHS",nullable = true)
+    private String RBHS;
+
     public JpaRoleImpl() {
         // nothing to do
     }
@@ -304,6 +310,22 @@ public class JpaRoleImpl extends Entity implements Role {
         return getTitle() + "/"+ getOrganizationalUnit().getName();
     }
 
+    public String getPHI() {
+        return PHI;
+    }
+
+    public void setPHI(String PHI) {
+        this.PHI = PHI;
+    }
+
+    public String getRBHS() {
+        return RBHS;
+    }
+
+    public void setRBHS(String RBHS) {
+        this.RBHS = RBHS;
+    }
+
     public void expireNow(final Type terminationReason, final boolean orphaned) {
         Assert.isInstanceOf(JpaTypeImpl.class, terminationReason);
 //        Assert.isTrue(this.end == null || this.end.compareTo(new Date()) < 0, "this role has already been expired."); expire it again even if it is already expire
@@ -348,6 +370,10 @@ public class JpaRoleImpl extends Entity implements Role {
 
         this.setSponsorId(sorRole.getSponsorId());
         this.setSponsorType(sorRole.getSponsorType());
+
+        //set PHI and RBHS flags
+        this.setPHI(sorRole.getPHI());
+        this.setRBHS(sorRole.getRBHS());
     }
 
     protected void recalculateAddresses(SorRole sorRole){

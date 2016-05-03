@@ -58,6 +58,10 @@ public class MockSorRole extends Entity implements SorRole {
 
     private Date end;
 
+    private String PHI;
+
+    private String RBHS;
+
 	public MockSorRole() {
 	}
 
@@ -133,7 +137,23 @@ public class MockSorRole extends Entity implements SorRole {
 		this.terminationReason = reason;
 	}
 
-	public List<Address> getAddresses() {
+    public String getPHI() {
+        return PHI;
+    }
+
+    public void setPHI(String PHI) {
+        this.PHI = PHI;
+    }
+
+    public String getRBHS() {
+        return RBHS;
+    }
+
+    public void setRBHS(String RBHS) {
+        this.RBHS = RBHS;
+    }
+
+    public List<Address> getAddresses() {
 		return null;
 	}
 

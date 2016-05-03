@@ -170,4 +170,12 @@ public interface SorRole extends Serializable, MutableDateRange {
      * @return true if its active, false otherwise.
      */
     boolean isActive();
+
+    String getPHI();
+
+    void setPHI(String PHI);
+
+    String getRBHS();
+
+    void setRBHS(String RBHS);
 }
