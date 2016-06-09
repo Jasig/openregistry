@@ -179,4 +179,8 @@ public final class JpaReferenceRepository implements ReferenceRepository {
             return null; 
         }
     }
+
+    public void updateOrganizationalUnit(OrganizationalUnit orgUnit) {
+        this.entityManager.merge(orgUnit);
+    }
 }

@@ -103,4 +103,6 @@ public interface ReferenceRepository {
     List<Type> getTypesBy(final Type.DataTypes type);
 
     Type findValidType(Type.DataTypes type, String value);
+
+    void updateOrganizationalUnit(OrganizationalUnit orgUnit);
 }

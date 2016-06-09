@@ -556,4 +556,7 @@ public final class MockReferenceRepository implements ReferenceRepository {
             }
         };
     }
+
+
+    public void updateOrganizationalUnit(OrganizationalUnit orgUnit) {}
 }
