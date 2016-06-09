@@ -64,6 +64,12 @@ public class JpaOrganizationalUnitImpl extends Entity implements OrganizationalU
     @JoinColumn(name="parent_organizational_unit_id")
     private JpaOrganizationalUnitImpl organizationalUnit;
 
+    @Column(name="PHI", length = 1, nullable = true)
+    private String PHI;
+
+    @Column(name="RBHS", length = 1, nullable = true)
+    private String RBHS;
+
     public Long getId() {
         return this.id;
     }
@@ -86,5 +92,21 @@ public class JpaOrganizationalUnitImpl extends Entity implements OrganizationalU
 
     public OrganizationalUnit getParentOrganizationalUnit() {
         return this.organizationalUnit;
+    }
+
+    public String getRBHS() {
+        return RBHS;
+    }
+
+    public void setRBHS(String RBHS) {
+        this.RBHS = RBHS;
+    }
+
+    public String getPHI() {
+        return PHI;
+    }
+
+    public void setPHI(String PHI) {
+        this.PHI = PHI;
     }
 }

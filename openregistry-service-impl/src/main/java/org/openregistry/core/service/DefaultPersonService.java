@@ -172,7 +172,8 @@ public class DefaultPersonService implements PersonService {
         try {
             return this.personRepository.findByPersonIdAndSorIdentifier(personId, sorSourceIdentifier);
         } catch (final Exception e) {
-            logger.debug(e.getMessage(), e);
+            //logger.debug(e.getMessage(), e);
+            logger.debug(e.getMessage());
             return null;
         }
     }

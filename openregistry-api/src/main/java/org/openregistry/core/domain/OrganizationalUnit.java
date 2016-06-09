@@ -39,4 +39,12 @@ public interface OrganizationalUnit extends Serializable {
     Campus getCampus();
 
     OrganizationalUnit getParentOrganizationalUnit();
+
+    String getRBHS();
+
+    void setRBHS(String RBHS);
+
+    String getPHI();
+
+    void setPHI(String PHI);
 }
