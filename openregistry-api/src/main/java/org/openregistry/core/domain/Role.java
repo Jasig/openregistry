@@ -99,6 +99,15 @@ public interface Role extends Serializable, DateRange, Comparable<Role> {
      */
     Long getSorRoleId();
 
+
+    String getPHI();
+
+    void setPHI(String PHI);
+
+    String getRBHS();
+
+    void setRBHS(String RBHS);
+
     /**
      * Expires the System of Record Role NOW with the provided reason.
      *
