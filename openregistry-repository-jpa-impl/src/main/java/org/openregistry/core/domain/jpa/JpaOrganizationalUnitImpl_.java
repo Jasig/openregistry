@@ -12,6 +12,7 @@ public abstract class JpaOrganizationalUnitImpl_ {
 	public static volatile SingularAttribute<JpaOrganizationalUnitImpl, String> localCode;
 	public static volatile SingularAttribute<JpaOrganizationalUnitImpl, String> name;
 	public static volatile SingularAttribute<JpaOrganizationalUnitImpl, JpaOrganizationalUnitImpl> organizationalUnit;
-
+    public static volatile SingularAttribute<JpaOrganizationalUnitImpl, String> RBHS;
+    public static volatile SingularAttribute<JpaOrganizationalUnitImpl, String> PHI;
 }
 
