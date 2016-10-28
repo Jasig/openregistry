@@ -132,7 +132,27 @@ public class MockRole extends Entity implements Role {
 		return sorRoleId;
 	}
 
-	public Set<Address> getAddresses() {
+    @Override
+    public String getPHI() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setPHI(String PHI) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getRBHS() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setRBHS(String RBHS) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public Set<Address> getAddresses() {
 		return null;
 	}
 
