@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+<persistence-context/>
+     <subflow-state id="searchForPerson" subflow="searchForPerson">
+        <input name="taskTitleCode" value="'deletePerson'"/>
+        <output name="person"/>
+        <transition to="lookupSorPerson"/>
+    </subflow-state>
+
+    <action-state id="lookupSorPerson">
+        <evaluate expression="personSearchAction.hasSorPersonRecord(person,'or-webapp')"/>
+        <transition on="yes" to="updatePerson"/>
+        <transition on="no" to="noSorPersonRecords"/>
+    </action-state>
+    <view-state id="noSorPersonRecords" view="main">
+        <on-entry>
+            <set name="flowScope.infoModel" value="'System of Record or-webapp not found for this person.'"/>
+        </on-entry>
+        <transition to="personNotDeleted"/>
+    </view-state>
+    <end-state id="personNotUpdated"/>
+
+    <view-state id="displayPerson" view="openregistry.search.displayPerson">
+        <transition on="deletePerson" to="deletePerson"/>
+        <transition on="delete" to="deleteRole"/>
+        <transition on="cancel" to="cancelled"/>
+    </view-state>
+
+    <action-state id="deletePerson">
+        <evaluate expression="personService.deletePerson(flowScope.person)"/>
+        <transition on="yes" to="successPerson"/>
+        <transition on="no" to="displayPerson">
+            <set name="flashScope.errorMessage" value="resourceBundle.deletePersonError"/>
+        </transition>
+    </action-state>
+
+    <action-state id="deleteRole">
+        <evaluate expression="person.roles.get(requestParameters.roleId)"
+                  result-type="org.openregistry.core.domain.Role" result="flowScope.role"/>
+        <evaluate expression="personService.deleteSorRole(flowScope.person, role,requestParameters.terminationType)"/>
+        <transition on="yes" to="successRole"/>
+        <transition on="no" to="displayPerson">
+            <set name="flashScope.errorMessage" value="resourceBundle.deletionError"/>
+        </transition>
+    </action-state>
+
+    <end-state id="cancelled" view="externalRedirect:contextRelative:deletePerson.htm?cancel=true"/>
+
+    <end-state id="successPerson" view="externalRedirect:contextRelative:deletePerson.htm?success=person"/>
+
+    <end-state id="successRole" view="externalRedirect:contextRelative:deletePerson.htm?success=role"/>
+</flow>

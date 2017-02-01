@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+    <secured attributes="ROLE_JOIN_PERSON,ROLE_ADMIN" match="any"/>
+    <persistence-context/>
+
+    <subflow-state id="searchForPerson" subflow="searchForPerson">
+        <input name="taskTitleCode" value="'joinPerson.title'"/>
+        <output name="person"/>
+        <transition to="joinPerson"/>
+    </subflow-state>
+
+    <view-state id="joinPerson" model="person" view="openregistry.person.join">
+        <on-entry>
+            <evaluate expression="personService.getSorPersonsFor(person)" result="flowScope.sorPersons"/>
+            <set name="viewScope.command" value="'person'"/>
+            <set name="flowScope.fromPerson" value="person"/>
+        </on-entry>
+        <transition on="continue" to="searchForToPerson"/>
+        <transition on="cancel" to="moveCancelled"/>
+    </view-state>
+
+    <subflow-state id="searchForToPerson" subflow="searchForPerson">
+        <input name="taskTitleCode" value="'splitPersonTo.title'"/>
+        <output name="person"/>
+        <transition to="doJoin"/>
+    </subflow-state>
+
+    <action-state id="doJoin">
+        <on-entry>
+            <set name="flowScope.toPerson" value="person"/>
+        </on-entry>
+        <evaluate expression="personAction.moveAllSystemOfRecordPerson(fromPerson, toPerson)"
+                  result="flowScope.resultMessage"/>
+        <transition to="splitFeedback"/>
+    </action-state>
+
+    <view-state id="splitFeedback" view="main">
+        <on-entry>
+            <set name="flowScope.infoModel" value="flowScope.resultMessage"/>
+        </on-entry>
+        <transition to="splitDone"/>
+    </view-state>
+
+    <end-state id="splitDone"/>
+    <end-state id="moveCancelled"/>
+
+</flow>

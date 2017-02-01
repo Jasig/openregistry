@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to Jasig under one or more contributor license
+    agreements. See the NOTICE file distributed with this work
+    for additional information regarding copyright ownership.
+    Jasig licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License. You may obtain a
+    copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on
+    an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+    <secured attributes="ROLE_VIEW_PERSON,ROLE_ADMIN" match="any"/>
+    <persistence-context/>
+    <var name="auditAttributes" class="edu.rutgers.openregistry.core.service.audit.AuditAttributesImpl"/>
+    <input name="person" type="org.openregistry.core.domain.Person"/>
+    <input name="sorPerson" type="org.openregistry.core.domain.sor.SorPerson"/>
+    <input name="auditLevel"/>
+
+    <!--<subflow-state id="searchForPerson" subflow="searchForPerson">-->
+        <!--<input name="taskTitleCode" value="'audit.viewAudit.title'"/>-->
+        <!--<output name="person"/>-->
+        <!--<transition to="viewAudit"/>-->
+    <!--</subflow-state>-->
+
+    <view-state id="viewAudit" model="auditAttributes" view="openregistry.audit.viewAudit">
+        <transition on="submitAuditPerson">
+            <set name="viewScope.sortBy" value="'timeRevers'"/>
+            <evaluate expression="auditService.getAudit(person, auditAttributes)" result-type="java.util.Map"
+                      result="flowScope.auditResults"/>
+            <evaluate expression="auditService.getAuditByRev(auditResults)" result-type="java.util.Map"
+                      result="flowScope.auditResultsByRev"/>
+            <evaluate expression="auditService.getAuditByRevRevers(auditResultsByRev)" result-type="java.util.Map"
+                      result="flowScope.auditResultsByRevRevers"/>
+            <render fragments="auditResults"/>
+        </transition>
+        <transition on="submitAuditSorPerson">
+            <set name="viewScope.sortBy" value="'timeRevers'"/>
+            <evaluate expression="auditService.getSorAudit(sorPerson, auditAttributes)" result-type="java.util.Map"
+                      result="flowScope.auditResults"/>
+            <evaluate expression="auditService.getAuditByRev(auditResults)" result-type="java.util.Map"
+                      result="flowScope.auditResultsByRev"/>
+            <evaluate expression="auditService.getAuditByRevRevers(auditResultsByRev)" result-type="java.util.Map"
+                      result="flowScope.auditResultsByRevRevers"/>
+            <render fragments="auditResults"/>
+        </transition>
+        <transition on="submitListByTime">
+            <set name="viewScope.sortBy" value="'time'"/>
+            <render fragments="auditResults"/>
+        </transition>
+        <transition on="submitListByTimeRevers">
+            <set name="viewScope.sortBy" value="'timeRevers'"/>
+            <render fragments="auditResults"/>
+        </transition>
+        <transition on="submitListByEAttr">
+            <set name="viewScope.sortBy" value="'attribute'"/>
+            <render fragments="auditResults"/>
+        </transition>
+        <transition on="submitListForRev">
+            <set name="viewScope.sortBy" value="'singleRev'"/>
+            <set name="viewScope.rev"  value="requestParameters.rev" />
+            <evaluate expression="auditService.getAuditForRev(auditResultsByRev, rev)" result-type="java.util.List"
+                      result="flowScope.auditResultsForRev"/>
+            <render fragments="auditResultsForRev"/>
+        </transition>
+        <transition on="submitDone" to="endState" />
+    </view-state>
+
+    <end-state id="endState" />
+
+</flow>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+    <secured attributes="ROLE_ADD_SOR_ROLE, ROLE_ADMIN" match="any"/>
+     <persistence-context/>
+    <input name="sorPerson"/>
+    <input name="personSearch"/>
+    <input name="level"/>
+
+    <decision-state id="checkRoleSelection">
+        <if test="conversationScope.earlyFSRequest == null and conversationScope.wfNGRequest == null " then="selectRole"
+            else="addRole"/>
+    </decision-state>
+
+     <!--<action-state id="getFSRoleData">-->
+        <!--<set name="flowScope.roleType" value="earlyFSRequest != null? earlyFSRequest.getRoleName() : 'GUEST' " />-->
+        <!--<evaluate expression="referenceRepository.findType(@org.openregistry.core.domain.Type$DataTypes@AFFILIATION, roleType)" result="flowScope.roleAffiliation"/>-->
+        <!--<transition to="addRole" >-->
+            <!--<set name="flowScope.isEarlyFS" value="true" />-->
+        <!--</transition>-->
+    <!--</action-state>-->
+
+
+    <view-state id="selectRole" model="sorPerson" view="openregistry.person.update.selectRole">
+        <on-entry>
+            <set name="viewScope.command" value="'sorPerson'"/>
+            <set name="flowScope.isEarlyFS" value="false" />
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@AFFILIATION)"
+                      result="flowScope.affiliationList"/>
+            <evaluate expression="roleAction.getExistingRoles(sorPerson)" result="flowScope.existingRoles"/>
+        </on-entry>
+        <transition on="submitUpdateRole" to="updateRole">
+            <set name="flowScope.roleId" value="requestParameters.roleId" type="long"/>
+            <!--<evaluate expression="flowScope.sorPerson.findSorRoleById(roleId)" result="flowScope.role"/>-->
+        </transition>
+        <transition on="submitSelectRole" to="checkUniqueRole">
+            <set name="flowScope.roleAffiliation" value="requestParameters.roleAffiliation" type="org.openregistry.core.domain.Type" />
+        </transition>
+        <transition on="cancelSelectRole" to="canceled"/>
+    </view-state>
+
+    <decision-state id="checkUniqueRole">
+        <!--
+        <if test="roleAction.isRoleNewForPerson(sorPerson, roleAffiliation, messageContext)" then="addRole"
+            else="checkIfCanSelectRole"/>
+        -->
+        <if test="roleAction.canAddRoleForPerson(sorPerson, roleAffiliation, messageContext)" then="addRole"
+            else="checkIfCanSelectRole"/>
+    </decision-state>
+
+     <decision-state id="checkIfCanSelectRole">
+        <if test="conversationScope.earlyFSRequest == null and conversationScope.wfNGRequest == null " then="selectRole"
+            else="canceled"/>
+    </decision-state>
+
+    <view-state id="addRole" model="role" view="openregistry.role.add">
+        <on-entry>
+            <set name="viewScope.command" value="'role'"/>
+            <evaluate expression="personSearchAction.getIdentifierTypes()" result="flowScope.identifierTypes"/>
+            <evaluate expression="roleAction.getOrganizationalUnits(level)" result="flowScope.orgUnits"/>
+              <evaluate expression="roleAction.addRole(sorPerson, roleAffiliation, conversationScope.role)" result="flowScope.role"/>
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@GUEST_ACCOUNT_REASON)"
+                                  result="flowScope.accountReasons"/>
+            <set name="flowScope.role.organizationalUnit" value="conversationScope.organizationalUnit != null? conversationScope.organizationalUnit  : orgUnits[0]"/>
+            <!--<set name="flowScope.role.start" value="conversationScope.earlyFSRequest != null? earlyFSAction.getStartDate(earlyFSRequest) : flowScope.role.start"/>-->
+            <!--<set name="flowScope.role.end" value="conversationScope.earlyFSRequest != null? earlyFSAction.getEndDate(earlyFSRequest) : flowScope.role.end"/>-->
+            <set name="flowScope.herdNames" value="roleAction.getHerdNames()" />
+            <set name="viewScope.regions" value="referenceRepository.getRegionsByCountryCode('US')"/>
+
+        </on-entry>
+        <transition on="submitAddRole" to="checkLock" validate="true" bind="true" >
+            <set name="flowScope.sponsorIdentifierType" value="requestParameters.identifierType" type="org.openregistry.core.domain.IdentifierType" />
+            <set name="flowScope.sponsorIdentifier" value="requestParameters.identifier"  />
+            <set name="flowScope.herdName" value="requestParameters.herdName" />
+            <set name="flowScope.herdExpDate" value="requestParameters.herdExpDate"  />
+            <set name="flowScope.sponsorGuest" value="requestParameters.sponsorGuest"  />
+            <set name="flowScope.hideHomeAddress" value="requestParameters.hideHomeAddress"  />
+            <set name="flowScope.hidePhoneNumber" value="requestParameters.hidePhoneNumber"  />
+            <set name="flowScope.hidePersonInfo" value="requestParameters.hidePersonInfo"  />
+            <set name="flowScope.reason" value="requestParameters.reason" />
+            <set name="flowScope.accountReason" value="requestParameters.accountReason" />
+            <set name="flowScope.disableEmail" value="requestParameters.disableEmail"  />
+            <set name="flowScope.emg_netid" value="(conversationScope.earlyFSRequest != null)? true  : false"/>
+        </transition>
+        <!--<transition on="cancelAddRole" to="selectRole" validate="false" bind="false"/>-->
+        <!--<transition on="cancelAddFsRole" to="canceled" validate="false" bind="false"/>-->
+        <transition on="backAddRole" to="selectRole" validate="false" bind="false"/>
+        <transition on="backAddFsRole" to="canceled" validate="false" bind="false"/>
+    </view-state>
+
+    <decision-state id="checkLock">
+            <if test="(conversationScope.earlyFSRequest != null and  earlyFSAction.canProcess(earlyFSRequest, messageContext))
+                     || (conversationScope.wfNGRequest != null and guestWFAction.canProcess(wfNGRequest, messageContext))
+                     || (conversationScope.earlyFSRequest == null and conversationScope.wfNGRequest == null)" then="doAddRole"
+                else="canceled"/>
+    </decision-state>
+
+    <action-state id="doAddRole">
+        <evaluate expression="roleAction.addSorRole(personSearch, sorPerson, role, messageContext, sponsorIdentifierType, sponsorIdentifier, herdName, herdExpDate, sponsorGuest, hideHomeAddress, hidePhoneNumber, hidePersonInfo, accountReason, disableEmail, emg_netid)" result="flowScope.addRoleSucceeded"/>
+        <transition to="checkActionResult" />
+    </action-state>
+
+    <decision-state id="checkActionResult">
+        <if test="flowScope.addRoleSucceeded" then="roleWasAdded"
+            else="addRole"/>
+    </decision-state>
+
+    <subflow-state id="updateRole" subflow="updateRole">
+        <input name="level" value="level"/>
+        <input name="roleId"/>
+        <input name="sorPerson"/>
+        <transition on="roleWasUpdated" to="roleWasUpdated">
+            <!--<set name="flowScope.infoModel" value="'Role Updated'"/>-->
+        </transition>
+    </subflow-state>
+
+    <end-state id="roleWasAdded">
+        <output name="role" value="role"/>
+        <output name="sorPerson" value="sorPerson"/>
+        <output name="reason" value="reason"/>
+    </end-state>
+
+    <end-state id="canceled" />
+
+    <end-state id="error" />
+
+    <end-state id="roleWasUpdated" />
+
+    <!--<end-state id="managePersonRoles"/>-->
+</flow>

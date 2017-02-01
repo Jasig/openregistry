@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to Jasig under one or more contributor license
+    agreements. See the NOTICE file distributed with this work
+    for additional information regarding copyright ownership.
+    Jasig licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License. You may obtain a
+    copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on
+    an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied. See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+    <secured attributes="ROLE_EDIT_SOR_ROLE, ROLE_ADMIN"/>
+    <persistence-context/>
+
+    <!-- By default, the first state is the start state. -->
+    <input name="roleId"/>
+    <input name="sorPerson"/>
+    <input name="level"/>
+
+    <view-state id="updateRole" model="role" view="openregistry.role.update">
+        <on-entry>
+            <set name="viewScope.command" value="'role'"/>
+            <evaluate expression="roleAction.getOrganizationalUnits(level)" result="flowScope.orgUnits"/>
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@ADDRESS)"
+                      result="flowScope.addressTypes"/>
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@PHONE)"
+                      result="flowScope.phoneTypes"/>
+
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@URL)"
+                                  result="flowScope.urlTypes"/>
+
+            <evaluate expression="flowScope.sorPerson.findSorRoleById(roleId)" result="flowScope.role"/>
+            <evaluate expression="roleAction.getRcpId(sorPerson)" result="flowScope.rcpId"/>
+            <evaluate expression="roleAction.getSponsorRcpId(role)" result="flowScope.sponsorRcpId"/>
+            <evaluate expression="roleAction.getPersonHerds(rcpId)" result="flowScope.herds"/>
+            <evaluate expression="roleAction.getMailDist(rcpId)" result="flowScope.mailDist"/>
+            <evaluate expression="roleAction.isSponsorGuestRole(rcpId)" result="flowScope.isSponsorGuestRole"/>
+            <evaluate expression="roleAction.getMailDist(rcpId)" result="flowScope.mailDist"/>
+            <evaluate expression="referenceRepository.getTypesBy(@org.openregistry.core.domain.Type$DataTypes@GUEST_ACCOUNT_REASON)"
+                                              result="flowScope.accountReasons"/>
+            <!--<evaluate expression="sorPerson.getSorLocalAttributes().get(@org.openregistry.core.domain.Type$DataTypes@GUEST_ACCOUNT_REASON)"-->
+                                                          <!--result="flowScope.currentAccountReason"/>-->
+            <evaluate expression="roleAction.getAccountReason(sorPerson)" result="flowScope.currentAccountReason"/>
+            <evaluate expression="roleAction.hidePhoneNumber(rcpId, role.affiliationType.description)" result="flowScope.hidePhoneNumber"/>
+            <evaluate expression="roleAction.hideHomeAddress(rcpId, role.affiliationType.description)" result="flowScope.hideHomeAddress"/>
+            <evaluate expression="roleAction.hidePersonInfo(sorPerson)" result="flowScope.hidePersonInfo"/>
+        </on-entry>
+        <transition on="submitUpdateRole" to="roleWasUpdated">
+            <set name="flowScope.hideHomeAddress" value="requestParameters.hideHomeAddress"  />
+            <set name="flowScope.hidePhoneNumber" value="requestParameters.hidePhoneNumber"  />
+            <set name="flowScope.hidePersonInfo" value="requestParameters.hidePersonInfo"  />
+            <set name="flowScope.accountReason" value="requestParameters.accountReason"  />
+            <set name="requestScope.comments" value="requestParameters.changeComments" />
+            <evaluate expression="@org.openregistry.core.audit.ChangeComments@setComments(comments)"  />
+            <evaluate expression="roleAction.updateSorRole(sorPerson, role, messageContext,false, hideHomeAddress, hidePhoneNumber, hidePersonInfo, accountReason)"/>
+        </transition>
+        <transition on="submitUpdateAddress" to="updateAddress">
+            <set name="requestScope.addressId" value="requestParameters.addressId" type="long"/>
+            <evaluate expression="role.addresses.get(addressId)" result="flowScope.address"/>
+        </transition>
+        <transition on="submitAddEmail">
+            <evaluate expression="role.createEmailAddress()" result="requestScope.emailAddress"/>
+            <evaluate expression="role.addEmailAddress(emailAddress)" />
+        </transition>
+        <transition on="submitAddPhone">
+            <evaluate expression="roleAction.addNewPhone(role)" />
+            <!--<evaluate expression="role.createPhone()" result="requestScope.phone"/>-->
+            <!--<evaluate expression="role.addPhone(phone)"/>-->
+        </transition>
+        <transition on="submitAddAddress">
+            <evaluate expression="roleAction.addNewAddress(role)" />
+            <!--<evaluate expression="role.createAddress()" result="requestScope.address"/>-->
+            <!--<evaluate expression="role.addAddress(address)"/>-->
+        </transition>
+        <transition on="submitAddURL">
+            <evaluate expression="role.createUrl()" result="requestScope.url"/>
+            <evaluate expression="role.addUrl(url)"/>
+        </transition>
+        <transition on="submitRemoveEmailAddress">
+            <set name="requestScope.emailAddressId" value="requestParameters.emailId" type="int" />
+             <evaluate expression="role.emailAddresses.remove(emailAddressId)"/>
+        </transition>
+        <transition on="submitRemovePhone">
+            <set name="requestScope.phoneId" value="requestParameters.phoneId" type="int" />
+            <evaluate expression="role.phones.remove(phoneId)"/>
+        </transition>
+        <transition on="submitRemoveAddress">
+            <set name="requestScope.addressId" value="requestParameters.addressId" type="int"/>
+            <evaluate expression="role.addresses.remove(addressId)"/>
+        </transition>
+        <transition on="submitRemoveURL">
+            <set name="requestScope.urlId" value="requestParameters.urlId" type="int"/>
+            <evaluate expression="role.urls.remove(urlId)"/>
+        </transition>
+        <transition on="submitRenewRoleStandardRenewal">
+            <evaluate expression="roleAction.renewRole(role, messageContext)"/>
+        </transition>
+        <transition on="submitExpireRoleToday">
+            <evaluate expression="roleAction.expireRole(role, messageContext)"/>
+        </transition>
+        <transition on="submitUpdateHerd" to="addUpdateHerd">
+            <set name="flowScope.herdCommand" value="'update'"/>
+            <set name="flowScope.herdNames" value="roleAction.getHerdNames()" />
+            <set name="requestScope.rcpId" value="requestParameters.rcpId" />
+            <set name="requestScope.herdName" value="requestParameters.herdName"/>
+            <set name="flowScope.herd" value="guestService.getHerd(rcpId,herdName)"/>
+        </transition>
+        <transition on="submitAddHerd" to="addUpdateHerd">
+            <set name="flowScope.herdCommand" value="'add'"/>
+            <set name="flowScope.herdNames" value="roleAction.getHerdNames()" />
+            <set name="flowScope.herd" value="roleAction.createHerd()"/>
+        </transition>
+        <transition on="submitAddMailDist" to="addUpdateMailDist">
+            <set name="flowScope.mailDistCommand" value="'add'"/>
+            <evaluate expression="roleAction.getSponsorMailDist(sponsorRcpId)"  result="flowScope.sponsorMailDist" />
+            <evaluate expression="roleAction.getDefaultMailDist(sponsorMailDist, rcpId, sponsorRcpId)"  result="flowScope.defaultMailDist" />
+            <evaluate expression="roleAction.getMailDistSels(sponsorMailDist.campus)"  result="flowScope.selections" />
+        </transition>
+        <transition on="submitUpdateMailDist" to="addUpdateMailDist">
+            <set name="flowScope.mailDistCommand" value="'update'"/>
+            <evaluate expression="roleAction.getSponsorMailDist(sponsorRcpId)"  result="flowScope.sponsorMailDist" />
+            <evaluate expression="roleAction.getDefaultMailDist(sponsorMailDist, rcpId, sponsorRcpId)"  result="flowScope.defaultMailDist" />
+            <evaluate expression="roleAction.getMailDistSels(sponsorMailDist.campus)"  result="flowScope.selections" />
+        </transition>
+        <transition on="submitCloseSGRole" to="updateRole">
+            <evaluate expression="roleAction.closeSponsorGuestRole(rcpId, messageContext)"/>
+        </transition>
+         <transition on="submitCreateSGRole" to="updateRole">
+            <evaluate expression="roleAction.createSponsorGuestRole(rcpId,  sorPerson,  sponsorRcpId , role.end, messageContext)"/>
+        </transition>
+    </view-state>
+
+    <view-state id="updateAddress" model="address" view="openregistry.role.address.update">
+        <on-entry>
+            <set name="viewScope.command" value="'address'"/>
+            <set name="viewScope.address" value="flowScope.address"/>
+            <set name="viewScope.regions" value="referenceRepository.getRegionsByCountryCode('US')"/>
+            <evaluate expression="roleAction.getAccountReason(sorPerson)" result="flowScope.currentAccountReason"/>
+        </on-entry>
+        <transition on="submitUpdateAddressInfo" to="updateRole">
+            <!--<set name="requestScope.comments" value="requestParameters.changeComments" />-->
+            <!--<evaluate expression="@org.openregistry.core.audit.ChangeComments@setComments(comments)"  />-->
+            <!--<evaluate expression="roleAction.updateSorRole(sorPerson, role, messageContext, true, hideHomeAddress, hidePhoneNumber, hidePersonInfo, currentAccountReason)"/>-->
+        </transition>
+        <transition on="submitCancelUpdateAddress" to="updateRole">
+        </transition>
+    </view-state>
+
+    <view-state id="addUpdateHerd" model="herd" view="openregistry.role.addUpdateHerd">
+        <on-entry>
+            <set name="viewScope.command" value="'herd'"/>
+            <evaluate expression="personSearchAction.getIdentifierTypes()" result="flowScope.identifierTypes"/>
+        </on-entry>
+        <transition on="submitUpdateHerd" to="updateRole">
+            <set name="flashScope.sponsorIdentifierType" value="requestParameters.identifierType" type="org.openregistry.core.domain.IdentifierType" />
+            <set name="flashScope.sponsorIdentifier" value="requestParameters.sponsorId"  />
+            <set name="flashScope.herdName" value="requestParameters.herdName" />
+            <set name="flashScope.herdExpDate" value="requestParameters.herdExpDate" />
+            <evaluate expression="roleAction.validateHerd(sorPerson, role, messageContext, sponsorIdentifierType, sponsorIdentifier, herdName,  herdExpDate)" />
+            <!--<evaluate expression="roleAction.addHerdbyIdType(sorPerson, sponsorIdentifierType, sponsorIdentifier, herdName,  herdExpDate)"/>-->
+            <evaluate expression="roleAction.extendHerdbyIdType(sorPerson, role, herd.RCP_ID, herd.NETWORK_HERD_NM, herdExpDate, sponsorIdentifierType, sponsorIdentifier )"/>
+        </transition>
+        <transition on="submitAddHerd" to="updateRole">
+            <set name="requestScope.sponsorIdentifierType" value="requestParameters.identifierType" type="org.openregistry.core.domain.IdentifierType" />
+            <set name="requestScope.sponsorIdentifier" value="requestParameters.sponsorId"  />
+            <set name="requestScope.herdName" value="requestParameters.herdName" />
+            <set name="requestScope.herdExpDate" value="requestParameters.herdExpDate" />
+            <evaluate expression="roleAction.validateHerd(sorPerson, role, messageContext, sponsorIdentifierType, sponsorIdentifier, herdName,  herdExpDate)" />
+            <evaluate expression="roleAction.addHerdbyIdType(sorPerson, role, sponsorIdentifierType, sponsorIdentifier, herdName,  herdExpDate)"/>
+        </transition>
+        <transition on="submitCancelHerd" to="updateRole" />
+    </view-state>
+    <end-state id="roleWasUpdated"/>
+
+    <view-state id="addUpdateMailDist" model="defaultMailDist" view="openregistry.role.addUpdateMailDist">
+        <on-entry>
+            <set name="viewScope.command" value="'defaultMailDist'"/>
+        </on-entry>
+        <transition on="submitAddMailDist" to="updateRole">
+            <evaluate expression="roleAction.addGuestMailDist(defaultMailDist, messageContext)" />
+        </transition>
+        <transition on="submitUpdateMailDist" to="updateRole">
+            <evaluate expression="roleAction.updateGuestMailDist(defaultMailDist, messageContext)" />
+        </transition>
+        <transition on="submitRefSelections" to="addUpdateMailDist">
+            <evaluate expression="roleAction.getMailDistSels(defaultMailDist.campus)"  result="flowScope.selections" />
+        </transition>
+        <transition on="submitCancelMailDist" to="updateRole" />
+    </view-state>
+
+</flow>
