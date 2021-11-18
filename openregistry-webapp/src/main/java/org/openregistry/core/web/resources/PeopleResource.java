@@ -21,6 +21,8 @@ package org.openregistry.core.web.resources;
 
 import org.openregistry.core.domain.*;
 import org.openregistry.core.web.resources.representations.ErrorsResponseRepresentation;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.ObjectFactory;
 import org.openregistry.core.domain.sor.ReconciliationCriteria;
@@ -80,7 +82,9 @@ public final class PeopleResource {
 
         final Person person = findPersonOrThrowNotFoundException(personIdType, personId);
         logger.info("Person is found. Building a suitable representation...");
-        return new PersonResponseRepresentation(buildPersonIdentifierRepresentations(person.getIdentifiers()));
+        //return new PersonResponseRepresentation(buildPersonIdentifierRepresentations(person.getIdentifiers()));
+        return buildPersonResponseRepresentation(person);
+
     }
 
     @POST
@@ -134,6 +138,103 @@ public final class PeopleResource {
                             personIdType, personId));
         }
         return person;
+    }
+
+    private PersonResponseRepresentation buildPersonResponseRepresentation(Person person) {
+
+        PersonResponseRepresentation personResponseRepresentation = new PersonResponseRepresentation();
+
+        Collection<GrantedAuthority> grantedAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+        // Names
+        Set<? extends Name> names  = person.getNames();
+        //final List<PersonResponseRepresentation.Name> idsRep = new ArrayList<PersonResponseRepresentation.PersonIdentifierRepresentation>();
+        for (final Name name : names) {
+            PersonResponseRepresentation.Name responseName = new PersonResponseRepresentation.Name();
+            responseName.firstName = name.getGiven();
+            responseName.lastName =  name.getFamily();
+            responseName.middleName = name.getMiddle();
+            responseName.prefix = name.getPrefix();
+            responseName.suffix = name.getSuffix();
+            personResponseRepresentation.names.add(responseName);
+        }
+
+        // dob
+        personResponseRepresentation.dateOfBirth = person.getDateOfBirth();
+
+        //gender
+        personResponseRepresentation.gender = person.getGender();
+
+        // identifiers
+        Set<? extends Identifier> identifiers  = person.getIdentifiers();
+
+        final List<PersonResponseRepresentation.PersonIdentifierRepresentation> idsRep = new ArrayList<PersonResponseRepresentation.PersonIdentifierRepresentation>();
+
+        for (final Identifier id : identifiers) {
+            // security for SSN
+            if (id.getType().getDescription().equalsIgnoreCase("SSN")) {
+                boolean returnSSN = false;
+                for (GrantedAuthority grantedAuthority : grantedAuthorities) {
+                    if (grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_VIEW_SSN"))
+                        returnSSN = true;
+                }
+                if (returnSSN)
+                    idsRep.add(new PersonResponseRepresentation.PersonIdentifierRepresentation(id.getType().getName(), id.getValue()));
+            } else {
+                idsRep.add(new PersonResponseRepresentation.PersonIdentifierRepresentation(id.getType().getName(), id.getValue()));
+            }
+        }
+
+        if (idsRep.isEmpty()) {
+            throw new IllegalStateException("Person identifiers cannot be empty");
+        }
+
+
+        // phi
+        if(person.getAttributes().get("PHI")!=null&& person.getAttributes().get("PHI").equals("Y"))
+            personResponseRepresentation.phi = "Y";
+        else
+            personResponseRepresentation.phi = "N";
+
+        // idcards
+        Set<? extends IdCard> idcards  = person.getIdCards();
+        for (final IdCard icard : idcards) {
+            PersonResponseRepresentation.IdcardRepresentation idcardRepresentation
+                        = new PersonResponseRepresentation.IdcardRepresentation();
+            //security for rcn number
+            boolean returnIDcardRCN = false;
+            for (GrantedAuthority grantedAuthority  : grantedAuthorities) {
+                if (grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_VIEW_IDCARD_RCN"))
+                    returnIDcardRCN = true;
+            }
+            idcardRepresentation.rcn = returnIDcardRCN ? icard.getCardNumber() : "";
+            idcardRepresentation.barcode = icard.getBarCode();
+            idcardRepresentation.cvc = icard.getCardSecurityValue();
+            idcardRepresentation.iClass = icard.getProximityNumber();
+            idcardRepresentation.createdDate = icard.getCreationDate();
+            idcardRepresentation.expirationDate = icard.getExpirationDate();
+            idcardRepresentation.updatedDate = icard.getUpdateDate();
+
+            personResponseRepresentation.idcards.add(idcardRepresentation);
+        }
+
+        // roles
+        Set<? extends Role> roles  = person.getRoles();
+        for (final Role role : roles) {
+            PersonResponseRepresentation.SimpleRoleRepresentation simpleRoleRepresentation
+                    = new PersonResponseRepresentation.SimpleRoleRepresentation();
+            simpleRoleRepresentation.roleType = role.getAffiliationType().getDescription();
+            simpleRoleRepresentation.title = role.getTitle();
+            simpleRoleRepresentation.status = role.isActive()? "Active" : "Inactive";
+            simpleRoleRepresentation.department = role.getOrganizationalUnit().getName();
+            simpleRoleRepresentation.isRBHS = role.getRBHS();
+            simpleRoleRepresentation.startDate = role.getStart();
+            simpleRoleRepresentation.endDate = role.getEnd();
+
+            personResponseRepresentation.roles.add(simpleRoleRepresentation);
+        }
+
+        return personResponseRepresentation;
     }
 }
 

@@ -21,6 +21,8 @@ package org.openregistry.core.web.resources.representations;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,15 +32,9 @@ import java.util.List;
  * <p/>
  * This class is immutable
  *
- * @author Dmitriy Kopylenko
- * @since 1.0
  */
 @XmlRootElement(name = "open-registry-person-ref")
 public class PersonResponseRepresentation implements Serializable {
-
-    @XmlElementWrapper(name = "identifiers")
-    @XmlElement(name = "identifier")
-    List<PersonIdentifierRepresentation> identifiers;
 
     /**
      * Required by JAXB
@@ -49,6 +45,59 @@ public class PersonResponseRepresentation implements Serializable {
     public PersonResponseRepresentation(List<PersonIdentifierRepresentation> ids) {
         this.identifiers = ids;
     }
+
+    @XmlElementWrapper(name = "names")
+    @XmlElement(name = "name")
+    public List<PersonResponseRepresentation.Name> names = new ArrayList<PersonResponseRepresentation.Name>();
+
+    @XmlRootElement(name = "name")
+    public static class Name {
+
+        @XmlAttribute(name = "type")
+        public String nameType;
+
+        @XmlAttribute(name = "first")
+        public String firstName;
+
+        @XmlAttribute(name = "last")
+        public String lastName;
+
+        @XmlAttribute(name = "middle")
+        public String middleName;
+
+        @XmlAttribute(name = "prefix")
+        public String prefix;
+
+        @XmlAttribute(name = "suffix")
+        public String suffix;
+
+        /**
+         * Required by JAXB
+         */
+        public Name() {
+        }
+
+        public Name(String nameType, String firstName,
+                                    String lastName, String middleName, String prefix,
+                                    String suffix) {
+            this.nameType = nameType;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.middleName = middleName;
+            this.prefix = prefix;
+            this.suffix = suffix;
+        }
+    }
+
+    @XmlElement(name = "dob")
+    public Date dateOfBirth;
+
+    @XmlElement
+    public String gender;
+
+    @XmlElementWrapper(name = "identifiers")
+    @XmlElement(name = "identifier")
+    public List<PersonIdentifierRepresentation> identifiers = new ArrayList<PersonIdentifierRepresentation>();
 
     @XmlRootElement
     public static class PersonIdentifierRepresentation {
@@ -70,4 +119,104 @@ public class PersonResponseRepresentation implements Serializable {
             this.value = value;
         }
     }
+
+    @XmlElement
+    public String phi;
+
+    @XmlElementWrapper(name = "idcards")
+    @XmlElement(name = "idcard")
+    public List<IdcardRepresentation> idcards = new ArrayList<IdcardRepresentation>();
+
+    @XmlRootElement
+    public static class IdcardRepresentation {
+
+        @XmlAttribute
+        public String rcn;
+
+        @XmlValue
+        public String cvc;
+
+        @XmlValue
+        public String barcode;
+
+        @XmlValue
+        public String iClass;
+
+        @XmlValue
+        public Date createdDate;
+
+        @XmlValue
+        public Date expirationDate;
+
+        @XmlValue
+        public Date updatedDate;
+
+        /**
+         * Required by JAXB
+         */
+        public IdcardRepresentation() {
+        }
+
+        public IdcardRepresentation(String rcn, String cvc,
+                                    String barcode, String iClass, Date createdDate,
+                                    Date expirationDate, Date updatedDate) {
+            this.rcn = rcn;
+            this.cvc = cvc;
+            this.barcode = barcode;
+            this.iClass = iClass;
+            this.createdDate = createdDate;
+            this.expirationDate = expirationDate;
+            this.updatedDate = updatedDate;
+        }
+    }
+
+    @XmlElementWrapper(name = "roles")
+    @XmlElement(name = "role")
+    public List<SimpleRoleRepresentation> roles = new ArrayList<SimpleRoleRepresentation>();
+
+    @XmlRootElement
+    public static class SimpleRoleRepresentation {
+
+        @XmlAttribute
+        public String roleType;
+
+        @XmlAttribute
+        public String title;
+
+
+        @XmlValue
+        public String department;
+
+        @XmlValue
+        public String isRBHS;
+
+        @XmlValue
+        public String status;
+
+        @XmlValue
+        public Date startDate;
+
+        @XmlValue
+        public Date endDate;
+
+        /**
+         * Required by JAXB
+         */
+        public SimpleRoleRepresentation() {
+        }
+
+        public SimpleRoleRepresentation(String roleType, String title,
+                                        String department, String isRBHS,
+                                        String status, Date startDate,
+                                        Date endDate) {
+            this.roleType = roleType;
+            this.title = title;
+            this.department = department;
+            this.isRBHS = isRBHS;
+            this.status = status;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+    }
+
 }
