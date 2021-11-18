@@ -218,7 +218,7 @@ public final class PeopleResource {
             personResponseRepresentation.idcards.add(idcardRepresentation);
         }
 
-        // roles
+        // roles - include the expired roles
         Set<? extends Role> roles  = person.getRoles();
         for (final Role role : roles) {
             PersonResponseRepresentation.SimpleRoleRepresentation simpleRoleRepresentation
