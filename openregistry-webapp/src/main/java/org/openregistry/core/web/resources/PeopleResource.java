@@ -218,7 +218,7 @@ public final class PeopleResource {
             personResponseRepresentation.idcards.add(idcardRepresentation);
         }
 
-        // roles - include the inactive roles and active roles
+        // roles - include the in-active roles and active roles
         Set<? extends Role> roles  = person.getRoles();
         for (final Role role : roles) {
             PersonResponseRepresentation.SimpleRoleRepresentation simpleRoleRepresentation
