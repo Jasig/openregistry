@@ -116,7 +116,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- END spring dependencies -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
