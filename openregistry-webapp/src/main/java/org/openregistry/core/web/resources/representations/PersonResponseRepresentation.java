@@ -30,7 +30,6 @@ import java.util.List;
  * for the purpose of exposing it via RESTful resources.
  * This is class is marshalled into an XML representation using JAXB.
  * <p/>
- * This class is immutable
  *
  */
 @XmlRootElement(name = "open-registry-person-ref")
