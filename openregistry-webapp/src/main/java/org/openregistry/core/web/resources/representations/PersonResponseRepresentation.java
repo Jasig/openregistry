@@ -96,7 +96,7 @@ public class PersonResponseRepresentation implements Serializable {
 
     @XmlElementWrapper(name = "identifiers")
     @XmlElement(name = "identifier")
-    public List<PersonIdentifierRepresentation> identifiers = new ArrayList<PersonIdentifierRepresentation>();
+    public List<PersonIdentifierRepresentation> identifiers;
 
     @XmlRootElement
     public static class PersonIdentifierRepresentation {

@@ -189,6 +189,8 @@ public final class PeopleResource {
             }
         }
 
+        personResponseRepresentation.identifiers = idsRep;
+
         if (idsRep.isEmpty()) {
             throw new IllegalStateException("Person identifiers cannot be empty");
         }
