@@ -144,7 +144,11 @@ public final class PeopleResource {
 
         PersonResponseRepresentation personResponseRepresentation = new PersonResponseRepresentation();
 
-        Collection<GrantedAuthority> grantedAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        //Collection<GrantedAuthority> grantedAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+        //for test only
+        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+
 
         // Names
         Set<? extends Name> names  = person.getNames();

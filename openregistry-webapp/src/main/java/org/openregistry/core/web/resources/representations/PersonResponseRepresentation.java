@@ -129,25 +129,25 @@ public class PersonResponseRepresentation implements Serializable {
     @XmlRootElement
     public static class IdcardRepresentation {
 
-        @XmlAttribute
+        @XmlElement
         public String rcn;
 
-        @XmlValue
+        @XmlElement
         public String cvc;
 
-        @XmlValue
+        @XmlElement
         public String barcode;
 
-        @XmlValue
+        @XmlElement
         public String iClass;
 
-        @XmlValue
+        @XmlElement
         public Date createdDate;
 
-        @XmlValue
+        @XmlElement
         public Date expirationDate;
 
-        @XmlValue
+        @XmlElement
         public Date updatedDate;
 
         /**
@@ -176,26 +176,26 @@ public class PersonResponseRepresentation implements Serializable {
     @XmlRootElement
     public static class SimpleRoleRepresentation {
 
-        @XmlAttribute
+        @XmlElement
         public String roleType;
 
-        @XmlAttribute
+        @XmlElement
         public String title;
 
 
-        @XmlValue
+        @XmlElement
         public String department;
 
-        @XmlValue
+        @XmlElement
         public String isRBHS;
 
-        @XmlValue
+        @XmlElement
         public String status;
 
-        @XmlValue
+        @XmlElement
         public Date startDate;
 
-        @XmlValue
+        @XmlElement
         public Date endDate;
 
         /**
