@@ -144,10 +144,13 @@ public final class PeopleResource {
 
         PersonResponseRepresentation personResponseRepresentation = new PersonResponseRepresentation();
 
-        //Collection<GrantedAuthority> grantedAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-
-        //for test only
-        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+        Collection<GrantedAuthority> grantedAuthorities;
+        try {
+            grantedAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        } catch (Exception e) {
+            //for test only
+            grantedAuthorities = new ArrayList<GrantedAuthority>();
+        }
 
 
         // Names
@@ -176,14 +179,18 @@ public final class PeopleResource {
 
         for (final Identifier id : identifiers) {
             // security for SSN
-            if (id.getType().getDescription().equalsIgnoreCase("SSN")) {
+            if (id.getType().getName().equalsIgnoreCase("SSN")) {
                 boolean returnSSN = false;
                 for (GrantedAuthority grantedAuthority : grantedAuthorities) {
                     if (grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_VIEW_SSN"))
                         returnSSN = true;
                 }
-                if (returnSSN)
+                if (returnSSN) {
+                    logger.info("Will return SSN");
                     idsRep.add(new PersonResponseRepresentation.PersonIdentifierRepresentation(id.getType().getName(), id.getValue()));
+                } else {
+                    logger.info("Will not return SSN");
+                }
             } else {
                 idsRep.add(new PersonResponseRepresentation.PersonIdentifierRepresentation(id.getType().getName(), id.getValue()));
             }
