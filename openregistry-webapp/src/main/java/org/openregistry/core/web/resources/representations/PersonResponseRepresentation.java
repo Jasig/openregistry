@@ -187,6 +187,9 @@ public class PersonResponseRepresentation implements Serializable {
         public String department;
 
         @XmlElement
+        public String organizationCode;
+
+        @XmlElement
         public String isRBHS;
 
         @XmlElement
@@ -205,12 +208,13 @@ public class PersonResponseRepresentation implements Serializable {
         }
 
         public SimpleRoleRepresentation(String roleType, String title,
-                                        String department, String isRBHS,
+                                        String department, String organizationCode, String isRBHS,
                                         String status, Date startDate,
                                         Date endDate) {
             this.roleType = roleType;
             this.title = title;
             this.department = department;
+            this.organizationCode = organizationCode;
             this.isRBHS = isRBHS;
             this.status = status;
             this.startDate = startDate;

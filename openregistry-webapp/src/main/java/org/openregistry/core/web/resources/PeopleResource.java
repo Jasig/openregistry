@@ -77,13 +77,21 @@ public final class PeopleResource {
     @Path("{personIdType}/{personId}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     //auto content negotiation!
-    public PersonResponseRepresentation showPerson(@PathParam("personId") String personId,
+    public Response showPerson(@PathParam("personId") String personId,
                                                    @PathParam("personIdType") String personIdType) {
 
-        final Person person = findPersonOrThrowNotFoundException(personIdType, personId);
-        logger.info("Person is found. Building a suitable representation...");
-        //return new PersonResponseRepresentation(buildPersonIdentifierRepresentations(person.getIdentifiers()));
-        return buildPersonResponseRepresentation(person);
+        final Person person;
+
+        try {
+            person = findPersonOrThrowNotFoundException(personIdType, personId);
+            logger.info("Person is found. Building a suitable representation...");
+           //return new PersonResponseRepresentation(buildPersonIdentifierRepresentations(person.getIdentifiers()));
+           return Response.ok().entity(buildPersonResponseRepresentation(person)).build();
+        } catch (NotFoundException ex) {
+            return Response.status(404).entity(new ErrorsResponseRepresentation(Arrays.asList("No person found with the given identifier"))).type(MediaType.APPLICATION_XML).build();
+        } catch (Exception ex) {
+            return Response.status(400).entity(new ErrorsResponseRepresentation(Arrays.asList(ex.getMessage()))).type(MediaType.APPLICATION_XML).build();
+        }
 
     }
 
@@ -240,6 +248,7 @@ public final class PeopleResource {
             simpleRoleRepresentation.title = role.getTitle();
             simpleRoleRepresentation.status = role.isActive()? "Active" : "Inactive";
             simpleRoleRepresentation.department = role.getOrganizationalUnit().getName();
+            simpleRoleRepresentation.organizationCode = role.getOrganizationalUnit().getLocalCode();
             simpleRoleRepresentation.isRBHS = role.getRBHS();
             simpleRoleRepresentation.startDate = role.getStart();
             simpleRoleRepresentation.endDate = role.getEnd();
