@@ -65,7 +65,12 @@ public class JpaPersonRepository implements PersonRepository {
     }
 
     public Person findByIdentifier(final String identifierType, final String identifierValue) throws RepositoryAccessException {
-        return (Person) this.entityManager.createQuery("Select p from person p join p.identifiers i join i.type t where t.name = :name and i.value = :value").setParameter("name", identifierType).setParameter("value", identifierValue).getSingleResult();
+        if (Type.IdentifierTypes.RCN.toString().equalsIgnoreCase(identifierType)) {
+            //return (Person) this.entityManager.createQuery("Select p from person p join p.idCards i where i.isPrimary and i.cardNumber = :value").setParameter("value", identifierValue).getSingleResult();
+            return (Person) this.entityManager.createQuery("Select p from person p join p.idCards i where i.cardNumber = :value").setParameter("value", identifierValue).getSingleResult();
+        } else {
+            return (Person) this.entityManager.createQuery("Select p from person p join p.identifiers i join i.type t where t.name = :name and i.value = :value").setParameter("name", identifierType).setParameter("value", identifierValue).getSingleResult();
+        }
     }
 
     @Override
