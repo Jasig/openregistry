@@ -145,11 +145,28 @@ public class JpaPersonImpl extends Entity implements Person {
     	return null;
     }
 
-    //TODO really don't need this.  Should replace code with getOfficialName().getFormattedName()
-    public String getFormattedName(){
-        return this.getOfficialName().getFormattedName();
+    public Name getPreferredName() {
+        Set<? extends Name> names = this.getNames();
+        for(Name name: names) {
+            if (name.getType().getDescription().equalsIgnoreCase("PREFERRED")) {
+                return name;
+            }
+        }
+        return null;
     }
 
+    public Name getUniversityName() {
+        Name newPreferredName = getPreferredName();
+        return newPreferredName !=null? newPreferredName : getOfficialName();
+    }
+
+    //TODO really don't need this.  Should replace code with getOfficialName().getFormattedName()
+    public String getFormattedName(){
+        //return this.getOfficialName().getFormattedName();
+        return this.getUniversityName().getFormattedName();
+    }
+
+    /* Not used
     public Name getPreferredName() {
        	Set<? extends Name> names = this.getNames();
     	for(final Name name: names) {
@@ -158,7 +175,7 @@ public class JpaPersonImpl extends Entity implements Person {
     		}
     	}
     	return null;
-    }
+    }*/
 
     public String getGender() {
         return this.gender;
@@ -184,7 +201,7 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     /**
-     * @see org.openregistry.core.domain.Person#setDisclosureSettings(org.openregistry.core.domain.sor.SorDisclosureSettings)
+     * @see org.openregistry.core.domain.Person # setDisclosureSettings(org.openregistry.core.domain.sor.SorDisclosureSettings)
      */
 	public void calculateDisclosureSettings(SorDisclosureSettings ds) {
 		if (ds != null) {
