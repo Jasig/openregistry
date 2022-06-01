@@ -22,6 +22,7 @@ package org.openregistry.core.service;
 import org.apache.commons.lang.*;
 import org.openregistry.core.domain.*;
 import org.openregistry.core.domain.DisclosureSettings.PropertyNames;
+import org.openregistry.core.domain.jpa.JpaNameImpl;
 import org.openregistry.core.domain.sor.*;
 import org.openregistry.core.repository.*;
 import org.openregistry.core.service.identifier.*;
@@ -869,8 +870,18 @@ public class DefaultPersonService implements PersonService {
      * @param sorPersons
      */
     protected void copySorNamesToPerson(final Person person, final List<SorPerson> sorPersons) {
+
+        //person.getNames().clear();
+        Set<? extends Name> personNames = person.getNames();
+
+        JpaNameImpl exitingPreferredName = null;
+        for (Name name: personNames) {
+            if (name.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
+                exitingPreferredName = (JpaNameImpl)name;
+            }
+        }
         person.getNames().clear();
-        
+
         for (final SorPerson sorPerson : sorPersons) {
             for (final SorName sorName : sorPerson.getNames()) {
                 boolean alreadyAdded = false;
@@ -883,7 +894,17 @@ public class DefaultPersonService implements PersonService {
                 }
 
                 if (!alreadyAdded) {
-                    person.addName(sorName);
+                    if (!sorName.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
+                        person.addName(sorName);
+                    } else { // for preferred name
+                        if (exitingPreferredName == null) {
+                            person.addName(sorName);
+                        } else { // only add the existing one back
+                            if (exitingPreferredName.sameAs(sorName)) {
+                                person.addName(sorName);
+                            }
+                        }
+                    }
                 }
             }
         }
