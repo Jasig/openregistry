@@ -872,15 +872,15 @@ public class DefaultPersonService implements PersonService {
     protected void copySorNamesToPerson(final Person person, final List<SorPerson> sorPersons) {
 
         //person.getNames().clear();
-        Set<? extends Name> personNames = person.getNames();
 
-        JpaNameImpl exitingPreferredName = null;
-        for (Name name: personNames) {
-            if (name.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
-                exitingPreferredName = (JpaNameImpl)name;
+        Set<? extends Name> personNames = person.getNames();
+        for (Iterator<? extends Name> iterator = personNames.iterator(); iterator.hasNext();) {
+            Name name =  iterator.next();
+            if (!name.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
+                iterator.remove();
             }
         }
-        person.getNames().clear();
+
 
         for (final SorPerson sorPerson : sorPersons) {
             for (final SorName sorName : sorPerson.getNames()) {
@@ -893,18 +893,8 @@ public class DefaultPersonService implements PersonService {
                     }
                 }
 
-                if (!alreadyAdded) {
-                    if (!sorName.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
+                if (!alreadyAdded && !sorName.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
                         person.addName(sorName);
-                    } else { // for preferred name
-                        if (exitingPreferredName == null) {
-                            person.addName(sorName);
-                        } else { // only add the existing one back
-                            if (exitingPreferredName.sameAs(sorName)) {
-                                person.addName(sorName);
-                            }
-                        }
-                    }
                 }
             }
         }

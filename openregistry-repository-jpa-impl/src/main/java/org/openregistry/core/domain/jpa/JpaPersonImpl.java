@@ -148,6 +148,7 @@ public class JpaPersonImpl extends Entity implements Person {
     public Name getPreferredName() {
         Set<? extends Name> names = this.getNames();
         for(Name name: names) {
+            //if (name.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
             if (name.getType().getDescription().equalsIgnoreCase("PREFERRED")) {
                 return name;
             }
