@@ -72,7 +72,7 @@ public class PreferredNameResource {
                 //HTTP 400
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorsResponseRepresentation(Arrays.asList
-                                ("The preferred name must start with a letter and cannot contain special character")))
+                                ("The preferred name must start with a letter and cannot contain special characters")))
                         .type(MediaType.APPLICATION_XML).build();
             }
         }
@@ -98,7 +98,7 @@ public class PreferredNameResource {
             //HTTP 500
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(new ErrorsResponseRepresentation(
-                            Arrays.asList("Unable to add or update the preferred name to unexpected errors.")))
+                            Arrays.asList("Unable to add or update the preferred name due to unexpected errors.")))
                     .type(MediaType.APPLICATION_XML).build();
         }
 
