@@ -1027,4 +1027,87 @@ public class DefaultPersonService implements PersonService {
     public void setIdCardGenerator(IdCardGenerator idCardGenerator) {
         this.idCardGenerator = idCardGenerator;
     }
+
+
+    /**
+     * add or update preferred name
+     *
+     * @param person the Person to update.
+     * @param sorPerson the SorPerson to update.
+     * @return Result of updating.
+     */
+    // TODO should these be on the domain object?
+    public boolean addOrUpdatePreferredName(Person person, SorPerson sorPerson,
+                                            String firstName, String middleName, String lastname){
+
+        // Update SorPerson
+        boolean sorHasPreferredName = false;
+        SorName newPreferredSorName = null;
+        for (SorName sorName : sorPerson.getNames()) {
+            if (sorName.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
+                sorHasPreferredName = true;
+                // update
+                sorName.setGiven(firstName);
+                sorName.setMiddle(middleName);
+                sorName.setFamily(lastname);
+                newPreferredSorName = sorName;
+                logger.info("The SOR person already has preferred name: update it");
+                break;
+            }
+        }
+        if (!sorHasPreferredName) {
+            // add new preferred name to the SorPerson
+            logger.info("The SOR person does not have preferred name: add it");
+            //newPreferredSorName = sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
+            newPreferredSorName = sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.PREFERRED));
+            newPreferredSorName.setGiven(firstName);
+            newPreferredSorName.setMiddle(middleName);
+            newPreferredSorName.setFamily(lastname);
+        }
+
+        try {
+            this.personRepository.saveSorPerson(sorPerson);
+            logger.info("Sor person is saved");
+        } catch (Exception e) {
+            logger.error("Error in saving the sor person for the perferred name");
+            return false;
+        }
+
+        newPreferredSorName = null;
+        // get the newly saved sor preferred name
+        logger.info("to get the saved new sor preferred name");
+        for (SorName sorName: sorPerson.getNames()) {
+            if (sorName.getType().getDescription().equalsIgnoreCase(Type.NameTypes.PREFERRED.name())) {
+                newPreferredSorName = sorName;
+                break;
+            }
+        }
+
+        if (newPreferredSorName == null) {
+            logger.error("Something is wrong. The sor preferred name has not been saved successfully");
+            return false;
+        }
+
+        // Update Person
+        JpaNameImpl existingPreferredName = (JpaNameImpl)person.getPreferredName();
+        if (existingPreferredName != null) { // update
+            logger.info("The Person already has preferred name: update it");
+            existingPreferredName.setFamily(lastname);
+            existingPreferredName.setGiven(firstName);
+            existingPreferredName.setMiddle(middleName);
+        } else { // add new
+            logger.info("The Person does not have preferred name: Add it");
+            person.addName(newPreferredSorName);
+        }
+
+        try {
+            this.personRepository.savePerson(person);
+            logger.info("sor person is saved");
+        } catch (Exception e) {
+            logger.error("Error in saving the Person for the preferred name");
+            return false;
+        }
+        return true;
+    }
+
 }
