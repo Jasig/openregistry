@@ -1034,42 +1034,49 @@ public class DefaultPersonService implements PersonService {
      *
      * @param person the Person to update.
      * @param sorPerson the SorPerson to update.
+     * @param preferredName the preferred name to add or update.
      * @return Result of updating.
      */
-    // TODO should these be on the domain object?
     public boolean addOrUpdatePreferredName(Person person, SorPerson sorPerson,
-                                            String firstName, String middleName, String lastname){
+                                            String preferredName){
 
+        logger.info("Preferred Name: " + preferredName);
         // Update SorPerson
         boolean sorHasPreferredName = false;
         SorName newPreferredSorName = null;
+        String lastName = null;
+        String middleName = null;
         for (SorName sorName : sorPerson.getNames()) {
             if (sorName.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
                 sorHasPreferredName = true;
                 // update
-                sorName.setGiven(firstName);
-                sorName.setMiddle(middleName);
-                sorName.setFamily(lastname);
+                sorName.setGiven(preferredName);
                 newPreferredSorName = sorName;
                 logger.info("The SOR person already has preferred name: update it");
-                break;
+            } else {
+                if (sorName.getType().getDescription().equals(Type.NameTypes.FORMAL.name())
+                        || sorName.getType().getDescription().equals(Type.NameTypes.LEGAL.name())) {
+                    lastName = sorName.getFamily();
+                    middleName = sorName.getMiddle();
+                }
             }
         }
+
+        logger.info("Found formal/legal lastName: " + lastName + "middle name: " + middleName);
         if (!sorHasPreferredName) {
             // add new preferred name to the SorPerson
             logger.info("The SOR person does not have preferred name: add it");
-            //newPreferredSorName = sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.FORMAL));
             newPreferredSorName = sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.PREFERRED));
-            newPreferredSorName.setGiven(firstName);
+            newPreferredSorName.setGiven(preferredName);
             newPreferredSorName.setMiddle(middleName);
-            newPreferredSorName.setFamily(lastname);
+            newPreferredSorName.setFamily(lastName);
         }
 
         try {
             this.personRepository.saveSorPerson(sorPerson);
             logger.info("Sor person is saved");
         } catch (Exception e) {
-            logger.error("Error in saving the sor person for the perferred name");
+            logger.error("Error in saving the sor person for the preferred name");
             return false;
         }
 
@@ -1092,9 +1099,10 @@ public class DefaultPersonService implements PersonService {
         JpaNameImpl existingPreferredName = (JpaNameImpl)person.getPreferredName();
         if (existingPreferredName != null) { // update
             logger.info("The Person already has preferred name: update it");
-            existingPreferredName.setFamily(lastname);
-            existingPreferredName.setGiven(firstName);
+            existingPreferredName.setFamily(lastName);
+            existingPreferredName.setGiven(preferredName);
             existingPreferredName.setMiddle(middleName);
+            existingPreferredName.setSourceNameId(newPreferredSorName.getId());
         } else { // add new
             logger.info("The Person does not have preferred name: Add it");
             person.addName(newPreferredSorName);

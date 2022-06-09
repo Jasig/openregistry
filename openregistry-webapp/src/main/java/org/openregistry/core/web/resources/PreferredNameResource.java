@@ -53,46 +53,26 @@ public class PreferredNameResource {
     public Response addOrUpdateEmail(String emailAddress,
                                      @QueryParam("rcpid") String rcpid,
                                      @QueryParam("sor") String sor,
-                                     @QueryParam("firstname") String firstname,
-                                     @QueryParam("middlename") String middlename,
-                                     @QueryParam("lastname") String lastname) {
+                                     @QueryParam("preferredname") String preferredname) {
 
         boolean result = false;
 
-        if (rcpid == null || sor == null || firstname == null) {
+        if (rcpid == null || sor == null || preferredname == null) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(new ErrorsResponseRepresentation(Arrays.asList
-                            ("The request URI is malformed. Missing one or more required parameters: rcpid, sor and firstname")))
+                            ("The request URI is malformed. Missing one or more required parameters: rcpid, sor and preferredname")))
                     .type(MediaType.APPLICATION_XML).build();
         }
 
         // validate input names
         final String name_regexp = "^[a-zA-Z][a-zA-Z0-9-'. ]*$";
-        if (!StringUtils.isBlank(firstname)) {
-            if (!firstname.matches(name_regexp)) {
+        if (!StringUtils.isBlank(preferredname)) {
+            if (!preferredname.matches(name_regexp)) {
                 //HTTP 400
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorsResponseRepresentation(Arrays.asList
-                                ("First name must start with a letter and cannot contain special character")))
-                        .type(MediaType.APPLICATION_XML).build();
-            }
-        }
-        if (!StringUtils.isBlank(middlename)) {
-            if (!middlename.matches(name_regexp)) {
-                //HTTP 400
-                return Response.status(Response.Status.BAD_REQUEST)
-                        .entity(new ErrorsResponseRepresentation(Arrays.asList
-                                ("Middle name must start with a letter and cannot contain special character")))
-                        .type(MediaType.APPLICATION_XML).build();
-            }
-        }
-        if (!StringUtils.isBlank(lastname)) {
-            if (!lastname.matches(name_regexp)) {
-                //HTTP 400
-                return Response.status(Response.Status.BAD_REQUEST)
-                        .entity(new ErrorsResponseRepresentation(Arrays.asList
-                                ("Last name must start with a letter and cannot contain special character")))
+                                ("The preferred name must start with a letter and cannot contain special character")))
                         .type(MediaType.APPLICATION_XML).build();
             }
         }
@@ -100,7 +80,7 @@ public class PreferredNameResource {
         Person person = this.personService.findPersonByIdentifier("RCPID", rcpid);
 
         if (person == null) {
-            //HTTP 400
+            //HTTP 404
             return Response.status(Response.Status.NOT_FOUND).entity(new ErrorsResponseRepresentation(Arrays.asList
                     ("No person found with the given identifier"))).type(MediaType.APPLICATION_XML).build();
         }
@@ -112,7 +92,7 @@ public class PreferredNameResource {
                     ("No SOR person found with the given identifier and sor type"))).type(MediaType.APPLICATION_XML).build();
         }
 
-        result = this.personService.addOrUpdatePreferredName(person, sorPerson, firstname, middlename, lastname);
+        result = this.personService.addOrUpdatePreferredName(person, sorPerson, preferredname);
 
         if (!result) {
             //HTTP 500
