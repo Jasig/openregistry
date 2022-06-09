@@ -1062,7 +1062,7 @@ public class DefaultPersonService implements PersonService {
             }
         }
 
-        logger.info("Found formal/legal lastName: " + lastName + "middle name: " + middleName);
+        logger.info("Found formal/legal lastName: " + lastName + " middle name: " + middleName);
         if (!sorHasPreferredName) {
             // add new preferred name to the SorPerson
             logger.info("The SOR person does not have preferred name: add it");
