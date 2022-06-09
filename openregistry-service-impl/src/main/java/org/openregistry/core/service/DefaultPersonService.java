@@ -1099,9 +1099,9 @@ public class DefaultPersonService implements PersonService {
         JpaNameImpl existingPreferredName = (JpaNameImpl)person.getPreferredName();
         if (existingPreferredName != null) { // update
             logger.info("The Person already has preferred name: update it");
-            existingPreferredName.setFamily(lastName);
-            existingPreferredName.setGiven(preferredName);
-            existingPreferredName.setMiddle(middleName);
+            existingPreferredName.setFamily(newPreferredSorName.getFamily());
+            existingPreferredName.setGiven(newPreferredSorName.getGiven());
+            existingPreferredName.setMiddle(newPreferredSorName.getMiddle());
             existingPreferredName.setSourceNameId(newPreferredSorName.getId());
         } else { // add new
             logger.info("The Person does not have preferred name: Add it");
