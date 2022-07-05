@@ -32,17 +32,17 @@ import java.util.Arrays;
  */
 @Named
 @Singleton
-@Path("/preferredname")
-public class PreferredNameResource {
+@Path("/chosenname")
+public class ChosenNameResource {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final PersonService personService;
 
     @Inject
-    public PreferredNameResource(EmailService emailService,
-                         PersonService personService,
-                         ReferenceRepository referenceRepository) {
+    public ChosenNameResource(EmailService emailService,
+                              PersonService personService,
+                              ReferenceRepository referenceRepository) {
 
         this.personService = personService;
     }
@@ -50,29 +50,29 @@ public class PreferredNameResource {
     //@POST
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response addOrUpdateEmail(String emailAddress,
+    public Response addOrUpdateChosenName(String emailAddress,
                                      @QueryParam("rcpid") String rcpid,
                                      @QueryParam("sor") String sor,
-                                     @QueryParam("preferredname") String preferredname) {
+                                     @QueryParam("chosenname") String chosenname) {
 
         boolean result = false;
 
-        if (rcpid == null || sor == null || preferredname == null) {
+        if (rcpid == null || sor == null || chosenname == null) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(new ErrorsResponseRepresentation(Arrays.asList
-                            ("The request URI is malformed. Missing one or more required parameters: rcpid, sor and preferredname")))
+                            ("The request URI is malformed. Missing one or more required parameters: rcpid, sor and chosenname")))
                     .type(MediaType.APPLICATION_XML).build();
         }
 
         // validate input names
         final String name_regexp = "^[a-zA-Z][a-zA-Z0-9-'. ]*$";
-        if (!StringUtils.isBlank(preferredname)) {
-            if (!preferredname.matches(name_regexp)) {
+        if (!StringUtils.isBlank(chosenname)) {
+            if (!chosenname.matches(name_regexp)) {
                 //HTTP 400
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorsResponseRepresentation(Arrays.asList
-                                ("The preferred name must start with a letter and cannot contain special characters")))
+                                ("The chosen name must start with a letter and cannot contain special characters")))
                         .type(MediaType.APPLICATION_XML).build();
             }
         }
@@ -92,18 +92,18 @@ public class PreferredNameResource {
                     ("No SOR person found with the given identifier and sor type"))).type(MediaType.APPLICATION_XML).build();
         }
 
-        result = this.personService.addOrUpdatePreferredName(person, sorPerson, preferredname);
+        result = this.personService.addOrUpdateChosenName(person, sorPerson, chosenname);
 
         if (!result) {
             //HTTP 500
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(new ErrorsResponseRepresentation(
-                            Arrays.asList("Unable to add or update the preferred name due to unexpected errors.")))
+                            Arrays.asList("Unable to add or update the chosen name due to unexpected errors.")))
                     .type(MediaType.APPLICATION_XML).build();
         }
 
         //HTTP 200
-        return Response.ok("The preferred name has been processed successfully.").build();
+        return Response.ok("The chosen name has been processed successfully.").build();
     }
 
 }

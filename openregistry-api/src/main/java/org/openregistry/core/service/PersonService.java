@@ -311,5 +311,5 @@ public interface PersonService {
      * @param sorPerson the SorPerson to update.
      * @return Result of updating.
      */
-    boolean addOrUpdatePreferredName(Person person, SorPerson sorPerson, String referredName);
+    boolean addOrUpdateChosenName(Person person, SorPerson sorPerson, String referredName);
 }

@@ -876,7 +876,7 @@ public class DefaultPersonService implements PersonService {
         Set<? extends Name> personNames = person.getNames();
         for (Iterator<? extends Name> iterator = personNames.iterator(); iterator.hasNext();) {
             Name name =  iterator.next();
-            if (!name.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
+            if (!name.getType().getDescription().equals(Type.NameTypes.CHOSEN.name())) {
                 iterator.remove();
             }
         }
@@ -893,7 +893,7 @@ public class DefaultPersonService implements PersonService {
                     }
                 }
 
-                if (!alreadyAdded && !sorName.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
+                if (!alreadyAdded && !sorName.getType().getDescription().equals(Type.NameTypes.CHOSEN.name())) {
                         person.addName(sorName);
                 }
             }
@@ -1034,24 +1034,24 @@ public class DefaultPersonService implements PersonService {
      *
      * @param person the Person to update.
      * @param sorPerson the SorPerson to update.
-     * @param preferredName the preferred name to add or update.
+     * @param chosenName the preferred name to add or update.
      * @return Result of updating.
      */
-    public boolean addOrUpdatePreferredName(Person person, SorPerson sorPerson,
-                                            String preferredName){
+    public boolean addOrUpdateChosenName(Person person, SorPerson sorPerson,
+                                            String chosenName){
 
-        logger.info("Preferred Name: " + preferredName);
+        logger.info("Preferred Name: " + chosenName);
         // Update SorPerson
-        boolean sorHasPreferredName = false;
-        SorName newPreferredSorName = null;
+        boolean sorHasChosenName = false;
+        SorName newChosenSorName = null;
         String lastName = null;
         String middleName = null;
         for (SorName sorName : sorPerson.getNames()) {
-            if (sorName.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
-                sorHasPreferredName = true;
+            if (sorName.getType().getDescription().equals(Type.NameTypes.CHOSEN.name())) {
+                sorHasChosenName = true;
                 // update
-                sorName.setGiven(preferredName);
-                newPreferredSorName = sorName;
+                sorName.setGiven(chosenName);
+                newChosenSorName = sorName;
                 logger.info("The SOR person already has preferred name: update it");
             } else {
                 if (sorName.getType().getDescription().equals(Type.NameTypes.FORMAL.name())
@@ -1063,13 +1063,13 @@ public class DefaultPersonService implements PersonService {
         }
 
         logger.info("Found formal/legal lastName: " + lastName + " middle name: " + middleName);
-        if (!sorHasPreferredName) {
+        if (!sorHasChosenName) {
             // add new preferred name to the SorPerson
             logger.info("The SOR person does not have preferred name: add it");
-            newPreferredSorName = sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.PREFERRED));
-            newPreferredSorName.setGiven(preferredName);
-            newPreferredSorName.setMiddle(middleName);
-            newPreferredSorName.setFamily(lastName);
+            newChosenSorName = sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.CHOSEN));
+            newChosenSorName.setGiven(chosenName);
+            newChosenSorName.setMiddle(middleName);
+            newChosenSorName.setFamily(lastName);
         }
 
         try {
@@ -1080,39 +1080,39 @@ public class DefaultPersonService implements PersonService {
             return false;
         }
 
-        newPreferredSorName = null;
-        // get the newly saved sor preferred name
-        logger.info("to get the saved new sor preferred name");
+        newChosenSorName = null;
+        // get the newly saved sor chosen name
+        logger.info("to get the saved new sor chosen name");
         for (SorName sorName: sorPerson.getNames()) {
-            if (sorName.getType().getDescription().equalsIgnoreCase(Type.NameTypes.PREFERRED.name())) {
-                newPreferredSorName = sorName;
+            if (sorName.getType().getDescription().equalsIgnoreCase(Type.NameTypes.CHOSEN.name())) {
+                newChosenSorName = sorName;
                 break;
             }
         }
 
-        if (newPreferredSorName == null) {
+        if (newChosenSorName == null) {
             logger.error("Something is wrong. The sor preferred name has not been saved successfully");
             return false;
         }
 
         // Update Person
-        JpaNameImpl existingPreferredName = (JpaNameImpl)person.getPreferredName();
-        if (existingPreferredName != null) { // update
+        JpaNameImpl existingChosenName = (JpaNameImpl)person.getChosenName();
+        if (existingChosenName != null) { // update
             logger.info("The Person already has preferred name: update it");
-            existingPreferredName.setFamily(newPreferredSorName.getFamily());
-            existingPreferredName.setGiven(newPreferredSorName.getGiven());
-            existingPreferredName.setMiddle(newPreferredSorName.getMiddle());
-            existingPreferredName.setSourceNameId(newPreferredSorName.getId());
+            existingChosenName.setFamily(newChosenSorName.getFamily());
+            existingChosenName.setGiven(newChosenSorName.getGiven());
+            existingChosenName.setMiddle(newChosenSorName.getMiddle());
+            existingChosenName.setSourceNameId(newChosenSorName.getId());
         } else { // add new
             logger.info("The Person does not have preferred name: Add it");
-            person.addName(newPreferredSorName);
+            person.addName(newChosenSorName);
         }
 
         try {
             this.personRepository.savePerson(person);
             logger.info("sor person is saved");
         } catch (Exception e) {
-            logger.error("Error in saving the Person for the preferred name");
+            logger.error("Error in saving the Person for the chosen name");
             return false;
         }
         return true;

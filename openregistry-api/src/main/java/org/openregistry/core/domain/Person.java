@@ -102,6 +102,14 @@ public interface Person extends Serializable {
      */
     Name getPreferredName();
 
+
+    /**
+     * Get the name of the person.
+     *
+     * @return the name of the person, never null.
+     */
+    Name getChosenName();
+
     Name getOfficialName();
 
     /**

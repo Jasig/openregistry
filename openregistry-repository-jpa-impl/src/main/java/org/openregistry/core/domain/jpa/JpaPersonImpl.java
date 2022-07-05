@@ -146,10 +146,21 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     public Name getPreferredName() {
+
         Set<? extends Name> names = this.getNames();
         for(Name name: names) {
-            //if (name.getType().getDescription().equals(Type.NameTypes.PREFERRED.name())) {
-            if (name.getType().getDescription().equalsIgnoreCase("PREFERRED")) {
+            if (name.isPreferredName()) {
+                return name;
+            }
+        }
+        return null;
+    }
+
+    public Name getChosenName() {
+        Set<? extends Name> names = this.getNames();
+        for(Name name: names) {
+            //if (name.getType().getDescription().equals(Type.NameTypes.CHOSEN.name())) {
+            if (name.getType().getDescription().equalsIgnoreCase("CHOSEN")) {
                 return name;
             }
         }
@@ -157,8 +168,8 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     public Name getUniversityName() {
-        Name newPreferredName = getPreferredName();
-        return newPreferredName !=null? newPreferredName : getOfficialName();
+        Name newChosenName = getChosenName();
+        return newChosenName !=null? newChosenName : getOfficialName();
     }
 
     //TODO really don't need this.  Should replace code with getOfficialName().getFormattedName()
