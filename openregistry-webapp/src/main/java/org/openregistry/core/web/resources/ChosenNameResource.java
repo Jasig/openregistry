@@ -52,16 +52,34 @@ public class ChosenNameResource {
     @Consumes(MediaType.TEXT_PLAIN)
     public Response addOrUpdateChosenName(String emailAddress,
                                      @QueryParam("rcpid") String rcpid,
+                                     @QueryParam("emplid") String emplid,
+                                     @QueryParam("studentid") String studentid,
                                      @QueryParam("sor") String sor,
                                      @QueryParam("chosenname") String chosenname) {
 
         boolean result = false;
 
-        if (rcpid == null || sor == null || chosenname == null) {
+        if (sor == null) {
             //HTTP 400
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(new ErrorsResponseRepresentation(Arrays.asList
-                            ("The request URI is malformed. Missing one or more required parameters: rcpid, sor and chosenname")))
+                            ("The request URI is malformed. Missing sor.")))
+                    .type(MediaType.APPLICATION_XML).build();
+        }
+
+        if (chosenname == null) {
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new ErrorsResponseRepresentation(Arrays.asList
+                            ("The request URI is malformed. Missing chosenname.")))
+                    .type(MediaType.APPLICATION_XML).build();
+        }
+
+        if (rcpid == null && emplid == null && studentid == null) {
+            //HTTP 400
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new ErrorsResponseRepresentation(Arrays.asList
+                            ("The request URI is malformed. Must provide rcpid, emplid or studentid.")))
                     .type(MediaType.APPLICATION_XML).build();
         }
 
@@ -77,13 +95,27 @@ public class ChosenNameResource {
             }
         }
 
-        Person person = this.personService.findPersonByIdentifier("RCPID", rcpid);
+        Person person = null;
+
+        if (rcpid != null)
+             person = this.personService.findPersonByIdentifier("RCPID", rcpid);
+        else if (emplid != null)
+             person = this.personService.findPersonByIdentifier("EMPLID", emplid);
+        else if (studentid != null && sor.equalsIgnoreCase("SRDB"))
+            person = this.personService.findPersonByIdentifier("RUID", studentid);
+        else if (studentid != null && sor.equalsIgnoreCase("BANNER"))
+            person = this.personService.findPersonByIdentifier("ANUMBER", studentid);
 
         if (person == null) {
             //HTTP 404
             return Response.status(Response.Status.NOT_FOUND).entity(new ErrorsResponseRepresentation(Arrays.asList
                     ("No person found with the given identifier"))).type(MediaType.APPLICATION_XML).build();
         }
+
+        if (rcpid == null) {
+            rcpid = person.getIdentifiersByType().get("RCPID").getFirst().getValue();
+        }
+        logger.info("rcpid = " + rcpid);
 
         SorPerson sorPerson = this.personService.findByIdentifierAndSource("RCPID", rcpid, sor);
         if (sorPerson == null) {
