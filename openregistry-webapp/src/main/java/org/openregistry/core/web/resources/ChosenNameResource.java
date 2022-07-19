@@ -47,8 +47,8 @@ public class ChosenNameResource {
         this.personService = personService;
     }
 
-    //@POST
-    @GET
+    //@GET
+    @POST
     @Consumes(MediaType.TEXT_PLAIN)
     public Response addOrUpdateChosenName(String emailAddress,
                                      @QueryParam("rcpid") String rcpid,
