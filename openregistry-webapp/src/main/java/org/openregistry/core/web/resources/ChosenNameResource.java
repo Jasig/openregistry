@@ -84,7 +84,7 @@ public class ChosenNameResource {
         }
 
         // validate input names
-        final String name_regexp = "^[a-zA-Z][a-zA-Z0-9-'. ]*$";
+        final String name_regexp = "^[a-zA-Z][a-zA-Z0-9-'. /]*$";
         if (!StringUtils.isBlank(chosenname)) {
             if (!chosenname.matches(name_regexp)) {
                 //HTTP 400
