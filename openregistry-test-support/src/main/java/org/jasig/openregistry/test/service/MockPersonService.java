@@ -136,12 +136,12 @@ public class MockPersonService implements PersonService {
 
     @Override
     public ServiceExecutionResult<Person> addPerson(ReconciliationCriteria reconciliationCriteria) throws ReconciliationException, IllegalArgumentException {
-        return simulateAddingAPerson(reconciliationCriteria != null);
+        return null;
     }
 
     @Override
     public ServiceExecutionResult<Person> forceAddPerson(ReconciliationCriteria reconciliationCriteria) throws IllegalArgumentException, IllegalStateException {
-        return simulateAddingAPerson(reconciliationCriteria != null);
+        return null;
     }
 
     @Override
@@ -253,27 +253,7 @@ public class MockPersonService implements PersonService {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private ServiceExecutionResult<Person> simulateAddingAPerson(final boolean successful) {
-        return new ServiceExecutionResult<Person>() {
-            @Override
-            public Date getExecutionDate() {
-                return new Date();
-            }
-
-            @Override
-            public boolean succeeded() {
-                return successful;
-            }
-
-            @Override
-            public Person getTargetObject() {
-                return providedMockPerson != null ? providedMockPerson : new MockPerson(-1000L);
-            }
-
-            @Override
-            public Set<ConstraintViolation> getValidationErrors() {
-                return Collections.emptySet();
-            }
-        };
+    public boolean addOrUpdateChosenName(Person person, SorPerson sorPerson, String referredName){
+        return true;
     }
 }

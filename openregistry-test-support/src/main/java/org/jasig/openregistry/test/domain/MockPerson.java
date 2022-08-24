@@ -187,6 +187,18 @@ public class MockPerson implements Person {
     	return null;
     }
 
+    public Name getUniversityName() {
+        Set<? extends Name> names = this.getNames();
+        for(Name name: names) {
+            if (name.isOfficialName()) {
+                return name;
+            }
+        }
+        return null;
+    }
+
+    public Name getChosenName() {return null;}
+
     public String getGender() {
         return this.gender;
     }

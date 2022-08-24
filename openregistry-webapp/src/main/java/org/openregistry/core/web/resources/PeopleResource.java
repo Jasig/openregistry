@@ -164,21 +164,60 @@ public final class PeopleResource {
         // Names
         Set<? extends Name> names  = person.getNames();
         //final List<PersonResponseRepresentation.Name> idsRep = new ArrayList<PersonResponseRepresentation.PersonIdentifierRepresentation>();
+        PersonResponseRepresentation.Name responseName = new PersonResponseRepresentation.Name();
+        Name universityName = person.getUniversityName();
+        responseName.firstName = universityName.getGiven();
+        responseName.lastName = universityName.getFamily();
+        responseName.middleName = universityName.getMiddle();
+        responseName.prefix = universityName.getPrefix();
+        responseName.suffix = universityName.getSuffix();
+        responseName.nameType = "University";
+        personResponseRepresentation.names.add(responseName);
+
+        // name security
+        boolean returnLegalName = false;
+        for (GrantedAuthority grantedAuthority : grantedAuthorities) {
+            if (grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_VIEW_LEGAL_NAME"))
+                returnLegalName = true;
+        }
+
         for (final Name name : names) {
-            PersonResponseRepresentation.Name responseName = new PersonResponseRepresentation.Name();
-            responseName.firstName = name.getGiven();
-            responseName.lastName =  name.getFamily();
-            responseName.middleName = name.getMiddle();
-            responseName.prefix = name.getPrefix();
-            responseName.suffix = name.getSuffix();
-            personResponseRepresentation.names.add(responseName);
+                responseName = new PersonResponseRepresentation.Name();
+                responseName.firstName = name.getGiven();
+                responseName.lastName = name.getFamily();
+                responseName.middleName = name.getMiddle();
+                responseName.prefix = name.getPrefix();
+                responseName.suffix = name.getSuffix();
+                String nameType = name.getType().getDescription();
+
+                if ("FORMAL".equalsIgnoreCase(nameType) || "LEGAL".equalsIgnoreCase(nameType))
+                        responseName.nameType = "Legal";
+                else if ("AKA".equalsIgnoreCase(nameType))
+                    responseName.nameType = "Directory Listing";
+                else if ("MAIDEN".equalsIgnoreCase(nameType))
+                    responseName.nameType = "Maiden";
+                else if ("CHOSEN".equalsIgnoreCase(nameType))
+                    responseName.nameType = "Chosen";
+
+                if ("AKA".equalsIgnoreCase(nameType))
+                    personResponseRepresentation.names.add(responseName);
+                else if (returnLegalName)
+                    personResponseRepresentation.names.add(responseName);
         }
 
         // dob
         personResponseRepresentation.dateOfBirth = person.getDateOfBirth();
 
         //gender
-        personResponseRepresentation.gender = person.getGender();
+        // gender security
+        boolean returnGender = false;
+        for (GrantedAuthority grantedAuthority : grantedAuthorities) {
+            if (grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_VIEW_GENDER"))
+                returnGender = true;
+        }
+        if (returnGender) {
+            personResponseRepresentation.gender = person.getGender();
+        }
 
         // identifiers
         Set<? extends Identifier> identifiers  = person.getIdentifiers();
