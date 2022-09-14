@@ -843,13 +843,16 @@ public class DefaultPersonService implements PersonService {
         boolean preferred = false;
         boolean official = false;
 
+        // exclude Chosen name and Directory Listing Name from being Official and Preferred.
         for (final Name name : person.getNames()) {
-            if (!preferred && name.sameAs(preferredName)) {
+            if (!preferred && name.sameAs(preferredName) && (name.getType().getDescription().equalsIgnoreCase("LEGAL")
+                    || name.getType().getDescription().equalsIgnoreCase("FORMAL"))) {
                 name.setPreferredName(true);
                 preferred = true;
             }
 
-            if (!official && name.sameAs(officialName)) {
+            if (!official && name.sameAs(officialName) && (name.getType().getDescription().equalsIgnoreCase("LEGAL")
+                    || name.getType().getDescription().equalsIgnoreCase("FORMAL"))) {
                 name.setOfficialName(true);
                 official = true;
             }
@@ -874,10 +877,13 @@ public class DefaultPersonService implements PersonService {
         //person.getNames().clear();
 
         Set<? extends Name> personNames = person.getNames();
+        boolean person_has_chosen_name = false;
         for (Iterator<? extends Name> iterator = personNames.iterator(); iterator.hasNext();) {
             Name name =  iterator.next();
             if (!name.getType().getDescription().equals(Type.NameTypes.CHOSEN.name())) {
                 iterator.remove();
+            } else {
+                person_has_chosen_name = true;
             }
         }
 
@@ -887,13 +893,19 @@ public class DefaultPersonService implements PersonService {
                 boolean alreadyAdded = false;
 
                 for (final Name calculatedName : person.getNames()) {
-                    if (calculatedName.sameAs(sorName)) {
+                    if (calculatedName.sameAs(sorName)
+                            && calculatedName.getType().getDescription().equals(
+                            sorName.getType().getDescription()))
+                    {
                         alreadyAdded = true;
                         break;
                     }
                 }
 
-                if (!alreadyAdded && !sorName.getType().getDescription().equals(Type.NameTypes.CHOSEN.name())) {
+                if (!alreadyAdded &&
+                        (!sorName.getType().getDescription().equals(Type.NameTypes.CHOSEN.name()) ||
+                                !person_has_chosen_name)
+                ) {
                         person.addName(sorName);
                 }
             }
@@ -1052,7 +1064,7 @@ public class DefaultPersonService implements PersonService {
                 // update
                 sorName.setGiven(chosenName);
                 newChosenSorName = sorName;
-                logger.info("The SOR person already has preferred name: update it");
+                logger.info("The SOR person already has Chosen name: update it");
             } else {
                 if (sorName.getType().getDescription().equals(Type.NameTypes.FORMAL.name())
                         || sorName.getType().getDescription().equals(Type.NameTypes.LEGAL.name())) {
@@ -1064,8 +1076,8 @@ public class DefaultPersonService implements PersonService {
 
         logger.info("Found formal/legal lastName: " + lastName + " middle name: " + middleName);
         if (!sorHasChosenName) {
-            // add new preferred name to the SorPerson
-            logger.info("The SOR person does not have preferred name: add it");
+            // add new Chosen name to the SorPerson
+            logger.info("The SOR person does not have Chosen name: add it");
             newChosenSorName = sorPerson.addName(referenceRepository.findType(Type.DataTypes.NAME, Type.NameTypes.CHOSEN));
             newChosenSorName.setGiven(chosenName);
             newChosenSorName.setMiddle(middleName);
@@ -1076,7 +1088,7 @@ public class DefaultPersonService implements PersonService {
             this.personRepository.saveSorPerson(sorPerson);
             logger.info("Sor person is saved");
         } catch (Exception e) {
-            logger.error("Error in saving the sor person for the preferred name");
+            logger.error("Error in saving the sor person for the Chosen name");
             return false;
         }
 
@@ -1091,20 +1103,20 @@ public class DefaultPersonService implements PersonService {
         }
 
         if (newChosenSorName == null) {
-            logger.error("Something is wrong. The sor preferred name has not been saved successfully");
+            logger.error("Something is wrong. The sor Chosen name has not been saved successfully");
             return false;
         }
 
         // Update Person
         JpaNameImpl existingChosenName = (JpaNameImpl)person.getChosenName();
         if (existingChosenName != null) { // update
-            logger.info("The Person already has preferred name: update it");
+            logger.info("The Person already has Chosen name: update it");
             existingChosenName.setFamily(newChosenSorName.getFamily());
             existingChosenName.setGiven(newChosenSorName.getGiven());
             existingChosenName.setMiddle(newChosenSorName.getMiddle());
             existingChosenName.setSourceNameId(newChosenSorName.getId());
         } else { // add new
-            logger.info("The Person does not have preferred name: Add it");
+            logger.info("The Person does not have Chosen name: Add it");
             person.addName(newChosenSorName);
         }
 
