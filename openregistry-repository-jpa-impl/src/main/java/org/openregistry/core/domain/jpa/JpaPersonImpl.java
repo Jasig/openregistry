@@ -168,8 +168,19 @@ public class JpaPersonImpl extends Entity implements Person {
     }
 
     public Name getUniversityName() {
-        Name newChosenName = getChosenName();
-        return newChosenName !=null? newChosenName : getOfficialName();
+        JpaNameImpl newChosenName = (JpaNameImpl)getChosenName();
+        Name officialName = getOfficialName();
+        JpaNameImpl resultName =  new JpaNameImpl();
+        resultName.setFamily(officialName.getFamily());
+        resultName.setMiddle(officialName.getMiddle());
+        resultName.setGiven(officialName.getGiven());
+        resultName.setPrefix(officialName.getPrefix());
+        resultName.setSuffix(officialName.getSuffix());
+
+        if (newChosenName != null) {
+            resultName.setGiven(newChosenName.getGiven());
+        }
+        return resultName;
     }
 
     //TODO really don't need this.  Should replace code with getOfficialName().getFormattedName()
