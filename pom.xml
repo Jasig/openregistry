@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.openregistry</groupId>
     <artifactId>openregistry</artifactId>
-    <version>0.9.7-SNAPSHOT</version>
+    <version>0.9.7</version>
 
     <modules>
         <module>openregistry-api</module>
@@ -656,10 +656,20 @@ pTSqrOnmqmUUnopqmvummmmmmUUnopqmvummmmmmUUA1jJ
     </pluginRepositories>
 
     <distributionManagement>
-        <site>
-            <id>website</id>
-            <url>file:///jasig/htdocs/developer.ja-sig.org/projects/openregistry</url>
-        </site>
+        <repository>
+            <id>rutgers.release</id>
+            <name>Rutgers Release Repository</name>
+            <url>https://repository.ess.rutgers.edu/content/repositories/releases</url>
+
+        </repository>
+        <snapshotRepository>
+            <id>rutgers-snapshots</id>
+            <uniqueVersion>false</uniqueVersion>
+            <name>Rutgers Snapshots</name>
+            <url>https://repository.ess.rutgers.edu/content/repositories/snapshots</url>
+
+        </snapshotRepository>
+
     </distributionManagement>
 
     <repositories>
